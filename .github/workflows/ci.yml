@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests (py${{ matrix.python }} / ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        include:
+          # the tool reads files Word wrote, so check it runs where Word lives
+          - os: windows-latest
+            python: "3.12"
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install
+        run: python -m pip install --quiet -e ".[dev]"
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: The reference corpus rebuilds byte-clean
+        working-directory: research
+        env:
+          DI_BASE: ../corpus/base.docx
+        run: |
+          python build_corpus.py
+          cd ..
+          docx-integrity check corpus/base.docx --fail-on info
+
+      - name: The reference deck rebuilds and still reports the same defects
+        working-directory: research
+        env:
+          DI_PPTX: ../corpus/deck.pptx
+        run: |
+          python build_pptx_corpus.py
+          cd ..
+          # the deck is *designed* to contain defects, so a clean run is a failure
+          if docx-integrity check corpus/deck.pptx; then
+            echo "::error::the reference deck should report defects"
+            exit 1
+          fi
+
+      - name: git tree is unchanged by a rebuild
+        shell: bash
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::rebuilding the corpus changed committed files"
+            git diff --stat
+            exit 1
+          fi
+
+  self-check:
+    name: the action checks its own fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The six careful agent runs must pass with the default threshold.
+      - name: Careful agent runs are clean
+        uses: ./
+        with:
+          files: >-
+            runs/t1_bare/agreement.docx
+            runs/t1_pres/agreement.docx
+            runs/t2_bare/agreement.docx
+            runs/t2_pres/agreement.docx
+            runs/t5_rewrite_bare/agreement.docx
+            runs/t5_rewrite_pres/agreement.docx
+          against: corpus/base.docx
+          json-report: careful.json
+          source: "."
+
+      # The two fast runs must fail. `continue-on-error` plus an explicit
+      # assertion, so a silent pass here is caught rather than celebrated.
+      - name: Fast agent runs are caught
+        id: fast
+        continue-on-error: true
+        uses: ./
+        with:
+          files: >-
+            runs/t4_fast_fee/agreement.docx
+            runs/t4_fast_table/agreement.docx
+          against: corpus/base.docx
+          source: "."
+
+      - name: Assert the fast runs were caught
+        run: |
+          if [ "${{ steps.fast.outputs.exit-code }}" = "0" ]; then
+            echo "::error::the fast agent runs should have failed the check"
+            exit 1
+          fi
+          echo "caught ${{ steps.fast.outputs.errors }} error(s), as expected"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docx-integrity-report
+          path: careful.json
+          if-no-files-found: warn

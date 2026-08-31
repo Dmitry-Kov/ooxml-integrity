@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "docx-integrity"
+version = "0.1.1"
+description = "Integrity checks for .docx and .pptx: broken references and lost comments in documents, text that does not fit its box in decks. Catches what schema validation and rendering both miss."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [{ name = "Dmitrii Kovalev" }]
+keywords = ["docx", "pptx", "ooxml", "office-open-xml", "validation",
+            "linter", "document-integrity", "tracked-changes",
+            "text-metrics", "overflow-detection", "ai-agents"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Office Suites",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Text Processing :: Markup :: XML",
+]
+dependencies = ["lxml>=4.9", "fonttools>=4.40"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "python-docx>=1.1", "python-pptx>=0.6.23",
+       "pdfplumber>=0.11"]
+
+[project.urls]
+Homepage = "https://github.com/Dmitry-Kov/docx-integrity"
+Source = "https://github.com/Dmitry-Kov/docx-integrity"
+Issues = "https://github.com/Dmitry-Kov/docx-integrity/issues"
+
+[project.scripts]
+docx-integrity = "docx_integrity.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/docx_integrity"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/", "tests/", "research/", "corpus/", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = ["needs_docx: requires python-docx (dev extra)"]

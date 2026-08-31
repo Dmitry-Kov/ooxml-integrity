@@ -1,0 +1,423 @@
+"""
+Deterministic structural-integrity inspector for .docx.
+
+It does not answer "is this XML schema-valid". It answers "will this file
+survive being opened in Word, and did it lose meaning on the way".
+
+No model calls, no rendering, no network.
+"""
+from __future__ import annotations
+
+import re
+import zipfile
+from collections import Counter
+from pathlib import Path
+from typing import Iterable
+
+from lxml import etree
+
+from .finding import ERROR, INFO, WARN, Finding
+
+NS = {
+    "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+    "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+    "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
+    "rel": "http://schemas.openxmlformats.org/package/2006/relationships",
+    "ct": "http://schemas.openxmlformats.org/package/2006/content-types",
+}
+
+
+def _w(tag: str) -> str:
+    return f"{{{NS['w']}}}{tag}"
+
+
+def _r(tag: str) -> str:
+    return f"{{{NS['r']}}}{tag}"
+
+
+# relationship types that are referenced from the package rather than from
+# the body, so "declared but never used" is not meaningful for them
+_IMPLICIT_RELS = (
+    "styles", "numbering", "footnotes", "endnotes", "comments", "settings",
+    "fontTable", "theme", "webSettings", "customXml", "people",
+    "commentsExtended", "commentsIds", "glossaryDocument",
+)
+
+
+class Inspector:
+    """Runs every check against one package. Reusable, but cheap to recreate."""
+
+    def __init__(self, path: str | Path):
+        self.path = Path(path)
+        self.findings: list[Finding] = []
+        self.parts: dict[str, bytes] = {}
+        self.trees: dict[str, etree._Element] = {}
+        self.readable = True
+
+    # ------------------------------------------------------------------ util
+    def _add(self, code: str, sev, msg: str, where: str = "", part: str = "") -> None:
+        self.findings.append(Finding(code, sev, msg, where, part))
+
+    def _tree(self, name: str):
+        return self.trees.get(name)
+
+    @staticmethod
+    def _xpath(el) -> str:
+        try:
+            return el.getroottree().getpath(el)
+        except Exception:
+            return ""
+
+    # ------------------------------------------------------------------ load
+    def load(self) -> bool:
+        try:
+            with zipfile.ZipFile(self.path) as z:
+                bad = z.testzip()
+                if bad:
+                    self._add("PKG001", ERROR, f"corrupt entry in archive: {bad}")
+                for n in z.namelist():
+                    self.parts[n] = z.read(n)
+        except FileNotFoundError:
+            self._add("PKG000", ERROR, f"file not found: {self.path}")
+            self.readable = False
+            return False
+        except zipfile.BadZipFile as e:
+            self._add("PKG002", ERROR, f"not a valid OPC package: {e}")
+            self.readable = False
+            return False
+
+        for name, data in self.parts.items():
+            if name.endswith((".xml", ".rels")):
+                try:
+                    self.trees[name] = etree.fromstring(data)
+                except etree.XMLSyntaxError as e:
+                    self._add("XML001", ERROR, f"XML is not well-formed: {e}", part=name)
+        return True
+
+    # ---------------------------------------------------------------- checks
+    def check_content_types(self) -> None:
+        ct = self._tree("[Content_Types].xml")
+        if ct is None:
+            self._add("PKG003", ERROR, "missing [Content_Types].xml")
+            return
+        defaults = {
+            d.get("Extension", "").lower() for d in ct.findall(f"{{{NS['ct']}}}Default")
+        }
+        overrides = {o.get("PartName") for o in ct.findall(f"{{{NS['ct']}}}Override")}
+        if "rels" not in defaults:
+            self._add(
+                "PKG004", ERROR,
+                'no <Default Extension="rels"> - OPC-legal, but Word reports the '
+                "package as corrupt",
+                part="[Content_Types].xml",
+            )
+        for name in self.parts:
+            if name.endswith("/"):          # zip directory entry, not an OPC part
+                continue
+            if name.startswith("_rels/") or "/_rels/" in name:
+                continue
+            ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
+            if "/" + name in overrides or ext in defaults:
+                continue
+            self._add("PKG005", ERROR, f"part not covered by content types: {name}",
+                      part=name)
+
+    def _rels_for(self, part: str) -> tuple[dict[str, tuple], str]:
+        d, _, base = part.rpartition("/")
+        rels = f"{d}/_rels/{base}.rels" if d else f"_rels/{base}.rels"
+        t = self._tree(rels)
+        out: dict[str, tuple] = {}
+        if t is not None:
+            for rel in t.findall(f"{{{NS['rel']}}}Relationship"):
+                out[rel.get("Id")] = (
+                    rel.get("Target"), rel.get("TargetMode"), rel.get("Type") or "",
+                )
+        return out, rels
+
+    def check_relationships(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            self._add("PKG006", ERROR, "missing word/document.xml")
+            return
+        rels, relsname = self._rels_for("word/document.xml")
+        used: set[str] = set()
+
+        for el in doc.iter():
+            for attr in (_r("id"), _r("embed"), _r("link")):
+                v = el.get(attr)
+                if not v:
+                    continue
+                used.add(v)
+                if v not in rels:
+                    self._add(
+                        "REL001", ERROR,
+                        f"relationship {v} not found in {relsname} - Word will "
+                        "error or drop the object",
+                        self._xpath(el), "word/document.xml",
+                    )
+
+        for rid, (target, mode, rtype) in rels.items():
+            if mode == "External" or not target:
+                continue
+            resolved = ("word/" + target).replace("/./", "/")
+            while "/../" in resolved:
+                resolved = re.sub(r"[^/]+/\.\./", "", resolved, count=1)
+            if resolved not in self.parts:
+                self._add("REL002", ERROR,
+                          f"{rid} points at a missing part: {target}", part=relsname)
+
+        for rid, (_, _, rtype) in rels.items():
+            if rid in used:
+                continue
+            if any(k in rtype for k in _IMPLICIT_RELS):
+                continue
+            self._add("REL003", INFO, f"{rid} declared but never referenced",
+                      part=relsname)
+
+    def check_styles(self) -> None:
+        st = self._tree("word/styles.xml")
+        doc = self._tree("word/document.xml")
+        if st is None or doc is None:
+            return
+        defined = {s.get(_w("styleId")) for s in st.findall(_w("style"))}
+        for tag in ("pStyle", "rStyle", "tblStyle"):
+            for el in doc.iter(_w(tag)):
+                v = el.get(_w("val"))
+                if v and v not in defined:
+                    self._add(
+                        "STY001", ERROR,
+                        f'{tag} references undefined style "{v}" - formatting is '
+                        "silently lost",
+                        self._xpath(el), "word/document.xml",
+                    )
+        for s in st.findall(_w("style")):
+            for tag in ("basedOn", "next", "link"):
+                el = s.find(_w(tag))
+                if el is not None and el.get(_w("val")) not in defined:
+                    self._add(
+                        "STY002", WARN,
+                        f'style {s.get(_w("styleId"))}: {tag} -> '
+                        f'"{el.get(_w("val"))}" is undefined',
+                        part="word/styles.xml",
+                    )
+
+    def check_numbering(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        num = self._tree("word/numbering.xml")
+        nums: dict[str, str | None] = {}
+        abstracts: dict[str, set] = {}
+        if num is not None:
+            for n in num.findall(_w("num")):
+                a = n.find(_w("abstractNumId"))
+                nums[n.get(_w("numId"))] = a.get(_w("val")) if a is not None else None
+            for a in num.findall(_w("abstractNum")):
+                abstracts[a.get(_w("abstractNumId"))] = {
+                    lv.get(_w("ilvl")) for lv in a.findall(_w("lvl"))
+                }
+
+        for npr in doc.iter(_w("numPr")):
+            nid_el = npr.find(_w("numId"))
+            if nid_el is None:
+                continue
+            nid = nid_el.get(_w("val"))
+            where = self._xpath(npr)
+            if num is None:
+                self._add("NUM001", ERROR,
+                          f"paragraph references numId={nid} but numbering.xml is "
+                          "missing - the list becomes plain text", where)
+                continue
+            if nid not in nums:
+                self._add("NUM002", ERROR,
+                          f"numId={nid} undefined in numbering.xml - numbering "
+                          "disappears", where)
+                continue
+            aid = nums[nid]
+            if aid not in abstracts:
+                self._add("NUM003", ERROR,
+                          f"numId={nid} -> abstractNumId={aid}, which does not exist",
+                          where)
+                continue
+            ilvl_el = npr.find(_w("ilvl"))
+            lvl = ilvl_el.get(_w("val")) if ilvl_el is not None else "0"
+            if lvl not in abstracts[aid]:
+                self._add("NUM004", WARN,
+                          f"level ilvl={lvl} undefined in abstractNum {aid}", where)
+
+    def check_footnotes(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        fn = self._tree("word/footnotes.xml")
+        defined = (
+            {f.get(_w("id")) for f in fn.findall(_w("footnote"))} if fn is not None
+            else set()
+        )
+        used = set()
+        for ref in doc.iter(_w("footnoteReference")):
+            i = ref.get(_w("id"))
+            used.add(i)
+            if i not in defined:
+                self._add("FTN001", ERROR,
+                          f"footnote reference id={i} has no entry in footnotes.xml",
+                          self._xpath(ref))
+        for i in sorted(defined - used, key=lambda x: (x is None, x)):
+            if i not in ("-1", "0"):
+                self._add("FTN002", ERROR,
+                          f"footnote id={i} is defined but never referenced - "
+                          "the footnote no longer appears",
+                          part="word/footnotes.xml")
+
+    def check_comments(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        cm = self._tree("word/comments.xml")
+        defined = (
+            {c.get(_w("id")) for c in cm.findall(_w("comment"))} if cm is not None
+            else set()
+        )
+        starts = {e.get(_w("id")) for e in doc.iter(_w("commentRangeStart"))}
+        ends = {e.get(_w("id")) for e in doc.iter(_w("commentRangeEnd"))}
+        refs = {e.get(_w("id")) for e in doc.iter(_w("commentReference"))}
+
+        srt = lambda s: sorted(s, key=lambda x: (x is None, x))
+        for i in srt(starts - ends):
+            self._add("CMT001", ERROR,
+                      f"commentRangeStart id={i} with no commentRangeEnd - "
+                      "malformed range", part="word/document.xml")
+        for i in srt(ends - starts):
+            self._add("CMT002", ERROR,
+                      f"commentRangeEnd id={i} with no commentRangeStart",
+                      part="word/document.xml")
+        for i in srt(starts - refs):
+            self._add("CMT003", ERROR,
+                      f"comment range id={i} has no commentReference - the comment "
+                      "will not render", part="word/document.xml")
+        for i in srt(refs - defined):
+            self._add("CMT004", ERROR,
+                      f"commentReference id={i} not found in comments.xml",
+                      part="word/document.xml")
+        for i in srt(defined - refs):
+            self._add("CMT005", ERROR,
+                      f"comment id={i} is orphaned - present in comments.xml but "
+                      "anchored to nothing - the reviewer's note is invisible in Word",
+                      part="word/comments.xml")
+
+    def check_revisions(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+
+        ids: list[str | None] = []
+        for tag in ("ins", "del", "moveFrom", "moveTo"):
+            for el in doc.iter(_w(tag)):
+                ids.append(el.get(_w("id")))
+        for i, n in Counter(i for i in ids if i is not None).items():
+            if n > 1:
+                self._add("REV001", ERROR,
+                          f"revision id {i} used {n} times - a known cause of "
+                          'Word\'s "unreadable content" warning',
+                          part="word/document.xml")
+
+        # w:del must carry w:delText, not w:t.
+        # w:ins > w:del nesting (and the reverse) is legal and means "inserted by
+        # one author, deleted by another before acceptance", so test the NEAREST
+        # revision ancestor rather than any ancestor.
+        def nearest_rev(el):
+            p = el.getparent()
+            while p is not None:
+                if p.tag in (_w("ins"), _w("del")):
+                    return p.tag
+                p = p.getparent()
+            return None
+
+        for t in doc.iter(_w("t")):
+            if nearest_rev(t) == _w("del"):
+                self._add("REV002", ERROR,
+                          "w:t inside w:del instead of w:delText - deleted text "
+                          "reappears when changes are accepted", self._xpath(t))
+        for t in doc.iter(_w("delText")):
+            if nearest_rev(t) == _w("ins"):
+                self._add("REV003", ERROR,
+                          "w:delText inside w:ins with no nested w:del",
+                          self._xpath(t))
+
+    def check_tables(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        for ti, tbl in enumerate(doc.iter(_w("tbl")), 1):
+            grid = tbl.find(_w("tblGrid"))
+            if grid is None:
+                self._add("TBL001", ERROR, f"table {ti}: missing w:tblGrid",
+                          f"tbl[{ti}]")
+                continue
+            ncols = len(grid.findall(_w("gridCol")))
+            for ri, tr in enumerate(tbl.findall(_w("tr")), 1):
+                span = 0
+                for tc in tr.findall(_w("tc")):
+                    gs = tc.find(f'{_w("tcPr")}/{_w("gridSpan")}')
+                    try:
+                        span += int(gs.get(_w("val"))) if gs is not None else 1
+                    except (TypeError, ValueError):
+                        span += 1
+                if span != ncols:
+                    self._add("TBL002", WARN,
+                              f"table {ti}, row {ri}: {span} cells vs {ncols} "
+                              "tblGrid columns - Word will re-lay out the table",
+                              f"tbl[{ti}]/tr[{ri}]")
+
+    def check_sdt(self) -> None:
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        for i, sdt in enumerate(doc.iter(_w("sdt")), 1):
+            if sdt.find(_w("sdtPr")) is None:
+                self._add("SDT001", ERROR, f"content control {i}: no sdtPr",
+                          f"sdt[{i}]")
+            if sdt.find(_w("sdtContent")) is None:
+                self._add("SDT002", ERROR,
+                          f"content control {i}: no sdtContent - the field "
+                          "disappears", f"sdt[{i}]")
+
+    def check_whitespace(self) -> None:
+        """Edge whitespace in a run without xml:space="preserve" is silently eaten."""
+        doc = self._tree("word/document.xml")
+        if doc is None:
+            return
+        xml_space = "{http://www.w3.org/XML/1998/namespace}space"
+        for t in doc.iter(_w("t")):
+            txt = t.text or ""
+            if txt != txt.strip() and t.get(xml_space) != "preserve":
+                self._add("TXT001", WARN,
+                          'run has edge whitespace without xml:space="preserve" - '
+                          f"it will vanish: {txt[:40]!r}", self._xpath(t))
+
+    CHECKS = (
+        check_content_types, check_relationships, check_styles, check_numbering,
+        check_footnotes, check_comments, check_revisions, check_tables,
+        check_sdt, check_whitespace,
+    )
+
+    # ------------------------------------------------------------------- run
+    def run(self) -> list[Finding]:
+        if not self.load():
+            return self.findings
+        for c in self.CHECKS:
+            try:
+                c(self)
+            except Exception as e:  # a broken check must not hide the others
+                self._add("INT001", WARN, f"check {c.__name__} raised: {e}")
+        return self.findings
+
+
+def check(path: str | Path) -> list[Finding]:
+    """Inspect one .docx for internal consistency. Returns every finding."""
+    return Inspector(path).run()
+
+
+def check_many(paths: Iterable[str | Path]) -> dict[str, list[Finding]]:
+    """Inspect several files. Keys are the paths as given."""
+    return {str(p): check(p) for p in paths}
