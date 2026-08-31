@@ -1,0 +1,130 @@
+name: "docx-integrity"
+description: >-
+  Check .docx files for structural defects that schema validation and rendering
+  both miss - broken comment anchors, dangling style and numbering references,
+  colliding revision ids, and content lost relative to a source document.
+author: "Dmitrii Kovalev"
+
+branding:
+  icon: "file-text"
+  color: "green"
+
+inputs:
+  files:
+    description: >-
+      Paths or globs to check, whitespace or newline separated.
+      Example: "docs/**/*.docx" or "out/report.docx out/annex.docx".
+    required: true
+  against:
+    description: >-
+      Optional source document. When set, the run also reports what each file
+      lost relative to it - comment anchors, footnotes, tracked changes.
+      Use this when a step edits an existing document rather than creating one.
+    required: false
+    default: ""
+  fail-on:
+    description: "Minimum severity that fails the step: error (default), warn, info."
+    required: false
+    default: "error"
+  version:
+    description: >-
+      Version of docx-integrity to install, e.g. "0.1.0". Empty installs the
+      latest release. Pin this if you want reproducible runs.
+    required: false
+    default: ""
+  source:
+    description: >-
+      Install from here instead of PyPI: a local path (".") or anything pip
+      accepts, e.g. "git+https://github.com/Dmitry-Kov/docx-integrity@main".
+      Takes precedence over `version`. Used by this repo's own CI, and useful
+      for trying an unreleased fix.
+    required: false
+    default: ""
+  python-version:
+    description: "Python used to run the checker."
+    required: false
+    default: "3.12"
+  json-report:
+    description: >-
+      Path to write a JSON report to, e.g. "docx-integrity.json". Empty writes
+      no file. Useful as a build artifact.
+    required: false
+    default: ""
+
+outputs:
+  exit-code:
+    description: "0 clean, 1 findings at or above fail-on."
+    value: ${{ steps.run.outputs.exit-code }}
+  errors:
+    description: "Number of error-severity findings across all files."
+    value: ${{ steps.run.outputs.errors }}
+  warnings:
+    description: "Number of warning-severity findings across all files."
+    value: ${{ steps.run.outputs.warnings }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install docx-integrity
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.source }}" ]; then
+          python -m pip install --quiet "${{ inputs.source }}"
+        elif [ -n "${{ inputs.version }}" ]; then
+          python -m pip install --quiet "docx-integrity==${{ inputs.version }}"
+        else
+          python -m pip install --quiet docx-integrity
+        fi
+        docx-integrity --version
+
+    - name: Check documents
+      id: run
+      shell: bash
+      run: |
+        set -o pipefail
+        args=()
+        # shellcheck disable=SC2206
+        for f in ${{ inputs.files }}; do args+=("$f"); done
+        if [ -n "${{ inputs.against }}" ]; then
+          args+=(--against "${{ inputs.against }}")
+        fi
+        args+=(--fail-on "${{ inputs.fail-on }}")
+
+        # Human-readable output into the log and the job summary.
+        set +e
+        docx-integrity check "${args[@]}" | tee /tmp/di-human.txt
+        code=${PIPESTATUS[0]}
+        set -e
+
+        # A second pass for machine-readable counts. Cheap: no rendering, no model.
+        docx-integrity check "${args[@]}" --json > /tmp/di.json || true
+        errors=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['error'] for f in d['files']))")
+        warnings=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['warn'] for f in d['files']))")
+
+        {
+          echo "### docx-integrity"
+          echo
+          if [ "$code" -eq 0 ]; then
+            echo "No findings at or above \`${{ inputs.fail-on }}\`."
+          else
+            echo "**$errors error(s), $warnings warning(s)**"
+          fi
+          echo
+          echo '```'
+          cat /tmp/di-human.txt
+          echo '```'
+        } >> "$GITHUB_STEP_SUMMARY"
+
+        if [ -n "${{ inputs.json-report }}" ]; then
+          cp /tmp/di.json "${{ inputs.json-report }}"
+        fi
+
+        echo "exit-code=$code" >> "$GITHUB_OUTPUT"
+        echo "errors=$errors" >> "$GITHUB_OUTPUT"
+        echo "warnings=$warnings" >> "$GITHUB_OUTPUT"
+        exit "$code"
