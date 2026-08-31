@@ -18,12 +18,18 @@ is exactly why the separation is worth the trouble.
 from __future__ import annotations
 
 import os
+import zipfile
 
 from pptx import Presentation
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
 from pptx.util import Emu, Pt
 
 OUT = os.environ.get("DI_PPTX", "../corpus/deck.pptx")
+
+#: python-pptx stamps every zip entry with the current time, so two builds
+#: of identical content differ in bytes. A fixture that changes every time
+#: it is rebuilt cannot be diffed, so the archive is restamped after saving.
+ZIP_EPOCH = (2026, 1, 1, 0, 0, 0)
 
 # 16:9 at the usual 13.333 x 7.5 inches
 SLIDE_W = Emu(12192000)
@@ -155,14 +161,38 @@ def build() -> str:
          "Milestone five", size=16)
     _box(s, "FIT_bold_narrow", 500000, 2000000, 3000000, 1000000,
          "Confidential", size=24, bold=True)
-    # A face that is not installed anywhere here, so measurement must degrade
-    # to an estimate and say so rather than pretend.
+    # A face that exists nowhere, so measurement must degrade to an estimate
+    # and say so rather than pretend. The name is deliberately synthetic: an
+    # earlier version used "Segoe UI", which is absent on Linux but present on
+    # Windows and on any Mac with Office - so the fixture reported a different
+    # result depending on the machine, which is the one thing a fixture may
+    # not do.
     _box(s, "FIT_unknown_font", 5000000, 2000000, 3500000, 1000000,
-         "Segoe UI sample text", size=18, font="Segoe UI")
+         "Sample text in a face nobody has", size=18,
+         font="DocxIntegrity No Such Face")
 
     os.makedirs(os.path.dirname(OUT) or ".", exist_ok=True)
     prs.save(OUT)
+    _freeze_timestamps(OUT)
     return OUT
+
+
+def _freeze_timestamps(path: str) -> None:
+    """Rewrite the archive with fixed timestamps, order and content preserved.
+
+    Only the zip metadata changes; every entry keeps its name, its position and
+    its bytes. Without this the deck is byte-different on every build and the
+    reproducibility check in CI can never pass.
+    """
+    with zipfile.ZipFile(path) as z:
+        entries = [(i, z.read(i.filename)) for i in z.infolist()]
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        for info, data in entries:
+            zi = zipfile.ZipInfo(info.filename, date_time=ZIP_EPOCH)
+            zi.compress_type = info.compress_type
+            zi.external_attr = info.external_attr
+            zi.create_system = 0
+            z.writestr(zi, data)
 
 
 def ground_truth(path: str) -> dict[str, str]:

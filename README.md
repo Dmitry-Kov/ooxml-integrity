@@ -237,8 +237,9 @@ depends on what is installed where it is opened, so the checker says what it
 measured with:
 
 ```
-[INFO ] PPT007  Segoe UI is not installed; measured with DejaVu Sans, which is
-                similar but NOT metric-compatible - treat the number as an estimate
+[INFO ] PPT007  Segoe UI is not installed and has no known substitute; measured
+                with DejaVu Sans - widths are a guess. 1 shape(s) affected;
+                overflow verdicts for them are estimates
 ```
 
 ### Severity, and why it is set where it is
@@ -261,7 +262,16 @@ cd research
 python build_corpus.py        # build the reference document (byte-reproducible)
 python run_experiment.py      # mutators + inspector + 20-cycle accumulation
 python compare_detectors.py   # the headline table below
+
+python build_pptx_corpus.py   # build the reference deck (byte-reproducible)
+python assert_deck.py ../corpus/deck.pptx   # it still reports its 11 defects
 ```
+
+Both fixtures rebuild byte-identical, which is what makes `git diff` a usable
+assertion in CI. `assert_deck.py` compares the whole multiset of finding codes
+rather than the exit code, because a machine with no usable fonts reports the
+same layout problems as warnings and exits 0 — an exit-code check would call
+that a pass, which is the exact failure this tool exists to catch.
 
 `libreoffice` on `PATH` is needed for the rendering check. Total runtime is a
 couple of minutes, most of it LibreOffice.

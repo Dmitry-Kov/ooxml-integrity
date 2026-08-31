@@ -1,0 +1,14 @@
+# Keep line endings stable across platforms.
+#
+# Without this, actions/checkout on the Windows runner converts LF to CRLF and
+# every text file shows as modified, which breaks any `git diff --quiet` check
+# in CI - a failure that has nothing to do with the code.
+* text=auto eol=lf
+
+# Binary fixtures must never be touched. The corpus is byte-reproducible and
+# the checks depend on that; a line-ending filter would corrupt them.
+*.docx binary
+*.pptx binary
+*.png  binary
+*.ttf  binary
+*.otf  binary
