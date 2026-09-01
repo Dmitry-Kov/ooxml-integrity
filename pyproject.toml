@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ooxml-integrity"
-version = "0.3.0"
+version = "0.3.1"
 description = "Integrity checks for .docx and .pptx: broken references and lost comments in documents, text that does not fit its box in decks. Catches what schema validation and rendering both miss."
 readme = "README.md"
 license = { file = "LICENSE" }

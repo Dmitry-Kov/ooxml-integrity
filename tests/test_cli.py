@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 
 import pytest
-from conftest import read_part, repack, run_cli
+from conftest import ROOT, read_part, repack, run_cli
 
 from ooxml_integrity.cli import EXIT_FINDINGS, EXIT_OK, EXIT_USAGE, main
 
@@ -150,3 +152,18 @@ def test_partial_glob_match_warns_but_proceeds(base_docx):
     assert r.returncode == EXIT_OK
     assert "no files matched" in r.stderr
     assert "clean" in r.stdout
+
+
+def test_module_entry_point_works_without_the_console_script():
+    """`python -m ooxml_integrity` has to work where pip's bin dir is not on PATH.
+
+    That is not a corner case: `pip install --user` against a Python whose user
+    base nobody added to PATH is common, and pip only warns. Someone in that
+    situation should not have to edit their shell config to run the tool.
+    """
+    r = subprocess.run(
+        [sys.executable, "-m", "ooxml_integrity", "--version"],
+        capture_output=True, text=True, cwd=ROOT,
+    )
+    assert r.returncode == 0, r.stderr
+    assert "ooxml-integrity" in r.stdout

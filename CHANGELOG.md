@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1
+
+### Added
+- `python -m ooxml_integrity` as an entry point. The console script lands in
+  pip's scripts directory, which is not on PATH on plenty of machines - a
+  `pip install --user` against a Python whose user base nobody added to PATH is
+  the common case, and pip only warns about it. Hit on the first machine that
+  installed 0.3.0, which is a good argument for it not being a corner case.
+
 ## 0.3.0
 
 **Renamed from `docx-integrity` to `ooxml-integrity`.** Same project, same

@@ -102,8 +102,13 @@ pip install ooxml-integrity
 ```
 
 Two dependencies (`lxml`, `fonttools`; plus `tomli` on Python 3.10 and older,
-only to read the config file), Python 3.9+. No model calls, no
-rendering, no network.
+only to read the config file), Python 3.9+. No model calls, no rendering, no
+network.
+
+If `ooxml-integrity` is not found after installing, pip put the console script
+in a directory that is not on your PATH — it warns about this. `python -m
+ooxml_integrity` works anywhere, with no shell config to edit, and is
+unambiguous about which interpreter's install you are running.
 
 **Did this file survive editing?**
 
