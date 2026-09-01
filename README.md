@@ -138,7 +138,7 @@ for f in compare("original.docx", "edited.docx"):
 ### In CI
 
 ```yaml
-- uses: Dmitry-Kov/docx-integrity@v0.1.1
+- uses: Dmitry-Kov/docx-integrity@v0.1.2
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -191,6 +191,22 @@ glyph, and compares:
 |---|---|
 | line pitch (uniform-size paragraphs, n=12) | median **0.05%**, worst **0.06%** |
 | line count (24 shapes) | **23/24** exact, 1 off by one |
+
+And against **real PowerPoint**, which is the renderer that settles it: every one
+of the 21 checkable shapes got the verdict the tool predicted, with the line count
+exact on all 21 - including the shape whose widest line fills 99.2% of its box,
+where a disagreement was most likely. The checker and PowerPoint were reading the
+same `Calibri.ttf` out of the PowerPoint app bundle, so this is a statement about
+the layout model and not about font substitution. Predictions were generated
+before the deck was opened; method, per-shape table and limits are in
+[`docs/powerpoint-validation.md`](docs/powerpoint-validation.md).
+
+That check also turned up something the tool gets wrong in the other direction:
+PowerPoint recomputes **neither** autofit mode when it opens a file. A deck with
+`normAutofit` and no stored `fontScale` displays broken text until someone edits
+the shape, and `spAutoFit` does not grow its box either - which the tool currently
+treats as a warning and as nothing at all, respectively. See the validation notes
+for what would settle the severities.
 
 Two findings came out of that calibration and neither could have been guessed:
 
@@ -493,9 +509,10 @@ Read these before citing any number here.
   by running it, which I have not done.
 - **Eight agent runs is a small sample**, on one document, with one task family,
   on one day. The careful/fast split is suggestive, not established.
-- **The pptx calibration is against LibreOffice, not PowerPoint.** Agreement to
-  0.05% on line pitch shows the model is sound; it does not prove PowerPoint
-  agrees. Running the same corpus through PowerPoint is the missing half.
+- **The PowerPoint check is one build on one platform.** 21 of 21 shapes agreed,
+  with every line count exact (`docs/powerpoint-validation.md`), but that is
+  PowerPoint for Mac in the editing view, read from screenshots. Windows and
+  Slide Show mode are untested.
 - **Only the Carlito/Calibri pairing has been measured** (see the table above).
   The other entries in `METRIC_SUBSTITUTES` — Caladea/Cambria, Liberation
   Sans/Arial, Liberation Serif/Times New Roman, Liberation Mono/Courier New,

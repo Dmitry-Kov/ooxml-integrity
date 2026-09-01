@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.1.2
+
+Both fixes in this release were found by the CI matrix on its first real run,
+not by the 99 tests passing on Linux.
+
+### Fixed
+- **Dot-prefixed system faces were still reachable through the style key.** The
+  `.aqua kana` guard in 0.1.1 covered the plain family key, but the composed
+  key (`family:italic`) was written by a second line that skipped it. So
+  `.sf ns mono` was correctly rejected while `.sf ns mono:italic` was indexed,
+  and an internal macOS system face remained selectable for any italic run.
+  `_index_font_dirs` now has exactly one writer, which owns both keys.
+
+  Only the macOS runner could see this - no other platform ships dot-prefixed
+  families - so `tests/test_pptx.py::test_styled_system_faces_are_excluded_too`
+  manufactures such a face with fontTools, and the bug is now catchable
+  everywhere.
+
+- **`research/build_corpus.py` was not reproducible on Windows.**
+  `ZipInfo.__init__` defaults `create_system` to 0 on Windows and 3 elsewhere,
+  and the value is written into the central directory - so identical content
+  produced a different file there. Now pinned. `build_pptx_corpus.py` gained
+  the same treatment plus a timestamp pass: `python-pptx` stamps entries with
+  the current time, so the deck had never been byte-reproducible.
+
+### Added
+- `research/assert_deck.py` - asserts the reference deck reports its exact set
+  of finding codes, and that text measurement was available at all. The
+  previous CI step tested the exit code, which a runner with no fonts passes by
+  reporting every layout error as a warning: the tool's own failure mode,
+  inside the tool's own pipeline.
+- `research/outline_deck.py` and `research/powerpoint_checklist.py` - draw a
+  visible outline on every text box and print the per-shape predictions, so the
+  overflow model can be checked against a real renderer by eye rather than by
+  trusting the arithmetic.
+- CI installs metric-compatible fonts on Linux and macOS, and fails if Calibri
+  or Cambria resolve to anything but an exact or metric-compatible face.
+- `docs/powerpoint-validation.md` - the overflow model checked against real
+  PowerPoint for the first time. 21 of 21 checkable shapes agreed, with the line
+  count exact on all of them, reading the same `Calibri.ttf` PowerPoint renders
+  with. It also found that PowerPoint recomputes neither autofit mode on open,
+  which puts two current severity choices in question.
+
 ## 0.1.1 - unreleased
 
 ### Fixed

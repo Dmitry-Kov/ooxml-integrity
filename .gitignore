@@ -8,3 +8,11 @@ build/
 *.egg-info/
 .pytest_cache/
 .venv/
+
+# Derived from corpus/deck.pptx by research/outline_deck.py - regenerate rather
+# than commit, so there is only one deck that anything is asserted about.
+corpus/deck_outlined.pptx
+POWERPOINT_CHECK*.md
+
+# Office owner-lock files, left behind while a document is open
+~$*
