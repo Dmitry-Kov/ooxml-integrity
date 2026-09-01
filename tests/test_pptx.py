@@ -8,6 +8,8 @@ two are told apart by reading which.
 """
 from __future__ import annotations
 
+import shutil
+
 import pytest
 
 from docx_integrity import Severity, check_pptx
@@ -312,6 +314,56 @@ def test_fallback_never_picks_a_non_latin_system_face(monkeypatch):
     finally:
         fonts.resolve_face.cache_clear()
         fonts.load_metrics.cache_clear()
+        fonts._index_font_dirs.cache_clear()
+
+
+def test_styled_system_faces_are_excluded_too(tmp_path, monkeypatch):
+    """A dot-prefixed face must not reach the index under its *style* key either.
+
+    The guard lived in the index writer, but the composed key (`family:italic`)
+    was written by a second line that skipped it. So `.sf ns mono` was rejected
+    while `.sf ns mono:italic` was indexed, and an internal macOS system face
+    stayed reachable for any italic run - the `.aqua kana` bug with one extra
+    step.
+
+    Only the macOS runner could see that, because no other platform ships
+    dot-prefixed families. This test manufactures one, so the bug is catchable
+    everywhere.
+    """
+    from fontTools.ttLib import TTFont
+    import docx_integrity.fonts as fonts
+
+    donor = fonts.resolve_face("Arial")
+    if not donor.path or not donor.path.exists():
+        pytest.skip("no font available to rename")
+
+    font = TTFont(str(donor.path), fontNumber=0)
+    for rec in font["name"].names:
+        if rec.nameID == 1:
+            rec.string = ".Fake System Face"
+        elif rec.nameID in (2, 17):
+            rec.string = "Italic"
+        elif rec.nameID == 4:
+            rec.string = ".Fake System Face Italic"
+        elif rec.nameID == 6:
+            rec.string = ".FakeSystemFace-Italic"
+    font.save(str(tmp_path / "FakeSystemFace-Italic.ttf"))
+    font.close()
+
+    # A second, ordinary face, so a non-empty index proves the scan ran. Without
+    # it an empty index would satisfy the assertion below for the wrong reason.
+    shutil.copy(donor.path, tmp_path / "ordinary.ttf")
+
+    monkeypatch.setattr(fonts, "FONT_DIRS", (str(tmp_path),))
+    fonts._index_font_dirs.cache_clear()
+    try:
+        index = fonts._index_font_dirs()
+        assert index, "the scan read nothing, so this proves nothing"
+        assert not [k for k in index if k.startswith(".")], (
+            f"dot-prefixed face reached the index: "
+            f"{[k for k in index if k.startswith('.')]}"
+        )
+    finally:
         fonts._index_font_dirs.cache_clear()
 
 

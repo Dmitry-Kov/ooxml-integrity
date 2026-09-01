@@ -225,20 +225,29 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
     index: dict[str, tuple[str, int]] = {}
 
     def record(family: str, path: str, number: int, bold: bool, italic: bool):
-        if not family:
-            return
+        """The only writer of `index` - both the plain and the composed key.
+
+        They used to be written in two places, and the dot-prefix guard was
+        only on this one. macOS system faces walked in through the other door:
+        `.sf ns mono` was correctly rejected while `.sf ns mono:italic` was
+        indexed, so an internal system face was still reachable for any italic
+        run. Caught on the macOS runner, by the regression test written for
+        the original `.aqua kana` bug.
+        """
         key = family.strip().lower()
+        if not key:
+            return
         # Dot-prefixed names are macOS internal system faces (.aqua kana,
         # .SF NS, .Helvetica Neue DeskInterface). They are not document fonts
         # and must never be picked as a fallback.
         if key.startswith("."):
             return
-        # prefer the regular face for a family; styled ones are looked up with
-        # their own composed names below
+        # prefer the regular face for a family; styled ones also get their own
+        # composed key, which never overwrites one already recorded
         if key not in index or not (bold or italic):
             index[key] = (path, number)
-        for suffix, flag in ((" bold", bold), (" italic", italic)):
-            pass  # composed keys handled by caller via _styled_key
+        if bold or italic:
+            index.setdefault(key + _style_key(bold, italic), (path, number))
 
     def faces(path: Path):
         try:
@@ -272,9 +281,6 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
                     bold = "bold" in subfamily
                     italic = "italic" in subfamily or "oblique" in subfamily
                     record(family, str(path), number, bold, italic)
-                    if bold or italic:
-                        composed = family.strip().lower() + _style_key(bold, italic)
-                        index.setdefault(composed, (str(path), number))
                 except Exception:
                     continue
                 finally:

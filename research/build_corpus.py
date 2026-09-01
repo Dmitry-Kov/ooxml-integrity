@@ -267,10 +267,18 @@ def make_png():
 
 
 def _entry(name: str) -> zipfile.ZipInfo:
-    """A zip entry with a fixed timestamp, so the build is reproducible."""
+    """A zip entry with fixed metadata, so the build is reproducible.
+
+    `create_system` has to be set explicitly. `ZipInfo.__init__` defaults it to
+    0 on Windows and 3 everywhere else, and it is written into the central
+    directory - so without this line the same content produces a different file
+    on Windows, and the reproducibility check in CI fails there and only there.
+    3 (Unix) is the value the committed fixture already has.
+    """
     zi = zipfile.ZipInfo(name, date_time=ZIP_EPOCH)
     zi.compress_type = zipfile.ZIP_DEFLATED
     zi.external_attr = 0o644 << 16
+    zi.create_system = 3
     return zi
 
 
