@@ -4,8 +4,8 @@ from __future__ import annotations
 import pytest
 from conftest import read_part, repack
 
-from docx_integrity import Severity, compare
-from docx_integrity.fidelity import TRACKED
+from ooxml_integrity import Severity, compare
+from ooxml_integrity.fidelity import TRACKED
 
 DOC = "word/document.xml"
 

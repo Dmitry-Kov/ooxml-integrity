@@ -12,11 +12,11 @@ import shutil
 
 import pytest
 
-from docx_integrity import Severity, check_pptx
-from docx_integrity.fonts import (
+from ooxml_integrity import Severity, check_pptx
+from ooxml_integrity.fonts import (
     METRIC_SUBSTITUTES, SIMILAR_SUBSTITUTES, load_metrics, resolve_face,
 )
-from docx_integrity.pptx_layout import (
+from ooxml_integrity.pptx_layout import (
     DRAWINGML_LINE_SPACING, layout_shape, read_deck,
 )
 
@@ -215,7 +215,7 @@ class TestMeasurementUnavailable:
 
     def test_fonts_are_found_without_fontconfig(self, monkeypatch):
         """The directory scan has to stand on its own."""
-        import docx_integrity.fonts as fonts
+        import ooxml_integrity.fonts as fonts
 
         monkeypatch.setattr(fonts, "_fc_match", lambda pattern: None)
         fonts.resolve_face.cache_clear()
@@ -232,7 +232,7 @@ class TestMeasurementUnavailable:
     def test_overflow_is_still_caught_without_fontconfig(
             self, monkeypatch, deck_path):
         """The exact scenario that failed on macOS."""
-        import docx_integrity.fonts as fonts
+        import ooxml_integrity.fonts as fonts
 
         monkeypatch.setattr(fonts, "_fc_match", lambda pattern: None)
         fonts.resolve_face.cache_clear()
@@ -253,7 +253,7 @@ class TestMeasurementUnavailable:
 
     def test_no_fonts_at_all_reports_loudly(self, monkeypatch, deck_path):
         """With no fonts anywhere, the answer must be 'could not check'."""
-        import docx_integrity.fonts as fonts
+        import ooxml_integrity.fonts as fonts
 
         monkeypatch.setattr(fonts, "_fc_match", lambda pattern: None)
         monkeypatch.setattr(fonts, "_index_font_dirs", lambda: {})
@@ -276,7 +276,7 @@ class TestMeasurementUnavailable:
             fonts.load_metrics.cache_clear()
 
     def test_measurement_available_reports_what_it_uses(self):
-        from docx_integrity.fonts import measurement_available
+        from ooxml_integrity.fonts import measurement_available
 
         ok, detail = measurement_available()
         assert ok
@@ -292,7 +292,7 @@ def test_fallback_never_picks_a_non_latin_system_face(monkeypatch):
     dot-prefixed families never enter the index, and the pick requires basic
     Latin coverage.
     """
-    import docx_integrity.fonts as fonts
+    import ooxml_integrity.fonts as fonts
 
     monkeypatch.setattr(fonts, "_fc_match", lambda pattern: None)
     fonts.resolve_face.cache_clear()
@@ -331,7 +331,7 @@ def test_styled_system_faces_are_excluded_too(tmp_path, monkeypatch):
     everywhere.
     """
     from fontTools.ttLib import TTFont
-    import docx_integrity.fonts as fonts
+    import ooxml_integrity.fonts as fonts
 
     donor = fonts.resolve_face("Arial")
     if not donor.path or not donor.path.exists():
@@ -369,7 +369,7 @@ def test_styled_system_faces_are_excluded_too(tmp_path, monkeypatch):
 
 def test_office_font_locations_are_searched():
     """Real Calibri beats any substitute, and Microsoft 365 hides it."""
-    from docx_integrity.fonts import FONT_DIRS
+    from ooxml_integrity.fonts import FONT_DIRS
 
     joined = " ".join(FONT_DIRS)
     assert "UBF8T346G9.Office" in joined, (
@@ -386,7 +386,7 @@ def test_reading_fonts_is_quiet(capfd):
     lines like "144733 extra bytes in post.stringData array" on stderr. They
     are harmless for advance widths and pure noise in a check report.
     """
-    import docx_integrity.fonts as fonts
+    import ooxml_integrity.fonts as fonts
 
     fonts.resolve_face.cache_clear()
     fonts.load_metrics.cache_clear()

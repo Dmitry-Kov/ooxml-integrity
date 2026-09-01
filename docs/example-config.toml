@@ -1,6 +1,6 @@
-# .docx-integrity.toml - copy into the root of a repository and edit.
+# .ooxml-integrity.toml - copy into the root of a repository and edit.
 #
-# The same keys work under [tool.docx-integrity] in pyproject.toml. A standalone
+# The same keys work under [tool.ooxml-integrity] in pyproject.toml. A standalone
 # file wins if both exist. The search walks upwards from the working directory,
 # so a monorepo can put one file at the top.
 
@@ -48,7 +48,7 @@ reason = "the generator adds a boilerplate clause by design"
 # Not configured here: the baseline. That is a separate file, because it is
 # generated rather than written:
 #
-#     docx-integrity check "out/**/*.docx" --against templates/master.docx \
+#     ooxml-integrity check "out/**/*.docx" --against templates/master.docx \
 #         --write-baseline
 #
 # Commit the result and pass --baseline. The run then fails only on findings

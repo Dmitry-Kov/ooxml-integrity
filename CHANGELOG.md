@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.3.0
+
+**Renamed from `docx-integrity` to `ooxml-integrity`.** Same project, same
+author, same history. The old name described half of it: the deck checks are the
+part that took the most work and the only part validated against four renderers,
+and someone reading `docx-integrity` would never learn they exist. The new name
+is scoped to what the code actually knows - OPC packaging, XML parts, DrawingML -
+which covers `.docx`, `.pptx`, and `.xlsx` when it arrives, without a second
+rename.
+
+It deliberately does **not** stretch to PDF. PDF is not OOXML: no zip of XML
+parts, no relationship graph, no comment anchors. A PDF checker would share the
+`Finding` type and the CLI with this and nothing else, so naming for it now would
+mean picking a vaguer name for a capability that may never arrive.
+
+### Breaking
+- The import is `ooxml_integrity`, not `docx_integrity`.
+- The command is `ooxml-integrity`.
+- `pip install docx-integrity` still resolves, but that name stops receiving
+  updates at 0.2.0. PyPI names cannot be released, so it stays reserved.
+- The default baseline file is `.ooxml-integrity-baseline.json`. Point
+  `--baseline` at the old one if you have it, or regenerate.
+
+### Not breaking, on purpose
+- `.docx-integrity.toml` and `[tool.docx-integrity]` are still read. A rename on
+  this side is not a reason for someone else's config to stop working. The new
+  spellings win when both are present, and there are tests for both.
+
 ## 0.2.0
 
 The first release aimed at somebody else's repository rather than at this

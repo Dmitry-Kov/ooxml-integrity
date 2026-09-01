@@ -5,7 +5,7 @@ Plus an accumulation scenario: 20 edit cycles, as in DELEGATE-52.
 """
 import os, sys, shutil, subprocess, json, zipfile
 from collections import Counter
-from docx_integrity import check as inspect, summarize, ERROR, WARN
+from ooxml_integrity import check as inspect, summarize, ERROR, WARN
 from mutate import MUTATORS, m_pythondocx_settext, m_llm_copy_clause, m_llm_raw_xml_value
 
 BASE = os.environ.get('DI_BASE', '../corpus/base.docx')

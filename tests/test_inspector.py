@@ -4,7 +4,7 @@ from __future__ import annotations
 import pytest
 from conftest import read_part, repack
 
-from docx_integrity import Inspector, Severity, check, summarize, worst
+from ooxml_integrity import Inspector, Severity, check, summarize, worst
 
 DOC = "word/document.xml"
 

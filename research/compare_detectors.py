@@ -10,8 +10,8 @@ The headline table: what each verification approach actually catches.
 """
 import os, shutil, subprocess, zipfile
 from lxml import etree
-from docx_integrity import check as inspect, ERROR, WARN
-from docx_integrity import compare
+from ooxml_integrity import check as inspect, ERROR, WARN
+from ooxml_integrity import compare
 from mutate import MUTATORS
 
 BASE = os.environ.get('DI_BASE', '../corpus/base.docx')

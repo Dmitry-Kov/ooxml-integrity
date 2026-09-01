@@ -1,23 +1,29 @@
-# docx-integrity
+# ooxml-integrity
 
-[![CI](https://github.com/Dmitry-Kov/docx-integrity/actions/workflows/ci.yml/badge.svg)](https://github.com/Dmitry-Kov/docx-integrity/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/docx-integrity)](https://pypi.org/project/docx-integrity/)
-[![Python](https://img.shields.io/pypi/pyversions/docx-integrity)](https://pypi.org/project/docx-integrity/)
+[![CI](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml/badge.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/)
+[![Python](https://img.shields.io/pypi/pyversions/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-`pip install docx-integrity`
+`pip install ooxml-integrity`
 
-**Word, LibreOffice and every OOXML schema validator will happily accept a
-`.docx` in which a reviewer's comment has been silently detached from the text
-it was written about.** This repo contains a reproducible harness that produces
-such a file, and a deterministic checker that catches it.
+Deterministic checks for `.docx` and `.pptx`, for the two questions nothing else
+answers. No model calls, no rendering, no network — it reads the zip and the font
+files, so it runs on documents you cannot send anywhere.
 
-The failure is not exotic. It is what you get when an agent edits a contract
-with `python-docx`, which is the first thing most agents reach for.
+**Documents: what did the edit lose?** Word, LibreOffice and every OOXML schema
+validator will happily accept a `.docx` in which a reviewer's comment has been
+silently detached from the text it was written about. This repo contains a
+reproducible harness that produces such a file, and a checker that catches it.
+The failure is not exotic — it is what you get when an agent edits a contract
+with `python-docx`, the first thing most agents reach for. → [The finding](#the-finding)
 
-There is a second checker for `.pptx`, which answers a question no OOXML library
-answers: **does the text actually fit the box it was put in?** See
-[Decks](#decks-does-the-text-fit) below.
+**Decks: does the text actually fit the box it was put in?** The part
+[python-pptx has declined for a decade](https://github.com/scanny/python-pptx/issues/973),
+because it needs text measurement. The layout model is checked against four
+renderers: PowerPoint agreed on 21 of 21 shapes with the line count exact on
+every one, and ONLYOFFICE confirms the line-spacing constant to 0.000026%.
+→ [Decks](#decks-does-the-text-fit), [how it was validated](docs/powerpoint-validation.md)
 
 ---
 
@@ -92,7 +98,7 @@ markup.
 ## Use it
 
 ```bash
-pip install docx-integrity
+pip install ooxml-integrity
 ```
 
 Two dependencies (`lxml`, `fonttools`; plus `tomli` on Python 3.10 and older,
@@ -102,14 +108,14 @@ rendering, no network.
 **Did this file survive editing?**
 
 ```bash
-docx-integrity check report.docx
+ooxml-integrity check report.docx
 ```
 
 **What did the edit lose?** The second question, and the one that catches a
 document stripped of everything, which is otherwise perfectly self-consistent:
 
 ```bash
-docx-integrity check edited.docx --against original.docx
+ooxml-integrity check edited.docx --against original.docx
 ```
 
 ```
@@ -126,7 +132,7 @@ output, `--quiet` to print only what fails the threshold.
 From Python:
 
 ```python
-from docx_integrity import check, compare
+from ooxml_integrity import check, compare
 
 for f in check("edited.docx"):
     print(f.code, f.severity.value, f.message, f.where)
@@ -138,7 +144,7 @@ for f in compare("original.docx", "edited.docx"):
 ### In CI
 
 ```yaml
-- uses: Dmitry-Kov/docx-integrity@v0.2.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.3.0
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -161,8 +167,8 @@ commit, and a rule that cannot be turned off gets the whole tool turned off
 instead. Three mechanisms, deliberately kept separate, because each answers a
 different question:
 
-**"This rule is wrong for us."** A severity override in `.docx-integrity.toml`
-(or `[tool.docx-integrity]` in `pyproject.toml`):
+**"This rule is wrong for us."** A severity override in `.ooxml-integrity.toml`
+(or `[tool.ooxml-integrity]` in `pyproject.toml`):
 
 ```toml
 fail-on = "error"
@@ -187,9 +193,9 @@ reason = "these are cropped intentionally for Instagram export"
 then fail only on what is new:
 
 ```bash
-docx-integrity check "out/**/*.docx" --against templates/master.docx \
-    --write-baseline           # writes .docx-integrity-baseline.json
-git add .docx-integrity-baseline.json
+ooxml-integrity check "out/**/*.docx" --against templates/master.docx \
+    --write-baseline           # writes .ooxml-integrity-baseline.json
+git add .ooxml-integrity-baseline.json
 ```
 
 The baseline records what the *checks* saw, before any config is applied — so
@@ -205,17 +211,17 @@ those would go stale the first time anything moved by a point.
 ### Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/docx-integrity@v0.2.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.3.0
   id: docs
   continue-on-error: true
   with:
     files: "out/**/*.docx"
     against: templates/master.docx
-    sarif: docx-integrity.sarif
+    sarif: ooxml-integrity.sarif
 
 - uses: github/codeql-action/upload-sarif@v3
   with:
-    sarif_file: docx-integrity.sarif
+    sarif_file: ooxml-integrity.sarif
 
 - run: exit ${{ steps.docs.outputs.exit-code }}
 ```
@@ -229,7 +235,7 @@ point of requiring a reason for every ignore.
 ### Decks: does the text fit?
 
 ```bash
-docx-integrity check deck.pptx
+ooxml-integrity check deck.pptx
 ```
 
 ```
@@ -567,7 +573,7 @@ rather than semantically:
 ## Repository layout
 
 ```
-src/docx_integrity/
+src/ooxml_integrity/
   inspector.py          .docx self-consistency
   fidelity.py           .docx losses relative to a source
   fonts.py              font resolution and text measurement

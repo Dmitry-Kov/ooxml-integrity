@@ -11,7 +11,7 @@ from __future__ import annotations
 import pytest
 from conftest import CAREFUL_RUNS, FAST_RUNS
 
-from docx_integrity import Severity, check, compare
+from ooxml_integrity import Severity, check, compare
 
 
 def all_findings(base, path):

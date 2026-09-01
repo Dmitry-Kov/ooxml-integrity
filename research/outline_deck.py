@@ -54,7 +54,7 @@ def outline(src: str = IN, dst: str = OUT) -> str:
 
 
 def same_findings(a: str, b: str) -> bool:
-    from docx_integrity import check_pptx
+    from ooxml_integrity import check_pptx
 
     def codes(p):
         return collections.Counter(f"{f.code} {f.where}" for f in check_pptx(p))

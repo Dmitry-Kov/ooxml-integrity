@@ -6,7 +6,7 @@ import json
 import pytest
 from conftest import read_part, repack, run_cli
 
-from docx_integrity.cli import EXIT_FINDINGS, EXIT_OK, EXIT_USAGE, main
+from ooxml_integrity.cli import EXIT_FINDINGS, EXIT_OK, EXIT_USAGE, main
 
 
 def test_clean_file_exits_zero(base_docx):
@@ -120,7 +120,7 @@ def test_main_is_importable_and_returns_codes(base_docx):
 def test_version_flag():
     r = run_cli("--version")
     assert r.returncode == EXIT_OK
-    assert "docx-integrity" in r.stdout
+    assert "ooxml-integrity" in r.stdout
 
 
 def test_comparison_against_a_corrupt_file_degrades_gracefully(

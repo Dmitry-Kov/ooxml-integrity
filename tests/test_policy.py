@@ -12,12 +12,12 @@ import json
 import pytest
 from conftest import read_part, repack, run_cli
 
-from docx_integrity import ERROR, INFO, WARN, Finding, Severity
-from docx_integrity.policy import (
+from ooxml_integrity import ERROR, INFO, WARN, Finding, Severity
+from ooxml_integrity.policy import (
     ConfigError, Ignore, Policy, apply_baseline, fingerprint, make_baseline,
     read_baseline,
 )
-from docx_integrity.sarif import build as build_sarif
+from ooxml_integrity.sarif import build as build_sarif
 
 DOC = "word/document.xml"
 
@@ -27,7 +27,7 @@ def F(code="PPT006", sev=WARN, where="slide3/A"):
 
 
 # ------------------------------------------------------------------- config
-def write_cfg(tmp_path, body, name=".docx-integrity.toml"):
+def write_cfg(tmp_path, body, name=".ooxml-integrity.toml"):
     p = tmp_path / name
     p.write_text(body, encoding="utf-8")
     return p
@@ -112,7 +112,7 @@ def test_path_matching_uses_shell_semantics(pattern, path, covered):
 
 def test_pyproject_section_is_read(tmp_path):
     (tmp_path / "pyproject.toml").write_text(
-        '[project]\nname = "x"\n\n[tool.docx-integrity]\nfail-on = "warn"\n',
+        '[project]\nname = "x"\n\n[tool.ooxml-integrity]\nfail-on = "warn"\n',
         encoding="utf-8")
     assert Policy.load(start=tmp_path).fail_on is Severity.WARN
 
@@ -127,7 +127,7 @@ def test_pyproject_without_our_section_is_not_treated_as_config(tmp_path):
 
 def test_a_standalone_config_wins_over_pyproject(tmp_path):
     (tmp_path / "pyproject.toml").write_text(
-        '[tool.docx-integrity]\nfail-on = "info"\n', encoding="utf-8")
+        '[tool.ooxml-integrity]\nfail-on = "info"\n', encoding="utf-8")
     write_cfg(tmp_path, 'fail-on = "warn"\n')
     assert Policy.load(start=tmp_path).fail_on is Severity.WARN
 
@@ -170,7 +170,7 @@ def test_a_missing_baseline_is_an_error(tmp_path):
 def test_a_file_that_is_not_a_baseline_is_refused(tmp_path):
     p = tmp_path / "b.json"
     p.write_text('{"hello": 1}', encoding="utf-8")
-    with pytest.raises(ConfigError, match="not a docx-integrity baseline"):
+    with pytest.raises(ConfigError, match="not a ooxml-integrity baseline"):
         read_baseline(p)
 
 
@@ -179,7 +179,7 @@ def test_sarif_is_shaped_as_the_schema_expects():
     doc = build_sarif({"a.docx": [F("CMT005", ERROR, "comment id=1")]})
     assert doc["version"] == "2.1.0"
     run = doc["runs"][0]
-    assert run["tool"]["driver"]["name"] == "docx-integrity"
+    assert run["tool"]["driver"]["name"] == "ooxml-integrity"
     assert [r["id"] for r in run["tool"]["driver"]["rules"]] == ["CMT005"]
     res = run["results"][0]
     assert res["ruleId"] == "CMT005"
@@ -218,7 +218,7 @@ def test_cli_config_lowers_a_rule_and_the_run_passes(tmp_path, base_docx, tmp_do
 
     # The codes come from the run rather than from my memory of which check
     # fires: an earlier version of this test guessed CMT005 and was wrong.
-    cfg = tmp_path / ".docx-integrity.toml"
+    cfg = tmp_path / ".ooxml-integrity.toml"
     cfg.write_text("[severity]\n"
                    + "".join(f'{c} = "off"\n' for c in codes),
                    encoding="utf-8")
@@ -261,7 +261,7 @@ def test_baseline_is_recorded_before_policy_is_applied(tmp_path, base_docx,
     fast = runs_dir / "t4_fast_fee" / "agreement.docx"
     if not fast.exists():
         pytest.skip("agent run output missing")
-    cfg = tmp_path / ".docx-integrity.toml"
+    cfg = tmp_path / ".ooxml-integrity.toml"
     cfg.write_text('[severity]\nCMT005 = "off"\n', encoding="utf-8")
     base = tmp_path / "b.json"
 
@@ -284,3 +284,27 @@ def test_cli_writes_sarif(tmp_path, base_docx, runs_dir):
     doc = json.loads(out.read_text())
     assert doc["version"] == "2.1.0"
     assert any(x["ruleId"] == "CMT005" for x in doc["runs"][0]["results"])
+
+
+def test_the_previous_config_filename_is_still_read(tmp_path):
+    """A rename on our side is not a reason for someone's config to stop working."""
+    (tmp_path / ".docx-integrity.toml").write_text(
+        'fail-on = "warn"\n', encoding="utf-8")
+    pol = Policy.load(start=tmp_path)
+    assert pol.fail_on is Severity.WARN
+    assert pol.source.endswith(".docx-integrity.toml")
+
+
+def test_the_new_config_filename_wins_over_the_old_one(tmp_path):
+    (tmp_path / ".docx-integrity.toml").write_text(
+        'fail-on = "info"\n', encoding="utf-8")
+    (tmp_path / ".ooxml-integrity.toml").write_text(
+        'fail-on = "warn"\n', encoding="utf-8")
+    assert Policy.load(start=tmp_path).fail_on is Severity.WARN
+
+
+def test_the_previous_pyproject_table_is_still_read(tmp_path):
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname = "x"\n\n[tool.docx-integrity]\nfail-on = "warn"\n',
+        encoding="utf-8")
+    assert Policy.load(start=tmp_path).fail_on is Severity.WARN

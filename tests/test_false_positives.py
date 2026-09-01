@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from conftest import read_part, repack
 
-from docx_integrity import Severity, check, compare
+from ooxml_integrity import Severity, check, compare
 
 W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
 

@@ -96,9 +96,9 @@ def build(results: dict[str, list[Finding]],
         "version": SARIF_VERSION,
         "runs": [{
             "tool": {"driver": {
-                "name": "docx-integrity",
+                "name": "ooxml-integrity",
                 "version": __version__,
-                "informationUri": "https://github.com/Dmitry-Kov/docx-integrity",
+                "informationUri": "https://github.com/Dmitry-Kov/ooxml-integrity",
                 "rules": [rules[k] for k in sorted(rules)],
             }},
             "results": out_results,

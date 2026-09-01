@@ -68,7 +68,7 @@ jobs:
         run: |
           python -c "
           import sys
-          from docx_integrity.fonts import measurement_available, resolve_face
+          from ooxml_integrity.fonts import measurement_available, resolve_face
           ok, detail = measurement_available()
           print('measurement available:', ok, '|', detail)
           bad = []
@@ -95,7 +95,7 @@ jobs:
         run: |
           python build_corpus.py
           cd ..
-          docx-integrity check corpus/base.docx --fail-on info
+          ooxml-integrity check corpus/base.docx --fail-on info
 
       # The deck is *designed* to contain defects, so the assertion is on which
       # defects come back, not on the exit code: a runner with no fonts reports
@@ -109,6 +109,54 @@ jobs:
           python build_pptx_corpus.py
           cd ..
           python research/assert_deck.py corpus/deck.pptx
+
+      # The deployability layer gets its own gate. It is the part other people's
+      # repositories depend on, and a suppression bug is silent by nature: the
+      # run goes green and the finding is simply gone.
+      - name: Suppression, baseline and SARIF survive a round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          work=$(mktemp -d)
+          cp runs/t4_fast_fee/agreement.docx "$work/"
+
+          # 1. fails by default
+          if ooxml-integrity check "$work/agreement.docx" --against corpus/base.docx \
+               --no-config; then
+            echo "::error::the fast agent run should fail the default threshold"
+            exit 1
+          fi
+
+          # 2. a baseline written from it makes the same run pass
+          ooxml-integrity check "$work/agreement.docx" --against corpus/base.docx \
+            --write-baseline "$work/base.json"
+          ooxml-integrity check "$work/agreement.docx" --against corpus/base.docx \
+            --baseline "$work/base.json"
+
+          # 3. a finding in a file the baseline never saw still fails. The same
+          #    content under a different path is a different fingerprint, which
+          #    is the property that keeps a baseline from becoming a blanket
+          #    "ignore this rule everywhere".
+          cp "$work/agreement.docx" "$work/another.docx"
+          if ooxml-integrity check "$work/another.docx" --against corpus/base.docx \
+               --baseline "$work/base.json"; then
+            echo "::error::a finding in an unlisted file was hidden by the baseline"
+            exit 1
+          fi
+
+          # 4. SARIF is written and parses, with the rule in it
+          ooxml-integrity check "$work/agreement.docx" --against corpus/base.docx \
+            --sarif "$work/out.sarif" --no-config || true
+          python - "$work/out.sarif" <<'PYEOF'
+          import json, sys
+          d = json.load(open(sys.argv[1]))
+          assert d["version"] == "2.1.0", d.get("version")
+          run = d["runs"][0]
+          assert run["tool"]["driver"]["name"] == "ooxml-integrity"
+          codes = {r["ruleId"] for r in run["results"]}
+          assert "CMT005" in codes, sorted(codes)
+          print(f"SARIF ok: {len(run['results'])} result(s), rules {sorted(codes)}")
+          PYEOF
 
       # Only the two fixtures were rebuilt, so only they are checked. Diffing
       # the whole tree also catches line-ending noise from checkout on Windows,
@@ -167,6 +215,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: docx-integrity-report
+          name: ooxml-integrity-report
           path: careful.json
           if-no-files-found: warn

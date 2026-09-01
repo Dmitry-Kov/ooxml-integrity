@@ -97,14 +97,14 @@ def _print_human(path: Path, findings: list[Finding], threshold: Severity,
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="docx-integrity",
+        prog="ooxml-integrity",
         description="Structural integrity checks for .docx files. "
                     "Answers 'will Word open this, and did the edit lose "
                     "anything', which schema validation and rendering do not.",
         epilog="exit codes: 0 clean, 1 findings at or above --fail-on, 2 usage error",
     )
     p.add_argument("--version", action="version",
-                   version=f"docx-integrity {__version__}")
+                   version=f"ooxml-integrity {__version__}")
     sub = p.add_subparsers(dest="command", required=True)
 
     c = sub.add_parser("check", help="inspect one or more .docx files")
@@ -121,8 +121,8 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--quiet", "-q", action="store_true",
                    help="print only findings at or above --fail-on")
     c.add_argument("--config", metavar="PATH", default=None,
-                   help="config file; by default .docx-integrity.toml or a "
-                        "[tool.docx-integrity] section in pyproject.toml, "
+                   help="config file; by default .ooxml-integrity.toml or a "
+                        "[tool.ooxml-integrity] section in pyproject.toml, "
                         "searched upwards from the working directory")
     c.add_argument("--no-config", action="store_true",
                    help="ignore any config file that would otherwise be found")
@@ -146,7 +146,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         policy = Policy() if args.no_config else Policy.load(args.config)
     except ConfigError as e:
-        print(f"docx-integrity: {e}", file=sys.stderr)
+        print(f"ooxml-integrity: {e}", file=sys.stderr)
         return EXIT_USAGE
 
     # An explicit --fail-on beats the config file; the config sets the default
@@ -156,23 +156,23 @@ def main(argv: list[str] | None = None) -> int:
         threshold = (Severity.parse(args.fail_on) if explicit_fail_on
                      else policy.fail_on)
     except ValueError as e:
-        print(f"docx-integrity: {e}", file=sys.stderr)
+        print(f"ooxml-integrity: {e}", file=sys.stderr)
         return EXIT_USAGE
 
     if args.against is not None and not args.against.exists():
-        print(f"docx-integrity: --against file not found: {args.against}",
+        print(f"ooxml-integrity: --against file not found: {args.against}",
               file=sys.stderr)
         return EXIT_USAGE
 
     paths, unmatched = _expand(args.files)
     if unmatched and not paths:
-        print("docx-integrity: no files matched: " + ", ".join(unmatched),
+        print("ooxml-integrity: no files matched: " + ", ".join(unmatched),
               file=sys.stderr)
         return EXIT_USAGE
     for pat in unmatched:
-        print(f"docx-integrity: warning: no files matched {pat}", file=sys.stderr)
+        print(f"ooxml-integrity: warning: no files matched {pat}", file=sys.stderr)
     if not paths:
-        print("docx-integrity: nothing to check", file=sys.stderr)
+        print("ooxml-integrity: nothing to check", file=sys.stderr)
         return EXIT_USAGE
 
     raw: dict[Path, list[Finding]] = {}
@@ -197,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             allowance = read_baseline(args.baseline)
         except ConfigError as e:
-            print(f"docx-integrity: {e}", file=sys.stderr)
+            print(f"ooxml-integrity: {e}", file=sys.stderr)
             return EXIT_USAGE
 
     results: dict[Path, list[Finding]] = {}

@@ -1,6 +1,6 @@
 """Assert the reference deck still reports exactly the defects it was built with.
 
-Why this exists rather than a bare `docx-integrity check corpus/deck.pptx`:
+Why this exists rather than a bare `ooxml-integrity check corpus/deck.pptx`:
 the exit code alone is a bad assertion for CI. If the runner has no usable
 fonts, every paragraph is skipped, PPT001 degrades from error to warning, and
 the command exits 0 - so a check that only looks at the exit code passes an
@@ -20,8 +20,8 @@ import collections
 import sys
 from pathlib import Path
 
-from docx_integrity import check_pptx
-from docx_integrity.fonts import measurement_available
+from ooxml_integrity import check_pptx
+from ooxml_integrity.fonts import measurement_available
 
 #: What the committed deck is built to contain. Each shape in
 #: research/build_pptx_corpus.py is named for its expected verdict, so this

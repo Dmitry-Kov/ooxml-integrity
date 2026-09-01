@@ -40,14 +40,17 @@ from typing import Any, Iterable
 
 from .finding import Finding, Severity
 
-#: File names looked for, in order, when no config is given explicitly.
-CONFIG_NAMES = (".docx-integrity.toml", "pyproject.toml")
+#: File names looked for, in order, when no config is given explicitly. The
+#: `.docx-integrity.toml` spelling is the name this project shipped under before
+#: it also checked decks; it is still read, because a rename on our side is not
+#: a reason for someone else's config to stop working.
+CONFIG_NAMES = (".ooxml-integrity.toml", ".docx-integrity.toml", "pyproject.toml")
 
 #: Where a baseline is written by default.
-DEFAULT_BASELINE = ".docx-integrity-baseline.json"
+DEFAULT_BASELINE = ".ooxml-integrity-baseline.json"
 
-#: Only the section under this key is read out of pyproject.toml.
-PYPROJECT_TABLE = ("tool", "docx-integrity")
+#: Tables read out of pyproject.toml, in order. Same reasoning as above.
+PYPROJECT_TABLES = (("tool", "ooxml-integrity"), ("tool", "docx-integrity"))
 
 #: `off` is not a Severity: it means the finding is dropped, not downgraded.
 OFF = "off"
@@ -147,14 +150,21 @@ class Policy:
 
     @classmethod
     def _from_file(cls, path: Path, required: bool = True) -> "Policy | None":
-        data = _load_toml(path)
+        raw = _load_toml(path)
+        data = raw
         if path.name == "pyproject.toml":
-            for key in PYPROJECT_TABLE:
-                data = data.get(key, {}) if isinstance(data, dict) else {}
+            data = {}
+            for table in PYPROJECT_TABLES:
+                node = raw
+                for key in table:
+                    node = node.get(key, {}) if isinstance(node, dict) else {}
+                if node:
+                    data = node
+                    break
             if not data:
                 if required:
                     raise ConfigError(
-                        f"{path} has no [tool.docx-integrity] section")
+                        f"{path} has no [tool.ooxml-integrity] section")
                 return None
         return cls._from_dict(data, source=str(path))
 
@@ -256,7 +266,7 @@ def read_baseline(path: str | os.PathLike) -> dict[str, int]:
     with open(p, encoding="utf-8") as fh:
         data = json.load(fh)
     if not isinstance(data, dict) or "findings" not in data:
-        raise ConfigError(f"{p} is not a docx-integrity baseline")
+        raise ConfigError(f"{p} is not a ooxml-integrity baseline")
     return {str(k): int(v) for k, v in data["findings"].items()}
 
 

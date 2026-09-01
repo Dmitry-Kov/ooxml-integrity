@@ -83,6 +83,6 @@ def read_part(path: Path, part: str) -> str:
 def run_cli(*args: str) -> subprocess.CompletedProcess:
     """Invoke the CLI the way a user would, in its own process."""
     return subprocess.run(
-        [sys.executable, "-m", "docx_integrity.cli", *args],
+        [sys.executable, "-m", "ooxml_integrity.cli", *args],
         capture_output=True, text=True, cwd=ROOT,
     )

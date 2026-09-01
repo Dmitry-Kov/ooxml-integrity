@@ -20,9 +20,9 @@ import argparse
 import os
 import sys
 
-from docx_integrity import check_pptx
-from docx_integrity.fonts import measurement_available, resolve_face
-from docx_integrity.pptx_layout import layout_shape, read_deck
+from ooxml_integrity import check_pptx
+from ooxml_integrity.fonts import measurement_available, resolve_face
+from ooxml_integrity.pptx_layout import layout_shape, read_deck
 
 DECK = os.environ.get("DI_PPTX", "../corpus/deck.pptx")
 

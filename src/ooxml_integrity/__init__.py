@@ -1,5 +1,5 @@
 """
-docx-integrity - structural integrity checks for .docx files.
+ooxml-integrity - structural integrity checks for .docx files.
 
 Two questions, both needed:
 
@@ -13,7 +13,7 @@ repository rather than only in this one.
 
 None of them needs a model, a renderer, or the network.
 
-    >>> from docx_integrity import check, compare
+    >>> from ooxml_integrity import check, compare
     >>> for f in check("edited.docx"):
     ...     print(f)
     >>> for f in compare("original.docx", "edited.docx"):
@@ -25,7 +25,7 @@ from .inspector import Inspector, check, check_many
 from .policy import Policy
 from .pptx_checks import check_pptx
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "check",
