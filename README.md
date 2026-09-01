@@ -153,7 +153,7 @@ for f in compare("original.docx", "edited.docx"):
 ### In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.3.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.3.1
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -220,7 +220,7 @@ those would go stale the first time anything moved by a point.
 ### Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.3.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.3.1
   id: docs
   continue-on-error: true
   with:
@@ -557,7 +557,7 @@ The codes are stable, so they are safe to grep for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 90 tests, and the three most useful ones are regressions for false
+The suite has 135 tests, and the three most useful ones are regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken
@@ -584,13 +584,19 @@ rather than semantically:
 ```
 src/ooxml_integrity/
   inspector.py          .docx self-consistency
-  fidelity.py           .docx losses relative to a source
+  fidelity.py           .docx losses relative to a source, by count and by text
   fonts.py              font resolution and text measurement
   pptx_layout.py        property inheritance and line layout for decks
   pptx_checks.py        .pptx overflow, overlap, off-canvas
+  policy.py             config, path-scoped ignores, baseline
+  sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
-tests/                  90 tests, including the false-positive regressions
-research/               the experiments: corpus builders, mutators, calibration
+  __main__.py           so `python -m ooxml_integrity` works without PATH
+tests/                  135 tests, including the false-positive regressions
+research/               the experiments: corpus builders, mutators, calibration,
+                        renderer comparison, the PowerPoint checklist
+docs/                   the PowerPoint validation, raw calibration numbers,
+                        a worked example config
 corpus/base.docx        the reference document, byte-reproducible
 corpus/deck.pptx        the reference deck, ground truth in the shape names
 runs/                   eight real agent outputs, used as fixtures
