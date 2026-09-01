@@ -106,7 +106,7 @@ only to read the config file), Python 3.9+. No model calls, no rendering, no
 network.
 
 If `ooxml-integrity` is not found after installing, pip put the console script
-in a directory that is not on your PATH — it warns about this. `python -m
+in a directory that is not on your PATH — it warns about this. `python3 -m
 ooxml_integrity` works anywhere, with no shell config to edit, and is
 unambiguous about which interpreter's install you are running.
 
