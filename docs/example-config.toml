@@ -1,0 +1,60 @@
+# .docx-integrity.toml - copy into the root of a repository and edit.
+#
+# The same keys work under [tool.docx-integrity] in pyproject.toml. A standalone
+# file wins if both exist. The search walks upwards from the working directory,
+# so a monorepo can put one file at the top.
+
+# Minimum severity that fails the run. An explicit --fail-on on the command line
+# still wins, so CI can be stricter than a developer's local run.
+fail-on = "error"
+
+
+# ---------------------------------------------------------------------------
+# Severity overrides: this rule is wrong FOR US.
+#
+# Use when a rule systematically does not apply to a project. `off` drops the
+# finding; anything else re-grades it.
+[severity]
+
+# Shapes overlap deliberately in our template, so the geometry warning is noise.
+PPT006 = "off"
+
+# We do care about edge whitespace, more than the default.
+TXT001 = "error"
+
+
+# ---------------------------------------------------------------------------
+# Ignores: this rule is wrong HERE.
+#
+# Narrower than an override - a code plus a path glob. `reason` is required:
+# a suppression whose justification lives in someone's memory is one nobody can
+# review a year later.
+#
+# Globs use shell semantics: `*` stays inside one path segment, `**` crosses
+# directories, and a trailing `/` means everything underneath.
+
+[[ignore]]
+code = "PPT004"
+path = "decks/social/**"
+reason = "these are cropped intentionally for Instagram export"
+
+[[ignore]]
+code = "FID002"
+path = "out/generated/*.docx"
+reason = "the generator adds a boilerplate clause by design"
+
+
+# ---------------------------------------------------------------------------
+# Not configured here: the baseline. That is a separate file, because it is
+# generated rather than written:
+#
+#     docx-integrity check "out/**/*.docx" --against templates/master.docx \
+#         --write-baseline
+#
+# Commit the result and pass --baseline. The run then fails only on findings
+# that are not in it. Regenerate after fixing some, so the file shrinks as the
+# repository improves.
+#
+# A baseline says "we know, not today". An override says "this rule is wrong for
+# us". An ignore says "this rule is wrong here". Keep them apart - collapsing
+# them into one switch loses which of the three anyone meant.

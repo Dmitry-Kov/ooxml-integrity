@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.2.0
+
+The first release aimed at somebody else's repository rather than at this
+experiment. Everything before it answered "what is wrong with this file"; this
+answers the question a person hits ten minutes after adding the check to a real
+project - *how do I turn off the one rule that does not apply to us, without
+turning off the tool?*
+
+### Added
+- **Config** in `.docx-integrity.toml`, or `[tool.docx-integrity]` in
+  `pyproject.toml`, found by walking upwards from the working directory.
+  `fail-on` sets the default threshold; `[severity]` re-grades a rule or turns
+  it `off`.
+- **Path-scoped ignores**, with a **required** `reason`. A suppression whose
+  justification lives in someone's memory cannot be reviewed a year later, so a
+  config without one is refused rather than accepted quietly. Globs use shell
+  semantics - `*` stays inside a path segment, which `fnmatch` alone gets wrong.
+- **Baseline**: `--write-baseline` records what a repository already reports,
+  `--baseline` then fails only on what is new. Three deliberate properties:
+  it is written from what the *checks* saw rather than from what config allowed,
+  so changing the config later cannot resurrect old findings as fake
+  regressions; it counts occurrences instead of storing a set, so a second
+  overflow in a shape that had one is still new; and its fingerprints exclude
+  the message, because messages carry measurements and a baseline keyed on
+  those goes stale the first time anything moves by a point.
+- **SARIF 2.1.0** via `--sarif`, so findings become annotations in a pull
+  request instead of lines in a log nobody opens. Suppressed findings are
+  emitted too, marked suppressed with their reason - a report that omits them
+  cannot be audited, which would defeat the point of requiring a reason.
+- `--show-suppressed` prints what was hidden and why; `--no-config` ignores any
+  config that would be found.
+- The GitHub Action gained `config`, `baseline` and `sarif` inputs, and a
+  `sarif` output.
+- `docs/example-config.toml` - a worked config that explains when to reach for
+  an override, an ignore, or a baseline. They are kept separate on purpose:
+  "this rule is wrong for us", "this rule is wrong here" and "we know, not
+  today" are three different statements, and one switch for all three loses
+  which was meant.
+- CI gates the new layer end to end - default run fails, baseline makes it pass,
+  the same content at a different path still fails, SARIF parses. A suppression
+  bug is silent by nature: the run goes green and the finding is simply gone.
+
+### Changed
+- `tomli` is a dependency on Python 3.10 and older, only to read the config
+  file. 3.11+ uses `tomllib` from the standard library.
+- `Policy` is exported from the package, so an API user gets the same
+  suppression semantics as the CLI rather than reimplementing them.
+
 ## 0.1.3
 
 ### Fixed

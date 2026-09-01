@@ -7,6 +7,10 @@ Two questions, both needed:
     compare(source, edited)   what did the edit lose relative to the source?
     check_pptx(path)          does this deck's text fit, and do shapes collide?
 
+`Policy` carries a project's config - severity overrides, path-scoped ignores,
+`fail-on` - and is what makes the checks deployable in someone else's
+repository rather than only in this one.
+
 None of them needs a model, a renderer, or the network.
 
     >>> from docx_integrity import check, compare
@@ -18,9 +22,10 @@ None of them needs a model, a renderer, or the network.
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
+from .policy import Policy
 from .pptx_checks import check_pptx
 
-__version__ = "0.1.3"
+__version__ = "0.2.0"
 
 __all__ = [
     "check",
@@ -36,5 +41,6 @@ __all__ = [
     "summarize",
     "worst",
     "TRACKED",
+    "Policy",
     "__version__",
 ]

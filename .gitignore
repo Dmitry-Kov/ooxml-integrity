@@ -21,3 +21,6 @@ POWERPOINT_CHECK*.md
 # in docs/calibration/ and are committed deliberately.
 /calib-*.json
 /probe-*.pdf
+
+# Generated reports. A baseline is meant to be committed; a SARIF report is not.
+*.sarif

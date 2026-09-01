@@ -95,7 +95,8 @@ markup.
 pip install docx-integrity
 ```
 
-Two dependencies (`lxml`, `fonttools`), Python 3.9+. No model calls, no
+Two dependencies (`lxml`, `fonttools`; plus `tomli` on Python 3.10 and older,
+only to read the config file), Python 3.9+. No model calls, no
 rendering, no network.
 
 **Did this file survive editing?**
@@ -137,7 +138,7 @@ for f in compare("original.docx", "edited.docx"):
 ### In CI
 
 ```yaml
-- uses: Dmitry-Kov/docx-integrity@v0.1.2
+- uses: Dmitry-Kov/docx-integrity@v0.2.0
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -145,12 +146,85 @@ for f in compare("original.docx", "edited.docx"):
 ```
 
 The action writes a summary to the job page and can emit a JSON report as a
-build artifact. Inputs: `files`, `against`, `fail-on`, `version`, `source`,
-`python-version`, `json-report`. Outputs: `exit-code`, `errors`, `warnings`.
+build artifact. Inputs: `files`, `against`, `fail-on`, `config`, `baseline`,
+`sarif`, `version`, `source`, `python-version`, `json-report`. Outputs:
+`exit-code`, `errors`, `warnings`, `sarif`.
 
 Use it on the step *after* anything that edits documents programmatically — a
 generation script, an agent, a template merge. That is where these defects come
 from, and it is the only place they are still cheap to find.
+
+### Adopting it in a repository that already has findings
+
+Nobody fixes two hundred findings before they are allowed to gate the next
+commit, and a rule that cannot be turned off gets the whole tool turned off
+instead. Three mechanisms, deliberately kept separate, because each answers a
+different question:
+
+**"This rule is wrong for us."** A severity override in `.docx-integrity.toml`
+(or `[tool.docx-integrity]` in `pyproject.toml`):
+
+```toml
+fail-on = "error"
+
+[severity]
+PPT006 = "off"      # shapes overlap by design in our template
+TXT001 = "error"    # and we care about this one more than the default
+```
+
+**"This rule is wrong here."** An ignore, scoped to a path glob. `reason` is
+required — a suppression whose justification lives in someone's memory is one
+nobody can review a year later:
+
+```toml
+[[ignore]]
+code = "PPT004"
+path = "decks/social/**"
+reason = "these are cropped intentionally for Instagram export"
+```
+
+**"We know, not today."** A baseline. Record what the repository already reports,
+then fail only on what is new:
+
+```bash
+docx-integrity check "out/**/*.docx" --against templates/master.docx \
+    --write-baseline           # writes .docx-integrity-baseline.json
+git add .docx-integrity-baseline.json
+```
+
+The baseline records what the *checks* saw, before any config is applied — so
+changing the config later cannot make old findings reappear as fake regressions.
+It counts occurrences rather than storing a set, so a second overflow in a shape
+that had one is still new. And its fingerprints exclude the message, because
+messages carry measurements (`needs 118pt in a 48pt box`) and a baseline keyed on
+those would go stale the first time anything moved by a point.
+
+`--show-suppressed` prints what was hidden and why. A full worked config is in
+[`docs/example-config.toml`](docs/example-config.toml).
+
+### Findings in the pull request, not in a log
+
+```yaml
+- uses: Dmitry-Kov/docx-integrity@v0.2.0
+  id: docs
+  continue-on-error: true
+  with:
+    files: "out/**/*.docx"
+    against: templates/master.docx
+    sarif: docx-integrity.sarif
+
+- uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: docx-integrity.sarif
+
+- run: exit ${{ steps.docs.outputs.exit-code }}
+```
+
+A failing job puts a message in a log that somebody has to go and open. A SARIF
+report puts the finding in the review, where the person who caused it is already
+looking. Suppressed findings are still in the report, marked suppressed with
+their reason, so the file remains auditable — omitting them would defeat the
+point of requiring a reason for every ignore.
 
 ### Decks: does the text fit?
 

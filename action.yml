@@ -50,8 +50,33 @@ inputs:
       no file. Useful as a build artifact.
     required: false
     default: ""
+  config:
+    description: >-
+      Config file. Empty uses the default search: .docx-integrity.toml or a
+      [tool.docx-integrity] section in pyproject.toml, upwards from the working
+      directory. Set to "none" to ignore any config that would be found.
+    required: false
+    default: ""
+  baseline:
+    description: >-
+      Fail only on findings absent from this baseline file. This is how an
+      existing repository adopts the check without fixing everything first:
+      generate it once with `docx-integrity check ... --write-baseline`, commit
+      it, and the step then gates new findings only.
+    required: false
+    default: ""
+  sarif:
+    description: >-
+      Path to write a SARIF 2.1.0 report to, e.g. "docx-integrity.sarif". Upload
+      it with github/codeql-action/upload-sarif to get findings as annotations
+      in the pull request instead of lines in a log.
+    required: false
+    default: ""
 
 outputs:
+  sarif:
+    description: "Path of the SARIF report, when `sarif` was set."
+    value: ${{ inputs.sarif }}
   exit-code:
     description: "0 clean, 1 findings at or above fail-on."
     value: ${{ steps.run.outputs.exit-code }}
@@ -94,6 +119,14 @@ runs:
           args+=(--against "${{ inputs.against }}")
         fi
         args+=(--fail-on "${{ inputs.fail-on }}")
+        if [ "${{ inputs.config }}" = "none" ]; then
+          args+=(--no-config)
+        elif [ -n "${{ inputs.config }}" ]; then
+          args+=(--config "${{ inputs.config }}")
+        fi
+        if [ -n "${{ inputs.baseline }}" ]; then
+          args+=(--baseline "${{ inputs.baseline }}")
+        fi
 
         # Human-readable output into the log and the job summary.
         set +e
@@ -101,8 +134,13 @@ runs:
         code=${PIPESTATUS[0]}
         set -e
 
-        # A second pass for machine-readable counts. Cheap: no rendering, no model.
-        docx-integrity check "${args[@]}" --json > /tmp/di.json || true
+        # A second pass for machine-readable counts, and the SARIF report in the
+        # same pass. Cheap: no rendering, no model calls, no network.
+        sarif_args=()
+        if [ -n "${{ inputs.sarif }}" ]; then
+          sarif_args+=(--sarif "${{ inputs.sarif }}")
+        fi
+        docx-integrity check "${args[@]}" "${sarif_args[@]}" --json > /tmp/di.json || true
         errors=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['error'] for f in d['files']))")
         warnings=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['warn'] for f in d['files']))")
 

@@ -18,7 +18,12 @@ from . import __version__
 from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
+from .policy import (
+    ConfigError, DEFAULT_BASELINE, Policy, apply_baseline, make_baseline,
+    read_baseline,
+)
 from .pptx_checks import check_pptx
+from .sarif import build as build_sarif
 
 EXIT_OK, EXIT_FINDINGS, EXIT_USAGE = 0, 1, 2
 
@@ -115,6 +120,23 @@ def build_parser() -> argparse.ArgumentParser:
                    help="machine-readable output on stdout")
     c.add_argument("--quiet", "-q", action="store_true",
                    help="print only findings at or above --fail-on")
+    c.add_argument("--config", metavar="PATH", default=None,
+                   help="config file; by default .docx-integrity.toml or a "
+                        "[tool.docx-integrity] section in pyproject.toml, "
+                        "searched upwards from the working directory")
+    c.add_argument("--no-config", action="store_true",
+                   help="ignore any config file that would otherwise be found")
+    c.add_argument("--baseline", metavar="PATH", nargs="?",
+                   const=DEFAULT_BASELINE, default=None,
+                   help=f"fail only on findings not in this baseline "
+                        f"(default file: {DEFAULT_BASELINE})")
+    c.add_argument("--write-baseline", metavar="PATH", nargs="?",
+                   const=DEFAULT_BASELINE, default=None,
+                   help="record the current findings as accepted and exit 0")
+    c.add_argument("--sarif", metavar="PATH", default=None,
+                   help="write a SARIF 2.1.0 report for code-scanning upload")
+    c.add_argument("--show-suppressed", action="store_true",
+                   help="also print what config or the baseline hid, and why")
     return p
 
 
@@ -122,7 +144,17 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
     try:
-        threshold = Severity.parse(args.fail_on)
+        policy = Policy() if args.no_config else Policy.load(args.config)
+    except ConfigError as e:
+        print(f"docx-integrity: {e}", file=sys.stderr)
+        return EXIT_USAGE
+
+    # An explicit --fail-on beats the config file; the config sets the default
+    # so a project does not have to repeat itself in every CI invocation.
+    explicit_fail_on = any(a.startswith("--fail-on") for a in (argv or sys.argv[1:]))
+    try:
+        threshold = (Severity.parse(args.fail_on) if explicit_fail_on
+                     else policy.fail_on)
     except ValueError as e:
         print(f"docx-integrity: {e}", file=sys.stderr)
         return EXIT_USAGE
@@ -143,20 +175,64 @@ def main(argv: list[str] | None = None) -> int:
         print("docx-integrity: nothing to check", file=sys.stderr)
         return EXIT_USAGE
 
-    results: dict[Path, list[Finding]] = {}
+    raw: dict[Path, list[Finding]] = {}
     for path in paths:
-        results[path] = _run_one(path, args.against)
+        raw[path] = _run_one(path, args.against)
+
+    # --write-baseline records what the checks actually saw, before any policy:
+    # a baseline built from already-filtered findings would silently bake the
+    # config in, and changing the config later would then look like regressions.
+    if args.write_baseline:
+        doc = make_baseline({str(p): f for p, f in raw.items()})
+        with open(args.write_baseline, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
+        total = sum(doc["findings"].values())
+        print(f"wrote {args.write_baseline}: {total} finding(s) from "
+              f"{len(raw)} file(s) recorded as accepted")
+        return EXIT_OK
+
+    allowance: dict[str, int] | None = None
+    if args.baseline:
+        try:
+            allowance = read_baseline(args.baseline)
+        except ConfigError as e:
+            print(f"docx-integrity: {e}", file=sys.stderr)
+            return EXIT_USAGE
+
+    results: dict[Path, list[Finding]] = {}
+    hidden: dict[Path, list[tuple[Finding, str]]] = {}
+    for path, findings in raw.items():
+        kept, dropped = policy.apply(str(path), findings)
+        if allowance is not None:
+            kept, base_dropped = apply_baseline(str(path), kept, allowance)
+            dropped = dropped + base_dropped
+        results[path] = kept
+        hidden[path] = dropped
+
+    if args.sarif:
+        doc = build_sarif({str(p): f for p, f in results.items()},
+                          {str(p): d for p, d in hidden.items()})
+        with open(args.sarif, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
 
     if args.json:
         payload = {
             "version": __version__,
             "fail_on": threshold.value,
+            "config": policy.source or None,
+            "baseline": args.baseline,
             "files": [
                 {
                     "path": str(p),
                     "summary": summarize(f),
                     "worst": (w.value if (w := worst(f)) else None),
                     "findings": [x.as_dict() for x in f],
+                    "suppressed": [
+                        {**x.as_dict(), "suppressed_because": why}
+                        for x, why in hidden.get(p, [])
+                    ],
                 }
                 for p, f in results.items()
             ],
@@ -168,6 +244,18 @@ def main(argv: list[str] | None = None) -> int:
             if i:
                 print()
             _print_human(p, f, threshold, args.quiet, sys.stdout)
+            if args.show_suppressed and hidden.get(p):
+                for x, why in hidden[p]:
+                    print(f"  [hidden] {x.code}  {why}")
+        n = sum(len(v) for v in hidden.values())
+        if n and not args.show_suppressed:
+            print(f"\n{n} finding(s) suppressed by "
+                  + " and ".join(
+                      x for x in (
+                          f"config ({policy.source})" if policy.source else "",
+                          f"baseline ({args.baseline})" if args.baseline else "",
+                      ) if x)
+                  + ". Re-run with --show-suppressed to see them.")
 
     failed = any(
         f.severity >= threshold for findings in results.values() for f in findings

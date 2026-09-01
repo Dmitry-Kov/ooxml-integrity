@@ -75,7 +75,8 @@ def test_json_output_is_valid_and_shaped(runs_dir, base_docx):
     assert payload["fail_on"] == "error"
     assert len(payload["files"]) == 1
     f = payload["files"][0]
-    assert set(f) == {"path", "summary", "worst", "findings"}
+    assert set(f) == {"path", "summary", "worst", "findings", "suppressed"}
+    assert f["suppressed"] == [], "nothing should be suppressed without config"
     assert f["worst"] == "error"
     assert f["summary"]["error"] >= 1
     assert any(x["code"] == "CMT005" for x in f["findings"])
