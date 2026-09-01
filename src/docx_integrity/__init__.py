@@ -20,7 +20,7 @@ from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
 from .pptx_checks import check_pptx
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 __all__ = [
     "check",

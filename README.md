@@ -104,9 +104,8 @@ rendering, no network.
 docx-integrity check report.docx
 ```
 
-**What did the edit lose?** The question no other tool asks — and the one that
-catches a document stripped of everything, which is otherwise perfectly
-self-consistent:
+**What did the edit lose?** The second question, and the one that catches a
+document stripped of everything, which is otherwise perfectly self-consistent:
 
 ```bash
 docx-integrity check edited.docx --against original.docx
@@ -427,7 +426,8 @@ defects still caught, zero false positives across the eight agent runs.
 | `TBL001-002`| `tblGrid` present; cells per row vs grid columns, accounting for `gridSpan`                                   |
 | `SDT001-002`| content-control integrity                                                                                    |
 | `TXT001`    | edge whitespace in runs without `xml:space="preserve"`                                                       |
-| `FID001-003`| losses and additions relative to the source; drop in text volume                                             |
+| `FID001-003`| losses and additions relative to the source, by construct count; drop in text volume                          |
+| `FID004-006`| a comment, footnote or endnote whose **text** is in the source and in the edited file under no id at all       |
 
 And for `.pptx`:
 
@@ -503,6 +503,9 @@ Read these before citing any number here.
 - **Word for Mac only.** The screenshot is Word for Mac. Word for Windows is not
   tested, and neither is ONLYOFFICE as a third renderer. Cross-renderer
   divergence is likely and is not characterised here.
+- **Neighbouring tools are described from their documentation, not from
+  running them.** `OfficeCLI` and `docx-mcp` are summarised in Prior work from
+  their own READMEs and command help. Before quoting any comparison, run them.
 - **`OfficeCLI` not compared.** Its `validate` command is schema-only by its own
   documentation, and `view issues` covers text overflow, contrast, alt text and
   inconsistent fonts — no overlap with the defects here. That should be confirmed
@@ -550,6 +553,15 @@ Read these before citing any number here.
 - [adeu](https://github.com/dealfluence/adeu), safe-docx, docx-redline-js — the
   small ecosystem of tools attempting faithful docx editing. None ships a
   conformance suite, so nobody can say which of them is safe.
+- [docx-mcp](https://github.com/sontanon/docx-mcp) — the closest overlap, and
+  worth being precise about. It is a redlining *engine*: it applies AI-generated
+  changes as tracked changes and comments, and ships `validate` and `audit`
+  commands that check annotation-id isolation, comment integrity and package
+  consistency. So the self-consistency half of this repo is not unique. Two
+  things differ. It has no source-to-output comparison, which is where the
+  defects that leave a self-consistent file live. And it *rejects* documents that
+  already contain `w:ins` / `w:del` — which is exactly the case this repo is
+  about, a contract already carrying counsel's unaccepted changes.
 
 ---
 

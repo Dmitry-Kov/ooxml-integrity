@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.1.3
+
+### Fixed
+- **The fidelity check counted constructs, so a swapped comment was invisible.**
+  Remove one comment and add another and every count matches; because the anchor
+  and the `comments.xml` entry go together, nothing is orphaned either, so the
+  self-consistency half is silent too. The tool reported such a file as
+  `0 error(s), 0 warning(s), 0 info - clean` while the reviewer's note had been
+  destroyed - the exact defect this project exists to catch, missed by its own
+  check.
+
+  `FID004` / `FID005` / `FID006` now compare the **body text** of every comment,
+  footnote and endnote in the source against the edited file, as a multiset, so
+  losing one of two identically worded items is still a loss. Matching is on
+  normalised text rather than on id: ids get renumbered legitimately, and it is
+  the reviewer's sentence that either survived or did not.
+
+  Found by an outside review of the arithmetic, not by the 99 tests. The
+  reproduction is now `tests/test_fidelity.py::
+  test_a_swapped_comment_is_caught_even_though_counts_match`, which asserts up
+  front that no count changes - so it cannot quietly stop testing what it
+  claims to. Verified against all eight real agent runs, including the two that
+  rewrote paragraphs wholesale: no false positives.
+
+### Added
+- `research/calibrate_pptx.py` takes `--renderer` (`soffice`, `x2t`, or a path),
+  `--json`, and a `--build-probe` / `--from-pdf` pair for renderers with no
+  usable command line: it writes one deck with a single shape per slide, so a
+  PDF exported by hand from a GUI can be measured page by page with no
+  attribution guesswork. The new path was cross-checked against the old one on
+  the same renderer - identical numbers on all 24 shapes.
+
+### Changed
+- Prior work names `docx-mcp` as the closest overlap and says precisely where it
+  overlaps and where it does not, and the README no longer describes the
+  source-comparison question as one no other tool asks.
+
 ## 0.1.2
 
 Both fixes in this release were found by the CI matrix on its first real run,
