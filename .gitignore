@@ -16,3 +16,8 @@ POWERPOINT_CHECK*.md
 
 # Office owner-lock files, left behind while a document is open
 ~$*
+
+# Scratch calibration output at the repo root. The versions worth keeping live
+# in docs/calibration/ and are committed deliberately.
+/calib-*.json
+/probe-*.pdf

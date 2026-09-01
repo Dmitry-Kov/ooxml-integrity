@@ -1,0 +1,253 @@
+{
+  "renderer": "LibreOffice (soffice)",
+  "deck": "../corpus/deck.pptx",
+  "line_count": {
+    "exact": 23,
+    "off_by_one": 1,
+    "total": 24
+  },
+  "pitch_delta_median": 0.00046896982960894286,
+  "pitch_delta_worst": 0.0005948839976171774,
+  "shapes": [
+    {
+      "shape": "FIT_one_short_line",
+      "slide": 1,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 24.0,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_wrapped_paragraph",
+      "slide": 1,
+      "lines_predicted": 3,
+      "lines_rendered": 3,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809499999999957,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVER_paragraph_in_small_box",
+      "slide": 1,
+      "lines_predicted": 7,
+      "lines_rendered": 7,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809499999999986,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVER_huge_type_tiny_box",
+      "slide": 1,
+      "lines_predicted": 3,
+      "lines_rendered": 3,
+      "pitch_predicted": 48.0,
+      "pitch_rendered": 47.9905,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_generous_box",
+      "slide": 1,
+      "lines_predicted": 3,
+      "lines_rendered": 3,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809499999999957,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVER_nowrap_single_line",
+      "slide": 2,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_nowrap_short",
+      "slide": 2,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVER_fat_insets",
+      "slide": 2,
+      "lines_predicted": 4,
+      "lines_rendered": 4,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809000000000026,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_zero_insets",
+      "slide": 2,
+      "lines_predicted": 3,
+      "lines_rendered": 3,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809499999999957,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_two_lines_of_four",
+      "slide": 2,
+      "lines_predicted": 2,
+      "lines_rendered": 2,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": 16.809999999999945,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVERLAP_lower_left",
+      "slide": 3,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVERLAP_upper_right",
+      "slide": 3,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_clear_of_others",
+      "slide": 3,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OFFCANVAS_right",
+      "slide": 3,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OFFCANVAS_bottom",
+      "slide": 3,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 16.8,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "AUTOFIT_shrink_text",
+      "slide": 4,
+      "lines_predicted": 6,
+      "lines_rendered": 6,
+      "pitch_predicted": 21.599999999999998,
+      "pitch_rendered": 21.600000000000023,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "AUTOFIT_grow_shape",
+      "slide": 4,
+      "lines_predicted": 6,
+      "lines_rendered": 6,
+      "pitch_predicted": 21.599999999999998,
+      "pitch_rendered": 21.600000000000023,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "OVER_no_autofit_same_text",
+      "slide": 4,
+      "lines_predicted": 6,
+      "lines_rendered": 6,
+      "pitch_predicted": 21.599999999999998,
+      "pitch_rendered": 21.600000000000023,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_middle_anchored",
+      "slide": 4,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_mixed_run_sizes",
+      "slide": 5,
+      "lines_predicted": 2,
+      "lines_rendered": 3,
+      "pitch_predicted": 38.4,
+      "pitch_rendered": 16.522891999999985,
+      "uniform_size": false,
+      "confident": true
+    },
+    {
+      "shape": "OVER_hard_breaks",
+      "slide": 5,
+      "lines_predicted": 5,
+      "lines_rendered": 5,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": 19.190999999999974,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_hard_breaks_room",
+      "slide": 5,
+      "lines_predicted": 5,
+      "lines_rendered": 5,
+      "pitch_predicted": 19.2,
+      "pitch_rendered": 19.190999999999974,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_bold_narrow",
+      "slide": 5,
+      "lines_predicted": 1,
+      "lines_rendered": 1,
+      "pitch_predicted": 28.799999999999997,
+      "pitch_rendered": null,
+      "uniform_size": true,
+      "confident": true
+    },
+    {
+      "shape": "FIT_unknown_font",
+      "slide": 5,
+      "lines_predicted": 2,
+      "lines_rendered": 2,
+      "pitch_predicted": 21.599999999999998,
+      "pitch_rendered": 21.600000000000023,
+      "uniform_size": true,
+      "confident": false
+    }
+  ]
+}

@@ -1,8 +1,10 @@
-# The overflow model against real PowerPoint
+# The overflow model against real renderers
 
-The `.pptx` layout model was calibrated against LibreOffice (`research/calibrate_pptx.py`)
-and, until this check, never against the renderer the documents are actually made
-for. This is that check.
+The `.pptx` layout model was calibrated against LibreOffice
+(`research/calibrate_pptx.py`) and, until this check, never against the renderer
+the documents are actually made for. This is that check, and then two more
+engines measured numerically alongside it. The raw per-shape numbers are in
+[`docs/calibration/`](calibration/).
 
 ## Setup
 
@@ -121,6 +123,50 @@ currently answers differently:
 Neither is changed yet, because one platform on open is not enough to move a
 severity. What would settle it: the same deck in Slide Show mode (does an
 audience see the overflow?), and PowerPoint for Windows.
+
+## A third and fourth engine, measured numerically
+
+`research/calibrate_pptx.py --build-probe` writes one deck with a single shape
+per slide; exporting that to PDF and measuring it page by page gives per-shape
+numbers with no attribution guesswork, from any renderer that can export a PDF.
+The new path was cross-checked against the old shape-by-shape one on the same
+renderer: identical numbers on all 24 shapes, so a difference between columns is
+a difference between engines.
+
+| | line count | line pitch vs the 1.2 constant |
+|---|---|---|
+| LibreOffice | 23/24 exact | median 0.05%, worst 0.06% |
+| ONLYOFFICE Desktop Editors | 23/24 exact | median **0.000026%**, worst **0.00012%** |
+
+ONLYOFFICE implements single line spacing as exactly 1.2 x the font size. The
+agreement is floating-point noise in the PDF - the tightest confirmation of
+`DRAWINGML_LINE_SPACING` there is, and it comes from an engine that had no part
+in establishing it. LibreOffice's 0.05% is its own; whether that is rounding on
+export or a marginally different pitch cannot be told from a PDF.
+
+### The one shape that divides them
+
+Both engines miss the same shape, and it is the same one PowerPoint got right:
+
+| | `FIT_mixed_run_sizes` | method |
+|---|---|---|
+| this model | 2 lines | `layout_shape` |
+| PowerPoint for Mac | 2 lines | rendered, read from the outlined deck (above) |
+| LibreOffice | 3 lines | glyph positions from an exported PDF |
+| ONLYOFFICE | 3 lines | same |
+
+Its widest line fills 99.2% of the usable width. Two engines on each side of one
+string, so the disagreement is not a precision limit of this model - it is a
+property of the string. Nothing measurable decides it, which is the case for
+having a borderline band rather than a threshold.
+
+Stated plainly because the columns were not obtained the same way: the
+PowerPoint number is read from a rendering of the outlined deck, the other two
+are measured from exported PDFs by the same script. Getting PowerPoint through
+the same script needs a working AppleScript export, which is not done - three
+attempts produced `-2763` from its `save` verb. It would tighten the method, not
+change the count: the shape renders on two lines in PowerPoint and that is
+legible without measuring.
 
 ## Limits of this check
 

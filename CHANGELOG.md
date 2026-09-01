@@ -31,6 +31,17 @@
   PDF exported by hand from a GUI can be measured page by page with no
   attribution guesswork. The new path was cross-checked against the old one on
   the same renderer - identical numbers on all 24 shapes.
+- `research/compare_renderers.py` and `docs/calibration/` - several renderers
+  side by side from the same measurement code, and the raw numbers behind the
+  claims. ONLYOFFICE matches the 1.2 line-spacing constant to 0.000026% median,
+  which is floating-point noise, from an engine that had no part in establishing
+  it.
+- The borderline band has a better justification than it had. `FIT_mixed_run_sizes`
+  fills 99.2% of its box: this model and PowerPoint put it on two lines,
+  LibreOffice and ONLYOFFICE on three. Two engines on each side of one string, so
+  the disagreement is a property of the string rather than a precision limit of
+  the model - which is what a borderline band is for. The README said the
+  opposite and has been corrected.
 
 ### Changed
 - Prior work names `docx-mcp` as the closest overlap and says precisely where it

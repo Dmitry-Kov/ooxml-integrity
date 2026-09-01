@@ -216,12 +216,33 @@ every case, while those faces' own `ascender + descender + lineGap` ratios range
 from 0.80 to 1.22. Deriving line height from font metrics - correct for Word body
 text - was producing a consistent +1.7% error until this was measured.
 
-**The precision limit is about 1%.** The single line-count disagreement is a
-shape whose first line filled its box to within **0.6%**; the renderer broke a
-word earlier. Advance widths cannot resolve a margin that thin, because GPOS
-kerning and shaping are not applied. So anything within a few percent of the
-boundary is reported as borderline (`PPT002`) rather than as overflow, and the
-threshold in `pptx_checks.BORDERLINE` is that measurement rather than a guess.
+**At the margin, the renderers do not agree with each other.** The single
+line-count disagreement is `FIT_mixed_run_sizes`, whose widest line fills
+**99.2%** of its box. It was tempting to write that off as this model's
+precision limit - advance widths cannot resolve a margin that thin, since GPOS
+kerning and shaping are not applied - and that is what this README used to say.
+Measuring a third engine says otherwise:
+
+| | `FIT_mixed_run_sizes` | how it was measured |
+|---|---|---|
+| this model | **2 lines** | `layout_shape` |
+| PowerPoint for Mac | **2 lines** | rendered, read from the outlined deck ([method](docs/powerpoint-validation.md)) |
+| LibreOffice | **3 lines** | `calibrate_pptx.py`, glyph positions from the PDF |
+| ONLYOFFICE | **3 lines** | same script, same measurement code |
+
+Two engines on each side of one string. No amount of measuring settles that -
+the shape genuinely lays out differently in different renderers, so no verdict
+about it can be authoritative. That is exactly what a borderline band is for:
+anything within a few percent of the boundary is reported as borderline
+(`PPT002`) rather than as overflow, and `pptx_checks.BORDERLINE` is now
+justified by three engines disagreeing rather than by one measurement of ours.
+
+ONLYOFFICE is also the tightest confirmation of the 1.2 constant available:
+every uniform-size shape matched the predicted pitch to **0.000026% median,
+0.00012% worst** - floating-point noise in the PDF, nothing more. LibreOffice's
+0.05% is its own; whether that is rounding on export or a marginally different
+pitch cannot be told from a PDF. Reproduce with
+`research/compare_renderers.py`.
 
 **How good is a metric-compatible substitute, exactly?** This is the one claim
 that cannot be checked on a single machine - Calibri and Carlito are almost
