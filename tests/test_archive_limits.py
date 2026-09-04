@@ -201,10 +201,12 @@ def test_unicode_case_is_not_folded_beyond_opc_ascii_equivalence():
 ])
 def test_traversal_like_part_names_are_rejected(base_docx, tmp_path, name):
     out = _with_extra(base_docx, tmp_path / "unsafe.docx", name)
+    with zipfile.ZipFile(out) as archive:
+        stored_name = archive.infolist()[-1].filename
 
     findings = check(out)
     assert [f.code for f in findings] == ["PKG008"]
-    assert findings[0].part == name
+    assert findings[0].part == stored_name
 
 
 def test_default_limits_leave_normal_corpus_unchanged(base_docx, root):
