@@ -20,6 +20,7 @@ None of them needs a model, a renderer, or the network.
     ...     print(f)
 """
 from .archive import ArchiveLimits
+from .coverage import CoverageItem, CoverageReport, CoverageStatus, coverage_for
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
@@ -44,5 +45,9 @@ __all__ = [
     "TRACKED",
     "Policy",
     "ArchiveLimits",
+    "CoverageItem",
+    "CoverageReport",
+    "CoverageStatus",
+    "coverage_for",
     "__version__",
 ]

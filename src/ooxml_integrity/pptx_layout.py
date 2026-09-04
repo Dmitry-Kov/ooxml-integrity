@@ -109,6 +109,7 @@ class Shape:
     anchor: str = "t"
     is_placeholder: bool = False
     placeholder_type: str = ""
+    vertical_text: bool = False
 
     @property
     def has_text(self) -> bool:
@@ -138,6 +139,7 @@ class Deck:
     slide_height: int
     shapes: list[Shape]
     theme_fonts: dict[str, str]
+    features: dict[str, int] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------- xml helpers
@@ -226,6 +228,7 @@ class DeckReader:
         self.pkg = _Package(path, limits)
         self.path = Path(path)
         pres = self.pkg.tree("ppt/presentation.xml")
+        self.presentation = pres
         sz = pres.find(_p("sldSz")) if pres is not None else None
         self.slide_w = _int(sz, "cx", DEFAULT_SLIDE_W)
         self.slide_h = _int(sz, "cy", DEFAULT_SLIDE_H)
@@ -408,9 +411,15 @@ class DeckReader:
         wrap = True
         autofit, scale, reduction = "none", 1.0, 0.0
         anchor = "t"
+        vertical_text = False
         if bodypr is not None:
             wrap = (bodypr.get("wrap") or "square") != "none"
             anchor = bodypr.get("anchor") or "t"
+            text_rotation = _int(bodypr, "rot", 0) or 0
+            vertical_text = (
+                (bodypr.get("vert") or "horz") != "horz"
+                or text_rotation % (180 * 60000) != 0
+            )
             if bodypr.find(_a("normAutofit")) is not None:
                 na = bodypr.find(_a("normAutofit"))
                 autofit = "normAutofit"
@@ -418,7 +427,7 @@ class DeckReader:
                 reduction = _pct(na, "lnSpcReduction", 0.0) or 0.0
             elif bodypr.find(_a("spAutoFit")) is not None:
                 autofit = "spAutoFit"
-        return insets, wrap, autofit, scale, reduction, anchor
+        return insets, wrap, autofit, scale, reduction, anchor, vertical_text
 
     def read(self) -> Deck:
         slide_parts = sorted(
@@ -427,12 +436,63 @@ class DeckReader:
             key=lambda n: int(re.search(r"(\d+)", n.rsplit("/", 1)[1]).group(1)),
         )
         shapes: list[Shape] = []
+        features = {
+            "entries": len(self.pkg.parts),
+            "slides": len(slide_parts),
+            "presentation_order_entries": len(
+                self.presentation.findall(
+                    f'{_p("sldIdLst")}/{_p("sldId")}')
+                if self.presentation is not None else []
+            ),
+            "plain_text_shapes": 0,
+            "unread_text_shapes": 0,
+            "grouped_shapes": 0,
+            "grouped_text_shapes": 0,
+            "tables": 0,
+            "smartart": 0,
+            "charts": 0,
+            "fields": 0,
+            "vertical_text_shapes": 0,
+            "rotated_shapes": 0,
+            "master_layout_text_shapes": 0,
+        }
+
+        for name in self.pkg.parts:
+            if not name.startswith(("ppt/slideLayouts/", "ppt/slideMasters/")):
+                continue
+            tree = self.pkg.tree(name)
+            if tree is None:
+                continue
+            features["master_layout_text_shapes"] += sum(
+                1 for sp in tree.iter(_p("sp"))
+                if sp.find(f'{_p("nvSpPr")}/{_p("nvPr")}/{_p("ph")}') is None
+                if any((node.text or "").strip() for node in sp.iter(_a("t")))
+            )
 
         for slide_no, part in enumerate(slide_parts, 1):
             tree = self.pkg.tree(part)
             if tree is None:
                 continue
+            features["grouped_shapes"] += len(list(tree.iter(_p("grpSp"))))
+            features["tables"] += len(list(tree.iter(_a("tbl"))))
+            features["fields"] += len(list(tree.iter(_a("fld"))))
+            for graphic in tree.iter(_a("graphicData")):
+                uri = (graphic.get("uri") or "").lower()
+                if "diagram" in uri:
+                    features["smartart"] += 1
+                if "chart" in uri:
+                    features["charts"] += 1
             for sp in tree.iter(_p("sp")):
+                txbody = sp.find(_p("txBody"))
+                has_text = txbody is not None and any(
+                    (node.text or "").strip() for node in txbody.iter(_a("t"))
+                )
+                if any(parent.tag == _p("grpSp") for parent in sp.iterancestors()):
+                    if has_text:
+                        features["grouped_text_shapes"] += 1
+                    continue
+                if has_text:
+                    features["plain_text_shapes"] += 1
                 nv_ph = sp.find(f'{_p("nvSpPr")}/{_p("nvPr")}/{_p("ph")}')
                 ph_idx = nv_ph.get("idx") if nv_ph is not None else None
                 ph_type = (nv_ph.get("type") or "body") if nv_ph is not None else ""
@@ -441,12 +501,17 @@ class DeckReader:
 
                 geom = self._shape_geometry(sp, part, ph_idx, ph_type)
                 if geom is None:
+                    if has_text:
+                        features["unread_text_shapes"] += 1
                     continue
                 left, top, width, height, rot = geom
+                if rot:
+                    features["rotated_shapes"] += 1
 
-                txbody = sp.find(_p("txBody"))
-                insets, wrap, autofit, scale, reduction, anchor = \
+                insets, wrap, autofit, scale, reduction, anchor, vertical = \
                     self._body_properties(txbody)
+                if vertical and has_text:
+                    features["vertical_text_shapes"] += 1
                 txbody_lst = txbody.find(_a("lstStyle")) if txbody is not None else None
                 style_chain = (
                     self._placeholder_chain(part, ph_idx, ph_type)
@@ -486,10 +551,11 @@ class DeckReader:
                     line_space_reduction=reduction, anchor=anchor,
                     is_placeholder=nv_ph is not None,
                     placeholder_type=ph_type if nv_ph is not None else "",
+                    vertical_text=vertical,
                 ))
 
         return Deck(self.path, self.slide_w, self.slide_h, shapes,
-                    self.theme_fonts)
+                    self.theme_fonts, features)
 
 
 # ------------------------------------------------------------------- layout
@@ -607,7 +673,7 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
 
     Returns None when there is nothing to measure.
     """
-    if not shape.has_text:
+    if not shape.has_text or shape.vertical_text:
         return None
 
     box_w_pt = shape.usable_width_emu / EMU_PER_POINT

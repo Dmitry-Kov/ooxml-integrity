@@ -142,6 +142,32 @@ Exit codes are the contract with CI: `0` clean, `1` findings at or above
 `--fail-on` (default `error`), `2` usage error. Add `--json` for machine-readable
 output, `--quiet` to print only what fails the threshold.
 
+**What did the checker actually cover in this file?**
+
+```bash
+ooxml-integrity check report.docx --coverage
+ooxml-integrity check deck.pptx --coverage-details
+```
+
+Coverage distinguishes `checked`, `not-present`, `estimated`, `skipped`, and
+`unsupported` surfaces. The concise view prints the summary and only the
+confidence gaps; `--coverage-details` prints every item. With `--json`, the
+same stable identifiers and reasons appear in a per-file `coverage` block.
+A result with a gap says `no findings in checked surfaces`, not an unqualified
+`clean`.
+
+To inspect the machine before checking a deck:
+
+```bash
+ooxml-integrity doctor
+ooxml-integrity doctor --json
+```
+
+This reports parser and runtime versions, archive safety capability, usable
+representative font faces and their confidence classes, plus checks that are
+not implemented in this release. See [coverage and doctor](docs/coverage.md)
+for the JSON contract and complete identifier list.
+
 From Python:
 
 ```python
@@ -586,7 +612,7 @@ for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 207 tests, and the three most useful ones are regressions for false
+The suite has 220 tests, and the three most useful ones are regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken
@@ -617,11 +643,13 @@ src/ooxml_integrity/
   fonts.py              font resolution and text measurement
   pptx_layout.py        property inheritance and line layout for decks
   pptx_checks.py        .pptx overflow, overlap, off-canvas
+  coverage.py           per-file checked/estimated/skipped surface inventory
+  doctor.py             parser, runtime and font capability report
   policy.py             config, path-scoped ignores, baseline
   sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
   __main__.py           so `python -m ooxml_integrity` works without PATH
-tests/                  207 tests, including the false-positive regressions
+tests/                  220 tests, including coverage and false-positive regressions
 research/               the experiments: corpus builders, mutators, calibration,
                         renderer comparison, resource measurement, the
                         PowerPoint checklist

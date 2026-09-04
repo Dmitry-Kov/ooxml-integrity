@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Added
+- `check --coverage` adds a versioned per-file coverage inventory to JSON and a
+  concise human summary. `--coverage-details` expands it to every surface.
+  Stable identifiers distinguish checks that ran, absent surfaces, estimates,
+  skipped checks and recognised unsupported constructs.
+- `doctor` reports parser/runtime versions, archive-limit enforcement,
+  representative usable font faces with confidence classes, and checks that
+  are unavailable in this release. `doctor --json` emits the versioned report.
+
+### Changed
+- Grouped PowerPoint shapes and vertical-text shapes are excluded from the
+  ordinary ungrouped/horizontal layout model instead of being silently treated
+  as if their transforms and text direction were supported.
+
 ### Breaking
 - Baselines now use format version 2. Version 1 fingerprints could allow one
   accepted fidelity loss to hide a different new loss with the same rule code.

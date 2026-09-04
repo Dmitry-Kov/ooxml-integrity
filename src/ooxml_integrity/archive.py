@@ -254,3 +254,12 @@ def read_package(path: str | Path,
                     part=info.filename,
                 ) from e
     return parts
+
+
+def package_names(path: str | Path,
+                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[str]:
+    """Validate a package and return its names without decompressing members."""
+    package = Path(path)
+    _preflight_file(package, limits)
+    with zipfile.ZipFile(package) as archive:
+        return [info.filename for info in validate_infos(archive.infolist(), limits)]

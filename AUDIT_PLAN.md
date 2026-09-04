@@ -69,7 +69,11 @@ being checked here:
       by default and no longer interpolates Action inputs into shell source.
 - [x] A detailed support matrix distinguishes Supported, Partial, and Not
       checked surfaces.
-- [x] Local verification: 200 passed, 7 environment-dependent font tests
+- [x] Configurable archive budgets and package-part-name validation fail before
+      member decompression with explicit findings.
+- [x] Per-file coverage and `doctor` expose checked, estimated, skipped, and
+      recognised unsupported capability instead of implying complete coverage.
+- [x] Local verification: 213 passed, 7 environment-dependent font tests
       skipped; wheel and sdist built; the installed wheel checked the reference
       DOCX cleanly; YAML and Action shell syntax parsed successfully.
 
@@ -186,11 +190,11 @@ The coverage model should distinguish:
 
 Exit criteria:
 
-- [ ] A user cannot receive an unqualified clean result when a requested check
+- [x] A user cannot receive an unqualified clean result when a requested check
       failed to run.
-- [ ] JSON gives stable coverage identifiers and reasons.
-- [ ] Human output stays concise by default and can show full detail on demand.
-- [ ] Grouped PPTX shapes, tables/SmartArt, missing font metrics, and unsupported
+- [x] JSON gives stable coverage identifiers and reasons.
+- [x] Human output stays concise by default and can show full detail on demand.
+- [x] Grouped PPTX shapes, tables/SmartArt, missing font metrics, and unsupported
       source comparison are represented explicitly.
 
 #### P0.4 Extend DOCX fidelity to headers and footers

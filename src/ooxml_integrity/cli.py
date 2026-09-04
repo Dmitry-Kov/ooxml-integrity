@@ -16,6 +16,8 @@ from pathlib import Path
 
 from . import __version__
 from .archive import ArchiveLimits
+from .coverage import CoverageReport, CoverageStatus, coverage_for
+from .doctor import build_report as build_doctor_report
 from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
@@ -91,26 +93,89 @@ def _run_one(path: Path, source: Path | None,
 
 
 def _print_human(path: Path, findings: list[Finding], threshold: Severity,
-                 quiet: bool, out) -> None:
+                 quiet: bool, out,
+                 coverage: CoverageReport | None = None) -> None:
     shown = [f for f in findings if f.severity >= threshold] if quiet else findings
     counts = summarize(findings)
     head = (f"{path}: "
             f"{counts['error']} error(s), {counts['warn']} warning(s), "
             f"{counts['info']} info")
     if not shown and not findings:
-        print(f"{head}  - clean", file=out)
+        qualified = coverage is not None and any(
+            item.status in (
+                CoverageStatus.ESTIMATED,
+                CoverageStatus.SKIPPED,
+                CoverageStatus.UNSUPPORTED,
+            )
+            for item in coverage.items
+        )
+        suffix = ("no findings in checked surfaces" if qualified else "clean")
+        print(f"{head}  - {suffix}", file=out)
         return
     print(head, file=out)
     for f in shown:
         print("  " + str(f).replace("\n", "\n  "), file=out)
 
 
+def _print_coverage(report: CoverageReport, *, details: bool, out) -> None:
+    counts = report.summary()
+    summary = ", ".join(
+        f"{counts[status.value]} {status.value}"
+        for status in CoverageStatus if counts[status.value]
+    )
+    print(f"  coverage: {summary}", file=out)
+    visible = (
+        report.items if details else tuple(
+            item for item in report.items
+            if item.status in (
+                CoverageStatus.ESTIMATED,
+                CoverageStatus.SKIPPED,
+                CoverageStatus.UNSUPPORTED,
+            )
+        )
+    )
+    for item in visible:
+        print(
+            f"    [{item.status.value}] {item.id}: {item.reason}",
+            file=out,
+        )
+
+
+def _run_doctor(*, json_output: bool) -> int:
+    report = build_doctor_report()
+    capabilities = report["capabilities"]
+    unavailable = any(
+        item["status"] == "unavailable" for item in capabilities
+    )
+    if json_output:
+        json.dump(report, sys.stdout, indent=2, ensure_ascii=False)
+        sys.stdout.write("\n")
+        return EXIT_FINDINGS if unavailable else EXIT_OK
+
+    runtime = report["runtime"]
+    print(f"ooxml-integrity {report['version']} doctor: {report['status']}")
+    print(
+        f"  runtime: {runtime['implementation']} {runtime['python']}; "
+        f"lxml {runtime['lxml']}; libxml2 {runtime['libxml2']}; "
+        f"fonttools {runtime['fonttools']}"
+    )
+    print("  capabilities:")
+    for item in capabilities:
+        print(
+            f"    [{item['status']}] {item['id']} "
+            f"({item['confidence']}): {item['detail']}"
+        )
+    print("  unavailable checks in this release:")
+    for item in report["unavailable_checks"]:
+        print(f"    - {item['id']}: {item['reason']}")
+    return EXIT_FINDINGS if unavailable else EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="ooxml-integrity",
-        description="Structural integrity checks for .docx files. "
-                    "Answers 'will Word open this, and did the edit lose "
-                    "anything', which schema validation and rendering do not.",
+        description="Structural and fidelity checks for .docx files, plus "
+                    "layout-risk checks for .pptx files.",
         epilog="exit codes: 0 clean, 1 findings at or above --fail-on, 2 usage error",
     )
     p.add_argument("--version", action="version",
@@ -147,11 +212,24 @@ def build_parser() -> argparse.ArgumentParser:
                    help="write a SARIF 2.1.0 report for code-scanning upload")
     c.add_argument("--show-suppressed", action="store_true",
                    help="also print what config or the baseline hid, and why")
+    c.add_argument("--coverage", action="store_true",
+                   help="report what was checked, absent, estimated, skipped or "
+                        "unsupported for each file")
+    c.add_argument("--coverage-details", action="store_true",
+                   help="show every coverage item, including checked and absent "
+                        "surfaces (implies --coverage)")
+
+    d = sub.add_parser("doctor", help="report parser, runtime and font capability")
+    d.add_argument("--json", action="store_true",
+                   help="machine-readable capability report on stdout")
     return p
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+
+    if args.command == "doctor":
+        return _run_doctor(json_output=args.json)
 
     try:
         policy = Policy() if args.no_config else Policy.load(args.config)
@@ -202,6 +280,14 @@ def main(argv: list[str] | None = None) -> int:
               f"{len(raw)} file(s) recorded as accepted")
         return EXIT_OK
 
+    coverage_requested = args.coverage or args.coverage_details
+    coverage: dict[Path, CoverageReport] = {}
+    if coverage_requested:
+        for path, findings in raw.items():
+            coverage[path] = coverage_for(
+                path, findings, source=args.against, limits=policy.archive,
+            )
+
     allowance: dict[str, int] | None = None
     if args.baseline:
         try:
@@ -228,24 +314,27 @@ def main(argv: list[str] | None = None) -> int:
             fh.write("\n")
 
     if args.json:
+        files = []
+        for p, f in results.items():
+            item = {
+                "path": str(p),
+                "summary": summarize(f),
+                "worst": (w.value if (w := worst(f)) else None),
+                "findings": [x.as_dict() for x in f],
+                "suppressed": [
+                    {**x.as_dict(), "suppressed_because": why}
+                    for x, why in hidden.get(p, [])
+                ],
+            }
+            if coverage_requested:
+                item["coverage"] = coverage[p].as_dict()
+            files.append(item)
         payload = {
             "version": __version__,
             "fail_on": threshold.value,
             "config": policy.source or None,
             "baseline": args.baseline,
-            "files": [
-                {
-                    "path": str(p),
-                    "summary": summarize(f),
-                    "worst": (w.value if (w := worst(f)) else None),
-                    "findings": [x.as_dict() for x in f],
-                    "suppressed": [
-                        {**x.as_dict(), "suppressed_because": why}
-                        for x, why in hidden.get(p, [])
-                    ],
-                }
-                for p, f in results.items()
-            ],
+            "files": files,
         }
         json.dump(payload, sys.stdout, indent=2, ensure_ascii=False)
         sys.stdout.write("\n")
@@ -253,7 +342,14 @@ def main(argv: list[str] | None = None) -> int:
         for i, (p, f) in enumerate(results.items()):
             if i:
                 print()
-            _print_human(p, f, threshold, args.quiet, sys.stdout)
+            _print_human(
+                p, f, threshold, args.quiet, sys.stdout,
+                coverage[p] if coverage_requested else None,
+            )
+            if coverage_requested:
+                _print_coverage(
+                    coverage[p], details=args.coverage_details, out=sys.stdout,
+                )
             if args.show_suppressed and hidden.get(p):
                 for x, why in hidden[p]:
                     print(f"  [hidden] {x.code}  {why}")

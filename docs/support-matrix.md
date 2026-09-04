@@ -17,8 +17,13 @@ construct in that part was validated.
 that no finding was produced by the supported and partial checks that applied to
 that file. Content listed as **Not checked**, and unsupported variants within a
 **Partial** row, may still be broken, missing or rendered differently.
-The current CLI does not emit a complete inventory of unsupported constructs it
-encountered, so absence of an "unsupported" finding is not evidence of coverage.
+
+Use `check ... --coverage` for a per-file inventory. It distinguishes a
+supported surface that was checked, a supported surface that was not present,
+an estimated result, a check that was skipped with a reason, and a recognised
+construct that is unsupported. The default human view shows only confidence
+gaps; `--coverage-details` shows every item, and `--json` adds the complete
+machine-readable block. See [coverage and doctor](coverage.md).
 
 ## DOCX self-consistency
 
@@ -98,18 +103,18 @@ It does not run the DOCX package inspector over a presentation.
 | Placeholder inheritance | **Partial** | Resolves missing shape geometry from a matching layout placeholder and resolves text properties through shape, layout, master, presentation defaults and the first theme. Complex or ambiguous placeholder chains have no separate coverage claim. |
 | Effective font size and family | **Partial** | Resolves run and paragraph defaults, list styles, placeholder styles, master text styles, presentation defaults and major/minor theme faces for the properties implemented. East Asian and complex-script theme faces are treated as the corresponding major/minor family rather than shaped separately. |
 | Word wrapping and hard breaks | **Partial** | Uses greedy word wrapping and explicit hard breaks. A token wider than a whole line is not broken by character in this model. Fields (`a:fld`), hyphenation, language-specific breaking, tabs and advanced shaping are not modelled. |
-| Vertical text overflow | **Supported** | For measured `p:sp` text, compares calculated text height with the usable text-box height and reports clear or borderline overflow. Mixed run sizes, paragraph spacing, insets and stored line-space reduction are included within the implemented model. |
+| Text-box height overflow | **Supported** | For measured horizontal `p:sp` text, compares calculated text height with the usable text-box height and reports clear or borderline overflow. Mixed run sizes, paragraph spacing, insets and stored line-space reduction are included within the implemented model. |
 | No-wrap horizontal overflow | **Supported** | Reports a measured line that exceeds the usable width when word wrap is disabled. Horizontal excess with wrapping enabled, including an unbreakable long token, does not produce `PPT003`. |
 | Borderline fit | **Supported** | Width/height results within the 5% tolerance band are reported as renderer-dependent rather than as authoritative overflow. |
 | Off-slide geometry | **Partial** | Checks the unrotated rectangle of each read `p:sp`, with a 2pt tolerance. Other shape classes and the transformed bounds of rotated or grouped shapes are not covered. |
 | Shape overlap | **Partial** | Checks axis-aligned overlap between two text-bearing, unrotated `p:sp` shapes and ignores intersections below 2% of the smaller rectangle. Z-order, transparency, clipping, visual glyph bounds and non-text shapes are not considered. |
 | Rotated shapes | **Partial** | Rotation is read. Rotated shapes are excluded from overlap checks, and rotation is not applied to off-slide bounds. Text-direction and transformed-layout effects are not modelled. |
-| Grouped shapes | **Not checked** | Nested `p:sp` elements may be encountered, but group coordinate transforms are not composed; findings for grouped geometry are therefore outside the supported surface. |
+| Grouped shapes | **Not checked** | Group coordinate transforms are not composed. Nested `p:sp` elements are excluded from the plain-shape checks and the group is reported as `pptx.grouped-shapes: unsupported` in coverage output. |
 | PowerPoint tables | **Not checked** | Text and geometry in `p:graphicFrame/a:tbl` are not read by the layout model. |
 | SmartArt and charts | **Not checked** | Diagram and chart text, generated layout and related data are not measured. |
 | Pictures, connectors, media and embedded objects | **Not checked** | Their bounds, overlap, clipping, relationships and content are not checked by `check_pptx`. |
 | Master/layout-only objects | **Not checked** | Layout and master parts are consulted for placeholder inheritance, but objects that appear only on a master or layout are not independently checked for fit or geometry. |
-| Vertical and non-horizontal text | **Not checked** | DrawingML vertical-text modes, text rotation within a body and other non-horizontal layout are not modelled. |
+| Vertical and non-horizontal text | **Not checked** | DrawingML vertical-text modes, text rotation within a body and other non-horizontal layout are not modelled. Recognised vertical modes are excluded from ordinary overflow measurement and reported as `pptx.vertical-text: unsupported` in coverage output. |
 
 ### Fonts and autofit
 
