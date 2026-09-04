@@ -592,6 +592,8 @@ defects still caught, zero false positives across the eight agent runs.
 | `TXT001`    | edge whitespace in runs without `xml:space="preserve"`                                                       |
 | `FID001-003`| losses and additions relative to the source, by construct count; drop in text volume                          |
 | `FID004-006`| a comment, footnote or endnote whose **text** is in the source and in the edited file under no id at all       |
+| `FID007`    | a relationship-referenced default/first/even header or footer story is missing or its normalised text changed |
+| `FID008`    | supported tracked constructs were lost from effective header/footer story slots                             |
 
 And for `.pptx`:
 
@@ -612,7 +614,7 @@ for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 220 tests, and the three most useful ones are regressions for false
+The suite has 235 tests, and the three most useful ones are regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken
@@ -649,7 +651,7 @@ src/ooxml_integrity/
   sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
   __main__.py           so `python -m ooxml_integrity` works without PATH
-tests/                  220 tests, including coverage and false-positive regressions
+tests/                  235 tests, including story-fidelity and false-positive regressions
 research/               the experiments: corpus builders, mutators, calibration,
                         renderer comparison, resource measurement, the
                         PowerPoint checklist

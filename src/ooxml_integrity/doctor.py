@@ -14,10 +14,6 @@ from .fonts import load_metrics
 
 UNAVAILABLE_CHECKS = (
     {
-        "id": "docx.fidelity.headers-footers",
-        "reason": "header/footer source fidelity is not implemented yet",
-    },
-    {
         "id": "docx.header-footer-semantics",
         "reason": "header/footer Word semantics and layout are not inspected",
     },

@@ -282,9 +282,10 @@ def fingerprint(file: str, f: Finding) -> str:
     118pt in a 48pt box" - and a baseline keyed on those would go stale the
     moment anything moved by a point, which is the opposite of what a baseline
     is for. Path, code and location are the general identity. Fidelity findings
-    also need one stable discriminator: their construct tag, or a digest of the
-    lost body. The digest distinguishes bodies without writing document content
-    into a baseline that is normally committed to source control.
+    also need stable discriminators: their construct and story roles, or a
+    digest of the lost body. The digest distinguishes bodies without writing
+    document content into a baseline that is normally committed to source
+    control.
     """
     where = f.where or f.part
     stable = ""
@@ -292,11 +293,22 @@ def fingerprint(file: str, f: Finding) -> str:
         tag = f.extra.get("tag")
         if tag:
             stable = f"tag={tag}"
-    elif f.code in ("FID004", "FID005", "FID006"):
+    elif f.code in ("FID004", "FID005", "FID006", "FID007"):
         body = f.extra.get("body")
-        if isinstance(body, str) and body:
+        if isinstance(body, str):
             digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
-            stable = f"body-sha256={digest}"
+            if f.code == "FID007":
+                kind = f.extra.get("story_kind", "")
+                variant = f.extra.get("variant", "")
+                stable = f"story={kind}/{variant}:body-sha256={digest}"
+            elif body:
+                stable = f"body-sha256={digest}"
+    elif f.code == "FID008":
+        tag = f.extra.get("tag", "")
+        kind = f.extra.get("story_kind", "")
+        variant = f.extra.get("variant", "")
+        if tag:
+            stable = f"story={kind}/{variant}:tag={tag}"
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key

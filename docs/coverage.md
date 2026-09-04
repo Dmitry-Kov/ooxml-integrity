@@ -78,6 +78,11 @@ DOCX reports:
 - `docx.fidelity.main-story`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
+When source comparison runs, `docx.fidelity.headers-footers` covers effective
+`default`, `first`, and `even` story slots resolved through section
+relationships. It is `not-present` only when neither input references any such
+story; relationship or part renumbering does not change the status.
+
 PPTX reports:
 
 - `package.read`, `pptx.package-integrity`, and `pptx.slide-order`;

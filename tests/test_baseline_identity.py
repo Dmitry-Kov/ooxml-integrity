@@ -97,6 +97,39 @@ def test_body_fingerprint_is_stable_across_message_and_metadata_changes(code):
     assert fingerprint("edited.docx", old) == fingerprint("edited.docx", changed)
 
 
+def test_story_body_fingerprint_includes_kind_and_variant_without_plaintext():
+    body = "Confidential acquisition code name"
+    header = Finding(
+        "FID007", ERROR, "lost header",
+        extra={"story_kind": "header", "variant": "default", "body": body},
+    )
+    footer = Finding(
+        "FID007", ERROR, "lost footer",
+        extra={"story_kind": "footer", "variant": "default", "body": body},
+    )
+
+    assert fingerprint("edited.docx", header) != fingerprint("edited.docx", footer)
+    assert body not in fingerprint("edited.docx", header)
+    assert hashlib.sha256(body.encode()).hexdigest() in fingerprint(
+        "edited.docx", header,
+    )
+
+
+def test_story_construct_fingerprint_is_stable_across_counts():
+    old = Finding(
+        "FID008", ERROR, "one lost",
+        extra={"story_kind": "header", "variant": "first", "tag": "ins",
+               "before": 2, "after": 1},
+    )
+    changed = Finding(
+        "FID008", ERROR, "many lost",
+        extra={"story_kind": "header", "variant": "first", "tag": "ins",
+               "before": 200, "after": 20},
+    )
+
+    assert fingerprint("edited.docx", old) == fingerprint("edited.docx", changed)
+
+
 def test_make_baseline_writes_version_two():
     baseline = make_baseline({"edited.docx": [_count_loss("ins")]})
     assert baseline["version"] == BASELINE_VERSION == 2

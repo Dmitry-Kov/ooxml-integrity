@@ -182,5 +182,5 @@ def test_the_careful_agent_runs_stay_clean_under_body_comparison(
         if not p.exists():
             continue
         bad = [f for f in compare(base_docx, p)
-               if f.code in ("FID004", "FID005", "FID006")]
+               if f.code in ("FID004", "FID005", "FID006", "FID007", "FID008")]
         assert not bad, f"{name}: false positive {[f.message for f in bad]}"

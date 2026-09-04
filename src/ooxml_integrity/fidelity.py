@@ -9,15 +9,24 @@ original?".
 from __future__ import annotations
 
 import collections
+import posixpath
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
-from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, read_package
+from .archive import (
+    DEFAULT_ARCHIVE_LIMITS,
+    ArchiveLimits,
+    package_names,
+    read_package,
+)
 from .finding import ERROR, INFO, WARN, Finding
 from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+REL = "{http://schemas.openxmlformats.org/package/2006/relationships}"
 
 #: (tag, human label, severity when some are lost)
 #:
@@ -67,6 +76,15 @@ BODY_PARTS: tuple[tuple[str, str, str, str], ...] = (
 #: hold no author's words and are not interesting to compare.
 _BOILERPLATE = {"separator", "continuationSeparator", "continuationNotice"}
 
+_STORY_REFERENCES = {
+    W + "headerReference": "header",
+    W + "footerReference": "footer",
+}
+_STORY_VARIANTS = {"default", "first", "even"}
+_ASCII_LOWER = str.maketrans(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz",
+)
+
 
 def _norm(text: str) -> str:
     """Whitespace-insensitive body text: a reflowed comment is not a lost one."""
@@ -97,18 +115,189 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
 
 
 @dataclass
+class _StoryFacts:
+    texts: collections.Counter
+    constructs: collections.Counter
+    parts: dict[tuple[str, str, str], str]
+
+
+def _relationship_part(target: str, names: set[str],
+                       names_by_equivalent: dict[str, str]) -> str:
+    """Resolve a document relationship target to an existing package part."""
+    parsed = urlsplit(target)
+    if parsed.scheme or parsed.netloc or not parsed.path:
+        raise ValueError(f"invalid header/footer relationship target: {target!r}")
+    if parsed.path.startswith("/"):
+        resolved = parsed.path.lstrip("/")
+    else:
+        resolved = posixpath.join("word", parsed.path)
+    resolved = posixpath.normpath(resolved).lstrip("/")
+    if resolved in ("", ".", "..") or resolved.startswith("../"):
+        raise ValueError(f"unsafe header/footer relationship target: {target!r}")
+    decoded = unquote(resolved, errors="strict")
+    for candidate in (resolved, decoded):
+        if candidate in names:
+            return candidate
+    for candidate in (resolved, decoded):
+        equivalent = names_by_equivalent.get(candidate.translate(_ASCII_LOWER))
+        if equivalent is not None:
+            return equivalent
+    raise ValueError(f"header/footer relationship target is missing: {target!r}")
+
+
+def _effective_story_references(
+        parts: dict[str, bytes], document, *, names: set[str] | None = None,
+        ) -> list[tuple[str, str, str]]:
+    """Return effective (kind, variant, part) once for every section slot.
+
+    An omitted reference inherits the corresponding first/even/default story
+    from the preceding section. Counting effective slots rather than unique
+    parts makes a shared part and several identical split parts equivalent.
+    """
+    sections = [
+        section for section in document.iter(W + "sectPr")
+        if not any(
+            ancestor.tag == W + "sectPrChange"
+            for ancestor in section.iterancestors()
+        )
+    ]
+    direct = [
+        child for section in sections for child in section
+        if child.tag in _STORY_REFERENCES
+    ]
+    if not direct:
+        return []
+
+    rel_blob = parts.get("word/_rels/document.xml.rels")
+    if rel_blob is None:
+        raise ValueError(
+            "document has header/footer references but no document relationships"
+        )
+    rel_root = parse_xml(rel_blob)
+    relationships = {
+        rel.get("Id"): rel
+        for rel in rel_root.iter(REL + "Relationship")
+    }
+    names = names if names is not None else set(parts)
+    names_by_equivalent = {
+        name.translate(_ASCII_LOWER): name for name in names
+    }
+    current: dict[tuple[str, str], str] = {}
+    effective: list[tuple[str, str, str]] = []
+    for section in sections:
+        for ref in section:
+            kind = _STORY_REFERENCES.get(ref.tag)
+            if kind is None:
+                continue
+            variant = ref.get(W + "type") or "default"
+            if variant not in _STORY_VARIANTS:
+                raise ValueError(
+                    f"unsupported {kind} reference type: {variant!r}"
+                )
+            rid = ref.get(R + "id")
+            if not rid:
+                raise ValueError(f"{variant} {kind} reference has no r:id")
+            rel = relationships.get(rid)
+            if rel is None:
+                raise ValueError(
+                    f"{variant} {kind} reference {rid!r} has no relationship"
+                )
+            rel_type = rel.get("Type") or ""
+            if not rel_type.endswith("/" + kind):
+                raise ValueError(
+                    f"{variant} {kind} reference {rid!r} resolves as {rel_type!r}"
+                )
+            if (rel.get("TargetMode") or "").lower() == "external":
+                raise ValueError(
+                    f"{variant} {kind} reference {rid!r} is external"
+                )
+            target = rel.get("Target") or ""
+            current[(kind, variant)] = _relationship_part(
+                target, names, names_by_equivalent,
+            )
+        effective.extend(
+            (kind, variant, part)
+            for (kind, variant), part in sorted(current.items())
+        )
+    return effective
+
+
+def _story_text(root) -> str:
+    """Normalised story text, preserving run joins and paragraph boundaries."""
+    paragraphs: list[str] = []
+    for paragraph in root.iter(W + "p"):
+        tokens: list[str] = []
+        for node in paragraph.iter():
+            if node.tag == W + "t":
+                tokens.append(node.text or "")
+            elif node.tag in (W + "tab", W + "br", W + "cr"):
+                tokens.append(" ")
+        paragraphs.append("".join(tokens))
+    return _norm("\n".join(paragraphs))
+
+
+def _story_facts(parts: dict[str, bytes], document, *,
+                 references: list[tuple[str, str, str]] | None = None,
+                 ) -> _StoryFacts:
+    texts: collections.Counter = collections.Counter()
+    constructs: collections.Counter = collections.Counter()
+    locations: dict[tuple[str, str, str], str] = {}
+    trees: dict[str, object] = {}
+    references = (
+        references if references is not None
+        else _effective_story_references(parts, document)
+    )
+    for kind, variant, part in references:
+        if part not in trees:
+            root = parse_xml(parts[part])
+            if root.tag != W + ("hdr" if kind == "header" else "ftr"):
+                raise ValueError(
+                    f"{part} is related as a {kind} but has root {root.tag!r}"
+                )
+            trees[part] = root
+        root = trees[part]
+        body = _story_text(root)
+        identity = (kind, variant, body)
+        texts[identity] += 1
+        locations.setdefault(identity, part)
+        for tag, _, _ in TRACKED:
+            constructs[(kind, variant, tag)] += len(list(root.iter(W + tag)))
+    return _StoryFacts(texts, constructs, locations)
+
+
+def story_reference_count(parts: dict[str, bytes]) -> int:
+    """Number of effective first/even/default header/footer section slots."""
+    document = parse_xml(parts["word/document.xml"])
+    return len(_effective_story_references(parts, document))
+
+
+@dataclass
 class _Snapshot:
     counts: dict[str, int]
     bodies: dict[str, collections.Counter]
     authors: dict[tuple[str, str], str]
     text_length: int
+    stories: _StoryFacts
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     """Read one bounded package, retain only the fidelity facts, then release it."""
-    wanted = {"word/document.xml", *(part for part, _, _, _ in BODY_PARTS)}
+    # Header/footer part names are relationship targets and cannot be known
+    # before document.xml.rels is parsed. Inspect metadata first, then read only
+    # the main, note-body, relationship and referenced story parts. Large media
+    # inside an otherwise valid package never needs to enter fidelity memory.
+    names = set(package_names(path, limits))
+    wanted = {
+        "word/document.xml",
+        "word/_rels/document.xml.rels",
+        *(part for part, _, _, _ in BODY_PARTS),
+    }
     parts = read_package(path, limits, members=wanted)
     doc = parse_xml(parts["word/document.xml"])
+    story_references = _effective_story_references(parts, doc, names=names)
+    story_parts = {part for _, _, part in story_references}
+    if story_parts:
+        parts.update(read_package(path, limits, members=story_parts))
     counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
     text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
     bodies: dict[str, collections.Counter] = {}
@@ -119,7 +308,67 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         authors.update(
             ((part, body), author) for body, author in body_authors.items()
         )
-    return _Snapshot(counts, bodies, authors, text_length)
+    return _Snapshot(
+        counts, bodies, authors, text_length,
+        _story_facts(parts, doc, references=story_references),
+    )
+
+
+def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
+    out: list[Finding] = []
+    for (kind, variant, body), n in source.stories.texts.items():
+        lost = n - edited.stories.texts.get((kind, variant, body), 0)
+        if lost <= 0:
+            continue
+        occurrences = (
+            "" if lost == 1 and n == 1 else f" ({lost} of {n} occurrences)"
+        )
+        if body:
+            snippet = body if len(body) <= 80 else body[:77] + "..."
+            content = f' Its normalised text was: "{snippet}"'
+        else:
+            content = (
+                " It was an explicitly referenced empty story; preserving it "
+                "matters because it can suppress an inherited story."
+            )
+        out.append(Finding(
+            "FID007", ERROR,
+            f"a source {variant} {kind} story is missing or changed in the "
+            f"edited file{occurrences}.{content}",
+            where=f"{kind}/{variant}",
+            part=source.stories.parts[(kind, variant, body)],
+            extra={
+                "story_kind": kind,
+                "variant": variant,
+                "body": body,
+                "lost": lost,
+                "in_source": n,
+            },
+        ))
+
+    labels = {tag: (label, severity) for tag, label, severity in TRACKED}
+    for (kind, variant, tag), before in source.stories.constructs.items():
+        if not before:
+            continue
+        after = edited.stories.constructs.get((kind, variant, tag), 0)
+        if after >= before:
+            continue
+        label, severity = labels[tag]
+        lost = before - after
+        out.append(Finding(
+            "FID008", ERROR if after == 0 else severity,
+            f"{variant} {kind} {label}: {before} -> {after} "
+            f'({"all lost" if after == 0 else f"{lost} lost"})',
+            where=f"{kind}/{variant}",
+            extra={
+                "story_kind": kind,
+                "variant": variant,
+                "tag": tag,
+                "before": before,
+                "after": after,
+            },
+        ))
+    return out
 
 
 def compare(source: str | Path, edited: str | Path, *,
@@ -181,6 +430,8 @@ def compare(source: str | Path, edited: str | Path, *,
                 extra={"body": body, "author": who, "lost": lost,
                        "in_source": n},
             ))
+
+    out.extend(_story_losses(source_snapshot, edited_snapshot))
 
     ta, tb = source_snapshot.text_length, edited_snapshot.text_length
     if ta and tb < ta * TEXT_LOSS_THRESHOLD:

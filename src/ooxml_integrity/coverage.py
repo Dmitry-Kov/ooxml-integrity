@@ -12,10 +12,10 @@ from lxml import etree
 from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
-    package_names,
     read_package,
 )
 from .finding import Finding
+from .fidelity import story_reference_count
 from .fonts import resolve_face
 from .pptx_layout import Deck, read_deck
 from .xmlutil import fromstring as parse_xml
@@ -286,25 +286,25 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     if source is None:
         fidelity_status = CoverageStatus.SKIPPED
         fidelity_reason = "source comparison was not requested"
-        source_names: list[str] = []
+        source_parts: dict[str, bytes] = {}
     elif comparison_failure is not None:
         fidelity_status = CoverageStatus.SKIPPED
         fidelity_reason = comparison_failure.message
-        source_names = []
+        source_parts = {}
     else:
         fidelity_status = CoverageStatus.CHECKED
         fidelity_reason = "source and edited main-story fidelity was compared"
         try:
-            source_names = package_names(source, limits)
+            source_parts = read_package(source, limits)
         except Exception:
-            source_names = []
+            source_parts = {}
 
     items.append(_item(
         "docx.fidelity.main-story", fidelity_status, fidelity_reason,
     ))
     if fidelity_status is CoverageStatus.CHECKED:
         note_parts = BODY_PARTS.intersection(parts).union(
-            BODY_PARTS.intersection(source_names)
+            BODY_PARTS.intersection(source_parts)
         )
         items.append(_item(
             "docx.fidelity.note-bodies",
@@ -313,17 +313,20 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
              if note_parts else "neither file contained note-body parts"),
             len(note_parts),
         ))
-        source_stories = [
-            name for name in source_names
-            if re.match(r"word/(?:header|footer)[^/]*\.xml$", name)
-        ]
-        all_stories = set(story_names).union(source_stories)
+        try:
+            story_count = (
+                story_reference_count(parts)
+                + story_reference_count(source_parts)
+            )
+        except Exception:
+            story_count = 0
         items.append(_item(
             "docx.fidelity.headers-footers",
-            CoverageStatus.UNSUPPORTED if all_stories else CoverageStatus.NOT_PRESENT,
-            ("header/footer fidelity is not implemented" if all_stories
-             else "neither file contained header or footer stories"),
-            len(all_stories),
+            CoverageStatus.CHECKED if story_count else CoverageStatus.NOT_PRESENT,
+            ("effective first/even/default header and footer story text and "
+             "tracked constructs were compared" if story_count else
+             "neither file referenced a header or footer story"),
+            story_count,
         ))
     else:
         items.extend((

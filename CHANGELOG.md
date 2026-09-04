@@ -10,6 +10,11 @@
 - `doctor` reports parser/runtime versions, archive-limit enforcement,
   representative usable font faces with confidence classes, and checks that
   are unavailable in this release. `doctor --json` emits the versioned report.
+- DOCX source comparison now follows effective `default`, `first`, and `even`
+  header/footer section relationships. `FID007` detects a missing or changed
+  normalised story (including meaningful empty stories), and `FID008` detects
+  lost tracked constructs. Relationship ids and part names may be renumbered;
+  shared parts may be split or merged without a false loss.
 
 ### Changed
 - Grouped PowerPoint shapes and vertical-text shapes are excluded from the

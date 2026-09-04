@@ -26,9 +26,8 @@ DOCX integrity and fidelity are the primary product wedge; PPTX layout is the
 second product track and should expand only with renderer evidence.
 
 The project is not ready to claim complete Office-file validation. The main
-remaining risks are narrow real-world evidence, unsupported surfaces that are
-not yet reported per file, unbounded archive processing, incomplete
-header/footer fidelity, and several known PPTX model gaps.
+remaining risks are narrow real-world evidence, release-contract validation,
+and several known PPTX model gaps.
 
 ## Audit snapshot
 
@@ -73,7 +72,7 @@ being checked here:
       member decompression with explicit findings.
 - [x] Per-file coverage and `doctor` expose checked, estimated, skipped, and
       recognised unsupported capability instead of implying complete coverage.
-- [x] Local verification: 213 passed, 7 environment-dependent font tests
+- [x] Local verification: 228 passed, 7 environment-dependent font tests
       skipped; wheel and sdist built; the installed wheel checked the reference
       DOCX cleanly; YAML and Action shell syntax parsed successfully.
 
@@ -81,9 +80,6 @@ being checked here:
 
 | Priority | Risk | Why it matters | Required outcome |
 | --- | --- | --- | --- |
-| P0 | Coverage opacity | A clean result does not yet tell the user which encountered constructs were outside the model. | Every run can explain what was checked, skipped, estimated, or unsupported. |
-| P0 | Unbounded ZIP processing | A hostile or accidentally huge Office file can consume excessive memory or CPU before checks run. | Enforce documented entry, compressed-size, expanded-size, and ratio budgets with explicit findings. |
-| P0 | Header/footer fidelity gap | Removing header or footer content can currently survive source comparison. | Compare referenced header/footer stories and detect lost text and tracked constructs without relying on part numbers. |
 | P0 | Narrow evidence corpus | One synthetic source and a small set of agent outputs cannot establish production precision. | Build a labelled, producer-diverse corpus and publish rule-level precision evidence. |
 | P0 | Release-contract risk | Baseline v2 is breaking and JSON/rule lifecycle guarantees are not formally versioned. | Publish migration notes and define compatibility rules before the next release. |
 | P1 | PPTX long-token false negative | A token wider than a wrapped box may not emit horizontal overflow. | Report the defect with calibrated confidence and regression fixtures. |
@@ -212,11 +208,11 @@ Deliverables:
 
 Exit criteria:
 
-- [ ] Removing header or footer text from an existing source produces an error.
-- [ ] Renumbering an otherwise identical header/footer part stays clean.
-- [ ] Adding a new section or story does not become a false loss.
-- [ ] Six existing clean agent outputs remain clean.
-- [ ] The support matrix names the exact covered story types and limitations.
+- [x] Removing header or footer text from an existing source produces an error.
+- [x] Renumbering an otherwise identical header/footer part stays clean.
+- [x] Adding a new section or story does not become a false loss.
+- [x] Six existing clean agent outputs remain clean.
+- [x] The support matrix names the exact covered story types and limitations.
 
 #### P0.5 Build the evidence corpus
 
@@ -385,11 +381,10 @@ building a hosted product.
 ## Recommended sequence
 
 1. Release the current hardening as `0.4.0` after review and full CI.
-2. Implement archive budgets and per-file coverage reporting.
-3. Add header/footer fidelity and grow the DOCX corpus with design partners.
-4. Fix the two bounded PPTX correctness gaps: long tokens and TTC/OTC faces.
-5. Measure beta precision and onboarding before expanding format scope.
-6. Sell pipeline audits first; build a control plane only after repeated demand.
+2. Grow the DOCX corpus with design partners and label source/output pairs.
+3. Fix the two bounded PPTX correctness gaps: long tokens and TTC/OTC faces.
+4. Measure beta precision and onboarding before expanding format scope.
+5. Sell pipeline audits first; build a control plane only after repeated demand.
 
 The guiding rule is simple: prefer a smaller Supported surface with measured
 precision and explicit gaps over a broad validator that can return an

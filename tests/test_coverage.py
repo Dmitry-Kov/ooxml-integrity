@@ -105,7 +105,7 @@ def test_requested_docx_comparison_is_reflected_per_surface(base_docx):
     items = _by_id(_coverage(result))
     assert items["docx.fidelity.main-story"]["status"] == "checked"
     assert items["docx.fidelity.note-bodies"]["status"] == "checked"
-    assert items["docx.fidelity.headers-footers"]["status"] == "unsupported"
+    assert items["docx.fidelity.headers-footers"]["status"] == "checked"
 
 
 def test_orphan_note_definitions_still_count_as_a_checked_surface(
@@ -256,11 +256,13 @@ def test_doctor_reports_runtime_fonts_and_unavailable_checks():
     assert report["fonts"]["probes"] or report["fonts"]["failures"]
     assert all(font["confidence"] for font in report["fonts"]["probes"])
     assert {item["id"] for item in report["unavailable_checks"]} >= {
-        "docx.fidelity.headers-footers",
         "pptx.grouped-shapes",
         "pptx.tables",
         "pptx.smartart",
         "pptx.fidelity.source",
+    }
+    assert "docx.fidelity.headers-footers" not in {
+        item["id"] for item in report["unavailable_checks"]
     }
 
 
