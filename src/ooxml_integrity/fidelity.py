@@ -13,9 +13,8 @@ import re
 import zipfile
 from pathlib import Path
 
-from lxml import etree
-
 from .finding import ERROR, INFO, WARN, Finding
+from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -70,7 +69,7 @@ _BOILERPLATE = {"separator", "continuationSeparator", "continuationNotice"}
 
 def _document(path: str | Path):
     with zipfile.ZipFile(path) as z:
-        return etree.fromstring(z.read("word/document.xml"))
+        return parse_xml(z.read("word/document.xml"))
 
 
 def _counts(path: str | Path) -> dict[str, int]:
@@ -94,7 +93,7 @@ def _bodies(path: str | Path, part: str, tag: str) -> collections.Counter:
             blob = z.read(part)
     except KeyError:
         return collections.Counter()
-    root = etree.fromstring(blob)
+    root = parse_xml(blob)
     out: collections.Counter = collections.Counter()
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
@@ -109,7 +108,7 @@ def _author_of(path: str | Path, part: str, tag: str, body: str) -> str:
     """Who wrote the item with this body, for a message worth reading."""
     try:
         with zipfile.ZipFile(path) as z:
-            root = etree.fromstring(z.read(part))
+            root = parse_xml(z.read(part))
     except KeyError:
         return ""
     for item in root.iter(W + tag):

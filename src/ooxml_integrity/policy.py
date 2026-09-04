@@ -32,6 +32,7 @@ rather than pretending they were never there.
 from __future__ import annotations
 
 import fnmatch
+import hashlib
 import json
 import os
 from dataclasses import dataclass, field
@@ -48,6 +49,11 @@ CONFIG_NAMES = (".ooxml-integrity.toml", ".docx-integrity.toml", "pyproject.toml
 
 #: Where a baseline is written by default.
 DEFAULT_BASELINE = ".ooxml-integrity-baseline.json"
+
+#: Baseline fingerprints changed in v2 so distinct fidelity losses cannot
+#: consume one another's allowance. Old baselines must be regenerated rather
+#: than silently interpreted with the old, collision-prone identity.
+BASELINE_VERSION = 2
 
 #: Tables read out of pyproject.toml, in order. Same reasoning as above.
 PYPROJECT_TABLES = (("tool", "ooxml-integrity"), ("tool", "docx-integrity"))
@@ -238,10 +244,25 @@ def fingerprint(file: str, f: Finding) -> str:
     Deliberately excludes the message. Messages carry measurements - "text needs
     118pt in a 48pt box" - and a baseline keyed on those would go stale the
     moment anything moved by a point, which is the opposite of what a baseline
-    is for. Path, code and location are what stay put.
+    is for. Path, code and location are the general identity. Fidelity findings
+    also need one stable discriminator: their construct tag, or a digest of the
+    lost body. The digest distinguishes bodies without writing document content
+    into a baseline that is normally committed to source control.
     """
     where = f.where or f.part
-    return f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
+    stable = ""
+    if f.code in ("FID001", "FID002"):
+        tag = f.extra.get("tag")
+        if tag:
+            stable = f"tag={tag}"
+    elif f.code in ("FID004", "FID005", "FID006"):
+        body = f.extra.get("body")
+        if isinstance(body, str) and body:
+            digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+            stable = f"body-sha256={digest}"
+
+    key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
+    return f"{key}::{stable}" if stable else key
 
 
 def make_baseline(results: dict[str, list[Finding]]) -> dict[str, Any]:
@@ -251,7 +272,7 @@ def make_baseline(results: dict[str, list[Finding]]) -> dict[str, Any]:
             key = fingerprint(file, f)
             counts[key] = counts.get(key, 0) + 1
     return {
-        "version": 1,
+        "version": BASELINE_VERSION,
         "note": ("Findings recorded as already present. The check fails only on "
                  "new ones. Regenerate with --write-baseline after fixing some."),
         "findings": dict(sorted(counts.items())),
@@ -267,6 +288,19 @@ def read_baseline(path: str | os.PathLike) -> dict[str, int]:
         data = json.load(fh)
     if not isinstance(data, dict) or "findings" not in data:
         raise ConfigError(f"{p} is not a ooxml-integrity baseline")
+    version = data.get("version")
+    if type(version) is int and version == 1:
+        raise ConfigError(
+            f"{p} uses baseline version 1, whose fidelity fingerprints can hide "
+            "a different new loss. Regenerate it with the same check command "
+            f"and --write-baseline {p}"
+        )
+    if type(version) is not int or version != BASELINE_VERSION:
+        raise ConfigError(
+            f"{p} uses unsupported baseline version {version!r}; this release "
+            f"supports version {BASELINE_VERSION}. Regenerate it with the same "
+            f"check command and --write-baseline {p}"
+        )
     return {str(k): int(v) for k, v in data["findings"].items()}
 
 

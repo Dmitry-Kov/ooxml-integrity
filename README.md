@@ -11,6 +11,10 @@ Deterministic checks for `.docx` and `.pptx`, for the two questions nothing else
 answers. No model calls, no rendering, no network — it reads the zip and the font
 files, so it runs on documents you cannot send anywhere.
 
+Exact boundaries are listed in the [support matrix](docs/support-matrix.md).
+Readiness priorities and release gates are tracked in the
+[audit and implementation plan](AUDIT_PLAN.md).
+
 **Documents: what did the edit lose?** Word, LibreOffice and every OOXML schema
 validator will happily accept a `.docx` in which a reviewer's comment has been
 silently detached from the text it was written about. This repo contains a
@@ -165,6 +169,10 @@ build artifact. Inputs: `files`, `against`, `fail-on`, `config`, `baseline`,
 `sarif`, `version`, `source`, `python-version`, `json-report`. Outputs:
 `exit-code`, `errors`, `warnings`, `sarif`.
 
+With neither `version` nor `source`, the action installs the checker bundled
+with its selected ref: pinning `@v0.3.1` pins both the wrapper and the checker.
+Those two inputs are explicit overrides for testing another package build.
+
 Use it on the step *after* anything that edits documents programmatically — a
 generation script, an agent, a template merge. That is where these defects come
 from, and it is the only place they are still cheap to find.
@@ -213,6 +221,10 @@ It counts occurrences rather than storing a set, so a second overflow in a shape
 that had one is still new. And its fingerprints exclude the message, because
 messages carry measurements (`needs 118pt in a 48pt box`) and a baseline keyed on
 those would go stale the first time anything moved by a point.
+
+The baseline format is versioned. If a newer checker refuses an older baseline,
+regenerate it with the same check command and `--write-baseline`; legacy formats
+are not accepted when their fingerprints could hide a different new finding.
 
 `--show-suppressed` prints what was hidden and why. A full worked config is in
 [`docs/example-config.toml`](docs/example-config.toml).
@@ -552,12 +564,13 @@ And for `.pptx`:
 | `PPT006`    | two text-bearing shapes overlap                                                             |
 | `PPT007`    | the declared font is unavailable, so measurements for those shapes are estimates            |
 
-Every finding carries a code, a severity and an XPath to the offending node.
-The codes are stable, so they are safe to grep for and safe to suppress.
+Every finding carries a code and a severity, plus a part, shape or XPath when
+the checker can identify one. The codes are stable, so they are safe to grep
+for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 135 tests, and the three most useful ones are regressions for false
+The suite has 168 tests, and the three most useful ones are regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken
@@ -592,11 +605,11 @@ src/ooxml_integrity/
   sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
   __main__.py           so `python -m ooxml_integrity` works without PATH
-tests/                  135 tests, including the false-positive regressions
+tests/                  168 tests, including the false-positive regressions
 research/               the experiments: corpus builders, mutators, calibration,
                         renderer comparison, the PowerPoint checklist
-docs/                   the PowerPoint validation, raw calibration numbers,
-                        a worked example config
+docs/                   the support matrix, PowerPoint validation, calibration,
+                        and a worked example config
 corpus/base.docx        the reference document, byte-reproducible
 corpus/deck.pptx        the reference deck, ground truth in the shape names
 runs/                   eight real agent outputs, used as fixtures

@@ -190,7 +190,6 @@ jobs:
             runs/t5_rewrite_pres/agreement.docx
           against: corpus/base.docx
           json-report: careful.json
-          source: "."
 
       # The two fast runs must fail. `continue-on-error` plus an explicit
       # assertion, so a silent pass here is caught rather than celebrated.
@@ -203,7 +202,6 @@ jobs:
             runs/t4_fast_fee/agreement.docx
             runs/t4_fast_table/agreement.docx
           against: corpus/base.docx
-          source: "."
 
       - name: Assert the fast runs were caught
         run: |

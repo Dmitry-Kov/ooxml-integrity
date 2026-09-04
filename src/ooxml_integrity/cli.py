@@ -62,9 +62,12 @@ def _run_one(path: Path, source: Path | None) -> list[Finding]:
     if path.suffix.lower() in (".pptx", ".potx", ".ppsx"):
         if source is not None:
             return check_pptx(path) + [
-                Finding("FID000", Severity.INFO,
-                        "--against is not implemented for .pptx yet; only layout "
-                        "checks were run")
+                Finding(
+                    "FID000", Severity.ERROR,
+                    "comparison was NOT performed: --against source comparison "
+                    f"is not implemented for {path.suffix.lower()} files; "
+                    "only layout checks were run",
+                )
             ]
         return check_pptx(path)
     findings = check(path)
@@ -74,8 +77,10 @@ def _run_one(path: Path, source: Path | None) -> list[Finding]:
             findings = findings + compare(source, path)
         except Exception as e:
             findings = findings + [
-                Finding("FID000", Severity.WARN,
-                        f"could not compare against {source}: {e}")
+                Finding(
+                    "FID000", Severity.ERROR,
+                    f"comparison was NOT performed against {source}: {e}",
+                )
             ]
     return findings
 

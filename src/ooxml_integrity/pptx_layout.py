@@ -32,6 +32,7 @@ from pathlib import Path
 from lxml import etree
 
 from .fonts import EMU_PER_POINT, Metrics, load_metrics
+from .xmlutil import fromstring as parse_xml
 
 #: split on whitespace but keep it, so word boundaries survive
 _WORD_TOKENS = re.compile(r"(\s+)")
@@ -181,7 +182,7 @@ class _Package:
         if name not in self._trees:
             data = self.parts.get(name)
             try:
-                self._trees[name] = etree.fromstring(data) if data else None
+                self._trees[name] = parse_xml(data) if data else None
             except etree.XMLSyntaxError:
                 self._trees[name] = None
         return self._trees[name]

@@ -1,5 +1,35 @@
 # Changelog
 
+## Unreleased
+
+### Breaking
+- Baselines now use format version 2. Version 1 fingerprints could allow one
+  accepted fidelity loss to hide a different new loss with the same rule code.
+  Version 1 is therefore rejected with an instruction to regenerate it rather
+  than being interpreted ambiguously.
+
+### Security
+- OOXML parts are parsed with DTD loading, entity expansion and network access
+  disabled, and parts containing a `DOCTYPE` are rejected.
+- Composite Action inputs are passed to the shell through environment variables
+  instead of being interpolated into shell source.
+
+### Fixed
+- DOCX relationships are checked package-wide, including the root
+  `officeDocument` entry point and relationships owned by headers, footers and
+  other XML parts.
+- An explicit `--against` now fails closed when the comparison cannot run or is
+  requested for a PowerPoint file, where source comparison is not implemented.
+- The composite Action installs the checker from its selected Action ref by
+  default, so pinning the Action no longer silently installs the latest PyPI
+  release. Explicit `source` and `version` inputs remain available as overrides.
+- Directories, permission failures and other package I/O errors are reported as
+  findings instead of escaping the CLI as a traceback.
+
+### Documentation
+- Added a support matrix that separates supported, partial and unchecked
+  surfaces for DOCX self-consistency, DOCX fidelity and PPTX layout.
+
 ## 0.3.1
 
 ### Added

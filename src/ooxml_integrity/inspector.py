@@ -8,15 +8,17 @@ No model calls, no rendering, no network.
 """
 from __future__ import annotations
 
-import re
+import posixpath
 import zipfile
 from collections import Counter
 from pathlib import Path
 from typing import Iterable
+from urllib.parse import unquote, urlsplit
 
 from lxml import etree
 
 from .finding import ERROR, INFO, WARN, Finding
+from .xmlutil import UnsafeXML, fromstring as parse_xml
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -85,11 +87,23 @@ class Inspector:
             self._add("PKG002", ERROR, f"not a valid OPC package: {e}")
             self.readable = False
             return False
+        except OSError as e:
+            # A directory, an unreadable file, and an I/O failure are all bad
+            # inputs, not reasons for the CLI to escape with a traceback.
+            self._add("PKG002", ERROR, f"could not read OPC package: {e}")
+            self.readable = False
+            return False
 
         for name, data in self.parts.items():
             if name.endswith((".xml", ".rels")):
                 try:
-                    self.trees[name] = etree.fromstring(data)
+                    self.trees[name] = parse_xml(data)
+                except UnsafeXML as e:
+                    self._add(
+                        "XML001", ERROR,
+                        f"XML could not be safely parsed: {e}",
+                        part=name,
+                    )
                 except etree.XMLSyntaxError as e:
                     self._add("XML001", ERROR, f"XML is not well-formed: {e}", part=name)
         return True
@@ -134,45 +148,166 @@ class Inspector:
                 )
         return out, rels
 
+    @staticmethod
+    def _source_for_rels(rels: str) -> str | None:
+        """The package part that owns a relationship part.
+
+        `_rels/.rels` belongs to the package itself, represented by an empty
+        string. `word/_rels/header1.xml.rels` belongs to `word/header1.xml`.
+        A name that is not a relationship part returns None.
+        """
+        if rels == "_rels/.rels":
+            return ""
+        if rels.startswith("_rels/"):
+            directory, leaf = "", rels[len("_rels/"):]
+        else:
+            directory, marker, leaf = rels.rpartition("/_rels/")
+            if not marker:
+                return None
+        if not leaf.endswith(".rels"):
+            return None
+        source_leaf = leaf[:-len(".rels")]
+        if not source_leaf:
+            return None
+        return f"{directory}/{source_leaf}" if directory else source_leaf
+
+    @staticmethod
+    def _target_candidates(source: str, target: str) -> tuple[str, ...]:
+        """Package-part names an internal relationship target may denote.
+
+        OPC targets are URI references. Resolve them relative to the owning
+        part, strip a fragment, and accept both the spelling in the zip and its
+        percent-decoded spelling. Producers in the wild use both for names
+        containing spaces.
+        """
+        parsed = urlsplit(target)
+        raw = parsed.path
+        if not raw:
+            return (source,) if source and parsed.fragment else ()
+        if raw.startswith("/"):
+            joined = raw.lstrip("/")
+        else:
+            base = posixpath.dirname(source) if source else ""
+            joined = posixpath.join(base, raw) if base else raw
+        resolved = posixpath.normpath(joined).lstrip("/")
+        if resolved in ("", ".", "..") or resolved.startswith("../"):
+            return ()
+        decoded = unquote(resolved)
+        return ((resolved, decoded) if decoded != resolved else (resolved,))
+
     def check_relationships(self) -> None:
         doc = self._tree("word/document.xml")
         if doc is None:
             self._add("PKG006", ERROR, "missing word/document.xml")
-            return
-        rels, relsname = self._rels_for("word/document.xml")
-        used: set[str] = set()
 
-        for el in doc.iter():
-            for attr in (_r("id"), _r("embed"), _r("link")):
-                v = el.get(attr)
-                if not v:
+        # A DOCX is entered through the package-level officeDocument
+        # relationship. Hard-coding word/document.xml without checking the root
+        # graph can call a package clean even though Word has no way to find it.
+        root_rels = self._tree("_rels/.rels")
+        if root_rels is None:
+            if "_rels/.rels" not in self.parts:  # malformed XML already has XML001
+                self._add(
+                    "REL001", ERROR,
+                    "missing _rels/.rels - the package has no officeDocument "
+                    "entry point",
+                    part="_rels/.rels",
+                )
+        else:
+            office_rels = [
+                rel for rel in root_rels.findall(
+                    f"{{{NS['rel']}}}Relationship")
+                if (rel.get("Type") or "").endswith("/officeDocument")
+            ]
+            if not office_rels:
+                self._add(
+                    "REL001", ERROR,
+                    "_rels/.rels has no officeDocument relationship - Word "
+                    "cannot locate the document",
+                    part="_rels/.rels",
+                )
+            elif not any(
+                rel.get("TargetMode") != "External" and rel.get("Target")
+                for rel in office_rels
+            ):
+                self._add(
+                    "REL001", ERROR,
+                    "the package officeDocument relationship must have an "
+                    "internal target",
+                    part="_rels/.rels",
+                )
+
+        # Relationship ids are scoped to the XML part that contains them. Scan
+        # every successfully parsed XML part, not only the main document: headers,
+        # footers, footnotes and custom parts may all own images or hyperlinks.
+        used_by_source: dict[str, set[str]] = {}
+        for source, tree in self.trees.items():
+            if source.endswith(".rels"):
+                continue
+            rels, relsname = self._rels_for(source)
+            used: set[str] = set()
+            for el in tree.iter():
+                for attr in (_r("id"), _r("embed"), _r("link")):
+                    rid = el.get(attr)
+                    if not rid:
+                        continue
+                    used.add(rid)
+                    if rid not in rels:
+                        self._add(
+                            "REL001", ERROR,
+                            f"relationship {rid} not found in {relsname} - Word "
+                            "will error or drop the object",
+                            self._xpath(el), source,
+                        )
+            used_by_source[source] = used
+
+        # Every relationship part is still useful even when its source is binary
+        # or malformed: an internal target must name a package part. REL003 is
+        # deliberately narrower. It is only meaningful when the owning XML part
+        # parsed and could be searched; root relationships and relationships of a
+        # binary source are implicit and must not be called unused.
+        for relsname, tree in self.trees.items():
+            if not relsname.endswith(".rels"):
+                continue
+            source = self._source_for_rels(relsname)
+            if source is None:
+                continue
+            rels: dict[str | None, tuple[str | None, str | None, str]] = {}
+            for rel in tree.findall(f"{{{NS['rel']}}}Relationship"):
+                rid = rel.get("Id")
+                target = rel.get("Target")
+                mode = rel.get("TargetMode")
+                rtype = rel.get("Type") or ""
+                rels[rid] = (target, mode, rtype)
+                if mode == "External":
                     continue
-                used.add(v)
-                if v not in rels:
+                if not target:
                     self._add(
-                        "REL001", ERROR,
-                        f"relationship {v} not found in {relsname} - Word will "
-                        "error or drop the object",
-                        self._xpath(el), "word/document.xml",
+                        "REL002", ERROR,
+                        f"{rid} has no internal target",
+                        part=relsname,
+                    )
+                    continue
+                candidates = self._target_candidates(source, target)
+                if not candidates or not any(c in self.parts for c in candidates):
+                    self._add(
+                        "REL002", ERROR,
+                        f"{rid} points at a missing part: {target}",
+                        part=relsname,
                     )
 
-        for rid, (target, mode, rtype) in rels.items():
-            if mode == "External" or not target:
+            if not source or source not in used_by_source:
                 continue
-            resolved = ("word/" + target).replace("/./", "/")
-            while "/../" in resolved:
-                resolved = re.sub(r"[^/]+/\.\./", "", resolved, count=1)
-            if resolved not in self.parts:
-                self._add("REL002", ERROR,
-                          f"{rid} points at a missing part: {target}", part=relsname)
-
-        for rid, (_, _, rtype) in rels.items():
-            if rid in used:
-                continue
-            if any(k in rtype for k in _IMPLICIT_RELS):
-                continue
-            self._add("REL003", INFO, f"{rid} declared but never referenced",
-                      part=relsname)
+            used = used_by_source[source]
+            for rid, (_, _, rtype) in rels.items():
+                if rid in used:
+                    continue
+                if any(k in rtype for k in _IMPLICIT_RELS):
+                    continue
+                self._add(
+                    "REL003", INFO,
+                    f"{rid} declared but never referenced",
+                    part=relsname,
+                )
 
     def check_styles(self) -> None:
         st = self._tree("word/styles.xml")

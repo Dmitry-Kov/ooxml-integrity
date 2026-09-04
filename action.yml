@@ -1,8 +1,7 @@
 name: "ooxml-integrity"
 description: >-
-  Check .docx files for structural defects that schema validation and rendering
-  both miss - broken comment anchors, dangling style and numbering references,
-  colliding revision ids, and content lost relative to a source document.
+  Check .docx files for structural defects and content lost relative to a source,
+  and .pptx files for text overflow, overlap, and off-canvas content.
 author: "Dmitrii Kovalev"
 
 branding:
@@ -12,14 +11,15 @@ branding:
 inputs:
   files:
     description: >-
-      Paths or globs to check, whitespace or newline separated.
-      Example: "docs/**/*.docx" or "out/report.docx out/annex.docx".
+      .docx or .pptx paths/globs to check, whitespace or newline separated.
+      Example: "docs/**/*.docx" or "out/report.docx slides/deck.pptx".
     required: true
   against:
     description: >-
-      Optional source document. When set, the run also reports what each file
-      lost relative to it - comment anchors, footnotes, tracked changes.
-      Use this when a step edits an existing document rather than creating one.
+      Optional source .docx. When set, the run also reports what each .docx lost
+      relative to it - comment anchors, footnotes, tracked changes. PowerPoint
+      source comparison is not implemented and fails the check rather than being
+      silently skipped; an unreadable source also fails the check.
     required: false
     default: ""
   fail-on:
@@ -28,16 +28,15 @@ inputs:
     default: "error"
   version:
     description: >-
-      Version of ooxml-integrity to install, e.g. "0.1.0". Empty installs the
-      latest release. Pin this if you want reproducible runs.
+      Explicit PyPI version override, e.g. "0.3.1". Empty installs the code from
+      the selected Action ref, so a pinned ref also pins the checker source.
     required: false
     default: ""
   source:
     description: >-
-      Install from here instead of PyPI: a local path (".") or anything pip
-      accepts, e.g. "git+https://github.com/Dmitry-Kov/ooxml-integrity@main".
-      Takes precedence over `version`. Used by this repo's own CI, and useful
-      for trying an unreleased fix.
+      Explicit pip source override: a local path (".") or anything pip accepts,
+      e.g. "git+https://github.com/Dmitry-Kov/ooxml-integrity@main". Takes
+      precedence over `version`; useful for trying an unreleased fix.
     required: false
     default: ""
   python-version:
@@ -78,7 +77,7 @@ outputs:
     description: "Path of the SARIF report, when `sarif` was set."
     value: ${{ inputs.sarif }}
   exit-code:
-    description: "0 clean, 1 findings at or above fail-on."
+    description: "0 clean, 1 findings at or above fail-on, 2 usage error."
     value: ${{ steps.run.outputs.exit-code }}
   errors:
     description: "Number of error-severity findings across all files."
@@ -97,69 +96,108 @@ runs:
 
     - name: Install ooxml-integrity
       shell: bash
+      env:
+        OOXML_SOURCE: ${{ inputs.source }}
+        OOXML_VERSION: ${{ inputs.version }}
       run: |
-        if [ -n "${{ inputs.source }}" ]; then
-          python -m pip install --quiet "${{ inputs.source }}"
-        elif [ -n "${{ inputs.version }}" ]; then
-          python -m pip install --quiet "ooxml-integrity==${{ inputs.version }}"
+        set -euo pipefail
+        if [ -n "$OOXML_SOURCE" ]; then
+          python -m pip install --quiet "$OOXML_SOURCE"
+        elif [ -n "$OOXML_VERSION" ]; then
+          python -m pip install --quiet "ooxml-integrity==$OOXML_VERSION"
         else
-          python -m pip install --quiet ooxml-integrity
+          python -m pip install --quiet "$GITHUB_ACTION_PATH"
         fi
-        ooxml-integrity --version
+        python -m ooxml_integrity --version
 
     - name: Check documents
       id: run
       shell: bash
+      env:
+        OOXML_FILES: ${{ inputs.files }}
+        OOXML_AGAINST: ${{ inputs.against }}
+        OOXML_FAIL_ON: ${{ inputs.fail-on }}
+        OOXML_JSON_REPORT: ${{ inputs.json-report }}
+        OOXML_CONFIG: ${{ inputs.config }}
+        OOXML_BASELINE: ${{ inputs.baseline }}
+        OOXML_SARIF: ${{ inputs.sarif }}
       run: |
-        set -o pipefail
+        # macOS runners still use Bash 3.2, where expanding an empty array under
+        # nounset fails. The Action intentionally allows an empty SARIF array.
+        set -eo pipefail
         args=()
-        # shellcheck disable=SC2206
-        for f in ${{ inputs.files }}; do args+=("$f"); done
-        if [ -n "${{ inputs.against }}" ]; then
-          args+=(--against "${{ inputs.against }}")
+        # Keep globs literal for the cross-platform expansion in the CLI. Input
+        # values are split only on whitespace, as documented above.
+        set -f
+        # shellcheck disable=SC2086
+        for f in $OOXML_FILES; do args+=("$f"); done
+        set +f
+        if [ -n "$OOXML_AGAINST" ]; then
+          args+=(--against "$OOXML_AGAINST")
         fi
-        args+=(--fail-on "${{ inputs.fail-on }}")
-        if [ "${{ inputs.config }}" = "none" ]; then
+        args+=(--fail-on "$OOXML_FAIL_ON")
+        if [ "$OOXML_CONFIG" = "none" ]; then
           args+=(--no-config)
-        elif [ -n "${{ inputs.config }}" ]; then
-          args+=(--config "${{ inputs.config }}")
+        elif [ -n "$OOXML_CONFIG" ]; then
+          args+=(--config "$OOXML_CONFIG")
         fi
-        if [ -n "${{ inputs.baseline }}" ]; then
-          args+=(--baseline "${{ inputs.baseline }}")
+        if [ -n "$OOXML_BASELINE" ]; then
+          args+=(--baseline "$OOXML_BASELINE")
         fi
+
+        work=$(mktemp -d)
+        trap 'rm -rf "$work"' EXIT
+        human_report="$work/human.txt"
+        machine_report="$work/report.json"
 
         # Human-readable output into the log and the job summary.
         set +e
-        ooxml-integrity check "${args[@]}" | tee /tmp/di-human.txt
+        python -m ooxml_integrity check "${args[@]}" | tee "$human_report"
         code=${PIPESTATUS[0]}
         set -e
 
         # A second pass for machine-readable counts, and the SARIF report in the
         # same pass. Cheap: no rendering, no model calls, no network.
         sarif_args=()
-        if [ -n "${{ inputs.sarif }}" ]; then
-          sarif_args+=(--sarif "${{ inputs.sarif }}")
+        if [ -n "$OOXML_SARIF" ]; then
+          sarif_args+=(--sarif "$OOXML_SARIF")
         fi
-        ooxml-integrity check "${args[@]}" "${sarif_args[@]}" --json > /tmp/di.json || true
-        errors=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['error'] for f in d['files']))")
-        warnings=$(python -c "import json;d=json.load(open('/tmp/di.json'));print(sum(f['summary']['warn'] for f in d['files']))")
+        python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
+          > "$machine_report" || true
+        errors=0
+        warnings=0
+        counts_valid=false
+        if counts=$(python -c '
+        import json, sys
+        with open(sys.argv[1]) as report:
+            data = json.load(report)
+        print(
+            sum(file["summary"]["error"] for file in data["files"]),
+            sum(file["summary"]["warn"] for file in data["files"]),
+        )
+        ' "$machine_report" 2>/dev/null); then
+          read -r errors warnings <<< "$counts"
+          counts_valid=true
+        fi
 
         {
           echo "### ooxml-integrity"
           echo
           if [ "$code" -eq 0 ]; then
-            echo "No findings at or above \`${{ inputs.fail-on }}\`."
-          else
+            printf 'No findings at or above `%s`.\n' "$OOXML_FAIL_ON"
+          elif [ "$counts_valid" = true ]; then
             echo "**$errors error(s), $warnings warning(s)**"
+          else
+            echo "The checker exited with code $code before producing a JSON report."
           fi
           echo
           echo '```'
-          cat /tmp/di-human.txt
+          cat "$human_report"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
 
-        if [ -n "${{ inputs.json-report }}" ]; then
-          cp /tmp/di.json "${{ inputs.json-report }}"
+        if [ -n "$OOXML_JSON_REPORT" ]; then
+          cp "$machine_report" "$OOXML_JSON_REPORT"
         fi
 
         echo "exit-code=$code" >> "$GITHUB_OUTPUT"
