@@ -1,0 +1,2398 @@
+{
+  "schema_version": 1,
+  "corpus": "docx-beta-synthetic-v1",
+  "labelled_on": "2026-09-05",
+  "scope": "DOCX structural integrity and source fidelity",
+  "licence": "MIT (same as this repository)",
+  "sanitisation": "All documents are synthetic and contain no customer, personal, confidential, or externally licensed content.",
+  "label_policy": "Expected findings are declared by isolated mutation before the checker runs. Exact actionable multisets are regression-gated.",
+  "known_evidence_gaps": [
+    "No Word for Windows source has been collected.",
+    "No Word Online source has been collected.",
+    "No customer or independently supplied generator source is included.",
+    "Labels have one maintainer review, not independent dual review.",
+    "Renderer appearance is not scored by this structural corpus."
+  ],
+  "producer_versions": {
+    "python-docx": "1.2.0",
+    "libreoffice": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "word-mac": "16.112.3"
+  },
+  "rule_inventory": [
+    "CMT001",
+    "CMT002",
+    "CMT003",
+    "CMT004",
+    "CMT005",
+    "FID000",
+    "FID001",
+    "FID002",
+    "FID003",
+    "FID004",
+    "FID005",
+    "FID006",
+    "FID007",
+    "FID008",
+    "FTN001",
+    "FTN002",
+    "INT001",
+    "NUM001",
+    "NUM002",
+    "NUM003",
+    "NUM004",
+    "PKG000",
+    "PKG001",
+    "PKG002",
+    "PKG003",
+    "PKG004",
+    "PKG005",
+    "PKG006",
+    "PKG007",
+    "PKG008",
+    "REL001",
+    "REL002",
+    "REL003",
+    "REV001",
+    "REV002",
+    "REV003",
+    "SDT001",
+    "SDT002",
+    "STY001",
+    "STY002",
+    "TBL001",
+    "TBL002",
+    "TXT001",
+    "XML001"
+  ],
+  "source_count": 30,
+  "pair_count": 120,
+  "sources": [
+    {
+      "id": "contract-01",
+      "path": "sources/contract-01.docx",
+      "sha256": "3a72fdc94977298105c35e267f45c48104373835413e8ec7578eb321cdc2e2b5",
+      "category": "contract",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "contract-02",
+      "path": "sources/contract-02.docx",
+      "sha256": "67d1485c5806538ac30532043e2578e7a051bd25b09441c6dead1e68eb3a935c",
+      "category": "contract",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "contract-03",
+      "path": "sources/contract-03.docx",
+      "sha256": "fd19e18d45bea332a421b6641eedcd8b945aeecc69349dc87c19bb9db5140600",
+      "category": "contract",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "contract-04",
+      "path": "sources/contract-04.docx",
+      "sha256": "b71a31ed94b7cbe82c2616e1085a29fee35a9f8831123b3484f567051854e9fb",
+      "category": "contract",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "contract-05",
+      "path": "sources/contract-05.docx",
+      "sha256": "ee26760e4465cb6ae6d7150f2b8ca354b68af10734b2c6813bfa8cb58ce412de",
+      "category": "contract",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "report-01",
+      "path": "sources/report-01.docx",
+      "sha256": "ca8428b02c408f1ef2326495b6980f1041b9ceacc4e4c07c3d0c876239542b7f",
+      "category": "report",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "report-02",
+      "path": "sources/report-02.docx",
+      "sha256": "4dd3e7e5ded3092c7dab7aeb0fe944483b0f365aa2ad0d43870d4597939a48d0",
+      "category": "report",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "report-03",
+      "path": "sources/report-03.docx",
+      "sha256": "0070174889fcd660b2231ed21417dd2d218b367aac6d3f94cc748ef8c20141ae",
+      "category": "report",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "report-04",
+      "path": "sources/report-04.docx",
+      "sha256": "8640f0eb95d0789cb28f77460afeeb8a18b6f74e5f7ea3f586598297ee017016",
+      "category": "report",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "report-05",
+      "path": "sources/report-05.docx",
+      "sha256": "86616b534289c9122b82ed96b68178aae4a57e15f7c57eacec40e061569a469e",
+      "category": "report",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "letter-01",
+      "path": "sources/letter-01.docx",
+      "sha256": "62fe4da7af9d1d30694b982033780864bbfe55a77104147f4a69fa6d7db9a382",
+      "category": "letter",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "letter-02",
+      "path": "sources/letter-02.docx",
+      "sha256": "771a9277ac6f211c7caf1049bbad768e5acd05e0017122ceb49e0e77488385ce",
+      "category": "letter",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "letter-03",
+      "path": "sources/letter-03.docx",
+      "sha256": "b054d901e396548e89e5d30dc5e3d19765a969efa3705867a0bdd14e48c65573",
+      "category": "letter",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "letter-04",
+      "path": "sources/letter-04.docx",
+      "sha256": "820ff4ed75bb38eb60b2051d1d7a66917a67e4d4c68bf91c5852e01b372a52be",
+      "category": "letter",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "letter-05",
+      "path": "sources/letter-05.docx",
+      "sha256": "5fa577880fb3e66b6b9cd0940e9b351d7d3bbe0baab10716a185f49f11e8b117",
+      "category": "letter",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "table-01",
+      "path": "sources/table-01.docx",
+      "sha256": "091b41a5044c3e50249d49d5e8006cf1be943d0e3143985a7b36e7966236995c",
+      "category": "table",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "table-02",
+      "path": "sources/table-02.docx",
+      "sha256": "75796c73b01e78672e6c1cd7e70d3ddfdae3327991dbd31a7625fd223a637e07",
+      "category": "table",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "table-03",
+      "path": "sources/table-03.docx",
+      "sha256": "2493732909fbf219e45d0c7d3c71b7932f435fbccf4edcd846287b12d977d796",
+      "category": "table",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "table-04",
+      "path": "sources/table-04.docx",
+      "sha256": "51dc7d2f67f61be3f44e40383b57f9bd8325799e9435ca5c45781e3828019e46",
+      "category": "table",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "table-05",
+      "path": "sources/table-05.docx",
+      "sha256": "0bd9ae3fb3fa2ededbc77b2ef8e3de7b8712b4a6dce0e6938cf4916d7c3b347b",
+      "category": "table",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "multi-section-01",
+      "path": "sources/multi-section-01.docx",
+      "sha256": "1716711ee6bab64109c8ab4784e9f0571fa80f19352ab185b628aef46872fc52",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "multi-section-02",
+      "path": "sources/multi-section-02.docx",
+      "sha256": "a7adb66c4da9e643a77a6a4127fd291d8d97176523656e330ddf75bc11aea052",
+      "category": "multi-section",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "multi-section-03",
+      "path": "sources/multi-section-03.docx",
+      "sha256": "8f286c3ea9545532c61aa947e337b2a5a9bca9f573ddde2ce29ece9783e70c7b",
+      "category": "multi-section",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "multi-section-04",
+      "path": "sources/multi-section-04.docx",
+      "sha256": "a7279b1ffaebf737d0356bee65d4c423101cb5532e97924fd76f8a3324e93966",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "multi-section-05",
+      "path": "sources/multi-section-05.docx",
+      "sha256": "aeaaf6b00bc3a936f09337cf112b569c189a9ceccce0d16442b16d330cd37043",
+      "category": "multi-section",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "review-heavy-01",
+      "path": "sources/review-heavy-01.docx",
+      "sha256": "445d4dfd8b62a6b30ca50627eff5c6551246652304567fd256ad7830edae1eca",
+      "category": "review-heavy",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "review-heavy-02",
+      "path": "sources/review-heavy-02.docx",
+      "sha256": "0b2c8f53db7e9714a6645f8791fb3702ee56770d816012de533ac85cc7a11fe4",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "review-heavy-03",
+      "path": "sources/review-heavy-03.docx",
+      "sha256": "80599d7065dfaa6682cf1b0aecf3fbac6251019d18717476a146bf2ab26cdc6e",
+      "category": "review-heavy",
+      "producer": {
+        "id": "python-docx",
+        "version": "1.2.0",
+        "operation": "create"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "review-heavy-04",
+      "path": "sources/review-heavy-04.docx",
+      "sha256": "4d8c4b53e866c97327e6229d5c6577b0d384195d5cd6b11c06775820383d1936",
+      "category": "review-heavy",
+      "producer": {
+        "id": "libreoffice",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "review-heavy-05",
+      "path": "sources/review-heavy-05.docx",
+      "sha256": "98ff37c48ba6820d078305b0feb9e5f2d65b368541a938cec48b6c168143abb8",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-mac",
+        "version": "16.112.3",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
+      "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "contract-01--clean-copy",
+      "source": "sources/contract-01.docx",
+      "output": "outputs/contract-01--clean-copy.docx",
+      "output_sha256": "3a72fdc94977298105c35e267f45c48104373835413e8ec7578eb321cdc2e2b5",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-01--safe-text-edit",
+      "source": "sources/contract-01.docx",
+      "output": "outputs/contract-01--safe-text-edit.docx",
+      "output_sha256": "bac224b47adfce634820235b6191e8c461b9e93e37b4951c4328f774c6f0a907",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-01--orphan-comment",
+      "source": "sources/contract-01.docx",
+      "output": "outputs/contract-01--orphan-comment.docx",
+      "output_sha256": "6827df5135a5993d90404496125303fb69ad0db8e260bfa71afbad4d8aa2de88",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-01--missing-comment-definition",
+      "source": "sources/contract-01.docx",
+      "output": "outputs/contract-01--missing-comment-definition.docx",
+      "output_sha256": "b606965530b69f9b746b99229c8ffbb2e17f933cdbd3c5b06a5b61dc822d7e9e",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-02--clean-copy",
+      "source": "sources/contract-02.docx",
+      "output": "outputs/contract-02--clean-copy.docx",
+      "output_sha256": "67d1485c5806538ac30532043e2578e7a051bd25b09441c6dead1e68eb3a935c",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-02--safe-text-edit",
+      "source": "sources/contract-02.docx",
+      "output": "outputs/contract-02--safe-text-edit.docx",
+      "output_sha256": "88f026cf1697f2ba11c6da52bad7bf317f6098c331b68976b41ee118bae65c03",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-02--orphan-comment",
+      "source": "sources/contract-02.docx",
+      "output": "outputs/contract-02--orphan-comment.docx",
+      "output_sha256": "d88acc9793e7f217547cc3622c257f55d5f1fe3216803fe8946914b6de2ae27d",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-02--missing-comment-definition",
+      "source": "sources/contract-02.docx",
+      "output": "outputs/contract-02--missing-comment-definition.docx",
+      "output_sha256": "dcd4087d50c060864113ec1f37a49ccbd7bd13e92db069d5615b1e1f0067d605",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-03--clean-copy",
+      "source": "sources/contract-03.docx",
+      "output": "outputs/contract-03--clean-copy.docx",
+      "output_sha256": "fd19e18d45bea332a421b6641eedcd8b945aeecc69349dc87c19bb9db5140600",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-03--safe-text-edit",
+      "source": "sources/contract-03.docx",
+      "output": "outputs/contract-03--safe-text-edit.docx",
+      "output_sha256": "755771fcb0cfd07148a07930d5afe058a5aa755317081b63c0f1d4271b8a3a22",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-03--orphan-comment",
+      "source": "sources/contract-03.docx",
+      "output": "outputs/contract-03--orphan-comment.docx",
+      "output_sha256": "bdf8948b088f18ae6e54759ad0f52f96b5772287b555b5bfa23d155931d2504a",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-03--missing-comment-definition",
+      "source": "sources/contract-03.docx",
+      "output": "outputs/contract-03--missing-comment-definition.docx",
+      "output_sha256": "e6a1b1af51af0fb2e46be9a044471bdda3cbc78dbb786edc78f154ec58b247bf",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-04--clean-copy",
+      "source": "sources/contract-04.docx",
+      "output": "outputs/contract-04--clean-copy.docx",
+      "output_sha256": "b71a31ed94b7cbe82c2616e1085a29fee35a9f8831123b3484f567051854e9fb",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-04--safe-text-edit",
+      "source": "sources/contract-04.docx",
+      "output": "outputs/contract-04--safe-text-edit.docx",
+      "output_sha256": "824178e332391f8587ffb18ef2bdf46a5799c5c7ac74f9306a5c8a4e1a57304a",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-04--orphan-comment",
+      "source": "sources/contract-04.docx",
+      "output": "outputs/contract-04--orphan-comment.docx",
+      "output_sha256": "d8626f776d3a6b6ee112a1beed0137b9e75b43aa3b38ed950a19c21f805cc9ae",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-04--missing-comment-definition",
+      "source": "sources/contract-04.docx",
+      "output": "outputs/contract-04--missing-comment-definition.docx",
+      "output_sha256": "b848559ba36e7ae29d51ff08d2666bbce8d803b6c2203f083b8329e9fa706d9d",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-05--clean-copy",
+      "source": "sources/contract-05.docx",
+      "output": "outputs/contract-05--clean-copy.docx",
+      "output_sha256": "ee26760e4465cb6ae6d7150f2b8ca354b68af10734b2c6813bfa8cb58ce412de",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-05--safe-text-edit",
+      "source": "sources/contract-05.docx",
+      "output": "outputs/contract-05--safe-text-edit.docx",
+      "output_sha256": "1510e5484f77f5bd254702dd7815bcb4e01d452d892dcd5d3db2b33e1636bf2a",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "contract-05--orphan-comment",
+      "source": "sources/contract-05.docx",
+      "output": "outputs/contract-05--orphan-comment.docx",
+      "output_sha256": "d358276906190d26a411c0361110c248c1392eb6abf8844f1236e3567039a841",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "contract-05--missing-comment-definition",
+      "source": "sources/contract-05.docx",
+      "output": "outputs/contract-05--missing-comment-definition.docx",
+      "output_sha256": "45cfde229fd9352682d430b85ee9e0ce22fe8d6208d5b6fd7cf734f321c536d4",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-01--clean-copy",
+      "source": "sources/report-01.docx",
+      "output": "outputs/report-01--clean-copy.docx",
+      "output_sha256": "ca8428b02c408f1ef2326495b6980f1041b9ceacc4e4c07c3d0c876239542b7f",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-01--safe-text-edit",
+      "source": "sources/report-01.docx",
+      "output": "outputs/report-01--safe-text-edit.docx",
+      "output_sha256": "eb9bc2925f9b93dded7c35c518fc85c03523f3e69739d5c07a0783e3e7439d13",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-01--header-changed",
+      "source": "sources/report-01.docx",
+      "output": "outputs/report-01--header-changed.docx",
+      "output_sha256": "71cb5898617f1792ce5f5a9c3071f676e309a9a63ef8b6a64b08b1953ab635e8",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-01--text-loss",
+      "source": "sources/report-01.docx",
+      "output": "outputs/report-01--text-loss.docx",
+      "output_sha256": "0869d79849446327daf818fe94bae0ca59a46553cf7528f1902134b53cad1698",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-02--clean-copy",
+      "source": "sources/report-02.docx",
+      "output": "outputs/report-02--clean-copy.docx",
+      "output_sha256": "4dd3e7e5ded3092c7dab7aeb0fe944483b0f365aa2ad0d43870d4597939a48d0",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-02--safe-text-edit",
+      "source": "sources/report-02.docx",
+      "output": "outputs/report-02--safe-text-edit.docx",
+      "output_sha256": "a8e0407f761f77fcf4bdf532b6ef8efbb3b5c2056da867d8dd41ba8abd22cd5b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-02--header-changed",
+      "source": "sources/report-02.docx",
+      "output": "outputs/report-02--header-changed.docx",
+      "output_sha256": "0d697a01f5aa2c3f396885909fccaf9a263c22d56a3de107cc6a2309cdae367e",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-02--text-loss",
+      "source": "sources/report-02.docx",
+      "output": "outputs/report-02--text-loss.docx",
+      "output_sha256": "19391153e2eaa177eb4e074888f29b229067c332ce420582876267ad0484394b",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-03--clean-copy",
+      "source": "sources/report-03.docx",
+      "output": "outputs/report-03--clean-copy.docx",
+      "output_sha256": "0070174889fcd660b2231ed21417dd2d218b367aac6d3f94cc748ef8c20141ae",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-03--safe-text-edit",
+      "source": "sources/report-03.docx",
+      "output": "outputs/report-03--safe-text-edit.docx",
+      "output_sha256": "7abf887ba4d6101d80f339690c13fc470a6c3c1cfd6b60cc554867d8bd2ee066",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-03--header-changed",
+      "source": "sources/report-03.docx",
+      "output": "outputs/report-03--header-changed.docx",
+      "output_sha256": "a63f7e6221270d21d7e8e522f445793a941de953f958a0651798713335b4c11f",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-03--text-loss",
+      "source": "sources/report-03.docx",
+      "output": "outputs/report-03--text-loss.docx",
+      "output_sha256": "46f432f509a21077357ce955d93d1e2f647b13b7645c1d5b5faef07b6dbde343",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-04--clean-copy",
+      "source": "sources/report-04.docx",
+      "output": "outputs/report-04--clean-copy.docx",
+      "output_sha256": "8640f0eb95d0789cb28f77460afeeb8a18b6f74e5f7ea3f586598297ee017016",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-04--safe-text-edit",
+      "source": "sources/report-04.docx",
+      "output": "outputs/report-04--safe-text-edit.docx",
+      "output_sha256": "23645eeb139f3e2bc880f7c73e4f7816a9dbd7dfb928f9cace44ca201bc63602",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-04--header-changed",
+      "source": "sources/report-04.docx",
+      "output": "outputs/report-04--header-changed.docx",
+      "output_sha256": "90d492a7cbd921bfc384daccbb6e277034d343213ac6f96799b3fad19b2898de",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-04--text-loss",
+      "source": "sources/report-04.docx",
+      "output": "outputs/report-04--text-loss.docx",
+      "output_sha256": "f90b2fb08397bd19e399ef84f2329c89b61236384d3caa6347fcc7e4f51d79c5",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-05--clean-copy",
+      "source": "sources/report-05.docx",
+      "output": "outputs/report-05--clean-copy.docx",
+      "output_sha256": "86616b534289c9122b82ed96b68178aae4a57e15f7c57eacec40e061569a469e",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-05--safe-text-edit",
+      "source": "sources/report-05.docx",
+      "output": "outputs/report-05--safe-text-edit.docx",
+      "output_sha256": "a4667f581c9a30154c4a5bc6dd1fd5811d37b4d6dfe378224b5ea1212fdfa2d2",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "report-05--header-changed",
+      "source": "sources/report-05.docx",
+      "output": "outputs/report-05--header-changed.docx",
+      "output_sha256": "6205adff06ae33d1625ddb3993f948082f4ef1eca14d31cb97a8bd26b35d901f",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "report-05--text-loss",
+      "source": "sources/report-05.docx",
+      "output": "outputs/report-05--text-loss.docx",
+      "output_sha256": "119285c1951e5a3a09759dfa9a7d4072df8b4b14b6eb890cc7e869adcf4060fb",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-01--clean-copy",
+      "source": "sources/letter-01.docx",
+      "output": "outputs/letter-01--clean-copy.docx",
+      "output_sha256": "62fe4da7af9d1d30694b982033780864bbfe55a77104147f4a69fa6d7db9a382",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-01--safe-text-edit",
+      "source": "sources/letter-01.docx",
+      "output": "outputs/letter-01--safe-text-edit.docx",
+      "output_sha256": "483a6974ce9ca34f5d97f61b08d64d701d4fa885c0e45ad5774fa9f8e306ac52",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-01--broken-style",
+      "source": "sources/letter-01.docx",
+      "output": "outputs/letter-01--broken-style.docx",
+      "output_sha256": "fbd7d07c50012532faa69d1a9c1937799644c513311c03263b4e6fb211e95cb9",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-01--edge-whitespace",
+      "source": "sources/letter-01.docx",
+      "output": "outputs/letter-01--edge-whitespace.docx",
+      "output_sha256": "0af741ab00ace8567e708a1d8189f3afee439b837206b901a9de8370727f9977",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-02--clean-copy",
+      "source": "sources/letter-02.docx",
+      "output": "outputs/letter-02--clean-copy.docx",
+      "output_sha256": "771a9277ac6f211c7caf1049bbad768e5acd05e0017122ceb49e0e77488385ce",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-02--safe-text-edit",
+      "source": "sources/letter-02.docx",
+      "output": "outputs/letter-02--safe-text-edit.docx",
+      "output_sha256": "9b56825cf99a16e36068ccc0bace34a561984ed1966cf6e8c55d34766ab2a19f",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-02--broken-style",
+      "source": "sources/letter-02.docx",
+      "output": "outputs/letter-02--broken-style.docx",
+      "output_sha256": "7c320ba26f2ab47f07a7d772175167762485b9b1443200f4b4cd6680a916015d",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-02--edge-whitespace",
+      "source": "sources/letter-02.docx",
+      "output": "outputs/letter-02--edge-whitespace.docx",
+      "output_sha256": "82b4bdb455e592c209f6d47271a2133eafc39aa497c2184d8c5fd0871557a57e",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-03--clean-copy",
+      "source": "sources/letter-03.docx",
+      "output": "outputs/letter-03--clean-copy.docx",
+      "output_sha256": "b054d901e396548e89e5d30dc5e3d19765a969efa3705867a0bdd14e48c65573",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-03--safe-text-edit",
+      "source": "sources/letter-03.docx",
+      "output": "outputs/letter-03--safe-text-edit.docx",
+      "output_sha256": "61b52972733bbf3428489a24060b3ab50ce2d2c0a880a5a9ed5767057d6bb326",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-03--broken-style",
+      "source": "sources/letter-03.docx",
+      "output": "outputs/letter-03--broken-style.docx",
+      "output_sha256": "2a25c9d8920c41868720a69dd76e8bdd0eec2785b2df236813d53f5297e311b1",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-03--edge-whitespace",
+      "source": "sources/letter-03.docx",
+      "output": "outputs/letter-03--edge-whitespace.docx",
+      "output_sha256": "46f0e45c544f43826fd30683e8b24e273785b21fa6553ca687e1f0a06610e318",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-04--clean-copy",
+      "source": "sources/letter-04.docx",
+      "output": "outputs/letter-04--clean-copy.docx",
+      "output_sha256": "820ff4ed75bb38eb60b2051d1d7a66917a67e4d4c68bf91c5852e01b372a52be",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-04--safe-text-edit",
+      "source": "sources/letter-04.docx",
+      "output": "outputs/letter-04--safe-text-edit.docx",
+      "output_sha256": "c4d48e03eb34ec346abf60299148aaa8c6d99b7abd520e64b495384f054f7c4c",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-04--broken-style",
+      "source": "sources/letter-04.docx",
+      "output": "outputs/letter-04--broken-style.docx",
+      "output_sha256": "2525946ef9188aad58eb91731363a9dee9f7f62125ee8b4dfa13f4e642628d0f",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-04--edge-whitespace",
+      "source": "sources/letter-04.docx",
+      "output": "outputs/letter-04--edge-whitespace.docx",
+      "output_sha256": "c4946150deeafae540aba58bdaf389c83533a9bc407d8ebb728de0153e6f563d",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-05--clean-copy",
+      "source": "sources/letter-05.docx",
+      "output": "outputs/letter-05--clean-copy.docx",
+      "output_sha256": "5fa577880fb3e66b6b9cd0940e9b351d7d3bbe0baab10716a185f49f11e8b117",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-05--safe-text-edit",
+      "source": "sources/letter-05.docx",
+      "output": "outputs/letter-05--safe-text-edit.docx",
+      "output_sha256": "034bf36f5f53bd28b6d6294fa41e6149d394253fffaad92a3959fe59178e5532",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "letter-05--broken-style",
+      "source": "sources/letter-05.docx",
+      "output": "outputs/letter-05--broken-style.docx",
+      "output_sha256": "94498d9ca806776e700500c5cd7167f11443366a9a6eb059879384e4b3abac41",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "letter-05--edge-whitespace",
+      "source": "sources/letter-05.docx",
+      "output": "outputs/letter-05--edge-whitespace.docx",
+      "output_sha256": "990dc7037c9fc9f8a0197ecc700db6a05e6a1bb690363400a1e2227e92cade34",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-01--clean-copy",
+      "source": "sources/table-01.docx",
+      "output": "outputs/table-01--clean-copy.docx",
+      "output_sha256": "091b41a5044c3e50249d49d5e8006cf1be943d0e3143985a7b36e7966236995c",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-01--safe-text-edit",
+      "source": "sources/table-01.docx",
+      "output": "outputs/table-01--safe-text-edit.docx",
+      "output_sha256": "9094a596fa768e6edfa30c21555d4d2dd3c956fc191525abda0f5f7a4593bcee",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-01--missing-table-grid",
+      "source": "sources/table-01.docx",
+      "output": "outputs/table-01--missing-table-grid.docx",
+      "output_sha256": "6c64cb0667220cf74ededfad5ffca3f6650e274b1810b78e652b65e771eef14c",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-01--table-row-mismatch",
+      "source": "sources/table-01.docx",
+      "output": "outputs/table-01--table-row-mismatch.docx",
+      "output_sha256": "3ef44a8afea55f1ab3180f3b8d17435df3ab68eb47bc9fec1b55bc0fa40c041d",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-02--clean-copy",
+      "source": "sources/table-02.docx",
+      "output": "outputs/table-02--clean-copy.docx",
+      "output_sha256": "75796c73b01e78672e6c1cd7e70d3ddfdae3327991dbd31a7625fd223a637e07",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-02--safe-text-edit",
+      "source": "sources/table-02.docx",
+      "output": "outputs/table-02--safe-text-edit.docx",
+      "output_sha256": "b3852a41f461f23c30c6845b536360e68be3e7dc296ec91ee2fe3ffcfad727cd",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-02--missing-table-grid",
+      "source": "sources/table-02.docx",
+      "output": "outputs/table-02--missing-table-grid.docx",
+      "output_sha256": "8fd1c918f1aca3dfaf4b9987bcc6e45f87e0b3ffd79f27af76af7a2dc0140f51",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-02--table-row-mismatch",
+      "source": "sources/table-02.docx",
+      "output": "outputs/table-02--table-row-mismatch.docx",
+      "output_sha256": "fbda28b926b0d4226b2cc96252885cbf547febc0ef21ef151fda12585947ad09",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-03--clean-copy",
+      "source": "sources/table-03.docx",
+      "output": "outputs/table-03--clean-copy.docx",
+      "output_sha256": "2493732909fbf219e45d0c7d3c71b7932f435fbccf4edcd846287b12d977d796",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-03--safe-text-edit",
+      "source": "sources/table-03.docx",
+      "output": "outputs/table-03--safe-text-edit.docx",
+      "output_sha256": "98ff40ec26b071f96bf7ad5085a14b74e7fbb121b0c8dd5b60db2f337641ee70",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-03--missing-table-grid",
+      "source": "sources/table-03.docx",
+      "output": "outputs/table-03--missing-table-grid.docx",
+      "output_sha256": "15062d744cad04a2d175e1ca44d3ba7d31ffe6a88ad699d05cb4fc75e6bb1a3d",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-03--table-row-mismatch",
+      "source": "sources/table-03.docx",
+      "output": "outputs/table-03--table-row-mismatch.docx",
+      "output_sha256": "7aa703105eb14bae53c26db0c12c1ee36aa6ab8ce58df566c37e976e978925d9",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-04--clean-copy",
+      "source": "sources/table-04.docx",
+      "output": "outputs/table-04--clean-copy.docx",
+      "output_sha256": "51dc7d2f67f61be3f44e40383b57f9bd8325799e9435ca5c45781e3828019e46",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-04--safe-text-edit",
+      "source": "sources/table-04.docx",
+      "output": "outputs/table-04--safe-text-edit.docx",
+      "output_sha256": "3404713cc6a945a4d0345fe691c4ffa5b4946f64462d45c4d43255196792eb5b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-04--missing-table-grid",
+      "source": "sources/table-04.docx",
+      "output": "outputs/table-04--missing-table-grid.docx",
+      "output_sha256": "22094b3e6c405c21f51b201f2ede6152fe57b5345982209fe35856d69d677893",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-04--table-row-mismatch",
+      "source": "sources/table-04.docx",
+      "output": "outputs/table-04--table-row-mismatch.docx",
+      "output_sha256": "3a995cd9103b0fb510b01c63b7ed5f34b5912393214407dc0282f8c963b9b480",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-05--clean-copy",
+      "source": "sources/table-05.docx",
+      "output": "outputs/table-05--clean-copy.docx",
+      "output_sha256": "0bd9ae3fb3fa2ededbc77b2ef8e3de7b8712b4a6dce0e6938cf4916d7c3b347b",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-05--safe-text-edit",
+      "source": "sources/table-05.docx",
+      "output": "outputs/table-05--safe-text-edit.docx",
+      "output_sha256": "f5304496d4d3ecfebebbc5aac875d3c3cbc917461aac2c5aba9095e73136c4fd",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "table-05--missing-table-grid",
+      "source": "sources/table-05.docx",
+      "output": "outputs/table-05--missing-table-grid.docx",
+      "output_sha256": "3001292b40ee4d53a19eb6399aaa6bba54cda0055d621b23325c8a49d21a1325",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "table-05--table-row-mismatch",
+      "source": "sources/table-05.docx",
+      "output": "outputs/table-05--table-row-mismatch.docx",
+      "output_sha256": "b1aa9385c9b4042f2089344da944a729fd48daf78a65ead64cc53387c87def8f",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-01--clean-copy",
+      "source": "sources/multi-section-01.docx",
+      "output": "outputs/multi-section-01--clean-copy.docx",
+      "output_sha256": "1716711ee6bab64109c8ab4784e9f0571fa80f19352ab185b628aef46872fc52",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-01--safe-text-edit",
+      "source": "sources/multi-section-01.docx",
+      "output": "outputs/multi-section-01--safe-text-edit.docx",
+      "output_sha256": "77a5222aafdab6d8ddc4cb037e71669acecad9af1967b17df5b56855266c68cb",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-01--footer-changed",
+      "source": "sources/multi-section-01.docx",
+      "output": "outputs/multi-section-01--footer-changed.docx",
+      "output_sha256": "5a7a79f595b3a42e6698efd6b69095761eb2b57d7ca176571fbcb381eccdf438",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-01--missing-header-part",
+      "source": "sources/multi-section-01.docx",
+      "output": "outputs/multi-section-01--missing-header-part.docx",
+      "output_sha256": "10d58c9837fc4b477bf8d9e82d7ffe0d3af08936c0e92f587862d25c31dc99a8",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-02--clean-copy",
+      "source": "sources/multi-section-02.docx",
+      "output": "outputs/multi-section-02--clean-copy.docx",
+      "output_sha256": "a7adb66c4da9e643a77a6a4127fd291d8d97176523656e330ddf75bc11aea052",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-02--safe-text-edit",
+      "source": "sources/multi-section-02.docx",
+      "output": "outputs/multi-section-02--safe-text-edit.docx",
+      "output_sha256": "02d862d2e8ab08198421b19a95091e2d316edb77c46aef16cb91e725b948da73",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-02--footer-changed",
+      "source": "sources/multi-section-02.docx",
+      "output": "outputs/multi-section-02--footer-changed.docx",
+      "output_sha256": "1860fc4f6b4a9d131998358d9b850ab536548b8a6e31537936b93ff17b47fd3a",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-02--missing-header-part",
+      "source": "sources/multi-section-02.docx",
+      "output": "outputs/multi-section-02--missing-header-part.docx",
+      "output_sha256": "8bca4bdf1524589e31aaf6a709e896e40922c9a10b1115c467c32ee900ab0846",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-03--clean-copy",
+      "source": "sources/multi-section-03.docx",
+      "output": "outputs/multi-section-03--clean-copy.docx",
+      "output_sha256": "8f286c3ea9545532c61aa947e337b2a5a9bca9f573ddde2ce29ece9783e70c7b",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-03--safe-text-edit",
+      "source": "sources/multi-section-03.docx",
+      "output": "outputs/multi-section-03--safe-text-edit.docx",
+      "output_sha256": "f58d779510a5a08ec6d37e8dd0bdf27f01c798d426f4d344eb46c9aec6e6f961",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-03--footer-changed",
+      "source": "sources/multi-section-03.docx",
+      "output": "outputs/multi-section-03--footer-changed.docx",
+      "output_sha256": "216e22dc8f7aa4ad06b3b297c6cd2371f1bfc872831940d96f74b54d0508978e",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-03--missing-header-part",
+      "source": "sources/multi-section-03.docx",
+      "output": "outputs/multi-section-03--missing-header-part.docx",
+      "output_sha256": "23e3bd191858aef99701d56cbab066348632ea49ea4c706f758b34d6dfe7a02d",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-04--clean-copy",
+      "source": "sources/multi-section-04.docx",
+      "output": "outputs/multi-section-04--clean-copy.docx",
+      "output_sha256": "a7279b1ffaebf737d0356bee65d4c423101cb5532e97924fd76f8a3324e93966",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-04--safe-text-edit",
+      "source": "sources/multi-section-04.docx",
+      "output": "outputs/multi-section-04--safe-text-edit.docx",
+      "output_sha256": "e0371c706b88406d81f62b7c6a21ab0eccf41bf21d738062df1905bb1e793d1b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-04--footer-changed",
+      "source": "sources/multi-section-04.docx",
+      "output": "outputs/multi-section-04--footer-changed.docx",
+      "output_sha256": "52c75481ca80a038bdcf587020286518ab9b6173f6ebb10002d3b8db703f617b",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-04--missing-header-part",
+      "source": "sources/multi-section-04.docx",
+      "output": "outputs/multi-section-04--missing-header-part.docx",
+      "output_sha256": "d1dad025a12d3b86fc0d4c49b0b679b7cce14366f80550e619db8b7a2c34f8ad",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-05--clean-copy",
+      "source": "sources/multi-section-05.docx",
+      "output": "outputs/multi-section-05--clean-copy.docx",
+      "output_sha256": "aeaaf6b00bc3a936f09337cf112b569c189a9ceccce0d16442b16d330cd37043",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-05--safe-text-edit",
+      "source": "sources/multi-section-05.docx",
+      "output": "outputs/multi-section-05--safe-text-edit.docx",
+      "output_sha256": "c722c759248df5f66f42d6a25d3e4d42e62b91d83ecd7d791b72a764e49f710b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "multi-section-05--footer-changed",
+      "source": "sources/multi-section-05.docx",
+      "output": "outputs/multi-section-05--footer-changed.docx",
+      "output_sha256": "724e48541c62ace61f86b54cea42e027a0b13b4b998c3e57b124c07178d836d6",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "multi-section-05--missing-header-part",
+      "source": "sources/multi-section-05.docx",
+      "output": "outputs/multi-section-05--missing-header-part.docx",
+      "output_sha256": "5e7f3e1496e56bae8af76382aebf5ef32acc9e294981aba3a979a881b9c33048",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-01--clean-copy",
+      "source": "sources/review-heavy-01.docx",
+      "output": "outputs/review-heavy-01--clean-copy.docx",
+      "output_sha256": "445d4dfd8b62a6b30ca50627eff5c6551246652304567fd256ad7830edae1eca",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-01--safe-text-edit",
+      "source": "sources/review-heavy-01.docx",
+      "output": "outputs/review-heavy-01--safe-text-edit.docx",
+      "output_sha256": "ebf87535bd480b26600b5ec993b30a21e089d5e879651d592d99250ec8833748",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-01--missing-comment-end",
+      "source": "sources/review-heavy-01.docx",
+      "output": "outputs/review-heavy-01--missing-comment-end.docx",
+      "output_sha256": "d365ce80ff727c36303642575c092d5db57bbe5d566f14a3ac52f738c6ca5888",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-01--missing-comment-start",
+      "source": "sources/review-heavy-01.docx",
+      "output": "outputs/review-heavy-01--missing-comment-start.docx",
+      "output_sha256": "51190690fea9a5872ed2eeff5a5dbce49eb2c84de2ef0c04339801bdb37f8606",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-02--clean-copy",
+      "source": "sources/review-heavy-02.docx",
+      "output": "outputs/review-heavy-02--clean-copy.docx",
+      "output_sha256": "0b2c8f53db7e9714a6645f8791fb3702ee56770d816012de533ac85cc7a11fe4",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-02--safe-text-edit",
+      "source": "sources/review-heavy-02.docx",
+      "output": "outputs/review-heavy-02--safe-text-edit.docx",
+      "output_sha256": "a55c3d33284bd76d48c649196e62653ca292bb75ea39705e7417e9a6de38a958",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-02--missing-comment-end",
+      "source": "sources/review-heavy-02.docx",
+      "output": "outputs/review-heavy-02--missing-comment-end.docx",
+      "output_sha256": "ff5c85b550b947f92bf54cb686dfb27d27afbb483ef0d1db3d50385b497d3f1f",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-02--missing-comment-start",
+      "source": "sources/review-heavy-02.docx",
+      "output": "outputs/review-heavy-02--missing-comment-start.docx",
+      "output_sha256": "110c47bae5ec097872687f1bf591b5b94d5341037c968ad6fd093b08077ab5d4",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-03--clean-copy",
+      "source": "sources/review-heavy-03.docx",
+      "output": "outputs/review-heavy-03--clean-copy.docx",
+      "output_sha256": "80599d7065dfaa6682cf1b0aecf3fbac6251019d18717476a146bf2ab26cdc6e",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-03--safe-text-edit",
+      "source": "sources/review-heavy-03.docx",
+      "output": "outputs/review-heavy-03--safe-text-edit.docx",
+      "output_sha256": "ee800f72e21cb4b7dbe469f5ba94ee8a04441d75ab813e9c6efb4327f9e08c8b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-03--missing-comment-end",
+      "source": "sources/review-heavy-03.docx",
+      "output": "outputs/review-heavy-03--missing-comment-end.docx",
+      "output_sha256": "3eaa15d97eabe2913536e306687854cb25d9b7034d8f141a808df091b0f22e09",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-03--missing-comment-start",
+      "source": "sources/review-heavy-03.docx",
+      "output": "outputs/review-heavy-03--missing-comment-start.docx",
+      "output_sha256": "96a4e347e459cc738e37f3ccde9d762ea858d9b96cad066767cdf6c6e6b4a1be",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-04--clean-copy",
+      "source": "sources/review-heavy-04.docx",
+      "output": "outputs/review-heavy-04--clean-copy.docx",
+      "output_sha256": "4d8c4b53e866c97327e6229d5c6577b0d384195d5cd6b11c06775820383d1936",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-04--safe-text-edit",
+      "source": "sources/review-heavy-04.docx",
+      "output": "outputs/review-heavy-04--safe-text-edit.docx",
+      "output_sha256": "6f43b899da0c7887a9d80feafe804acfc88f657159f10a35b5a3eebc2689051b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-04--missing-comment-end",
+      "source": "sources/review-heavy-04.docx",
+      "output": "outputs/review-heavy-04--missing-comment-end.docx",
+      "output_sha256": "1601ca58e7f1c15c365fb39073bf6d6e47594304a98e37f80674fa90160efd46",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-04--missing-comment-start",
+      "source": "sources/review-heavy-04.docx",
+      "output": "outputs/review-heavy-04--missing-comment-start.docx",
+      "output_sha256": "26f213a8a861c6a6d8d79097fbf5c4fbb1e947a09be4db2b320748d1fa203936",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-05--clean-copy",
+      "source": "sources/review-heavy-05.docx",
+      "output": "outputs/review-heavy-05--clean-copy.docx",
+      "output_sha256": "98ff37c48ba6820d078305b0feb9e5f2d65b368541a938cec48b6c168143abb8",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-05--safe-text-edit",
+      "source": "sources/review-heavy-05.docx",
+      "output": "outputs/review-heavy-05--safe-text-edit.docx",
+      "output_sha256": "9d9e51feffcae014169e44e4d6e8b5a9defed8864ccb498a61f90daf8a3bc1fa",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "review-heavy-05--missing-comment-end",
+      "source": "sources/review-heavy-05.docx",
+      "output": "outputs/review-heavy-05--missing-comment-end.docx",
+      "output_sha256": "a715cca4e1f0014bd881e69f0373878a57fb382c238437a9b3ac5fad059c012d",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "review-heavy-05--missing-comment-start",
+      "source": "sources/review-heavy-05.docx",
+      "output": "outputs/review-heavy-05--missing-comment-start.docx",
+      "output_sha256": "74fca9b6cc9736254f24097cbcc03d806fdb79c1081a712c6fa8c54ffed04de3",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

@@ -442,6 +442,9 @@ python compare_detectors.py   # the headline table below
 
 python build_pptx_corpus.py   # build the reference deck (byte-reproducible)
 python assert_deck.py ../corpus/deck.pptx   # it still reports its 11 defects
+
+cd ..
+python research/build_docx_evidence.py evaluate  # 30 sources, 120 labelled pairs
 ```
 
 Both fixtures rebuild byte-identical, which is what makes `git diff` a usable
@@ -463,6 +466,15 @@ character styles, multi-level numbering, two footnotes, two comments, three
 tracked revisions from a named author, a content control, a table with an
 explicit `tblGrid` and a header row, an inline image, an external hyperlink, and
 header/footer parts.
+
+The versioned [DOCX beta evidence corpus](evidence/docx-beta/README.md) adds 30
+distinct synthetic sources and 120 labelled pairs: 60 clean controls and 60
+isolated seeded defects. Ten sources each were actually produced or
+opened-and-saved by `python-docx`, LibreOffice, and Word for Mac. Its published
+[results](evidence/docx-beta/RESULTS.md) count exact finding occurrences and
+report precision/recall per measured rule; unmeasured rules and missing Word for
+Windows/Word Online evidence remain explicit instead of inheriting the measured
+rules' score.
 
 ---
 
@@ -651,7 +663,7 @@ src/ooxml_integrity/
   sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
   __main__.py           so `python -m ooxml_integrity` works without PATH
-tests/                  235 tests, including story-fidelity and false-positive regressions
+tests/                  labelled-corpus, story-fidelity and false-positive regressions
 research/               the experiments: corpus builders, mutators, calibration,
                         renderer comparison, resource measurement, the
                         PowerPoint checklist
@@ -659,6 +671,7 @@ docs/                   the support matrix, archive limits, PowerPoint validatio
                         calibration, and a worked example config
 corpus/base.docx        the reference document, byte-reproducible
 corpus/deck.pptx        the reference deck, ground truth in the shape names
+evidence/docx-beta/     30 producer sources and 120 labelled DOCX pairs
 runs/                   eight real agent outputs, used as fixtures
 action.yml              the GitHub Action
 ```
@@ -669,16 +682,20 @@ action.yml              the GitHub Action
 
 Read these before citing any number here.
 
-- **One synthetic document.** A real benchmark needs dozens of real documents of
-  varied types. This is a single hand-built reference file.
+- **The 30-source beta evidence tranche is synthetic.** It covers six document
+  classes and three locally available producers, but not customer document
+  distributions, Word for Windows, Word Online, or an independently supplied
+  generator. Its 100% figure applies only to the 14 measured rules; the
+  per-rule report names every unmeasured DOCX rule.
 - **Schema validation is approximated.** The full ECMA-376 XSDs are not bundled;
   `compare_detectors.py` checks namespaces and root elements. For these
   mutations the verdict matches what a real XSD gives — every one is
   schema-legal, because they break referential integrity rather than grammar —
   but swap in a real validator before quoting the schema column.
-- **Word for Mac only.** The screenshot is Word for Mac. Word for Windows is not
-  tested, and neither is ONLYOFFICE as a third renderer. Cross-renderer
-  divergence is likely and is not characterised here.
+- **Observed Word rendering is Mac only.** The DOCX evidence sources include
+  real open/save passes through Word for Mac and LibreOffice, but visual
+  behaviour is not scored by that structural corpus. Word for Windows, Word
+  Online and systematic ONLYOFFICE DOCX behaviour remain untested.
 - **Neighbouring tools are described from their documentation, not from
   running them.** `OfficeCLI` and `docx-mcp` are summarised in Prior work from
   their own READMEs and command help. Before quoting any comparison, run them.
@@ -704,9 +721,10 @@ Read these before citing any number here.
   otherwise the standard font directories are scanned. A machine with neither
   gets a `PPT000` error saying overflow was not checked - which is the point,
   but it does mean the text checks are only as good as the fonts installed.
-- **The mutators are illustrative.** They model documented patterns, but they are
-  written by hand and should be read as regression fixtures, not evidence about
-  how agents behave. The agent runs are the evidence.
+- **The mutators are controlled regression evidence, not behavioural
+  prevalence evidence.** They prove how labelled defects score on fixed
+  producer bytes; they do not estimate how often an agent introduces those
+  defects. The eight agent runs are still the only behavioural sample.
 
 ---
 

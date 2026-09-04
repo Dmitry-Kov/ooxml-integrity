@@ -72,7 +72,7 @@ being checked here:
       member decompression with explicit findings.
 - [x] Per-file coverage and `doctor` expose checked, estimated, skipped, and
       recognised unsupported capability instead of implying complete coverage.
-- [x] Local verification: 228 passed, 7 environment-dependent font tests
+- [x] Local verification: 232 passed, 7 environment-dependent font tests
       skipped; wheel and sdist built; the installed wheel checked the reference
       DOCX cleanly; YAML and Action shell syntax parsed successfully.
 
@@ -227,13 +227,27 @@ Minimum beta corpus:
 - Both clean edits and seeded defects; every expected finding is labelled.
 - Sanitised or synthetic equivalents for anything that cannot be committed.
 
+Progress recorded 2026-09-05:
+
+- [x] A committed synthetic tranche contains 30 distinct sources and 120
+      labelled pairs: 60 clean controls and 60 seeded defects.
+- [x] Ten sources each were produced or opened-and-saved by `python-docx`,
+      LibreOffice, and Word for Mac; six requested document classes are evenly
+      represented.
+- [x] Exact labels, hashes, provenance, sanitisation, producer versions, and
+      per-rule TP/FP/FN are machine-readable and regression-gated.
+- [ ] Add Word for Windows and Word Online sources, plus a source from an
+      independent commercial/internal generator.
+- [ ] Add privacy-reviewed real documents or defensible synthetic equivalents,
+      and independently review their labels.
+
 Exit criteria:
 
-- [ ] Error-level precision is at least 95% on the labelled beta corpus, with
+- [x] Error-level precision is at least 95% on the labelled synthetic tranche, with
       the denominator and labelling method published alongside the result.
-- [ ] Precision and recall are reported per rule, not only as one aggregate.
-- [ ] Every fixed false positive becomes a permanent regression test.
-- [ ] Corpus provenance, licences, sanitisation, and expected producer/renderer
+- [x] Precision and recall are reported per rule, not only as one aggregate.
+- [x] Every fixed false positive becomes a permanent regression test.
+- [x] Corpus provenance, licences, sanitisation, and expected producer/renderer
       behaviour are recorded.
 
 ### P1 — evidence-backed capability expansion
