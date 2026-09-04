@@ -50,7 +50,8 @@ ooxml-integrity = "ooxml_integrity.cli:main"
 packages = ["src/ooxml_integrity"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/", "tests/", "research/", "corpus/", "README.md", "LICENSE"]
+include = ["src/", "tests/", "research/", "corpus/", "docs/", "AUDIT_PLAN.md",
+           "CHANGELOG.md", "README.md", "LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

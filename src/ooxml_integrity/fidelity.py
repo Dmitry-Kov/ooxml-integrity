@@ -10,9 +10,10 @@ from __future__ import annotations
 
 import collections
 import re
-import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 
+from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, read_package
 from .finding import ERROR, INFO, WARN, Finding
 from .xmlutil import fromstring as parse_xml
 
@@ -67,68 +68,71 @@ BODY_PARTS: tuple[tuple[str, str, str, str], ...] = (
 _BOILERPLATE = {"separator", "continuationSeparator", "continuationNotice"}
 
 
-def _document(path: str | Path):
-    with zipfile.ZipFile(path) as z:
-        return parse_xml(z.read("word/document.xml"))
-
-
-def _counts(path: str | Path) -> dict[str, int]:
-    doc = _document(path)
-    return {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
-
-
 def _norm(text: str) -> str:
     """Whitespace-insensitive body text: a reflowed comment is not a lost one."""
     return re.sub(r"\s+", " ", text or "").strip()
 
 
-def _bodies(path: str | Path, part: str, tag: str) -> collections.Counter:
+def _bodies(parts: dict[str, bytes], part: str, tag: str
+            ) -> tuple[collections.Counter, dict[str, str]]:
     """Normalised body text of every item in `part`, as a multiset.
 
     A multiset rather than a set, so losing one of two identically worded
     comments is still a loss.
     """
-    try:
-        with zipfile.ZipFile(path) as z:
-            blob = z.read(part)
-    except KeyError:
-        return collections.Counter()
+    blob = parts.get(part)
+    if blob is None:
+        return collections.Counter(), {}
     root = parse_xml(blob)
     out: collections.Counter = collections.Counter()
+    authors: dict[str, str] = {}
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
             continue
         body = _norm("".join(t.text or "" for t in item.iter(W + "t")))
         if body:
             out[body] += 1
-    return out
+            authors.setdefault(body, item.get(W + "author") or "")
+    return out, authors
 
 
-def _author_of(path: str | Path, part: str, tag: str, body: str) -> str:
-    """Who wrote the item with this body, for a message worth reading."""
-    try:
-        with zipfile.ZipFile(path) as z:
-            root = parse_xml(z.read(part))
-    except KeyError:
-        return ""
-    for item in root.iter(W + tag):
-        if _norm("".join(t.text or "" for t in item.iter(W + "t"))) == body:
-            return item.get(W + "author") or ""
-    return ""
+@dataclass
+class _Snapshot:
+    counts: dict[str, int]
+    bodies: dict[str, collections.Counter]
+    authors: dict[tuple[str, str], str]
+    text_length: int
 
 
-def _text(path: str | Path) -> str:
-    doc = _document(path)
-    return "".join(t.text or "" for t in doc.iter(W + "t"))
+def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
+    """Read one bounded package, retain only the fidelity facts, then release it."""
+    wanted = {"word/document.xml", *(part for part, _, _, _ in BODY_PARTS)}
+    parts = read_package(path, limits, members=wanted)
+    doc = parse_xml(parts["word/document.xml"])
+    counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
+    text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
+    bodies: dict[str, collections.Counter] = {}
+    authors: dict[tuple[str, str], str] = {}
+    for part, tag, _, _ in BODY_PARTS:
+        body_counts, body_authors = _bodies(parts, part, tag)
+        bodies[part] = body_counts
+        authors.update(
+            ((part, body), author) for body, author in body_authors.items()
+        )
+    return _Snapshot(counts, bodies, authors, text_length)
 
 
-def compare(source: str | Path, edited: str | Path) -> list[Finding]:
+def compare(source: str | Path, edited: str | Path, *,
+            limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
     """What did `edited` lose relative to `source`?
 
-    Raises the same exceptions as opening a zip - callers that may be handed a
-    corrupt file should run `check()` first, which reports rather than raises.
+    Package reads are bounded by `limits`. Raises package/XML exceptions;
+    callers that may be handed invalid input should use the CLI, which converts
+    a failed requested comparison into an error-level `FID000` finding.
     """
-    before, after = _counts(source), _counts(edited)
+    source_snapshot = _snapshot(source, limits)
+    edited_snapshot = _snapshot(edited, limits)
+    before, after = source_snapshot.counts, edited_snapshot.counts
     out: list[Finding] = []
 
     for tag, label, sev in TRACKED:
@@ -156,13 +160,13 @@ def compare(source: str | Path, edited: str | Path) -> list[Finding]:
             ))
 
     for part, tag, code, label in BODY_PARTS:
-        src_bodies = _bodies(source, part, tag)
-        out_bodies = _bodies(edited, part, tag)
+        src_bodies = source_snapshot.bodies[part]
+        out_bodies = edited_snapshot.bodies[part]
         for body, n in src_bodies.items():
             lost = n - out_bodies.get(body, 0)
             if lost <= 0:
                 continue
-            who = _author_of(source, part, tag, body)
+            who = source_snapshot.authors.get((part, body), "")
             snippet = body if len(body) <= 60 else body[:57] + "..."
             times = "" if lost == 1 and n == 1 else f" ({lost} of {n})"
             out.append(Finding(
@@ -178,12 +182,12 @@ def compare(source: str | Path, edited: str | Path) -> list[Finding]:
                        "in_source": n},
             ))
 
-    ta, tb = _text(source), _text(edited)
-    if ta and len(tb) < len(ta) * TEXT_LOSS_THRESHOLD:
+    ta, tb = source_snapshot.text_length, edited_snapshot.text_length
+    if ta and tb < ta * TEXT_LOSS_THRESHOLD:
         out.append(Finding(
             "FID003", ERROR,
-            f"text volume fell from {len(ta)} to {len(tb)} characters "
-            f"({round(100 * (1 - len(tb) / len(ta)))}% of content lost)",
-            extra={"before": len(ta), "after": len(tb)},
+            f"text volume fell from {ta} to {tb} characters "
+            f"({round(100 * (1 - tb / ta))}% of content lost)",
+            extra={"before": ta, "after": tb},
         ))
     return out

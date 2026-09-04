@@ -39,6 +39,7 @@ from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
+from .archive import ArchiveLimits
 from .finding import Finding, Severity
 
 #: File names looked for, in order, when no config is given explicitly. The
@@ -60,6 +61,14 @@ PYPROJECT_TABLES = (("tool", "ooxml-integrity"), ("tool", "docx-integrity"))
 
 #: `off` is not a Severity: it means the finding is dropped, not downgraded.
 OFF = "off"
+
+ARCHIVE_CONFIG_KEYS = {
+    "max-entries": "max_entries",
+    "max-archive-bytes": "max_archive_bytes",
+    "max-total-expanded-bytes": "max_total_expanded_bytes",
+    "max-entry-expanded-bytes": "max_entry_expanded_bytes",
+    "max-compression-ratio": "max_compression_ratio",
+}
 
 
 def _load_toml(path: Path) -> dict[str, Any]:
@@ -127,6 +136,7 @@ class Policy:
     severity: dict[str, str] = field(default_factory=dict)
     ignores: list[Ignore] = field(default_factory=list)
     source: str = ""
+    archive: ArchiveLimits = field(default_factory=ArchiveLimits)
 
     # ------------------------------------------------------------------ load
     @classmethod
@@ -176,11 +186,12 @@ class Policy:
 
     @classmethod
     def _from_dict(cls, data: dict[str, Any], source: str = "") -> "Policy":
-        unknown = set(data) - {"fail-on", "fail_on", "severity", "ignore"}
+        expected = {"fail-on", "fail_on", "severity", "ignore", "archive"}
+        unknown = set(data) - expected
         if unknown:
             raise ConfigError(
                 f"unknown key(s) in config: {', '.join(sorted(unknown))}. "
-                "Expected: fail-on, severity, ignore"
+                "Expected: fail-on, severity, ignore, archive"
             )
         raw = data.get("fail-on", data.get("fail_on", "error"))
         try:
@@ -213,7 +224,33 @@ class Policy:
             ignores.append(Ignore(code=str(entry["code"]).upper(),
                                   path=str(entry.get("path", "**")),
                                   reason=reason))
-        return cls(fail_on=fail_on, severity=sev, ignores=ignores, source=source)
+
+        archive_data = data.get("archive", {})
+        if not isinstance(archive_data, dict):
+            raise ConfigError("archive must be a TOML table")
+        archive_unknown = set(archive_data) - set(ARCHIVE_CONFIG_KEYS)
+        if archive_unknown:
+            raise ConfigError(
+                "unknown archive key(s): "
+                f"{', '.join(sorted(archive_unknown))}. Expected: "
+                + ", ".join(ARCHIVE_CONFIG_KEYS)
+            )
+        archive_values = {
+            ARCHIVE_CONFIG_KEYS[key]: value
+            for key, value in archive_data.items()
+        }
+        try:
+            archive = ArchiveLimits(**archive_values)
+        except ValueError as e:
+            raise ConfigError(f"archive: {e}") from None
+
+        return cls(
+            fail_on=fail_on,
+            severity=sev,
+            ignores=ignores,
+            archive=archive,
+            source=source,
+        )
 
     # ------------------------------------------------------------------ apply
     def apply(self, file: str, findings: Iterable[Finding]

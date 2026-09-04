@@ -17,6 +17,12 @@ from urllib.parse import unquote, urlsplit
 
 from lxml import etree
 
+from .archive import (
+    DEFAULT_ARCHIVE_LIMITS,
+    ArchiveLimits,
+    PackageIssue,
+    read_package,
+)
 from .finding import ERROR, INFO, WARN, Finding
 from .xmlutil import UnsafeXML, fromstring as parse_xml
 
@@ -49,8 +55,10 @@ _IMPLICIT_RELS = (
 class Inspector:
     """Runs every check against one package. Reusable, but cheap to recreate."""
 
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path,
+                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
         self.path = Path(path)
+        self.limits = limits
         self.findings: list[Finding] = []
         self.parts: dict[str, bytes] = {}
         self.trees: dict[str, etree._Element] = {}
@@ -73,14 +81,13 @@ class Inspector:
     # ------------------------------------------------------------------ load
     def load(self) -> bool:
         try:
-            with zipfile.ZipFile(self.path) as z:
-                bad = z.testzip()
-                if bad:
-                    self._add("PKG001", ERROR, f"corrupt entry in archive: {bad}")
-                for n in z.namelist():
-                    self.parts[n] = z.read(n)
+            self.parts = read_package(self.path, self.limits)
         except FileNotFoundError:
             self._add("PKG000", ERROR, f"file not found: {self.path}")
+            self.readable = False
+            return False
+        except PackageIssue as e:
+            self._add(e.code, ERROR, str(e), part=e.part)
             self.readable = False
             return False
         except zipfile.BadZipFile as e:
@@ -548,11 +555,14 @@ class Inspector:
         return self.findings
 
 
-def check(path: str | Path) -> list[Finding]:
+def check(path: str | Path, *,
+          limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
     """Inspect one .docx for internal consistency. Returns every finding."""
-    return Inspector(path).run()
+    return Inspector(path, limits).run()
 
 
-def check_many(paths: Iterable[str | Path]) -> dict[str, list[Finding]]:
+def check_many(paths: Iterable[str | Path], *,
+               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS
+               ) -> dict[str, list[Finding]]:
     """Inspect several files. Keys are the paths as given."""
-    return {str(p): check(p) for p in paths}
+    return {str(p): check(p, limits=limits) for p in paths}

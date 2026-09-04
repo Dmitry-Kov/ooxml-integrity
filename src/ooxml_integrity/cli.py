@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .archive import ArchiveLimits
 from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
@@ -58,10 +59,11 @@ def _expand(patterns: list[str]) -> tuple[list[Path], list[str]]:
     return found, empty
 
 
-def _run_one(path: Path, source: Path | None) -> list[Finding]:
+def _run_one(path: Path, source: Path | None,
+             limits: ArchiveLimits) -> list[Finding]:
     if path.suffix.lower() in (".pptx", ".potx", ".ppsx"):
         if source is not None:
-            return check_pptx(path) + [
+            return check_pptx(path, limits=limits) + [
                 Finding(
                     "FID000", Severity.ERROR,
                     "comparison was NOT performed: --against source comparison "
@@ -69,12 +71,15 @@ def _run_one(path: Path, source: Path | None) -> list[Finding]:
                     "only layout checks were run",
                 )
             ]
-        return check_pptx(path)
-    findings = check(path)
-    unreadable = any(f.code in ("PKG000", "PKG002") for f in findings)
+        return check_pptx(path, limits=limits)
+    findings = check(path, limits=limits)
+    unreadable = any(
+        f.code in ("PKG000", "PKG001", "PKG002", "PKG007", "PKG008")
+        for f in findings
+    )
     if source is not None and not unreadable:
         try:
-            findings = findings + compare(source, path)
+            findings = findings + compare(source, path, limits=limits)
         except Exception as e:
             findings = findings + [
                 Finding(
@@ -182,7 +187,7 @@ def main(argv: list[str] | None = None) -> int:
 
     raw: dict[Path, list[Finding]] = {}
     for path in paths:
-        raw[path] = _run_one(path, args.against)
+        raw[path] = _run_one(path, args.against, policy.archive)
 
     # --write-baseline records what the checks actually saw, before any policy:
     # a baseline built from already-filtered findings would silently bake the

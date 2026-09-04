@@ -19,6 +19,7 @@ None of them needs a model, a renderer, or the network.
     >>> for f in compare("original.docx", "edited.docx"):
     ...     print(f)
 """
+from .archive import ArchiveLimits
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
@@ -42,5 +43,6 @@ __all__ = [
     "worst",
     "TRACKED",
     "Policy",
+    "ArchiveLimits",
     "__version__",
 ]

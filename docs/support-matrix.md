@@ -32,7 +32,9 @@ of the main document part, `word/document.xml`.
 | --- | --- | --- |
 | ZIP/package readability | **Supported** | Reports a missing file, an invalid ZIP and a corrupt ZIP member. |
 | XML well-formedness | **Supported** | Parses every package member whose name ends in `.xml` or `.rels` and reports XML syntax errors. This is not schema validation. |
-| DTDs and XML entities | **Supported** | OOXML parts are parsed with DTD loading, entity expansion and network access disabled. A part containing a `DOCTYPE` is rejected. This does not impose archive-size or decompression limits. |
+| DTDs and XML entities | **Supported** | OOXML parts are parsed with DTD loading, entity expansion and network access disabled. A part containing a `DOCTYPE` is rejected. |
+| Archive resource budgets | **Supported** | Before member decompression, enforces configurable limits for entry count, compressed archive bytes, total and per-entry expanded bytes, and per-entry compression ratio. The declared EOCD count and archive byte size are checked before the ZIP central directory is loaded. Defaults and measurements are documented in [archive resource limits](archive-limits.md). |
+| Package part names | **Supported** | Rejects absolute, traversal-like, backslash-separated and otherwise non-canonical member names, plus names that collide after percent-decoding and OPC's ASCII-case-insensitive comparison. This is package-name validation, not malware scanning. |
 | Content-type coverage | **Partial** | Requires `[Content_Types].xml`, checks that package members are covered by an extension default or part override, and requires a default for `.rels`. It does not verify that a declared content type is the correct one for the part. |
 | Root office-document relationship | **Partial** | Requires `_rels/.rels` to contain an `officeDocument` relationship with a non-empty, non-external target, and the package-wide target check requires that target to exist. The Word semantic checks still require the conventional `word/document.xml`; the relationship target and that hard-coded main part are not cross-validated as one entry point. |
 | Internal relationship targets | **Supported** | Checks `_rels/.rels` and every successfully parsed companion `*_rels/*.rels` present in the package. Every internal relationship must have a non-empty target that resolves to an existing package member. A malformed relationship part receives `XML001`; its targets cannot then be inspected. External targets are not fetched or tested. |
@@ -40,7 +42,7 @@ of the main document part, `word/document.xml`.
 | Unused relationships | **Partial** | Emits informational `REL003` findings for explicit relationships unused by a parseable XML source part. Root relationships and known package-level/implicit relationship types are excluded. This is a diagnostic, not a proof that every declared relationship is necessary. |
 | Full ECMA-376 schema validation | **Not checked** | The project does not bundle or run the complete OOXML XSD set. |
 | Strict OOXML | **Not checked** | Strict namespace variants are not recognised by the Word-specific rules or by relationship-reference scanning. |
-| Encryption, signatures and broader package security | **Not checked** | Encryption validity, digital signatures, macros, embedded-object safety, external-link safety, malware, ZIP bombs and aggregate resource limits are outside the current scope. |
+| Encryption, signatures and broader package security | **Not checked** | Encryption validity, digital signatures, macros, embedded-object safety, external-link safety and malware are outside the current scope. Resource budgets constrain ZIP expansion but do not make the checker a malware scanner. |
 
 The package-wide relationship checks cover missing targets and the named
 relationship attributes in headers, footers and other XML parts. They do not
@@ -127,7 +129,7 @@ It does not run the DOCX package inspector over a presentation.
 
 | surface | status | current scope |
 | --- | --- | --- |
-| PPTX ZIP readability | **Supported** | A missing file or unreadable ZIP produces `PKG000` or `PKG002`. |
+| PPTX ZIP readability and resource budgets | **Supported** | A missing file or unreadable ZIP produces `PKG000` or `PKG002`; the same `PKG007` resource budgets and `PKG008` name checks used for DOCX run before PPTX parts are loaded. |
 | POTX and PPSX routing | **Partial** | The CLI sends `.potx` and `.ppsx` through the same reader, but the committed corpus and renderer evidence cover `.pptx` only. |
 | PPTX XML/package/relationship integrity | **Not checked** | `check_pptx` follows the relationships it needs for layout but does not validate the complete OPC graph, content types or well-formedness of every XML part. |
 | Fidelity against a source PPTX | **Not checked** | An explicit `--against` emits `FID000` as an error with `comparison was NOT performed`; layout checks still run, but the default CLI result cannot pass without the requested comparison. |

@@ -11,6 +11,11 @@
 ### Security
 - OOXML parts are parsed with DTD loading, entity expansion and network access
   disabled, and parts containing a `DOCTYPE` are rejected.
+- DOCX, PPTX and source-comparison ZIPs now have configurable limits for entry
+  count, archive bytes, total and per-entry expanded bytes, and compression
+  ratio. Budgets are checked before member decompression and produce `PKG007`.
+- Absolute, traversal-like, backslash-separated and duplicate normalised ZIP
+  member names are rejected with `PKG008` before package parts are loaded.
 - Composite Action inputs are passed to the shell through environment variables
   instead of being interpolated into shell source.
 

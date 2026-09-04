@@ -10,6 +10,19 @@ fail-on = "error"
 
 
 # ---------------------------------------------------------------------------
+# Archive resources: how much untrusted ZIP data may be processed.
+#
+# These are the built-in defaults. Raise one only for a trusted workload that
+# genuinely needs more headroom; every value remains a hard limit.
+[archive]
+max-entries = 4096
+max-archive-bytes = 268435456
+max-total-expanded-bytes = 536870912
+max-entry-expanded-bytes = 134217728
+max-compression-ratio = 1000.0
+
+
+# ---------------------------------------------------------------------------
 # Severity overrides: this rule is wrong FOR US.
 #
 # Use when a rule systematically does not apply to a project. `off` drops the

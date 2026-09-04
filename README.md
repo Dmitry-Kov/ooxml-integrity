@@ -177,6 +177,20 @@ Use it on the step *after* anything that edits documents programmatically — a
 generation script, an agent, a template merge. That is where these defects come
 from, and it is the only place they are still cheap to find.
 
+### Bounded archive processing
+
+DOCX and PPTX inputs are ZIP packages, so the checker applies finite resource
+budgets before decompressing their members. The defaults allow 4,096 entries, a
+256 MiB archive, 512 MiB total expanded data, 128 MiB in one expanded member,
+and a 1,000:1 per-member compression ratio. Over-budget input is `PKG007`;
+unsafe, traversal-like or duplicate normalised part names are `PKG008`.
+
+The same limits cover `check()`, `check_pptx()`, and both files read by
+`compare()`. They can be overridden in the project config or with an
+`ArchiveLimits` object in the Python API. See [archive resource limits](docs/archive-limits.md)
+for the exact order of checks, configuration keys, and reproducible memory/time
+measurements.
+
 ### Adopting it in a repository that already has findings
 
 Nobody fixes two hundred findings before they are allowed to gate the next
@@ -538,6 +552,8 @@ defects still caught, zero false positives across the eight agent runs.
 | code        | check                                                                                                        |
 | ----------- | ------------------------------------------------------------------------------------------------------------ |
 | `PKG001-006`| OPC package integrity, content-type coverage, presence of `Default Extension="rels"` (OPC-legal without it, but Word calls the package corrupt) |
+| `PKG007`    | configured archive entry, compressed-byte, expanded-byte, or compression-ratio budget exceeded                              |
+| `PKG008`    | unsafe, traversal-like, or duplicate normalised package part name                                                                  |
 | `XML001`    | well-formedness of every XML part                                                                            |
 | `REL001-003`| every `r:id` / `r:embed` resolves in `.rels`; targets exist as parts; unreferenced relationships              |
 | `STY001-002`| `pStyle` / `rStyle` / `tblStyle` resolve; `basedOn` / `next` / `link` resolve                                 |
@@ -570,7 +586,7 @@ for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 168 tests, and the three most useful ones are regressions for false
+The suite has 207 tests, and the three most useful ones are regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken
@@ -605,11 +621,12 @@ src/ooxml_integrity/
   sarif.py              SARIF 2.1.0 output for code scanning
   cli.py                the command line
   __main__.py           so `python -m ooxml_integrity` works without PATH
-tests/                  168 tests, including the false-positive regressions
+tests/                  207 tests, including the false-positive regressions
 research/               the experiments: corpus builders, mutators, calibration,
-                        renderer comparison, the PowerPoint checklist
-docs/                   the support matrix, PowerPoint validation, calibration,
-                        and a worked example config
+                        renderer comparison, resource measurement, the
+                        PowerPoint checklist
+docs/                   the support matrix, archive limits, PowerPoint validation,
+                        calibration, and a worked example config
 corpus/base.docx        the reference document, byte-reproducible
 corpus/deck.pptx        the reference deck, ground truth in the shape names
 runs/                   eight real agent outputs, used as fixtures

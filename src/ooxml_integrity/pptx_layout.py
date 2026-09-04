@@ -25,12 +25,12 @@ Everything here is geometry and table lookups. No rendering.
 from __future__ import annotations
 
 import re
-import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from lxml import etree
 
+from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, read_package
 from .fonts import EMU_PER_POINT, Metrics, load_metrics
 from .xmlutil import fromstring as parse_xml
 
@@ -172,10 +172,10 @@ def _bool(el, attr, default=False):
 class _Package:
     """Zip plus relationship resolution, so parts can be followed by rId."""
 
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path,
+                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
         self.path = Path(path)
-        with zipfile.ZipFile(self.path) as z:
-            self.parts = {n: z.read(n) for n in z.namelist()}
+        self.parts = read_package(self.path, limits)
         self._trees: dict[str, etree._Element | None] = {}
 
     def tree(self, name: str):
@@ -221,8 +221,9 @@ class _Package:
 class DeckReader:
     """Reads a deck into Shape objects with every property resolved."""
 
-    def __init__(self, path: str | Path):
-        self.pkg = _Package(path)
+    def __init__(self, path: str | Path,
+                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
+        self.pkg = _Package(path, limits)
         self.path = Path(path)
         pres = self.pkg.tree("ppt/presentation.xml")
         sz = pres.find(_p("sldSz")) if pres is not None else None
@@ -662,5 +663,6 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
                         confident, measured, notes)
 
 
-def read_deck(path: str | Path) -> Deck:
-    return DeckReader(path).read()
+def read_deck(path: str | Path, *,
+              limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> Deck:
+    return DeckReader(path, limits).read()

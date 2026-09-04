@@ -69,7 +69,7 @@ being checked here:
       by default and no longer interpolates Action inputs into shell source.
 - [x] A detailed support matrix distinguishes Supported, Partial, and Not
       checked surfaces.
-- [x] Local verification: 161 passed, 7 environment-dependent font tests
+- [x] Local verification: 200 passed, 7 environment-dependent font tests
       skipped; wheel and sdist built; the installed wheel checked the reference
       DOCX cleanly; YAML and Action shell syntax parsed successfully.
 
@@ -159,12 +159,12 @@ Deliverables:
 
 Exit criteria:
 
-- [ ] A document over any configured budget fails predictably without an
+- [x] A document over any configured budget fails predictably without an
       unbounded allocation.
-- [ ] Normal corpus files remain byte-for-byte untouched and produce the same
+- [x] Normal corpus files remain byte-for-byte untouched and produce the same
       findings.
-- [ ] Limits and configuration keys are documented in the support matrix.
-- [ ] Peak memory and elapsed time are measured for representative large files.
+- [x] Limits and configuration keys are documented in the support matrix.
+- [x] Peak memory and elapsed time are measured for representative large files.
 
 #### P0.3 Add per-file coverage reporting
 
