@@ -2,12 +2,12 @@
   "schema_version": 1,
   "corpus": "docx-beta-synthetic-v1",
   "checker_version": "0.3.1",
-  "sources": 30,
-  "pairs": 120,
-  "clean_pairs": 60,
-  "seeded_defect_pairs": 60,
+  "sources": 40,
+  "pairs": 170,
+  "clean_pairs": 90,
+  "seeded_defect_pairs": 80,
   "error_level": {
-    "tp": 65,
+    "tp": 88,
     "fp": 0,
     "fn": 0,
     "precision": 1.0,
@@ -17,7 +17,7 @@
     {
       "code": "CMT001",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -26,7 +26,7 @@
     {
       "code": "CMT002",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -44,7 +44,7 @@
     {
       "code": "CMT004",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -53,7 +53,7 @@
     {
       "code": "CMT005",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -62,7 +62,7 @@
     {
       "code": "FID000",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -71,7 +71,7 @@
     {
       "code": "FID001",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -89,7 +89,7 @@
     {
       "code": "FID003",
       "status": "measured",
-      "tp": 5,
+      "tp": 6,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -98,7 +98,7 @@
     {
       "code": "FID004",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -125,7 +125,7 @@
     {
       "code": "FID007",
       "status": "measured",
-      "tp": 10,
+      "tp": 13,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -296,7 +296,7 @@
     {
       "code": "REL002",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -359,7 +359,7 @@
     {
       "code": "STY001",
       "status": "measured",
-      "tp": 5,
+      "tp": 6,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -377,7 +377,7 @@
     {
       "code": "TBL001",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -386,7 +386,7 @@
     {
       "code": "TBL002",
       "status": "measured",
-      "tp": 5,
+      "tp": 7,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -395,7 +395,7 @@
     {
       "code": "TXT001",
       "status": "measured",
-      "tp": 5,
+      "tp": 6,
       "fp": 0,
       "fn": 0,
       "precision": 1.0,
@@ -411,5 +411,61 @@
       "recall": null
     }
   ],
+  "groups": {
+    "producer:python-docx": {
+      "pairs": 40,
+      "clean_pairs": 20,
+      "tp": 23,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "kind:deterministic-mutation": {
+      "pairs": 160,
+      "clean_pairs": 80,
+      "tp": 88,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "producer:libreoffice": {
+      "pairs": 40,
+      "clean_pairs": 20,
+      "tp": 21,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "producer:word-mac": {
+      "pairs": 40,
+      "clean_pairs": 20,
+      "tp": 21,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "producer:word-windows": {
+      "pairs": 50,
+      "clean_pairs": 30,
+      "tp": 23,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "kind:word-roundtrip": {
+      "pairs": 10,
+      "clean_pairs": 10,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": null,
+      "recall": null
+    }
+  },
   "pair_failures": []
 }

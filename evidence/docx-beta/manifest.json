@@ -7,16 +7,16 @@
   "sanitisation": "All documents are synthetic and contain no customer, personal, confidential, or externally licensed content.",
   "label_policy": "Expected findings are declared by isolated mutation before the checker runs. Exact actionable multisets are regression-gated.",
   "known_evidence_gaps": [
-    "No Word for Windows source has been collected.",
     "No Word Online source has been collected.",
     "No customer or independently supplied generator source is included.",
-    "Labels have one maintainer review, not independent dual review.",
+    "Legacy labels have one maintainer review; Windows labels have automated semantic XML review by the coding agent, not independent human or dual review.",
     "Renderer appearance is not scored by this structural corpus."
   ],
   "producer_versions": {
     "python-docx": "1.2.0",
     "libreoffice": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
-    "word-mac": "16.112.3"
+    "word-mac": "16.112.3",
+    "word-windows": "16.0.14334.20848"
   },
   "rule_inventory": [
     "CMT001",
@@ -64,8 +64,8 @@
     "TXT001",
     "XML001"
   ],
-  "source_count": 30,
-  "pair_count": 120,
+  "source_count": 40,
+  "pair_count": 170,
   "sources": [
     {
       "id": "contract-01",
@@ -516,6 +516,166 @@
       "personal_data": false,
       "postprocessing": "core lastModifiedBy/created/modified values sanitised and ZIP container metadata normalised; document content and relationships unchanged",
       "expected_behavior": "opens without a repair prompt; no actionable structural finding is expected before mutation"
+    },
+    {
+      "id": "windows-contract-01",
+      "path": "sources/windows-contract-01.docx",
+      "sha256": "125d425c96ad918e2acad1ddd9d74380ba416729c02f0b9f55a09086a61c722d",
+      "category": "contract",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-contract-02",
+      "path": "sources/windows-contract-02.docx",
+      "sha256": "22fc53244ffcfd1ce986ff1b6e94df6a766065c2fcb55e13627c7e3a9cce2af2",
+      "category": "contract",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-report-01",
+      "path": "sources/windows-report-01.docx",
+      "sha256": "63dd12fd35db95f664671e12630fed629cd547cd1608c3df01b0928f39d25582",
+      "category": "report",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-letter-01",
+      "path": "sources/windows-letter-01.docx",
+      "sha256": "78d73b8ccdf532414aeff7aa1fab5032deefbeb8cd8deaf21c2da7a9cc63d9bc",
+      "category": "letter",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-table-01",
+      "path": "sources/windows-table-01.docx",
+      "sha256": "0e54989caccf4c463e3003f9d1a23515f444595db7ddb47b566f3f7fa1e8a806",
+      "category": "table",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-table-02",
+      "path": "sources/windows-table-02.docx",
+      "sha256": "3a92fe5cb0eef8d8e66edeb3adae4bcdf3d6d78dd62abcf2f4f1304ff912afbc",
+      "category": "table",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-multi-section-01",
+      "path": "sources/windows-multi-section-01.docx",
+      "sha256": "fe8311462cd726827bfcd51de9640a9fefd2e1e4061f8c750ec74d08afeb414a",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-multi-section-02",
+      "path": "sources/windows-multi-section-02.docx",
+      "sha256": "870bd5e2bc70c7bd369b47c8b495a2f681a63b18ea8992ac5294c8921385cce2",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-review-heavy-01",
+      "path": "sources/windows-review-heavy-01.docx",
+      "sha256": "2d7e9db2e476cb8fb577043cd5316a4a2553c49c09da914a2139a3cca3301cfa",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "windows-review-heavy-02",
+      "path": "sources/windows-review-heavy-02.docx",
+      "sha256": "84b8fc16bd2fe1bab3ad68818872d188bb0edae8894e3a8c2054cf4a04ba320b",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-windows",
+        "version": "16.0.14334.20848",
+        "operation": "open-and-save as DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-windows.json",
+      "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
     }
   ],
   "pairs": [
@@ -2393,6 +2553,824 @@
           "count": 1
         }
       ]
+    },
+    {
+      "id": "windows-contract-01--clean-copy",
+      "source": "sources/windows-contract-01.docx",
+      "output": "outputs/windows-contract-01--clean-copy.docx",
+      "output_sha256": "125d425c96ad918e2acad1ddd9d74380ba416729c02f0b9f55a09086a61c722d",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-contract-01--safe-text-edit",
+      "source": "sources/windows-contract-01.docx",
+      "output": "outputs/windows-contract-01--safe-text-edit.docx",
+      "output_sha256": "1b289cbb860b069329488c90bc20ce08389cc359cd775364fc45d7de24b16848",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-contract-01--orphan-comment",
+      "source": "sources/windows-contract-01.docx",
+      "output": "outputs/windows-contract-01--orphan-comment.docx",
+      "output_sha256": "3e766225bc97e4dde4c3685b2bdf0db67b88b69b774ee84e280842e27f9b9c27",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-contract-01--missing-comment-definition",
+      "source": "sources/windows-contract-01.docx",
+      "output": "outputs/windows-contract-01--missing-comment-definition.docx",
+      "output_sha256": "d0a728960995eba8f74ac05306609c45d11080550f0b719897929da930b27b85",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-contract-02--clean-copy",
+      "source": "sources/windows-contract-02.docx",
+      "output": "outputs/windows-contract-02--clean-copy.docx",
+      "output_sha256": "22fc53244ffcfd1ce986ff1b6e94df6a766065c2fcb55e13627c7e3a9cce2af2",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-contract-02--safe-text-edit",
+      "source": "sources/windows-contract-02.docx",
+      "output": "outputs/windows-contract-02--safe-text-edit.docx",
+      "output_sha256": "a256d66f2ab07cccd64c85eff356978d4d173c701fe9d35f29d0ed72e683906b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-contract-02--orphan-comment",
+      "source": "sources/windows-contract-02.docx",
+      "output": "outputs/windows-contract-02--orphan-comment.docx",
+      "output_sha256": "ad29cd952f5732ae0c197194657b763ab8d7e2afe6e3e3063ad8eae187691c6a",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-contract-02--missing-comment-definition",
+      "source": "sources/windows-contract-02.docx",
+      "output": "outputs/windows-contract-02--missing-comment-definition.docx",
+      "output_sha256": "db3790e2b11256eec2a9ecccb0c9a2c53c167478e81dbe9f0b5d773a6234d583",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-report-01--clean-copy",
+      "source": "sources/windows-report-01.docx",
+      "output": "outputs/windows-report-01--clean-copy.docx",
+      "output_sha256": "63dd12fd35db95f664671e12630fed629cd547cd1608c3df01b0928f39d25582",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-report-01--safe-text-edit",
+      "source": "sources/windows-report-01.docx",
+      "output": "outputs/windows-report-01--safe-text-edit.docx",
+      "output_sha256": "f87b670f5c3009884ef1563f67f533daabd2c2716a9cc373fa4d597b03b06fa2",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-report-01--header-changed",
+      "source": "sources/windows-report-01.docx",
+      "output": "outputs/windows-report-01--header-changed.docx",
+      "output_sha256": "86749e363a61542f4bf96e005273aecd283f5bcaf060af9693825caadf8aa577",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-report-01--text-loss",
+      "source": "sources/windows-report-01.docx",
+      "output": "outputs/windows-report-01--text-loss.docx",
+      "output_sha256": "917345f96d55d4dac7e072ddfc50f24919495b69eee1ef53786996df403ee629",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-letter-01--clean-copy",
+      "source": "sources/windows-letter-01.docx",
+      "output": "outputs/windows-letter-01--clean-copy.docx",
+      "output_sha256": "78d73b8ccdf532414aeff7aa1fab5032deefbeb8cd8deaf21c2da7a9cc63d9bc",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-letter-01--safe-text-edit",
+      "source": "sources/windows-letter-01.docx",
+      "output": "outputs/windows-letter-01--safe-text-edit.docx",
+      "output_sha256": "27025707d5e117a5dccffb7b25a50f74236fae37faa9a82ae46aa29290b64e47",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-letter-01--broken-style",
+      "source": "sources/windows-letter-01.docx",
+      "output": "outputs/windows-letter-01--broken-style.docx",
+      "output_sha256": "0e664e6f28f65088b25a2c6f60e50be252808ceb05411e2067fe35aee7e8a2bc",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-letter-01--edge-whitespace",
+      "source": "sources/windows-letter-01.docx",
+      "output": "outputs/windows-letter-01--edge-whitespace.docx",
+      "output_sha256": "51606e845d1b8be30163fd1cf7cc02438f78ce833cd4f1a360be1f3c4dcac213",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-table-01--clean-copy",
+      "source": "sources/windows-table-01.docx",
+      "output": "outputs/windows-table-01--clean-copy.docx",
+      "output_sha256": "0e54989caccf4c463e3003f9d1a23515f444595db7ddb47b566f3f7fa1e8a806",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-01--safe-text-edit",
+      "source": "sources/windows-table-01.docx",
+      "output": "outputs/windows-table-01--safe-text-edit.docx",
+      "output_sha256": "bb5f8a300407d666a25242ac44d61820b5b17c95a239ae631862a74691966aa4",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-01--missing-table-grid",
+      "source": "sources/windows-table-01.docx",
+      "output": "outputs/windows-table-01--missing-table-grid.docx",
+      "output_sha256": "fd8bb7633ea604e3fdf7abd6f4418b8adfd6733a7011a762bb83ffeac663aef9",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-table-01--table-row-mismatch",
+      "source": "sources/windows-table-01.docx",
+      "output": "outputs/windows-table-01--table-row-mismatch.docx",
+      "output_sha256": "ea80c794505d3d0128f404bda7d95dd4bc4336e3382074d8f2e66a1d5b82b637",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-table-02--clean-copy",
+      "source": "sources/windows-table-02.docx",
+      "output": "outputs/windows-table-02--clean-copy.docx",
+      "output_sha256": "3a92fe5cb0eef8d8e66edeb3adae4bcdf3d6d78dd62abcf2f4f1304ff912afbc",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-02--safe-text-edit",
+      "source": "sources/windows-table-02.docx",
+      "output": "outputs/windows-table-02--safe-text-edit.docx",
+      "output_sha256": "228fc684a6b5f5b3caaa57f4c2bd3da97de4541510b11014283c1d94f1c03853",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-02--missing-table-grid",
+      "source": "sources/windows-table-02.docx",
+      "output": "outputs/windows-table-02--missing-table-grid.docx",
+      "output_sha256": "442e362f85494aef5aad81aa3d80ab4f230c478ac81b3ff9da54bb409e654291",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-table-02--table-row-mismatch",
+      "source": "sources/windows-table-02.docx",
+      "output": "outputs/windows-table-02--table-row-mismatch.docx",
+      "output_sha256": "c9a043630e2e5b1b2e4f2c5a9cdb8bc90f5c0167d071017e48a0507da486222a",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-multi-section-01--clean-copy",
+      "source": "sources/windows-multi-section-01.docx",
+      "output": "outputs/windows-multi-section-01--clean-copy.docx",
+      "output_sha256": "fe8311462cd726827bfcd51de9640a9fefd2e1e4061f8c750ec74d08afeb414a",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-01--safe-text-edit",
+      "source": "sources/windows-multi-section-01.docx",
+      "output": "outputs/windows-multi-section-01--safe-text-edit.docx",
+      "output_sha256": "cf31e1cd6f19fa1b1566e4ac82a98b378db93be29e41cc3bbf144786c1d75c80",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-01--footer-changed",
+      "source": "sources/windows-multi-section-01.docx",
+      "output": "outputs/windows-multi-section-01--footer-changed.docx",
+      "output_sha256": "c9581ae9fdf3b81371652d2717587f3b8e5d580c8efbd42cfa52f1bc067e9cd8",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-multi-section-01--missing-header-part",
+      "source": "sources/windows-multi-section-01.docx",
+      "output": "outputs/windows-multi-section-01--missing-header-part.docx",
+      "output_sha256": "9c771bf75ad21b390da353fb930d9dc43bc81896571413798cdacf8a9ec37c7b",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-multi-section-02--clean-copy",
+      "source": "sources/windows-multi-section-02.docx",
+      "output": "outputs/windows-multi-section-02--clean-copy.docx",
+      "output_sha256": "870bd5e2bc70c7bd369b47c8b495a2f681a63b18ea8992ac5294c8921385cce2",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-02--safe-text-edit",
+      "source": "sources/windows-multi-section-02.docx",
+      "output": "outputs/windows-multi-section-02--safe-text-edit.docx",
+      "output_sha256": "9cee1cf108601f41bd2bd77b9b1a8eeeaac409f33f3ac86bb7def5dff010a60b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-02--footer-changed",
+      "source": "sources/windows-multi-section-02.docx",
+      "output": "outputs/windows-multi-section-02--footer-changed.docx",
+      "output_sha256": "b8141fff327d31f7c926041356af2deca8873dabcd6888a3f6cebc7a46f97b34",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-multi-section-02--missing-header-part",
+      "source": "sources/windows-multi-section-02.docx",
+      "output": "outputs/windows-multi-section-02--missing-header-part.docx",
+      "output_sha256": "8d077a826201d7b5504df94f64cac4235d918008cd406304e4a88ab25d3005aa",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-review-heavy-01--clean-copy",
+      "source": "sources/windows-review-heavy-01.docx",
+      "output": "outputs/windows-review-heavy-01--clean-copy.docx",
+      "output_sha256": "2d7e9db2e476cb8fb577043cd5316a4a2553c49c09da914a2139a3cca3301cfa",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-01--safe-text-edit",
+      "source": "sources/windows-review-heavy-01.docx",
+      "output": "outputs/windows-review-heavy-01--safe-text-edit.docx",
+      "output_sha256": "7602de7a1767193f375bd9e3eefa523b3348e7fceeb47cc6773cd3e450096f9a",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-01--missing-comment-end",
+      "source": "sources/windows-review-heavy-01.docx",
+      "output": "outputs/windows-review-heavy-01--missing-comment-end.docx",
+      "output_sha256": "2d1deb0b34a426cb116ea339c8788bc6664edaf9f67fcccfa7343a81dc1878ec",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-review-heavy-01--missing-comment-start",
+      "source": "sources/windows-review-heavy-01.docx",
+      "output": "outputs/windows-review-heavy-01--missing-comment-start.docx",
+      "output_sha256": "9890dedf58f5ed960affb589542c6fa17c9fad81bc3efab5ee0f55253913c86a",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-review-heavy-02--clean-copy",
+      "source": "sources/windows-review-heavy-02.docx",
+      "output": "outputs/windows-review-heavy-02--clean-copy.docx",
+      "output_sha256": "84b8fc16bd2fe1bab3ad68818872d188bb0edae8894e3a8c2054cf4a04ba320b",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-02--safe-text-edit",
+      "source": "sources/windows-review-heavy-02.docx",
+      "output": "outputs/windows-review-heavy-02--safe-text-edit.docx",
+      "output_sha256": "dd2b775c9a05ef285da1674b935bf46586e61d24b6bfb6f9cd4c3c693d4f8ba6",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-02--missing-comment-end",
+      "source": "sources/windows-review-heavy-02.docx",
+      "output": "outputs/windows-review-heavy-02--missing-comment-end.docx",
+      "output_sha256": "9581c3b92d75337b335cf04a79d49831ded4a25983f05bef3b7cc07f0432bbaa",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-review-heavy-02--missing-comment-start",
+      "source": "sources/windows-review-heavy-02.docx",
+      "output": "outputs/windows-review-heavy-02--missing-comment-start.docx",
+      "output_sha256": "7e0cd965c80576c34296d066d17905ec060042cb8458234557fac5ca0dd1ff1a",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "windows-contract-01--word-roundtrip",
+      "source": "roundtrips/windows-contract-01.docx",
+      "source_sha256": "00dc32945c5d52f1906b024567b51f3b24defa7d28a4282c5540f782e851c55e",
+      "output": "sources/windows-contract-01.docx",
+      "output_sha256": "125d425c96ad918e2acad1ddd9d74380ba416729c02f0b9f55a09086a61c722d",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-contract-02--word-roundtrip",
+      "source": "roundtrips/windows-contract-02.docx",
+      "source_sha256": "0338f0b8260ab67ce978bee21fe0f080a11feb603fa0eac470b089c5cac409c9",
+      "output": "sources/windows-contract-02.docx",
+      "output_sha256": "22fc53244ffcfd1ce986ff1b6e94df6a766065c2fcb55e13627c7e3a9cce2af2",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-report-01--word-roundtrip",
+      "source": "roundtrips/windows-report-01.docx",
+      "source_sha256": "790837d8cea17502ce4f4c02378313eecce2b26460a11b5b0271a7672ca058b3",
+      "output": "sources/windows-report-01.docx",
+      "output_sha256": "63dd12fd35db95f664671e12630fed629cd547cd1608c3df01b0928f39d25582",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-letter-01--word-roundtrip",
+      "source": "roundtrips/windows-letter-01.docx",
+      "source_sha256": "9315cc7a81d0b298ac976117ad94bb5017deea49c671f294b2a14d025d5e6784",
+      "output": "sources/windows-letter-01.docx",
+      "output_sha256": "78d73b8ccdf532414aeff7aa1fab5032deefbeb8cd8deaf21c2da7a9cc63d9bc",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-01--word-roundtrip",
+      "source": "roundtrips/windows-table-01.docx",
+      "source_sha256": "d0ca2e7cb01ebf9d65f9243f95d271f1c5e371c3f56232d6b3e8890df9e36989",
+      "output": "sources/windows-table-01.docx",
+      "output_sha256": "0e54989caccf4c463e3003f9d1a23515f444595db7ddb47b566f3f7fa1e8a806",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-table-02--word-roundtrip",
+      "source": "roundtrips/windows-table-02.docx",
+      "source_sha256": "f31565eccfa87aa478de4e24547aa6c53abf9cbd4dd01fa3dee3690538f78227",
+      "output": "sources/windows-table-02.docx",
+      "output_sha256": "3a92fe5cb0eef8d8e66edeb3adae4bcdf3d6d78dd62abcf2f4f1304ff912afbc",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-01--word-roundtrip",
+      "source": "roundtrips/windows-multi-section-01.docx",
+      "source_sha256": "6bf51b6418029d7262ae4d0a1808ba3f19490e72c3e05871bf36addffea276cc",
+      "output": "sources/windows-multi-section-01.docx",
+      "output_sha256": "fe8311462cd726827bfcd51de9640a9fefd2e1e4061f8c750ec74d08afeb414a",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-multi-section-02--word-roundtrip",
+      "source": "roundtrips/windows-multi-section-02.docx",
+      "source_sha256": "e269bab6221bc07a2fb24d5dcd6725834af3c7b669dd9687a80adf73f51d71af",
+      "output": "sources/windows-multi-section-02.docx",
+      "output_sha256": "870bd5e2bc70c7bd369b47c8b495a2f681a63b18ea8992ac5294c8921385cce2",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-01--word-roundtrip",
+      "source": "roundtrips/windows-review-heavy-01.docx",
+      "source_sha256": "7332829428dce7817580531ea3ff9d6752fe5dc5713b8225363a3fe192476e82",
+      "output": "sources/windows-review-heavy-01.docx",
+      "output_sha256": "2d7e9db2e476cb8fb577043cd5316a4a2553c49c09da914a2139a3cca3301cfa",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
+    },
+    {
+      "id": "windows-review-heavy-02--word-roundtrip",
+      "source": "roundtrips/windows-review-heavy-02.docx",
+      "source_sha256": "e36bab2295f51d0e34277d1b255b3e8d9c0698d99e3796f460ccca8b559055d6",
+      "output": "sources/windows-review-heavy-02.docx",
+      "output_sha256": "84b8fc16bd2fe1bab3ad68818872d188bb0edae8894e3a8c2054cf4a04ba320b",
+      "mutation": "word-roundtrip",
+      "class": "clean",
+      "description": "Actual Windows Word open/save with metadata sanitisation",
+      "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
+      "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
+      "expected_findings": []
     }
-  ]
+  ],
+  "supporting_artifacts": [
+    {
+      "path": "roundtrips/windows-contract-01.docx",
+      "sha256": "00dc32945c5d52f1906b024567b51f3b24defa7d28a4282c5540f782e851c55e",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-contract-02.docx",
+      "sha256": "0338f0b8260ab67ce978bee21fe0f080a11feb603fa0eac470b089c5cac409c9",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-report-01.docx",
+      "sha256": "790837d8cea17502ce4f4c02378313eecce2b26460a11b5b0271a7672ca058b3",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-letter-01.docx",
+      "sha256": "9315cc7a81d0b298ac976117ad94bb5017deea49c671f294b2a14d025d5e6784",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-table-01.docx",
+      "sha256": "d0ca2e7cb01ebf9d65f9243f95d271f1c5e371c3f56232d6b3e8890df9e36989",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-table-02.docx",
+      "sha256": "f31565eccfa87aa478de4e24547aa6c53abf9cbd4dd01fa3dee3690538f78227",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-multi-section-01.docx",
+      "sha256": "6bf51b6418029d7262ae4d0a1808ba3f19490e72c3e05871bf36addffea276cc",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-multi-section-02.docx",
+      "sha256": "e269bab6221bc07a2fb24d5dcd6725834af3c7b669dd9687a80adf73f51d71af",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-review-heavy-01.docx",
+      "sha256": "7332829428dce7817580531ea3ff9d6752fe5dc5713b8225363a3fe192476e82",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "roundtrips/windows-review-heavy-02.docx",
+      "sha256": "e36bab2295f51d0e34277d1b255b3e8d9c0698d99e3796f460ccca8b559055d6",
+      "role": "synthetic input before Windows Word save"
+    },
+    {
+      "path": "provenance/word-windows.json",
+      "sha256": "597491d5e71f0e949afba3e101d5f0a454e89a249b44d60e343b0658b20e6f63",
+      "role": "sanitised COM provenance and part-hash receipt"
+    }
+  ],
+  "windows_added_on": "2026-09-05"
 }

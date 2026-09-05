@@ -707,23 +707,23 @@ def _current_rule_inventory() -> list[str]:
     return sorted(code for code in codes if not code.startswith("PPT"))
 
 
-def _build_outputs(sources: list[dict[str, object]]) -> list[dict[str, object]]:
-    OUTPUTS.mkdir(parents=True, exist_ok=True)
+def _build_outputs(sources: list[dict[str, object]], *,
+                   evidence_root: Path = EVIDENCE) -> list[dict[str, object]]:
+    outputs = evidence_root / "outputs"
+    outputs.mkdir(parents=True, exist_ok=True)
     pairs: list[dict[str, object]] = []
-    by_id = {spec.id: spec for spec in _source_specs()}
     for source_record in sources:
         source_id = str(source_record["id"])
-        spec = by_id[source_id]
-        source_path = EVIDENCE / str(source_record["path"])
+        source_path = evidence_root / str(source_record["path"])
         mutation_ids = (
             "clean-copy",
             "safe-text-edit",
-            *CATEGORY_MUTATIONS[spec.category],
+            *CATEGORY_MUTATIONS[str(source_record["category"])],
         )
         for mutation_id in mutation_ids:
             mutation = MUTATIONS[mutation_id]
             pair_id = f"{source_id}--{mutation_id}"
-            output_path = OUTPUTS / f"{pair_id}.docx"
+            output_path = outputs / f"{pair_id}.docx"
             if mutation_id == "clean-copy":
                 shutil.copyfile(source_path, output_path)
             else:
@@ -746,6 +746,10 @@ def _build_outputs(sources: list[dict[str, object]]) -> list[dict[str, object]]:
 
 
 def build(soffice: str | None, include_word: bool) -> dict[str, object]:
+    if MANIFEST.exists():
+        raise RuntimeError("Refusing to replace a committed corpus. Use append-only producer import in this checkout.")
+    if include_word and sys.platform != "darwin":
+        raise RuntimeError("build --word is Mac-only; use prepare-windows and import-windows.")
     sources, versions = _produce_sources(soffice, include_word)
     pairs = _build_outputs(sources)
     manifest: dict[str, object] = {
@@ -786,7 +790,13 @@ def build(soffice: str | None, include_word: bool) -> dict[str, object]:
 def rebuild_outputs(manifest_path: Path = MANIFEST) -> dict[str, object]:
     """Regenerate labelled edits without reopening committed producer sources."""
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    pairs = _build_outputs(manifest["sources"])
+    rebuilt = _build_outputs(manifest["sources"], evidence_root=manifest_path.parent)
+    by_id = {pair["id"]: pair for pair in rebuilt}
+    # An actual Office save cannot be reproduced by a package mutation. Keep
+    # both its bytes and its receipt/label in their original manifest position.
+    pairs = [by_id.pop(pair["id"]) if pair["mutation"] in MUTATIONS else pair
+             for pair in manifest["pairs"]]
+    pairs.extend(by_id.values())
     manifest["rule_inventory"] = _current_rule_inventory()
     manifest["pair_count"] = len(pairs)
     manifest["pairs"] = pairs
@@ -837,8 +847,12 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
         str(item["path"]): str(item["sha256"])
         for item in manifest["sources"]
     }
+    artifact_hashes = {str(item["path"]): str(item["sha256"])
+                       for item in manifest.get("supporting_artifacts", [])}
+    producer_by_path = {str(item["path"]): item["producer"]["id"] for item in manifest["sources"]}
+    groups: dict[str, dict[str, object]] = {}
     if verify_hashes:
-        for relative, expected_hash in source_hashes.items():
+        for relative, expected_hash in {**source_hashes, **artifact_hashes}.items():
             path = root / relative
             actual_hash = _sha256(path)
             if actual_hash != expected_hash:
@@ -850,6 +864,11 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
     for pair in manifest["pairs"]:
         source = root / pair["source"]
         output = root / pair["output"]
+        registered_hash = source_hashes.get(pair["source"], artifact_hashes.get(pair["source"]))
+        if registered_hash is None:
+            raise RuntimeError(f"unregistered pair source: {pair['source']}")
+        if pair.get("source_sha256", registered_hash) != registered_hash:
+            raise RuntimeError(f"pair source hash disagrees with artifact: {pair['id']}")
         if verify_hashes:
             actual_hash = _sha256(output)
             if actual_hash != pair["output_sha256"]:
@@ -863,6 +882,20 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
             (finding.code, finding.severity.value)
             for finding in actual_findings
         )
+        producer = producer_by_path.get(pair["source"], producer_by_path.get(pair["output"]))
+        if producer is None:
+            raise RuntimeError(f"unregistered producer for pair: {pair['id']}")
+        kind = "word-roundtrip" if pair["mutation"] == "word-roundtrip" else "deterministic-mutation"
+        for group_key in (f"producer:{producer}", f"kind:{kind}"):
+            group = groups.setdefault(group_key, {"pairs": 0, "clean_pairs": 0, "tp": 0, "fp": 0, "fn": 0})
+            group["pairs"] += 1
+            group["clean_pairs"] += pair["class"] == "clean"
+            for key in set(expected) | set(actual):
+                if key[1] == "error":
+                    matched = min(expected[key], actual[key])
+                    group["tp"] += matched
+                    group["fp"] += actual[key] - matched
+                    group["fn"] += expected[key] - matched
         if actual != expected:
             failures.append({
                 "pair": pair["id"],
@@ -911,6 +944,9 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
 
     error_fp = actual_errors - true_errors
     error_fn = expected_errors - true_errors
+    for group in groups.values():
+        group["precision"] = _ratio(group["tp"], group["tp"] + group["fp"])
+        group["recall"] = _ratio(group["tp"], group["tp"] + group["fn"])
     return {
         "schema_version": 1,
         "corpus": manifest["corpus"],
@@ -931,6 +967,7 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
             "recall": _ratio(true_errors, true_errors + error_fn),
         },
         "rules": rules,
+        "groups": groups,
         "pair_failures": failures,
     }
 
@@ -988,6 +1025,11 @@ def _write_results(metrics: dict[str, object]) -> None:
             f"{item['fn']} | {_percent(item['precision'])} | "
             f"{_percent(item['recall'])} |"
         )
+    lines.extend(("", "## Producer and pair-kind error results", "",
+                  "| group | pairs | clean | TP | FP | FN | precision | recall |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"))
+    for name, group in sorted(metrics["groups"].items()):
+        lines.append(f"| `{name}` | {group['pairs']} | {group['clean_pairs']} | {group['tp']} | {group['fp']} | {group['fn']} | {_percent(group['precision'])} | {_percent(group['recall'])} |")
     lines.extend((
         "",
         "Rules with no positive or negative label in this tranche are explicitly "
@@ -999,8 +1041,8 @@ def _write_results(metrics: dict[str, object]) -> None:
         "",
         "These numbers establish reproducible regression behaviour on synthetic "
         "DOCX package mutations. They do **not** establish production precision "
-        "for unmeasured rules, customer document distributions, Word for "
-        "Windows, Word Online, or visual renderer fidelity. Those gaps are kept "
+        "for unmeasured rules, customer document distributions, other Windows "
+        "Word versions, Word Online, or visual renderer fidelity. Those gaps are kept "
         "in `manifest.json` and the corpus README rather than being folded into "
         "the 100% measured-rule result.",
         "",
@@ -1038,13 +1080,29 @@ def main(argv: list[str] | None = None) -> int:
         "rebuild-outputs",
         help="rebuild mutations and labels from committed producer sources",
     )
+    for name in ("prepare-windows", "import-windows"):
+        windows_parser = commands.add_parser(name, help="append-only Windows Word evidence workflow")
+        windows_parser.add_argument("--staging", type=Path, required=True)
     evaluate_parser = commands.add_parser("evaluate", help="score committed labels")
     evaluate_parser.add_argument(
         "--write", action="store_true", help="update metrics.json and RESULTS.md",
     )
     args = parser.parse_args(argv)
 
-    if args.command == "build":
+    if args.command in {"prepare-windows", "import-windows"}:
+        try:
+            from . import windows_docx_evidence as windows
+        except ImportError:
+            import windows_docx_evidence as windows
+        if args.command == "prepare-windows":
+            request = windows.prepare(args.staging)
+            print(f"prepared {len(request['documents'])} clean inputs; next run save_docx_word_windows.ps1 -Batch {args.staging / 'batch.json'} in the desktop user session")
+            return 0
+        manifest = windows.import_batch(args.staging)
+        print(f"imported Windows evidence: {manifest['source_count']} sources, {manifest['pair_count']} pairs")
+        metrics = evaluate()
+        _write_results(metrics)
+    elif args.command == "build":
         manifest = build(args.soffice, args.word)
         print(
             f"built {manifest['source_count']} sources and "
