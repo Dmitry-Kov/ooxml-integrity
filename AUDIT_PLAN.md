@@ -82,7 +82,7 @@ being checked here:
 | --- | --- | --- | --- |
 | P0 | Narrow evidence corpus | One synthetic source and a small set of agent outputs cannot establish production precision. | Build a labelled, producer-diverse corpus and publish rule-level precision evidence. |
 | P0 | Release-contract risk | Baseline v2 is breaking and JSON/rule lifecycle guarantees are not formally versioned. | Publish migration notes and define compatibility rules before the next release. |
-| P1 | PPTX long-token false negative | A token wider than a wrapped box may not emit horizontal overflow. | Report the defect with calibrated confidence and regression fixtures. |
+| P1 | PPTX long-token false negative | Closed for basic Latin: PowerPoint character-wraps long words, so the missing finding was usually vertical, not horizontal. | Twelve pinned Office renders plus clean/defect/boundary regressions; other character breaking remains Estimated. |
 | P1 | TTC/OTC face selection | The indexed collection face may not be the face used for metrics. | Preserve and test the intended collection face index end to end. |
 | P1 | PPTX geometry scope | Groups, rotations, tables, SmartArt, master-only objects, and presentation slide order are incomplete or unsupported. | Add features only with fixtures and renderer evidence; otherwise surface them as unsupported. |
 | P1 | Font portability | Results depend on installed or metric-compatible fonts, which complicates first-run CI. | Add a `doctor` report and a documented reproducible font setup or supported font bundle strategy. |
@@ -282,7 +282,13 @@ Exit criteria:
 
 Implement in this order:
 
-1. Wrapped PPTX tokens wider than the usable text box.
+1. **Done, bounded scope (2026-09-06):** wrapped PPTX tokens wider than the usable
+   text box. Basic Latin character wrapping, run-spanning words, stored scale,
+   insets and residual overwide glyphs now have regressions and
+   [12 native PowerPoint for Mac render observations](docs/pptx-long-tokens.md).
+   Eight clean controls and four defects match the observed line counts and
+   breaks. Unsupported scripts/breaking remain estimates; this is not a claim
+   of complete Unicode, Windows or web layout support.
 2. Correct TTC/OTC face-index propagation into metric loading.
 3. Presentation slide order through `p:sldIdLst`.
 4. Master-specific theme resolution.

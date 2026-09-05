@@ -616,9 +616,9 @@ And for `.pptx`:
 | code        | check                                                                                       |
 | ----------- | ------------------------------------------------------------------------------------------- |
 | `PPT000`    | text could not be measured at all - reported as an error, never as "clean"                  |
-| `PPT001`    | text taller than its box, beyond the measurement tolerance                                  |
+| `PPT001`    | text taller than its box, including character-wrapped long Latin words, beyond the measurement tolerance |
 | `PPT002`    | text within tolerance of overflowing - borderline, may go either way                        |
-| `PPT003`    | word wrap off and the longest line runs outside the shape                                   |
+| `PPT003`    | line runs outside the usable width: wrap off, or residual excess such as a single overwide glyph |
 | `PPT004`    | shape extends past the slide edge, or sits entirely outside it                              |
 | `PPT005`    | shrink-to-fit requested but no `fontScale` stored - the result depends on the renderer      |
 | `PPT006`    | two text-bearing shapes overlap                                                             |
@@ -630,7 +630,11 @@ for and safe to suppress.
 
 No model calls, no rendering, no network — a few hundred lines of `lxml`.
 
-The suite has 235 tests, and the three most useful ones are regressions for false
+Long-token wrapping is calibrated against twelve native PowerPoint for Mac
+renders, with clean controls and permanent regressions. See
+[the evidence, confidence limits and remediation](docs/pptx-long-tokens.md).
+
+The suite includes permanent regressions for false
 positives that **real agent runs** exposed and hand-written fixtures never would
 have (`tests/test_false_positives.py`). The committed agent outputs in `runs/`
 are themselves a fixture: six correct edits that must stay clean, two broken

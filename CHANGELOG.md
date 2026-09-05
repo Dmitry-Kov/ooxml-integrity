@@ -50,6 +50,14 @@
   instead of being interpolated into shell source.
 
 ### Fixed
+- PPTX long basic-Latin words now wrap by character when wider than a complete
+  usable line, preserving run sizes, insets and stored font scaling. This closes
+  vertical-overflow false negatives without flagging tall clean controls.
+  `latinLnBrk` inheritance and run-spanning words are respected. `PPT003` also
+  detects residual horizontal excess with wrap on, such as one overwide glyph.
+  Near-boundary or unmodelled character breaking is explicitly estimated/WARN
+  and reflected in coverage. Twelve pinned PowerPoint for Mac PNG exports and
+  a synthetic PPTX record the observed line breaks and verdicts.
 - DOCX relationships are checked package-wide, including the root
   `officeDocument` entry point and relationships owned by headers, footers and
   other XML parts.

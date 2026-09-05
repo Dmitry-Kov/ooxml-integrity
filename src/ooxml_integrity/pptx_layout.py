@@ -35,7 +35,13 @@ from .fonts import EMU_PER_POINT, Metrics, load_metrics
 from .xmlutil import fromstring as parse_xml
 
 #: split on whitespace but keep it, so word boundaries survive
-_WORD_TOKENS = re.compile(r"(\s+)")
+_WORD_TOKENS = re.compile(r"(\n|[^\S\n]+)")
+
+# Character wrapping is calibrated for basic Latin letters/digits, not Unicode
+# line breaking or grapheme shaping. Do not split combining sequences or URLs
+# with an invented punctuation/hyphenation policy.
+_LATIN_TOKEN = re.compile(r"[A-Za-z0-9]+\Z")
+EMERGENCY_WRAP_TOLERANCE = 0.05
 
 A = "http://schemas.openxmlformats.org/drawingml/2006/main"
 P = "http://schemas.openxmlformats.org/presentationml/2006/main"
@@ -85,6 +91,7 @@ class Paragraph:
     space_before_pt: float = 0.0
     space_after_pt: float = 0.0
     bullet_indent_emu: int = 0
+    latin_line_break: bool = False
 
     @property
     def text(self) -> str:
@@ -539,9 +546,20 @@ class DeckReader:
                                                 False, False))
                         mult, exact, before, after = self._paragraph_spacing(
                             ppr, txbody_lst, style_chain, level)
+                        latin_break = False
+                        sources = [ppr]
+                        for src in [txbody_lst, *style_chain]:
+                            if src is None:
+                                continue
+                            sources.extend([self._lvl_props(src, level),
+                                            src.find(_a("defPPr"))])
+                        for source in sources:
+                            if source is not None and source.get("latinLnBrk") is not None:
+                                latin_break = _bool(source, "latinLnBrk")
+                                break
                         paragraphs.append(Paragraph(
                             runs, level, mult, exact, before, after,
-                            _int(ppr, "marL", 0) or 0))
+                            _int(ppr, "marL", 0) or 0, latin_break))
 
                 shapes.append(Shape(
                     name=name, slide=slide_no, left=left, top=top,
@@ -605,6 +623,8 @@ class _Piece:
     run: Run
     width_pt: float
     is_space: bool
+    metrics: Metrics
+    size_pt: float
 
 
 def _split_runs(para: Paragraph, scale: float,
@@ -629,42 +649,105 @@ def _split_runs(para: Paragraph, scale: float,
             if not token:
                 continue
             pieces.append(_Piece(
-                token, run, m.text_width_pt(token, size), token.isspace()
+                token, run, m.text_width_pt(token, size), token.isspace(), m, size
             ))
     return pieces, confident
 
 
 def _build_lines(pieces: list[_Piece], max_width_pt: float,
-                 wrap: bool) -> list[list[_Piece]]:
+                 wrap: bool, notes: list[str], *,
+                 latin_line_break: bool = False) -> list[list[_Piece]]:
     """Greedy word wrap over pieces from mixed runs.
 
     Wrapping has to be run-aware: a paragraph whose first run is 32pt and whose
     second is 12pt wraps at different points than either size alone would, and
     each resulting line's height comes from the tallest run *on that line*.
     """
+    # A formatting run boundary is not a word boundary. Keep adjacent fragments
+    # together for normal wrap, then retain their individual metrics/heights
+    # when an overlong word has to break by character.
+    groups: list[list[_Piece]] = []
+    for piece in pieces:
+        if (groups and not piece.is_space and not groups[-1][-1].is_space):
+            groups[-1].append(piece)
+        else:
+            groups.append([piece])
+
     lines: list[list[_Piece]] = []
     current: list[_Piece] = []
     width = 0.0
 
-    for piece in pieces:
-        if piece.text == "\n":
-            lines.append(current)
-            current, width = [], 0.0
-            continue
-        if not wrap or width + piece.width_pt <= max_width_pt or not current:
-            current.append(piece)
-            width += piece.width_pt
-            continue
-        # does not fit: break, dropping a space that would start the new line
+    def finish():
+        nonlocal current, width
         while current and current[-1].is_space:
-            width -= current.pop().width_pt
+            current.pop()
         lines.append(current)
-        if piece.is_space:
-            current, width = [], 0.0
-        else:
-            current, width = [piece], piece.width_pt
+        current, width = [], 0.0
 
-    lines.append(current)
+    for group in groups:
+        first = group[0]
+        group_width = sum(p.width_pt for p in group)
+        if first.text == "\n":
+            finish()
+            continue
+        if not wrap or width + group_width <= max_width_pt + 1e-9:
+            current.extend(group)
+            width += group_width
+            continue
+        if first.is_space:
+            # Discard a trailing space without eagerly emitting the line: a
+            # following hard break must not manufacture a second blank line.
+            continue
+
+        # With latinLnBrk=false (Office's default), move the word to a fresh
+        # line first. PowerPoint still breaks a word wider than that WHOLE line.
+        if not latin_line_break and current:
+            finish()
+        if group_width <= max_width_pt + 1e-9 and not latin_line_break:
+            current.extend(group)
+            width = group_width
+            continue
+        token = "".join(p.text for p in group)
+        if not _LATIN_TOKEN.fullmatch(token):
+            reason = "character wrapping outside basic Latin letters/digits is not modelled"
+            if reason not in notes:
+                notes.append(reason)
+            current.extend(group)
+            width += group_width
+            continue
+
+        # Linear in the token length, including legacy pair kerning. Repeated
+        # measurement of growing prefixes would make a long token quadratic.
+        for piece in group:
+            start, fragment_width, previous = 0, 0.0, None
+            m = piece.metrics
+            factor = piece.size_pt / m.upem
+            for offset, ch in enumerate(piece.text):
+                cp = ord(ch)
+                advance = m.advance(cp) * factor
+                kern = m.kerning.get((previous, cp), 0) * factor if previous is not None else 0.0
+                candidate_width = width + advance + kern
+                if (current or offset > start) and candidate_width > max_width_pt + 1e-9:
+                    if candidate_width <= max_width_pt * (1 + EMERGENCY_WRAP_TOLERANCE):
+                        reason = "character-wrap boundary is within 5% measurement tolerance"
+                        if reason not in notes:
+                            notes.append(reason)
+                    if offset > start:
+                        current.append(_Piece(piece.text[start:offset], piece.run,
+                                              fragment_width, False, m, piece.size_pt))
+                    finish()
+                    start, fragment_width, kern = offset, 0.0, 0.0
+                width += advance + kern
+                fragment_width += advance + kern
+                previous = cp
+            if start < len(piece.text):
+                current.append(_Piece(piece.text[start:], piece.run,
+                                      fragment_width, False, m, piece.size_pt))
+
+    if current or not lines or pieces[-1].text == "\n":
+        while current and current[-1].is_space:
+            current.pop()
+        lines.append(current)
     return lines
 
 
@@ -700,7 +783,11 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
         paragraphs_measured += 1
 
         avail_w = max(0.0, box_w_pt - para.bullet_indent_emu / EMU_PER_POINT)
-        lines = _build_lines(pieces, avail_w, shape.wrap)
+        notes_before = len(notes)
+        lines = _build_lines(pieces, avail_w, shape.wrap, notes,
+                             latin_line_break=para.latin_line_break)
+        if len(notes) != notes_before:
+            confident = False
 
         para_h = 0.0
         for line in lines:
@@ -715,7 +802,7 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
             if shape.line_space_reduction:
                 line_h *= (1.0 - shape.line_space_reduction)
             para_h += line_h
-            widest = max(widest, sum(p.width_pt for p in line))
+            widest = max(widest, sum(p.width_pt for p in line) + box_w_pt - avail_w)
 
         para_h += para.space_after_pt
         if i > 0:

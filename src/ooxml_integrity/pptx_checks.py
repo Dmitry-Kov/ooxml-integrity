@@ -115,8 +115,8 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
             else:
                 out.append(Finding(
                     "PPT001", WARN,
-                    msg + " - but the declared font is not available, so this is "
-                          "an estimate" + note,
+                    msg + " - an estimate because font metrics or line breaking "
+                          "are approximate" + note,
                     _where(shape)))
         elif ratio > 1.0:
             out.append(Finding(
@@ -126,16 +126,20 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
                 f"on the renderer and the installed font" + note,
                 _where(shape)))
 
-        # wrap off: a long line runs out the side however tall the box is
-        if not shape.wrap and result.horizontal_overflow_pt > 0:
+        # Wrapped words normally break by character. A single glyph can still
+        # exceed the whole line; unsupported breaking stays an estimate.
+        if result.horizontal_overflow_pt > 0:
             over = result.horizontal_overflow_pt
             if over > result.box_width_pt * BORDERLINE:
+                prefix = ("word wrap is off and the longest line is " if not shape.wrap
+                          else "word wrap is on but the measured line still occupies ")
+                msg = (prefix + f"{result.widest_line_pt:.0f}pt in a "
+                       f"{result.box_width_pt:.0f}pt box - {over:.0f}pt runs "
+                       "outside the shape" + note)
+                if shape.wrap and not confident:
+                    msg += "; estimated wrapping/width - verify the actual result in PowerPoint"
                 out.append(Finding(
-                    "PPT003", ERROR if confident else WARN,
-                    f"word wrap is off and the longest line is "
-                    f"{result.widest_line_pt:.0f}pt in a "
-                    f"{result.box_width_pt:.0f}pt box - {over:.0f}pt runs "
-                    f"outside the shape" + note,
+                    "PPT003", ERROR if confident else WARN, msg,
                     _where(shape)))
     return out
 

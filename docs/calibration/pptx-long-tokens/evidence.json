@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-06",
+  "renderer": "Microsoft PowerPoint for Mac 16.112.3, macOS Apple Silicon",
+  "method": "Opened the exact fixture through the native UI; File > Export > PNG > Save Every Slide, 960 x 540. All twelve PNGs inspected individually. No edit/save or repair prompt.",
+  "font": "Calibri, 24pt; slide 11 stores normAutofit fontScale=50000 (12pt).",
+  "fixture": "corpus/pptx-long-tokens.pptx",
+  "fixture_sha256": "ada1bc9ae01fb0a7aed97e7f351b6e4f3075a9a5a3b20a1b182f36fcf9ad440c",
+  "origin": "Synthetic native text boxes authored with @oai/artifact-tool, with explicit XML test settings for latinLnBrk, insets and stored scale. Structural, geometry and font-policy validation passed before PowerPoint export.",
+  "licence": "Project MIT licence for synthetic fixture and renders. No font binaries or third-party document content are included.",
+  "scope": "Basic Latin emergency character wrapping in ungrouped horizontal text boxes; one Office build/font. Windows, web, other scripts, Unicode breaking and independent review are not claimed.",
+  "cases": [
+    {
+      "slide": 1,
+      "shape": "FIT_default_tall",
+      "observed_line_count": 4,
+      "observed_lines": [
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide1.png",
+      "render_sha256": "f5c85cae082826a1afe7e7b063015550817793bb821623533556f9007649aea5"
+    },
+    {
+      "slide": 2,
+      "shape": "OVER_default_short",
+      "observed_line_count": 4,
+      "observed_lines": [
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [
+        [
+          "PPT001",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/pptx-long-tokens/Slide2.png",
+      "render_sha256": "5b9d4256acf10a8c2e19dfcd2354810a41a3e8937719a400009a9f87e5059e45"
+    },
+    {
+      "slide": 3,
+      "shape": "FIT_latin_false",
+      "observed_line_count": 4,
+      "observed_lines": [
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide3.png",
+      "render_sha256": "f5c85cae082826a1afe7e7b063015550817793bb821623533556f9007649aea5"
+    },
+    {
+      "slide": 4,
+      "shape": "FIT_latin_true",
+      "observed_line_count": 4,
+      "observed_lines": [
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide4.png",
+      "render_sha256": "f5c85cae082826a1afe7e7b063015550817793bb821623533556f9007649aea5"
+    },
+    {
+      "slide": 5,
+      "shape": "FIT_ordinary",
+      "observed_line_count": 2,
+      "observed_lines": [
+        "Commercial",
+        "terms"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide5.png",
+      "render_sha256": "e2403ea838abe5ea71afe1e664f5a77dbcce5c6c3602620c7e00f6b0b4e41621"
+    },
+    {
+      "slide": 6,
+      "shape": "OVER_nowrap",
+      "observed_line_count": 1,
+      "observed_lines": [
+        "WWWWWWWWWWWWWWWWWWWW"
+      ],
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/pptx-long-tokens/Slide6.png",
+      "render_sha256": "fe74dd8afec72da3d83e40e238c720cb53c5e18d3f35c480e600992d33acb6aa"
+    },
+    {
+      "slide": 7,
+      "shape": "FIT_split_run",
+      "observed_line_count": 4,
+      "observed_lines": [
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide7.png",
+      "render_sha256": "f5c85cae082826a1afe7e7b063015550817793bb821623533556f9007649aea5"
+    },
+    {
+      "slide": 8,
+      "shape": "OVER_single_glyph",
+      "observed_line_count": 1,
+      "observed_lines": [
+        "W"
+      ],
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/pptx-long-tokens/Slide8.png",
+      "render_sha256": "c9a1eb399cb0efc35461dd0460eb074c22e43cfe6a2ae119f2f19021ba5546f5"
+    },
+    {
+      "slide": 9,
+      "shape": "FIT_prefixed_long",
+      "observed_line_count": 5,
+      "observed_lines": [
+        "Hi",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide9.png",
+      "render_sha256": "a6c38640e0da5157ed1f64527c9f79100dfd8cb832a3b23b73c65941802c5c63"
+    },
+    {
+      "slide": 10,
+      "shape": "OVER_insets",
+      "observed_line_count": 7,
+      "observed_lines": [
+        "WWW",
+        "WWW",
+        "WWW",
+        "WWW",
+        "WWW",
+        "WWW",
+        "WW"
+      ],
+      "expected_findings": [
+        [
+          "PPT001",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/pptx-long-tokens/Slide10.png",
+      "render_sha256": "769314e63f5acbe484a78bd3bfcae90efcdb71545726f2ac020012ab77e363b7"
+    },
+    {
+      "slide": 11,
+      "shape": "FIT_stored_scale",
+      "observed_line_count": 2,
+      "observed_lines": [
+        "WWWWWWWWWWW",
+        "WWWWWWWWW"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide11.png",
+      "render_sha256": "0e6389472f5fa2d9024dd0ec8dcde2e053c5f6081fdf634df9729b8a8cdf6b99"
+    },
+    {
+      "slide": 12,
+      "shape": "FIT_prefixed_latin_true",
+      "observed_line_count": 5,
+      "observed_lines": [
+        "Hi WWWW",
+        "WWWWW",
+        "WWWWW",
+        "WWWWW",
+        "W"
+      ],
+      "expected_findings": [],
+      "render": "docs/calibration/pptx-long-tokens/Slide12.png",
+      "render_sha256": "1bd8bf2caad52a16fe3d1c164ffeb894b1261bc6425682885fb393298c975228"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ from .archive import (
 from .finding import Finding
 from .fidelity import story_reference_count
 from .fonts import resolve_face
-from .pptx_layout import Deck, read_deck
+from .pptx_layout import Deck, layout_shape, read_deck
 from .xmlutil import fromstring as parse_xml
 
 
@@ -455,6 +455,22 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
             if font_item.status in (CoverageStatus.CHECKED, CoverageStatus.ESTIMATED)
             else font_item.reason
         )
+        if overflow_status is CoverageStatus.CHECKED:
+            try:
+                approximate = sum(
+                    1 for shape in eligible_text
+                    if (result := layout_shape(shape)) is not None and not result.confident
+                )
+            except Exception:
+                overflow_status = CoverageStatus.SKIPPED
+                overflow_reason = "text layout confidence could not be evaluated"
+            else:
+                if approximate:
+                    overflow_status = CoverageStatus.ESTIMATED
+                    overflow_reason = (
+                        f"{approximate} shape(s) had approximate font metrics or "
+                        "unmodelled/borderline character wrapping"
+                    )
     items.append(_item(
         "pptx.text-overflow", overflow_status, overflow_reason,
         len(eligible_text),
