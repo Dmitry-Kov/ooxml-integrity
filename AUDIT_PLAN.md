@@ -236,10 +236,22 @@ Progress recorded 2026-09-05:
       represented.
 - [x] Exact labels, hashes, provenance, sanitisation, producer versions, and
       per-rule TP/FP/FN are machine-readable and regression-gated.
-- [ ] Add Word for Windows and Word Online sources, plus a source from an
-      independent commercial/internal generator.
-- [ ] Add privacy-reviewed real documents or defensible synthetic equivalents,
-      and independently review their labels.
+- [x] Windows addition, 2026-09-06: ten synthetic sources actually opened and
+      saved by desktop Word 16.0.14334.20848 x64 on Windows 11, plus forty
+      deterministic pairs and ten real before/after Word compatibility pairs.
+      The original thirty sources and 120 pair records/bytes are preserved.
+- [x] Combined denominator: 40 sources, 170 pairs (90 clean, 80 seeded defects).
+      Error findings: 88 TP, 0 FP, 0 FN; per-rule and per-producer results are
+      published. Windows capture/import, sanitisation, hashes and a direct XML
+      semantic audit are reproducible and regression-gated; no independent
+      human review of the Windows labels is claimed. See the
+      [Windows evidence record](evidence/docx-beta/WINDOWS.md).
+- [ ] Add Word Online sources. **P0.5 remains open.**
+- [ ] Add a source from an independent commercial/internal generator where
+      available; none was supplied for this tranche.
+- [x] Defensible synthetic equivalents cover the requested document classes.
+      Customer documents and independent dual human review would extend the
+      evidence, but are not mandatory conditions of this synthetic-corpus plan.
 
 Exit criteria:
 

@@ -444,7 +444,7 @@ python build_pptx_corpus.py   # build the reference deck (byte-reproducible)
 python assert_deck.py ../corpus/deck.pptx   # it still reports its 11 defects
 
 cd ..
-python research/build_docx_evidence.py evaluate  # 30 sources, 120 labelled pairs
+python research/build_docx_evidence.py evaluate  # 40 sources, 170 labelled pairs
 ```
 
 Both fixtures rebuild byte-identical, which is what makes `git diff` a usable
@@ -467,13 +467,15 @@ tracked revisions from a named author, a content control, a table with an
 explicit `tblGrid` and a header row, an inline image, an external hyperlink, and
 header/footer parts.
 
-The versioned [DOCX beta evidence corpus](evidence/docx-beta/README.md) adds 30
-distinct synthetic sources and 120 labelled pairs: 60 clean controls and 60
+The versioned [DOCX beta evidence corpus](evidence/docx-beta/README.md) adds 40
+distinct synthetic sources and 170 labelled pairs: 90 clean controls and 80
 isolated seeded defects. Ten sources each were actually produced or
-opened-and-saved by `python-docx`, LibreOffice, and Word for Mac. Its published
+opened-and-saved by `python-docx`, LibreOffice, Word for Mac, and Word for
+Windows. Ten clean pairs preserve real before/after Windows Word saves, with
+[capture and sanitisation receipts](evidence/docx-beta/WINDOWS.md). Its published
 [results](evidence/docx-beta/RESULTS.md) count exact finding occurrences and
-report precision/recall per measured rule; unmeasured rules and missing Word for
-Windows/Word Online evidence remain explicit instead of inheriting the measured
+report precision/recall per measured rule and producer; unmeasured rules and
+missing Word Online evidence remain explicit instead of inheriting the measured
 rules' score.
 
 ---
@@ -671,7 +673,7 @@ docs/                   the support matrix, archive limits, PowerPoint validatio
                         calibration, and a worked example config
 corpus/base.docx        the reference document, byte-reproducible
 corpus/deck.pptx        the reference deck, ground truth in the shape names
-evidence/docx-beta/     30 producer sources and 120 labelled DOCX pairs
+evidence/docx-beta/     40 producer sources and 170 labelled DOCX pairs
 runs/                   eight real agent outputs, used as fixtures
 action.yml              the GitHub Action
 ```
@@ -682,9 +684,9 @@ action.yml              the GitHub Action
 
 Read these before citing any number here.
 
-- **The 30-source beta evidence tranche is synthetic.** It covers six document
-  classes and three locally available producers, but not customer document
-  distributions, Word for Windows, Word Online, or an independently supplied
+- **The 40-source beta evidence tranche is synthetic.** It covers six document
+  classes and four locally available producers, but not customer document
+  distributions, Word Online, other Windows Word builds, or an independently supplied
   generator. Its 100% figure applies only to the 14 measured rules; the
   per-rule report names every unmeasured DOCX rule.
 - **Schema validation is approximated.** The full ECMA-376 XSDs are not bundled;
@@ -693,9 +695,10 @@ Read these before citing any number here.
   schema-legal, because they break referential integrity rather than grammar —
   but swap in a real validator before quoting the schema column.
 - **Observed Word rendering is Mac only.** The DOCX evidence sources include
-  real open/save passes through Word for Mac and LibreOffice, but visual
-  behaviour is not scored by that structural corpus. Word for Windows, Word
-  Online and systematic ONLYOFFICE DOCX behaviour remain untested.
+  real open/save passes through Word for Mac, Word for Windows and LibreOffice,
+  but visual behaviour is not scored by that structural corpus. Windows Word
+  evidence covers open/save and semantic XML preservation. Word Online and
+  systematic ONLYOFFICE DOCX behaviour remain untested.
 - **Neighbouring tools are described from their documentation, not from
   running them.** `OfficeCLI` and `docx-mcp` are summarised in Prior work from
   their own READMEs and command help. Before quoting any comparison, run them.

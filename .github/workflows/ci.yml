@@ -88,6 +88,9 @@ jobs:
       - name: Test
         run: python -m pytest -q
 
+      - name: Evaluate committed DOCX producer evidence (no Office required)
+        run: python research/build_docx_evidence.py evaluate
+
       - name: The reference corpus rebuilds byte-clean
         working-directory: research
         env:
