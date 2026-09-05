@@ -5,18 +5,18 @@
   "scope": "DOCX structural integrity and source fidelity",
   "licence": "MIT (same as this repository)",
   "sanitisation": "All documents are synthetic and contain no customer, personal, confidential, or externally licensed content.",
-  "label_policy": "Expected findings are declared by isolated mutation before the checker runs. Exact actionable multisets are regression-gated.",
+  "label_policy": "Expected findings are declared before scoring from isolated mutations or observed Office operations with independent XML audits. Exact actionable multisets are regression-gated.",
   "known_evidence_gaps": [
-    "No Word Online source has been collected.",
     "No customer or independently supplied generator source is included.",
-    "Legacy labels have one maintainer review; Windows labels have automated semantic XML review by the coding agent, not independent human or dual review.",
+    "Legacy labels have one maintainer review; Windows and web labels have coding-agent XML review, not independent human or dual review.",
     "Renderer appearance is not scored by this structural corpus."
   ],
   "producer_versions": {
     "python-docx": "1.2.0",
     "libreoffice": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
     "word-mac": "16.112.3",
-    "word-windows": "16.0.14334.20848"
+    "word-windows": "16.0.14334.20848",
+    "word-online": "service build not exposed in observed UI (2026-09-06)"
   },
   "rule_inventory": [
     "CMT001",
@@ -64,8 +64,8 @@
     "TXT001",
     "XML001"
   ],
-  "source_count": 40,
-  "pair_count": 170,
+  "source_count": 50,
+  "pair_count": 220,
   "sources": [
     {
       "id": "contract-01",
@@ -676,6 +676,166 @@
       "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
       "provenance": "provenance/word-windows.json",
       "expected_behavior": "COM open without requested repair and SaveAs2 succeeded; semantic XML facts preserved. No visual or independent human review is claimed."
+    },
+    {
+      "id": "online-contract-01",
+      "path": "sources/online-contract-01.docx",
+      "sha256": "f4f3860271936360a9074d945bed25daf6523a28c2bd1ba8610ad8e7968bf323",
+      "category": "contract",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-contract-02",
+      "path": "sources/online-contract-02.docx",
+      "sha256": "1318b716b20d1407025a8e5a2d5f4af559425e713353beb1780c76e55769e587",
+      "category": "contract",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-report-01",
+      "path": "sources/online-report-01.docx",
+      "sha256": "867e28a95b1238f571304ed7d8f6409e728eeb14499239b377eb1ab60a024b26",
+      "category": "report",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-letter-01",
+      "path": "sources/online-letter-01.docx",
+      "sha256": "9d5ac6db8e16c6670305ee9bc7e1532fd8674b4eee606e88faae81f13fa2d226",
+      "category": "letter",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-table-01",
+      "path": "sources/online-table-01.docx",
+      "sha256": "b70595169e7ec4d093d91e05aa228877912c216de80b2a7b2715cfc8b8db5d1e",
+      "category": "table",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-table-02",
+      "path": "sources/online-table-02.docx",
+      "sha256": "3dd56bb9d220cf34658ec42effb52c0a23c8dfde9a8183d74a8c0d35f684a508",
+      "category": "table",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-multi-section-01",
+      "path": "sources/online-multi-section-01.docx",
+      "sha256": "5f5d978f837b5f2295c63abd26f78ddf0a0b5cfbdf206101cc5171ab930e4bc1",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-multi-section-02",
+      "path": "sources/online-multi-section-02.docx",
+      "sha256": "c22d4cf556f78b91fd772c888357d364fb6883cfbe70f8ed791509798e8e6cf8",
+      "category": "multi-section",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-review-heavy-01",
+      "path": "sources/online-review-heavy-01.docx",
+      "sha256": "5a0ea962e1a603e0ba4da245c9239f0529a17452860c43621ceb2eca77ab6b55",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
+    },
+    {
+      "id": "online-review-heavy-02",
+      "path": "sources/online-review-heavy-02.docx",
+      "sha256": "a307b61f25e8c2a2704d435fb03c13111665f37af715a215004aeecddf01074d",
+      "category": "review-heavy",
+      "producer": {
+        "id": "word-online",
+        "version": "service build not exposed in observed UI (2026-09-06)",
+        "operation": "upload, replace WEBINPUT with WEBSAVED once, autosave, download DOCX"
+      },
+      "synthetic": true,
+      "personal_data": false,
+      "postprocessing": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+      "provenance": "provenance/word-online.json",
+      "expected_behavior": "Observed web editor accepted the input, confirmed one replacement and autosave. Download has the declared edit and preserved audited XML facts; no independent human or pixel-equivalence claim."
     }
   ],
   "pairs": [
@@ -3313,6 +3473,766 @@
       "label_method": "No-edit producer roundtrip plus direct XML semantic audit, independent of checker output",
       "label_basis": "Main-story text, all table cell text, comment bodies and anchor count, section count and effective header/footer text are identical before and after Word. No supported content was intentionally removed.",
       "expected_findings": []
+    },
+    {
+      "id": "online-contract-01--clean-copy",
+      "source": "sources/online-contract-01.docx",
+      "output": "outputs/online-contract-01--clean-copy.docx",
+      "output_sha256": "f4f3860271936360a9074d945bed25daf6523a28c2bd1ba8610ad8e7968bf323",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-contract-01--safe-text-edit",
+      "source": "sources/online-contract-01.docx",
+      "output": "outputs/online-contract-01--safe-text-edit.docx",
+      "output_sha256": "f1b1b6388e6d409cd9cedf69dea0c2aac4d9fc227403fe0b677e2af26859e2b0",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-contract-01--orphan-comment",
+      "source": "sources/online-contract-01.docx",
+      "output": "outputs/online-contract-01--orphan-comment.docx",
+      "output_sha256": "34ebc2b1a50f531549ea1c1e53bffdd9fb25ff12e484549fd5d2b38980d33150",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-contract-01--missing-comment-definition",
+      "source": "sources/online-contract-01.docx",
+      "output": "outputs/online-contract-01--missing-comment-definition.docx",
+      "output_sha256": "49a1610f68357338987e87eee5dbe2cc23c074c220804187219a158d14a093cd",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-contract-02--clean-copy",
+      "source": "sources/online-contract-02.docx",
+      "output": "outputs/online-contract-02--clean-copy.docx",
+      "output_sha256": "1318b716b20d1407025a8e5a2d5f4af559425e713353beb1780c76e55769e587",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-contract-02--safe-text-edit",
+      "source": "sources/online-contract-02.docx",
+      "output": "outputs/online-contract-02--safe-text-edit.docx",
+      "output_sha256": "d4864f72dbec4e39ffd559aec53d74cb99c8b53de1ea8ae935764ccedabd69f4",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-contract-02--orphan-comment",
+      "source": "sources/online-contract-02.docx",
+      "output": "outputs/online-contract-02--orphan-comment.docx",
+      "output_sha256": "f74327a845e7062966a07e113741a9892ee1f333fa23c90f4744314fbc8bc064",
+      "mutation": "orphan-comment",
+      "class": "seeded-defect",
+      "description": "remove one complete comment anchor but retain its body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The comments part still defines the now-invisible note and fidelity loses one anchor.",
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-contract-02--missing-comment-definition",
+      "source": "sources/online-contract-02.docx",
+      "output": "outputs/online-contract-02--missing-comment-definition.docx",
+      "output_sha256": "f3cce1a593dd7d48337383de0c9622e4a48c5b567160cb9da9f7bac351639e04",
+      "mutation": "missing-comment-definition",
+      "class": "seeded-defect",
+      "description": "remove one referenced comment body",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The document retains the reference while the labelled reviewer text is removed.",
+      "expected_findings": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-report-01--clean-copy",
+      "source": "sources/online-report-01.docx",
+      "output": "outputs/online-report-01--clean-copy.docx",
+      "output_sha256": "867e28a95b1238f571304ed7d8f6409e728eeb14499239b377eb1ab60a024b26",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-report-01--safe-text-edit",
+      "source": "sources/online-report-01.docx",
+      "output": "outputs/online-report-01--safe-text-edit.docx",
+      "output_sha256": "7ec4788b1f668693a7898cdd8bb742ea759aff44ce61989e6bb968410ea0bcaa",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-report-01--header-changed",
+      "source": "sources/online-report-01.docx",
+      "output": "outputs/online-report-01--header-changed.docx",
+      "output_sha256": "3a52128c3cd270d422a38ab2239b33e9bc2bf32ee8d97322e1cbc73c38285ea6",
+      "mutation": "header-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced header story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source header story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-report-01--text-loss",
+      "source": "sources/online-report-01.docx",
+      "output": "outputs/online-report-01--text-loss.docx",
+      "output_sha256": "60017f53eb3c37c7b1c7bc4538ca2f522ed54816ec4ada9065c6ff24525a9c0b",
+      "mutation": "text-loss",
+      "class": "seeded-defect",
+      "description": "remove all main-story text while retaining its structure",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The edited main story is well below the declared 95% volume threshold.",
+      "expected_findings": [
+        {
+          "code": "FID003",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-letter-01--clean-copy",
+      "source": "sources/online-letter-01.docx",
+      "output": "outputs/online-letter-01--clean-copy.docx",
+      "output_sha256": "9d5ac6db8e16c6670305ee9bc7e1532fd8674b4eee606e88faae81f13fa2d226",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-letter-01--safe-text-edit",
+      "source": "sources/online-letter-01.docx",
+      "output": "outputs/online-letter-01--safe-text-edit.docx",
+      "output_sha256": "e425500b9661dc1ba56c213218fdd721d003b71ab3d85fc7ee069d7235181a3b",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-letter-01--broken-style",
+      "source": "sources/online-letter-01.docx",
+      "output": "outputs/online-letter-01--broken-style.docx",
+      "output_sha256": "02913d67961ca6c2329afec027bc86751f9eea58cd7b2f429d73bc1c7b8fd831",
+      "mutation": "broken-style",
+      "class": "seeded-defect",
+      "description": "point one paragraph at an undefined style",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one pStyle reference names a style absent from styles.xml.",
+      "expected_findings": [
+        {
+          "code": "STY001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-letter-01--edge-whitespace",
+      "source": "sources/online-letter-01.docx",
+      "output": "outputs/online-letter-01--edge-whitespace.docx",
+      "output_sha256": "7efbad5c2d7fe21cd36d7f168b337223d9b673157c2396aeab8c25f3fb5313a9",
+      "mutation": "edge-whitespace",
+      "class": "seeded-defect",
+      "description": "add edge whitespace without xml:space=preserve",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Exactly one text run contains edge whitespace that an OOXML consumer may eat.",
+      "expected_findings": [
+        {
+          "code": "TXT001",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-table-01--clean-copy",
+      "source": "sources/online-table-01.docx",
+      "output": "outputs/online-table-01--clean-copy.docx",
+      "output_sha256": "b70595169e7ec4d093d91e05aa228877912c216de80b2a7b2715cfc8b8db5d1e",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-01--safe-text-edit",
+      "source": "sources/online-table-01.docx",
+      "output": "outputs/online-table-01--safe-text-edit.docx",
+      "output_sha256": "33fdc8499a17d1f6ef98bbca4a157e28e5cd0abba85cc8e13a1fac8ceaed035f",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-01--missing-table-grid",
+      "source": "sources/online-table-01.docx",
+      "output": "outputs/online-table-01--missing-table-grid.docx",
+      "output_sha256": "3ea5dae4611c798a993e7fabece08b8b831831d44bb43db963caa0d700dd7681",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-table-01--table-row-mismatch",
+      "source": "sources/online-table-01.docx",
+      "output": "outputs/online-table-01--table-row-mismatch.docx",
+      "output_sha256": "3a0bcb826f3a8b942be90abc7939aa22089eedfe97955fb491e95ed935711d3d",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-table-02--clean-copy",
+      "source": "sources/online-table-02.docx",
+      "output": "outputs/online-table-02--clean-copy.docx",
+      "output_sha256": "3dd56bb9d220cf34658ec42effb52c0a23c8dfde9a8183d74a8c0d35f684a508",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-02--safe-text-edit",
+      "source": "sources/online-table-02.docx",
+      "output": "outputs/online-table-02--safe-text-edit.docx",
+      "output_sha256": "2ba56887302be25803e087264d43564d21023a1bf8bd21a855dc4445a6c6c0a9",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-02--missing-table-grid",
+      "source": "sources/online-table-02.docx",
+      "output": "outputs/online-table-02--missing-table-grid.docx",
+      "output_sha256": "0b95b19ba386ee93951c05beb74faf8513d2604ee12015367e41267529b9e9a1",
+      "mutation": "missing-table-grid",
+      "class": "seeded-defect",
+      "description": "remove the first table's grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first table has no w:tblGrid after the mutation.",
+      "expected_findings": [
+        {
+          "code": "TBL001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-table-02--table-row-mismatch",
+      "source": "sources/online-table-02.docx",
+      "output": "outputs/online-table-02--table-row-mismatch.docx",
+      "output_sha256": "2eee6aaed91eece2874852eb5501bc928bf468cddf8e6fa801c67c2b185ff15b",
+      "mutation": "table-row-mismatch",
+      "class": "seeded-defect",
+      "description": "increase one cell span without changing the table grid",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The first row now spans one more column than w:tblGrid declares, without removing text or style references.",
+      "expected_findings": [
+        {
+          "code": "TBL002",
+          "severity": "warn",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-multi-section-01--clean-copy",
+      "source": "sources/online-multi-section-01.docx",
+      "output": "outputs/online-multi-section-01--clean-copy.docx",
+      "output_sha256": "5f5d978f837b5f2295c63abd26f78ddf0a0b5cfbdf206101cc5171ab930e4bc1",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-01--safe-text-edit",
+      "source": "sources/online-multi-section-01.docx",
+      "output": "outputs/online-multi-section-01--safe-text-edit.docx",
+      "output_sha256": "6eea066727b9ce14ac28fe29b21eb0a84c6dd310be16d0910310d193fe9c0198",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-01--footer-changed",
+      "source": "sources/online-multi-section-01.docx",
+      "output": "outputs/online-multi-section-01--footer-changed.docx",
+      "output_sha256": "278487d27b6f2c23ba5141e27cdbc5afcc1f45d65b1dbf1358a081c06213f74b",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-multi-section-01--missing-header-part",
+      "source": "sources/online-multi-section-01.docx",
+      "output": "outputs/online-multi-section-01--missing-header-part.docx",
+      "output_sha256": "bc492cb80fa7e15b1c7f49278a1dda7775de6515ff1e1f41a901ad6a58a27035",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-multi-section-02--clean-copy",
+      "source": "sources/online-multi-section-02.docx",
+      "output": "outputs/online-multi-section-02--clean-copy.docx",
+      "output_sha256": "c22d4cf556f78b91fd772c888357d364fb6883cfbe70f8ed791509798e8e6cf8",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-02--safe-text-edit",
+      "source": "sources/online-multi-section-02.docx",
+      "output": "outputs/online-multi-section-02--safe-text-edit.docx",
+      "output_sha256": "eed5a8c1ff3dba69706685ec02332de55165489a8d7cd4a970b73b43d27602c5",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-02--footer-changed",
+      "source": "sources/online-multi-section-02.docx",
+      "output": "outputs/online-multi-section-02--footer-changed.docx",
+      "output_sha256": "ea98b7d4cf9d7c460ef231ab62b6936d74afbc54a4fc9be5b46d1d20ed4f1957",
+      "mutation": "footer-changed",
+      "class": "seeded-defect",
+      "description": "change text in one referenced footer story",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The source footer story no longer exists under any relationship or part name.",
+      "expected_findings": [
+        {
+          "code": "FID007",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-multi-section-02--missing-header-part",
+      "source": "sources/online-multi-section-02.docx",
+      "output": "outputs/online-multi-section-02--missing-header-part.docx",
+      "output_sha256": "96a4ce8e8e9cd2c0c25ac0583772d3afd4f8e5cdcabc95afd5e9221ce3512395",
+      "mutation": "missing-header-part",
+      "class": "seeded-defect",
+      "description": "remove a referenced header package part",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The relationship target is absent and the requested fidelity comparison cannot complete.",
+      "expected_findings": [
+        {
+          "code": "REL002",
+          "severity": "error",
+          "count": 1
+        },
+        {
+          "code": "FID000",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-review-heavy-01--clean-copy",
+      "source": "sources/online-review-heavy-01.docx",
+      "output": "outputs/online-review-heavy-01--clean-copy.docx",
+      "output_sha256": "5a0ea962e1a603e0ba4da245c9239f0529a17452860c43621ceb2eca77ab6b55",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-01--safe-text-edit",
+      "source": "sources/online-review-heavy-01.docx",
+      "output": "outputs/online-review-heavy-01--safe-text-edit.docx",
+      "output_sha256": "26c0075d6e606ba3f1631c3b24c0aa4359721537b17b051c173169ed723bf20a",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-01--missing-comment-end",
+      "source": "sources/online-review-heavy-01.docx",
+      "output": "outputs/online-review-heavy-01--missing-comment-end.docx",
+      "output_sha256": "19835e37ce67656ead5ad12c80ec8c838f606b62f4a52d1c53d00c3805e55017",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-review-heavy-01--missing-comment-start",
+      "source": "sources/online-review-heavy-01.docx",
+      "output": "outputs/online-review-heavy-01--missing-comment-start.docx",
+      "output_sha256": "6526651b3a175f123ea555f74bb6eae1b116807081251af2018af5ed1d575728",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-review-heavy-02--clean-copy",
+      "source": "sources/online-review-heavy-02.docx",
+      "output": "outputs/online-review-heavy-02--clean-copy.docx",
+      "output_sha256": "a307b61f25e8c2a2704d435fb03c13111665f37af715a215004aeecddf01074d",
+      "mutation": "clean-copy",
+      "class": "clean",
+      "description": "byte-identical clean control",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "The output is copied byte for byte; any actionable result is a false positive.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-02--safe-text-edit",
+      "source": "sources/online-review-heavy-02.docx",
+      "output": "outputs/online-review-heavy-02--safe-text-edit.docx",
+      "output_sha256": "2777deb9c53f513996367e598854fc897f1f48cb5aabf88e1945763164304741",
+      "mutation": "safe-text-edit",
+      "class": "clean",
+      "description": "same-length ordinary text edit",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "Only the marker word DRAFT becomes FINAL; no supported structure is lost.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-02--missing-comment-end",
+      "source": "sources/online-review-heavy-02.docx",
+      "output": "outputs/online-review-heavy-02--missing-comment-end.docx",
+      "output_sha256": "d763ebecfa778f7d959f0d73962744a566016d998f1720dbe72185ca9db84cba",
+      "mutation": "missing-comment-end",
+      "class": "seeded-defect",
+      "description": "remove one comment range end",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeStart has no matching commentRangeEnd.",
+      "expected_findings": [
+        {
+          "code": "CMT001",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-review-heavy-02--missing-comment-start",
+      "source": "sources/online-review-heavy-02.docx",
+      "output": "outputs/online-review-heavy-02--missing-comment-start.docx",
+      "output_sha256": "1328f71b8dd13582d8a593aaeae27aa60ddddd05ffa25151e027a54ef80de3cf",
+      "mutation": "missing-comment-start",
+      "class": "seeded-defect",
+      "description": "remove one comment range start",
+      "label_method": "isolated deterministic mutation",
+      "label_basis": "One commentRangeEnd has no matching commentRangeStart.",
+      "expected_findings": [
+        {
+          "code": "CMT002",
+          "severity": "error",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-contract-01--word-online-edit",
+      "source": "roundtrips/online-contract-01.docx",
+      "source_sha256": "05babc00844596b4614f5ed00de672e086260e78d3b0fcf8c0baaca9a6e2fb8f",
+      "output": "sources/online-contract-01.docx",
+      "output_sha256": "f4f3860271936360a9074d945bed25daf6523a28c2bd1ba8610ad8e7968bf323",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-contract-02--word-online-edit",
+      "source": "roundtrips/online-contract-02.docx",
+      "source_sha256": "30a3480f4b6278a7eff3f0ef88807e9cb6dcc598446c61c4792750e04fd4a4d5",
+      "output": "sources/online-contract-02.docx",
+      "output_sha256": "1318b716b20d1407025a8e5a2d5f4af559425e713353beb1780c76e55769e587",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-report-01--word-online-edit",
+      "source": "roundtrips/online-report-01.docx",
+      "source_sha256": "24209daaab4acd657d7a215c85319aaf36f6895979d9a677ce8d838c4107042b",
+      "output": "sources/online-report-01.docx",
+      "output_sha256": "867e28a95b1238f571304ed7d8f6409e728eeb14499239b377eb1ab60a024b26",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-letter-01--word-online-edit",
+      "source": "roundtrips/online-letter-01.docx",
+      "source_sha256": "de7093897b919aa50b2de7e65497fcf31f0017be5c4603f8948dfd0cc0fe235f",
+      "output": "sources/online-letter-01.docx",
+      "output_sha256": "9d5ac6db8e16c6670305ee9bc7e1532fd8674b4eee606e88faae81f13fa2d226",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-01--word-online-edit",
+      "source": "roundtrips/online-table-01.docx",
+      "source_sha256": "bbf0fb5a84dae1491a9a202198013e1e1d3481c0519e158ef4516e59ce71b09f",
+      "output": "sources/online-table-01.docx",
+      "output_sha256": "b70595169e7ec4d093d91e05aa228877912c216de80b2a7b2715cfc8b8db5d1e",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-table-02--word-online-edit",
+      "source": "roundtrips/online-table-02.docx",
+      "source_sha256": "835a6e4b9c0f6435e29259af29eefe5438a604619ed2a12a8e71092273094683",
+      "output": "sources/online-table-02.docx",
+      "output_sha256": "3dd56bb9d220cf34658ec42effb52c0a23c8dfde9a8183d74a8c0d35f684a508",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-01--word-online-edit",
+      "source": "roundtrips/online-multi-section-01.docx",
+      "source_sha256": "ef2541c8c04a8443c6edfdd3cadcf79e4bb8fb24af3683c4aa30f20b33f24c15",
+      "output": "sources/online-multi-section-01.docx",
+      "output_sha256": "5f5d978f837b5f2295c63abd26f78ddf0a0b5cfbdf206101cc5171ab930e4bc1",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-multi-section-02--word-online-edit",
+      "source": "roundtrips/online-multi-section-02.docx",
+      "source_sha256": "1759765242164273ce60c716ca21d1c01c82a637da3ce8ce6e5ad263e0ea04d5",
+      "output": "sources/online-multi-section-02.docx",
+      "output_sha256": "c22d4cf556f78b91fd772c888357d364fb6883cfbe70f8ed791509798e8e6cf8",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-01--word-online-edit",
+      "source": "roundtrips/online-review-heavy-01.docx",
+      "source_sha256": "1c4aab60f3895b745ee4c176dede74f914b9c56750dfe880d5f9445fd8d21c13",
+      "output": "sources/online-review-heavy-01.docx",
+      "output_sha256": "5a0ea962e1a603e0ba4da245c9239f0529a17452860c43621ceb2eca77ab6b55",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
+    },
+    {
+      "id": "online-review-heavy-02--word-online-edit",
+      "source": "roundtrips/online-review-heavy-02.docx",
+      "source_sha256": "9fef0667e0e2f5ad0389829078046446db3ba8873cd2e350a1319c60cc333b51",
+      "output": "sources/online-review-heavy-02.docx",
+      "output_sha256": "a307b61f25e8c2a2704d435fb03c13111665f37af715a215004aeecddf01074d",
+      "mutation": "word-online-edit",
+      "class": "clean",
+      "description": "Actual Word Online marker edit and download with metadata sanitisation",
+      "label_method": "Declared single text replacement plus direct XML audit, independent of checker output",
+      "label_basis": "Exactly one WEBINPUT becomes WEBSAVED; all other exact body text, table-cell text, comments and ordered anchors, section count and effective header/footer text are preserved.",
+      "expected_findings": []
     }
   ],
   "supporting_artifacts": [
@@ -3370,7 +4290,63 @@
       "path": "provenance/word-windows.json",
       "sha256": "597491d5e71f0e949afba3e101d5f0a454e89a249b44d60e343b0658b20e6f63",
       "role": "sanitised COM provenance and part-hash receipt"
+    },
+    {
+      "path": "roundtrips/online-contract-01.docx",
+      "sha256": "05babc00844596b4614f5ed00de672e086260e78d3b0fcf8c0baaca9a6e2fb8f",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-contract-02.docx",
+      "sha256": "30a3480f4b6278a7eff3f0ef88807e9cb6dcc598446c61c4792750e04fd4a4d5",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-report-01.docx",
+      "sha256": "24209daaab4acd657d7a215c85319aaf36f6895979d9a677ce8d838c4107042b",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-letter-01.docx",
+      "sha256": "de7093897b919aa50b2de7e65497fcf31f0017be5c4603f8948dfd0cc0fe235f",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-table-01.docx",
+      "sha256": "bbf0fb5a84dae1491a9a202198013e1e1d3481c0519e158ef4516e59ce71b09f",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-table-02.docx",
+      "sha256": "835a6e4b9c0f6435e29259af29eefe5438a604619ed2a12a8e71092273094683",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-multi-section-01.docx",
+      "sha256": "ef2541c8c04a8443c6edfdd3cadcf79e4bb8fb24af3683c4aa30f20b33f24c15",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-multi-section-02.docx",
+      "sha256": "1759765242164273ce60c716ca21d1c01c82a637da3ce8ce6e5ad263e0ea04d5",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-review-heavy-01.docx",
+      "sha256": "1c4aab60f3895b745ee4c176dede74f914b9c56750dfe880d5f9445fd8d21c13",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "roundtrips/online-review-heavy-02.docx",
+      "sha256": "9fef0667e0e2f5ad0389829078046446db3ba8873cd2e350a1319c60cc333b51",
+      "role": "synthetic input before observed Word Online edit"
+    },
+    {
+      "path": "provenance/word-online.json",
+      "sha256": "f6c5f6ddcb0783bf0b795dc5499f7d5054e13bb6272fac4756561b85bd75ff80",
+      "role": "sanitised observed UI receipt, semantic audit and part hashes"
     }
   ],
-  "windows_added_on": "2026-09-05"
+  "windows_added_on": "2026-09-05",
+  "online_added_on": "2026-09-06"
 }

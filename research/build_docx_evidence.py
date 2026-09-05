@@ -885,7 +885,7 @@ def evaluate(manifest_path: Path = MANIFEST, *, verify_hashes: bool = True
         producer = producer_by_path.get(pair["source"], producer_by_path.get(pair["output"]))
         if producer is None:
             raise RuntimeError(f"unregistered producer for pair: {pair['id']}")
-        kind = "word-roundtrip" if pair["mutation"] == "word-roundtrip" else "deterministic-mutation"
+        kind = pair["mutation"] if pair["mutation"] in {"word-roundtrip", "word-online-edit"} else "deterministic-mutation"
         for group_key in (f"producer:{producer}", f"kind:{kind}"):
             group = groups.setdefault(group_key, {"pairs": 0, "clean_pairs": 0, "tp": 0, "fp": 0, "fn": 0})
             group["pairs"] += 1
@@ -992,7 +992,8 @@ def _write_results(metrics: dict[str, object]) -> None:
         "",
         "This report is generated from `manifest.json` by "
         "`research/build_docx_evidence.py evaluate --write`. The manifest's "
-        "expected labels are declared by isolated mutations; they are not "
+        "expected labels are declared from isolated mutations or observed Office "
+        "operations with independent XML audits; they are not "
         "snapshots of checker output.",
         "",
         "## Corpus denominator",
@@ -1040,9 +1041,10 @@ def _write_results(metrics: dict[str, object]) -> None:
         "## Interpretation boundary",
         "",
         "These numbers establish reproducible regression behaviour on synthetic "
-        "DOCX package mutations. They do **not** establish production precision "
-        "for unmeasured rules, customer document distributions, other Windows "
-        "Word versions, Word Online, or visual renderer fidelity. Those gaps are kept "
+        "DOCX package mutations and the recorded Office save/edit workflows. "
+        "They do **not** establish production precision for unmeasured rules, "
+        "customer document distributions, other Office builds or web sessions, "
+        "or visual renderer fidelity. Those gaps are kept "
         "in `manifest.json` and the corpus README rather than being folded into "
         "the 100% measured-rule result.",
         "",

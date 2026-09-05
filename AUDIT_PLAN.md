@@ -227,7 +227,7 @@ Minimum beta corpus:
 - Both clean edits and seeded defects; every expected finding is labelled.
 - Sanitised or synthetic equivalents for anything that cannot be committed.
 
-Progress recorded 2026-09-05:
+Progress recorded 2026-09-05, updated 2026-09-06:
 
 - [x] A committed synthetic tranche contains 30 distinct sources and 120
       labelled pairs: 60 clean controls and 60 seeded defects.
@@ -240,22 +240,38 @@ Progress recorded 2026-09-05:
       saved by desktop Word 16.0.14334.20848 x64 on Windows 11, plus forty
       deterministic pairs and ten real before/after Word compatibility pairs.
       The original thirty sources and 120 pair records/bytes are preserved.
-- [x] Combined denominator: 40 sources, 170 pairs (90 clean, 80 seeded defects).
+- [x] After the Windows addition: 40 sources, 170 pairs (90 clean, 80 seeded defects).
       Error findings: 88 TP, 0 FP, 0 FN; per-rule and per-producer results are
       published. Windows capture/import, sanitisation, hashes and a direct XML
       semantic audit are reproducible and regression-gated; no independent
       human review of the Windows labels is claimed. See the
       [Windows evidence record](evidence/docx-beta/WINDOWS.md).
-- [ ] Add Word Online sources. **P0.5 remains open.**
-- [ ] Add a source from an independent commercial/internal generator where
-      available; none was supplied for this tranche.
+- [x] Word Online addition: ten synthetic inputs actually uploaded, edited,
+      autosaved and downloaded through the signed-in web editor on 2026-09-06.
+      Ten real edit pairs and forty deterministic pairs are committed with
+      privacy cleanup, raw/published part hashes and an independent XML oracle.
+      All pre-web 40 sources and 170 pair records/bytes are preserved.
+- [x] Final beta denominator: 50 sources, 220 pairs (120 clean, 100 seeded defects).
+      Error findings: 111 TP, 0 FP, 0 FN; per-rule, per-producer and actual-edit
+      groups are published and regression-gated. All pages of the web inputs
+      and saved copies received supplementary local render inspection; no
+      general visual accuracy or independent human review is claimed. See the
+      [Word Online evidence record](evidence/docx-beta/ONLINE.md).
+- [x] Conditional additional-generator availability recorded: no independently
+      supplied commercial/internal generator input or licensed access was
+      provided for this capture. No sixth producer is claimed; this remains
+      an optional evidence extension under the plan's "where available" clause.
 - [x] Defensible synthetic equivalents cover the requested document classes.
       Customer documents and independent dual human review would extend the
       evidence, but are not mandatory conditions of this synthetic-corpus plan.
 
+**P0.5 is complete for the defined synthetic beta scope.** Production document
+distributions, unmeasured rules, other Office builds/web sessions and independent
+dual human review remain explicit limitations, not implied by completion.
+
 Exit criteria:
 
-- [x] Error-level precision is at least 95% on the labelled synthetic tranche, with
+- [x] Error-level precision is at least 95% on the full labelled synthetic beta corpus, with
       the denominator and labelling method published alongside the result.
 - [x] Precision and recall are reported per rule, not only as one aggregate.
 - [x] Every fixed false positive becomes a permanent regression test.

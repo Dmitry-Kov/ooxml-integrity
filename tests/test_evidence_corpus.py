@@ -28,33 +28,33 @@ def metrics():
 
 
 def test_beta_evidence_has_the_declared_automated_denominator(manifest):
-    assert manifest["source_count"] == 40
-    assert manifest["pair_count"] == 170
+    assert manifest["source_count"] == 50
+    assert manifest["pair_count"] == 220
     assert len(manifest["sources"]) == manifest["source_count"]
     assert len(manifest["pairs"]) == manifest["pair_count"]
     assert collections.Counter(
         source["category"] for source in manifest["sources"]
-    ) == {"contract": 7, "report": 6, "letter": 6, "table": 7,
-          "multi-section": 7, "review-heavy": 7}
+    ) == {"contract": 9, "report": 7, "letter": 7, "table": 9,
+          "multi-section": 9, "review-heavy": 9}
     assert collections.Counter(
         source["producer"]["id"] for source in manifest["sources"]
     ) == {"python-docx": 10, "libreoffice": 10, "word-mac": 10,
-          "word-windows": 10}
-    assert len({s["sha256"] for s in manifest["sources"]}) == 40
-    assert len({p["id"] for p in manifest["pairs"]}) == 170
+          "word-windows": 10, "word-online": 10}
+    assert len({s["sha256"] for s in manifest["sources"]}) == 50
+    assert len({p["id"] for p in manifest["pairs"]}) == 220
     assert all(source["synthetic"] for source in manifest["sources"])
     assert not any(source["personal_data"] for source in manifest["sources"])
 
 
 def test_every_label_and_hash_is_a_regression_gate(metrics):
-    assert metrics["sources"] == 40
-    assert metrics["pairs"] == 170
-    assert metrics["clean_pairs"] == 90
-    assert metrics["seeded_defect_pairs"] == 80
+    assert metrics["sources"] == 50
+    assert metrics["pairs"] == 220
+    assert metrics["clean_pairs"] == 120
+    assert metrics["seeded_defect_pairs"] == 100
     assert metrics["pair_failures"] == []
     assert metrics["error_level"]["precision"] >= 0.95
     assert metrics["error_level"]["recall"] == 1.0
-    assert metrics["error_level"] == {"tp": 88, "fp": 0, "fn": 0,
+    assert metrics["error_level"] == {"tp": 111, "fp": 0, "fn": 0,
                                       "precision": 1.0, "recall": 1.0}
 
 
@@ -77,15 +77,15 @@ def test_rule_metrics_are_explicit_about_measured_scope(metrics):
 def test_missing_external_producers_are_not_presented_as_evidence(manifest):
     gaps = " ".join(manifest["known_evidence_gaps"]).lower()
     assert "no word for windows source" not in gaps
-    assert "word online" in gaps
+    assert "no word online source" not in gaps
     assert "independently supplied" in gaps
     assert "dual review" in gaps
 
 
 def test_original_tranche_records_including_all_hashes_and_labels_are_immutable(manifest):
     legacy = {
-        "sources": [s for s in manifest["sources"] if s["producer"]["id"] != "word-windows"],
-        "pairs": [p for p in manifest["pairs"] if not p["id"].startswith("windows-")],
+        "sources": [s for s in manifest["sources"] if s["producer"]["id"] not in {"word-windows", "word-online"}],
+        "pairs": [p for p in manifest["pairs"] if not p["id"].startswith(("windows-", "online-"))],
     }
     assert len(legacy["sources"]) == 30
     assert len(legacy["pairs"]) == 120
@@ -93,6 +93,21 @@ def test_original_tranche_records_including_all_hashes_and_labels_are_immutable(
     # availability in a source distribution. evaluate() gates their bytes too.
     assert hashlib.sha256(json.dumps(legacy, sort_keys=True).encode()).hexdigest() == (
         "2e7dfbff4f58fa07d613ad4d6adc6785092ed7e971176bf0ce40006803664b35"
+    )
+
+
+def test_entire_pre_web_corpus_records_and_hashes_are_immutable(manifest):
+    # Exact source/pair/support records at 3022ac2, including Windows receipts.
+    previous = {
+        "sources": [s for s in manifest["sources"] if s["producer"]["id"] != "word-online"],
+        "pairs": [p for p in manifest["pairs"] if not p["id"].startswith("online-")],
+        "supporting_artifacts": [a for a in manifest["supporting_artifacts"]
+                                 if not a["path"].startswith("roundtrips/online-")
+                                 and a["path"] != "provenance/word-online.json"],
+    }
+    assert len(previous["sources"]) == 40 and len(previous["pairs"]) == 170
+    assert hashlib.sha256(json.dumps(previous, sort_keys=True).encode()).hexdigest() == (
+        "cb65c4b4081feadf9e9d7fa98d8a7914d05cb72bdd2ae3a971482c230792f87a"
     )
 
 
@@ -105,6 +120,14 @@ def test_group_denominators_and_legacy_error_results_are_preserved(metrics):
         }
     assert groups["producer:word-windows"]["tp"] == 23
     assert groups["producer:word-windows"]["pairs"] == 50
+    assert groups["producer:word-online"] == {
+        "pairs": 50, "clean_pairs": 30, "tp": 23, "fp": 0, "fn": 0,
+        "precision": 1.0, "recall": 1.0,
+    }
+    assert groups["kind:word-online-edit"] == {
+        "pairs": 10, "clean_pairs": 10, "tp": 0, "fp": 0, "fn": 0,
+        "precision": None, "recall": None,
+    }
     assert groups["kind:word-roundtrip"] == {
         "pairs": 10, "clean_pairs": 10, "tp": 0, "fp": 0, "fn": 0,
         "precision": None, "recall": None,

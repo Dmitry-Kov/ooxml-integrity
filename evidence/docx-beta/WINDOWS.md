@@ -93,13 +93,14 @@ regression fixtures.
 ## Scope
 
 Windows adds 10 sources and 50 pairs: 30 clean and 20 seeded defects. Its error
-result is 23 TP, 0 FP, 0 FN. The combined result is 40 sources, 170 pairs,
+result is 23 TP, 0 FP, 0 FN. At the Windows import, the combined result was 40 sources, 170 pairs,
 88 error TP, 0 FP, 0 FN. Warnings and per-rule results remain part of the exact
 multiset gate in [RESULTS.md](RESULTS.md). Clean roundtrip precision/recall has
 no positive denominator and is reported as **not measured**, with zero false
 positives, rather than as a separate 100% accuracy claim.
 
-Word Online is still a separate P0.5 task. The numerical floor, synthetic
+The subsequent [Word Online capture](ONLINE.md) adds separate evidence without
+replacing this Windows tranche. The numerical floor, synthetic
 content, and this Windows capture do not establish accuracy for arbitrary
 customer documents, other Word builds or visual rendering. An independently
 supplied commercial/internal generator remains desirable where available;

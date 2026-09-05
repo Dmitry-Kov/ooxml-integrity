@@ -3,13 +3,17 @@
 ## Unreleased
 
 ### Added
-- A versioned DOCX beta evidence tranche with 30 synthetic source documents and
-  120 exactly labelled source/output pairs. Ten sources each were created or
-  opened-and-saved by `python-docx`, LibreOffice, and Word for Mac. The
+- A versioned DOCX beta evidence tranche with 50 synthetic source documents and
+  220 exactly labelled source/output pairs. Ten sources each were created or
+  saved by `python-docx`, LibreOffice, Word for Mac, Word for Windows and Word
+  Online. Twenty pairs retain actual Windows saves and observed web edits with
+  sanitised provenance and independent XML audits. The
   evaluator publishes per-rule TP/FP/FN, verifies every source/output hash, and
-  makes all 60 clean controls permanent false-positive regressions. Missing
-  Word for Windows, Word Online, external documents, and independently reviewed
-  labels remain explicit evidence gaps.
+  makes all 120 clean controls permanent false-positive regressions. External
+  documents, other builds/web sessions, independently supplied generators and
+  independent dual human review remain explicit evidence gaps. The original
+  corpus records and bytes are preserved; no product version is bumped for
+  this evidence addition.
 - `check --coverage` adds a versioned per-file coverage inventory to JSON and a
   concise human summary. `--coverage-details` expands it to every surface.
   Stable identifiers distinguish checks that ran, absent surfaces, estimates,

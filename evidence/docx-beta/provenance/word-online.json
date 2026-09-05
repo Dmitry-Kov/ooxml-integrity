@@ -1,0 +1,829 @@
+{
+  "schema_version": 1,
+  "producer": "word-online",
+  "operation": "Observed Word for the web upload, replace marker, autosave, download DOCX",
+  "observed_on": "2026-09-06",
+  "service": "word.cloud.microsoft",
+  "version": "service build not exposed in observed UI (2026-09-06)",
+  "seed_generator": "research/online_docx_evidence.py prepare (synthetic python-docx inputs)",
+  "review": "Browser UI actions observed by the coding agent, followed by direct XML audit; no independent human or dual review claimed. This is an operator receipt, not Microsoft-signed attestation.",
+  "raw_artifacts": "Raw downloads remain in ignored local staging. No account names, private document URLs or machine paths are published. Raw and published package-part hashes document metadata-only sanitisation.",
+  "documents": [
+    {
+      "id": "online-contract-01",
+      "input_sha256": "05babc00844596b4614f5ed00de672e086260e78d3b0fcf8c0baaca9a6e2fb8f",
+      "raw_output_sha256": "11c227a4aded8630465a0202ef387abfb15f89b2edf2fb3c0c961823a4d909b3",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-contract-01.docx",
+      "output": "sources/online-contract-01.docx",
+      "published_output_sha256": "f4f3860271936360a9074d945bed25daf6523a28c2bd1ba8610ad8e7968bf323",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "10d6044441b8745374a20a1cc59331b9a80d8009bc5480a7ec7867fb5370ff5c",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "5af64ab729dd7e86e3168d528743e1c23b03bc7eab933d47a4890eeab637014e",
+          "word/document.xml": "c6a9a7a20b6f18650f277079222cc9beedbe9779dd441916282b9cdcd968c4f9",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "ccde7dcd1bd3f0ae103f7b6d194ef1b416682e08c042e1c330d64d3f3d321ed4",
+          "word/header1.xml": "71aa1fcf9aca5b266014efb4e4ab339df9128e8af447500cf4e94fa78a36f9d2",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "3a5bf123e509642b9a92baeaf78edd41bf29b610d431660dc1d26fe0edc56989",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "f0da0271a8611fd964ce0fcaed432c1bf2c70cfa2bb6465baafa047b8f041366",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "8c74394a56ef358361c58c2defd3fcade281e6dd903c49d406f353eeb7fde81d",
+          "word/document.xml": "c6a9a7a20b6f18650f277079222cc9beedbe9779dd441916282b9cdcd968c4f9",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "ccde7dcd1bd3f0ae103f7b6d194ef1b416682e08c042e1c330d64d3f3d321ed4",
+          "word/header1.xml": "71aa1fcf9aca5b266014efb4e4ab339df9128e8af447500cf4e94fa78a36f9d2",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "3a5bf123e509642b9a92baeaf78edd41bf29b610d431660dc1d26fe0edc56989",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "9085978d2d5f7acc3c228ceccce93e3123503130c2c394aab4e2328d14b0351a"
+      }
+    },
+    {
+      "id": "online-contract-02",
+      "input_sha256": "30a3480f4b6278a7eff3f0ef88807e9cb6dcc598446c61c4792750e04fd4a4d5",
+      "raw_output_sha256": "67624f2f4574162602e0d1ce60495b4ad462a7d2588ba5ad1aca8929cb625d4d",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-contract-02.docx",
+      "output": "sources/online-contract-02.docx",
+      "published_output_sha256": "1318b716b20d1407025a8e5a2d5f4af559425e713353beb1780c76e55769e587",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "61b6cc32be28cefd4d28669d3ca5ef906d2cc1229f26b844fd6e60b7c6c5ad01",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "06ea6eead2d2ed30f5e896a3da5b6f53cf8fb0f52f8eecabf800849e586914fb",
+          "word/document.xml": "5e2adbf2abeb5119a8c1ea1c8eca2911d504736e89c91cb1b1bf3fe4283a7301",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "0e8629f238895d6a73ca30eb2e2f4a024aeec658081291cc3620888ab9087103",
+          "word/header1.xml": "1d5843457755b765b9901b1c975bb7012b483c536adfbd5c8a634e139d908d33",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "bfac32ac0b27feaaf4d7cfa60df6dc19f9624b07d2403c22afca58a71ce4475d",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "cb5f289cb39b13ff0403e43b2f7af6758aa5cd761cfcea546a669ed612d9e7a4",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "800959efbc47825461ad1959e38da0ebb82f9fcbf8f81962e569527ef8c36615",
+          "word/document.xml": "5e2adbf2abeb5119a8c1ea1c8eca2911d504736e89c91cb1b1bf3fe4283a7301",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "0e8629f238895d6a73ca30eb2e2f4a024aeec658081291cc3620888ab9087103",
+          "word/header1.xml": "1d5843457755b765b9901b1c975bb7012b483c536adfbd5c8a634e139d908d33",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "bfac32ac0b27feaaf4d7cfa60df6dc19f9624b07d2403c22afca58a71ce4475d",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "c7e0194cbb463c47b4d0ec24dc435f550e3c5bf132463031a570d8537559e127"
+      }
+    },
+    {
+      "id": "online-report-01",
+      "input_sha256": "24209daaab4acd657d7a215c85319aaf36f6895979d9a677ce8d838c4107042b",
+      "raw_output_sha256": "140ad6a9b3ef1c1f7423e3b32c0e8432fd71d302ea1425b269460b57131e195e",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-report-01.docx",
+      "output": "sources/online-report-01.docx",
+      "published_output_sha256": "867e28a95b1238f571304ed7d8f6409e728eeb14499239b377eb1ab60a024b26",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "2bb268f3023bceaf16e565f9bf30f81c56911c87af72b818b93bcadfd5702bf3",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "a12a7b946676b1f5b15297083c78474de6bda3b9d01df7e5bc7f79313abc9feb",
+          "word/document.xml": "5b539bd7cd1d614948323d7dea919e627ac48cb7a970b60a434d6d952061d6e5",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "54b9ac3407a76599e55c594ba22d0acc840463fe2bdee010739302bbe686c72b",
+          "word/header1.xml": "3714a82eb8e1a75976076b11c88d6f9a2505d0f21202b05b01aee7303a832767",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "6fd85a7ac4204997ebf6ab7711e64189d7fb8845e2dbd5ddbfab186934dc5b53",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "d9cb77884bdd947cb9716e4ea74dc41476d3c491bb305e82c2feecdf6feb257a",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "581245520c296ed61e43aea79a2035530a1daec4f3b5a7d9c313771732d03df9",
+          "word/document.xml": "5b539bd7cd1d614948323d7dea919e627ac48cb7a970b60a434d6d952061d6e5",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "54b9ac3407a76599e55c594ba22d0acc840463fe2bdee010739302bbe686c72b",
+          "word/header1.xml": "3714a82eb8e1a75976076b11c88d6f9a2505d0f21202b05b01aee7303a832767",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "6fd85a7ac4204997ebf6ab7711e64189d7fb8845e2dbd5ddbfab186934dc5b53",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "d7ee90c5b16811c537de7e90c56dfd417d5af19035f3cde4b2cf54cc7b686b40"
+      }
+    },
+    {
+      "id": "online-letter-01",
+      "input_sha256": "de7093897b919aa50b2de7e65497fcf31f0017be5c4603f8948dfd0cc0fe235f",
+      "raw_output_sha256": "be64fc52738a605275b9f7926bb511da62d4c28e29062d4d794715820fe153b2",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-letter-01.docx",
+      "output": "sources/online-letter-01.docx",
+      "published_output_sha256": "9d5ac6db8e16c6670305ee9bc7e1532fd8674b4eee606e88faae81f13fa2d226",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "49177c2993fdb9a50088dc47a8018a5e79746ab9baf1e5cba547f7bbb3cedb72",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "48211f5b9338f1a32b87dfcf92a3480afeb0693e39d26661b3d69366a5ab06e9",
+          "word/document.xml": "657bae1726589c07409bf1bcd60a7292489ed9df3174d083a32030f8d706ee10",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "272f640f12e065437b7f9bc5e2cdab47b7835d59da01302f666cfedbc8c83cf2",
+          "word/header1.xml": "cfcec1aa739ca1ca74edbbc6c25d0f6639d4c5159aaa800be4653ea17e85c83c",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "4cc01ce3b4220c3e52c94b757de6c40afc3aceddf9208f03bfd71f109cee597e",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "b0073cf679d327edf7ae03f005cf5693d3e4a35a7e9c9dc866bc0426d5d85bd2",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "dd3248f0700e9e34f8ac35e4614aedb9cd61aba807316b509e54a950421bb32f",
+          "word/document.xml": "657bae1726589c07409bf1bcd60a7292489ed9df3174d083a32030f8d706ee10",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "272f640f12e065437b7f9bc5e2cdab47b7835d59da01302f666cfedbc8c83cf2",
+          "word/header1.xml": "cfcec1aa739ca1ca74edbbc6c25d0f6639d4c5159aaa800be4653ea17e85c83c",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "4cc01ce3b4220c3e52c94b757de6c40afc3aceddf9208f03bfd71f109cee597e",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "eb7713d5a16d73dd05d0aad8068ea9534c43984ffacce2ff224b80cacbe8fa8b"
+      }
+    },
+    {
+      "id": "online-table-01",
+      "input_sha256": "bbf0fb5a84dae1491a9a202198013e1e1d3481c0519e158ef4516e59ce71b09f",
+      "raw_output_sha256": "5423cb4e0eca243f3c3b18d855c05e0b9a3ccbf4fee26484feac0cc9f23acaaf",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-table-01.docx",
+      "output": "sources/online-table-01.docx",
+      "published_output_sha256": "b70595169e7ec4d093d91e05aa228877912c216de80b2a7b2715cfc8b8db5d1e",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "17fd266b1b72cd21706ffb8dc08f7bea048f5783de825b5b9e70b0c18318ff8f",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "6c669b9b07a2a659a2465d80a692061fdb5dfea50babb79a8500ba622a858fef",
+          "word/document.xml": "eeadf5abd263b68ac597feae0f89c57df4f340269859e79c6234df9d235e79ff",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b0c0ce50269ea6fad462be5f8f68e89ebecdbb9622c4dd73eb152099ad8a0994",
+          "word/header1.xml": "9ddb40f307a4c787dc64bb8a808881143ae2c1b5ab386b3b553da69b6268a068",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "cfdd960475d5ee1e4830477e23caa51bbf8a47a9351705221c75ad00103996ec",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "bdc7efd82695cbd82631f34345f275f5f840f762a77164c24ad1ce04b8f52260",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "c79783013125ed6e094421270cd63818396374e749646985828d9877bc150568",
+          "word/document.xml": "eeadf5abd263b68ac597feae0f89c57df4f340269859e79c6234df9d235e79ff",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b0c0ce50269ea6fad462be5f8f68e89ebecdbb9622c4dd73eb152099ad8a0994",
+          "word/header1.xml": "9ddb40f307a4c787dc64bb8a808881143ae2c1b5ab386b3b553da69b6268a068",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "cfdd960475d5ee1e4830477e23caa51bbf8a47a9351705221c75ad00103996ec",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "743f01456efcc234190b6df875e722123ed7fe51de278aced286bb8535254931"
+      }
+    },
+    {
+      "id": "online-table-02",
+      "input_sha256": "835a6e4b9c0f6435e29259af29eefe5438a604619ed2a12a8e71092273094683",
+      "raw_output_sha256": "f40d8f21fdd60113493434b7e2306730d43301934ca0dcae3be8d6493e309d45",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-table-02.docx",
+      "output": "sources/online-table-02.docx",
+      "published_output_sha256": "3dd56bb9d220cf34658ec42effb52c0a23c8dfde9a8183d74a8c0d35f684a508",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "87cf2dea1fa99c95344f1bfa5e94bd90fcd673ba9c231d2633c7c9a970ffdbfb",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "d393398d6244431310cd2ef4f2e7cbed89d2f1d763a29dd64cd5168184cfc1a4",
+          "word/document.xml": "4699945ce479df059c8ea2730ef28fd829206e465b2601e28776e6c70125c499",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b3dce012f512a856586606000557a977192b51643816f3bcf569373c30f09473",
+          "word/header1.xml": "39cf93c889ea4e8cf25c8f2c37c855fb70201f437fa09c6c41bcd3369c79de73",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "0030ef42c45d124c7809aaaa9e770a6e67cec7fc51ed1f610fbed105cb3f74db",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "36b0faba051eca3411059f1965d296e0e19016c59bac9f8194b7da33e0380d91",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "535ea5a86546adaea844e1bfed3b942ab1e4cd633e9944774f0b4adc26d3799b",
+          "word/document.xml": "4699945ce479df059c8ea2730ef28fd829206e465b2601e28776e6c70125c499",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b3dce012f512a856586606000557a977192b51643816f3bcf569373c30f09473",
+          "word/header1.xml": "39cf93c889ea4e8cf25c8f2c37c855fb70201f437fa09c6c41bcd3369c79de73",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "0030ef42c45d124c7809aaaa9e770a6e67cec7fc51ed1f610fbed105cb3f74db",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "23eb862e2050273ce8180e28f7d7262a989f8b8f150804a912ac7574773916f0"
+      }
+    },
+    {
+      "id": "online-multi-section-01",
+      "input_sha256": "ef2541c8c04a8443c6edfdd3cadcf79e4bb8fb24af3683c4aa30f20b33f24c15",
+      "raw_output_sha256": "76675401a9cba6b63b3dcf5db9c4dd4cb6611746cb25ea25366c7ce0ec4c1981",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-multi-section-01.docx",
+      "output": "sources/online-multi-section-01.docx",
+      "published_output_sha256": "5f5d978f837b5f2295c63abd26f78ddf0a0b5cfbdf206101cc5171ab930e4bc1",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "74796eaacda199931f1c426d56ad1b83f5f0995838591b2af3f75368bfa84a35",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "80540692b84f550b32c5dcea57164967f75552e9f5c367865c6160d5bfe9857b",
+          "word/_rels/document.xml.rels": "4c22301bdfb6c92450921a607696468fbaf9c4ce1205bc54501c8f761415e035",
+          "word/comments.xml": "322ab91da3a53c218524bde27e9e9efab60c0911daebdee409676ce94ab3de89",
+          "word/document.xml": "d734dc87656f3a7631896d30f7a5de2a158fc4c59e1b589bb5ea69c2be31aba0",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "12207edc1ed99b260853b092826100c4c3794d902464768ddc15b0968ab4d1e0",
+          "word/footer2.xml": "64be3f11e9af2d53af9640ad6f29ee9d40e3e576f5af21107f33d2c46b0cefcb",
+          "word/footer3.xml": "776474d9b2909ae44201cbad762deafd0b5c3470f49158e9d6d444a1713b74ed",
+          "word/header1.xml": "6ed8d7a583f859c6aeeeebfee06c1b1585fc5f1f246c01103c874532ac58fad1",
+          "word/header2.xml": "cc55d1720307b19c987b2e84ae53ca05321e559bd6bb0df018342f329766fb6a",
+          "word/header3.xml": "bbb8ae5410b5614046b9dc2608967db2446cd1fe636d6a61a940c29a4347e77d",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "9b044a59a5f269078ee334f43fced5916d708eb5171fe42a0da1c80d4de5a1de",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "74796eaacda199931f1c426d56ad1b83f5f0995838591b2af3f75368bfa84a35",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "2dfb2e54fe21e321571c31e69fb3ff2b65b07efa79c0b1f7878f5280dd5672ce",
+          "word/_rels/document.xml.rels": "4c22301bdfb6c92450921a607696468fbaf9c4ce1205bc54501c8f761415e035",
+          "word/comments.xml": "d2d57ce338cfbe582df7495614d27c83ec5b819fd76f85082a39601dbdf40d0c",
+          "word/document.xml": "d734dc87656f3a7631896d30f7a5de2a158fc4c59e1b589bb5ea69c2be31aba0",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "12207edc1ed99b260853b092826100c4c3794d902464768ddc15b0968ab4d1e0",
+          "word/footer2.xml": "64be3f11e9af2d53af9640ad6f29ee9d40e3e576f5af21107f33d2c46b0cefcb",
+          "word/footer3.xml": "776474d9b2909ae44201cbad762deafd0b5c3470f49158e9d6d444a1713b74ed",
+          "word/header1.xml": "6ed8d7a583f859c6aeeeebfee06c1b1585fc5f1f246c01103c874532ac58fad1",
+          "word/header2.xml": "cc55d1720307b19c987b2e84ae53ca05321e559bd6bb0df018342f329766fb6a",
+          "word/header3.xml": "bbb8ae5410b5614046b9dc2608967db2446cd1fe636d6a61a940c29a4347e77d",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "9b044a59a5f269078ee334f43fced5916d708eb5171fe42a0da1c80d4de5a1de",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "591a09b8030359f6cfd75560b33528feff0b20e7bb064c4eaa9806893fe19a4b"
+      }
+    },
+    {
+      "id": "online-multi-section-02",
+      "input_sha256": "1759765242164273ce60c716ca21d1c01c82a637da3ce8ce6e5ad263e0ea04d5",
+      "raw_output_sha256": "3bb3ea10f9b96f9935d6cc81fb013a6169c3f6c2839474e79308394aecc158cc",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-multi-section-02.docx",
+      "output": "sources/online-multi-section-02.docx",
+      "published_output_sha256": "c22d4cf556f78b91fd772c888357d364fb6883cfbe70f8ed791509798e8e6cf8",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "74796eaacda199931f1c426d56ad1b83f5f0995838591b2af3f75368bfa84a35",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "d63bb2103ac252fe33b30a79d385144ba2efc45405783b67e992f930a4ddf3e4",
+          "word/_rels/document.xml.rels": "4c22301bdfb6c92450921a607696468fbaf9c4ce1205bc54501c8f761415e035",
+          "word/comments.xml": "89d5f4afcd7115824275a96e7159d347fef14e7510ecb88b9bced6664bd076f9",
+          "word/document.xml": "40b8a7513ab8734b7d05582ad9dfea83bba78fdbde03c78c6a5825e3642d2a6b",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "15899042f66dc09f823d9796286e8188d364976ad813d165fa952eddbbf03cb7",
+          "word/footer2.xml": "809d713cbd1642a7942be605211308dff7931319b8bb3fcb2d83f44a78266bb4",
+          "word/footer3.xml": "10f32a4bceecb5769f707e691eb73e0e07d6ec27c6d111a57cb4ca64fb305f80",
+          "word/header1.xml": "6e65a56fb07b60b7818a3ba860ad9c724a0f052984b61aa25872eabda5346268",
+          "word/header2.xml": "b6feaf5e8e03ed1f077b76c4417cafd119291670dd3f9181a910bbcd0dd3ea8a",
+          "word/header3.xml": "824e8f4f109e8b4fc6acf53f12feae118df19908d64f43f722918c6f5309caea",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "7042e5b08e2d101e59806203d5b91bbcc1ccad91eb928739f58778b1aff51a88",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "74796eaacda199931f1c426d56ad1b83f5f0995838591b2af3f75368bfa84a35",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "c820df658f25c6d91106a12594db6fa4c1de6df3654a968a3ae2a01fca8ec326",
+          "word/_rels/document.xml.rels": "4c22301bdfb6c92450921a607696468fbaf9c4ce1205bc54501c8f761415e035",
+          "word/comments.xml": "1122afebd11d200ed7f37d7bdf54e4b196f7c0dacbf876c2f64adaea43d8b052",
+          "word/document.xml": "40b8a7513ab8734b7d05582ad9dfea83bba78fdbde03c78c6a5825e3642d2a6b",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "15899042f66dc09f823d9796286e8188d364976ad813d165fa952eddbbf03cb7",
+          "word/footer2.xml": "809d713cbd1642a7942be605211308dff7931319b8bb3fcb2d83f44a78266bb4",
+          "word/footer3.xml": "10f32a4bceecb5769f707e691eb73e0e07d6ec27c6d111a57cb4ca64fb305f80",
+          "word/header1.xml": "6e65a56fb07b60b7818a3ba860ad9c724a0f052984b61aa25872eabda5346268",
+          "word/header2.xml": "b6feaf5e8e03ed1f077b76c4417cafd119291670dd3f9181a910bbcd0dd3ea8a",
+          "word/header3.xml": "824e8f4f109e8b4fc6acf53f12feae118df19908d64f43f722918c6f5309caea",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "7042e5b08e2d101e59806203d5b91bbcc1ccad91eb928739f58778b1aff51a88",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "d8885dcca6d6d58458ebe21428752764e0a4739bec37d823b6fb6d6e3ba09f59"
+      }
+    },
+    {
+      "id": "online-review-heavy-01",
+      "input_sha256": "1c4aab60f3895b745ee4c176dede74f914b9c56750dfe880d5f9445fd8d21c13",
+      "raw_output_sha256": "67168ed1ce43c284bc11633997508032f3ae64a7ed0014e487eb67c1e2fdfb75",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-review-heavy-01.docx",
+      "output": "sources/online-review-heavy-01.docx",
+      "published_output_sha256": "5a0ea962e1a603e0ba4da245c9239f0529a17452860c43621ceb2eca77ab6b55",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "3daf64014e037b4dcc62f4549f4c2c20141f94bfab0268a523943f42b4876977",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "0f73707d1a54dc6f3f23a26ad3cc01ef3ab6b27bced8ebb6024a9a30cae6a92a",
+          "word/document.xml": "e4ca31268406c93835bd6dea00933f79e839f1599e7e075453911de9878391c4",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b92e05b216f7951b28ddf860b07ec78445fa210d8b41947c59af36a92bf0a3a3",
+          "word/header1.xml": "5e94071e5f83ca70bf83f61b95020f1ad6c20596b41ca15d0d1bcc9b7a7d0062",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "655c6f4640529784616226191ee0938925adbe0f474e88c2ab251123ce90d6f8",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "b33d19d4d40b29319d2e04035b84bd95fa77cc872b142a3120431550dc666422",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "89177b2355e7f51dc4bab2be7317ddf8ed55690c4ce7339b5b5d2ea4977c01ff",
+          "word/document.xml": "e4ca31268406c93835bd6dea00933f79e839f1599e7e075453911de9878391c4",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "b92e05b216f7951b28ddf860b07ec78445fa210d8b41947c59af36a92bf0a3a3",
+          "word/header1.xml": "5e94071e5f83ca70bf83f61b95020f1ad6c20596b41ca15d0d1bcc9b7a7d0062",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "655c6f4640529784616226191ee0938925adbe0f474e88c2ab251123ce90d6f8",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "a7f163ae322e08c393b7e62f28d3d31f2b51dbbc935f54c516fdde569607c1dc"
+      }
+    },
+    {
+      "id": "online-review-heavy-02",
+      "input_sha256": "9fef0667e0e2f5ad0389829078046446db3ba8873cd2e350a1319c60cc333b51",
+      "raw_output_sha256": "e13896cb5dac4c5bc08d1d962102d5024314fa28c8ff36d2cf243f097b8a6737",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "input": "roundtrips/online-review-heavy-02.docx",
+      "output": "sources/online-review-heavy-02.docx",
+      "published_output_sha256": "a307b61f25e8c2a2704d435fb03c13111665f37af715a215004aeecddf01074d",
+      "sanitisation": {
+        "policy": "windows-word-metadata-v1",
+        "description": "Synthetic identities and fixed metadata dates; no user/host/absolute paths in receipt. Optional printer settings, thumbnails, custom properties, docVars and attached template links removed. ZIP timestamps/attributes normalised.",
+        "removed_parts": [],
+        "changed_parts": [
+          "docProps/app.xml",
+          "docProps/core.xml",
+          "word/comments.xml"
+        ],
+        "raw_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "83ef5ed935c237abb0935b399854c075330c4bb282eaaa16f23cbfc428abd2f9",
+          "docProps/core.xml": "a658f861c3c72e31c132449789b2e4c35dde2a627418027c324d8f9019a33492",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "e72abe2f7f5d1eb5da6feaf3c6495ece18039603197f9888819edad69bc35721",
+          "word/document.xml": "5e8a888cbd4b2ebdc2379f8a933d20671aacf66420e6416c25d5d2c04a991842",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "c8eb3fc2bbe8be8baf9c9e01b16f0da739f9a67ef0a7c70c4e57e9df891f267a",
+          "word/header1.xml": "6139aafa8ff8d7a01ffb4377e5ee3f8b375f7daad7e3d01a567d464f4f6b1a85",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "dd55364b3f60f7aa7bc603ef54fb6f10c8a6b8cad9a6f4a2638e6281e641d86e",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        },
+        "published_part_sha256": {
+          "[Content_Types].xml": "b251a4ce1d93011d45f9148c9332c827cfabf05327e452411465c483847dc83c",
+          "_rels/.rels": "1aa88a511268d274d555cfe6dd73009814426c28b90c08999e06f100b469d436",
+          "customXml/_rels/item1.xml.rels": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "customXml/item1.xml": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "customXml/itemProps1.xml": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "docProps/app.xml": "4dd3e8323072128c08f5794bd3484376c81568f5f4ebff4188a5b920e6f4ae3e",
+          "docProps/core.xml": "d66615ce1ba1cd741728031f160da3f8095281341b9c204544db0a818a3f340b",
+          "word/_rels/document.xml.rels": "6a1ec20476a837f6b8d1528e4eab79629dfef60a39b9beb9d043d4fe090d185d",
+          "word/comments.xml": "dba7b4598968f3f96af122c9e499380cf3cc9262f196451fcb3041a4014b3007",
+          "word/document.xml": "5e8a888cbd4b2ebdc2379f8a933d20671aacf66420e6416c25d5d2c04a991842",
+          "word/fontTable.xml": "b67f1bf5eaf99fdbca0627b7e5b765371f064dc40d5cbe860d5fac13121e57c3",
+          "word/footer1.xml": "c8eb3fc2bbe8be8baf9c9e01b16f0da739f9a67ef0a7c70c4e57e9df891f267a",
+          "word/header1.xml": "6139aafa8ff8d7a01ffb4377e5ee3f8b375f7daad7e3d01a567d464f4f6b1a85",
+          "word/numbering.xml": "dc2196f6c9f9328b509fb5227e3119608aa22f4ce5df1855a9d86447d6f8513c",
+          "word/settings.xml": "dd55364b3f60f7aa7bc603ef54fb6f10c8a6b8cad9a6f4a2638e6281e641d86e",
+          "word/styles.xml": "2d0d3712dc6e9b4efacf4495d8a037ff4398fdfab46e9f3cb53828841ff51133",
+          "word/stylesWithEffects.xml": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "word/theme/theme1.xml": "5454edd1ea91a968ac75ff23702524c1a2ae907573c5caed0e9cade2a56ff752",
+          "word/webSettings.xml": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95"
+        }
+      },
+      "semantic_audit": {
+        "expected_edit": {
+          "find": "WEBINPUT",
+          "replace": "WEBSAVED",
+          "count": 1
+        },
+        "preserved_fields": [
+          "comment_anchors",
+          "comment_bodies",
+          "sections",
+          "stories",
+          "table_cells"
+        ],
+        "exact_body_text_except_declared_edit": true,
+        "ordered_comment_anchors_preserved": true,
+        "facts_sha256": "2bb4b63a058958c94661f25952399022f24be9050ee57e7b9ad177169aa278ae"
+      }
+    }
+  ]
+}
