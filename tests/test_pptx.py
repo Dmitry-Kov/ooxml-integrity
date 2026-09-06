@@ -337,7 +337,7 @@ def test_styled_system_faces_are_excluded_too(tmp_path, monkeypatch):
     if not donor.path or not donor.path.exists():
         pytest.skip("no font available to rename")
 
-    font = TTFont(str(donor.path), fontNumber=0)
+    font = TTFont(str(donor.path), fontNumber=donor.face_index)
     for rec in font["name"].names:
         if rec.nameID == 1:
             rec.string = ".Fake System Face"

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-06",
+  "renderer": "Microsoft PowerPoint for Mac 16.112.3, macOS Apple Silicon",
+  "method": "Opened the exact fixture through the native UI; File > Export > PNG > Save Every Slide, 960 x 540. All six PNGs inspected individually at full size. No edit/save or repair prompt.",
+  "fixture": "corpus/pptx-font-collections.pptx",
+  "fixture_sha256": "ec1c455f3d9b01007dc2a32c21940a1e9e655555046bc785d6780397ee1fb265",
+  "origin": "Six synthetic native text boxes authored with @oai/artifact-tool. Structural, geometry, font-policy and import validation passed before PowerPoint export. The blue outline is the shape boundary; wrap and autofit are off, insets zero, font size 24pt, height 60pt.",
+  "licence": "Project MIT licence for synthetic fixture and renders. No proprietary font binaries or third-party document content are included.",
+  "scope": "Static TTC face selection, one Office build and installed Times collection. OTC has separate synthetic CFF unit coverage, not Office rendering evidence. No Windows/web rendering, independent review, named variable instances or arbitrary weight matching is claimed.",
+  "font": {
+    "family": "Times",
+    "path": "/System/Library/Fonts/Times.ttc",
+    "sha256": "20e3dc89912f4b37f2c29add764855164efafb4c66ca32551d9eb52c7411c7c7",
+    "members": {
+      "Regular": 0,
+      "Bold": 1,
+      "Italic": 2,
+      "Bold Italic": 3
+    }
+  },
+  "before_commit": "a66ae3b47fdf14ea5e09c5146280a9bfacc8830a",
+  "before_findings": [
+    [
+      "PPT003",
+      "ERROR",
+      "slide4/FIT_italic"
+    ]
+  ],
+  "cases": [
+    {
+      "slide": 1,
+      "shape": "FIT_regular",
+      "text": "rrrrrrrrrrrrrrrrrrrr",
+      "width_pt": 180,
+      "bold": false,
+      "italic": false,
+      "face_index": 0,
+      "measured_advance_pt": 159.84375,
+      "member_zero_advance_pt": 159.84375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/font-collections/Slide1.png",
+      "render_sha256": "b909ee6623cca9081959a4a13cf1fd2c66059fa6f8bf2594824f5369806c9fc8"
+    },
+    {
+      "slide": 2,
+      "shape": "OVER_bold",
+      "text": "rrrrrrrrrrrrrrrrrrrr",
+      "width_pt": 180,
+      "bold": true,
+      "italic": false,
+      "face_index": 1,
+      "measured_advance_pt": 213.046875,
+      "member_zero_advance_pt": 159.84375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/font-collections/Slide2.png",
+      "render_sha256": "d409c94fa752e2d995155466afb072812080108c85f90d583b5f8ba326cfb20f"
+    },
+    {
+      "slide": 3,
+      "shape": "FIT_bold",
+      "text": "rrrrrrrrrrrrrrrrrrrr",
+      "width_pt": 240,
+      "bold": true,
+      "italic": false,
+      "face_index": 1,
+      "measured_advance_pt": 213.046875,
+      "member_zero_advance_pt": 159.84375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/font-collections/Slide3.png",
+      "render_sha256": "f92044f84355a52ca8276f58e096ea581893beb71af36a06b3ccf743f8f21d37"
+    },
+    {
+      "slide": 4,
+      "shape": "FIT_italic",
+      "text": "WWWWWWWWWW",
+      "width_pt": 212,
+      "bold": false,
+      "italic": true,
+      "face_index": 2,
+      "measured_advance_pt": 199.921875,
+      "member_zero_advance_pt": 226.5234375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/font-collections/Slide4.png",
+      "render_sha256": "21fea51f1744701497994f391700d9e628ace42dab03f8fdd55e459071686f11"
+    },
+    {
+      "slide": 5,
+      "shape": "OVER_bold_italic",
+      "text": "rrrrrrrrrrrrrrrrrrrr",
+      "width_pt": 172,
+      "bold": true,
+      "italic": true,
+      "face_index": 3,
+      "measured_advance_pt": 186.796875,
+      "member_zero_advance_pt": 159.84375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/font-collections/Slide5.png",
+      "render_sha256": "09d65f1d246cf3fa9f8b5b716275923a98c5cafb2c5e445bae644ecbcd8f3801"
+    },
+    {
+      "slide": 6,
+      "shape": "FIT_bold_italic",
+      "text": "rrrrrrrrrrrrrrrrrrrr",
+      "width_pt": 220,
+      "bold": true,
+      "italic": true,
+      "face_index": 3,
+      "measured_advance_pt": 186.796875,
+      "member_zero_advance_pt": 159.84375,
+      "observed_line_count": 1,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/font-collections/Slide6.png",
+      "render_sha256": "a96ac33a3b56ddedb54bb98cd6e859d4a700f2fe56c411403876e741207c7216"
+    }
+  ]
+}

@@ -114,7 +114,7 @@ def build_report() -> dict[str, object]:
         },
     ]
 
-    font_probes: list[dict[str, str]] = []
+    font_probes: list[dict[str, object]] = []
     font_failures: list[dict[str, str]] = []
     for requested in FONT_PROBES:
         try:
@@ -123,6 +123,7 @@ def build_report() -> dict[str, object]:
                 "requested": requested,
                 "resolved_family": face.family,
                 "path": str(face.path),
+                "face_index": face.face_index,
                 "confidence": face.match,
             })
         except Exception as e:

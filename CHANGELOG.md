@@ -50,6 +50,13 @@
   instead of being interpolated into shell source.
 
 ### Fixed
+- TTC/OTC discovery and metrics now retain the selected collection member,
+  including substitutions and character-coverage caches. Lazy collection
+  streams stay open through enumeration, and later Light/Heavy faces no longer
+  overwrite canonical Regular styles. Fontconfig indices are retained;
+  unsupported named variable instances are not silently measured as member
+  zero. `doctor --json` includes `face_index`. Synthetic TrueType/CFF tests and
+  six native PowerPoint exports pin two fixed omissions and one false positive.
 - PPTX long basic-Latin words now wrap by character when wider than a complete
   usable line, preserving run sizes, insets and stored font scaling. This closes
   vertical-overflow false negatives without flagging tall clean controls.

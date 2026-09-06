@@ -321,7 +321,10 @@ layout placeholder, the master placeholder, the master's text styles, the
 presentation defaults and finally the theme's font scheme.
 
 Widths come from the font's own `hmtx`/`cmap` tables via `fontTools`. Nothing is
-rendered or rasterised.
+rendered or rasterised. Static TTC/OTC collections retain the selected member
+index through measurement; `doctor --json` exposes it as `face_index`.
+[Collection regression tests and six PowerPoint observations](docs/font-collections.md)
+document the supported scope and variable-font limitations.
 
 **How accurate is it?** `research/calibrate_pptx.py` renders every shape of the
 reference deck one at a time with LibreOffice, extracts the position of every

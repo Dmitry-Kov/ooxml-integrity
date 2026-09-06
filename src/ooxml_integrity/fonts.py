@@ -135,6 +135,8 @@ class ResolvedFace:
     #: "similar"  a visually similar face - widths are an estimate
     #: "fallback" something unrelated - widths are a guess
     match: str
+    #: Zero-based member in a TTC/OTC; standalone fonts use zero.
+    face_index: int = 0
 
     @property
     def trustworthy(self) -> bool:
@@ -157,23 +159,33 @@ class ResolvedFace:
 
 
 @functools.lru_cache(maxsize=256)
-def _fc_match(pattern: str) -> tuple[str, str] | None:
-    """Ask fontconfig for a file. Returns (path, family) or None."""
+def _fc_match(pattern: str) -> tuple[str, str, int] | None:
+    """Ask fontconfig for (path, family, face index), never assume member zero."""
     if not shutil.which("fc-match"):
         return None
     try:
         r = subprocess.run(
-            ["fc-match", "-f", "%{file}\t%{family}", pattern],
+            ["fc-match", "-f", "%{file}\t%{family}\t%{index}", pattern],
             capture_output=True, text=True, timeout=10,
         )
     except (subprocess.SubprocessError, OSError):
         return None
-    if r.returncode != 0 or "\t" not in r.stdout:
+    if r.returncode != 0:
         return None
-    path, _, family = r.stdout.partition("\t")
-    if not path or not Path(path).exists():
+    fields = r.stdout.strip().split("\t")
+    if len(fields) != 3:
         return None
-    return path, family.split(",")[0].strip()
+    path, family, number = fields
+    if not number.isdecimal() or not path or not Path(path).is_file():
+        return None
+    number = int(number)
+    # Fontconfig/FreeType encode a variable-font named instance in the high
+    # bits. Masking those bits would silently measure a different instance.
+    if number > 0xFFFF:
+        raise FontUnavailable("fontconfig selected a named variable-font instance; "
+                              "variation metrics are not supported")
+    family = family.split(",")[0].strip()
+    return (path, family, number) if family else None
 
 
 #: Where fonts live when there is no fontconfig to ask. macOS has none by
@@ -223,8 +235,10 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
     from fontTools.ttLib import TTCollection, TTFont
 
     index: dict[str, tuple[str, int]] = {}
+    ranks: dict[str, int] = {}
 
-    def record(family: str, path: str, number: int, bold: bool, italic: bool):
+    def record(family: str, path: str, number: int, bold: bool, italic: bool,
+               subfamily: str):
         """The only writer of `index` - both the plain and the composed key.
 
         They used to be written in two places, and the dot-prefix guard was
@@ -242,22 +256,38 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
         # and must never be picked as a fallback.
         if key.startswith("."):
             return
-        # prefer the regular face for a family; styled ones also get their own
-        # composed key, which never overwrites one already recorded
-        if key not in index or not (bold or italic):
+        # Once all collection members are readable, later Light/Heavy faces
+        # must not overwrite Regular just because all are non-italic.
+        regular = subfamily in ("regular", "normal", "roman", "book")
+        rank = 0 if regular else (2 if bold or italic else 1)
+        if key not in index or rank < ranks[key]:
             index[key] = (path, number)
+            ranks[key] = rank
         if bold or italic:
-            index.setdefault(key + _style_key(bold, italic), (path, number))
+            styled = key + _style_key(bold, italic)
+            rank = 0 if subfamily in ("bold", "italic", "oblique", "bold italic", "bold oblique") else 1
+            if styled not in index or rank < ranks[styled]:
+                index[styled] = (path, number)
+                ranks[styled] = rank
 
     def faces(path: Path):
         try:
             with _quiet_fonttools():
                 if path.suffix.lower() in (".ttc", ".otc"):
                     coll = TTCollection(str(path), lazy=True)
-                    for i, f in enumerate(coll.fonts):
-                        yield f, i
+                    try:
+                        for i, f in enumerate(coll.fonts):
+                            yield f, i
+                    finally:
+                        # Lazy members share one stream. Closing an individual
+                        # member early makes all subsequent name reads fail.
+                        coll.close()
                     return
-                yield TTFont(str(path), lazy=True, fontNumber=0), 0
+                font = TTFont(str(path), lazy=True, fontNumber=0)
+                try:
+                    yield font, 0
+                finally:
+                    font.close()
         except Exception:
             return
 
@@ -275,33 +305,27 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
                     name_table = font["name"]
                     family = (name_table.getBestFamilyName() or "")
                     subfamily = ""
-                    rec = name_table.getDebugName(2)
+                    rec = name_table.getBestSubFamilyName()
                     if rec:
                         subfamily = rec.strip().lower()
                     bold = "bold" in subfamily
                     italic = "italic" in subfamily or "oblique" in subfamily
-                    record(family, str(path), number, bold, italic)
+                    record(family, str(path), number, bold, italic, subfamily)
                 except Exception:
                     continue
-                finally:
-                    try:
-                        font.close()
-                    except Exception:
-                        pass
     return index
 
 
 @functools.lru_cache(maxsize=512)
-def _has_latin_coverage(path: str) -> bool:
+def _has_latin_coverage(path: str, face_index: int = 0) -> bool:
     """Does this face actually carry basic Latin? A CJK or symbol font does not,
     and measuring English text with one produces nonsense."""
     from fontTools.ttLib import TTFont
 
     try:
         with _quiet_fonttools():
-            font = TTFont(path, lazy=True, fontNumber=0)
-            cmap = font.getBestCmap()
-            font.close()
+            with TTFont(path, lazy=True, fontNumber=face_index) as font:
+                cmap = font.getBestCmap() or {}
     except Exception:
         return False
     probe = "AaEeIiNnOoSsTt 0123456789.,"
@@ -313,8 +337,8 @@ def _style_key(bold: bool, italic: bool) -> str:
             (False, True): ":italic", (True, True): ":bold:italic"}[(bold, italic)]
 
 
-def _dir_match(family: str, bold: bool, italic: bool) -> tuple[str, str] | None:
-    """Look a family up in the scanned directories. Returns (path, family)."""
+def _dir_match(family: str, bold: bool, italic: bool) -> tuple[str, str, int] | None:
+    """Look up (path, family, face index) in the scanned directories."""
     index = _index_font_dirs()
     if not index:
         return None
@@ -322,11 +346,11 @@ def _dir_match(family: str, bold: bool, italic: bool) -> tuple[str, str] | None:
     for candidate in (key + _style_key(bold, italic), key):
         hit = index.get(candidate)
         if hit:
-            return hit[0], family.strip()
+            return hit[0], family.strip(), hit[1]
     return None
 
 
-def _locate(family: str, bold: bool, italic: bool) -> tuple[str, str] | None:
+def _locate(family: str, bold: bool, italic: bool) -> tuple[str, str, int] | None:
     """fontconfig first because it honours the system's own substitution rules;
     a directory scan second, for macOS and Windows where there is none."""
     hit = _fc_match(family + _style_suffix(bold, italic))
@@ -357,33 +381,33 @@ def resolve_face(family: str, bold: bool = False, italic: bool = False) -> Resol
 
     first = _locate(requested, bold, italic)
     if first:
-        path, got = first
+        path, got, number = first
         if got.lower() == key:
-            return ResolvedFace(requested, Path(path), got, "exact")
+            return ResolvedFace(requested, Path(path), got, "exact", number)
         # something substituted for us. Grade what it chose rather than
         # assuming its choice was metric-compatible.
         if got.lower() in metric_ok:
-            return ResolvedFace(requested, Path(path), got, "metric")
+            return ResolvedFace(requested, Path(path), got, "metric", number)
         if got.lower() in similar_ok:
-            return ResolvedFace(requested, Path(path), got, "similar")
+            return ResolvedFace(requested, Path(path), got, "similar", number)
 
     for candidate in METRIC_SUBSTITUTES.get(key, ()):
         found = _locate(candidate, bold, italic)
         if found and found[1].lower() == candidate.lower():
-            return ResolvedFace(requested, Path(found[0]), found[1], "metric")
+            return ResolvedFace(requested, Path(found[0]), found[1], "metric", found[2])
 
     for candidate in SIMILAR_SUBSTITUTES.get(key, ()):
         found = _locate(candidate, bold, italic)
         if found and found[1].lower() == candidate.lower():
-            return ResolvedFace(requested, Path(found[0]), found[1], "similar")
+            return ResolvedFace(requested, Path(found[0]), found[1], "similar", found[2])
 
     for candidate in LAST_RESORT:
         found = _locate(candidate, bold, italic)
         if found:
-            return ResolvedFace(requested, Path(found[0]), found[1], "fallback")
+            return ResolvedFace(requested, Path(found[0]), found[1], "fallback", found[2])
 
     if first:  # whatever turned up first, better than nothing
-        return ResolvedFace(requested, Path(first[0]), first[1], "fallback")
+        return ResolvedFace(requested, Path(first[0]), first[1], "fallback", first[2])
 
     # Last resort before giving up: anything usable from the scanned dirs, so a
     # machine with fonts but no fontconfig still measures.
@@ -398,9 +422,9 @@ def resolve_face(family: str, bold: bool = False, italic: bool = False) -> Resol
         for family in sorted(index):
             if family.startswith("."):
                 continue
-            path, _ = index[family]
-            if _has_latin_coverage(path):
-                return ResolvedFace(requested, Path(path), family, "fallback")
+            path, number = index[family]
+            if _has_latin_coverage(path, number):
+                return ResolvedFace(requested, Path(path), family, "fallback", number)
 
     raise FontUnavailable(
         f"no usable font file for {requested!r}. Searched fontconfig "
@@ -422,7 +446,7 @@ def measurement_available() -> tuple[bool, str]:
         face = resolve_face("Calibri")
     except FontUnavailable as e:
         return False, str(e)
-    return True, f"measuring with {face.family} ({face.path})"
+    return True, f"measuring with {face.family} ({face.path}, face {face.face_index})"
 
 
 @dataclass
@@ -474,9 +498,8 @@ def load_metrics(family: str, bold: bool = False, italic: bool = False) -> Metri
     # parsed at first access, not at construction. Wrapping only the constructor
     # let the `kern` table's "subtable longer than defined" warning through when
     # it was read further down.
-    with _quiet_fonttools():
-        font = TTFont(str(face.path), fontNumber=0, lazy=True)
-
+    with _quiet_fonttools(), TTFont(str(face.path), fontNumber=face.face_index,
+                                    lazy=True) as font:
         upem = font["head"].unitsPerEm
         hmtx = font["hmtx"]
         cmap = font.getBestCmap()
@@ -517,7 +540,6 @@ def load_metrics(family: str, bold: bool = False, italic: bool = False) -> Metri
                         kerning[(lcp, rcp)] = value
 
         space = widths.get(0x20) or round(upem * 0.25)
-        font.close()
     return Metrics(face, upem, ascender, descender, line_gap, widths, space, kerning)
 
 

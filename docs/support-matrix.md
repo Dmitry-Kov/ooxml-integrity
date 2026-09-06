@@ -122,7 +122,7 @@ It does not run the DOCX package inspector over a presentation.
 
 | surface | status | current scope |
 | --- | --- | --- |
-| Installed TrueType/OpenType metrics | **Partial** | Measures advances from `cmap`/`hmtx` and legacy `kern` tables in discoverable font files. Standalone TTF/OTF faces are the direct path; TTC/OTC collections are indexed, but selection of the intended face within a collection has not been separately validated. No renderer is launched. |
+| Installed TrueType/OpenType metrics | **Partial** | Measures advances from `cmap`/`hmtx` and legacy `kern` tables in discoverable font files. Static TTC/OTC member indices are preserved from discovery through coverage and metrics, with synthetic TrueType/CFF tests and [six native PowerPoint TTC observations](font-collections.md). Encoded named variable instances are rejected; arbitrary weight matching, GPOS and complex shaping remain outside this model. No renderer is launched by the checker. |
 | Exact installed face | **Supported** | An exact family match is treated as trustworthy for the implemented advance-width model. This does not add GPOS/GSUB shaping. |
 | Metric-compatible substitution | **Partial** | Known substitutes are treated as trustworthy. Only the Calibri/Carlito pair has direct cross-machine measurements in this repository; other declared pairs have not received the same validation. |
 | Similar or last-resort substitution | **Partial** | A measurement is still attempted, but the result is marked as an estimate through `PPT007`; affected overflow severity is reduced when the face is not trustworthy. |
