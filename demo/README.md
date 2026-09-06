@@ -27,7 +27,10 @@ to `main` affecting the demo and can also be started manually.
   is closed.
 - Human output calls the package's `_print_human` and `_print_coverage` helpers.
   JSON follows `check --no-config --json [--coverage]`; the CLI has no reusable
-  JSON formatter. Tests compare both representations directly with the CLI.
+  JSON formatter. Report headings and JSON `files[].path` show only the filename,
+  not the internal `input/` directory. Tests compare both representations with
+  the CLI invoked using that filename; checking still uses separate input/source
+  paths, including when both files have the same name.
   Doctor calls `cli.main(["doctor"])` and its JSON variant.
 
 No analytics, cookies, service worker, persistent document storage or external

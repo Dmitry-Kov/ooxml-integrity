@@ -25,11 +25,13 @@ def bridge():
 @pytest.mark.parametrize("example,source", [
     ("base.docx", None), ("deck.pptx", None), ("agreement.docx", "base.docx"),
 ])
-def test_cli_parity(bridge, example, source, coverage):
+def test_cli_parity(bridge, example, source, coverage, monkeypatch):
     path = DEMO / "examples" / example
     original = DEMO / "examples" / source if source else None
     result = bridge["run_check"](path, original, coverage)
-    args = ["check", str(path), "--no-config"]
+    # The browser report displays the filename, just like this CLI invocation.
+    monkeypatch.chdir(path.parent)
+    args = ["check", path.name, "--no-config"]
     if original:
         args += ["--against", str(original)]
     if coverage:
@@ -48,6 +50,26 @@ def test_fidelity_example(bridge):
     result = bridge["run_check"](DEMO / "examples/agreement.docx", DEMO / "examples/base.docx")
     assert {"CMT005", "FID001"} <= {f["code"] for f in result["json"]["files"][0]["findings"]}
     assert result["exit_code"] == 1
+
+
+@pytest.mark.parametrize("filename", ["agreement.docx", "input-agreement.docx", "Договор 2026.docx"])
+def test_display_name_keeps_same_named_source_separate(bridge, tmp_path, filename):
+    edited = tmp_path / "input" / filename
+    source = tmp_path / "source" / filename
+    edited.parent.mkdir()
+    source.parent.mkdir()
+    edited_bytes = (DEMO / "examples/agreement.docx").read_bytes()
+    source_bytes = (DEMO / "examples/base.docx").read_bytes()
+    edited.write_bytes(edited_bytes)
+    source.write_bytes(source_bytes)
+
+    result = bridge["run_check"](edited, source)
+    assert result["human"].startswith(f"{filename}: 2 error(s)")
+    assert "input/" not in result["human"]
+    assert result["json"]["files"][0]["path"] == filename
+    assert {"CMT005", "FID001"} <= {f["code"] for f in result["json"]["files"][0]["findings"]}
+    assert edited.read_bytes() == edited_bytes
+    assert source.read_bytes() == source_bytes
 
 
 @pytest.mark.parametrize("original,copy", [

@@ -32,13 +32,15 @@ def run_check(path, source=None, include_coverage=True):
                                     f"comparison was NOT performed against {source}: {exc}"))
     coverage = coverage_for(path, findings, source=source, limits=limits) if include_coverage else None
     out = StringIO()
-    _print_human(path, findings, Severity.ERROR, False, out, coverage)
+    # Hide virtual-FS directories in the report, not in the paths used to check.
+    display_path = Path(path.name)
+    _print_human(display_path, findings, Severity.ERROR, False, out, coverage)
     if coverage is not None:
         _print_coverage(coverage, details=False, out=out)
 
     # cli.main serializes this inline; there is no separate JSON formatter.
     item = {
-        "path": str(path), "summary": summarize(findings),
+        "path": str(display_path), "summary": summarize(findings),
         "worst": worst(findings).value if findings else None,
         "findings": [finding.as_dict() for finding in findings], "suppressed": [],
     }
