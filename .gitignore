@@ -9,6 +9,9 @@ build/
 .pytest_cache/
 .venv/
 
+# Local working plan; keep it out of the public repository and distributions.
+/AUDIT_PLAN.md
+
 # Derived from corpus/deck.pptx by research/outline_deck.py - regenerate rather
 # than commit, so there is only one deck that anything is asserted about.
 corpus/deck_outlined.pptx

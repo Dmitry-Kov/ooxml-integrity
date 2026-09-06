@@ -237,7 +237,6 @@ corpus/                reference .docx and .pptx, byte-reproducible
 evidence/docx-beta/    50 producer sources and 220 labelled DOCX pairs
 runs/                  eight real agent outputs, used as fixtures
 action.yml             the GitHub Action
-AUDIT_PLAN.md          readiness priorities and release gates
 ```
 
 ## License
