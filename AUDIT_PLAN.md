@@ -1,9 +1,10 @@
 # Audit and implementation plan
 
-- Status: working plan, 2026-09-03
+- Status: `0.4.0` released, 2026-09-06; further capability expansion paused
+  at the owner's request in favour of publishing and external feedback.
 - Current source version: `0.4.0`
-- Current release target: `0.4.0` (the baseline v2 change is intentionally
-  breaking)
+- Latest release: [`0.4.0`](https://github.com/Dmitry-Kov/ooxml-integrity/releases/tag/v0.4.0)
+  (the baseline v2 change is intentionally breaking).
 
 This document turns the current audit into an ordered implementation and
 validation plan. The [support matrix](docs/support-matrix.md) remains the
@@ -48,10 +49,10 @@ and several known PPTX model gaps.
   policy, CLI, SARIF, font resolution, PPTX layout, and PPTX findings have clear
   boundaries.
 
-### Hardening completed in the current working tree
+### Hardening shipped in `0.4.0`
 
-These items are implemented and tested locally, but are not released merely by
-being checked here:
+These items are released in `0.4.0`. Release verification is recorded under
+P0.1 below; the external-adoption gates for public beta remain separate.
 
 - [x] Safe XML parsing with DTD, entity expansion, external access, recovery,
       and huge-tree mode disabled; `DOCTYPE` is rejected explicitly.
@@ -72,9 +73,9 @@ being checked here:
       member decompression with explicit findings.
 - [x] Per-file coverage and `doctor` expose checked, estimated, skipped, and
       recognised unsupported capability instead of implying complete coverage.
-- [x] Local verification: 232 passed, 7 environment-dependent font tests
-      skipped; wheel and sdist built; the installed wheel checked the reference
-      DOCX cleanly; YAML and Action shell syntax parsed successfully.
+- [x] Release verification: 529 passed locally, 7 environment-dependent font
+      tests skipped; full source CI and release workflow passed. Wheel and sdist
+      passed clean-install smoke tests, as did the package installed from PyPI.
 
 ### Principal gaps and risks
 
@@ -126,6 +127,19 @@ The tool should answer four explicit questions:
 
 #### P0.1 Release the current hardening as `0.4.0`
 
+**Released 2026-09-06:** [PyPI](https://pypi.org/project/ooxml-integrity/0.4.0/)
+and [GitHub Release](https://github.com/Dmitry-Kov/ooxml-integrity/releases/tag/v0.4.0),
+tag `v0.4.0` at `f4cdf9c6ca262fe890a54766db9075814640bcf6`.
+[Source CI: 8/8 jobs](https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34028201823);
+[release: 4/4 jobs](https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34028308547).
+PyPI and GitHub wheel/sdist SHA-256 hashes match the published `SHA256SUMS`;
+all 15 wheel Python modules match the tag. A fresh, uncached public-PyPI install
+passed both entry points, clean/findings/usage exits, JSON, coverage, baseline
+v2, v1 rejection, a new-file regression, and SARIF. The release workflow's
+exit-1/exit-2 annotations are intentional negative Action tests; upstream
+Node-runtime notices and environment-specific font skips are documented in
+the [release notes](docs/releases/0.4.0.md). No completeness claim was added.
+
 Deliverables:
 
 - Review the current diff and confirm the baseline v2 migration language.
@@ -138,12 +152,12 @@ Deliverables:
 
 Exit criteria:
 
-- [ ] All supported Python/OS jobs pass from a clean checkout.
-- [ ] The Action uses the code from the selected tag without an override.
-- [ ] A v1 baseline fails with a clear regeneration instruction.
-- [ ] A regenerated v2 baseline behaves consistently on all CI platforms.
-- [ ] The release artifacts contain the expected package modules and metadata.
-- [ ] No unexplained warning, skipped check, or undocumented compatibility
+- [x] All supported Python/OS jobs pass from a clean checkout.
+- [x] The Action uses the code from the selected tag without an override.
+- [x] A v1 baseline fails with a clear regeneration instruction.
+- [x] A regenerated v2 baseline behaves consistently on all CI platforms.
+- [x] The release artifacts contain the expected package modules and metadata.
+- [x] No unexplained warning, skipped check, or undocumented compatibility
       change remains in the release candidate.
 
 #### P0.2 Add archive resource limits
@@ -279,6 +293,10 @@ Exit criteria:
       behaviour are recorded.
 
 ### P1 — evidence-backed capability expansion
+
+**Paused after item 4 (2026-09-06).** Do not automatically proceed to groups,
+rotations, tables or other new model surfaces. Resume only on explicit owner
+direction, informed by external usage and requests.
 
 Implement in this order:
 
