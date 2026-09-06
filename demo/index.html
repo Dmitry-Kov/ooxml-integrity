@@ -4,8 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="Check Word and PowerPoint files, and catch what an edit lost. The real ooxml-integrity Python package, running locally in your browser.">
-  <title>ooxml-integrity · Browser check</title>
+  <meta name="description" content="ooxml-integrity finds what a machine edit silently lost from a .docx and whether deck text fits its box. Deterministic, offline. Try it on your own file in the browser — nothing is uploaded.">
+  <meta property="og:title" content="ooxml-integrity — what did the edit lose?">
+  <meta property="og:description" content="Word opens a .docx that lost its reviewer's comment without a warning. This catches it. Try it in the browser; files never leave the tab.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dmitry-kov.github.io/ooxml-integrity/">
+  <title>ooxml-integrity — what did the edit lose?</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js"></script>
@@ -13,25 +17,76 @@
 <body>
   <main>
     <header>
-      <div class="brand"><span class="mark" aria-hidden="true">[✓]</span> ooxml-integrity <span class="tag">BROWSER DEMO</span></div>
-      <a href="https://github.com/Dmitry-Kov/ooxml-integrity">View on GitHub ↗</a>
+      <div class="brand"><span class="mark" aria-hidden="true">[✓]</span> ooxml-integrity</div>
+      <nav aria-label="Links">
+        <a href="#try">Try it</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md">Research</a>
+        <a href="https://github.com/Dmitry-Kov/ooxml-integrity">GitHub</a>
+      </nav>
     </header>
-    <section class="intro" aria-labelledby="title">
-      <p class="eyebrow">DOCUMENT PREFLIGHT</p>
-      <h1 id="title">What changed.<br> <span>What got lost.</span></h1>
-      <p>Check a Word document or PowerPoint deck. Add the original DOCX to catch lost comments, revisions, and document structure.</p>
-      <p class="privacy"><span aria-hidden="true">●</span> Your files stay in this browser tab and are never uploaded.</p>
+
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Word opens this file without a warning.<br>The reviewer's comment is gone.</h1>
+      <p class="lede">Two agents were given the same contract and the same edit: update three figures in the milestone table. One wrapped its edits as tracked changes. The other used <code>python-docx</code>, which drops every run in a paragraph when it sets the text — and the comment anchors go with them. Both files are schema-valid. Both render. Word reports neither.</p>
+
+      <figure class="redline" aria-label="Two versions of the same contract page, side by side">
+        <div class="page page-careful">
+          <div class="doc">
+            <p class="doc-title">Services Agreement</p>
+            <p class="doc-sub">Schedule 2 — Milestones and fees</p>
+            <table class="doc-table">
+              <tr><th>Milestone</th><th>Due</th><th>Fee</th></tr>
+              <tr><td>Discovery</td><td>Week 2</td><td>EUR 8,000</td></tr>
+              <tr id="anchor-row"><td>Build</td><td>Week 8</td><td><span class="cmt-range">EUR <del>12,000</del><ins>14,000</ins></span></td></tr>
+              <tr><td>Handover</td><td>Week 12</td><td>EUR <del>6,000</del><ins>7,500</ins></td></tr>
+            </table>
+            <p class="doc-body">Fees are payable within thirty days of the invoice date for each completed milestone.</p>
+          </div>
+          <aside class="margin">
+            <div class="balloon">
+              <span class="who">M. Reviewer</span>
+              Confirm this figure against the source table before circulation.
+            </div>
+          </aside>
+        </div>
+        <div class="page page-fast">
+          <div class="doc">
+            <p class="doc-title">Services Agreement</p>
+            <p class="doc-sub">Schedule 2 — Milestones and fees</p>
+            <table class="doc-table">
+              <tr><th>Milestone</th><th>Due</th><th>Fee</th></tr>
+              <tr><td>Discovery</td><td>Week 2</td><td>EUR 8,000</td></tr>
+              <tr><td>Build</td><td>Week 8</td><td>EUR 14,000</td></tr>
+              <tr><td>Handover</td><td>Week 12</td><td>EUR 7,500</td></tr>
+            </table>
+            <p class="doc-body">Fees are payable within thirty days of the invoice date for each completed milestone.</p>
+          </div>
+          <aside class="margin margin-empty" aria-label="Empty comment margin"></aside>
+        </div>
+        <figcaption>
+          <span>Careful agent — 23 tool calls, edits tracked, comment anchored to the figure.</span>
+          <span>Fast agent — 5 tool calls, edits untracked, comment still in <code>comments.xml</code>, anchored to nothing.</span>
+        </figcaption>
+      </figure>
+
+      <p class="tally">Same word count. Same page count. Well-formedness checks, schema validation and render-and-inspect each caught <strong>0 of 6</strong> defect classes. Nothing in the picture is wrong. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md">How this was measured</a></p>
     </section>
 
-    <details class="runtime" open>
-      <summary><span id="runtime-status" role="status">Starting Python in your browser…</span><span class="runtime-hint">Startup log</span></summary>
-      <ol id="progress" aria-live="polite"></ol>
-    </details>
+    <section id="try" class="try" aria-labelledby="try-title">
+      <div class="section-head">
+        <h2 id="try-title">Run it on your own file</h2>
+        <p>The real Python package, running in your browser through WebAssembly. <span class="privacy">Files stay in this tab and are never uploaded.</span> Add the original to see what an edit lost.</p>
+      </div>
 
-    <section aria-label="Choose files">
+      <details class="runtime" open>
+        <summary><span id="runtime-status" role="status">Starting Python in your browser…</span><span class="runtime-hint">Startup log</span></summary>
+        <ol id="progress" aria-live="polite"></ol>
+      </details>
+
       <div class="file-grid">
         <div class="file-field">
-          <div class="field-heading"><label for="file-input">01 / File to check</label><span>Required</span></div>
+          <div class="field-heading"><label for="file-input">File to check</label><span>Required</span></div>
           <label class="drop-zone" id="file-zone" for="file-input">
             <span class="file-icon" aria-hidden="true">↥</span>
             <strong id="file-name">Drop a file or browse</strong>
@@ -41,41 +96,153 @@
           <button type="button" class="clear" id="clear-file" hidden>Remove file</button>
         </div>
         <div class="file-field">
-          <div class="field-heading"><label for="source-input">02 / Original / source</label><span>Optional</span></div>
+          <div class="field-heading"><label for="source-input">Original, for comparison</label><span>Optional</span></div>
           <label class="drop-zone" id="source-zone" for="source-input">
             <span class="file-icon" aria-hidden="true">⇄</span>
             <strong id="source-name">Add the original for comparison</strong>
-            <span class="file-help" id="source-help">.docx only · enables fidelity checks</span>
+            <span class="file-help" id="source-help">.docx only · enables the fidelity check</span>
             <input id="source-input" type="file" accept=".docx" aria-describedby="source-help">
           </label>
           <button type="button" class="clear" id="clear-source" hidden>Remove source</button>
         </div>
       </div>
-      <div class="examples"><span>Try an example</span><button type="button" data-example="document" disabled>Clean DOCX</button><button type="button" data-example="deck" disabled>Broken PPTX</button><button type="button" data-example="fidelity" disabled>Lost comments + source ↗</button></div>
+      <div class="examples"><span>Or try an example</span><button type="button" data-example="fidelity" disabled>The contract above, with its original</button><button type="button" data-example="deck" disabled>A deck with text that does not fit</button><button type="button" data-example="document" disabled>A clean document</button></div>
       <div class="actions">
-        <button type="button" class="primary" id="check" disabled>Check →</button>
+        <button type="button" class="primary" id="check" disabled>Check</button>
         <label class="coverage"><input type="checkbox" id="coverage" checked> Include coverage <code>--coverage</code></label>
         <button type="button" class="doctor" id="doctor" disabled>Doctor</button>
       </div>
-    </section>
 
-    <section class="results" aria-label="Check results" aria-busy="false">
-      <div class="result-bar">
-        <div role="tablist" aria-label="Output format">
-          <button type="button" role="tab" id="human-tab" aria-controls="human-output" aria-selected="true">Report</button>
-          <button type="button" role="tab" id="json-tab" aria-controls="json-output" aria-selected="false" tabindex="-1">JSON</button>
+      <div class="results" aria-label="Check results" aria-busy="false">
+        <div class="result-bar">
+          <div role="tablist" aria-label="Output format">
+            <button type="button" role="tab" id="human-tab" aria-controls="human-output" aria-selected="true">Report</button>
+            <button type="button" role="tab" id="json-tab" aria-controls="json-output" aria-selected="false" tabindex="-1">JSON</button>
+          </div>
+          <span id="result-status" role="status">Waiting for a file</span>
         </div>
-        <span id="result-status" role="status">Waiting for a file</span>
-      </div>
-      <pre id="human-output" role="tabpanel" aria-labelledby="human-tab" tabindex="0">Choose your files above, or try an example.
+        <pre id="human-output" role="tabpanel" aria-labelledby="human-tab" tabindex="0">Choose your files above, or try an example.
 
 The original enables --against: checks for what an edit lost,
 even when the resulting document is structurally valid.</pre>
-      <pre id="json-output" role="tabpanel" aria-labelledby="json-tab" tabindex="0" hidden>{}</pre>
+        <pre id="json-output" role="tabpanel" aria-labelledby="json-tab" tabindex="0" hidden>{}</pre>
+      </div>
+      <p class="fineprint">This is a checker, not an Office renderer. In the browser, Calibri is measured with Carlito, Cambria with Caladea, and Arial, Times New Roman and Courier New with Liberation Sans, Serif and Mono. Substituted measurements are reported as estimates. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/tree/main/demo#readme">What runs where</a></p>
     </section>
+
+    <section class="two" aria-labelledby="two-title">
+      <div class="section-head">
+        <h2 id="two-title">Two questions, because one is not enough</h2>
+        <p>A document stripped of every style, footnote and revision is perfectly self-consistent. The checker asks both, and you usually want both.</p>
+      </div>
+      <div class="two-grid">
+        <div class="q">
+          <h3>Did this file survive editing?</h3>
+          <p>Every comment anchor, footnote reference, style, numbering definition, relationship and tracked change still points at something that exists.</p>
+          <pre class="cmd">ooxml-integrity check report.docx</pre>
+        </div>
+        <div class="q">
+          <h3>What did the edit lose?</h3>
+          <p>Compared against the source, by construct count and by text. This is the half nothing else answers, and where the defects that leave a clean-looking file live.</p>
+          <pre class="cmd">ooxml-integrity check edited.docx --against original.docx</pre>
+        </div>
+      </div>
+      <pre class="output"><span class="err">[ERROR]</span> CMT005  comment id=1 is orphaned - present in comments.xml but
+                anchored to nothing - the reviewer's note is invisible in Word
+<span class="err">[ERROR]</span> FID001  comment anchors: 2 -> 1 (1 lost)</pre>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <div class="section-head">
+        <h2 id="matrix-title">What each approach catches</h2>
+        <p>Six defects an agent actually introduced, two clean edits as controls. <em>Missed</em> means the tool reported no problem. Rendering to PDF and inspecting the pages is the current state of the art for agent output — and none of these defects are visible in a picture.</p>
+      </div>
+      <table class="detectors">
+        <thead>
+          <tr><th scope="col">Edit</th><th scope="col">Well-formed</th><th scope="col">Schema</th><th scope="col">Render</th><th scope="col">This checker</th></tr>
+        </thead>
+        <tbody>
+          <tr class="control"><td><code>python-docx</code> open and save, no edit</td><td>clean</td><td>clean</td><td>clean</td><td>clean</td></tr>
+          <tr><td><code>python-docx</code> <code>paragraph.text = …</code></td><td>missed</td><td>missed</td><td>missed</td><td class="hit">2 found · 5 losses</td></tr>
+          <tr class="control"><td>LLM edits a value in raw XML</td><td>clean</td><td>clean</td><td>clean</td><td>clean</td></tr>
+          <tr><td>LLM clones a block for one more clause</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">1 found · 3 losses</td></tr>
+          <tr><td>LLM reformats the XML</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">5 found</td></tr>
+          <tr><td>LLM deletes a paragraph holding a footnote</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">1 found · 3 losses</td></tr>
+          <tr><td>LLM renames a style, leaves references dangling</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">4 found</td></tr>
+          <tr><td>Round-trip through markdown</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">12 losses</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Eight real agent runs were also done, with tooling choice as the only variable. Six careful runs produced zero defects and refused <code>python-docx</code> on their own — at 67–86k tokens per two-line edit. The two fast runs each orphaned the reviewer's comment. The honest claim is not that agents corrupt documents; it is that the variance between pipelines is total and nothing downstream can tell which one you got. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#real-agent-runs-including-the-result-that-went-against-me">The runs, including the result that went against me</a></p>
+    </section>
+
+    <section class="decks" aria-labelledby="decks-title">
+      <div class="section-head">
+        <h2 id="decks-title">Decks: does the text fit the box?</h2>
+        <p>The check <a href="https://github.com/scanny/python-pptx/issues/973">python-pptx has declined for a decade</a>, because it needs text measurement. Widths come from the font's own <code>hmtx</code> table via fontTools; nothing is rasterised. The effective font size is resolved the way PowerPoint does it — run, paragraph, list style, layout and master placeholders, presentation defaults, theme.</p>
+      </div>
+      <pre class="output"><span class="err">[ERROR]</span> PPT001  text needs 144pt in a 40pt box - 104pt too tall (260% over), 3 line(s)
+          -> slide1/OVER_huge_type_tiny_box
+<span class="warn">[WARN ]</span> PPT006  overlaps 'OVERLAP_upper_right' over 23% of the smaller shape
+          -> slide3/OVERLAP_lower_left
+<span class="info">[INFO ]</span> PPT007  Segoe UI is not installed and has no known substitute; measured
+                with DejaVu Sans - widths are a guess. 1 shape(s) affected</pre>
+      <dl class="evidence">
+        <div><dt>21 of 21</dt><dd>shapes agreed with real PowerPoint, line count exact on every one</dd></div>
+        <div><dt>1.2 × size</dt><dd>DrawingML line pitch is a flat constant, not the font's metrics — measured across six faces</dd></div>
+        <div><dt>0.26–0.58 %</dt><dd>how much wider Carlito runs than Calibri, so substitution errs toward reporting overflow, not missing it</dd></div>
+        <div><dt>borderline</dt><dd>when PowerPoint and LibreOffice lay out the same shape differently, the finding says so instead of picking a side</dd></div>
+      </dl>
+    </section>
+
+    <section id="install" class="install" aria-labelledby="install-title">
+      <div class="section-head">
+        <h2 id="install-title">Put it after the step that edits documents</h2>
+        <p>A generation script, an agent, a template merge — that is where these defects come from, and the only place they are still cheap to find. Two dependencies, Python 3.9+, no model calls, no network.</p>
+      </div>
+      <div class="install-grid">
+        <div>
+          <h3>Command line</h3>
+          <pre class="cmd">pip install ooxml-integrity
+ooxml-integrity check out/*.docx --against templates/master.docx
+ooxml-integrity check deck.pptx --coverage</pre>
+          <p>Exit <code>0</code> clean, <code>1</code> findings at or above <code>--fail-on</code>, <code>2</code> usage error. <code>--json</code> for machines.</p>
+        </div>
+        <div>
+          <h3>GitHub Action</h3>
+          <pre class="cmd">- uses: Dmitry-Kov/ooxml-integrity@v0.4.0
+  with:
+    files: "out/**/*.docx"
+    against: templates/master.docx
+    fail-on: error
+    sarif: ooxml-integrity.sarif</pre>
+          <p>SARIF puts findings in the pull request. Severity overrides, path-scoped ignores with a required reason, and counted baselines for repositories that already have findings.</p>
+        </div>
+        <div>
+          <h3>Python</h3>
+          <pre class="cmd">from ooxml_integrity import check, compare
+
+for f in compare("original.docx", "edited.docx"):
+    print(f.code, f.severity.value, f.message)</pre>
+          <p>Stable rule codes, safe to grep for and safe to suppress. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md">Support matrix</a>, <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md">configuration</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="limits" aria-labelledby="limits-title">
+      <div class="section-head">
+        <h2 id="limits-title">What it does not do</h2>
+      </div>
+      <ul>
+        <li>The evidence is synthetic: 50 sources and 220 labelled pairs across five producers, including files really saved by Word for Windows, Mac and Online. 100 % error-level precision applies to the 14 measured rules on that corpus, not to your documents.</li>
+        <li>Eight agent runs is a small sample, on one document, on one day.</li>
+        <li>Deck layout is validated against PowerPoint for Mac in the editing view. No GPOS kerning or shaping, so complex scripts are estimates. Groups, rotation, tables, SmartArt and charts are reported as unsupported, not approximated.</li>
+        <li>It is not a schema validator, not a malware scanner, not a visual diff. A clean result names what it checked; a result with a gap says <em>no findings in checked surfaces</em>, not <em>clean</em>.</li>
+      </ul>
+      <p class="ask">The next step is a public benchmark of docx editing tools and agent harnesses on a real corpus. If your agents edit Office files that a person then reviews, I would like to hear what breaks for you. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/issues">Open an issue</a></p>
+    </section>
+
     <footer>
-      <p>This is a checker, not an Office renderer. Calibri → Carlito; Cambria → Caladea; Arial / Times New Roman / Courier New → Liberation Sans / Serif / Mono. Substituted text measurements are estimates, not a guarantee of identical layout.</p>
-      <div><span id="version">Real Python. Local WebAssembly.</span><a href="https://github.com/Dmitry-Kov/ooxml-integrity/tree/main/demo#readme">How it works &amp; limitations ↗</a></div>
+      <div><span id="version">Real Python. Local WebAssembly.</span><span>MIT · <a href="https://pypi.org/project/ooxml-integrity/">PyPI</a> · <a href="https://github.com/Dmitry-Kov/ooxml-integrity">GitHub</a> · <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md">Research notes</a></span></div>
     </footer>
     <noscript><p class="error">JavaScript is required to run Python locally. No files are sent to a server.</p></noscript>
   </main>
