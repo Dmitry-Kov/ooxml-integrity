@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "corpus": "docx-beta-synthetic-v1",
-  "checker_version": "0.3.1",
+  "checker_version": "0.4.0",
   "sources": 50,
   "pairs": 220,
   "clean_pairs": 120,

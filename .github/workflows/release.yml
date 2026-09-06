@@ -1,0 +1,181 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and verify distributions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Require a matching release tag and green source CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, os, re, subprocess, tomllib
+          from pathlib import Path
+          tag = os.environ["GITHUB_REF_NAME"]
+          assert os.environ["GITHUB_REF_TYPE"] == "tag", "dispatch against a release tag, not a branch"
+          assert re.fullmatch(r"v\d+\.\d+\.\d+", tag), tag
+          version = tomllib.loads(Path("pyproject.toml").read_text())["project"]["version"]
+          assert tag == "v" + version, (tag, version)
+          assert Path(f"docs/releases/{version}.md").is_file(), "release notes are missing"
+          runs = json.loads(subprocess.check_output([
+              "gh", "run", "list", "--workflow", "ci.yml", "--commit", os.environ["GITHUB_SHA"],
+              "--event", "push", "--limit", "10", "--json", "conclusion"], text=True))
+          assert any(r["conclusion"] == "success" for r in runs), "source commit needs a successful complete CI run"
+          PY
+      - name: Build wheel from sdist and validate metadata
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+          python -m twine check --strict dist/*
+      - name: Install and exercise both distributions in fresh environments
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          python -m venv "$RUNNER_TEMP/release-wheel"
+          "$RUNNER_TEMP/release-wheel/bin/python" -m pip install "dist/ooxml_integrity-${version}-py3-none-any.whl"
+          "$RUNNER_TEMP/release-wheel/bin/python" research/release_smoke.py --version "$version"
+          python -m venv "$RUNNER_TEMP/release-sdist"
+          "$RUNNER_TEMP/release-sdist/bin/python" -m pip install "dist/ooxml_integrity-${version}.tar.gz"
+          "$RUNNER_TEMP/release-sdist/bin/python" research/release_smoke.py --version "$version"
+          sha256sum dist/* > SHA256SUMS
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: python-package
+          path: |
+            dist/*
+            SHA256SUMS
+          if-no-files-found: error
+
+  pinned-action:
+    name: Verify the published Action ref
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Deliberately the public tag, with neither a source nor a version override.
+      # Update these pins when preparing the next release.
+      - name: Clean input via pinned Action
+        id: clean
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.0
+        with:
+          files: corpus/base.docx
+          config: none
+          fail-on: info
+      - name: Findings, JSON and SARIF via pinned Action
+        id: findings
+        continue-on-error: true
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.0
+        with:
+          files: runs/t4_fast_fee/agreement.docx
+          against: corpus/base.docx
+          config: none
+          json-report: release-check.json
+          sarif: release-check.sarif
+      - name: Usage error via pinned Action
+        id: usage
+        continue-on-error: true
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.0
+        with:
+          files: corpus/base.docx
+          config: none
+          fail-on: not-a-severity
+      - name: Verify outcomes and create baseline using the pinned installation
+        env:
+          CLEAN_EXIT: ${{ steps.clean.outputs.exit-code }}
+          FINDINGS_EXIT: ${{ steps.findings.outputs.exit-code }}
+          USAGE_EXIT: ${{ steps.usage.outputs.exit-code }}
+        run: |
+          python - <<'PY'
+          import json, os
+          import ooxml_integrity
+          from pathlib import Path
+          assert os.environ["CLEAN_EXIT"] == "0"
+          assert os.environ["FINDINGS_EXIT"] == "1"
+          assert os.environ["USAGE_EXIT"] == "2"
+          version = os.environ["GITHUB_REF_NAME"][1:]
+          assert ooxml_integrity.__version__ == version
+          report = json.loads(Path("release-check.json").read_text())
+          assert report["version"] == version
+          assert {"CMT005", "FID001"} <= {f["code"] for f in report["files"][0]["findings"]}
+          sarif = json.loads(Path("release-check.sarif").read_text())
+          assert sarif["version"] == "2.1.0"
+          assert sarif["runs"][0]["tool"]["driver"]["version"] == version
+          assert {"CMT005", "FID001"} <= {f["ruleId"] for f in sarif["runs"][0]["results"]}
+          PY
+          python -m ooxml_integrity check runs/t4_fast_fee/agreement.docx --against corpus/base.docx \
+            --no-config --write-baseline release-baseline.json
+      - name: Baseline via pinned Action
+        id: baseline
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.0
+        with:
+          files: runs/t4_fast_fee/agreement.docx
+          against: corpus/base.docx
+          config: none
+          baseline: release-baseline.json
+      - name: Verify baseline result
+        env:
+          BASELINE_EXIT: ${{ steps.baseline.outputs.exit-code }}
+        run: test "$BASELINE_EXIT" = "0"
+
+  pypi:
+    name: Publish to PyPI
+    needs: [build, pinned-action]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/ooxml-integrity/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: python-package
+      - run: sha256sum --check SHA256SUMS
+      - name: Publish verified distributions with attestations
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+
+  github-release:
+    name: Create GitHub Release
+    needs: [pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: python-package
+      - name: Publish release notes, exact distributions and checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha256sum --check SHA256SUMS
+          version="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" --verify-tag --title "ooxml-integrity $version" \
+            --notes-file "docs/releases/$version.md" \
+            "dist/ooxml_integrity-${version}-py3-none-any.whl" \
+            "dist/ooxml_integrity-${version}.tar.gz" SHA256SUMS

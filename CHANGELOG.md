@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.4.0 — 2026-09-06
+
+Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md).
+
 ### Added
 - A versioned DOCX beta evidence tranche with 50 synthetic source documents and
   220 exactly labelled source/output pairs. Ten sources each were created or
@@ -12,8 +16,7 @@
   makes all 120 clean controls permanent false-positive regressions. External
   documents, other builds/web sessions, independently supplied generators and
   independent dual human review remain explicit evidence gaps. The original
-  corpus records and bytes are preserved; no product version is bumped for
-  this evidence addition.
+  corpus records and bytes are preserved.
 - `check --coverage` adds a versioned per-file coverage inventory to JSON and a
   concise human summary. `--coverage-details` expands it to every surface.
   Stable identifiers distinguish checks that ran, absent surfaces, estimates,

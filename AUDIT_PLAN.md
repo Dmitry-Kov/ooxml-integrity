@@ -1,8 +1,8 @@
 # Audit and implementation plan
 
 - Status: working plan, 2026-09-03
-- Current source version: `0.3.1`
-- Recommended next release: `0.4.0` (the baseline v2 change is intentionally
+- Current source version: `0.4.0`
+- Current release target: `0.4.0` (the baseline v2 change is intentionally
   breaking)
 
 This document turns the current audit into an ordered implementation and

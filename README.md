@@ -3,7 +3,7 @@
 [![CI](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml/badge.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/)
 [![Python](https://img.shields.io/pypi/pyversions/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/LICENSE)
 
 Preflight for machine-edited `.docx` and `.pptx`. Catches what Word,
 LibreOffice and every schema validator accept without complaint: a reviewer's
@@ -53,7 +53,7 @@ render-to-PDF-and-look each caught **0 of 6**. This checker caught 6 of 6 with
 zero false positives across eight real agent runs.
 
 Full experiment, agent transcripts, renderer calibration and every limitation:
-**[docs/research.md](docs/research.md)**.
+**[docs/research.md](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/research.md)**.
 
 ## Two questions
 
@@ -107,12 +107,12 @@ Validated against real PowerPoint: 21 of 21 shapes got the predicted verdict
 with the line count exact on every one. Where renderers disagree with each
 other (they do, at the margin), the finding is `PPT002 borderline`, not
 overflow. When a font is missing, the tool says so (`PPT007`) instead of
-guessing quietly. [How it was validated](docs/powerpoint-validation.md).
+guessing quietly. [How it was validated](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/powerpoint-validation.md).
 
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.3.1
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.0
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -127,7 +127,7 @@ The action writes a summary to the job page, can emit a JSON report and can
 produce SARIF so findings land in the pull request as code-scanning
 annotations. Severity overrides, path-scoped ignores with a required `reason`,
 and counted baselines for adopting the checker in a repository that already has
-findings: **[docs/configuration.md](docs/configuration.md)**.
+findings: **[docs/configuration.md](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/configuration.md)**.
 
 ## From Python
 
@@ -189,8 +189,8 @@ distinguishes `checked`, `not-present`, `estimated`, `skipped` and
 `unsupported` surfaces per file, and a result with a gap says
 `no findings in checked surfaces`, not `clean`. `ooxml-integrity doctor`
 reports what the machine can and cannot measure before you run a deck through
-it. Exact boundaries: [support matrix](docs/support-matrix.md),
-[coverage and doctor](docs/coverage.md).
+it. Exact boundaries: [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/support-matrix.md),
+[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/coverage.md).
 
 ## Limitations
 
@@ -207,7 +207,7 @@ it. Exact boundaries: [support matrix](docs/support-matrix.md),
 - Only the Carlito/Calibri metric-compatible pairing has been measured.
 
 The full list, with the numbers behind each, is in
-[docs/research.md](docs/research.md#limitations).
+[docs/research.md](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/research.md#limitations).
 
 ## Where this is going
 

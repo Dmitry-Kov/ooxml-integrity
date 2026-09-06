@@ -51,6 +51,8 @@ those would go stale the first time anything moved by a point.
 The baseline format is versioned. If a newer checker refuses an older baseline,
 regenerate it with the same check command and `--write-baseline`; legacy formats
 are not accepted when their fingerprints could hide a different new finding.
+Version 0.4.0 rejects baseline v1 and writes v2. Review current findings before
+regenerating: [0.4.0 migration instructions](releases/0.4.0.md#breaking-change-baseline-v2).
 
 `--show-suppressed` prints what was hidden and why. A full worked config is in
 [`docs/example-config.toml`](example-config.toml).
@@ -58,7 +60,7 @@ are not accepted when their fingerprints could hide a different new finding.
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.3.1
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.0
   id: docs
   continue-on-error: true
   with:
@@ -93,4 +95,3 @@ The same limits cover `check()`, `check_pptx()`, and both files read by
 `ArchiveLimits` object in the Python API. See [archive resource limits](archive-limits.md)
 for the exact order of checks, configuration keys, and reproducible memory/time
 measurements.
-
