@@ -61,7 +61,7 @@ jobs:
       # The second assertion is the sharper one. Some fallback face is almost
       # always available, so `measurement_available` alone would pass on a
       # runner where Calibri quietly resolved to Helvetica and every width was
-      # wrong. Requiring an exact or metric-compatible match for the two faces
+      # wrong. Requiring an exact or metric-compatible match for the faces
       # the fixtures use turns "the fonts did not install" into that sentence,
       # instead of an unexplained count mismatch three steps later.
       - name: Text measurement works on this runner
@@ -72,10 +72,10 @@ jobs:
           ok, detail = measurement_available()
           print('measurement available:', ok, '|', detail)
           bad = []
-          for fam in ['Calibri', 'Arial', 'Cambria', 'Times New Roman', 'Segoe UI']:
+          for fam in ['Calibri', 'Arial', 'Cambria', 'Times New Roman', 'Courier New', 'Segoe UI']:
               f = resolve_face(fam)
               print(f'  {fam:16} -> {f.family:24} [{f.match}]')
-              if fam in ('Calibri', 'Cambria') and f.match not in ('exact', 'metric'):
+              if fam != 'Segoe UI' and f.match not in ('exact', 'metric'):
                   bad.append(f'{fam} resolved to {f.family} [{f.match}]')
           if not ok:
               print('::error::no usable fonts on this runner')

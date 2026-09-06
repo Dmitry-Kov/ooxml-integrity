@@ -34,10 +34,6 @@ UNAVAILABLE_CHECKS = (
         "reason": "the complete PPTX OPC relationship graph is not validated",
     },
     {
-        "id": "pptx.slide-order",
-        "reason": "presentation relationship order is not used for slide numbering",
-    },
-    {
         "id": "pptx.grouped-shapes",
         "reason": "group transforms are not composed",
     },

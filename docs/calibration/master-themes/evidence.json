@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-06",
+  "renderer": "Microsoft PowerPoint for Mac 16.112.3, macOS Apple Silicon",
+  "fixture": "corpus/pptx-master-themes.pptx",
+  "fixture_sha256": "90f7a5281037910a97bbc4c2fb95cd1a5e44dcb476cd1c020a2619f95751fac5",
+  "method": "Opened the exact final fixture through the native UI without a repair prompt, editing or resaving. File > Export > PNG > Save Every Slide, 960 x 540. All eight PNGs inspected individually at full size. The blue outline is the native text box; slides 2, 5 and 8 visibly overrun its right edge; slides 1, 3, 4, 6 and 7 fit.",
+  "origin": "Synthetic native text boxes authored with @oai/artifact-tool. Added a second master/layout chain, separate related themes outside ppt/theme, major/minor tokens, and inherited presentation text defaults by editing OOXML. Structural, geometry, font-policy and first-party import validation passed on the final bytes before opening in PowerPoint.",
+  "licence": "Project MIT licence for synthetic fixture and renders; no font binaries or third-party document content included.",
+  "scope": "Latin major/minor theme faces on two owning masters, one Mac Office build. Broken chains, inheritance variations and themeOverride rejection have synthetic unit regressions, not additional Office observations. No complex-script shaping, fontRef selection, full themeOverride, Strict PresentationML or Windows/web rendering claim.",
+  "box": {
+    "width_pt": 180,
+    "height_pt": 60,
+    "text_size_pt": 24,
+    "wrap": false,
+    "autofit": "none",
+    "insets_pt": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "label": "Separate literal Calibri 30pt text above each test box.",
+  "themes": {
+    "A": {
+      "layout": "ppt/slideLayouts/slideLayout1.xml",
+      "master": "ppt/slideMasters/slideMaster1.xml",
+      "theme": "ppt/master-themes/a.xml",
+      "major": "Courier New",
+      "minor": "Arial"
+    },
+    "B": {
+      "layout": "ppt/slideLayouts/layout-b.xml",
+      "master": "ppt/slideMasters/master-b.xml",
+      "theme": "ppt/master-themes/b.xml",
+      "major": "Times New Roman",
+      "minor": "Courier New"
+    }
+  },
+  "decoy_theme": "ppt/theme/theme1.xml: both Latin faces Arial; not either slide master's theme",
+  "before_commit": "d1865a80b07f0243ac1afd4a80142a6b294d4e28",
+  "before_findings": [
+    [
+      "PPT003",
+      "ERROR",
+      "slide3/FIT_B_wide"
+    ]
+  ],
+  "before_false_negatives": 3,
+  "before_false_positives": 1,
+  "measurement_note": "Checker advances below are font-table calculations on the evidence host, not pixel-derived Office measurements. Metric-compatible clones may differ slightly on CI.",
+  "fonts": [
+    {
+      "requested": "Arial",
+      "resolved_family": "Arial",
+      "match": "exact",
+      "file_name": "arial.ttf",
+      "face_index": 0,
+      "file_sha256": "15663c7e8495594c6136eb51b11983eb8f5bbcdd07bb2c327e0d1e83415b0f06"
+    },
+    {
+      "requested": "Courier New",
+      "resolved_family": "Courier New",
+      "match": "exact",
+      "file_name": "Courier New.ttf",
+      "face_index": 0,
+      "file_sha256": "c886ca3172d8ce9189976992d145ec090500a4ff516ecb9d4df56b1a78336247"
+    },
+    {
+      "requested": "Times New Roman",
+      "resolved_family": "Times New Roman",
+      "match": "exact",
+      "file_name": "times.ttf",
+      "face_index": 0,
+      "file_sha256": "e77f429f5cde743c30216c2d5917706d09ddd938990f4f5ae98bfd4b5c7d0495"
+    },
+    {
+      "requested": "Calibri",
+      "resolved_family": "Calibri",
+      "match": "exact",
+      "file_name": "Calibri.ttf",
+      "face_index": 0,
+      "file_sha256": "ea801e1f869b55464339058b1d4263d07cc074a18e20aa3ee1d07901423dee53"
+    }
+  ],
+  "cases": [
+    {
+      "slide": 1,
+      "part": "ppt/slides/slide1.xml",
+      "shape": "FIT_A_minor",
+      "label": "Master A body",
+      "master": "A",
+      "font_declaration": "+mn-lt",
+      "resolved_family": "Arial",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 106.640625,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/master-themes/Slide1.png",
+      "render_sha256": "b7aec56c091ad6cdadc160556ba8e2e2851fedd9cc31cad0dccb36ae05689f87"
+    },
+    {
+      "slide": 2,
+      "part": "ppt/slides/slide2.xml",
+      "shape": "OVER_B_minor",
+      "label": "Master B body",
+      "master": "B",
+      "font_declaration": "+mn-lt",
+      "resolved_family": "Courier New",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 288.046875,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/master-themes/Slide2.png",
+      "render_sha256": "b62b660a276134119e895860a0edc91f711bcbc8c86132859e3782dbea4d3bce"
+    },
+    {
+      "slide": 3,
+      "part": "ppt/slides/slide3.xml",
+      "shape": "FIT_B_wide",
+      "label": "Master B wide letters",
+      "master": "B",
+      "font_declaration": "+mn-lt",
+      "resolved_family": "Courier New",
+      "text": "WWWWWWWWWW",
+      "checker_advance_pt": 144.0234375,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/master-themes/Slide3.png",
+      "render_sha256": "0581119bf50805bc54350ff6084d7306872f47336b9341ef4af2a563d674076a"
+    },
+    {
+      "slide": 4,
+      "part": "ppt/slides/slide4.xml",
+      "shape": "FIT_B_major",
+      "label": "Master B heading",
+      "master": "B",
+      "font_declaration": "+mj-lt",
+      "resolved_family": "Times New Roman",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 133.359375,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/master-themes/Slide4.png",
+      "render_sha256": "027500690de25c0f1788af9eff9622e26922126ec6358d508a58ac28042a8208"
+    },
+    {
+      "slide": 5,
+      "part": "ppt/slides/slide5.xml",
+      "shape": "OVER_A_major",
+      "label": "Master A heading",
+      "master": "A",
+      "font_declaration": "+mj-lt",
+      "resolved_family": "Courier New",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 288.046875,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/master-themes/Slide5.png",
+      "render_sha256": "e90cda75c72f8b4d84a0bada68b3ba788c1520e3d203c6a8a1770f8604516870"
+    },
+    {
+      "slide": 6,
+      "part": "ppt/slides/slide6.xml",
+      "shape": "FIT_explicit",
+      "label": "Explicit Arial on master B",
+      "master": "B",
+      "font_declaration": "Arial",
+      "resolved_family": "Arial",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 106.640625,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/master-themes/Slide6.png",
+      "render_sha256": "776ab9184b480426c4f62993ca453c3fbb1a86b1ff5d4505a771fe4b17ca4dfa"
+    },
+    {
+      "slide": 7,
+      "part": "ppt/slides/slide7.xml",
+      "shape": "FIT_A_again",
+      "label": "Master A body again",
+      "master": "A",
+      "font_declaration": "+mn-lt",
+      "resolved_family": "Arial",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 106.640625,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/master-themes/Slide7.png",
+      "render_sha256": "74c906fde030dc5d4f6f4995f1bca1781ef65d5ec1cf9bea683119c166f9af68"
+    },
+    {
+      "slide": 8,
+      "part": "ppt/slides/slide8.xml",
+      "shape": "OVER_B_inherited",
+      "label": "Inherited body font on master B",
+      "master": "B",
+      "font_declaration": "inherited +mn-lt from presentation defaults",
+      "resolved_family": "Courier New",
+      "text": "iiiiiiiiiiiiiiiiiiii",
+      "checker_advance_pt": 288.046875,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/master-themes/Slide8.png",
+      "render_sha256": "0575659a80a2a1f0212bf21406c339dbe612143a69d514ad1d5ec2b2785afa10"
+    }
+  ]
+}

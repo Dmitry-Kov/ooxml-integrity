@@ -318,7 +318,12 @@ autofit and overflow need text measurement, and text measurement needs the
 *effective* font size, which is almost never written on the run itself. It has
 to be resolved through the run, the paragraph, the shape's list style, the
 layout placeholder, the master placeholder, the master's text styles, the
-presentation defaults and finally the theme's font scheme.
+presentation defaults and finally the owning slide master's font scheme.
+Major/minor theme faces follow the slide → layout → master → theme relationships;
+different masters can use different fonts. Literal font names keep precedence.
+Unresolvable required themes and unsupported font-scheme overrides fail closed
+with `PKG002`, without borrowing another master's face.
+[Master-theme scope and eight native PowerPoint observations](docs/pptx-master-themes.md).
 
 Widths come from the font's own `hmtx`/`cmap` tables via `fontTools`. Nothing is
 rendered or rasterised. Static TTC/OTC collections retain the selected member

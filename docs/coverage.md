@@ -100,6 +100,14 @@ used as a fallback. A broken listed relationship or slide aborts reading with
 This does not validate the complete PPTX package graph. See the
 [slide-order contract and Office evidence](pptx-slide-order.md).
 
+Font metrics and overflow use families resolved from each slide's owning master
+theme. A required theme chain or Latin face that cannot be resolved, or a
+slide/layout font-scheme override outside the model, aborts reading with
+`PKG002` and a skipped inventory. It is not a clean layout result. Literal-font
+text does not require unused theme dependencies. Successful theme resolution
+does not upgrade font substitution or shaping confidence. See the
+[master-theme contract and native Office evidence](pptx-master-themes.md).
+
 These identifiers and status spellings are machine-facing contracts. New
 identifiers may be added; incompatible meaning or schema changes require a new
 `schema_version` and release notes.

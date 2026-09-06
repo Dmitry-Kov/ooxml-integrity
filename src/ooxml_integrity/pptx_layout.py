@@ -149,6 +149,8 @@ class Deck:
     shapes: list[Shape]
     theme_fonts: dict[str, str]
     features: dict[str, int] = field(default_factory=dict)
+    #: Themes actually used to resolve text, indexed by presentation position.
+    slide_theme_fonts: dict[int, dict[str, str]] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------- xml helpers
@@ -209,12 +211,56 @@ class _Package:
             if rel.get("TargetMode") == "External":
                 continue
             target = rel.get("Target") or ""
-            resolved = f"{d}/{target}" if d else target
-            resolved = re.sub(r"/\./", "/", resolved)
-            while "/../" in resolved:
-                resolved = re.sub(r"[^/]+/\.\./", "", resolved, count=1)
-            out[rel.get("Id")] = resolved.lstrip("/")
+            # Bounded normalization also handles package-absolute paths.
+            # Repeated regex stripping could loop on targets above the root.
+            uri = urlsplit(target)
+            if uri.scheme or uri.netloc or "\\" in target:
+                continue
+            joined = uri.path.lstrip("/") if uri.path.startswith("/") else posixpath.join(d, uri.path)
+            resolved = posixpath.normpath(joined)
+            if resolved == ".." or resolved.startswith("../"):
+                continue
+            decoded = unquote(resolved)
+            out[rel.get("Id")] = resolved if resolved in self.parts else decoded
         return out
+
+    def required_related(self, part: str, rel_suffix: str, root_tag: str) -> str:
+        """Resolve one dependency without borrowing a different owner's part."""
+        d, _, base = part.rpartition("/")
+        relname = f"{d}/_rels/{base}.rels" if d else f"_rels/{base}.rels"
+        t = self.tree(relname)
+
+        def invalid(reason):
+            raise PackageIssue("PKG002", f"cannot resolve theme dependency {rel_suffix} "
+                               f"from {part}: {reason}", part=relname)
+
+        if t is None or t.tag != f"{{{REL}}}Relationships":
+            invalid("missing or unreadable relationships")
+        matches = [r for r in t.findall(f"{{{REL}}}Relationship")
+                   if r.get("Type") == R + rel_suffix]
+        if len(matches) != 1:
+            invalid("expected one internal relationship")
+        rel = matches[0]
+        rid = rel.get("Id")
+        if not rid or sum(r.get("Id") == rid for r in t) != 1:
+            invalid("missing or ambiguous relationship id")
+        target = rel.get("Target", "")
+        uri = urlsplit(target)
+        if (rel.get("TargetMode", "Internal") != "Internal" or not uri.path
+                or uri.scheme or uri.netloc or uri.query or uri.fragment
+                or "\\" in target or any(ord(c) < 32 for c in target)):
+            invalid("invalid or external target")
+        resolved = self.rels(part).get(rid)
+        tree = self.tree(resolved) if resolved else None
+        if tree is None or tree.tag != root_tag:
+            invalid("missing, unreadable or unsupported target root")
+        return resolved
+
+    def has_relationship(self, part: str, rel_suffix: str) -> bool:
+        d, _, base = part.rpartition("/")
+        t = self.tree(f"{d}/_rels/{base}.rels" if d else f"_rels/{base}.rels")
+        return t is not None and any(r.get("Type") == R + rel_suffix
+                                    for r in t.findall(f"{{{REL}}}Relationship"))
 
     def related(self, part: str, rel_suffix: str) -> str | None:
         d, _, base = part.rpartition("/")
@@ -248,36 +294,46 @@ class DeckReader:
         self.pres_default_style = (
             pres.find(_p("defaultTextStyle")) if pres is not None else None
         )
-        self.theme_fonts = self._theme_fonts()
+        self._slide_themes: dict[str, dict[str, str]] = {}
+        self._theme_parts: dict[str, dict[str, str]] = {}
 
     # ------------------------------------------------------------------ theme
-    def _theme_fonts(self) -> dict[str, str]:
-        """+mj-lt / +mn-lt from the first theme, which is what shapes reference."""
-        out = {"major": "Calibri Light", "minor": "Calibri"}
-        theme_part = next(
-            (n for n in self.pkg.parts if n.startswith("ppt/theme/theme")), None
-        )
-        t = self.pkg.tree(theme_part) if theme_part else None
-        if t is None:
-            return out
-        scheme = t.find(f'.//{_a("fontScheme")}')
-        if scheme is None:
-            return out
-        for key, tag in (("major", "majorFont"), ("minor", "minorFont")):
-            node = scheme.find(_a(tag))
-            latin = node.find(_a("latin")) if node is not None else None
-            if latin is not None and latin.get("typeface"):
-                out[key] = latin.get("typeface")
-        return out
+    def _theme_fonts(self, slide_part: str) -> dict[str, str]:
+        """Resolve the owning master's Latin theme only when a run needs it."""
+        if slide_part in self._slide_themes:
+            return self._slide_themes[slide_part]
+        layout = self.pkg.required_related(slide_part, "/slideLayout", _p("sldLayout"))
+        master = self.pkg.required_related(layout, "/slideMaster", _p("sldMaster"))
+        theme = self.pkg.required_related(master, "/theme", _a("theme"))
+        for owner in (layout, slide_part):
+            if self.pkg.has_relationship(owner, "/themeOverride"):
+                override = self.pkg.required_related(owner, "/themeOverride", _a("themeOverride"))
+                if self.pkg.tree(override).find(_a("fontScheme")) is not None:
+                    raise PackageIssue(
+                        "PKG002", "themeOverride font schemes are outside the supported "
+                        "master-theme model; themed text was NOT measured", part=override)
+        if theme not in self._theme_parts:
+            out: dict[str, str] = {}
+            scheme = self.pkg.tree(theme).find(f'{_a("themeElements")}/{_a("fontScheme")}')
+            if scheme is not None:
+                for key, tag in (("major", "majorFont"), ("minor", "minorFont")):
+                    latin = scheme.find(f'{_a(tag)}/{_a("latin")}')
+                    name = latin.get("typeface", "").strip() if latin is not None else ""
+                    if name and not name.startswith("+"):
+                        out[key] = name
+            self._theme_parts[theme] = out
+        self._slide_themes[slide_part] = self._theme_parts[theme]
+        return self._slide_themes[slide_part]
 
-    def _resolve_typeface(self, name: str | None) -> str:
-        if not name:
-            return self.theme_fonts["minor"]
-        if name in ("+mn-lt", "+mn-ea", "+mn-cs"):
-            return self.theme_fonts["minor"]
-        if name in ("+mj-lt", "+mj-ea", "+mj-cs"):
-            return self.theme_fonts["major"]
-        return name
+    def _resolve_typeface(self, name: str | None, slide_part: str) -> str:
+        if name and name not in ("+mn-lt", "+mn-ea", "+mn-cs", "+mj-lt", "+mj-ea", "+mj-cs"):
+            return name  # an explicit font does not depend on a theme
+        key = "major" if name and name.startswith("+mj-") else "minor"
+        fonts = self._theme_fonts(slide_part)
+        if key not in fonts:
+            raise PackageIssue("PKG002", f"cannot resolve {key} Latin theme font for "
+                               f"{slide_part}; text was NOT measured", part=slide_part)
+        return fonts[key]
 
     # ------------------------------------------------------- style hierarchy
     @staticmethod
@@ -320,7 +376,8 @@ class DeckReader:
         chain.append(self.pres_default_style)
         return [c for c in chain if c is not None]
 
-    def _effective_run_props(self, rpr, ppr, txbody_lst, style_chain, level: int):
+    def _effective_run_props(self, rpr, ppr, txbody_lst, style_chain, level: int,
+                             slide_part: str):
         """Walk the chain for size, family, bold, italic - first hit wins."""
         candidates = []
         if rpr is not None:
@@ -351,7 +408,7 @@ class DeckReader:
                 break
         return (
             size_pt if size_pt is not None else DEFAULT_SIZE_PT,
-            self._resolve_typeface(typeface),
+            self._resolve_typeface(typeface, slide_part),
             bool(bold), bool(italic),
         )
 
@@ -612,12 +669,13 @@ class DeckReader:
                                 text = t_el.text or "" if t_el is not None else ""
                                 size, face, bold, italic = self._effective_run_props(
                                     ar.find(_a("rPr")), ppr, txbody_lst,
-                                    style_chain, level)
+                                    style_chain, level, part)
                                 runs.append(Run(text, size, face, bold, italic))
                             elif ar.tag == _a("br"):
-                                runs.append(Run("\n", DEFAULT_SIZE_PT,
-                                                self.theme_fonts["minor"],
-                                                False, False))
+                                _, face, _, _ = self._effective_run_props(
+                                    ar.find(_a("rPr")), ppr, txbody_lst,
+                                    style_chain, level, part)
+                                runs.append(Run("\n", DEFAULT_SIZE_PT, face, False, False))
                         mult, exact, before, after = self._paragraph_spacing(
                             ppr, txbody_lst, style_chain, level)
                         latin_break = False
@@ -646,8 +704,15 @@ class DeckReader:
                     vertical_text=vertical,
                 ))
 
+        themes = {i: dict(self._slide_themes[part])
+                  for i, part in enumerate(slide_parts, 1) if part in self._slide_themes}
+        # Legacy single-theme summary: only fonts common to all resolved slides.
+        # Measurements use the per-slide maps, never this diagnostic summary.
+        common = dict(next(iter(themes.values()))) if themes else {}
+        common = {k: v for k, v in common.items()
+                  if all(fonts.get(k) == v for fonts in themes.values())}
         return Deck(self.path, self.slide_w, self.slide_h, shapes,
-                    self.theme_fonts, features)
+                    common, features, themes)
 
 
 # ------------------------------------------------------------------- layout

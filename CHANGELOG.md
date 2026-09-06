@@ -50,6 +50,15 @@
   instead of being interpolated into shell source.
 
 ### Fixed
+- PPTX major/minor Latin fonts now resolve through each slide's own layout,
+  master and theme. Literal fonts retain precedence; unrelated themes and ZIP
+  order cannot select another master's face. Missing required dependencies or
+  faces and unsupported font-scheme overrides fail closed with `PKG002` and
+  skipped coverage. Eight native PowerPoint exports pin three fixed omissions
+  and one false positive. The layout model adds per-slide theme diagnostics;
+  the legacy `Deck.theme_fonts` summary now contains only common resolved faces.
+  Font confidence and rule thresholds are unchanged. Also removed the stale
+  `doctor` claim that main slide order is unavailable.
 - PPTX layout now follows the main `p:sldIdLst` and its slide relationships,
   preserving presentation positions even with reordered, gapped or nonnumeric
   part names. Hidden slides retain their editor positions; unlisted parts no

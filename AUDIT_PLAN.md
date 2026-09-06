@@ -302,7 +302,14 @@ Implement in this order:
    false-positive and broken-reference regressions prevent silent skipping or
    renumbering. Custom shows, footer numbering, Strict/relocated presentation
    roots and complete PPTX package validation remain outside scope.
-4. Master-specific theme resolution.
+4. **Done, bounded scope (2026-09-06):** Latin major/minor faces resolve through
+   the owning slide/layout/master/theme relationships, not the first ZIP theme.
+   [Eight native PowerPoint observations](docs/pptx-master-themes.md) pin five
+   clean controls and three defects, fixing three omissions and one false
+   positive. Inheritance, owner-cache isolation and broken-chain regressions
+   prevent silent fallback. Font-scheme overrides fail closed; full overrides,
+   shape-style font references, script-specific fonts and Windows/web rendering
+   remain outside this scope.
 5. Group transforms and rotated bounds.
 6. Table text and geometry.
 7. SmartArt/chart text only after a reliable ownership and layout model exists.
