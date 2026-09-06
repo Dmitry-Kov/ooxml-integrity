@@ -12,3 +12,7 @@
 *.png  binary
 *.ttf  binary
 *.otf  binary
+
+# Preserve upstream font notices byte-for-byte, including their whitespace.
+demo/fonts/*-OFL.txt -whitespace
+demo/fonts/Liberation-AUTHORS.txt -whitespace

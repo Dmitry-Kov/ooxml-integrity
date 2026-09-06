@@ -13,6 +13,9 @@ orphaned, and deck text that does not fit its box.
 No model calls, no rendering, no network. It reads the zip and the font files,
 so it runs on documents you cannot send anywhere.
 
+[Try the browser demo](https://dmitry-kov.github.io/ooxml-integrity/) — no install;
+files stay in your tab (Python downloads once at startup).
+
 ```bash
 pip install ooxml-integrity
 ooxml-integrity check edited.docx --against original.docx
