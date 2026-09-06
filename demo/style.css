@@ -48,11 +48,12 @@ h1 { font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -.0
 .doc-table th, .doc-table td { border: 1px solid #b8b8b8; padding: 5px 8px; text-align: left; }
 .doc-table th { background: #f0eee6; font-weight: 700; }
 .doc-table td:last-child, .doc-table th:last-child { text-align: right; white-space: nowrap; }
+.doc-table td:nth-child(2) { white-space: nowrap; }
 ins { color: var(--ins); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 del { color: var(--del); text-decoration: line-through; margin-right: 3px; }
 .cmt-range { background: var(--balloon); box-shadow: 0 0 0 2px var(--balloon); position: relative; }
 .margin { position: relative; padding: 30px 14px 0 10px; background: #f9f8f3; }
-.balloon { position: relative; background: var(--balloon); border: 1px solid var(--balloon-line); border-radius: 3px; padding: 9px 10px 10px; font-size: 11.5px; line-height: 1.4; color: #3a3319; margin-top: 74px; }
+.balloon { position: relative; background: var(--balloon); border: 1px solid var(--balloon-line); border-radius: 3px; padding: 9px 10px 10px; font-size: 11.5px; line-height: 1.4; color: #3a3319; margin-top: 150px; }
 .balloon .who { display: block; font-weight: 600; font-size: 10.5px; color: #6b5a12; margin-bottom: 3px; }
 .balloon::before { content: ""; position: absolute; left: -46px; top: 14px; width: 45px; border-top: 1px dashed var(--balloon-line); }
 .balloon::after { content: ""; position: absolute; left: -12px; top: 8px; width: 5px; height: 11px; border-left: 2px solid var(--balloon-line); }
@@ -156,7 +157,7 @@ footer > div { display: flex; justify-content: space-between; gap: 12px; } foote
   main { padding: 0 18px; } header { min-height: 70px; } .brand { font-size: 14px; gap: 7px; }
   nav { gap: 14px; } nav a:nth-child(2) { display: none; }
   section { padding-top: 40px; } .hero { padding-top: 34px; } h1 br { display: none; }
-  .page { grid-template-columns: 1fr; } .margin { padding: 0 14px 14px; } .balloon { margin-top: 10px; } .balloon::before, .balloon::after { display: none; }
+  .page { grid-template-columns: 1fr; } .margin-empty { display: none; } .margin { padding: 0 14px 14px; } .balloon { margin-top: 10px; } .balloon::before, .balloon::after { display: none; }
   .doc { padding: 20px 18px; border-right: 0; border-bottom: 1px solid #eee9d8; }
   .file-grid, .two-grid { grid-template-columns: 1fr; gap: 18px; }
   .drop-zone { min-height: 120px; } .actions { gap: 12px; flex-wrap: wrap; } .coverage code { display: none; }
