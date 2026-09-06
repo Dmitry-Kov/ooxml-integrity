@@ -84,7 +84,7 @@ being checked here:
 | P0 | Release-contract risk | Baseline v2 is breaking and JSON/rule lifecycle guarantees are not formally versioned. | Publish migration notes and define compatibility rules before the next release. |
 | P1 | PPTX long-token false negative | Closed for basic Latin: PowerPoint character-wraps long words, so the missing finding was usually vertical, not horizontal. | Twelve pinned Office renders plus clean/defect/boundary regressions; other character breaking remains Estimated. |
 | P1 | TTC/OTC face selection | Closed for static member-index propagation; discovery, coverage and metrics use the same member. | Synthetic TrueType/CFF regressions and six PowerPoint TTC renders; variable instances and arbitrary weights remain outside scope. |
-| P1 | PPTX geometry scope | Groups, rotations, tables, SmartArt, master-only objects, and presentation slide order are incomplete or unsupported. | Add features only with fixtures and renderer evidence; otherwise surface them as unsupported. |
+| P1 | PPTX geometry scope | Main presentation slide order is closed within the documented Transitional scope. Groups, rotations, tables, SmartArt and master-only objects remain incomplete or unsupported. | Add features only with fixtures and renderer evidence; otherwise surface them as unsupported. |
 | P1 | Font portability | Results depend on installed or metric-compatible fonts, which complicates first-run CI. | Add a `doctor` report and a documented reproducible font setup or supported font bundle strategy. |
 | P2 | Operational maturity | Security reporting, contribution guidance, release automation, and provenance are incomplete. | Add project policies and a repeatable, reviewable release process. |
 
@@ -295,7 +295,13 @@ Implement in this order:
    cover four clean controls and two defects, fixing two omissions and one false
    positive. Named variable instances fail closed; this is not full variable-font,
    arbitrary-weight or Windows/web renderer validation.
-3. Presentation slide order through `p:sldIdLst`.
+3. **Done, bounded scope (2026-09-06):** main presentation slide order through
+   `p:sldIdLst` relationships, including hidden slides and nonnumeric part names.
+   [Three native PowerPoint observations](docs/pptx-slide-order.md) pin two clean
+   controls and the correct location of one defect. Permutation, unlisted-part
+   false-positive and broken-reference regressions prevent silent skipping or
+   renumbering. Custom shows, footer numbering, Strict/relocated presentation
+   roots and complete PPTX package validation remain outside scope.
 4. Master-specific theme resolution.
 5. Group transforms and rotated bounds.
 6. Table text and geometry.

@@ -24,13 +24,15 @@ Everything here is geometry and table lookups. No rendering.
 """
 from __future__ import annotations
 
+import posixpath
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 from lxml import etree
 
-from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, read_package
+from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue, read_package
 from .fonts import EMU_PER_POINT, Metrics, load_metrics
 from .xmlutil import fromstring as parse_xml
 
@@ -235,6 +237,10 @@ class DeckReader:
         self.pkg = _Package(path, limits)
         self.path = Path(path)
         pres = self.pkg.tree("ppt/presentation.xml")
+        if pres is None or pres.tag != _p("presentation"):
+            raise PackageIssue(
+                "PKG002", "missing, unreadable or unsupported presentation root; "
+                "slide order could not be read", part="ppt/presentation.xml")
         self.presentation = pres
         sz = pres.find(_p("sldSz")) if pres is not None else None
         self.slide_w = _int(sz, "cx", DEFAULT_SLIDE_W)
@@ -436,21 +442,89 @@ class DeckReader:
                 autofit = "spAutoFit"
         return insets, wrap, autofit, scale, reduction, anchor, vertical_text
 
+    def _slide_parts(self) -> list[str]:
+        """Follow the main slide list, never ZIP order or slide filenames.
+
+        Validate every referenced slide before producing any geometry. A
+        broken entry must not disappear and renumber all subsequent findings.
+        Unlisted parts and custom-show sequences are not the main slide list.
+        """
+        pres_part = "ppt/presentation.xml"
+        rel_part = "ppt/_rels/presentation.xml.rels"
+
+        def invalid(message: str, part: str = pres_part):
+            raise PackageIssue("PKG002", "cannot resolve presentation slide order: "
+                               + message, part=part)
+
+        lists = self.presentation.findall(_p("sldIdLst"))
+        if len(lists) > 1:
+            invalid("multiple slide lists")
+        if not lists:
+            return []  # the optional list is absent in a zero-slide deck
+        entries = [child for child in lists[0] if isinstance(child.tag, str)]
+        if not entries:
+            return []
+        rels = self.pkg.tree(rel_part)
+        if rels is None or rels.tag != f"{{{REL}}}Relationships":
+            invalid("missing or unreadable presentation relationships", rel_part)
+        by_id: dict[str, list[etree._Element]] = {}
+        for rel in rels.findall(f"{{{REL}}}Relationship"):
+            by_id.setdefault(rel.get("Id", ""), []).append(rel)
+
+        result: list[str] = []
+        seen_ids: set[int] = set()
+        seen_parts: set[str] = set()
+        for number, entry in enumerate(entries, 1):
+            if entry.tag != _p("sldId"):
+                invalid(f"unrecognised slide-list entry at position {number}")
+            raw_id = entry.get("id", "")
+            if not raw_id.isdecimal():
+                invalid(f"missing or invalid slide id at position {number}")
+            slide_id = int(raw_id)
+            if slide_id in seen_ids:
+                invalid(f"duplicate slide id {slide_id}")
+            seen_ids.add(slide_id)
+            rid = entry.get(f"{{{R}}}id", "")
+            matches = by_id.get(rid, []) if rid else []
+            if len(matches) != 1:
+                invalid(f"slide {number} relationship {rid!r} is missing or ambiguous", rel_part)
+            rel = matches[0]
+            if rel.get("Type") != R + "/slide":
+                invalid(f"slide {number} relationship {rid!r} is not a slide", rel_part)
+            if rel.get("TargetMode", "Internal") != "Internal":
+                invalid(f"slide {number} relationship {rid!r} is not internal", rel_part)
+            target = rel.get("Target", "")
+            uri = urlsplit(target)
+            if (not uri.path or uri.scheme or uri.netloc or uri.query or uri.fragment
+                    or "\\" in target or any(ord(c) < 32 for c in target)):
+                invalid(f"slide {number} has an invalid internal target {target!r}", rel_part)
+            joined = uri.path.lstrip("/") if uri.path.startswith("/") else "ppt/" + uri.path
+            resolved = posixpath.normpath(joined)
+            if resolved == ".." or resolved.startswith("../"):
+                invalid(f"slide {number} target escapes the package", rel_part)
+            # A relationship URI may encode a space/non-ASCII character that
+            # the ZIP member spells literally. Archive preflight disallows
+            # ambiguous encoded/decoded member aliases and traversal names.
+            decoded = unquote(resolved, errors="strict")
+            part = next((p for p in (resolved, decoded) if p in self.pkg.parts), None)
+            if part is None:
+                invalid(f"slide {number} target {target!r} is missing", rel_part)
+            if part in seen_parts:
+                invalid(f"slide part {part!r} is listed more than once")
+            seen_parts.add(part)
+            tree = self.pkg.tree(part)
+            if tree is None or tree.tag != _p("sld"):
+                invalid(f"slide {number} has an unreadable or unsupported slide root", part)
+            result.append(part)
+        return result
+
     def read(self) -> Deck:
-        slide_parts = sorted(
-            (n for n in self.pkg.parts
-             if re.fullmatch(r"ppt/slides/slide\d+\.xml", n)),
-            key=lambda n: int(re.search(r"(\d+)", n.rsplit("/", 1)[1]).group(1)),
-        )
+        slide_parts = self._slide_parts()
         shapes: list[Shape] = []
         features = {
             "entries": len(self.pkg.parts),
             "slides": len(slide_parts),
-            "presentation_order_entries": len(
-                self.presentation.findall(
-                    f'{_p("sldIdLst")}/{_p("sldId")}')
-                if self.presentation is not None else []
-            ),
+            "presentation_order_entries": len(slide_parts),
             "plain_text_shapes": 0,
             "unread_text_shapes": 0,
             "grouped_shapes": 0,

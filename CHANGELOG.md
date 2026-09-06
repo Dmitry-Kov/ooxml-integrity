@@ -50,6 +50,14 @@
   instead of being interpolated into shell source.
 
 ### Fixed
+- PPTX layout now follows the main `p:sldIdLst` and its slide relationships,
+  preserving presentation positions even with reordered, gapped or nonnumeric
+  part names. Hidden slides retain their editor positions; unlisted parts no
+  longer create phantom findings. Broken listed references/roots fail closed
+  with `PKG002`. Slide-order coverage is now checked when resolved. Three
+  native PowerPoint exports pin the ordering and correct finding location.
+  Existing baselines with old incorrect slide locations may need review and
+  regeneration; the baseline format is unchanged.
 - TTC/OTC discovery and metrics now retain the selected collection member,
   including substitutions and character-coverage caches. Lazy collection
   streams stay open through enumeration, and later Light/Heavy faces no longer

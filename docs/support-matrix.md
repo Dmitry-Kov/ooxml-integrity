@@ -100,7 +100,7 @@ It does not run the DOCX package inspector over a presentation.
 
 | surface | status | current scope |
 | --- | --- | --- |
-| Slide size and slide parts | **Partial** | Reads `p:sldSz` and numbered `ppt/slides/slideN.xml` parts, with built-in defaults when slide size is absent. Slides are ordered by the number in the part name rather than by the presentation's `p:sldIdLst`. |
+| Slide size and main slide order | **Supported** | Reads `p:sldSz` (built-in defaults if absent) and follows `p:sldIdLst` relationships from `ppt/presentation.xml` in Transitional PresentationML. One-based finding positions include hidden slides and do not depend on part names or ZIP order; unlisted parts are excluded. Invalid listed references/roots fail closed with `PKG002`. [Three native PowerPoint observations and regression limits](pptx-slide-order.md). Custom-show playback, footer numbering and relocated/Strict presentation roots are not supported. |
 | Plain text shapes | **Supported** | Reads ungrouped slide-level `p:sp` geometry, text-body insets, wrapping, vertical anchor metadata, paragraphs, ordinary `a:r` runs and hard `a:br` breaks. The vertical anchor is retained but does not change the fit calculation. |
 | Placeholder inheritance | **Partial** | Resolves missing shape geometry from a matching layout placeholder and resolves text properties through shape, layout, master, presentation defaults and the first theme. Complex or ambiguous placeholder chains have no separate coverage claim. |
 | Effective font size and family | **Partial** | Resolves run and paragraph defaults, list styles, placeholder styles, master text styles, presentation defaults and major/minor theme faces for the properties implemented. East Asian and complex-script theme faces are treated as the corresponding major/minor family rather than shaped separately. |
@@ -138,7 +138,7 @@ It does not run the DOCX package inspector over a presentation.
 | --- | --- | --- |
 | PPTX ZIP readability and resource budgets | **Supported** | A missing file or unreadable ZIP produces `PKG000` or `PKG002`; the same `PKG007` resource budgets and `PKG008` name checks used for DOCX run before PPTX parts are loaded. |
 | POTX and PPSX routing | **Partial** | The CLI sends `.potx` and `.ppsx` through the same reader, but the committed corpus and renderer evidence cover `.pptx` only. |
-| PPTX XML/package/relationship integrity | **Not checked** | `check_pptx` follows the relationships it needs for layout but does not validate the complete OPC graph, content types or well-formedness of every XML part. |
+| PPTX XML/package/relationship integrity | **Partial** | The main slide list and its referenced slide relationships/roots must be readable and unambiguous before layout runs. `check_pptx` does not validate the complete OPC graph, content types or well-formedness of every XML part; `pptx.package-integrity` therefore remains unsupported in coverage. |
 | Fidelity against a source PPTX | **Not checked** | An explicit `--against` emits `FID000` as an error with `comparison was NOT performed`; layout checks still run, but the default CLI result cannot pass without the requested comparison. |
 | Notes, comments, transitions and animations | **Not checked** | Their presence, integrity and preservation are not evaluated. |
 | Semantic correctness | **Not checked** | Correct text, numbers, chart data, reading order, accessibility and presentation intent are outside the current checks. |

@@ -93,6 +93,13 @@ PPTX reports:
   `pptx.master-layout-objects`;
 - `pptx.fidelity.source`.
 
+`pptx.slide-order` is `checked` after the main `p:sldIdLst` resolves, including
+hidden slides. An absent/empty list is `not-present`; unlisted parts are not
+used as a fallback. A broken listed relationship or slide aborts reading with
+`PKG002` and a skipped inventory, rather than claiming checked order or layout.
+This does not validate the complete PPTX package graph. See the
+[slide-order contract and Office evidence](pptx-slide-order.md).
+
 These identifiers and status spellings are machine-facing contracts. New
 identifiers may be added; incompatible meaning or schema changes require a new
 `schema_version` and release notes.

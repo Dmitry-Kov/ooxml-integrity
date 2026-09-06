@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-06",
+  "renderer": "Microsoft PowerPoint for Mac 16.112.3, macOS Apple Silicon",
+  "fixture": "corpus/pptx-slide-order.pptx",
+  "fixture_sha256": "ec13236a43f1b0f3b8cb7c29dbf759e48be3d711015585ce63365564ab72a04c",
+  "method": "Opened the exact fixture through the native UI without repair, editing or resaving. The navigation pane showed First: clean, Second: clean, Third: overflow. File > Export > PNG > Save Every Slide, 960 x 540. Each of the three exported slides inspected individually at full size.",
+  "origin": "Synthetic native text boxes authored with @oai/artifact-tool; the OOXML slide list was reordered and slide parts plus related references renamed. Package, geometry, font-policy and first-party import validation passed on the final bytes before opening in PowerPoint.",
+  "licence": "Project MIT licence for synthetic fixture and renders; no font binaries or third-party content included.",
+  "scope": "Main Transitional PresentationML slide order, one Mac Office build. Unit tests separately cover hidden slides, empty lists, alternate target spellings and malformed references. No custom-show playback, displayed footer numbering, full OPC validation, Strict PresentationML or Windows/web rendering claim.",
+  "font": "Installed Calibri, exact on the evidence host. Labels 30pt, test text 24pt. Native blue-outlined boxes, wrap/autofit off, zero insets, 60pt height.",
+  "zip_slide_part_order": [
+    "ppt/slides/slide1.xml",
+    "ppt/slides/slide10.xml",
+    "ppt/slides/intro.xml"
+  ],
+  "before_commit": "97c302eedd1fdfb1b1d65e6f9bd4847f12f6ba0b",
+  "before_slide_count": 2,
+  "before_findings": [
+    [
+      "PPT003",
+      "ERROR",
+      "slide2/OVER_third"
+    ]
+  ],
+  "cases": [
+    {
+      "slide": 1,
+      "part": "ppt/slides/intro.xml",
+      "label": "First: clean",
+      "shape": "FIT_first",
+      "width_pt": 600.0,
+      "checker_advance_pt": 427.03125,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/slide-order/Slide1.png",
+      "render_sha256": "b7a9eddc9f8eb9565e332c11e49827d62a5b419a4c2ef1f64a9c90ca11410111"
+    },
+    {
+      "slide": 2,
+      "part": "ppt/slides/slide1.xml",
+      "label": "Second: clean",
+      "shape": "FIT_second",
+      "width_pt": 600.0,
+      "checker_advance_pt": 427.03125,
+      "observed_horizontal_overflow": false,
+      "expected_findings": [],
+      "render": "docs/calibration/slide-order/Slide2.png",
+      "render_sha256": "a76ae159bc5f428564860fc30aa382603874c2e738539424d4d3256fb4140e92"
+    },
+    {
+      "slide": 3,
+      "part": "ppt/slides/slide10.xml",
+      "label": "Third: overflow",
+      "shape": "OVER_third",
+      "width_pt": 120.0,
+      "checker_advance_pt": 427.03125,
+      "observed_horizontal_overflow": true,
+      "expected_findings": [
+        [
+          "PPT003",
+          "ERROR"
+        ]
+      ],
+      "render": "docs/calibration/slide-order/Slide3.png",
+      "render_sha256": "d3678d75f3a6fc2ac245f0e24d9a28a8058b2fcb91ac4b734eb0609b904ff235"
+    }
+  ]
+}

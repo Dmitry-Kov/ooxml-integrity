@@ -423,9 +423,10 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
     order_count = features.get("presentation_order_entries", 0)
     items.append(_item(
         "pptx.slide-order",
-        CoverageStatus.UNSUPPORTED if order_count else CoverageStatus.SKIPPED,
-        ("presentation.xml slide order was present, but slides were read by part "
-         "number" if order_count else "presentation.xml had no readable slide order"),
+        CoverageStatus.CHECKED if order_count else CoverageStatus.NOT_PRESENT,
+        (f"resolved {order_count} slides through presentation.xml sldIdLst in "
+         "presentation order, including hidden slides; unlisted parts were excluded"
+         if order_count else "the main presentation slide list is absent or empty"),
         order_count,
     ))
 

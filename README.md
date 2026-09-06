@@ -326,6 +326,11 @@ index through measurement; `doctor --json` exposes it as `face_index`.
 [Collection regression tests and six PowerPoint observations](docs/font-collections.md)
 document the supported scope and variable-font limitations.
 
+Finding locations such as `slide3/Title` follow the main presentation's slide
+list, including hidden slides, rather than internal filenames. Broken listed
+references fail with `PKG002`; orphan parts do not become extra slides.
+[Slide-order evidence and reporting limits](docs/pptx-slide-order.md).
+
 **How accurate is it?** `research/calibrate_pptx.py` renders every shape of the
 reference deck one at a time with LibreOffice, extracts the position of every
 glyph, and compares:
