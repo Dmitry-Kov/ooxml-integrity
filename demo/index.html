@@ -215,7 +215,7 @@ ooxml-integrity check deck.pptx --coverage</pre>
     against: templates/master.docx
     fail-on: error
     sarif: ooxml-integrity.sarif</pre>
-          <p>SARIF puts findings in the pull request. Severity overrides, path-scoped ignores with a required reason, and counted baselines for repositories that already have findings.</p>
+          <p>SARIF puts findings in the pull request. Ignores, severity overrides and baselines: <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md">configuration</a>.</p>
         </div>
         <div>
           <h3>Python</h3>
@@ -223,7 +223,7 @@ ooxml-integrity check deck.pptx --coverage</pre>
 
 for f in compare("original.docx", "edited.docx"):
     print(f.code, f.severity.value, f.message)</pre>
-          <p>Stable rule codes, safe to grep for and safe to suppress. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md">Support matrix</a>, <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md">configuration</a>.</p>
+          <p>Stable rule codes, safe to grep for and safe to suppress. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md">Support matrix</a>.</p>
         </div>
       </div>
     </section>
