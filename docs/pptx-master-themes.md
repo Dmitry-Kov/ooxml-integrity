@@ -87,6 +87,8 @@ font-table calculations, not pixel-derived Office measurements.
   still apply. Correct theme selection does not turn fallback metrics into
   exact metrics: fallback overflow remains WARN/Estimated. These three large,
   exact-or-metric-font overruns qualify for the existing `PPT003` ERROR rule.
+  Metric-compatible substitutions still report Estimated coverage, even when
+  an individual large overflow is an ERROR; CI tests both confidence classes.
   No new code, threshold, baseline format or JSON schema is introduced.
 - The Python layout model's `Deck.slide_theme_fonts` contains independent maps
   keyed by one-based presentation position, only for slides that needed theme

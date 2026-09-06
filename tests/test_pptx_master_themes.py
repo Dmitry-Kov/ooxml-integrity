@@ -14,6 +14,7 @@ from lxml import etree
 from ooxml_integrity import ERROR, WARN, check_pptx
 from ooxml_integrity.coverage import CoverageStatus, pptx_coverage
 from ooxml_integrity.doctor import UNAVAILABLE_CHECKS
+from ooxml_integrity.fonts import resolve_face
 from ooxml_integrity.pptx_layout import A, P, R, REL, Deck, layout_shape, read_deck
 
 PRES = "ppt/presentation.xml"
@@ -94,8 +95,13 @@ def test_native_office_fixture_fonts_findings_and_hashes(root, fixture):
         assert [(f.code, f.severity.name) for f in found if f.where.startswith(f"slide{shape.slide}/")] == [
             tuple(item) for item in case["expected_findings"]]
     report = {i.id: i for i in pptx_coverage(fixture, found).items}
-    assert report["pptx.font-metrics"].status == CoverageStatus.CHECKED
-    assert report["pptx.text-overflow"].status == CoverageStatus.CHECKED
+    # Native Office faces are exact here; CI's compatible clones intentionally
+    # retain Estimated coverage even when a large overrun qualifies for ERROR.
+    exact = all(resolve_face(r.font, r.bold, r.italic).match == "exact"
+                for s in deck.shapes for p in s.paragraphs for r in p.runs)
+    expected = CoverageStatus.CHECKED if exact else CoverageStatus.ESTIMATED
+    assert report["pptx.font-metrics"].status == expected
+    assert report["pptx.text-overflow"].status == expected
 
 
 def test_diagnostic_maps_are_per_slide_and_independent(fixture):
@@ -321,20 +327,28 @@ def test_font_scheme_overrides_are_explicitly_outside_this_model(parts, tmp_path
         assert "themeOverride" in found[0].message
 
 
-def test_resolved_theme_does_not_upgrade_substituted_font_confidence(fixture, monkeypatch):
+@pytest.mark.parametrize("match", ["exact", "metric", "fallback"])
+def test_resolved_theme_does_not_upgrade_substituted_font_confidence(fixture, monkeypatch, match):
     import ooxml_integrity.pptx_layout as layout
+    import ooxml_integrity.coverage as coverage
 
     original = layout._metrics_for
+    original_resolve = coverage.resolve_face
 
     def substitute(run):
         metric = original(run)
-        return replace(metric, face=replace(metric.face, match="fallback")) if metric else None
+        return replace(metric, face=replace(metric.face, match=match)) if metric else None
 
     monkeypatch.setattr(layout, "_metrics_for", substitute)
+    monkeypatch.setattr(coverage, "resolve_face", lambda *args, **kwargs:
+                        replace(original_resolve(*args, **kwargs), match=match))
     found = [f for f in check_pptx(fixture) if f.code == "PPT003"]
-    assert len(found) == 3 and all(f.severity == WARN for f in found)
+    severity = WARN if match == "fallback" else ERROR
+    assert len(found) == 3 and all(f.severity == severity for f in found)
     report = {i.id: i for i in pptx_coverage(fixture, found).items}
-    assert report["pptx.text-overflow"].status == CoverageStatus.ESTIMATED
+    status = CoverageStatus.CHECKED if match == "exact" else CoverageStatus.ESTIMATED
+    assert report["pptx.font-metrics"].status == status
+    assert report["pptx.text-overflow"].status == status
 
 
 def test_doctor_does_not_claim_slide_order_is_unavailable():
