@@ -2,9 +2,15 @@
 
 [Open the demo](https://dmitry-kov.github.io/ooxml-integrity/).
 
-One static page with plain CSS, JavaScript and a small Python adapter. There is
-no framework, server-side document processing or build step. GitHub Pages serves
-the committed `demo/` directory; `.github/workflows/pages.yml` deploys it on pushes
+The demo is also the project's landing page. It opens with the contract example,
+then lets visitors check a file or run a bundled example. Further down are the
+DOCX comparison results, PPTX measurement notes, installation examples and
+limitations. The landing layout was added after the first browser smoke test in
+commits `d77c797`, `19e81df` and `4747ea0`; those changes affected HTML and CSS.
+
+The page uses plain CSS, JavaScript and a small Python adapter, with no framework
+or build step. Document processing runs in the browser. GitHub Pages serves the
+committed `demo/` directory; `.github/workflows/pages.yml` deploys it on pushes
 to `main` affecting the demo and can also be started manually.
 
 ## What runs where
@@ -13,9 +19,9 @@ to `main` affecting the demo and can also be started manually.
   from its official jsDelivr URL (latest stable verified 2026-09-06), then loads
   the built-in `lxml`, `fonttools` and `micropip` packages. `fonttools` is a pure
   Python wheel. Python 3.14 already includes `tomllib`, so it does not need `tomli`.
-- `micropip.install("ooxml-integrity")` installs the released package from PyPI,
-  not this checkout. The footer shows the installed version; the adapter is
-  tested with **0.4.0**. Updating this repository does not update the PyPI package.
+- `micropip.install("ooxml-integrity")` installs the released package from PyPI.
+  The footer shows the installed version; the adapter was tested with 0.4.0.
+  Local changes to the package itself reach the demo only after a PyPI release.
 - Twenty bundled OFL font faces download in parallel with Python and are written
   to `/usr/share/fonts/` in the worker's memory-only filesystem before any checks
   or font-directory caching. Startup finishes with a Doctor capability check.
@@ -33,42 +39,43 @@ to `main` affecting the demo and can also be started manually.
   paths, including when both files have the same name.
   Doctor calls `cli.main(["doctor"])` and its JSON variant.
 
-No analytics, cookies, service worker, persistent document storage or external
-fonts. External requests are limited to **cdn.jsdelivr.net**, **pypi.org** and
-**files.pythonhosted.org** for startup. Page assets, fonts and example files are
-same-origin downloads. Checks themselves require no network; public example
-buttons fetch their same-origin fixtures on demand. External documentation links
-are ordinary links, not startup requests. This is not an air-gapped application:
-the host/CDNs still receive normal web requests, and Python code from PyPI/CDN is
-trusted code executing in the tab.
+The page has no analytics, cookies, service worker or persistent document
+storage. Startup requests go to **cdn.jsdelivr.net**, **pypi.org** and
+**files.pythonhosted.org**. Page assets, fonts and example files download from
+the same origin as the page; example buttons fetch their fixtures on demand.
+External documentation is loaded only when a link is followed.
+
+Checks themselves need no network. Loading the application does: the host and
+CDNs receive ordinary web requests, and the tab executes Python code downloaded
+from PyPI and the CDN.
 
 ## Font caveat
 
-Calibri is measured with **Carlito**, Cambria with **Caladea**, Arial with
-**Liberation Sans**, Times New Roman with **Liberation Serif**, and Courier New
-with **Liberation Mono**. Regular, Bold, Italic and BoldItalic are bundled for
-each family. These are metric-compatible substitutions, not Microsoft's fonts
-or an Office renderer. Coverage labels substituted measurements **estimated**;
-unknown fonts fall back with lower confidence. Doctor reports capability, not
-document correctness. See [font sources and licenses](fonts/README.md) and the
+Calibri is measured with Carlito, Cambria with Caladea, Arial with Liberation
+Sans, Times New Roman with Liberation Serif, and Courier New with Liberation
+Mono. Regular, Bold, Italic and BoldItalic are bundled for each family. These
+fonts provide metric-compatible substitutes; they do not reproduce Microsoft's
+fonts or Office rendering. Coverage labels substituted measurements `estimated`,
+and unknown fonts use a lower-confidence fallback. Doctor reports which checks
+the environment can run. See [font sources and licenses](fonts/README.md) and the
 [project's limitations](https://github.com/Dmitry-Kov/ooxml-integrity#limitations).
 
 ## Examples
 
 | Button | Committed copy | Expected result |
 | --- | --- | --- |
-| Clean DOCX | `corpus/base.docx` → `examples/base.docx` | No findings; coverage states its limits |
-| Broken PPTX | `corpus/deck.pptx` → `examples/deck.pptx` | Overflow, off-canvas and overlap findings |
-| Lost comments + source | `runs/t4_fast_fee/agreement.docx` → `examples/agreement.docx`, with `base.docx` | **CMT005** orphaned comment and **FID001** lost anchor |
+| A clean document | `corpus/base.docx` → `examples/base.docx` | No findings; coverage states its limits |
+| A deck with text that does not fit | `corpus/deck.pptx` → `examples/deck.pptx` | Overflow, off-canvas and overlap findings |
+| The contract above, with its original | `runs/t4_fast_fee/agreement.docx` → `examples/agreement.docx`, with `base.docx` | **CMT005** orphaned comment and **FID001** lost anchor |
 
 All three are synthetic public fixtures, copied byte-for-byte. Comparison is
-DOCX-only: the UI reports an error for PPTX plus a source instead of quietly
-skipping comparison. Unsupported extensions, unreadable packages and Python
-exceptions appear in the output panel. Error-panel JSON is `{ "error": "…" }`,
-not a successful CLI result. Findings retain normal CLI exit codes (0/1).
+DOCX-only, and selecting a PPTX with a source produces an error. Unsupported
+extensions, unreadable packages and Python exceptions appear in the output
+panel. These errors use JSON of the form `{ "error": "…" }`. Completed checks
+retain the normal CLI result format and exit codes (0/1).
 
-To protect browser responsiveness, files are capped at **25 MiB each** and each
-check at **60 seconds**. A timed-out worker is terminated; reload to restart it.
+Files are capped at 25 MiB each and checks at 60 seconds to keep the browser
+responsive. A timed-out worker is terminated; reload the page to restart it.
 The package's default expanded-archive limits still apply. Use the CLI for large
 documents. Current Chrome, Firefox and Safari support the required module
 workers, WebAssembly, FileReader and transferable buffers; no cross-origin
@@ -90,9 +97,9 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Click all three example buttons, verify CMT005 and FID001 in the fidelity report,
 inspect JSON with coverage both on and off, and run Doctor. Startup progress and
-elapsed time are visible; aim for about 20 seconds on a normal broadband
-connection, not a guarantee for every network/device. Font downloads overlap
-runtime initialization and ordinary browser caching speeds repeat visits.
+elapsed time are visible. The startup target is about 20 seconds on broadband;
+the actual time depends on the connection and device. Fonts download while the
+runtime initializes, and browser caching speeds up repeat visits.
 
 From the repository's development environment:
 
@@ -102,7 +109,8 @@ node --check demo/app.js
 node --check demo/worker.js
 ```
 
-The static demo is deliberately not included in the PyPI distribution. Its
+The static demo is not included in the PyPI distribution. Its
 adapter-parity tests skip when run from an sdist without `demo/`. Browser smoke
 tests must exercise the actual PyPI installation as well as local adapter tests.
-See [the recorded browser smoke test](VALIDATION.md).
+See [the recorded browser smoke test](VALIDATION.md) for the original results
+and their scope relative to the later landing-page changes.

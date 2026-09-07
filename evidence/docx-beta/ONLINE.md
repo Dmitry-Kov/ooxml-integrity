@@ -1,34 +1,32 @@
 # Word for the web evidence
 
-Captured on 2026-09-06 through the actual signed-in editor at
-`word.cloud.microsoft`, with permission to upload ten synthetic DOCX files.
-No personal documents were opened or changed. Each input was uploaded, opened
-in the web editor, edited, autosaved to OneDrive and downloaded as DOCX.
-The service build was not exposed in the observed UI; the date identifies this
-capture, not a reproducible Microsoft service version.
+On 2026-09-06, ten synthetic DOCX files were uploaded to the signed-in editor at
+`word.cloud.microsoft` with permission. Each was opened, edited, autosaved to
+OneDrive and downloaded as DOCX. No personal documents were opened or changed.
+The UI did not expose the service build, so the capture can be identified by
+date but cannot be tied to a reproducible Microsoft service version.
 
 ## Observed operation and independent labels
 
 Each input contains exactly one `WEBINPUT` marker. In the web editor, Replace
 All changed it to `WEBSAVED`. For each of the ten files, the UI reported one
 replacement and then a completed save. File → Create a copy → Download a copy
-produced the retained output. The DOCX download, not its metadata producer name,
-is the evidence of the web edit. Files were downloaded to the local Downloads
-folder and copied into ignored capture staging.
+produced the retained output. The capture retains the DOCX downloaded after
+this observed edit. Files went to the local Downloads folder and were copied
+into ignored capture staging.
 
-[`provenance/word-online.json`](provenance/word-online.json) is an operator
-receipt based on coding-agent observation, **not** Microsoft-signed attestation
-or independent human review. Hashes bind it to the captured bytes; hashes alone
-cannot prove the application that produced a file. Account names and private
-document URLs are deliberately absent from the public receipt.
+[`provenance/word-online.json`](provenance/word-online.json) records the coding
+agent's observations. It has no Microsoft signature or independent human review.
+Hashes tie the receipt to the captured bytes, although they cannot by themselves
+prove which application produced a file. The public receipt omits account names
+and private document URLs.
 
-The clean edit label is declared before running the checker. A direct XML
-oracle requires the single intended replacement, exact preservation of every
-other body-text character, table-cell text, comment bodies and ordered comment
-range/reference IDs with their exact body-text offsets, section counts and
-effective header/footer text. This
-oracle does not call `check()` or `compare()`. The same facts must hold for the
-raw download and its sanitised published copy.
+The clean edit label is declared before running the checker. A separate XML
+audit requires the single intended replacement and exact preservation of every
+other body-text character, table-cell text, comment body, ordered comment
+range/reference ID with its body-text offset, section count and effective
+header/footer text. This audit does not call `check()` or `compare()`. It applies
+to both the raw download and its sanitised published copy.
 
 ## Privacy and rendering
 
@@ -44,11 +42,10 @@ The ten inputs and ten sanitised saves were rendered with the bundled
 LibreOfficeDev 26.8.0.0.alpha0 renderer and all 15 pages of each set inspected.
 The intended marker change is present, with no newly observed clipping or
 content disappearance. Existing fixture pagination is retained, including the
-letter's short closing on page two. This is supplementary visual QA, **not**
-a scored Word-versus-LibreOffice pixel-equivalence claim. Comments and their
-anchors are checked in XML, not inferred from the PDF renderer's display.
-Deliberately damaged mutation outputs are not claimed to render correctly and
-were not uploaded to Word.
+letter's short closing on page two. This visual review supplements the XML
+checks; Word-versus-LibreOffice pixel equivalence was not scored. Comments and
+their anchors are checked directly in XML. The deliberately damaged mutation
+outputs were not uploaded to Word, and their rendering was not validated.
 
 ## Repeating the workflow
 
@@ -77,10 +74,10 @@ python research/build_docx_evidence.py evaluate --write
 python -m pytest tests/test_online_evidence.py tests/test_evidence_corpus.py
 ```
 
-Import refuses to replace an existing web tranche or overwrite corpus files.
+Import refuses to replace an existing web capture or overwrite corpus files.
 It validates the complete batch, hashes, privacy and semantic audit before
-writing corpus data. The committed capture is immutable; another capture
-requires a separately reviewed append-only tranche, not overwriting this one.
+writing corpus data. The committed capture is immutable. Any further capture
+must be reviewed separately and appended while preserving this one.
 
 ## Result and boundary
 
@@ -88,8 +85,8 @@ This addition contributes 10 sources and 50 pairs: 20 deterministic clean
 controls, 20 seeded-defect pairs and 10 actual web edits. Error findings are
 23 TP, 0 FP and 0 FN. The combined corpus has 50 sources, 220 pairs
 (120 clean, 100 seeded defects), and 111 error TP, 0 FP and 0 FN.
-The web-edit-only group has no positive denominator; its precision/recall is
-reported as not measured, not as a separate 100% accuracy claim.
+The web-edit-only group has no positive denominator, so its precision/recall is
+reported as `not measured`.
 
 The pre-web 40 sources and 170 pairs, their bytes, labels and supporting
 receipts are preserved and pinned to commit `3022ac2`. The P0.5 mandatory
@@ -97,4 +94,4 @@ synthetic beta scope is now covered by five producers. No independently
 supplied commercial/internal generator or licensed access was available for
 the conditional additional-generator item. Customer distributions, other
 Office builds/web sessions, independent dual human review and unmeasured rules
-remain limitations, not evidence implied by the measured result.
+remain outside this evidence.

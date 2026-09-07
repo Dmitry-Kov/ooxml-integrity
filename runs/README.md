@@ -1,8 +1,9 @@
 # Agent run outputs
 
-Each file is the result of one real agent run: its own copy of `../corpus/base.docx`,
-one task phrased the way a user would phrase it, and no hint about how to edit.
-Tooling choice was the variable being measured. See the main README for the table.
+Each file comes from a separate agent run on a copy of `../corpus/base.docx`.
+The prompt described an editing task without prescribing a tool or method.
+The experiment recorded which approach the agent chose and what survived the
+edit. See the main README for the results table.
 
 | file | task | class | result |
 |---|---|---|---|
@@ -15,41 +16,34 @@ Tooling choice was the variable being measured. See the main README for the tabl
 | `t4_fast_fee/agreement.docx` | change the fee, add a clause — "be quick" | **fast** | **comment orphaned** |
 | `t4_fast_table/agreement.docx` | three edits to the table — "be quick" | **fast** | **comment orphaned** |
 
-The pair to look at is `t2_pres` and `t4_fast_table`: the same table edits, one
-with the reviewer's comment intact and tracked changes, one with the comment
-silently detached and the edits untracked. That pair is the screenshot in
-`../docs/word-comparison.png`.
+`t2_pres` and `t4_fast_table` show the difference most directly. Both make the
+same table edits. In `t2_pres`, the reviewer's comment remains anchored and the
+edits are tracked. In `t4_fast_table`, the comment is detached and the edits are
+untracked. The screenshot in `../docs/word-comparison.png` shows this pair.
 
-Check any of them:
+From the repository root, inspect an output and compare it with the source:
 
 ```bash
-cd .. && python3 -c "
-from inspect_docx import inspect, ERROR, WARN
-from fidelity import compare
-for f in inspect('runs/t4_fast_table/agreement.docx'):
-    if f.sev in (ERROR, WARN): print(f.sev, f.code, f.msg)
-for f in compare('corpus/base.docx', 'runs/t4_fast_table/agreement.docx'):
-    print(f['sev'], f['code'], f['msg'])
-"
+ooxml-integrity check runs/t4_fast_table/agreement.docx --against corpus/base.docx
 ```
 
 ## A note on `settings.xml`
 
-These files were produced by agents editing a version of `base.docx` that had no
-`word/settings.xml`, so they originally opened in Word's **Compatibility Mode**.
-That is cosmetic — it does not affect any defect shown here — but it invites a
-distracting question, so the part was added afterwards with `add_settings.py`.
+The version of `base.docx` given to the agents had no `word/settings.xml`, so the
+outputs originally opened in Word's Compatibility Mode. That label did not
+affect the defects studied here. The missing part was added afterwards with
+`research/add_settings.py` to remove the Compatibility Mode label.
 
-It was added at the package level, not through Word's own "Convert" button:
-Convert re-serialises the whole document and can itself alter tracked changes and
-comment anchors, which would have destroyed the evidence these files carry.
+The script adds the part directly to the package. Word's "Convert" button
+re-serialises the whole document and can alter tracked changes and comment
+anchors, so using it would risk changing the evidence.
 
-`add_settings.py` asserts, on every run, that every pre-existing part is
-byte-identical afterwards and that only `[Content_Types].xml` and
-`word/_rels/document.xml.rels` gain one line each. The inspector's verdict on
-each file is unchanged: `t2_pres` clean, `t4_fast_table` still reporting the
+On every run, `research/add_settings.py` verifies that pre-existing parts remain
+byte-identical except for `[Content_Types].xml` and
+`word/_rels/document.xml.rels`, which each gain one line. The inspector's
+verdicts are unchanged: `t2_pres` is clean, and `t4_fast_table` still reports the
 orphaned comment.
 
 ```bash
-python3 add_settings.py runs/*/agreement.docx   # idempotent
+python3 research/add_settings.py runs/*/agreement.docx   # idempotent
 ```

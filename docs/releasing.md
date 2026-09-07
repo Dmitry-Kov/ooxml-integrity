@@ -1,7 +1,9 @@
 # Release procedure
 
-The release is a package and tag, not a claim that all public-beta adoption
-gates have been met. Do not expand capability scope while preparing a release.
+A release publishes a tested package and its tag. Capability claims should
+continue to reflect the documented evidence: publishing a version does not
+establish that every public-beta adoption gate has been met. Keep capability
+scope fixed while preparing a release.
 
 ## Prepare
 
@@ -9,8 +11,9 @@ gates have been met. Do not expand capability scope while preparing a release.
    versioned release notes, and current Action examples. Keep historical evidence
    unchanged. Explain every incompatible change, including baseline migration.
 2. Update the public Action pins in `.github/workflows/release.yml` to the new
-   tag. They deliberately test a consumer's pinned ref with no source/version
-   override, not a local working copy or whatever PyPI currently serves.
+   tag. These jobs test the same pinned ref a consumer would use, with no
+   source/version override. They must not resolve to a local working copy or
+   the current PyPI version.
 3. Run all tests, the DOCX evidence evaluator and the reference-deck assertion.
    Build wheel and sdist; validate with `twine check --strict`; install each in a
    fresh environment and run `research/release_smoke.py --version VERSION`.
@@ -50,5 +53,5 @@ Do not overwrite a published tag or attempt to reuse a PyPI version. A failure
 before upload can be retried after correcting its prerequisite. If upload
 succeeded and only GitHub Release creation failed, rerun that failed job; do not
 re-upload. Manual workflow dispatch must select the release tag, not `main`.
-An incorrect published package needs a new version and, where justified, yanking
-the faulty release after explicit review—not deletion or silent replacement.
+An incorrect published package needs a new version. Where justified, the faulty
+release can be yanked after explicit review; do not delete or silently replace it.

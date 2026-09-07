@@ -1,8 +1,8 @@
 # Windows Word evidence capture
 
 The Windows part of P0.5 was captured on 2026-09-06 local time
-(2026-09-05 UTC). Ten distinct synthetic inputs were opened and saved by real
-desktop Microsoft Word, not assigned a producer name by editing DOCX metadata.
+(2026-09-05 UTC). Desktop Microsoft Word opened and saved ten distinct
+synthetic inputs. The corpus retains those saves and a record of the operation.
 
 | Component | Observed version |
 | --- | --- |
@@ -28,14 +28,15 @@ python research/build_docx_evidence.py evaluate --write
 python -m pytest
 ```
 
-Use a fresh staging directory. The existing committed Windows tranche is
-immutable: `import-windows` refuses a second import rather than replacing it.
-The first two capture steps can be repeated in a fresh staging directory on this
-checkout to inspect another real Word run. Initial import requires a corpus
-without Windows sources, such as the original thirty-source tranche. Word output
-bytes need not be deterministic across runs/builds; evaluation always uses the
-committed bytes and hashes. `rebuild-outputs` deterministically reproduces the
-package mutations and retains real Word roundtrips as captured artifacts.
+Use a fresh staging directory. The committed Windows capture is immutable, and
+`import-windows` refuses a second import. The first two capture steps can be
+repeated in fresh staging on this checkout to inspect another Word run. Initial
+import requires a corpus without Windows sources, such as the original
+thirty-source set.
+
+Word may write different bytes across runs or builds, so evaluation uses the
+committed bytes and hashes. `rebuild-outputs` reproduces the deterministic
+package mutations and keeps the captured Word roundtrips unchanged.
 
 On this machine Windows PowerShell blocked local scripts. The reviewed capture
 was run with `-ExecutionPolicy Bypass` on that PowerShell process only. No system
@@ -56,29 +57,29 @@ interfaces. No intentionally damaged output is opened in Word.
 
 ## Provenance and privacy
 
-The chain is: `_build_seed` synthetic input → actual Word COM open/save →
-privacy postprocessing → committed Windows source → deterministic labelled
-mutations. The synthetic before-Word input is retained in `roundtrips/` and
-paired with that source. Every Windows source includes comments, a table, and
-headers/footers; the two multi-section sources have three sections, and the two
-review-heavy sources have three comments each.
+The capture starts with a synthetic input from `_build_seed`. Word opens and
+saves it through COM, metadata is cleaned, and the result becomes a committed
+Windows source for deterministic labelled mutations. The before-Word input is
+retained in `roundtrips/` and paired with that source. Every Windows source
+includes comments, a table and headers/footers. The two multi-section sources
+have three sections; the two review-heavy sources have three comments each.
 
 [`provenance/word-windows.json`](provenance/word-windows.json) records the Word
 operation, versions, counts observed via COM, input/raw output/published output
 SHA-256, and every raw and published package-part hash. The raw saves and raw log
 remain in ignored `tmp/` staging because Office may insert account metadata.
 The public receipt includes no account, hostname, process ID, absolute path or
-licence identifier. It is an automated capture receipt, not a signed Microsoft
-attestation or independent human review.
+licence identifier. This receipt was generated automatically and has no
+Microsoft signature or independent human review.
 
 The sanitizer normalises ZIP metadata and core identities/dates, extended
 company/manager/template fields, comment authors/initials/dates and Office
 account attributes. It can remove optional thumbnails, printer settings,
 custom properties, document variables and attached-template references. It
 rejects remaining local paths, email addresses, unexpected identity fields or
-unreviewed binary parts. In **this capture**, only `docProps/core.xml`,
+unreviewed binary parts. In this capture, only `docProps/core.xml`,
 `docProps/app.xml`, and metadata in `word/comments.xml` changed after Word;
-no part was removed. Raw/published hashes prove that all other Word-written
+no part was removed. Raw/published hashes verify that all other Word-written
 parts, including main XML, styles, tables, stories and relationships, are
 unchanged. Direct XML checks verify that comment text also survived cleanup.
 
@@ -93,16 +94,16 @@ regression fixtures.
 ## Scope
 
 Windows adds 10 sources and 50 pairs: 30 clean and 20 seeded defects. Its error
-result is 23 TP, 0 FP, 0 FN. At the Windows import, the combined result was 40 sources, 170 pairs,
-88 error TP, 0 FP, 0 FN. Warnings and per-rule results remain part of the exact
-multiset gate in [RESULTS.md](RESULTS.md). Clean roundtrip precision/recall has
-no positive denominator and is reported as **not measured**, with zero false
-positives, rather than as a separate 100% accuracy claim.
+result is 23 TP, 0 FP, 0 FN. At the Windows import, the combined result was
+40 sources, 170 pairs, 88 error TP, 0 FP, 0 FN. Warnings and per-rule results
+remain part of the exact multiset gate in [RESULTS.md](RESULTS.md). Clean
+roundtrips had zero false positives. Their precision/recall is reported as
+`not measured` because they have no positive denominator.
 
-The subsequent [Word Online capture](ONLINE.md) adds separate evidence without
-replacing this Windows tranche. The numerical floor, synthetic
-content, and this Windows capture do not establish accuracy for arbitrary
-customer documents, other Word builds or visual rendering. An independently
-supplied commercial/internal generator remains desirable where available;
-neither real client documents nor dual independent human review is required
-by the original synthetic-corpus plan.
+The subsequent [Word Online capture](ONLINE.md) adds evidence while preserving
+this Windows set. Meeting the corpus's numerical minimums with synthetic
+documents leaves accuracy on arbitrary customer documents, other Word builds
+and visual rendering unmeasured. Files from an independently supplied
+commercial/internal generator would extend the evidence where available.
+Real client documents and dual independent human review are optional in the
+original synthetic-corpus plan.

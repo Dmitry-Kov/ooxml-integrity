@@ -1,16 +1,16 @@
 # Presentation slide order
 
-P1 item 3 is closed for the **main Transitional PresentationML slide list**.
-Layout findings now use one-based positions in `p:sldIdLst`, including hidden
-slides. ZIP order, relationship order, numeric slide IDs and filenames do not
-determine a slide's position.
+Layout findings now use one-based positions in the main Transitional
+PresentationML slide list, `p:sldIdLst`, including hidden slides. This closes
+P1 item 3. A slide's position is taken from this list and is independent of ZIP
+order, relationship order, numeric slide IDs and filenames.
 
 The reader follows each entry's `r:id` through
 `ppt/_rels/presentation.xml.rels` to its internal slide part. This is the same
 lookup sequence used in Microsoft's [Open XML SDK slide-index example](https://learn.microsoft.com/en-us/office/open-xml/presentation/how-to-get-all-the-text-in-a-slide-in-a-presentation).
 The [slide-list definition](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.presentation.slideidlist?view=openxml-3.0.1)
-also separates slide identifiers from their relationship identifiers. Sorting
-either identifier is not a substitute for following the list.
+also separates slide identifiers from their relationship identifiers. The list
+defines order; either kind of identifier may have a different sort order.
 
 ## Failure and Office evidence
 
@@ -22,14 +22,16 @@ finding locations, and a valid nonnumeric slide filename was skipped entirely.
   observed locally on 2026-09-06.
 - Input: [`corpus/pptx-slide-order.pptx`](../corpus/pptx-slide-order.pptx),
   SHA-256 `ec13236a43f1b0f3b8cb7c29dbf759e48be3d711015585ce63365564ab72a04c`.
-- Opened without repair, editing or resaving. The navigation pane showed
+- The input opened without repair and was neither edited nor resaved. The
+  navigation pane showed
   “First: clean”, “Second: clean”, “Third: overflow”, in that order.
 - Native **File → Export → PNG → Save Every Slide**, 960 × 540. All three
-  exported slides were inspected individually at full size. These are actual
-  PowerPoint exports, not the fixture author's or checker's renders.
+  exported slides were inspected individually at full size. PowerPoint produced
+  the images directly; the fixture-authoring tool and checker were not used to
+  render them.
 - [Provenance and pinned fixture/image hashes](calibration/slide-order/evidence.json).
-  Fixture and images are synthetic project MIT material; no font binaries or
-  third-party document content are redistributed.
+  The synthetic fixture and images use the project's MIT licence; no font
+  binaries or third-party document content are redistributed.
 
 The input was authored with `@oai/artifact-tool`, then the main slide list was
 reordered and slide filenames/references renamed. Structural, geometry,
@@ -48,24 +50,24 @@ The ZIP stores these slide parts in the order second, third, first. Running
 the preceding checker, commit `97c302e`, against this exact input reads only
 two slides and reports `slide2/OVER_third`. The new result reads all three and
 locates the same real overflow on the third slide. The two clean controls
-remain free of findings. The checker's measured line advance is 427.03pt on
-the evidence host; this is not a pixel-derived Office measurement.
+remain free of findings. The checker calculated a line advance of 427.03pt on
+the evidence host. This value comes from font metrics, not Office pixels.
 
 ## Reader, confidence and reporting contract
 
 - Only slides in the main list participate in layout. Unlisted relationships
-  or orphan slide parts cannot create phantom layout findings. Their package
-  validity is a separate, unimplemented complete-OPC-graph check.
+  or orphan slide parts are excluded. Checking their package validity would
+  require complete OPC graph validation, which is not implemented.
 - Hidden slides keep their editor-list positions and are checked. Custom-show
   sequences, playback skipping and `firstSlideNum`/footer fields do not redefine
   the one-based `slideN` location in this API.
-- An absent or empty optional slide list means zero main slides, never a
-  filename-based fallback. Coverage reports `pptx.slide-order: not-present`.
+- An absent or empty optional slide list means zero main slides. The reader
+  does not fall back to filenames. Coverage reports `pptx.slide-order: not-present`.
 - A nonempty list is fully resolved before any layout checks run. Missing,
   ambiguous, external or wrong-type slide relationships, repeated IDs/parts,
   invalid internal targets, or unreadable/unsupported listed roots produce
-  `PKG002` ERROR. No partial deck is silently renumbered. Coverage reports the
-  read as skipped, not as successfully checked.
+  `PKG002` ERROR. The reader stops without renumbering a partial deck, and
+  coverage reports the read as skipped.
 - Valid order is deterministic and reports `pptx.slide-order: checked`.
   Font substitution and layout confidence still govern the separate overflow
   coverage and existing `PPT001`–`PPT007` severities. No thresholds change and
@@ -79,13 +81,13 @@ Tests cover every permutation of the three slides, inherited geometry/styles,
 ZIP/relationship/ID order independence, relative and package-absolute targets,
 URI-encoded and nonnumeric names, comments, hidden slides, empty lists,
 unlisted-defect false positives and fail-closed errors at every slide position.
-These variants are synthetic regressions, not additional Office observations.
+These variants test the reader separately from the Office observations above.
 
 ## Limits and remediation
 
-This is one Office-for-Mac observation set, not Windows/web rendering or
-independent review. The reader still expects `ppt/presentation.xml` with the
-Transitional namespace. A differently located presentation root, Strict
+The observations cover one Office-for-Mac build. These cases have not been
+checked on Windows or the web, or independently reviewed. The reader expects
+`ppt/presentation.xml` with the Transitional namespace. A differently located presentation root, Strict
 PresentationML, full content-type/relationship validation and custom-show
 playback remain outside this change.
 

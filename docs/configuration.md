@@ -1,17 +1,19 @@
 # Configuration, suppressions, baselines and CI output
 
-How to run [`ooxml-integrity`](../README.md) in a repository that already has
-findings, and how to get the findings into the pull request instead of a log.
+This page explains how to introduce [`ooxml-integrity`](../README.md) into an
+existing repository, account for known findings, and show results in pull
+request reviews.
 
 ## Adopting it in a repository that already has findings
 
-Nobody fixes two hundred findings before they are allowed to gate the next
-commit, and a rule that cannot be turned off gets the whole tool turned off
-instead. Three mechanisms, deliberately kept separate, because each answers a
-different question:
+A repository may already contain findings when you first add the checker to
+CI. You can adjust rule severity, ignore a rule on selected paths, or record
+existing findings in a baseline. The choice depends on why you want to exclude
+the finding.
 
-**"This rule is wrong for us."** A severity override in `.ooxml-integrity.toml`
-(or `[tool.ooxml-integrity]` in `pyproject.toml`):
+**Change a rule's severity** when its default does not suit the project. Set
+the override in `.ooxml-integrity.toml` (or `[tool.ooxml-integrity]` in
+`pyproject.toml`):
 
 ```toml
 fail-on = "error"
@@ -21,9 +23,9 @@ PPT006 = "off"      # shapes overlap by design in our template
 TXT001 = "error"    # and we care about this one more than the default
 ```
 
-**"This rule is wrong here."** An ignore, scoped to a path glob. `reason` is
-required — a suppression whose justification lives in someone's memory is one
-nobody can review a year later:
+**Ignore a rule on selected paths** when the exception belongs to a particular
+set of files. Each ignore uses a path glob and requires a `reason`, so a later
+reviewer can understand why it was added:
 
 ```toml
 [[ignore]]
@@ -32,8 +34,8 @@ path = "decks/social/**"
 reason = "these are cropped intentionally for Instagram export"
 ```
 
-**"We know, not today."** A baseline. Record what the repository already reports,
-then fail only on what is new:
+**Create a baseline** when existing findings should be recorded without blocking
+new work. Record the current findings, then fail only on new ones:
 
 ```bash
 ooxml-integrity check "out/**/*.docx" --against templates/master.docx \
@@ -41,12 +43,12 @@ ooxml-integrity check "out/**/*.docx" --against templates/master.docx \
 git add .ooxml-integrity-baseline.json
 ```
 
-The baseline records what the *checks* saw, before any config is applied — so
-changing the config later cannot make old findings reappear as fake regressions.
-It counts occurrences rather than storing a set, so a second overflow in a shape
-that had one is still new. And its fingerprints exclude the message, because
-messages carry measurements (`needs 118pt in a 48pt box`) and a baseline keyed on
-those would go stale the first time anything moved by a point.
+The baseline records findings before configuration is applied. This keeps old
+findings from appearing as new regressions after a configuration change. It
+also counts occurrences: a second overflow in a shape that already had one is
+still new. Fingerprints exclude the message text because messages contain
+measurements such as `needs 118pt in a 48pt box`. A small change in those
+measurements should not invalidate the baseline entry.
 
 The baseline format is versioned. If a newer checker refuses an older baseline,
 regenerate it with the same check command and `--write-baseline`; legacy formats
@@ -75,11 +77,9 @@ regenerating: [0.4.0 migration instructions](releases/0.4.0.md#breaking-change-b
 - run: exit ${{ steps.docs.outputs.exit-code }}
 ```
 
-A failing job puts a message in a log that somebody has to go and open. A SARIF
-report puts the finding in the review, where the person who caused it is already
-looking. Suppressed findings are still in the report, marked suppressed with
-their reason, so the file remains auditable — omitting them would defeat the
-point of requiring a reason for every ignore.
+A SARIF report makes findings available in the pull request review, alongside
+the changes that caused them. Suppressed findings remain in the report with
+their reasons, so reviewers can also inspect the exceptions.
 
 
 ## Bounded archive processing
@@ -95,3 +95,9 @@ The same limits cover `check()`, `check_pptx()`, and both files read by
 `ArchiveLimits` object in the Python API. See [archive resource limits](archive-limits.md)
 for the exact order of checks, configuration keys, and reproducible memory/time
 measurements.
+
+The [browser demo](../demo/README.md) uses the package's default archive limits
+and runs without project configuration, severity overrides or baseline
+suppressions. It also limits each input file to 25 MiB and each check to 60
+seconds. Use the CLI or Python API when the workload needs custom limits or
+repository policy.

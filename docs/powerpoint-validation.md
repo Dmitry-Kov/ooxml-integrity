@@ -1,10 +1,9 @@
 # The overflow model against real renderers
 
-The `.pptx` layout model was calibrated against LibreOffice
-(`research/calibrate_pptx.py`) and, until this check, never against the renderer
-the documents are actually made for. This is that check, and then two more
-engines measured numerically alongside it. The raw per-shape numbers are in
-[`docs/calibration/`](calibration/).
+The `.pptx` layout model was first calibrated against LibreOffice using
+`research/calibrate_pptx.py`. This check compares its predictions with PowerPoint
+for Mac, then adds numerical measurements from LibreOffice and ONLYOFFICE.
+The raw per-shape numbers are in [`docs/calibration/`](calibration/).
 
 ## Setup
 
@@ -16,25 +15,22 @@ engines measured numerically alongside it. The raw per-shape numbers are in
 | Resolution | `resolve_face("Calibri") -> Calibri (exact)` |
 | Predictions | `research/powerpoint_checklist.py`, generated before the deck was opened |
 
-Two things make this a fair test rather than a demonstration.
+The checker and PowerPoint read the same `Calibri.ttf` from the application
+bundle. This removes font substitution as a source of disagreement in this
+comparison.
 
-**The checker and the renderer read the same font file.** Not a metric-compatible
-clone - the actual `Calibri.ttf` inside the PowerPoint app bundle. So the result
-says something about the layout model rather than about font substitution.
+The checklist was generated before opening the deck. Its numbers come from the
+tool's usual code path. On the first pass, two fixture labels turned out to be
+wrong because they had been guessed; the checklist now derives every prediction.
 
-**The predictions were fixed in advance and are machine-generated.** Every number
-in the checklist comes from the same code path the tool uses; nothing was typed
-by hand. Two fixture labels in this corpus were wrong on the first pass precisely
-because they had been guessed, which is why the checklist derives everything.
-
-The outlined copy is asserted to be equivalent to the committed deck:
-`outline_deck.py --check` re-runs the checks on it and compares finding-by-finding,
-so the outline is decoration and not a layout change.
+`outline_deck.py --check` re-runs the checks on the outlined copy and compares
+each finding with the committed deck. This verifies that adding the visible
+outlines leaves the layout findings unchanged.
 
 ## Result
 
-**21 of 21 non-excluded shapes agreed, and every predicted line count matched
-exactly.**
+All 21 non-excluded shapes agreed with the predictions, including every line
+count.
 
 | shape | predicted | PowerPoint | lines predicted / drawn |
 |---|---|---|---|
@@ -60,24 +56,25 @@ exactly.**
 | `FIT_hard_breaks_room` | inside | inside | 5 / 5 |
 | `FIT_bold_narrow` | inside | inside | 1 / 1 |
 
-Excluded in advance, for reasons named in `powerpoint_checklist.py` rather than
-after seeing the result: `AUTOFIT_shrink_text`, `AUTOFIT_grow_shape` (the
-renderer decides, not the file) and `FIT_unknown_font` (no machine has the face).
+Three shapes were excluded before the comparison, with the reasons recorded in
+`powerpoint_checklist.py`: `AUTOFIT_shrink_text` and `AUTOFIT_grow_shape`, whose
+layout depends on renderer behaviour, and `FIT_unknown_font`, whose font was
+unavailable on every test machine.
 
 ### The line counts are the strong part
 
-A FIT/OVER verdict can be right for the wrong reason - a shape can overflow by so
-much that any model catches it. Matching the *line count* on all 21 is a tighter
-claim: it means the wrap decisions agree, string by string.
+A FIT/OVER verdict alone says little about wrapping when the text exceeds the
+box by a large margin. Matching all 21 line counts gives more useful evidence:
+the model and PowerPoint made the same wrap decisions for these strings.
 
-`FIT_mixed_run_sizes` is the case worth naming. Its widest line fills **99.2%** of
-the usable width - one wrap decision from a different line count, and the place a
-disagreement was most expected. PowerPoint broke it in the same place. The same
-holds for `FIT_generous_box` (97.7%), `FIT_zero_insets` (97.6%) and
+The closest case was `FIT_mixed_run_sizes`. Its widest line fills 99.2% of the
+usable width, so a small difference could have moved a word to the next line.
+PowerPoint broke it in the predicted place. The same held for
+`FIT_generous_box` (97.7%), `FIT_zero_insets` (97.6%) and
 `OVER_paragraph_in_small_box` (97.0%).
 
-So the flat `DRAWINGML_LINE_SPACING = 1.2` constant and the inset arithmetic hold
-against PowerPoint, not only against LibreOffice.
+For this deck, the result supports the fixed `DRAWINGML_LINE_SPACING = 1.2`
+constant and the inset calculation previously checked against LibreOffice.
 
 ### Substitution error, measured a third time
 
@@ -93,60 +90,59 @@ shapes. The only differences were in width fill:
 | `FIT_zero_insets` | 97.8% | 97.6% |
 | `OVER_paragraph_in_small_box` | 97.2% | 97.0% |
 
-All in the direction the README predicts - Carlito is wider, so it leans toward
-reporting an overflow that is not there rather than missing one - and never large
-enough to move a wrap, even at 99.2% fill.
+Carlito was slightly wider in each case, as described in the README. That
+difference would favour an extra overflow report over a missed overflow. It
+was too small to change any wrap, including the line at 99.2% fill with Calibri.
 
 ## What the check turned up: PowerPoint does not recompute autofit on open
 
-Not the thing being tested, and the more interesting result.
-
-Both autofit shapes rendered **identically to `OVER_no_autofit_same_text`**: same
-font size, same six lines, same overflow past the same outline.
+The check also exposed an autofit behaviour that was outside the original
+comparison. Both autofit shapes rendered like `OVER_no_autofit_same_text`, with
+the same font size, six lines and overflow past the outline.
 
 - `AUTOFIT_shrink_text` (`normAutofit` with no stored `fontScale`) was not shrunk.
 - `AUTOFIT_grow_shape` (`spAutoFit`) did not grow its box.
 
-PowerPoint drew the stored state and recomputed nothing. Both were excluded from
-the comparison on the grounds that the renderer decides - and it turns out that on
-open the renderer decides to do nothing, which raises two questions the tool
-currently answers differently:
+On opening this deck, PowerPoint displayed the stored state without recomputing
+autofit. The two shapes had been excluded because their layout was expected to
+depend on the renderer. The observed behaviour raises questions about two
+current rules:
 
-1. `PPT005` (shrink-to-fit requested, no `fontScale` stored) is a **warning**, on
-   the grounds that the outcome is renderer-dependent. Evidence now says the
-   deck displays broken text in PowerPoint until someone edits the shape. That
-   is an argument for **error**.
-2. `spAutoFit` produces **no finding at all**, on the grounds that the box grows
-   to the text. Evidence now says it does not grow on open, so a deck with
-   `spAutoFit` and a stored height that is too small also displays broken.
+1. `PPT005` (shrink-to-fit requested, no `fontScale` stored) is a warning because
+   the outcome is renderer-dependent. In this check, the text overflowed in
+   PowerPoint until the shape was edited. That gives a reason to consider an
+   error severity.
+2. `spAutoFit` produces no finding because the model assumes the box grows to
+   the text. Here it did not grow on open, and the stored height was too small.
 
-Neither is changed yet, because one platform on open is not enough to move a
-severity. What would settle it: the same deck in Slide Show mode (does an
-audience see the overflow?), and PowerPoint for Windows.
+Both rules remain unchanged. Before changing severity, the same deck needs a
+check in Slide Show mode and in PowerPoint for Windows. The current observation
+covers only opening the deck in the Mac editing view.
 
 ## A third and fourth engine, measured numerically
 
-`research/calibrate_pptx.py --build-probe` writes one deck with a single shape
-per slide; exporting that to PDF and measuring it page by page gives per-shape
-numbers with no attribution guesswork, from any renderer that can export a PDF.
-The new path was cross-checked against the old shape-by-shape one on the same
-renderer: identical numbers on all 24 shapes, so a difference between columns is
-a difference between engines.
+`research/calibrate_pptx.py --build-probe` writes a deck with one shape per slide.
+An export to PDF can then be measured page by page, with each measurement tied
+to a known shape. This works with any renderer that exports PDF. On the same
+renderer, the probe method and the previous shape-by-shape method gave identical
+numbers for all 24 shapes. The comparisons below therefore use a common
+measurement method.
 
 | | line count | line pitch vs the 1.2 constant |
 |---|---|---|
 | LibreOffice | 23/24 exact | median 0.05%, worst 0.06% |
 | ONLYOFFICE Desktop Editors | 23/24 exact | median **0.000026%**, worst **0.00012%** |
 
-ONLYOFFICE implements single line spacing as exactly 1.2 x the font size. The
-agreement is floating-point noise in the PDF - the tightest confirmation of
-`DRAWINGML_LINE_SPACING` there is, and it comes from an engine that had no part
-in establishing it. LibreOffice's 0.05% is its own; whether that is rounding on
-export or a marginally different pitch cannot be told from a PDF.
+ONLYOFFICE's measured single line spacing agrees with 1.2 x the font size to
+within floating-point noise in the PDF. This provides another check of
+`DRAWINGML_LINE_SPACING` using an engine that was not involved in the original
+calibration. LibreOffice differs by about 0.05%; the PDF alone cannot distinguish
+export rounding from a slightly different line pitch.
 
 ### The one shape that divides them
 
-Both engines miss the same shape, and it is the same one PowerPoint got right:
+Both engines differ from the model on `FIT_mixed_run_sizes`, where PowerPoint
+agreed with it:
 
 | | `FIT_mixed_run_sizes` | method |
 |---|---|---|
@@ -155,18 +151,17 @@ Both engines miss the same shape, and it is the same one PowerPoint got right:
 | LibreOffice | 3 lines | glyph positions from an exported PDF |
 | ONLYOFFICE | 3 lines | same |
 
-Its widest line fills 99.2% of the usable width. Two engines on each side of one
-string, so the disagreement is not a precision limit of this model - it is a
-property of the string. Nothing measurable decides it, which is the case for
-having a borderline band rather than a threshold.
+The predicted widest line fills 99.2% of the usable width. At this margin,
+renderers disagree on where the string wraps. The comparison supports keeping a
+borderline band around the fit threshold: a single width estimate cannot settle
+how every renderer will display this case.
 
-Stated plainly because the columns were not obtained the same way: the
-PowerPoint number is read from a rendering of the outlined deck, the other two
-are measured from exported PDFs by the same script. Getting PowerPoint through
-the same script needs a working AppleScript export, which is not done - three
-attempts produced `-2763` from its `save` verb. It would tighten the method, not
-change the count: the shape renders on two lines in PowerPoint and that is
-legible without measuring.
+The PowerPoint count was read from a rendering of the outlined deck; the other
+two counts were measured from PDFs by the same script. PowerPoint has not yet
+been measured through that script. Three AppleScript export attempts returned
+`-2763` from the `save` verb. A working export would make the methods more
+consistent, although the two lines in the PowerPoint editing view were clearly
+visible.
 
 ## Limits of this check
 
@@ -177,3 +172,10 @@ legible without measuring.
   not claimed.
 - `deck_outlined.pptx` is generated, not committed: rebuild it with
   `python research/outline_deck.py --check` to repeat this.
+
+The later 0.4.0 work adds 29 PowerPoint for Mac slide observations in four
+separate reports: [long-token wrapping](pptx-long-tokens.md),
+[font collections](font-collections.md), [slide order](pptx-slide-order.md) and
+[master theme fonts](pptx-master-themes.md). Those checks extend the evidence
+beyond this reference deck. They still use the Mac editing view and do not
+resolve the Windows, Slide Show or autofit questions above.

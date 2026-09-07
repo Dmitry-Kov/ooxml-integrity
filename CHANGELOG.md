@@ -2,11 +2,32 @@
 
 ## Unreleased
 
+- Added a [browser demo](demo/README.md) served by GitHub Pages. A Pyodide worker
+  runs the released package from PyPI for DOCX checks, DOCX source comparison,
+  PPTX layout, coverage and Doctor. Selected files remain in browser memory;
+  startup downloads the runtime, package and bundled metric-compatible fonts.
+  Inputs are limited to 25 MiB each and checks to 60 seconds.
+- Added three public examples, human and JSON reports, CLI adapter-parity tests,
+  and [recorded smoke tests](demo/VALIDATION.md) in Chrome, Safari, Firefox and
+  the in-app browser on macOS. The optional `run_integrity_example` WebMCP tool
+  runs only those examples.
+- Expanded the demo into the project's landing page, with the detached-comment
+  example, research results, installation instructions and documented limits.
+- Browser report headings and JSON paths now show the filename without the
+  worker's internal `input/` directory. Input and source paths remain separate,
+  including when the files have the same name.
+- Excluded the local audit plan from version control and package distributions.
+
+These changes affect the website, browser adapter and repository packaging.
+The checker remains at `0.4.0`; its core capabilities have not changed since
+that release.
+
 ## 0.4.0 — 2026-09-06
 
 Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md).
 
 ### Added
+
 - A versioned DOCX beta evidence tranche with 50 synthetic source documents and
   220 exactly labelled source/output pairs. Ten sources each were created or
   saved by `python-docx`, LibreOffice, Word for Mac, Word for Windows and Word
@@ -29,19 +50,25 @@ Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md)
   normalised story (including meaningful empty stories), and `FID008` detects
   lost tracked constructs. Relationship ids and part names may be renumbered;
   shared parts may be split or merged without a false loss.
+- A release workflow builds and checks wheel and sdist installations, verifies
+  the pinned Action, publishes to PyPI through Trusted Publishing with
+  attestations, and attaches the same artifacts and checksums to GitHub Releases.
+  The procedure is documented in [releasing](docs/releasing.md).
 
 ### Changed
+
 - Grouped PowerPoint shapes and vertical-text shapes are excluded from the
-  ordinary ungrouped/horizontal layout model instead of being silently treated
-  as if their transforms and text direction were supported.
+  ordinary ungrouped/horizontal layout model. Their transforms and text direction
+  require checks outside that model.
 
 ### Breaking
+
 - Baselines now use format version 2. Version 1 fingerprints could allow one
   accepted fidelity loss to hide a different new loss with the same rule code.
-  Version 1 is therefore rejected with an instruction to regenerate it rather
-  than being interpreted ambiguously.
+  Version 1 is therefore rejected with an instruction to regenerate it.
 
 ### Security
+
 - OOXML parts are parsed with DTD loading, entity expansion and network access
   disabled, and parts containing a `DOCTYPE` are rejected.
 - DOCX, PPTX and source-comparison ZIPs now have configurable limits for entry
@@ -53,21 +80,22 @@ Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md)
   instead of being interpolated into shell source.
 
 ### Fixed
+
 - PPTX major/minor Latin fonts now resolve through each slide's own layout,
   master and theme. Literal fonts retain precedence; unrelated themes and ZIP
   order cannot select another master's face. Missing required dependencies or
   faces and unsupported font-scheme overrides fail closed with `PKG002` and
-  skipped coverage. Eight native PowerPoint exports pin three fixed omissions
+  skipped coverage. Eight native PowerPoint exports document three fixed omissions
   and one false positive. The layout model adds per-slide theme diagnostics;
   the legacy `Deck.theme_fonts` summary now contains only common resolved faces.
   Font confidence and rule thresholds are unchanged. Also removed the stale
   `doctor` claim that main slide order is unavailable.
 - PPTX layout now follows the main `p:sldIdLst` and its slide relationships,
   preserving presentation positions even with reordered, gapped or nonnumeric
-  part names. Hidden slides retain their editor positions; unlisted parts no
-  longer create phantom findings. Broken listed references/roots fail closed
+  part names. Hidden slides retain their editor positions; unlisted parts are
+  excluded from layout checks. Broken listed references/roots fail closed
   with `PKG002`. Slide-order coverage is now checked when resolved. Three
-  native PowerPoint exports pin the ordering and correct finding location.
+  native PowerPoint exports confirm the ordering and correct finding location.
   Existing baselines with old incorrect slide locations may need review and
   regeneration; the baseline format is unchanged.
 - TTC/OTC discovery and metrics now retain the selected collection member,
@@ -76,7 +104,7 @@ Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md)
   overwrite canonical Regular styles. Fontconfig indices are retained;
   unsupported named variable instances are not silently measured as member
   zero. `doctor --json` includes `face_index`. Synthetic TrueType/CFF tests and
-  six native PowerPoint exports pin two fixed omissions and one false positive.
+  six native PowerPoint exports document two fixed omissions and one false positive.
 - PPTX long basic-Latin words now wrap by character when wider than a complete
   usable line, preserving run sizes, insets and stored font scaling. This closes
   vertical-overflow false negatives without flagging tall clean controls.
@@ -97,34 +125,33 @@ Upgrade notes: [baseline v2 migration and release scope](docs/releases/0.4.0.md)
   findings instead of escaping the CLI as a traceback.
 
 ### Documentation
+
 - Added a support matrix that separates supported, partial and unchecked
   surfaces for DOCX self-consistency, DOCX fidelity and PPTX layout.
 
 ## 0.3.1
 
 ### Added
-- `python -m ooxml_integrity` as an entry point. The console script lands in
-  pip's scripts directory, which is not on PATH on plenty of machines - a
-  `pip install --user` against a Python whose user base nobody added to PATH is
-  the common case, and pip only warns about it. Hit on the first machine that
-  installed 0.3.0, which is a good argument for it not being a corner case.
+
+- `python -m ooxml_integrity` as an entry point for machines where pip's scripts
+  directory is not on PATH. The issue appeared on the first machine that
+  installed 0.3.0: `pip install --user` succeeded, but the console command could
+  not be found. Module invocation uses the selected Python installation directly.
 
 ## 0.3.0
 
-**Renamed from `docx-integrity` to `ooxml-integrity`.** Same project, same
-author, same history. The old name described half of it: the deck checks are the
-part that took the most work and the only part validated against four renderers,
-and someone reading `docx-integrity` would never learn they exist. The new name
-is scoped to what the code actually knows - OPC packaging, XML parts, DrawingML -
-which covers `.docx`, `.pptx`, and `.xlsx` when it arrives, without a second
-rename.
+Renamed from `docx-integrity` to `ooxml-integrity`, keeping the same project,
+author and history. The old name hid the presentation checks, which had taken
+most of the development work and included comparisons with PowerPoint,
+LibreOffice and ONLYOFFICE.
+The new name covers the shared OPC packaging, XML parts and DrawingML used by
+`.docx` and `.pptx`, and leaves room for possible `.xlsx` support.
 
-It deliberately does **not** stretch to PDF. PDF is not OOXML: no zip of XML
-parts, no relationship graph, no comment anchors. A PDF checker would share the
-`Finding` type and the CLI with this and nothing else, so naming for it now would
-mean picking a vaguer name for a capability that may never arrive.
+PDF remains outside the scope. It has a different file structure, and a PDF
+checker would share little beyond the `Finding` type and CLI.
 
 ### Breaking
+
 - The import is `ooxml_integrity`, not `docx_integrity`.
 - The command is `ooxml-integrity`.
 - `pip install docx-integrity` still resolves, but that name stops receiving
@@ -133,53 +160,47 @@ mean picking a vaguer name for a capability that may never arrive.
   `--baseline` at the old one if you have it, or regenerate.
 
 ### Not breaking, on purpose
-- `.docx-integrity.toml` and `[tool.docx-integrity]` are still read. A rename on
-  this side is not a reason for someone else's config to stop working. The new
-  spellings win when both are present, and there are tests for both.
+
+- `.docx-integrity.toml` and `[tool.docx-integrity]` remain supported, so existing
+  configuration keeps working after the rename. The new spellings take
+  precedence when both are present; tests cover both forms.
 
 ## 0.2.0
 
-The first release aimed at somebody else's repository rather than at this
-experiment. Everything before it answered "what is wrong with this file"; this
-answers the question a person hits ten minutes after adding the check to a real
-project - *how do I turn off the one rule that does not apply to us, without
-turning off the tool?*
+Added the configuration needed to use the checker in an existing repository:
+rule overrides, path-specific exceptions, baselines and review annotations.
 
 ### Added
+
 - **Config** in `.docx-integrity.toml`, or `[tool.docx-integrity]` in
   `pyproject.toml`, found by walking upwards from the working directory.
   `fail-on` sets the default threshold; `[severity]` re-grades a rule or turns
   it `off`.
-- **Path-scoped ignores**, with a **required** `reason`. A suppression whose
-  justification lives in someone's memory cannot be reviewed a year later, so a
-  config without one is refused rather than accepted quietly. Globs use shell
-  semantics - `*` stays inside a path segment, which `fnmatch` alone gets wrong.
+- **Path-scoped ignores**, with a required `reason` so a later reviewer can
+  understand the exception. A config without one is rejected. Globs use shell
+  semantics: `*` stays inside a path segment, unlike plain `fnmatch` matching.
 - **Baseline**: `--write-baseline` records what a repository already reports,
-  `--baseline` then fails only on what is new. Three deliberate properties:
-  it is written from what the *checks* saw rather than from what config allowed,
-  so changing the config later cannot resurrect old findings as fake
-  regressions; it counts occurrences instead of storing a set, so a second
-  overflow in a shape that had one is still new; and its fingerprints exclude
-  the message, because messages carry measurements and a baseline keyed on
-  those goes stale the first time anything moves by a point.
-- **SARIF 2.1.0** via `--sarif`, so findings become annotations in a pull
-  request instead of lines in a log nobody opens. Suppressed findings are
-  emitted too, marked suppressed with their reason - a report that omits them
-  cannot be audited, which would defeat the point of requiring a reason.
+  `--baseline` then fails only on new findings. Entries are recorded before
+  configuration is applied, so a config change does not make old findings
+  appear as regressions. Occurrences are counted: a second overflow in a shape
+  that already had one is still new. Fingerprints exclude message text, whose
+  measurements may change after a small layout adjustment.
+- **SARIF 2.1.0** via `--sarif`, for findings in pull request reviews.
+  Suppressed findings are included with their reasons, so reviewers can inspect
+  the exceptions as well.
 - `--show-suppressed` prints what was hidden and why; `--no-config` ignores any
   config that would be found.
 - The GitHub Action gained `config`, `baseline` and `sarif` inputs, and a
   `sarif` output.
-- `docs/example-config.toml` - a worked config that explains when to reach for
-  an override, an ignore, or a baseline. They are kept separate on purpose:
-  "this rule is wrong for us", "this rule is wrong here" and "we know, not
-  today" are three different statements, and one switch for all three loses
-  which was meant.
-- CI gates the new layer end to end - default run fails, baseline makes it pass,
-  the same content at a different path still fails, SARIF parses. A suppression
-  bug is silent by nature: the run goes green and the finding is simply gone.
+- `docs/example-config.toml`, a worked config explaining when to use an
+  override, a path-specific ignore, or a baseline of existing findings.
+- CI tests policy handling end to end: the default run fails, the baseline
+  makes it pass, the same content at a different path still fails, and the
+  SARIF output parses. These checks catch suppressions that would otherwise
+  hide a finding while leaving CI green.
 
 ### Changed
+
 - `tomli` is a dependency on Python 3.10 and older, only to read the config
   file. 3.11+ uses `tomllib` from the standard library.
 - `Policy` is exported from the package, so an API user gets the same
@@ -188,86 +209,84 @@ turning off the tool?*
 ## 0.1.3
 
 ### Fixed
-- **The fidelity check counted constructs, so a swapped comment was invisible.**
-  Remove one comment and add another and every count matches; because the anchor
-  and the `comments.xml` entry go together, nothing is orphaned either, so the
-  self-consistency half is silent too. The tool reported such a file as
-  `0 error(s), 0 warning(s), 0 info - clean` while the reviewer's note had been
-  destroyed - the exact defect this project exists to catch, missed by its own
-  check.
 
-  `FID004` / `FID005` / `FID006` now compare the **body text** of every comment,
+- Replacing one comment with another escaped the fidelity check because the
+  construct counts stayed equal. When the anchor and `comments.xml` entry were
+  replaced together, self-consistency checks also found no orphaned item. The
+  tool reported `0 error(s), 0 warning(s), 0 info - clean` even though the
+  original reviewer's note was gone.
+
+  `FID004` / `FID005` / `FID006` now compare the body text of every comment,
   footnote and endnote in the source against the edited file, as a multiset, so
   losing one of two identically worded items is still a loss. Matching is on
-  normalised text rather than on id: ids get renumbered legitimately, and it is
-  the reviewer's sentence that either survived or did not.
+  normalised text, allowing legitimate id renumbering.
 
-  Found by an outside review of the arithmetic, not by the 99 tests. The
+  An outside review found the gap while the 99 tests were passing. The
   reproduction is now `tests/test_fidelity.py::
   test_a_swapped_comment_is_caught_even_though_counts_match`, which asserts up
-  front that no count changes - so it cannot quietly stop testing what it
-  claims to. Verified against all eight real agent runs, including the two that
-  rewrote paragraphs wholesale: no false positives.
+  front that no count changes. All eight real agent runs were checked for
+  false positives, including the two that rewrote paragraphs wholesale; none
+  were found.
 
 ### Added
+
 - `research/calibrate_pptx.py` takes `--renderer` (`soffice`, `x2t`, or a path),
   `--json`, and a `--build-probe` / `--from-pdf` pair for renderers with no
   usable command line: it writes one deck with a single shape per slide, so a
-  PDF exported by hand from a GUI can be measured page by page with no
-  attribution guesswork. The new path was cross-checked against the old one on
-  the same renderer - identical numbers on all 24 shapes.
+  PDF exported by hand from a GUI can be measured page by page with each result
+  attributed to its source shape. The new path was cross-checked against the
+  old one on the same renderer, with identical numbers on all 24 shapes.
 - `research/compare_renderers.py` and `docs/calibration/` - several renderers
   side by side from the same measurement code, and the raw numbers behind the
-  claims. ONLYOFFICE matches the 1.2 line-spacing constant to 0.000026% median,
-  which is floating-point noise, from an engine that had no part in establishing
-  it.
-- The borderline band has a better justification than it had. `FIT_mixed_run_sizes`
+  results. ONLYOFFICE matches the 1.2 line-spacing constant to 0.000026% median,
+  a difference at the level of floating-point noise. It was not used to
+  establish that constant.
+- Renderer comparison clarified the borderline band. `FIT_mixed_run_sizes`
   fills 99.2% of its box: this model and PowerPoint put it on two lines,
-  LibreOffice and ONLYOFFICE on three. Two engines on each side of one string, so
-  the disagreement is a property of the string rather than a precision limit of
-  the model - which is what a borderline band is for. The README said the
-  opposite and has been corrected.
+  LibreOffice and ONLYOFFICE on three. The same text therefore has different
+  valid layouts across engines. The README was corrected to describe this
+  renderer dependence; the earlier explanation had attributed the band to the
+  model's measurement precision.
 
 ### Changed
-- Prior work names `docx-mcp` as the closest overlap and says precisely where it
-  overlaps and where it does not, and the README no longer describes the
-  source-comparison question as one no other tool asks.
+
+- Prior work now describes the overlap with `docx-mcp`. The README's claim that
+  no other tool addresses source comparison was removed.
 
 ## 0.1.2
 
-Both fixes in this release were found by the CI matrix on its first real run,
-not by the 99 tests passing on Linux.
+The first CI matrix run found both fixes below after the 99 tests had passed
+on Linux.
 
 ### Fixed
-- **Dot-prefixed system faces were still reachable through the style key.** The
+
+- Dot-prefixed system faces were still reachable through the style key. The
   `.aqua kana` guard in 0.1.1 covered the plain family key, but the composed
   key (`family:italic`) was written by a second line that skipped it. So
   `.sf ns mono` was correctly rejected while `.sf ns mono:italic` was indexed,
   and an internal macOS system face remained selectable for any italic run.
   `_index_font_dirs` now has exactly one writer, which owns both keys.
 
-  Only the macOS runner could see this - no other platform ships dot-prefixed
-  families - so `tests/test_pptx.py::test_styled_system_faces_are_excluded_too`
-  manufactures such a face with fontTools, and the bug is now catchable
-  everywhere.
+  The failure appeared on the macOS runner, where these system families were
+  present. `tests/test_pptx.py::test_styled_system_faces_are_excluded_too` now
+  creates such a face with fontTools so the regression can run on every platform.
 
-- **`research/build_corpus.py` was not reproducible on Windows.**
+- `research/build_corpus.py` produced different bytes on Windows.
   `ZipInfo.__init__` defaults `create_system` to 0 on Windows and 3 elsewhere,
   and the value is written into the central directory - so identical content
-  produced a different file there. Now pinned. `build_pptx_corpus.py` gained
+  produced a different file there. The value is now fixed. `build_pptx_corpus.py` gained
   the same treatment plus a timestamp pass: `python-pptx` stamps entries with
   the current time, so the deck had never been byte-reproducible.
 
 ### Added
+
 - `research/assert_deck.py` - asserts the reference deck reports its exact set
   of finding codes, and that text measurement was available at all. The
-  previous CI step tested the exit code, which a runner with no fonts passes by
-  reporting every layout error as a warning: the tool's own failure mode,
-  inside the tool's own pipeline.
+  previous CI step tested only the exit code. A runner with no fonts could pass
+  it while reducing layout errors to warnings.
 - `research/outline_deck.py` and `research/powerpoint_checklist.py` - draw a
   visible outline on every text box and print the per-shape predictions, so the
-  overflow model can be checked against a real renderer by eye rather than by
-  trusting the arithmetic.
+  overflow predictions can be compared visually with a renderer.
 - CI installs metric-compatible fonts on Linux and macOS, and fails if Calibri
   or Cambria resolve to anything but an exact or metric-compatible face.
 - `docs/powerpoint-validation.md` - the overflow model checked against real
@@ -279,70 +298,64 @@ not by the 99 tests passing on Linux.
 ## 0.1.1 - unreleased
 
 ### Fixed
-- **The checker was silently not checking on macOS and Windows.** Fonts were
-  located only through `fc-match`, which neither ships. On a Mac nothing was
+
+- Text measurement could be skipped on macOS and Windows because font discovery
+  relied on `fc-match`, which neither ships. On a Mac nothing was
   found, `layout_shape` skipped every paragraph, and a deck with seven
   overflowing shapes came back as `0 error(s), 3 warning(s)` - the three
-  geometry findings, and a clean bill of health on all the text.
+  geometry findings. The report did not say that the text had gone unchecked.
+  Running the built wheel on a Mac exposed the problem; the tests had missed it.
 
-  This is the same silent-failure class the project exists to catch, in the
-  project's own code, and it was caught by running the built wheel on a real
-  Mac rather than by any test.
-
-  Two changes, because either alone would have been insufficient:
+  The fix adds font discovery and an explicit measurement failure:
 
   - `fonts.FONT_DIRS` and `_index_font_dirs()`: when there is no fontconfig,
     the standard font directories for macOS, Windows and Linux are scanned and
     indexed by the family names in each face's `name` table. Filenames are not
-    family names - `Times New Roman` lives in `Times.ttc` - so the `name` table
+    family names: `Times New Roman` lives in `Times.ttc`, so the `name` table
     is read, and `.ttc`/`.otc` collections are expanded. The scan is deferred
     until fontconfig has already failed and cached for the process.
   - `PPT000` and `fonts.measurement_available()`: when text cannot be measured
-    at all, the report says so as an **error**, rather than returning no
-    findings. A tool that cannot run its own check must not report success.
+    at all, the report returns an error explaining that measurement was unavailable.
 
   Regression tests in `tests/test_pptx.py::TestMeasurementUnavailable` cover
   all three states: fontconfig present, fontconfig absent but fonts present,
   and no fonts at all.
 
-- **The macOS fallback picked a Japanese system font to measure English.** With
+- The macOS fallback picked a Japanese system font to measure English. With
   the directory scan working but no substitute installed, the last-resort branch
   sorted the index alphabetically and took the first entry - `.aqua kana`, a
-  dot-prefixed internal macOS face. Two guards: dot-prefixed families are never
+  dot-prefixed internal macOS face. Two checks now prevent this: dot-prefixed families are never
   indexed, and a fallback must have basic Latin coverage. `LAST_RESORT` also
   gained the faces that actually exist on macOS and Windows, since it previously
   listed only Linux ones and therefore never matched on either.
 
-- **Metric compatibility is measured, not asserted.** The docstring on
-  `METRIC_SUBSTITUTES` claimed "IDENTICAL advance widths". Measuring Carlito
-  against real Calibri - which needs two machines, since the two fonts are
-  almost never installed together - shows digits match exactly and letters do
-  not: Carlito is 0.26-0.58% wider. The claim is now the measurement, with the
-  numbers in the source. The error is the same order as the GPOS-kerning gap and
-  points toward false positives rather than misses, so `BORDERLINE` needs no
-  change.
+- Corrected the `METRIC_SUBSTITUTES` docstring, which claimed "IDENTICAL advance
+  widths". Measurements of Carlito and real Calibri on two machines showed
+  exact digit widths, while Carlito's letters were 0.26-0.58% wider. The source
+  now records these measurements. The difference is of the same order as the
+  GPOS-kerning gap and tends toward false positives, so `BORDERLINE` is unchanged.
 
-- **fontTools chatter no longer reaches the user.** Reading macOS system faces
+- Suppressed fontTools diagnostics during metric loading. Reading macOS system faces
   printed lines like `144733 extra bytes in post.stringData array` to stderr,
-  in the middle of a check report. Harmless for advance widths, pure noise in
-  output someone is meant to read. The first attempt silenced only the file
+  in the middle of a check report. These messages did not affect advance widths.
+  The first attempt silenced only the file
   open; TTFont is lazy, so the `kern` table's "subtable longer than defined"
   warning still escaped when that table was read further down. The whole read
   is inside the quiet block now.
 
-- **Microsoft Office fonts are now found.** Microsoft 365 on macOS keeps Calibri,
+- Font discovery now includes Microsoft Office's cache. Microsoft 365 on macOS keeps Calibri,
   Cambria and Segoe UI in `~/Library/Group Containers/UBF8T346G9.Office/
   FontCache` rather than in a font directory, so a machine with Word installed
   was still measuring with a substitute. With this, a Mac that has Office
-  measures with the real fonts - which also makes the metric-compatibility
-  pairings verifiable for the first time.
+  can measure with the real fonts, allowing direct verification of the
+  metric-compatibility pairings.
 
 ## 0.1.0 — unreleased
 
-First packaged release. The finding and the harness predate it; this is the
-point at which it became installable.
+First installable package. The original finding and experimental harness predate it.
 
 ### Added
+
 - **`.pptx` layout checks.** `check_pptx()` and the CLI on a `.pptx` answer
   whether each shape's text fits its box, whether shapes overlap, and whether
   any hangs off the slide. This needs the effective font size, which is resolved
@@ -366,26 +379,26 @@ point at which it became installable.
   runs exposed.
 - `research/add_settings.py`: injects `word/settings.xml` into an existing
   package while asserting every other part stays byte-identical.
-- The reference corpus is now byte-reproducible — a fixture you cannot rebuild
-  identically is not a fixture.
+- The reference corpus can now be rebuilt byte-for-byte.
 
 ### Changed
-- Severity model, stated as a rule rather than case by case: losing something
-  that makes content or an audit trail **invisible** is an error; losing
-  something that only changes how the document **looks** is a warning. This
+
+- Defined the severity model: losing something that makes content or an audit
+  trail invisible is an error; a loss affecting only appearance is a warning. This
   promoted orphaned comments (`CMT005`), unreferenced footnotes (`FTN002`) and
-  comment ranges with no reference (`CMT003`) from warning to error, so the
-  defect this project exists for now fails CI at the default threshold.
+  comment ranges with no reference (`CMT003`) from warning to error, so
+  these losses now fail CI at the default threshold.
 - Fidelity losses carry a per-construct severity instead of one blanket rule.
 - A glob matching nothing is a usage error; a *named* path that does not exist
   is a finding about that file. Previously both produced "file not found:
-  *.docx", which is a nonsense message.
+  *.docx", leaving the cause unclear.
 
 ### Fixed
-- **Line spacing for decks is a flat 1.2 x font size, not the font's vertical
-  metrics.** Established by rendering six faces at two sizes: the pitch is
-  exactly 1.2000 x size every time, while the faces' own metrics range from 0.80
-  to 1.22. The font-metrics approach - right for Word body text - was giving a
+
+- DrawingML line spacing is modelled as 1.2 x font size. Rendering six faces at
+  two sizes gave a pitch of exactly 1.2000 x size every time, while the faces'
+  own metrics range from 0.80
+  to 1.22. Using vertical font metrics, as for Word body text, was giving a
   consistent +1.7% error.
 - Line layout is run-aware: each line takes its height from the tallest run
   *on that line*. Measuring a mixed-size paragraph at one size overstated the
@@ -396,6 +409,6 @@ point at which it became installable.
 - `REV003` no longer flags `w:ins > w:del` nesting, which is legal OOXML meaning
   "inserted by one author, deleted by another before acceptance".
 - `PKG005` no longer flags zip directory entries, which are not OPC parts.
-- `FID002` (a construct count going up) is informational, not a warning — an
-  agent may legitimately add a clause. Real duplication is caught by colliding
+- `FID002` (a construct count going up) is informational because an
+  agent may legitimately add a clause. Duplication is caught by colliding
   revision ids (`REV001`).

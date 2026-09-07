@@ -1,8 +1,8 @@
 # Coverage and environment capability
 
-A finding says that a supported check saw a problem. Coverage answers the
-different question: which checks could honestly make a claim about this
-particular file?
+A file can have no findings even when some of its content could not be checked.
+Coverage records what the checker evaluated, what it estimated, and what it
+could not assess for that file.
 
 ## Per-file coverage
 
@@ -13,7 +13,7 @@ ooxml-integrity check edited.docx --against source.docx --coverage
 ooxml-integrity check deck.pptx --coverage --json
 ```
 
-The human output stays compact. It prints one count per status and expands only
+The human output prints one count per status and expands only
 `estimated`, `skipped`, and `unsupported` items. `--coverage-details` implies
 `--coverage` and also prints `checked` and `not-present` items. When any
 confidence gap exists, a file with no findings is described as `no findings in
@@ -29,11 +29,11 @@ The five statuses are:
 | `skipped` | A check could not run; `reason` explains the missing precondition or failure. |
 | `unsupported` | The file contains, or the user requested, a recognised surface outside the current model. |
 
-Coverage describes confidence; it does not independently change the check exit
-code. A failed requested comparison and unavailable machine-wide PPTX font
-measurement already produce error findings (`FID000` and `PPT000`). Skipped or
-unsupported informational surfaces remain visible without making every file
-fail. Exit codes therefore retain their existing CI meaning.
+Coverage describes confidence and leaves the check exit code unchanged. A
+failed requested comparison and unavailable machine-wide PPTX font measurement
+already produce error findings (`FID000` and `PPT000`). Skipped or unsupported
+informational surfaces appear in coverage without independently failing the
+check, so exit codes retain their existing CI meaning.
 
 With `--json`, each file gains this additive block:
 
@@ -96,15 +96,15 @@ PPTX reports:
 `pptx.slide-order` is `checked` after the main `p:sldIdLst` resolves, including
 hidden slides. An absent/empty list is `not-present`; unlisted parts are not
 used as a fallback. A broken listed relationship or slide aborts reading with
-`PKG002` and a skipped inventory, rather than claiming checked order or layout.
+`PKG002` and a skipped inventory. Order and layout are then left unchecked.
 This does not validate the complete PPTX package graph. See the
 [slide-order contract and Office evidence](pptx-slide-order.md).
 
 Font metrics and overflow use families resolved from each slide's owning master
 theme. A required theme chain or Latin face that cannot be resolved, or a
 slide/layout font-scheme override outside the model, aborts reading with
-`PKG002` and a skipped inventory. It is not a clean layout result. Literal-font
-text does not require unused theme dependencies. Successful theme resolution
+`PKG002` and a skipped inventory. Layout has not been assessed in that case.
+Literal-font text does not require unused theme dependencies. Successful theme resolution
 does not upgrade font substitution or shaping confidence. See the
 [master-theme contract and native Office evidence](pptx-master-themes.md).
 
@@ -130,9 +130,9 @@ It reports:
   confidence;
 - checks known to be unavailable in this release.
 
-The three font names are representative probes, not a promise that every face
-declared by a future presentation exists. Per-file coverage resolves the faces
-actually requested by that deck.
+The three font names provide a small sample of the machine's font setup.
+Per-file coverage resolves the faces requested by the deck itself, which may
+differ from these probes.
 
 `doctor` exits `0` when all essential capabilities are available, including a
 usable exact or metric-compatible font setup. It still exits `0` with status

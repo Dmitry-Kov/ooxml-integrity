@@ -1,9 +1,8 @@
 # Support matrix
 
-This page describes the checks the current implementation actually performs.
-The unit of support is the row in the tables below, not the whole file format.
-OOXML is large, and reading a part successfully does not mean that every
-construct in that part was validated.
+This page describes what the current checker can assess. Each table row defines
+the scope of one check, including the parts and constructs it reads. A package
+can be read successfully while some of its content remains unchecked.
 
 ## What the statuses mean
 
@@ -13,10 +12,9 @@ construct in that part was validated.
 | **Partial** | A useful check exists, but only for a named subset, or its verdict depends on the producer, renderer, installed fonts or another stated limitation. |
 | **Not checked** | The checker makes no claim about this surface. The package may still be opened or parsed while this content receives no semantic or layout check. |
 
-**No findings does not mean that every surface in a file was checked.** It means
-that no finding was produced by the supported and partial checks that applied to
-that file. Content listed as **Not checked**, and unsupported variants within a
-**Partial** row, may still be broken, missing or rendered differently.
+When a file has no findings, none of the supported or partial checks that ran
+found a problem. Content listed as **Not checked**, and unsupported variants
+within a **Partial** row, may still be broken, missing or rendered differently.
 
 Use `check ... --coverage` for a per-file inventory. It distinguishes a
 supported surface that was checked, a supported surface that was not present,
@@ -72,11 +70,11 @@ extend the Word semantic checks below to those parts.
 
 ## DOCX fidelity against a source
 
-Fidelity checks run only when an edited DOCX is checked with `--against` or
-through `compare(source, edited)`. They report structural loss; they do not
-decide whether the requested prose or business change was correct.
-An unreadable source produces `FID000` as an error, so the default threshold
-cannot report success without the requested comparison.
+Fidelity checks run when an edited DOCX is checked with `--against` or through
+`compare(source, edited)`. They look for structural loss. The requested wording
+or business change still needs its own review. An unreadable source produces
+`FID000` as an error, which prevents a successful result at the default
+threshold when the requested comparison could not run.
 
 | surface | status | current scope |
 | --- | --- | --- |
@@ -105,10 +103,10 @@ It does not run the DOCX package inspector over a presentation.
 | Placeholder inheritance | **Partial** | Resolves missing shape geometry from a matching layout placeholder and resolves text properties through shape, layout, master, presentation defaults and the owning master's theme. Complex or ambiguous placeholder chains have no separate coverage claim. |
 | Effective font size and family | **Partial** | Resolves run and paragraph defaults, list styles, placeholder styles, master text styles and presentation defaults for the properties implemented. Shape-style `a:fontRef` selection is not implemented. East Asian and complex-script theme aliases still select the corresponding Latin major/minor family; script-specific supplemental faces and shaping are not resolved. |
 | Owning-master Latin theme faces | **Supported, bounded** | Major/minor Latin families follow each slide's typed internal layout → master → theme relationships; literal fonts retain precedence. Unrelated themes and ZIP order do not affect selection. Invalid required dependencies or missing requested faces fail closed with `PKG002` and skipped coverage. Slide/layout font-scheme overrides are explicitly rejected, not modelled; color/effect appearance is not checked. [Eight native PowerPoint observations, inheritance tests and scope](pptx-master-themes.md). |
-| Word wrapping and hard breaks | **Partial** | Greedy word wrapping, explicit hard breaks and emergency character wrapping of overlong basic Latin letters/digits. Run boundaries do not create word boundaries. Resolves `latinLnBrk` through paragraph and available list-style defaults; when enabled it can use the remaining line width. Insets, resolved paragraph indent, per-run sizes and stored scale participate. [Twelve PowerPoint for Mac observations](pptx-long-tokens.md) pin the new scope. Character boundaries within 5% reduce confidence. Other scripts, punctuation-aware breaking, fields (`a:fld`), hyphenation and tabs remain unmodelled; overwide unsupported tokens yield estimates, not confident defects. |
+| Word wrapping and hard breaks | **Partial** | Uses greedy word wrapping, explicit hard breaks and emergency character wrapping of overlong basic Latin letters/digits. Run boundaries do not create word boundaries. Resolves `latinLnBrk` through paragraph and available list-style defaults; when enabled it can use the remaining line width. Insets, resolved paragraph indent, per-run sizes and stored scale participate. [Twelve PowerPoint for Mac observations](pptx-long-tokens.md) document this behaviour. Character boundaries within 5% reduce confidence. Other scripts, punctuation-aware breaking, fields (`a:fld`), hyphenation and tabs remain unmodelled; overwide unsupported tokens are reported as estimates. |
 | Text-box height overflow | **Supported** | For measured horizontal `p:sp` text, compares calculated text height with the usable text-box height and reports clear or borderline overflow. Mixed run sizes, paragraph spacing, insets and stored line-space reduction are included within the implemented model. |
 | Horizontal overflow | **Supported / Estimated** | `PPT003` reports a measured line beyond the usable width with wrap off, or residual excess after supported character wrapping (e.g. one glyph wider than a whole line). Wrapped long Latin words normally produce extra lines and potentially `PPT001`, not a horizontal defect. More than 5% horizontal excess is required; approximate fonts or unmodelled breaking reduce severity to WARN. |
-| Borderline fit | **Supported** | Width/height results within the 5% tolerance band are reported as renderer-dependent rather than as authoritative overflow. |
+| Borderline fit | **Supported** | Predicted vertical overflow of up to 5% produces `PPT002`. Horizontal overflow of up to 5% of the box width does not trigger `PPT003`. Measurements near either limit may differ between renderers. |
 | Off-slide geometry | **Partial** | Checks the unrotated rectangle of each read `p:sp`, with a 2pt tolerance. Other shape classes and the transformed bounds of rotated or grouped shapes are not covered. |
 | Shape overlap | **Partial** | Checks axis-aligned overlap between two text-bearing, unrotated `p:sp` shapes and ignores intersections below 2% of the smaller rectangle. Z-order, transparency, clipping, visual glyph bounds and non-text shapes are not considered. |
 | Rotated shapes | **Partial** | Rotation is read. Rotated shapes are excluded from overlap checks, and rotation is not applied to off-slide bounds. Text-direction and transformed-layout effects are not modelled. |
@@ -146,14 +144,16 @@ It does not run the DOCX package inspector over a presentation.
 
 ## Producer and platform evidence
 
-Evidence applies to the committed reference corpus. It is not a general
-compatibility claim for every file produced by the named application.
+The evidence below comes from the committed corpus and recorded observations.
+It describes those files and application builds; it does not establish
+compatibility with every file from the same producer.
 
 | surface | evidence present | evidence not yet present |
 | --- | --- | --- |
 | DOCX corpus | One byte-reproducible feature package; six clean and two defective real agent outputs; plus a [versioned synthetic beta tranche](../evidence/docx-beta/README.md) with 50 sources, 220 exactly labelled pairs, six document classes, and ten sources each from `python-docx`, LibreOffice, Word for Mac, Word for Windows and Word Online. Twenty pairs retain actual Windows saves and observed web edits with hashes and independent XML audits. | Customer distributions, other Office builds/web sessions, an independently supplied commercial/internal generator (where available), independent human review of Windows/web labels, and positive labels for rules marked not measured in the [rule-level result](../evidence/docx-beta/RESULTS.md). Synthetic equivalents meet the P0.5 beta scope; client documents and dual human review are optional confidence extensions. |
 | DOCX observed rendering | The key detached-comment case was inspected in Word for Mac. Twenty mutation cycles were converted by LibreOffice without it reporting structural losses. [Windows Word](../evidence/docx-beta/WINDOWS.md) opened/saved ten synthetic sources with preserved XML facts. [Word Online](../evidence/docx-beta/ONLINE.md) accepted ten synthetic inputs, confirmed edits/saves, and returned audited downloads; all pages of inputs/downloads received supplementary local LibreOffice visual inspection. | Scored Windows/web visual fidelity, Google Docs and systematic DOCX checks in ONLYOFFICE. |
-| PPTX corpus | One byte-reproducible deck built with `python-pptx`, containing 24 deliberately chosen plain text-shape cases. | Real customer decks, tables, SmartArt, grouped/rotated content, charts and broad producer diversity. |
-| PowerPoint evidence | PowerPoint for Mac, Microsoft 365 on Apple Silicon, in editing view: 21 non-excluded reference shapes agreed with the predicted fit and line count. | PowerPoint for Windows, PowerPoint Online, mobile clients and Slide Show mode. |
+| PPTX corpus | One byte-reproducible reference deck built with `python-pptx`, containing 24 plain text-shape cases. Four additional synthetic decks cover [long tokens](pptx-long-tokens.md) (12 slides), [font collection members](font-collections.md) (6), [slide order](pptx-slide-order.md) (3), and [master-specific themes](pptx-master-themes.md) (8). | Real customer decks, tables, SmartArt, grouped/rotated content, charts and broad producer diversity. |
+| PowerPoint evidence | PowerPoint for Mac, Microsoft 365 on Apple Silicon, in editing view: 21 non-excluded reference shapes agreed with the predicted fit and line count. The four additional decks were opened in PowerPoint for Mac 16.112.3 and all 29 native slide exports were inspected, with results recorded in the linked reports. | PowerPoint for Windows, PowerPoint Online, mobile clients and Slide Show mode; independent review of the four additional decks. |
 | Other PPTX renderers | LibreOffice and ONLYOFFICE PDF exports agreed on line count for 23 of 24 reference shapes; the one disagreement is treated as renderer-dependent. | Google Slides and broader decks across renderer versions and platforms. |
 | Runtime platforms | The automated test matrix runs the Python package on Linux, macOS and Windows, and on Python 3.9 through 3.13 where applicable. | Running on an operating system does not establish agreement with every Office renderer on that system. |
+| Browser runtime | The [browser demo](../demo/README.md) runs the released package in a Pyodide worker, using bundled metric-compatible fonts. [Recorded smoke tests](../demo/VALIDATION.md) with package 0.4.0 and Pyodide 314.0.6 / Python 3.14.2 cover Chrome, Safari, Firefox and the in-app browser on macOS. Local adapter tests compare human and JSON output with the CLI. | Mobile devices, slow-network throttling, browser memory exhaustion, the 60-second worker-termination path and a controlled offline/network trace. Browser execution does not add Office rendering coverage. |

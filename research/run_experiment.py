@@ -111,7 +111,7 @@ def main():
             seen.add(f.code)
             n = sum(1 for g in real if g.code == f.code)
             mult = f' x{n}' if n > 1 else ''
-            print(f'    [{f.severity.value.upper():5}] {f.code}{mult}  {f.msg}')
+            print(f'    [{f.severity.value.upper():5}] {f.code}{mult}  {f.message}')
         print()
 
     # ---- accumulation: 20 cycles ----

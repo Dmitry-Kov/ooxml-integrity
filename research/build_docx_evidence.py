@@ -990,11 +990,10 @@ def _write_results(metrics: dict[str, object]) -> None:
     lines = [
         "# DOCX beta evidence results",
         "",
-        "This report is generated from `manifest.json` by "
-        "`research/build_docx_evidence.py evaluate --write`. The manifest's "
-        "expected labels are declared from isolated mutations or observed Office "
-        "operations with independent XML audits; they are not "
-        "snapshots of checker output.",
+        "Run `python research/build_docx_evidence.py evaluate --write` to regenerate "
+        "this report from `manifest.json`. Expected labels come from isolated "
+        "mutations or observed Office operations checked by independent XML "
+        "audits. The evaluator compares checker output with those labels.",
         "",
         "## Corpus denominator",
         "",
@@ -1002,8 +1001,9 @@ def _write_results(metrics: dict[str, object]) -> None:
         f"- Labelled source/output pairs: **{metrics['pairs']}**.",
         f"- Clean controls: **{metrics['clean_pairs']}**.",
         f"- Seeded-defect pairs: **{metrics['seeded_defect_pairs']}**.",
-        "- Unit of counting: one actionable finding occurrence. Exact duplicate "
-        "counts matter; info-level observations are outside this precision gate.",
+        "- Each actionable finding occurrence is counted, including repeated "
+        "occurrences of the same finding. Info-level observations are excluded "
+        "from the precision check.",
         "",
         "## Error-level result",
         "",
@@ -1033,20 +1033,19 @@ def _write_results(metrics: dict[str, object]) -> None:
         lines.append(f"| `{name}` | {group['pairs']} | {group['clean_pairs']} | {group['tp']} | {group['fp']} | {group['fn']} | {_percent(group['precision'])} | {_percent(group['recall'])} |")
     lines.extend((
         "",
-        "Rules with no positive or negative label in this tranche are explicitly "
-        "not measured; silence is not treated as evidence:",
+        "The following rules have no positive or negative labels in this corpus, "
+        "so their precision and recall have not been measured:",
         "",
         ", ".join(f"`{code}`" for code in unmeasured) + ".",
         "",
         "## Interpretation boundary",
         "",
-        "These numbers establish reproducible regression behaviour on synthetic "
-        "DOCX package mutations and the recorded Office save/edit workflows. "
-        "They do **not** establish production precision for unmeasured rules, "
-        "customer document distributions, other Office builds or web sessions, "
-        "or visual renderer fidelity. Those gaps are kept "
-        "in `manifest.json` and the corpus README rather than being folded into "
-        "the 100% measured-rule result.",
+        "These results describe the synthetic DOCX mutations and recorded Office "
+        "save/edit workflows in this corpus. The 100% result applies to the "
+        "measured rules under those conditions. Precision on customer documents, "
+        "unmeasured rules, other Office builds and other web sessions remains "
+        "unknown. Visual fidelity also needs separate evaluation. "
+        "`manifest.json` and the corpus README record these evidence gaps.",
         "",
     ))
     RESULTS.write_text("\n".join(lines), encoding="utf-8")
