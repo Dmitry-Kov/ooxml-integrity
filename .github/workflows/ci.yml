@@ -40,6 +40,9 @@ jobs:
       - name: Install metric-compatible fonts (Linux)
         if: runner.os == 'Linux'
         run: |
+          sudo rm -f /etc/apt/sources.list.d/google-chrome.list \
+                     /etc/apt/sources.list.d/google-chrome.sources \
+                     /etc/apt/sources.list.d/microsoft-prod.list
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-crosextra-carlito fonts-crosextra-caladea \
                                       fonts-liberation fontconfig
