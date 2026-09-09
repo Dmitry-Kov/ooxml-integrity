@@ -355,6 +355,127 @@ a false positive.
 
 ---
 
+## Applying the method to other people's tools
+
+The corpus and the checker were only ever measured against my own documents, so
+in September 2026 I ran them against third-party tools that edit or validate
+DOCX. This section records what came out of it, including the parts where the
+tools were fine and I was wrong.
+
+### adeu
+
+adeu projects a DOCX into Markdown, lets a model edit it, and writes the result
+back as tracked changes — the closest thing to the workflow this checker is
+built for. Running one `ModifyText` with a comment over the reference agreement
+and comparing against the source: comment anchors 2 → 3, insertions 2 → 3,
+deletions 1 → 2, footnote references, styles and numbering intact. That is the
+cleanest round-trip measured here, and worth stating plainly: the tool did not
+lose anything.
+
+One finding: the run holding the new `w:commentReference` carried
+`rStyle w:val="CommentReference"` while no such style was defined in
+`styles.xml`. Word and LibreOffice both accept a dangling `rStyle` silently and
+format the mark with the run's default properties, so the reference mark is
+simply the wrong size with no warning. Reported as
+[adeu #137](https://github.com/dealfluence/adeu/issues/137) and fixed in 3.0.3.
+The reference agreement from `corpus/` was adopted upstream as a fixture.
+
+This finding also raised a question about this checker's own severity rule:
+`STY001` on a comment reference mark is a loss of appearance only, which by the
+rule stated in the severity rule (losing something invisible is an error, losing
+appearance is a warning) should be a warning rather than an error. Not yet
+changed.
+
+Two fixture contributions followed: [#138](https://github.com/dealfluence/adeu/pull/138)
+(merged) with comment-projection scenarios from LibreOffice, Word for Mac and
+Word for Windows, and [#140](https://github.com/dealfluence/adeu/pull/140) with
+revision projection and accept/reject scenarios built from `runs/`. Preparing
+the second set exposed a mismatch in adeu's own cross-platform suite: the Python
+engine declares the `w16du` prefix on individual revision elements while the
+TypeScript engine declares it on the document root. The namespace-aware trees
+are identical; only the serialized snapshot differs. Reported as
+[#139](https://github.com/dealfluence/adeu/issues/139) with a self-contained
+reproduction script and fixed in 3.0.4.
+
+### python-docx
+
+`paragraph.text = ...` calls `Paragraph.clear()`, which drops every child of the
+paragraph except `w:pPr`. `w:commentRangeStart` and `w:commentRangeEnd` are
+paragraph children, not runs, so they go too, along with the run holding
+`w:commentReference`. Since 1.2 added `Document.add_comment()`, a library user
+can now create a comment and destroy its anchor with two documented calls:
+
+```
+before.docx 3 markers, 1 comments
+after.docx  0 markers, 1 comments
+```
+
+The same applies to `w:footnoteReference` — the footnote body survives in
+`footnotes.xml` while the reference in the text disappears — and to any
+`w:ins`/`w:del` wrapping the runs. Measured on a real document with the checker:
+footnote references 2 → 1, `FTN002` footnote defined but never referenced.
+
+Reported as [#1604](https://github.com/python-openxml/python-docx/issues/1604).
+An outside contributor opened
+[PR #1605](https://github.com/python-openxml/python-docx/pull/1605) the same day,
+collecting the comment ids before `clear()` and re-marking them on the
+replacement run. Verified against 1.2.0: the comment case is fixed, the range
+widens to cover the whole replacement text (which is what Word does when a
+commented passage is retyped), and footnotes and revisions are still dropped —
+so #1604 stays open.
+
+A second, pre-existing gap surfaced while checking that PR: `add_comment()`
+writes `rStyle w:val="CommentReference"` but never adds the style definition,
+which is the same defect found in adeu. Reported separately as
+[#1609](https://github.com/python-openxml/python-docx/issues/1609).
+
+### anthropics/skills
+
+The docx skill ships `scripts/office/validate.py`, which runs XSD validation,
+checks that comment markers are paired, and — with `--original` — compares
+paragraph counts and reports untracked text edits. Run against the `fast` agent
+output from the runs recorded here, with the source document supplied:
+
+```
+Paragraphs: 22 → 23 (+1)
+All validations PASSED!
+```
+
+The orphaned comment is not reported. `validate_comment_markers` compares the
+set of marker ids against the set of comment ids in one direction only: a marker
+pointing at a missing comment is caught, a comment pointed at by nothing is not.
+With `--author` it correctly reports the untracked table edits, but still says
+nothing about the comment. Reported as
+[anthropics/skills #1733](https://github.com/anthropics/skills/issues/1733) with
+both documents and a five-line suggested fix.
+
+This changes an earlier claim in these notes. "Render to PDF and inspect" is not
+the whole of what current agent skills do — that skill also validates against
+the schema and checks comment markers. It still misses this defect class, but
+for a more specific reason than "it only looks at pictures".
+
+### docx-mcp
+
+Its documented `validate` and `audit` commands overlap with the
+self-consistency half of this checker, so rather than duplicating that work I
+asked in [#4](https://github.com/sontanon/docx-mcp/issues/4) whether the
+documented rejection of inputs that already carry `w:ins`/`w:del` is a
+deliberate scope boundary, and offered a subset of the labelled pairs as
+fixtures. No response yet.
+
+### What this changed about the corpus
+
+The evidence corpus turned out to be narrower than the offer I made in those
+issues: all 270 documents under `evidence/docx-beta/` contain zero `w:ins` and
+zero `w:del`, because they are producer round-trips of documents that carry
+comments and footnotes but no pending revisions. The revision-bearing material
+lives in `corpus/base.docx` and the eight agent outputs under `runs/`, and only
+`runs/t1_bare` and `runs/t1_pres` contain nested `w:ins > w:del`. Contributions
+to other projects were sourced accordingly. Producing pre-redlined pairs
+directly from Word for Windows and Word Online remains open work.
+
+---
+
 ## Accumulation
 
 I also applied the mutators over twenty successive edit cycles. The repeated
@@ -430,22 +551,26 @@ summarised in the README.
   the need for text metrics when fitting text to a shape. This is relevant to
   the font resolution and layout measurements used here.
 - [Python-Redlines](https://github.com/JSv4/Python-Redlines) generates native
-  Word tracked changes from DOCX comparisons. Revision-id handling is one area
-  to include in a future comparison; `C2_copyclause` reproduces that class of
-  defect without running Python-Redlines itself.
-- [Office-o-tron](https://github.com/DEVSDMF/office-o-tron) and other OOXML
-  validators check package or schema conformance. Source-to-output preservation
-  and renderer behaviour need separate measurements.
-- [adeu](https://github.com/dealfluence/adeu), safe-docx, docx-redline-js — the
-  tools to consider when building a shared corpus of DOCX editing workflows.
-  Their behaviour on this corpus has not been measured.
+  Word tracked changes from DOCX comparisons. Until 1.0.0 (September 2026) its
+  README documented a `WmlComparer` move-markup defect that made Word report
+  unreadable content; `C2_copyclause` reproduces that class of defect. 1.0.0
+  replaced the comparison engine and states the defect no longer applies. Its
+  upgrade notes say revision-bearing inputs now produce different output and
+  that the project's fixtures carry no input revisions, so pre-redlined
+  documents are untested there by the project's own account. Not measured here.
+- OOXML validators such as the [Open XML SDK validator](https://github.com/dotnet/Open-XML-SDK)
+  check package or schema conformance. Source-to-output preservation and
+  renderer behaviour need separate measurements. (Office-o-tron, cited in
+  earlier versions of these notes, is no longer publicly available.)
+- [adeu](https://github.com/dealfluence/adeu) — measured; see
+  [Applying the method to other people's tools](#applying-the-method-to-other-peoples-tools).
 - [docx-mcp](https://github.com/sontanon/docx-mcp) applies edits as tracked
   changes and comments. Its documented `validate` and `audit` commands cover
-  annotation IDs, comment integrity and package consistency, which overlap
-  with checks here. Its documented input policy rejects existing tracked
-  changes, while the reference agreement in this repository deliberately
-  includes counsel's pending revisions. Comparing the tools would therefore
-  require recording which inputs each accepts as well as checking its outputs.
+  annotation IDs, comment integrity and package consistency, which overlap with
+  checks here. Its documented input policy rejects existing tracked changes,
+  while the reference agreement in this repository deliberately includes
+  counsel's pending revisions; that question is open upstream as
+  [#4](https://github.com/sontanon/docx-mcp/issues/4).
 
 ---
 
