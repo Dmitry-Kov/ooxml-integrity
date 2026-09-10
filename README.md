@@ -187,6 +187,8 @@ PATH, `python -m ooxml_integrity check report.docx` works anywhere.
 Every finding has a stable code and severity, plus a part, shape or XPath
 where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
+Undefined paragraph and table styles remain errors because they can carry
+numbering and structure; undefined character styles are warnings.
 
 `.docx`:
 
@@ -195,7 +197,8 @@ errors. Losses that affect only appearance are warnings.
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
-| `STY001-002` | paragraph, run and table styles resolve; `basedOn` / `next` / `link` resolve |
+| `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
+| `STY002` | undefined `basedOn` / `next` / `link` style references: warning |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
 | `CMT001-005` | `commentRangeStart` ↔ `commentRangeEnd` ↔ `commentReference` ↔ `comments.xml` |

@@ -17,6 +17,36 @@ def test_clean_file_exits_zero(base_docx):
     assert "clean" in r.stdout
 
 
+@pytest.mark.parametrize("old,new,severity,count,default_exit", [
+    ('<w:pStyle w:val="ClauseBody"/>',
+     '<w:pStyle w:val="MissingStyle"/>', "error", 4, EXIT_FINDINGS),
+    ('<w:tblStyle w:val="TableGrid"/>',
+     '<w:tblStyle w:val="MissingStyle"/>', "error", 1, EXIT_FINDINGS),
+    ('<w:rStyle w:val="DefinedTerm"/>',
+     '<w:rStyle w:val="MissingStyle"/>', "warn", 1, EXIT_OK),
+    ('<w:commentReference w:id="1"/>',
+     '<w:rPr><w:rStyle w:val="CommentReference"/></w:rPr>'
+     '<w:commentReference w:id="1"/>', "warn", 1, EXIT_OK),
+], ids=["paragraph", "table", "character", "comment-reference"])
+def test_undefined_style_severity_and_cli_threshold(
+        base_docx, tmp_path, old, new, severity, count, default_exit):
+    doc = read_part(base_docx, "word/document.xml")
+    assert doc.count(old) == count
+    out = repack(base_docx, tmp_path / "undefined-style.docx", {
+        "word/document.xml": doc.replace(old, new).encode(),
+    })
+
+    result = run_cli("check", str(out), "--no-config", "--json")
+    assert result.returncode == default_exit, result.stdout + result.stderr
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    assert len(findings) == count
+    assert all(f["code"] == "STY001" and f["severity"] == severity
+               for f in findings)
+
+    strict = run_cli("check", str(out), "--no-config", "--fail-on", "warn")
+    assert strict.returncode == EXIT_FINDINGS, strict.stdout + strict.stderr
+
+
 def test_defect_exits_one(runs_dir, base_docx):
     fast = runs_dir / "t4_fast_table" / "agreement.docx"
     if not fast.exists():

@@ -380,11 +380,15 @@ simply the wrong size with no warning. Reported as
 [adeu #137](https://github.com/dealfluence/adeu/issues/137) and fixed in 3.0.3.
 The reference agreement from `corpus/` was adopted upstream as a fixture.
 
-This finding exposes an inconsistency in this checker's own severity rule:
+This finding exposed an inconsistency in this checker's own severity rule:
 losing something that makes content or an audit trail invisible is an error;
 losing appearance is a warning. `STY001` on a comment reference mark reports an
-appearance-only loss, so its ERROR severity contradicts that rule. Not yet
-changed.
+appearance-only loss, so its ERROR severity contradicted that rule. Fixed on
+main in the unreleased changes after 0.4.0: undefined `rStyle` references now
+report WARN. Undefined `pStyle` and `tblStyle` references remain ERROR because
+paragraph and table styles can carry numbering and structure. With the default
+`--fail-on error`, character-style findings no longer fail CI; `--fail-on warn`
+still catches them.
 
 Two fixture contributions followed: [#138](https://github.com/dealfluence/adeu/pull/138)
 (merged) with comment-projection scenarios from LibreOffice, Word for Mac and

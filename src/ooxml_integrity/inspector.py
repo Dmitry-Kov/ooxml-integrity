@@ -326,8 +326,10 @@ class Inspector:
             for el in doc.iter(_w(tag)):
                 v = el.get(_w("val"))
                 if v and v not in defined:
+                    # Paragraph/table styles can carry numbering and structure;
+                    # an undefined character style is a formatting warning.
                     self._add(
-                        "STY001", ERROR,
+                        "STY001", WARN if tag == "rStyle" else ERROR,
                         f'{tag} references undefined style "{v}" - formatting is '
                         "silently lost",
                         self._xpath(el), "word/document.xml",

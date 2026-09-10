@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Changed `STY001` for undefined character styles (`rStyle`) from ERROR to WARN,
+  including comment reference marks. Undefined paragraph and table styles
+  (`pStyle`/`tblStyle`) remain ERROR because they can carry numbering and
+  structure. Character-style findings no longer fail the default
+  `--fail-on error` threshold; use `--fail-on warn` to retain a failing result.
+  The seven measured STY001 cases are paragraph styles, so the committed corpus
+  labels and metrics are unchanged.
 - Added a [browser demo](demo/README.md) served by GitHub Pages. A Pyodide worker
   runs the released package from PyPI for DOCX checks, DOCX source comparison,
   PPTX layout, coverage and Doctor. Selected files remain in browser memory;
@@ -18,9 +25,9 @@
   including when the files have the same name.
 - Excluded the local audit plan from version control and package distributions.
 
-These changes affect the website, browser adapter and repository packaging.
-The checker remains at `0.4.0`; its core capabilities have not changed since
-that release.
+The STY001 severity change is unreleased; release `0.4.0` still reports undefined
+character styles as errors. The other changes above affect the website, browser
+adapter and repository packaging.
 
 ## 0.4.0 — 2026-09-06
 
