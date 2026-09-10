@@ -380,22 +380,27 @@ simply the wrong size with no warning. Reported as
 [adeu #137](https://github.com/dealfluence/adeu/issues/137) and fixed in 3.0.3.
 The reference agreement from `corpus/` was adopted upstream as a fixture.
 
-This finding also raised a question about this checker's own severity rule:
-`STY001` on a comment reference mark is a loss of appearance only, which by the
-rule stated in the severity rule (losing something invisible is an error, losing
-appearance is a warning) should be a warning rather than an error. Not yet
+This finding exposes an inconsistency in this checker's own severity rule:
+losing something that makes content or an audit trail invisible is an error;
+losing appearance is a warning. `STY001` on a comment reference mark reports an
+appearance-only loss, so its ERROR severity contradicts that rule. Not yet
 changed.
 
 Two fixture contributions followed: [#138](https://github.com/dealfluence/adeu/pull/138)
 (merged) with comment-projection scenarios from LibreOffice, Word for Mac and
-Word for Windows, and [#140](https://github.com/dealfluence/adeu/pull/140) with
-revision projection and accept/reject scenarios built from `runs/`. Preparing
+Word for Windows, and [#140](https://github.com/dealfluence/adeu/pull/140)
+(merged) with revision projection and accept/reject scenarios built from `runs/`. Preparing
 the second set exposed a mismatch in adeu's own cross-platform suite: the Python
 engine declares the `w16du` prefix on individual revision elements while the
 TypeScript engine declares it on the document root. The namespace-aware trees
 are identical; only the serialized snapshot differs. Reported as
 [#139](https://github.com/dealfluence/adeu/issues/139) with a self-contained
 reproduction script and fixed in 3.0.4.
+
+The four inputs shipped in the second PR came from `runs/t1_bare`,
+`runs/t5_rewrite_pres`, `runs/t2_bare` and `runs/t2_pres`, with the revision author
+renamed from `Claude` to `Agent` in the three that needed it. Of those four,
+only `t1_bare` carries nested `w:ins > w:del`.
 
 ### python-docx
 
@@ -419,10 +424,11 @@ Reported as [#1604](https://github.com/python-openxml/python-docx/issues/1604).
 An outside contributor opened
 [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) the same day,
 collecting the comment ids before `clear()` and re-marking them on the
-replacement run. Verified against 1.2.0: the comment case is fixed, the range
+replacement run. The PR remains open. Verified against 1.2.0: the comment case is fixed, the range
 widens to cover the whole replacement text (which is what Word does when a
 commented passage is retyped), and footnotes and revisions are still dropped —
-so #1604 stays open.
+so #1604 stays open. The author removed the auto-close from the PR description
+to keep that remaining scope open.
 
 A second, pre-existing gap surfaced while checking that PR: `add_comment()`
 writes `rStyle w:val="CommentReference"` but never adds the style definition,
@@ -447,7 +453,35 @@ pointing at a missing comment is caught, a comment pointed at by nothing is not.
 With `--author` it correctly reports the untracked table edits, but still says
 nothing about the comment. Reported as
 [anthropics/skills #1733](https://github.com/anthropics/skills/issues/1733) with
-both documents and a five-line suggested fix.
+both documents and a five-line suggested fix. The issue and
+[PR #1734](https://github.com/anthropics/skills/pull/1734) remain open; the PR has
+not yet received a maintainer review.
+
+A reviewer on that PR argued that the reverse check would flag threaded replies,
+claiming they are nested `w:comment` children with no anchors of their own.
+A Word-authored file (AppVersion `16.0000`) containing one comment and one Reply
+produced a different result:
+
+```
+comments.xml:  2 x <w:comment>, zero nested (ids 0 and 1)
+document.xml:  commentRangeStart ids [0, 1]
+               commentRangeEnd   ids [0, 1]
+               commentReference  ids [0, 1]
+commentsExtended.xml:
+               w15:paraId="57B5BAC5"
+               w15:paraId="1E34214A" w15:paraIdParent="57B5BAC5"
+```
+
+Both comments are flat siblings and carry all three markers on the same range;
+the thread relationship is stored only as `paraIdParent` in
+`commentsExtended.xml`. The reverse check therefore does not false-positive on
+this thread. The schema also rules out the reviewer's nested example:
+`CT_Comment` uses `EG_BlockLevelElts`, whose content model does not include
+`comment`, and `w:comment` is declared only inside `CT_Comments`. Nesting one
+`w:comment` inside another is not schema-valid. This project's own check reads
+direct `w:comment` children with `findall`, so it was never exposed to the
+proposed descendant-selection concern; it reports no comment findings on this
+Word-authored thread.
 
 This changes an earlier claim in these notes. "Render to PDF and inspect" is not
 the whole of what current agent skills do — that skill also validates against
