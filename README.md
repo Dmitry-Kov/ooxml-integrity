@@ -72,11 +72,11 @@ Each finding was filed with a self-contained reproduction; two are fixed upstrea
 | [adeu](https://github.com/dealfluence/adeu/issues/137) | comment reference run carried `rStyle="CommentReference"` with no such style defined | fixed in 3.0.3; the reference document from this corpus was adopted as an upstream fixture |
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1604) | `paragraph.text` setter detaches comment anchors created through 1.2's comment API and existing footnote references | open; [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) restores the comment anchors, footnotes and revisions remain |
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1609) | `add_comment()` references the `CommentReference` style without defining it | open |
-| [anthropics/skills](https://github.com/anthropics/skills/issues/1733) | the docx skill's `validate.py` passes a file whose comment is present in `comments.xml` but anchored to nothing — it checks marker → comment, not the reverse | open |
+| [anthropics/skills](https://github.com/anthropics/skills/issues/1733) | the docx skill's `validate.py` passes a file whose comment is present in `comments.xml` but anchored to nothing — it checks marker → comment, not the reverse | open; [PR #1734](https://github.com/anthropics/skills/pull/1734) awaits maintainer review |
 | [docx-mcp](https://github.com/sontanon/docx-mcp/issues/4) | offer of labelled pairs; question about the policy of rejecting inputs that already carry revisions | open |
 
-Fixture contributions from this corpus: [adeu #138](https://github.com/dealfluence/adeu/pull/138)
-(merged — comment projection across LibreOffice, Word for Mac and Word for Windows) and
+Fixture contributions merged upstream: [adeu #138](https://github.com/dealfluence/adeu/pull/138)
+(comment projection across LibreOffice, Word for Mac and Word for Windows) and
 [adeu #140](https://github.com/dealfluence/adeu/pull/140) (revision projection and
 accept/reject). Preparing them surfaced a Python/TypeScript namespace-serialization
 mismatch in adeu's own consistency suite
@@ -187,6 +187,8 @@ PATH, `python -m ooxml_integrity check report.docx` works anywhere.
 Every finding has a stable code and severity, plus a part, shape or XPath
 where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
+Undefined paragraph and table styles remain errors because they can carry
+numbering and structure; undefined character styles are warnings.
 
 `.docx`:
 
@@ -195,7 +197,8 @@ errors. Losses that affect only appearance are warnings.
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
-| `STY001-002` | paragraph, run and table styles resolve; `basedOn` / `next` / `link` resolve |
+| `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
+| `STY002` | undefined `basedOn` / `next` / `link` style references: warning |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
 | `CMT001-005` | `commentRangeStart` ↔ `commentRangeEnd` ↔ `commentReference` ↔ `comments.xml` |
