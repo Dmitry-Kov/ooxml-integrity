@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="ooxml-integrity finds what a machine edit silently lost from a .docx and whether deck text fits its box. Deterministic, offline. Try it on your own file in the browser — nothing is uploaded.">
+  <meta name="description" content="ooxml-integrity checks .docx edits for broken references and lost review information, and estimates whether deck text fits its box. Try it in the browser — files stay in the tab.">
   <meta property="og:title" content="ooxml-integrity — what did the edit lose?">
-  <meta property="og:description" content="Word opens a .docx that lost its reviewer's comment without a warning. This catches it. Try it in the browser; files never leave the tab.">
+  <meta property="og:description" content="In our Word for Mac example, an edit opened without a warning while its reviewer comment was detached. Check references and compare with the original in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dmitry-kov.github.io/ooxml-integrity/">
   <title>ooxml-integrity — what did the edit lose?</title>
@@ -27,10 +27,10 @@
     </header>
 
     <section class="hero" aria-labelledby="title">
-      <h1 id="title">Word opens this file without a warning. <br>The reviewer's comment is gone.</h1>
-      <p class="lede">Two agents were given the same contract and the same edit: update three figures in the milestone table. One wrapped its edits as tracked changes. The other used <code>python-docx</code>, which drops every run in a paragraph when it sets the text — and the comment anchors go with them. Both files are schema-valid. Both render. Word reports neither.</p>
+      <h1 id="title">Word opened this edit without a warning. <br>The reviewer's comment was gone.</h1>
+      <p class="lede">In a recorded Word for Mac comparison, one table edit preserved the reviewer's comment and tracked the changes. Another used <code>python-docx</code> and detached the comment when replacing paragraph text. Both files opened without a warning. The note remained in <code>comments.xml</code> but disappeared from the margin.</p>
 
-      <figure class="redline" aria-label="Two versions of the same contract page, side by side">
+      <figure class="redline" aria-label="Illustration of preserved and detached comment anchors">
         <div class="page page-careful">
           <div class="doc">
             <p class="doc-title">Services Agreement</p>
@@ -65,12 +65,12 @@
           <aside class="margin margin-empty" aria-label="Empty comment margin"></aside>
         </div>
         <figcaption>
-          <span>Careful agent — 23 tool calls, edits tracked, comment anchored to the figure.</span>
-          <span>Fast agent — 5 tool calls, edits untracked, comment still in <code>comments.xml</code>, anchored to nothing.</span>
+          <span>Illustration: edits tracked, comment anchored to the figure.</span>
+          <span>Edits untracked, comment still stored in the package but anchored to nothing.</span>
         </figcaption>
       </figure>
 
-      <p class="tally">Same word count. Same page count. Well-formedness checks, schema validation and render-and-inspect each caught <strong>0 of 6</strong> defect classes. Nothing in the picture is wrong. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md">How this was measured</a></p>
+      <p class="tally">Opening successfully does not establish that review information survived. The checker inspects references inside the file and compares supported content with the original. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#the-finding">See the recorded Word comparison and its limits</a>.</p>
     </section>
 
     <section id="try" class="try" aria-labelledby="try-title">
@@ -106,7 +106,7 @@
           <button type="button" class="clear" id="clear-source" hidden>Remove source</button>
         </div>
       </div>
-      <div class="examples"><span>Or try an example</span><button type="button" data-example="fidelity" disabled>The contract above, with its original</button><button type="button" data-example="deck" disabled>A deck with text that does not fit</button><button type="button" data-example="document" disabled>A clean document</button></div>
+      <div class="examples"><span>Or try an example</span><button type="button" data-example="fidelity" disabled>A detached comment, with its original</button><button type="button" data-example="deck" disabled>A deck with text that does not fit</button><button type="button" data-example="document" disabled>A clean document</button></div>
       <div class="actions">
         <button type="button" class="primary" id="check" disabled>Check</button>
         <label class="coverage"><input type="checkbox" id="coverage" checked> Include coverage <code>--coverage</code></label>
@@ -124,7 +124,7 @@
         <pre id="human-output" role="tabpanel" aria-labelledby="human-tab" tabindex="0">Choose your files above, or try an example.
 
 The original enables --against: checks for what an edit lost,
-even when the resulting document is structurally valid.</pre>
+even when the resulting document has no broken references.</pre>
         <pre id="json-output" role="tabpanel" aria-labelledby="json-tab" tabindex="0" hidden>{}</pre>
       </div>
       <p class="fineprint">This is a checker, not an Office renderer. In the browser, Calibri is measured with Carlito, Cambria with Caladea, and Arial, Times New Roman and Courier New with Liberation Sans, Serif and Mono. Substituted measurements are reported as estimates. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/tree/main/demo#readme">What runs where</a></p>
@@ -133,17 +133,17 @@ even when the resulting document is structurally valid.</pre>
     <section class="two" aria-labelledby="two-title">
       <div class="section-head">
         <h2 id="two-title">Two questions, because one is not enough</h2>
-        <p>A document stripped of every style, footnote and revision is perfectly self-consistent. The checker asks both, and you usually want both.</p>
+        <p>A document can lose comments or revisions while its remaining references stay consistent. Check both the edited file and what changed from the original.</p>
       </div>
       <div class="two-grid">
         <div class="q">
           <h3>Did this file survive editing?</h3>
-          <p>Every comment anchor, footnote reference, style, numbering definition, relationship and tracked change still points at something that exists.</p>
+          <p>Check supported comment anchors, footnote references, styles, numbering, relationships and tracked-change structures for inconsistencies.</p>
           <pre class="cmd">ooxml-integrity check report.docx</pre>
         </div>
         <div class="q">
           <h3>What did the edit lose?</h3>
-          <p>Compared against the source, by construct count and by text. This is the half nothing else answers, and where the defects that leave a clean-looking file live.</p>
+          <p>Compare supported construct counts and text against the original. This can reveal losses even when the edited file has no broken references.</p>
           <pre class="cmd">ooxml-integrity check edited.docx --against original.docx</pre>
         </div>
       </div>
@@ -154,32 +154,37 @@ even when the resulting document is structurally valid.</pre>
 
     <section class="matrix" aria-labelledby="matrix-title">
       <div class="section-head">
-        <h2 id="matrix-title">What each approach catches</h2>
-        <p>Six defects an agent actually introduced, two clean edits as controls. <em>Missed</em> means the tool reported no problem. Rendering to PDF and inspecting the pages is the current state of the art for agent output — and none of these defects are visible in a picture.</p>
+        <h2 id="matrix-title">Six controlled defects, two controls</h2>
+        <p>Hand-written mutations modelled editing mistakes on one reference contract. All six defect cases triggered findings. XML parsing, a Word namespace/root/body check and successful LibreOffice PDF conversion did not distinguish them from the controls. Full XSD validation and systematic visual review were not run.</p>
       </div>
+      <p class="table-hint" id="table-hint">Scroll sideways to see all columns.</p>
+      <div class="table-scroll" role="region" aria-label="Controlled mutation results" aria-describedby="table-hint" tabindex="0">
       <table class="detectors">
         <thead>
-          <tr><th scope="col">Edit</th><th scope="col">Well-formed</th><th scope="col">Schema</th><th scope="col">Render</th><th scope="col">This checker</th></tr>
+          <tr><th scope="col">Controlled edit</th><th scope="col">XML parses</th><th scope="col">Root/body check</th><th scope="col">PDF created</th><th scope="col">Checker findings</th></tr>
         </thead>
         <tbody>
-          <tr class="control"><td><code>python-docx</code> open and save, no edit</td><td>clean</td><td>clean</td><td>clean</td><td>clean</td></tr>
-          <tr><td><code>python-docx</code> <code>paragraph.text = …</code></td><td>missed</td><td>missed</td><td>missed</td><td class="hit">2 found · 5 losses</td></tr>
-          <tr class="control"><td>LLM edits a value in raw XML</td><td>clean</td><td>clean</td><td>clean</td><td>clean</td></tr>
-          <tr><td>LLM clones a block for one more clause</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">1 found · 3 losses</td></tr>
-          <tr><td>LLM reformats the XML</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">5 found</td></tr>
-          <tr><td>LLM deletes a paragraph holding a footnote</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">1 found · 3 losses</td></tr>
-          <tr><td>LLM renames a style, leaves references dangling</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">4 found</td></tr>
-          <tr><td>Round-trip through markdown</td><td>missed</td><td>missed</td><td>missed</td><td class="hit">12 losses</td></tr>
+          <tr class="control"><td><code>python-docx</code> open/save control</td><td>yes</td><td>passed</td><td>yes</td><td>none</td></tr>
+          <tr><td>Replace text with <code>paragraph.text</code></td><td>yes</td><td>passed</td><td>yes</td><td class="hit">self + source</td></tr>
+          <tr class="control"><td>Targeted XML value-edit control</td><td>yes</td><td>passed</td><td>yes</td><td>none</td></tr>
+          <tr><td>Clone a clause with its revision IDs</td><td>yes</td><td>passed</td><td>yes</td><td class="hit">self</td></tr>
+          <tr><td>Reformat XML, losing whitespace markers</td><td>yes</td><td>passed</td><td>yes</td><td class="hit">self</td></tr>
+          <tr><td>Delete a paragraph holding a footnote</td><td>yes</td><td>passed</td><td>yes</td><td class="hit">self + source</td></tr>
+          <tr><td>Rename a style, leave references dangling</td><td>yes</td><td>passed</td><td>yes</td><td class="hit">self</td></tr>
+          <tr><td>Round-trip through Markdown</td><td>yes</td><td>passed</td><td>yes</td><td class="hit">source</td></tr>
         </tbody>
       </table>
-      <p class="note">Eight real agent runs were also done, with tooling choice as the only variable. Six careful runs produced zero defects and refused <code>python-docx</code> on their own — at 67–86k tokens per two-line edit. The two fast runs each orphaned the reviewer's comment. The honest claim is not that agents corrupt documents; it is that the variance between pipelines is total and nothing downstream can tell which one you got. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#real-agent-runs-including-the-result-that-went-against-me">The runs, including the result that went against me</a></p>
+      </div>
+      <p class="note"><strong>Self</strong> checks internal consistency; <strong>source</strong> compares with the original. The table lists checks that reported ERROR or WARN findings. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#what-each-verification-approach-catches">Method, results and limits</a>.</p>
+      <p class="note">Separately, eight recorded agent runs on copies of one contract produced six outputs with no structural findings and two with detached comments. Tasks and prompts varied, including preservation and speed instructions; tool choice was not a controlled variable. These runs do not measure how often agents damage documents. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#real-agent-runs-including-the-result-that-went-against-me">Agent-run observations</a>.</p>
     </section>
 
     <section class="decks" aria-labelledby="decks-title">
       <div class="section-head">
         <h2 id="decks-title">Decks: does the text fit the box?</h2>
-        <p>The check <a href="https://github.com/scanny/python-pptx/issues/973">python-pptx has declined for a decade</a>, because it needs text measurement. Widths come from the font's own <code>hmtx</code> table via fontTools; nothing is rasterised. The effective font size is resolved the way PowerPoint does it — run, paragraph, list style, layout and master placeholders, presentation defaults, theme.</p>
+        <p>The checker estimates fit from font advance tables and supported text properties, including size inherited from run, paragraph, list, layout, master and presentation defaults. It does not render the deck. The evidence below covers specific strings, fonts and renderer configurations.</p>
       </div>
+      <p class="note">Example report with desktop fonts; browser substitutions can differ.</p>
       <pre class="output"><span class="err">[ERROR]</span> PPT001  text needs 144pt in a 40pt box - 104pt too tall (260% over), 3 line(s)
           -> slide1/OVER_huge_type_tiny_box
 <span class="warn">[WARN ]</span> PPT006  overlaps 'OVERLAP_upper_right' over 23% of the smaller shape
@@ -187,17 +192,17 @@ even when the resulting document is structurally valid.</pre>
 <span class="info">[INFO ]</span> PPT007  Segoe UI is not installed and has no known substitute; measured
                 with DejaVu Sans - widths are a guess. 1 shape(s) affected</pre>
       <dl class="evidence">
-        <div><dt>21 of 21</dt><dd>shapes agreed with real PowerPoint, line count exact on every one</dd></div>
-        <div><dt>1.2 × size</dt><dd>DrawingML line pitch is a flat constant, not the font's metrics — measured across six faces</dd></div>
-        <div><dt>0.26–0.58 %</dt><dd>how much wider Carlito runs than Calibri, so substitution errs toward reporting overflow, not missing it</dd></div>
-        <div><dt>borderline</dt><dd>when PowerPoint and LibreOffice lay out the same shape differently, the finding says so instead of picking a side</dd></div>
+        <div><dt>21 of 21</dt><dd>non-excluded reference shapes matched fit and line count in PowerPoint for Mac editing view, using the same Calibri file. Three cases were excluded. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/powerpoint-validation.md#result">Comparison record</a>.</dd></div>
+        <div><dt>1.2 × size</dt><dd>default line pitch observed in a LibreOffice probe with six faces at 12pt and 20pt. This supports the model for those samples. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#how-accurate-is-the-deck-model">Measurement method</a>.</dd></div>
+        <div><dt>0.26–0.58 %</dt><dd>width difference in five letter samples measured at 18pt: Carlito was wider than Calibri. A digits sample matched. This is not a bound for other strings or fonts. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/research.md#how-accurate-is-the-deck-model">Font comparison</a>.</dd></div>
+        <div><dt>2 vs 3 lines</dt><dd>for one near-limit shape: PowerPoint for Mac used two lines; LibreOffice and ONLYOFFICE used three. The checker applies a tolerance, without predicting every renderer. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/powerpoint-validation.md#the-one-shape-that-divides-them">Observed disagreement</a>.</dd></div>
       </dl>
     </section>
 
     <section id="install" class="install" aria-labelledby="install-title">
       <div class="section-head">
         <h2 id="install-title">Put it after the step that edits documents</h2>
-        <p>A generation script, an agent, a template merge — that is where these defects come from, and the only place they are still cheap to find. Two dependencies, Python 3.9+, no model calls, no network.</p>
+        <p>Run after a generation script, agent edit or template merge, with the original available for comparison. Python 3.9+, with <code>lxml</code> and <code>fonttools</code> (plus <code>tomli</code> on Python 3.9–3.10). Installed checks need no model calls or network.</p>
       </div>
       <div class="install-grid">
         <div>
@@ -205,7 +210,7 @@ even when the resulting document is structurally valid.</pre>
           <pre class="cmd">pip install ooxml-integrity
 ooxml-integrity check out/*.docx --against templates/master.docx
 ooxml-integrity check deck.pptx --coverage</pre>
-          <p>Exit <code>0</code> clean, <code>1</code> findings at or above <code>--fail-on</code>, <code>2</code> usage error. <code>--json</code> for machines.</p>
+          <p>Exit <code>0</code>: no findings at the failure threshold; <code>1</code>: findings at or above <code>--fail-on</code>; <code>2</code>: usage error. Use coverage to see what was checked and <code>--json</code> for machines.</p>
         </div>
         <div>
           <h3>GitHub Action</h3>
@@ -215,7 +220,7 @@ ooxml-integrity check deck.pptx --coverage</pre>
     against: templates/master.docx
     fail-on: error
     sarif: ooxml-integrity.sarif</pre>
-          <p>SARIF puts findings in the pull request. Ignores, severity overrides and baselines: <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md">configuration</a>.</p>
+          <p>SARIF output can be uploaded to GitHub code scanning for pull-request annotations. Ignores, severity overrides and baselines: <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md">configuration</a>.</p>
         </div>
         <div>
           <h3>Python</h3>
@@ -223,7 +228,7 @@ ooxml-integrity check deck.pptx --coverage</pre>
 
 for f in compare("original.docx", "edited.docx"):
     print(f.code, f.severity.value, f.message)</pre>
-          <p>Stable rule codes, safe to grep for and safe to suppress. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md">Support matrix</a>.</p>
+          <p>Stable rule codes identify findings; suppressions and baselines record accepted findings. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md">Support matrix</a>.</p>
         </div>
       </div>
     </section>
@@ -233,10 +238,10 @@ for f in compare("original.docx", "edited.docx"):
         <h2 id="limits-title">What it does not do</h2>
       </div>
       <ul>
-        <li>The evidence is synthetic: 50 sources and 220 labelled pairs across five producers, including files really saved by Word for Windows, Mac and Online. 100 % error-level precision applies to the 14 measured rules on that corpus, not to your documents.</li>
+        <li>The DOCX corpus has 50 synthetic sources and 220 labelled pairs across five producers: 120 clean controls and 100 seeded defects. It records 111 error-level true positives, zero false positives and zero false negatives. The 100 % precision/recall applies to that corpus; 14 rules are measured and 30 are unmeasured. Customer-document accuracy is unknown. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/docx-beta/RESULTS.md">Corpus results and denominators</a>.</li>
         <li>Eight agent runs is a small sample, on one document, on one day.</li>
-        <li>Deck layout is validated against PowerPoint for Mac in the editing view. No GPOS kerning or shaping, so complex scripts are estimates. Groups, rotation, tables, SmartArt and charts are reported as unsupported, not approximated.</li>
-        <li>It is not a schema validator, not a malware scanner, not a visual diff. A clean result names what it checked; a result with a gap says <em>no findings in checked surfaces</em>, not <em>clean</em>.</li>
+        <li>PPTX evidence covers specific PowerPoint for Mac editing-view and export cases. Windows and Slide Show mode remain untested. GPOS kerning and complex shaping are not implemented. Groups, tables, SmartArt and charts are outside the model; rotated-shape geometry is only partly checked. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md#pptx-layout">PPTX support limits</a>.</li>
+        <li>Full schema validation, malware scanning and visual comparison are outside this checker. With coverage enabled, reports distinguish checked, estimated, skipped and unsupported content. No findings does not establish that the entire file is correct.</li>
       </ul>
       <p class="ask">The next step is a public benchmark of docx editing tools and agent harnesses on a real corpus. If your agents edit Office files that a person then reviews, I would like to hear what breaks for you. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/issues">Open an issue</a></p>
     </section>

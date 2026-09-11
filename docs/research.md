@@ -136,7 +136,7 @@ comparison can be repeated with `research/compare_renderers.py`.
 Carlito on Linux with Calibri from Microsoft 365 on macOS, reading both fonts
 with this module at 18pt:
 
-| sample | Carlito | Calibri | delta |
+| sample | Carlito | Calibri | (Calibri − Carlito) / Carlito |
 |---|---|---|---|
 | digits `0123456789 EUR 44,500.00` | 202.376953 | 202.376953 | **0.000%** |
 | bold caps A–Z | 265.772461 | 265.069336 | −0.265% |
@@ -145,8 +145,9 @@ with this module at 18pt:
 | pangram | 326.276367 | 324.685547 | −0.488% |
 | lowercase a–z | 213.372070 | 212.132812 | −0.581% |
 
-The digits sample matched exactly; the letter samples were **0.26–0.58% wider**
-in Carlito. An earlier version of these notes described the widths as identical.
+The digits sample matched exactly; the letter samples differed by
+**0.26–0.58%**, using Carlito as the percentage denominator. Negative values
+mean Calibri was narrower. An earlier version of these notes described the widths as identical.
 The measurements show why that wording needed correcting.
 
 The observed substitution differences fall within the 5% `BORDERLINE` band.
@@ -249,34 +250,39 @@ web session.
 
 ## What each verification approach catches
 
-The following is the original output of `compare_detectors.py`. In a defective
-row, `ok` means the check did not identify the defect. Its `schema` column checks
-only the document root and namespace, and `render` checks whether LibreOffice
-produced a PDF. Those labels should not be read as full XSD validation or
-visual inspection results.
+These are controlled, hand-written mutations from `research/mutate.py`, separate
+from the agent runs below. The table was reproduced on 2026-09-12 with
+`compare_detectors.py` against the current checkout. `yes` means that XML parsed,
+the main Word document had the expected namespace/root/body, or LibreOffice
+created a PDF larger than 1000 bytes. It is not a clean-document verdict.
+Full XSD validation and systematic visual review were not performed.
 
 ```
-defect introduced by the agent          well-   schema  render   inspector   fidelity
-                                        formed          (LO)                 vs source
-python-docx: open and save, no edit     ok      ok      ok       ok          ok
-python-docx: paragraph.text = ...       ok      ok      ok       2 found     5 losses
-LLM edits a value in raw XML            ok      ok      ok       ok          ok
-LLM clones a block for "one more clause ok      ok      ok       1 found     3 losses
-LLM reformatted the XML                 ok      ok      ok       5 found     ok
-LLM deleted a para holding a footnote a  ok      ok      ok       1 found     3 losses
-LLM renamed a style, left refs dangling ok      ok      ok       4 found     ok
-round-trip through markdown             ok      ok      ok       ok          12 losses
+controlled edit                         XML     root/   PDF      inspector   fidelity
+                                        parses  body    created              vs source
+python-docx: open and save, no edit     yes     yes     yes      ok          ok
+python-docx: paragraph.text = ...       yes     yes     yes      2 found     5 reports
+targeted XML value-edit control         yes     yes     yes      ok          ok
+clone clause with revision IDs          yes     yes     yes      1 found     3 reports
+reformat XML, lose whitespace markers   yes     yes     yes      5 found     ok
+delete paragraph with footnote anchor   yes     yes     yes      1 found     3 reports
+rename style, leave dangling refs       yes     yes     yes      4 found     ok
+round-trip through markdown             yes     yes     yes      ok          18 reports
 
-Real defects introduced: 6
-  missed by well-formed check:  6/6
-  missed by schema validation:  6/6
-  missed by PDF rendering:      6/6
-  caught by this prototype:     6/6
+Controlled defect cases: 6
+  XML parsing succeeded:       6/6
+  root/body check passed:      6/6
+  PDF creation succeeded:      6/6
+  checker reported findings:   6/6
+Full XSD validation and systematic visual review: not measured.
 ```
 
-Rows one and three are clean controls. The other six contain deliberate
-mutations, all of which the checker detected through internal inspection,
-source comparison or both.
+Rows one and three are clean controls. All six deliberate defect cases have
+ERROR or WARN findings from internal inspection, source comparison or both.
+The fidelity column counts every comparison report, including INFO additions:
+the cloned clause has three such additions, while `REV001` detects the duplicated
+revision ID in self-check. The original prototype recorded 12 Markdown losses;
+the current comparison has 18 reports, including later text/header/footer rules.
 
 Successful PDF conversion did not distinguish those six cases from the
 controls. A page image alone also does not establish whether review anchors
