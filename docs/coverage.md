@@ -96,12 +96,32 @@ story; relationship or part renumbering does not change the status.
 PPTX reports:
 
 - `package.read`, `pptx.package-integrity`, and `pptx.slide-order`;
-- `pptx.font-metrics`, `pptx.text-overflow`, `pptx.off-slide-geometry`, and
-  `pptx.text-shape-overlap`;
+- `pptx.font-metrics`, `pptx.text-overflow`, `pptx.autofit-grow-shape`,
+  `pptx.off-slide-geometry`, and `pptx.text-shape-overlap`;
 - `pptx.grouped-shapes`, `pptx.tables`, `pptx.smartart`, `pptx.charts`,
   `pptx.fields`, `pptx.rotated-bounds`, `pptx.vertical-text`, and
   `pptx.master-layout-objects`;
 - `pptx.fidelity.source`.
+
+`pptx.autofit-grow-shape` is `skipped` when parsed, ungrouped text shapes request
+`spAutoFit`, with their number in `count`. Their overflow is **not checked**;
+the setting does not establish that the text fits or that a viewer will resize
+the box. This reason is reported even when font metrics are unavailable. With
+no such text shapes, the item is `not-present`, count zero; empty shapes do not
+require an overflow verdict. Groups and shapes without usable geometry retain
+their existing coverage limitations.
+
+`pptx.text-overflow.count` excludes grow-shape autofit, as well as vertical text
+and shapes without usable geometry. A deck containing only ordinary grow-shape
+text has `skipped` overflow coverage, count zero. In a mixed deck, the status
+describes the remaining eligible text shapes, and the reason names the excluded
+grow-shape count. Font or geometry failures can still make this check `skipped`;
+in that case its count is the number of eligible shapes, not completed verdicts.
+Font confidence is reported separately and still considers grow-shape text.
+Off-slide geometry and text-shape overlap continue to evaluate stored rectangles
+where supported; they do not predict geometry after a viewer resizes a shape.
+The new coverage identifier is additive under `schema_version: 1`; findings and
+exit codes are unchanged.
 
 `pptx.slide-order` is `checked` after the main `p:sldIdLst` resolves, including
 hidden slides. An absent/empty list is `not-present`; unlisted parts are not

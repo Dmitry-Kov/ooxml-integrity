@@ -41,6 +41,7 @@ PPTX_COVERAGE_IDS = (
     "pptx.slide-order",
     "pptx.font-metrics",
     "pptx.text-overflow",
+    "pptx.autofit-grow-shape",
     "pptx.off-slide-geometry",
     "pptx.text-shape-overlap",
     "pptx.grouped-shapes",
@@ -159,6 +160,13 @@ def test_pptx_coverage_has_stable_ids_and_explicit_font_confidence(root):
     assert items["pptx.font-metrics"]["status"] in {"estimated", "skipped"}
     assert items["pptx.text-overflow"]["status"] == \
         items["pptx.font-metrics"]["status"]
+    parsed = read_deck(deck)
+    horizontal = [s for s in parsed.shapes if s.has_text and not s.vertical_text]
+    grow = [s for s in horizontal if s.autofit == "spAutoFit"]
+    assert [s.name for s in grow] == ["AUTOFIT_grow_shape"]
+    assert items["pptx.text-overflow"]["count"] == len(horizontal) - 1
+    assert items["pptx.autofit-grow-shape"]["status"] == "skipped"
+    assert items["pptx.autofit-grow-shape"]["count"] == 1
     assert items["pptx.fidelity.source"]["status"] == "skipped"
 
 
