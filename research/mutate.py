@@ -5,8 +5,9 @@ Simulation of the common ways agents edit .docx files.
 Each mutator reproduces a real, documented pattern rather than an invented
 worst case. The pattern being modelled is named in each docstring.
 
-These are kept for regression coverage. The headline results now come from
-real agent runs - see AGENT_RUNS.md.
+These hand-written mutations are controlled regression cases. The separate
+agent-run observations are recorded in ../runs/README.md; they do not measure
+the frequency of these defect classes.
 """
 import re, os, shutil, zipfile, io
 
@@ -162,10 +163,10 @@ def m_markdown_roundtrip(src, dst):
 MUTATORS = [
     ('A_roundtrip',      'python-docx: open and save, no edit',         m_roundtrip_pythondocx),
     ('B_settext',        'python-docx: paragraph.text = ...',           m_pythondocx_settext),
-    ('C1_value',         'LLM edits a value in raw XML',                m_llm_raw_xml_value),
-    ('C2_copyclause',    'LLM clones a block for "one more clause"',     m_llm_copy_clause),
-    ('C3_prettyprint',   'LLM reformatted the XML',                     m_llm_prettyprint),
-    ('C4_droppara',      'LLM deleted a para holding a footnote anchor', m_llm_drop_paragraph),
-    ('C5_renamestyle',   'LLM renamed a style, left refs dangling',     m_llm_rename_style),
+    ('C1_value',         'targeted XML value-edit control',             m_llm_raw_xml_value),
+    ('C2_copyclause',    'clone clause with revision IDs',              m_llm_copy_clause),
+    ('C3_prettyprint',   'reformat XML, lose whitespace markers',        m_llm_prettyprint),
+    ('C4_droppara',      'delete paragraph with footnote anchor',        m_llm_drop_paragraph),
+    ('C5_renamestyle',   'rename style, leave dangling refs',           m_llm_rename_style),
     ('D_markdown',       'round-trip through markdown',                 m_markdown_roundtrip),
 ]

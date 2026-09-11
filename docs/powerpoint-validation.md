@@ -112,12 +112,15 @@ current rules:
    the outcome is renderer-dependent. In this check, the text overflowed in
    PowerPoint until the shape was edited. That gives a reason to consider an
    error severity.
-2. `spAutoFit` produces no finding because the model assumes the box grows to
-   the text. Here it did not grow on open, and the stored height was too small.
+2. `spAutoFit` has no overflow verdict because grow-to-fit behaviour is outside
+   the model. Here it did not grow on open, and the stored height was too small.
 
 Both rules remain unchanged. Before changing severity, the same deck needs a
 check in Slide Show mode and in PowerPoint for Windows. The current observation
 covers only opening the deck in the Mac editing view.
+The current checkout additionally exposes the `spAutoFit` skip explicitly in
+[coverage](coverage.md); that reporting fix is unreleased after `0.4.0` and does
+not add renderer observations or change either finding rule.
 
 ## A third and fourth engine, measured numerically
 

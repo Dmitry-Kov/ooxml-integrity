@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Corrected the demo's evidence claims: six controlled mutations are separate
+  from eight agent-run observations; XML parsing, a namespace/root/body check
+  and PDF creation are labelled by the operations actually performed. Full
+  XSD validation and systematic visual review have no measured detection rate
+  here. Renderer, font and DOCX corpus numbers now state their conditions and
+  link to the evidence. Research-script labels and README/support notes match.
+  Fixed installation-grid overflow and narrow navigation; the comparison table
+  scrolls within its own region. The browser worker and package version policy
+  are unchanged; [browser validation](demo/VALIDATION.md) records the B1 check.
 - PPTX coverage now explicitly reports `spAutoFit` text as
   `pptx.autofit-grow-shape: skipped`, including when font metrics are unavailable.
   These shapes are excluded from `pptx.text-overflow.count`; a deck with only
@@ -58,7 +67,7 @@
 The autofit coverage, ZIP preflight, missing-styles fix and STY001 severity change
 are unreleased; release `0.4.0` still skips references when the styles part is missing and reports
 undefined character styles as errors when it is present. The other changes above affect
-the website, browser adapter and repository packaging.
+the website, research tooling, browser adapter and repository packaging.
 
 ## 0.4.0 — 2026-09-06
 
