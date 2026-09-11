@@ -193,13 +193,21 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             "docx.styles", CoverageStatus.SKIPPED,
             "word/document.xml was missing or could not be safely parsed",
         )
+    elif style_tree is None and "word/styles.xml" in parts:
+        styles = _item(
+            "docx.styles", CoverageStatus.SKIPPED,
+            "word/styles.xml could not be safely parsed; style references "
+            "and definitions were not evaluated",
+            style_refs,
+        )
     elif not style_refs and not style_defs:
         styles = _item("docx.styles", CoverageStatus.NOT_PRESENT,
                        "no style references or definitions were present", 0)
     elif style_tree is None:
         styles = _item(
-            "docx.styles", CoverageStatus.SKIPPED,
-            f"{style_refs} style references were present but styles.xml was unavailable",
+            "docx.styles", CoverageStatus.CHECKED,
+            f"evaluated {style_refs} reference(s) against no definitions: "
+            "styles.xml is missing",
             style_refs,
         )
     else:

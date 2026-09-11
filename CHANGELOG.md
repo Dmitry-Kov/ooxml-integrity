@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Fixed a DOCX false negative when `word/styles.xml` and its package declarations
+  are removed but main-document style references remain. Self-check and
+  `--against` now report `STY001` for those references, with the paragraph/table
+  ERROR and character WARN severities below. Missing styles without references
+  remain clean. Malformed or unsafe styles XML produces `XML001` and skipped
+  style coverage without duplicate undefined-reference findings. Coverage now
+  marks references to an absent styles part as checked. JSON/coverage schema,
+  SARIF and baseline v2 formats are unchanged; an existing baseline may expose
+  newly detected references at other locations. Regression:
+  [missing styles](tests/test_missing_styles.py).
 - Changed `STY001` for undefined character styles (`rStyle`) from ERROR to WARN,
   including comment reference marks. Undefined paragraph and table styles
   (`pStyle`/`tblStyle`) remain ERROR because they can carry numbering and
@@ -25,9 +35,10 @@
   including when the files have the same name.
 - Excluded the local audit plan from version control and package distributions.
 
-The STY001 severity change is unreleased; release `0.4.0` still reports undefined
-character styles as errors. The other changes above affect the website, browser
-adapter and repository packaging.
+The missing-styles fix and STY001 severity change are unreleased; release `0.4.0`
+still skips references when the styles part is missing and reports undefined
+character styles as errors when it is present. The other changes above affect
+the website, browser adapter and repository packaging.
 
 ## 0.4.0 — 2026-09-06
 

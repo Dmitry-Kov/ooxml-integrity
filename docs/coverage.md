@@ -78,6 +78,16 @@ DOCX reports:
 - `docx.fidelity.main-story`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
+`docx.styles` is `checked` when references in `word/document.xml` are evaluated,
+including when `word/styles.xml` is missing: those references have no definitions
+and receive `STY001` findings. No styles part and no main-document references is
+`not-present`, without a finding for the absent part alone. If the styles part
+exists but cannot be safely parsed, it receives `XML001` and this surface is
+`skipped`, even when the main document has no style references. Its definitions
+are unknown; the checker does not emit a cascade of `STY001`/`STY002` findings.
+For this skipped case, `count` records the main-document references present,
+not references evaluated. The JSON schema and identifiers are unchanged.
+
 When source comparison runs, `docx.fidelity.headers-footers` covers effective
 `default`, `first`, and `even` story slots resolved through section
 relationships. It is `not-present` only when neither input references any such
