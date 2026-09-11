@@ -2,11 +2,16 @@
 
 ## Unreleased
 
-### 0.4.1 candidate
+- Updated the public demo pin and current Action examples to published `0.4.1`
+  after release verification. The browser suite checks the exact public PyPI
+  package before the Pages deployment. Historical browser receipts are retained.
+
+## 0.4.1 — 2026-09-11
 
 Upgrade notes: [severity, archive limits and compatibility](docs/releases/0.4.1.md).
-Package metadata and release Action pins now identify `0.4.1`. The public demo
-and working consumer examples stay on `0.4.0` until publication.
+Published at 23:00 UTC. Package metadata and release Action pins identify `0.4.1`.
+At publication, the public demo and consumer examples still used `0.4.0`;
+their pin update is a separate website change.
 
 - Added a reusable distribution workflow that validates candidate PRs and the
   release's exact publishable artifacts. It builds the wheel from sdist,
@@ -95,7 +100,7 @@ and working consumer examples stay on `0.4.0` until publication.
 - Excluded the local audit plan from version control and package distributions.
 
 The run-property inheritance, autofit coverage, ZIP preflight, missing-styles fix
-and STY001 severity change are unreleased. Release `0.4.0` still loses inherited
+and STY001 severity change are included in `0.4.1`. Release `0.4.0` still loses inherited
 bold/italic when size and family are already resolved, skips references when the
 styles part is missing, and reports undefined character styles as errors when it
 is present. The other changes above affect the website, research tooling,

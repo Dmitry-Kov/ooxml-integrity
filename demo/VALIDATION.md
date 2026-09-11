@@ -1,5 +1,53 @@
 # Browser validation
 
+## Published 0.4.1 pin — 2026-09-12
+
+Package `0.4.1` was published before changing the demo pin. Its
+[release workflow](https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34656120855)
+passed on tag `v0.4.1`, commit `40dafd28bc060349e02d7907f8f55e6cd36b0902`.
+The published PyPI wheel and GitHub Release asset have the same SHA-256;
+the browser requested that wheel's public PyPI download URL:
+
+```text
+bca21f54297a2c479f2ec385900623c967ff1e528cf29d89fe912096770b53be  ooxml_integrity-0.4.1-py3-none-any.whl
+```
+
+The pin update was checked locally on macOS, based on that release commit.
+These hashes identify the actual public-page files under test:
+
+```text
+97e585f78afaba2dbf631a66c844541e3f5ed0df0378e3e058e965e6c635727f  demo/index.html
+0799fcf1b0e68e5edfc3bd75e40642ce803a20f171da19133942fbab6ef6bcee  demo/style.css
+3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899  demo/app.js
+79613ca8efe191af6dfb775fd08f19777bd922c7678256fe6c8f973e04184d90  demo/worker.js
+```
+
+The actual footer read **ooxml-integrity 0.4.1 · Pyodide 314.0.6** in
+Chromium 153.0.8010.12 / Playwright 1.63.0. Doctor reported CPython 3.14.2,
+Emscripten 5.0.3, lxml 6.0.2.0 / libxml2 2.9.10 and fonttools 4.62.1.
+The public-pin suite recorded the wheel request from files.pythonhosted.org;
+it used the public `micropip` requirement, without a local wheel override.
+All six browser scenarios passed, with no skips or retries: examples and
+uploads, human/JSON/coverage/Doctor, blocked runtime and font downloads with
+reload recovery, injected request latency, and real 60-second worker termination
+with a responsive UI and successful reload. Desktop and 390px layout assertions
+passed; the narrow-table screenshot was inspected.
+
+The checkout wheel includes the post-publication README and therefore has a
+different archive hash from the published package. Its Python module bytes are
+identical: only wheel METADATA and RECORD differ. Its SHA-256 is
+`efde86b65df9ab35b8ac7216fe43d29cf3daeeb0b67653f8cf2c0328e7e101f2`.
+Its isolated-preview suite also passed all six scenarios without skips or retries.
+The browser workflow checks both public PyPI and the checkout-wheel preview;
+Pages repeats both jobs on main before deployment.
+
+The 29 targeted Python checks (demo adapter, preview generation and release
+version agreement), JavaScript syntax and whitespace checks passed. This record
+covers the branch served locally; production deployment follows the separate
+pin-update PR. It does not add Office renderer observations, physical mobile
+tests or a new package release. Earlier records below retain their original
+versions and scope.
+
 ## Pinned runtime and browser gate — 2026-09-12
 
 The B2 runtime changes were checked locally on macOS with Playwright 1.63.0 /

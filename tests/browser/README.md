@@ -32,8 +32,8 @@ the wheel metadata, hashes the wheel and rewrites the install/version declaratio
 only in `tmp/browser-preview/worker.js`. Its `_preview.json` identifies the wheel.
 It refuses to replace the public site, its parents or an unrelated directory.
 The preview suite requires an actual local wheel download; it cannot silently
-fall back to the installed release. The same procedure accepts the `0.4.1`
-candidate during release preparation. It does not publish a package or change
+fall back to the installed release. The same procedure accepts a new candidate
+during release preparation. It does not publish a package or change
 the repository version.
 
 Six scenarios run for both release and wheel:

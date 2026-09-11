@@ -26,8 +26,8 @@ its deployment job run. A newer Pages run cancels a superseded run.
   from its official jsDelivr URL (latest stable verified 2026-09-06), then loads
   the built-in `lxml`, `fonttools` and `micropip` packages. `fonttools` is a pure
   Python wheel. Python 3.14 already includes `tomllib`, so it does not need `tomli`.
-- `CHECKER_VERSION = "0.4.0"` in `worker.js` supplies the exact
-  `ooxml-integrity==0.4.0` requirement to micropip. Startup verifies distribution
+- `CHECKER_VERSION = "0.4.1"` in `worker.js` supplies the exact
+  `ooxml-integrity==0.4.1` requirement to micropip. Startup verifies distribution
   and module versions before enabling checks; the footer shows the installed
   version. A new PyPI release does not change this demo automatically. Updating
   the pin requires the browser suites to pass with that version.
