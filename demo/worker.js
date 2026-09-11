@@ -1,6 +1,6 @@
 // Module workers are required by Pyodide 314; no application build is needed.
 const PYODIDE_VERSION = "314.0.6";
-const CHECKER_VERSION = "0.4.0";
+const CHECKER_VERSION = "0.4.1";
 const CHECKER_SPEC = `ooxml-integrity==${CHECKER_VERSION}`;
 const CDN = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`;
 const MAX_BYTES = 25 * 1024 * 1024;

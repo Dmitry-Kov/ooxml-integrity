@@ -1,9 +1,8 @@
 # Support matrix
 
-This page describes what the repository checkout can assess, including
-[unreleased fixes](../CHANGELOG.md#unreleased). The
-[published 0.4.0 matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/support-matrix.md)
-describes that release; the browser footer identifies its installed version.
+This page describes what `0.4.1` can assess; the
+[upgrade notes](releases/0.4.1.md) explain changes from `0.4.0`.
+The browser footer identifies its installed version.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.

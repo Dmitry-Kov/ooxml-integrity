@@ -118,8 +118,8 @@ current rules:
 Both rules remain unchanged. Before changing severity, the same deck needs a
 check in Slide Show mode and in PowerPoint for Windows. The current observation
 covers only opening the deck in the Mac editing view.
-The current checkout additionally exposes the `spAutoFit` skip explicitly in
-[coverage](coverage.md); that reporting fix is unreleased after `0.4.0` and does
+Version `0.4.1` additionally exposes the `spAutoFit` skip explicitly in
+[coverage](coverage.md); that reporting fix does
 not add renderer observations or change either finding rule.
 
 ## A third and fourth engine, measured numerically
