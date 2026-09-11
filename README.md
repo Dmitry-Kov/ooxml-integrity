@@ -15,6 +15,9 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
+The browser footer reports its installed package version. The published package
+tested here is `0.4.0`; this repository also contains
+[unreleased fixes](CHANGELOG.md#unreleased), so checkout behaviour can differ.
 
 ```bash
 pip install ooxml-integrity
@@ -59,7 +62,7 @@ LibreOffice PDF conversion did not distinguish those cases from the controls.
 The experiment did not run a full XSD validator or a systematic visual review.
 Across the eight real agent runs, the checker reported no false positives.
 
-The [research notes](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/research.md)
+The [research notes](docs/research.md)
 describe the experiments, saved outputs, renderer measurements and limitations.
 
 ## Applied to other projects
@@ -189,6 +192,8 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
+These tables describe the current checkout. Published `0.4.0` still treats
+undefined character styles as errors; that severity fix is unreleased.
 
 `.docx`:
 
@@ -236,8 +241,11 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
 
 - The DOCX evidence corpus uses 50 synthetic sources and 220 labelled pairs
   across five producers (Word for Windows, Word for Mac, Word Online, LibreOffice,
-  `python-docx`). 100% error-level precision applies to the 14 measured rules
-  on that corpus. Precision on other documents has not been measured.
+  `python-docx`): 120 clean controls and 100 seeded-defect pairs. The
+  [recorded result](evidence/docx-beta/RESULTS.md) has 111 error-level true
+  positives, zero false positives and zero false negatives. The 100% precision
+  and recall apply to that corpus; 14 rules are measured and 30 are unmeasured.
+  Accuracy on customer documents has not been measured.
 - Eight real agent runs is a small sample, on one document, on one day.
 - PPTX evidence comes from PowerPoint for Mac editing-view checks and native
   exports of the later regression decks. Windows and Slide Show mode are
@@ -248,7 +256,7 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
 - Only the Carlito/Calibri metric-compatible pairing has been measured.
 
 The full list, with the numbers behind each, is in
-[docs/research.md](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/research.md#limitations).
+[docs/research.md](docs/research.md#limitations).
 
 ## Where this is going
 

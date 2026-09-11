@@ -1,6 +1,10 @@
 # Support matrix
 
-This page describes what the current checker can assess. Each table row defines
+This page describes what the repository checkout can assess, including
+[unreleased fixes](../CHANGELOG.md#unreleased). The
+[published 0.4.0 matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.0/docs/support-matrix.md)
+describes that release; the browser footer identifies its installed version.
+Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
 
@@ -151,7 +155,7 @@ compatibility with every file from the same producer.
 | surface | evidence present | evidence not yet present |
 | --- | --- | --- |
 | DOCX corpus | One byte-reproducible feature package; six clean and two defective real agent outputs; plus a [versioned synthetic beta tranche](../evidence/docx-beta/README.md) with 50 sources, 220 exactly labelled pairs, six document classes, and ten sources each from `python-docx`, LibreOffice, Word for Mac, Word for Windows and Word Online. Twenty pairs retain actual Windows saves and observed web edits with hashes and independent XML audits. | Customer distributions, other Office builds/web sessions, an independently supplied commercial/internal generator (where available), independent human review of Windows/web labels, and positive labels for rules marked not measured in the [rule-level result](../evidence/docx-beta/RESULTS.md). Synthetic equivalents meet the P0.5 beta scope; client documents and dual human review are optional confidence extensions. |
-| DOCX observed rendering | The key detached-comment case was inspected in Word for Mac. Twenty mutation cycles were converted by LibreOffice without it reporting structural losses. [Windows Word](../evidence/docx-beta/WINDOWS.md) opened/saved ten synthetic sources with preserved XML facts. [Word Online](../evidence/docx-beta/ONLINE.md) accepted ten synthetic inputs, confirmed edits/saves, and returned audited downloads; all pages of inputs/downloads received supplementary local LibreOffice visual inspection. | Scored Windows/web visual fidelity, Google Docs and systematic DOCX checks in ONLYOFFICE. |
+| DOCX observed rendering | The key detached-comment case was inspected in Word for Mac. Twenty mutation cycles produced PDFs through LibreOffice; conversion success was measured, not a structural or visual detection rate. [Windows Word](../evidence/docx-beta/WINDOWS.md) opened/saved ten synthetic sources with preserved XML facts. [Word Online](../evidence/docx-beta/ONLINE.md) accepted ten synthetic inputs, confirmed edits/saves, and returned audited downloads; all pages of inputs/downloads received supplementary local LibreOffice visual inspection. | Scored Windows/web visual fidelity, Google Docs and systematic DOCX checks in ONLYOFFICE. |
 | PPTX corpus | One byte-reproducible reference deck built with `python-pptx`, containing 24 plain text-shape cases. Four additional synthetic decks cover [long tokens](pptx-long-tokens.md) (12 slides), [font collection members](font-collections.md) (6), [slide order](pptx-slide-order.md) (3), and [master-specific themes](pptx-master-themes.md) (8). | Real customer decks, tables, SmartArt, grouped/rotated content, charts and broad producer diversity. |
 | PowerPoint evidence | PowerPoint for Mac, Microsoft 365 on Apple Silicon, in editing view: 21 non-excluded reference shapes agreed with the predicted fit and line count. The four additional decks were opened in PowerPoint for Mac 16.112.3 and all 29 native slide exports were inspected, with results recorded in the linked reports. | PowerPoint for Windows, PowerPoint Online, mobile clients and Slide Show mode; independent review of the four additional decks. |
 | Other PPTX renderers | LibreOffice and ONLYOFFICE PDF exports agreed on line count for 23 of 24 reference shapes; the one disagreement is treated as renderer-dependent. | Google Slides and broader decks across renderer versions and platforms. |

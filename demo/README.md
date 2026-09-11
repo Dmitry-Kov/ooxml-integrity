@@ -7,6 +7,11 @@ then lets visitors check a file or run a bundled example. Further down are the
 DOCX comparison results, PPTX measurement notes, installation examples and
 limitations. The landing layout was added after the first browser smoke test in
 commits `d77c797`, `19e81df` and `4747ea0`; those changes affected HTML and CSS.
+The B1 revision separates the controlled mutation comparison from the eight
+agent-run observations, qualifies the renderer/font measurements and links each
+numerical comparison to its evidence. The side-by-side contract is an
+illustration, not a Word screenshot. [The validation record](VALIDATION.md)
+records the inspected HTML/CSS and desktop/narrow viewports.
 
 The page uses plain CSS, JavaScript and a small Python adapter, with no framework
 or build step. Document processing runs in the browser. GitHub Pages serves the
@@ -66,13 +71,16 @@ the environment can run. See [font sources and licenses](fonts/README.md) and th
 | --- | --- | --- |
 | A clean document | `corpus/base.docx` → `examples/base.docx` | No findings; coverage states its limits |
 | A deck with text that does not fit | `corpus/deck.pptx` → `examples/deck.pptx` | Overflow, off-canvas and overlap findings |
-| The contract above, with its original | `runs/t4_fast_fee/agreement.docx` → `examples/agreement.docx`, with `base.docx` | **CMT005** orphaned comment and **FID001** lost anchor |
+| A detached comment, with its original | `runs/t4_fast_fee/agreement.docx` → `examples/agreement.docx`, with `base.docx` | **CMT005** orphaned comment and **FID001** lost anchor |
 
 All three are synthetic public fixtures, copied byte-for-byte. Comparison is
 DOCX-only, and selecting a PPTX with a source produces an error. Unsupported
 extensions, unreadable packages and Python exceptions appear in the output
 panel. These errors use JSON of the form `{ "error": "…" }`. Completed checks
 retain the normal CLI result format and exit codes (0/1).
+The interactive fidelity example uses the fee-edit output. The recorded Word
+comparison behind the hero illustration uses the separate table-edit pair,
+`t2_pres` / `t4_fast_table`, identified in [the run notes](../runs/README.md).
 
 Files are capped at 25 MiB each and checks at 60 seconds to keep the browser
 responsive. A timed-out worker is terminated; reload the page to restart it.
@@ -112,5 +120,6 @@ node --check demo/worker.js
 The static demo is not included in the PyPI distribution. Its
 adapter-parity tests skip when run from an sdist without `demo/`. Browser smoke
 tests must exercise the actual PyPI installation as well as local adapter tests.
-See [the recorded browser smoke test](VALIDATION.md) for the original results
-and their scope relative to the later landing-page changes.
+See [the browser validation record](VALIDATION.md) for the original smoke test
+and the later B1 page check. Broader runtime/error-path testing remains separate
+from checking the wording and responsive layout.
