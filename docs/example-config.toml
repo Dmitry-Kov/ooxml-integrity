@@ -17,6 +17,7 @@ fail-on = "error"
 [archive]
 max-entries = 4096
 max-archive-bytes = 268435456
+max-directory-bytes = 16777216
 max-total-expanded-bytes = 536870912
 max-entry-expanded-bytes = 134217728
 max-compression-ratio = 1000.0

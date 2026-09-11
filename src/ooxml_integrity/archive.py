@@ -11,14 +11,19 @@ import os
 import re
 import struct
 import zipfile
+from contextlib import contextmanager
 from dataclasses import dataclass
 from math import isfinite
 from pathlib import Path
-from typing import Iterable
+from typing import BinaryIO, Iterable
 from urllib.parse import unquote
 
 
 MIB = 1024 * 1024
+_EOCD = struct.Struct("<4s4H2LH")
+_ZIP64_LOCATOR = struct.Struct("<4sLQL")
+_ZIP64_EOCD = struct.Struct("<4sQ2H2L4Q")
+_CENTRAL_HEADER = struct.Struct("<4s6H3L5H2L")
 _ASCII_LOWER = str.maketrans(
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz",
 )
@@ -33,6 +38,8 @@ class ArchiveLimits:
     max_total_expanded_bytes: int = 512 * MIB
     max_entry_expanded_bytes: int = 128 * MIB
     max_compression_ratio: float = 1000.0
+    # Append new fields to preserve the existing positional constructor.
+    max_directory_bytes: int = 16 * MIB
 
     def __post_init__(self) -> None:
         integer_fields = (
@@ -40,6 +47,7 @@ class ArchiveLimits:
             "max_archive_bytes",
             "max_total_expanded_bytes",
             "max_entry_expanded_bytes",
+            "max_directory_bytes",
         )
         for name in integer_fields:
             value = getattr(self, name)
@@ -68,66 +76,142 @@ def _size(value: int) -> str:
     return f"{value / MIB:.1f} MiB ({value} bytes)"
 
 
-def _zip64_entry_count(raw, eocd_offset: int) -> int | None:
-    """Return the ZIP64 count without asking ZipFile to load the directory."""
-    locator_size = 20
-    if eocd_offset < locator_size:
-        return None
-    raw.seek(eocd_offset - locator_size)
-    locator = raw.read(locator_size)
-    if len(locator) != locator_size or locator[:4] != b"PK\x06\x07":
-        return None
-    _, _, record_offset, _ = struct.unpack("<4sLQL", locator)
-    raw.seek(record_offset)
-    record = raw.read(56)
-    if len(record) < 56 or record[:4] != b"PK\x06\x06":
-        return None
-    fields = struct.unpack("<4sQ2H2L4Q", record[:56])
-    return int(fields[7])
+def _invalid_directory(reason: str) -> PackageIssue:
+    return PackageIssue("PKG002", f"invalid or unsupported ZIP directory: {reason}")
 
 
-def _declared_entry_count(raw, file_size: int) -> int | None:
-    """Read the EOCD count using at most the ZIP comment tail (about 64 KiB)."""
-    eocd_size = 22
-    if file_size < eocd_size:
-        return None
-    tail_size = min(file_size, eocd_size + 65535)
+def _directory_bounds(raw: BinaryIO, file_size: int) -> tuple[int, int, int]:
+    """Read fixed-size trailers, validating the same directory ZipFile will use.
+
+    The supported single-disk layout has absolute offsets and no gaps between
+    the central directory and its trailers. Do not use ZipFile's concatenation
+    offset repair: that could select metadata other than what we validated.
+    """
+    tail_size = min(file_size, _EOCD.size + 65535)
     raw.seek(file_size - tail_size)
     tail = raw.read(tail_size)
-    search_end = len(tail)
-    while True:
-        pos = tail.rfind(b"PK\x05\x06", 0, search_end)
-        if pos < 0:
-            return None
-        if pos + eocd_size <= len(tail):
-            fields = struct.unpack_from("<4s4H2LH", tail, pos)
-            comment_size = fields[-1]
-            if pos + eocd_size + comment_size == len(tail):
-                count = int(fields[4])
-                if count != 0xFFFF:
-                    return count
-                absolute = file_size - tail_size + pos
-                return _zip64_entry_count(raw, absolute) or count
-        search_end = pos
+    # Match ZipFile's last-signature choice. Searching backwards for a different
+    # valid trailer can disagree with its interpretation of a crafted comment.
+    pos = tail.rfind(b"PK\x05\x06")
+    if pos < 0 or pos + _EOCD.size > len(tail):
+        raise _invalid_directory("missing or truncated end record")
+    end = _EOCD.unpack_from(tail, pos)
+    if pos + _EOCD.size + end[7] != len(tail):
+        raise _invalid_directory("comment length or trailing bytes do not match")
+    if end[1] != 0 or end[2] != 0:
+        raise _invalid_directory("multi-disk archives are not supported")
+    disk_count, count, size, offset = end[3:7]
+    directory_end = file_size - tail_size + pos
+
+    locator = b""
+    if directory_end >= _ZIP64_LOCATOR.size:
+        raw.seek(directory_end - _ZIP64_LOCATOR.size)
+        locator = raw.read(_ZIP64_LOCATOR.size)
+    if locator[:4] == b"PK\x06\x07":
+        _, disk, record_offset, disks = _ZIP64_LOCATOR.unpack(locator)
+        if disk != 0 or disks != 1:
+            raise _invalid_directory("multi-disk ZIP64 archives are not supported")
+        # Python 3.9's ZIP64 reader expects exactly this fixed-size record.
+        expected_offset = directory_end - _ZIP64_LOCATOR.size - _ZIP64_EOCD.size
+        if record_offset != expected_offset or expected_offset < 0:
+            raise _invalid_directory("ZIP64 locator offset or record size does not match")
+        raw.seek(record_offset)
+        record = raw.read(_ZIP64_EOCD.size)
+        if len(record) != _ZIP64_EOCD.size or record[:4] != b"PK\x06\x06":
+            raise _invalid_directory("missing or truncated ZIP64 end record")
+        extended = _ZIP64_EOCD.unpack(record)
+        if extended[1] != 44:
+            raise _invalid_directory("ZIP64 extensible end records are not supported")
+        if extended[4] != 0 or extended[5] != 0:
+            raise _invalid_directory("multi-disk ZIP64 archives are not supported")
+        for legacy, actual, sentinel in zip(
+                end[3:7], extended[6:10], (0xFFFF, 0xFFFF, 0xFFFFFFFF, 0xFFFFFFFF)):
+            if legacy not in (sentinel, actual):
+                raise _invalid_directory("ZIP and ZIP64 end records disagree")
+        disk_count, count, size, offset = extended[6:10]
+        directory_end = record_offset
+    if disk_count != count:
+        raise _invalid_directory("per-disk and total entry counts disagree")
+    if offset + size != directory_end:
+        raise _invalid_directory("directory size and offset do not match its end")
+    if size == 0 and (count != 0 or offset != 0):
+        raise _invalid_directory("empty directory has entries or a nonzero offset")
+    return offset, size, count
 
 
-def _preflight_file(path: Path, limits: ArchiveLimits) -> None:
-    """Bound archive bytes and entry metadata before ZipFile expands the index."""
+def _entry_budget(count: int, limits: ArchiveLimits) -> None:
+    if count > limits.max_entries:
+        raise PackageIssue(
+            "PKG007",
+            "archive entry count exceeds max-entries before the central "
+            f"directory is loaded: {count} > {limits.max_entries}",
+        )
+
+
+def _preflight_file(raw: BinaryIO, limits: ArchiveLimits) -> int:
+    """Count actual records using fixed-size reads before allocating ZipInfos."""
+    file_size = os.fstat(raw.fileno()).st_size
+    if file_size > limits.max_archive_bytes:
+        raise PackageIssue(
+            "PKG007",
+            "archive size exceeds max-archive-bytes: "
+            f"{_size(file_size)} > {_size(limits.max_archive_bytes)}",
+        )
+    offset, size, declared_count = _directory_bounds(raw, file_size)
+    _entry_budget(declared_count, limits)
+    if size > limits.max_directory_bytes:
+        raise PackageIssue(
+            "PKG007", "central directory size exceeds max-directory-bytes: "
+            f"{_size(size)} > {_size(limits.max_directory_bytes)}",
+        )
+    raw.seek(offset)
+    remaining = size
+    count = 0
+    while remaining:
+        if remaining < _CENTRAL_HEADER.size:
+            raise _invalid_directory("truncated central file header")
+        header = raw.read(_CENTRAL_HEADER.size)
+        if len(header) != _CENTRAL_HEADER.size or header[:4] != b"PK\x01\x02":
+            raise _invalid_directory("missing or truncated central file header")
+        fields = _CENTRAL_HEADER.unpack(header)
+        count += 1
+        _entry_budget(count, limits)
+        variable_size = sum(fields[10:13])  # filename, extra fields, comment
+        record_size = _CENTRAL_HEADER.size + variable_size
+        if record_size > remaining:
+            raise _invalid_directory("variable metadata extends past the directory")
+        if fields[13] != 0:
+            raise _invalid_directory("multi-disk member references are not supported")
+        if fields[16] != 0xFFFFFFFF and fields[16] >= offset:
+            raise _invalid_directory("local header offset points into the directory")
+        # Do not allocate names, comments or extra fields during preflight.
+        raw.seek(variable_size, os.SEEK_CUR)
+        remaining -= record_size
+    if count != declared_count:
+        raise _invalid_directory(
+            f"entry count does not match the directory: {declared_count} != {count}",
+        )
+    return offset
+
+
+@contextmanager
+def _open_archive(path: Path, limits: ArchiveLimits):
+    # Keep the same file handle through preflight and loading, so a replacement
+    # of the path cannot substitute an unchecked package between the two.
     with open(path, "rb") as raw:
-        file_size = os.fstat(raw.fileno()).st_size
-        if file_size > limits.max_archive_bytes:
-            raise PackageIssue(
-                "PKG007",
-                "archive size exceeds max-archive-bytes: "
-                f"{_size(file_size)} > {_size(limits.max_archive_bytes)}",
-            )
-        count = _declared_entry_count(raw, file_size)
-        if count is not None and count > limits.max_entries:
-            raise PackageIssue(
-                "PKG007",
-                "archive entry count exceeds max-entries before the central "
-                f"directory is loaded: {count} > {limits.max_entries}",
-            )
+        directory_offset = _preflight_file(raw, limits)
+        raw.seek(0)
+        try:
+            archive = zipfile.ZipFile(raw)
+        except (NotImplementedError, UnicodeError) as error:
+            raise _invalid_directory(str(error)) from error
+        with archive:
+            # ZipFile has now decoded ZIP64 local offsets from member extras.
+            # Validate those too, before any read can seek outside member data.
+            for info in archive.infolist():
+                if not 0 <= info.header_offset < directory_offset:
+                    raise _invalid_directory("local header offset is outside member data")
+            yield archive
 
 
 def _normal_part_name(name: str, *, directory: bool) -> str:
@@ -233,8 +317,7 @@ def read_package(path: str | Path,
                  members: Iterable[str] | None = None) -> dict[str, bytes]:
     """Read a ZIP package only after every configured budget has passed."""
     package = Path(path)
-    _preflight_file(package, limits)
-    with zipfile.ZipFile(package) as archive:
+    with _open_archive(package, limits) as archive:
         infos = validate_infos(archive.infolist(), limits)
         wanted = set(members) if members is not None else None
         parts: dict[str, bytes] = {}
@@ -260,6 +343,5 @@ def package_names(path: str | Path,
                   limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[str]:
     """Validate a package and return its names without decompressing members."""
     package = Path(path)
-    _preflight_file(package, limits)
-    with zipfile.ZipFile(package) as archive:
+    with _open_archive(package, limits) as archive:
         return [info.filename for info in validate_infos(archive.infolist(), limits)]
