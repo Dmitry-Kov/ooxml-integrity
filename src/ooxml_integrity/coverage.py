@@ -440,9 +440,14 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
 
     font_item = _font_coverage(deck, findings)
     items.append(font_item)
+    grow_count = sum(
+        1 for shape in deck.shapes
+        if shape.has_text and shape.autofit == "spAutoFit"
+    )
     eligible_text = [
         shape for shape in deck.shapes
         if shape.has_text and not shape.vertical_text
+        and shape.autofit != "spAutoFit"
     ]
     unread = features.get("unread_text_shapes", 0)
     vertical = features.get("vertical_text_shapes", 0)
@@ -452,8 +457,10 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
             f"{vertical} vertical-text shapes were outside the layout model"
         )
     elif not eligible_text and not unread:
-        overflow_status = CoverageStatus.NOT_PRESENT
-        overflow_reason = "no supported plain text shapes were present"
+        overflow_status = (CoverageStatus.SKIPPED if grow_count
+                           else CoverageStatus.NOT_PRESENT)
+        overflow_reason = ("no plain text shapes were eligible for an overflow verdict"
+                           if grow_count else "no supported plain text shapes were present")
     elif unread:
         overflow_status = CoverageStatus.SKIPPED
         overflow_reason = f"{unread} text shapes had no usable geometry"
@@ -480,9 +487,23 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
                         f"{approximate} shape(s) had approximate font metrics or "
                         "unmodelled/borderline character wrapping"
                     )
+    if grow_count:
+        overflow_reason += (
+            f"; {grow_count} spAutoFit grow-shape(s) excluded; "
+            "see pptx.autofit-grow-shape"
+        )
     items.append(_item(
         "pptx.text-overflow", overflow_status, overflow_reason,
         len(eligible_text),
+    ))
+    items.append(_item(
+        "pptx.autofit-grow-shape",
+        CoverageStatus.SKIPPED if grow_count else CoverageStatus.NOT_PRESENT,
+        (f"{grow_count} text shape(s) request spAutoFit; their text overflow was "
+         "not checked because grow-to-fit behaviour is outside the layout model; "
+         "fit cannot be inferred from this setting" if grow_count else
+         "no parsed text shapes requested spAutoFit grow-to-fit"),
+        grow_count,
     ))
 
     items.append(_item(

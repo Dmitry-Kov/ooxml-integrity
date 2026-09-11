@@ -87,7 +87,8 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
                     _where(shape)))
             continue
 
-        # spAutoFit means the box grows to the text, so overflow is not a defect.
+        # Grow-to-fit behaviour is outside this model; this is no fit verdict.
+        # Coverage reports the skip separately from stored-rectangle geometry.
         if shape.autofit == "spAutoFit":
             continue
 

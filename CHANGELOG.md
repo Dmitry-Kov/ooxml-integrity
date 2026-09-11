@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- PPTX coverage now explicitly reports `spAutoFit` text as
+  `pptx.autofit-grow-shape: skipped`, including when font metrics are unavailable.
+  These shapes are excluded from `pptx.text-overflow.count`; a deck with only
+  grow-shape text gets skipped overflow coverage with count zero. Mixed decks
+  retain overflow coverage for eligible text and separately report the skip.
+  Supported checks of stored off-slide/overlap rectangles still run. This is
+  an additive coverage identifier under schema version 1, with no change to
+  findings or exit codes and no new claim about renderer behaviour. Regression:
+  [autofit coverage](tests/test_pptx_autofit_coverage.py).
 - ZIP metadata is now checked before `ZipFile` loads the full index. A bounded
   scan counts actual central-directory records, so forged small EOCD/ZIP64
   counts cannot cause excess `ZipInfo` allocation before `PKG007`. The new
@@ -46,8 +55,8 @@
   including when the files have the same name.
 - Excluded the local audit plan from version control and package distributions.
 
-The ZIP preflight, missing-styles fix and STY001 severity change are unreleased;
-release `0.4.0` still skips references when the styles part is missing and reports
+The autofit coverage, ZIP preflight, missing-styles fix and STY001 severity change
+are unreleased; release `0.4.0` still skips references when the styles part is missing and reports
 undefined character styles as errors when it is present. The other changes above affect
 the website, browser adapter and repository packaging.
 

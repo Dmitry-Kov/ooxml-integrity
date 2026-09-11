@@ -101,7 +101,7 @@ def test_autofit_shrink_is_a_warning_not_an_error(findings):
 
 
 def test_grow_shape_autofit_is_not_reported(findings):
-    """spAutoFit means the box grows to the text, so overflow is not a defect."""
+    """spAutoFit overflow is unchecked; no finding does not establish fit."""
     assert not any("AUTOFIT_grow_shape" in f.where for f in findings
                    if f.severity >= Severity.WARN)
 

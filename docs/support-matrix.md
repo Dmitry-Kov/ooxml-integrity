@@ -129,7 +129,7 @@ It does not run the DOCX package inspector over a presentation.
 | Embedded fonts | **Not checked** | Fonts embedded in a presentation are not loaded from the package by the layout model. |
 | Kerning and shaping | **Partial** | Legacy `kern` pairs are applied. GPOS kerning, GSUB substitution, ligature shaping, bidirectional layout and complex-script shaping are not implemented. |
 | Stored `normAutofit` result | **Partial** | Applies stored `fontScale` and `lnSpcReduction`. If shrink-to-fit is requested but no scale is stored, `PPT005` reports renderer dependence. |
-| `spAutoFit` grow-shape behaviour | **Not checked** | Shapes requesting grow-to-fit are skipped by the overflow finding logic. Current PowerPoint-for-Mac evidence shows that the box was not recomputed merely by opening the file, so no clean verdict should be inferred for this mode. |
+| `spAutoFit` grow-shape behaviour | **Not checked** | Shapes requesting grow-to-fit are skipped by the overflow finding logic. Coverage reports parsed text shapes separately as `pptx.autofit-grow-shape: skipped` and excludes them from the `pptx.text-overflow` count, even without font metrics. Stored rectangles still receive supported geometry checks. Current PowerPoint-for-Mac evidence shows that the box was not recomputed merely by opening the file, so no clean verdict should be inferred for this mode. |
 
 ### Presentation integrity and fidelity
 
