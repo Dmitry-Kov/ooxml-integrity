@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.0
+    python research/release_smoke.py --version 0.4.1
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -69,8 +69,25 @@ def main():
         assert data["version"] == "2.1.0"
         assert data["runs"][0]["tool"]["driver"]["version"] == args.version
         assert {"CMT005", "FID001"} <= {r["ruleId"] for r in data["runs"][0]["results"]}
+
+        # Exercise installed TOML parsing and policy, including the new archive key.
+        config = work / "policy.toml"
+        config.write_text('[severity]\nCMT005 = "off"\nFID001 = "off"\n', encoding="utf-8")
+        configured = json.loads(cli("check", edited, "--against", source,
+                                    "--config", config, "--json").stdout)
+        assert not {"CMT005", "FID001"} & {f["code"] for f in configured["files"][0]["findings"]}
+        # An explicit CLI threshold still overrides project configuration.
+        config.write_text('fail-on = "info"\n[severity]\nCMT005 = "off"\nFID001 = "off"\n',
+                          encoding="utf-8")
+        cli("check", edited, "--against", source, "--config", config, code=1)
+        cli("check", edited, "--against", source, "--config", config, "--fail-on", "error")
+        config.write_text('[archive]\nmax-directory-bytes = 1\n', encoding="utf-8")
+        limited = json.loads(cli("check", source, "--config", config, "--json", code=1).stdout)
+        assert [f["code"] for f in limited["files"][0]["findings"]] == ["PKG007"]
+        config.write_text('unknown-option = true\n', encoding="utf-8")
+        cli("check", source, "--config", config, code=2)
     print(f"Installed {args.version}: both entry points, clean/findings/usage exits, JSON, coverage, "
-          "baseline v2, v1 rejection, new-file regression and SARIF passed")
+          "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
 
 
 if __name__ == "__main__":

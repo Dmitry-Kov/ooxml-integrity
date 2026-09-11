@@ -23,7 +23,7 @@ To test a wheel built from the checkout:
 ```sh
 python -m pip install build
 python -m build --wheel
-python research/prepare_browser_preview.py --wheel dist/ooxml_integrity-0.4.0-py3-none-any.whl
+python research/prepare_browser_preview.py --wheel dist/ooxml_integrity-0.4.1-py3-none-any.whl
 OOXML_DEMO_DIR="$PWD/tmp/browser-preview" npm test --prefix tests/browser
 ```
 

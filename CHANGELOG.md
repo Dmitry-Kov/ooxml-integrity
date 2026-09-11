@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### 0.4.1 candidate
+
+Upgrade notes: [severity, archive limits and compatibility](docs/releases/0.4.1.md).
+Package metadata and release Action pins now identify `0.4.1`. The public demo
+and working consumer examples stay on `0.4.0` until publication.
+
+- Added a reusable distribution workflow that validates candidate PRs and the
+  release's exact publishable artifacts. It builds the wheel from sdist,
+  validates metadata, checks fresh installs and config/baseline/report paths,
+  then runs the real browser suite on that wheel. Checksums and browser receipts
+  are retained. Release publication requires this workflow and a successful
+  consumer Action-tag check; candidate preparation alone does not publish.
 - Pinned the browser demo to `ooxml-integrity==0.4.0`; startup checks both
   distribution and module versions before enabling checks. Startup failures
   stop the worker and show connection/reload guidance. Added real Chromium /

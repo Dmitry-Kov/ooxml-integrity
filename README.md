@@ -17,8 +17,9 @@ The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
 The demo pins published `0.4.0` and reports its installed version in the footer.
 [Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
-This repository also contains
-[unreleased fixes](CHANGELOG.md#unreleased), so checkout behaviour can differ.
+This checkout prepares the `0.4.1` candidate with
+[unreleased fixes](CHANGELOG.md#unreleased); [upgrade notes](docs/releases/0.4.1.md)
+describe the changed findings and compatibility. Publication is a separate step.
 
 ```bash
 pip install ooxml-integrity

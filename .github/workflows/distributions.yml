@@ -1,0 +1,84 @@
+name: Distributions
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "pyproject.toml"
+      - "README.md"
+      - "LICENSE"
+      - "research/**"
+      - "tests/**"
+      - "corpus/**"
+      - "evidence/**"
+      - "docs/**"
+      - "CHANGELOG.md"
+      - "demo/**"
+      - ".github/workflows/distributions.yml"
+      - ".github/workflows/release.yml"
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Wheel, sdist and Pyodide
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Build wheel from sdist and validate metadata
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+          python -m twine check --strict dist/*
+          sha256sum dist/* > SHA256SUMS
+      - name: Install and exercise both distributions in fresh environments
+        run: |
+          version="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          python -m venv "$RUNNER_TEMP/release-wheel"
+          "$RUNNER_TEMP/release-wheel/bin/python" -m pip install "dist/ooxml_integrity-${version}-py3-none-any.whl"
+          "$RUNNER_TEMP/release-wheel/bin/python" research/release_smoke.py --version "$version"
+          python -m venv "$RUNNER_TEMP/release-sdist"
+          "$RUNNER_TEMP/release-sdist/bin/python" -m pip install "dist/ooxml_integrity-${version}.tar.gz"
+          "$RUNNER_TEMP/release-sdist/bin/python" research/release_smoke.py --version "$version"
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: tests/browser/package-lock.json
+      - name: Install browser test dependencies
+        working-directory: tests/browser
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Prepare the exact built wheel for browser verification
+        run: python research/prepare_browser_preview.py --wheel dist/*.whl
+      - name: Real Pyodide browser checks
+        working-directory: tests/browser
+        env:
+          OOXML_DEMO_DIR: ${{ github.workspace }}/tmp/browser-preview
+        run: npm test
+      - name: Upload browser receipts and failure traces
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: distribution-browser-${{ github.sha }}
+          path: tmp/browser-results/wheel/
+          if-no-files-found: warn
+      - name: Verify that tested distributions are unchanged
+        run: sha256sum --check SHA256SUMS
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: python-package
+          path: |
+            dist/*
+            SHA256SUMS
+          if-no-files-found: error

@@ -28,7 +28,7 @@ inputs:
     default: "error"
   version:
     description: >-
-      Explicit PyPI version override, e.g. "0.4.0". Empty installs the code from
+      Explicit PyPI version override, e.g. "0.4.1". Empty installs the code from
       the selected Action ref, so a pinned ref also pins the checker source.
     required: false
     default: ""
