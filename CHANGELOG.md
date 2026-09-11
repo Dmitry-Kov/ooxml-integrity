@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+- ZIP metadata is now checked before `ZipFile` loads the full index. A bounded
+  scan counts actual central-directory records, so forged small EOCD/ZIP64
+  counts cannot cause excess `ZipInfo` allocation before `PKG007`. The new
+  `max-directory-bytes` budget defaults to 16 MiB and includes names, extra
+  fields and member comments. Existing five-argument `ArchiveLimits` calls
+  retain their meaning. Directory/trailer sizes, offsets and counts must agree;
+  malformed or unsupported layouts produce `PKG002`. The supported ZIP profile,
+  compatibility restrictions and reproducible allocation measurements are in
+  [archive limits](docs/archive-limits.md). DOCX, PPTX, comparison sources and
+  member-name/selected-member reads share the preflight. Report formats and
+  baseline v2 remain unchanged.
+- Fixed a DOCX false negative when `word/styles.xml` and its package declarations
+  are removed but main-document style references remain. Self-check and
+  `--against` now report `STY001` for those references, with the paragraph/table
+  ERROR and character WARN severities below. Missing styles without references
+  remain clean. Malformed or unsafe styles XML produces `XML001` and skipped
+  style coverage without duplicate undefined-reference findings. Coverage now
+  marks references to an absent styles part as checked. JSON/coverage schema,
+  SARIF and baseline v2 formats are unchanged; an existing baseline may expose
+  newly detected references at other locations. Regression:
+  [missing styles](tests/test_missing_styles.py).
 - Changed `STY001` for undefined character styles (`rStyle`) from ERROR to WARN,
   including comment reference marks. Undefined paragraph and table styles
   (`pStyle`/`tblStyle`) remain ERROR because they can carry numbering and
@@ -25,9 +46,10 @@
   including when the files have the same name.
 - Excluded the local audit plan from version control and package distributions.
 
-The STY001 severity change is unreleased; release `0.4.0` still reports undefined
-character styles as errors. The other changes above affect the website, browser
-adapter and repository packaging.
+The ZIP preflight, missing-styles fix and STY001 severity change are unreleased;
+release `0.4.0` still skips references when the styles part is missing and reports
+undefined character styles as errors when it is present. The other changes above affect
+the website, browser adapter and repository packaging.
 
 ## 0.4.0 — 2026-09-06
 

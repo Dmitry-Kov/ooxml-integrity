@@ -319,9 +319,15 @@ class Inspector:
     def check_styles(self) -> None:
         st = self._tree("word/styles.xml")
         doc = self._tree("word/document.xml")
-        if st is None or doc is None:
+        if doc is None:
             return
-        defined = {s.get(_w("styleId")) for s in st.findall(_w("style"))}
+        if st is None and "word/styles.xml" in self.parts:
+            # Parsing already produced XML001. Unknown definitions must not
+            # become a cascade of supposedly undefined references.
+            return
+        # An absent styles part defines nothing; references still need checking.
+        styles = st.findall(_w("style")) if st is not None else []
+        defined = {s.get(_w("styleId")) for s in styles}
         for tag in ("pStyle", "rStyle", "tblStyle"):
             for el in doc.iter(_w(tag)):
                 v = el.get(_w("val"))
@@ -334,7 +340,7 @@ class Inspector:
                         "silently lost",
                         self._xpath(el), "word/document.xml",
                     )
-        for s in st.findall(_w("style")):
+        for s in styles:
             for tag in ("basedOn", "next", "link"):
                 el = s.find(_w(tag))
                 if el is not None and el.get(_w("val")) not in defined:

@@ -86,8 +86,9 @@ their reasons, so reviewers can also inspect the exceptions.
 
 DOCX and PPTX inputs are ZIP packages, so the checker applies finite resource
 budgets before decompressing their members. The defaults allow 4,096 entries, a
-256 MiB archive, 512 MiB total expanded data, 128 MiB in one expanded member,
-and a 1,000:1 per-member compression ratio. Over-budget input is `PKG007`;
+256 MiB archive, 16 MiB central directory, 512 MiB total expanded data,
+128 MiB in one expanded member, and a 1,000:1 per-member compression ratio.
+Over-budget input is `PKG007`;
 unsafe, traversal-like or duplicate normalised part names are `PKG008`.
 
 The same limits cover `check()`, `check_pptx()`, and both files read by

@@ -301,9 +301,16 @@ def test_every_archive_config_value_is_loaded():
             "max-total-expanded-bytes": 30,
             "max-entry-expanded-bytes": 15,
             "max-compression-ratio": 4.5,
+            "max-directory-bytes": 17,
         },
     })
-    assert policy.archive == ArchiveLimits(10, 20, 30, 15, 4.5)
+    assert policy.archive == ArchiveLimits(10, 20, 30, 15, 4.5, 17)
+
+
+def test_legacy_positional_limits_keep_their_meaning():
+    limits = ArchiveLimits(10, 20, 30, 15, 4.5)
+    assert limits.max_compression_ratio == 4.5
+    assert limits.max_directory_bytes == DEFAULT_ARCHIVE_LIMITS.max_directory_bytes
 
 
 def test_randomized_size_metadata_obeys_the_two_expanded_budgets():
