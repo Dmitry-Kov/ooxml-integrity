@@ -8,6 +8,7 @@ build/
 *.egg-info/
 .pytest_cache/
 .venv/
+/tests/browser/node_modules/
 
 # Local working plan; keep it out of the public repository and distributions.
 /AUDIT_PLAN.md

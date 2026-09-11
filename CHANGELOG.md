@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Pinned the browser demo to `ooxml-integrity==0.4.0`; startup checks both
+  distribution and module versions before enabling checks. Startup failures
+  stop the worker and show connection/reload guidance. Added real Chromium /
+  Pyodide checks for examples, uploads, JSON/coverage, Doctor, startup failures,
+  delayed loading, narrow layout and the 60-second worker deadline with reload
+  recovery. Pages deployment requires the same suite to pass for the pinned
+  release and an isolated preview of a built checkout wheel. The preview
+  override never edits the public worker; test receipts record page hashes,
+  package/runtime/browser versions and results. [Browser checks](tests/browser/README.md).
 - Fixed PPTX run-property inheritance stopping as soon as size and family were
   resolved, losing bold or italic from lower-priority defaults. All four
   properties now resolve independently through the existing style chain;

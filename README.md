@@ -15,8 +15,9 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
-The browser footer reports its installed package version. The published package
-tested here is `0.4.0`; this repository also contains
+The demo pins published `0.4.0` and reports its installed version in the footer.
+[Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
+This repository also contains
 [unreleased fixes](CHANGELOG.md#unreleased), so checkout behaviour can differ.
 
 ```bash

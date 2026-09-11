@@ -15,8 +15,10 @@ records the inspected HTML/CSS and desktop/narrow viewports.
 
 The page uses plain CSS, JavaScript and a small Python adapter, with no framework
 or build step. Document processing runs in the browser. GitHub Pages serves the
-committed `demo/` directory; `.github/workflows/pages.yml` deploys it on pushes
-to `main` affecting the demo and can also be started manually.
+committed `demo/` directory. On relevant pushes to `main` or a manual run,
+`.github/workflows/pages.yml` first requires both real-browser suites: the
+pinned release and a separate preview of the checkout's wheel. Only then can
+its deployment job run. A newer Pages run cancels a superseded run.
 
 ## What runs where
 
@@ -24,9 +26,11 @@ to `main` affecting the demo and can also be started manually.
   from its official jsDelivr URL (latest stable verified 2026-09-06), then loads
   the built-in `lxml`, `fonttools` and `micropip` packages. `fonttools` is a pure
   Python wheel. Python 3.14 already includes `tomllib`, so it does not need `tomli`.
-- `micropip.install("ooxml-integrity")` installs the released package from PyPI.
-  The footer shows the installed version; the adapter was tested with 0.4.0.
-  Local changes to the package itself reach the demo only after a PyPI release.
+- `CHECKER_VERSION = "0.4.0"` in `worker.js` supplies the exact
+  `ooxml-integrity==0.4.0` requirement to micropip. Startup verifies distribution
+  and module versions before enabling checks; the footer shows the installed
+  version. A new PyPI release does not change this demo automatically. Updating
+  the pin requires the browser suites to pass with that version.
 - Twenty bundled OFL font faces download in parallel with Python and are written
   to `/usr/share/fonts/` in the worker's memory-only filesystem before any checks
   or font-directory caching. Startup finishes with a Doctor capability check.
@@ -117,9 +121,15 @@ node --check demo/app.js
 node --check demo/worker.js
 ```
 
-The static demo is not included in the PyPI distribution. Its
-adapter-parity tests skip when run from an sdist without `demo/`. Browser smoke
-tests must exercise the actual PyPI installation as well as local adapter tests.
-See [the browser validation record](VALIDATION.md) for the original smoke test
-and the later B1 page check. Broader runtime/error-path testing remains separate
-from checking the wording and responsive layout.
+The [browser suite](../tests/browser/README.md) runs real Pyodide in Chromium,
+installs the exact public package, and tests the examples, uploads, JSON/coverage,
+Doctor, startup failures, delayed downloads and the real 60-second termination
+path. It also runs against a built wheel using an isolated generated preview.
+The public worker has no URL, local-storage or message override for its package.
+The preview generator changes only a copy under `tmp/`; Pages always uploads
+the committed `demo/` directory.
+
+The static demo and browser test dependencies are not included in the PyPI
+distribution. Adapter and preview tests skip when run from an sdist without
+`demo/`. See [the validation record](VALIDATION.md) for the browser runs,
+versions, exact page hashes and test limits.

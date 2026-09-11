@@ -171,6 +171,7 @@ for (const button of document.querySelectorAll("[data-example]")) {
 
 function fatal(message) {
   ready = false; busy = false;
+  worker?.terminate();
   if (active) { clearTimeout(active.timer); active.reject(new Error(message)); active = null; }
   $("runtime-status").textContent = "Startup failed — reload to retry";
   document.querySelector(".runtime").classList.add("error");
