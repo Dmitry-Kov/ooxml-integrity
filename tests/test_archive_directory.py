@@ -110,7 +110,10 @@ def test_directory_bytes_include_all_variable_metadata(tmp_path, monkeypatch, ki
     assert caught.value.code == "PKG007"
 
 
-@pytest.mark.parametrize("comment", [b"", b"ordinary ZIP comment", b"x" * 65535])
+# Pytest puts node IDs into PYTEST_CURRENT_TEST; Windows limits that value to
+# 32,767 characters, so never derive this ID from the full ZIP comment.
+@pytest.mark.parametrize("comment", [b"", b"ordinary ZIP comment", b"x" * 65535],
+                         ids=["no-comment", "text-comment", "max-comment"])
 @pytest.mark.parametrize("zip64", [False, True], ids=["zip", "zip64"])
 @pytest.mark.parametrize("count", [0, 2], ids=["empty", "members"])
 def test_supported_comments_and_empty_archives(tmp_path, comment, zip64, count):
