@@ -65,6 +65,7 @@ OFF = "off"
 ARCHIVE_CONFIG_KEYS = {
     "max-entries": "max_entries",
     "max-archive-bytes": "max_archive_bytes",
+    "max-directory-bytes": "max_directory_bytes",
     "max-total-expanded-bytes": "max_total_expanded_bytes",
     "max-entry-expanded-bytes": "max_entry_expanded_bytes",
     "max-compression-ratio": "max_compression_ratio",

@@ -103,7 +103,8 @@ def build_report() -> dict[str, object]:
             "confidence": "exact",
             "detail": (
                 f"{limits.max_entries} entries; {limits.max_archive_bytes} archive "
-                f"bytes; {limits.max_total_expanded_bytes} total expanded bytes; "
+                f"bytes; {limits.max_directory_bytes} central directory bytes; "
+                f"{limits.max_total_expanded_bytes} total expanded bytes; "
                 f"{limits.max_entry_expanded_bytes} bytes per expanded entry; "
                 f"{limits.max_compression_ratio:g}:1 compression ratio"
             ),
