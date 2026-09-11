@@ -1,5 +1,7 @@
 // Module workers are required by Pyodide 314; no application build is needed.
 const PYODIDE_VERSION = "314.0.6";
+const CHECKER_VERSION = "0.4.0";
+const CHECKER_SPEC = `ooxml-integrity==${CHECKER_VERSION}`;
 const CDN = `https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/`;
 const MAX_BYTES = 25 * 1024 * 1024;
 const families = ["Carlito", "Caladea", "LiberationSans", "LiberationSerif", "LiberationMono"];
@@ -29,8 +31,13 @@ async function initialize() {
   const py = await loadPyodide({ indexURL: CDN });
   progress("Python ready. Loading built-in lxml, fonttools and micropip…");
   await py.loadPackage(["lxml", "fonttools", "micropip"]);
-  progress("Installing ooxml-integrity from PyPI…");
-  await py.runPythonAsync('import micropip\nawait micropip.install("ooxml-integrity")');
+  progress(`Installing ooxml-integrity ${CHECKER_VERSION}…`);
+  py.globals.set("_demo_package_spec", CHECKER_SPEC);
+  try {
+    await py.runPythonAsync('import micropip\nawait micropip.install(_demo_package_spec)');
+  } finally { py.globals.delete("_demo_package_spec"); }
+  const installed = py.runPython('from importlib.metadata import version\nversion("ooxml-integrity")');
+  if (installed !== CHECKER_VERSION) throw new Error(`Expected ooxml-integrity ${CHECKER_VERSION}, installed ${installed}.`);
   progress("Installing 20 OFL font faces into /usr/share/fonts/…");
   const [bridge, fonts] = await assets;
   py.FS.mkdirTree("/usr/share/fonts");
@@ -44,6 +51,7 @@ async function initialize() {
   const doctor = JSON.parse(py.runPython('dispatch(\'{"action":"doctor"}\')'));
   if (doctor.exit_code !== 0) throw new Error(doctor.human);
   const version = py.runPython("__version__");
+  if (version !== installed) throw new Error(`Package version ${installed} does not match module version ${version}.`);
   postMessage({ type: "ready", version, pyodide: PYODIDE_VERSION,
     seconds: (performance.now() - started) / 1000 });
   return py;
@@ -58,7 +66,8 @@ function filePath(file, directory, source = false) {
 }
 
 const ready = initialize();
-ready.catch(error => postMessage({ type: "fatal", error: error.stack || String(error) }));
+ready.catch(error => postMessage({ type: "fatal",
+  error: `Could not start Python. Check your network connection and reload the page.\n\n${error.message || String(error)}` }));
 let busy = false;
 self.onmessage = async ({ data }) => {
   const { id, action, file, source, coverage } = data;

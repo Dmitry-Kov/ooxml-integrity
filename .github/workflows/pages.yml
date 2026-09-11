@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "demo/**"
+      - "tests/browser/**"
+      - "research/prepare_browser_preview.py"
+      - ".github/workflows/browser.yml"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -13,10 +16,14 @@ permissions:
 
 concurrency:
   group: github-pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
+  browser:
+    uses: ./.github/workflows/browser.yml
+
   deploy:
+    needs: browser
     runs-on: ubuntu-latest
     permissions:
       contents: read

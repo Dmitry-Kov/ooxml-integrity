@@ -17,6 +17,9 @@ scope fixed while preparing a release.
 3. Run all tests, the DOCX evidence evaluator and the reference-deck assertion.
    Build wheel and sdist; validate with `twine check --strict`; install each in a
    fresh environment and run `research/release_smoke.py --version VERSION`.
+   Run the [real browser suite](../tests/browser/README.md) against that candidate
+   wheel in an isolated preview. Keep the public demo on the existing published
+   version; the preview generator must not change `demo/worker.js`.
 4. Commit, push `main`, and wait for all jobs in `CI` on that exact commit.
 
 ## One-time publisher setup
@@ -48,6 +51,12 @@ describe this token-free workflow. Never put API tokens in the repository or log
 5. Check the published PyPI metadata and hashes, then install the exact version
    from public PyPI into a fresh environment and run the smoke test once more.
    Verify the GitHub Release points to the tested tag and contains both files.
+6. Update `CHECKER_VERSION` in `demo/worker.js` in a separate PR after the package
+   is available. The default browser suite must now install that exact version
+   from public PyPI and pass, as must the checkout-wheel preview suite. Record
+   the package/runtime/browser versions and page revision in `demo/VALIDATION.md`.
+   Merge the pin update only after those checks pass; Pages repeats both suites
+   on the deployed commit before uploading the public demo.
 
 Do not overwrite a published tag or attempt to reuse a PyPI version. A failure
 before upload can be retried after correcting its prerequisite. If upload
