@@ -19,6 +19,8 @@ The inheritance chain, longest to shortest precedence:
 
 Font family goes through the same chain but ends at the theme: `+mn-lt` means
 "minor latin", `+mj-lt` "major latin", both defined in the theme's fontScheme.
+Bold and italic are resolved independently through the same chain. Explicit
+false overrides inherited true; only still-unset flags default to false.
 
 Everything here is geometry and table lookups. No rendering.
 """
@@ -378,7 +380,7 @@ class DeckReader:
 
     def _effective_run_props(self, rpr, ppr, txbody_lst, style_chain, level: int,
                              slide_part: str):
-        """Walk the chain for size, family, bold, italic - first hit wins."""
+        """Walk the chain for size, family, bold, italic - first hit per property wins."""
         candidates = []
         if rpr is not None:
             candidates.append(rpr)
@@ -404,7 +406,10 @@ class DeckReader:
                 latin = c.find(_a("latin"))
                 if latin is not None and latin.get("typeface"):
                     typeface = latin.get("typeface")
-            if size_pt is not None and typeface is not None:
+            # Size and family can be explicit while style flags are inherited.
+            # False is a resolved override, distinct from an unset flag.
+            if (size_pt is not None and typeface is not None
+                    and bold is not None and italic is not None):
                 break
         return (
             size_pt if size_pt is not None else DEFAULT_SIZE_PT,

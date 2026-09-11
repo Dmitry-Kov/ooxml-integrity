@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from dataclasses import replace
 
 import pytest
 from fontTools.fontBuilder import FontBuilder
@@ -11,11 +12,16 @@ from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTCollection, TTFont
 from lxml import etree
+from pptx import Presentation
+from pptx.enum.text import MSO_AUTO_SIZE
+from pptx.util import Pt
 
 from conftest import read_part, repack
 from ooxml_integrity import Severity, check_pptx
 from ooxml_integrity import fonts
+from ooxml_integrity.cli import EXIT_FINDINGS, EXIT_OK, main
 from ooxml_integrity.doctor import build_report
+from ooxml_integrity.pptx_layout import A, layout_shape, read_deck
 
 
 def make_font(family, style, width, *, cff=False, latin=True):
@@ -87,6 +93,63 @@ def test_directory_selection_and_metric_cache_preserve_each_member(
     assert fonts.load_metrics("Collection Test").face.face_index == 1
     with TTFont(collection, fontNumber=index) as direct:
         assert m.widths[ord("A")] == direct["hmtx"][direct.getBestCmap()[ord("A")]][0]
+
+
+@pytest.mark.parametrize("bold,italic,index,text_width,box_width", [
+    (False, False, 1, 12, 18), (True, False, 2, 24, 18),
+    (False, True, 3, 8, 10), (True, True, 4, 28, 18),
+], ids=["regular-control", "bold-overflow", "italic-fits", "bold-italic-overflow"])
+def test_inherited_style_selects_the_face_used_for_layout_and_cli(
+        collection, tmp_path, capsys, bold, italic, index, text_width, box_width):
+    # Real synthetic font tables make style selection observable without any
+    # host-font dependency. Italic is narrower here; bold variants are wider.
+    presentation = Presentation()
+    slide = presentation.slides.add_slide(presentation.slide_layouts[6])
+    box = slide.shapes.add_textbox(Pt(20), Pt(20), Pt(box_width), Pt(30))
+    box.name = "inherited-style"
+    frame = box.text_frame
+    frame.auto_size = MSO_AUTO_SIZE.NONE
+    frame.word_wrap = False
+    frame.margin_left = frame.margin_right = Pt(0)
+    frame.margin_top = frame.margin_bottom = Pt(0)
+    run = frame.paragraphs[0].add_run()
+    run.text = "ABCD"
+    run.font.name = "Collection Test"
+    run.font.size = Pt(10)
+    level = etree.SubElement(frame._txBody.find(f"{{{A}}}lstStyle"), f"{{{A}}}lvl1pPr")
+    etree.SubElement(level, f"{{{A}}}defRPr", b=str(int(bold)), i=str(int(italic)))
+    path = tmp_path / "inherited-style.pptx"
+    presentation.save(path)
+
+    shape, = read_deck(path).shapes
+    parsed = shape.paragraphs[0].runs[0]
+    measured = fonts.load_metrics(parsed.font, parsed.bold, parsed.italic)
+    assert measured.face.path == collection
+    assert measured.face.face_index == index
+    assert measured.face.match == "exact"
+    result = layout_shape(shape)
+    assert result.measured and result.confident
+    assert result.widest_line_pt == text_width
+    regular = replace(shape, paragraphs=[replace(
+        shape.paragraphs[0], runs=[replace(parsed, bold=False, italic=False)],
+    )])
+    assert layout_shape(regular).widest_line_pt == 12
+    if bold or italic:
+        assert (result.horizontal_overflow_pt > 0) != (
+            layout_shape(regular).horizontal_overflow_pt > 0
+        )
+    overflow = text_width > box_width
+    assert [(f.code, f.severity) for f in check_pptx(path)] == (
+        [("PPT003", Severity.ERROR)] if overflow else []
+    )
+    assert main(["check", str(path), "--coverage", "--json"]) == (
+        EXIT_FINDINGS if overflow else EXIT_OK
+    )
+    file_report = json.loads(capsys.readouterr().out)["files"][0]
+    assert [f["code"] for f in file_report["findings"]] == (["PPT003"] if overflow else [])
+    coverage = {item["id"]: item for item in file_report["coverage"]["items"]}
+    assert coverage["pptx.font-metrics"]["status"] == "checked"
+    assert coverage["pptx.text-overflow"]["status"] == "checked"
 
 
 def test_latin_coverage_cache_and_last_resort_use_the_selected_member(collection, monkeypatch):

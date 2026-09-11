@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Fixed PPTX run-property inheritance stopping as soon as size and family were
+  resolved, losing bold or italic from lower-priority defaults. All four
+  properties now resolve independently through the existing style chain;
+  explicit `b=0` / `i=0` still overrides inherited true. Correct flags reach
+  font selection and text measurement, which can add or remove overflow
+  findings for affected text. Rule codes, severity thresholds, report schemas
+  and font substitution grades are unchanged. [Scope and regressions](docs/pptx-run-properties.md)
+  include separate paragraph/list/layout/master/presentation defaults and
+  synthetic TTC/OTC cases where inherited style changes the measured width.
 - PPTX coverage now explicitly reports `spAutoFit` text as
   `pptx.autofit-grow-shape: skipped`, including when font metrics are unavailable.
   These shapes are excluded from `pptx.text-overflow.count`; a deck with only
@@ -55,10 +64,12 @@
   including when the files have the same name.
 - Excluded the local audit plan from version control and package distributions.
 
-The autofit coverage, ZIP preflight, missing-styles fix and STY001 severity change
-are unreleased; release `0.4.0` still skips references when the styles part is missing and reports
-undefined character styles as errors when it is present. The other changes above affect
-the website, browser adapter and repository packaging.
+The run-property inheritance, autofit coverage, ZIP preflight, missing-styles fix
+and STY001 severity change are unreleased. Release `0.4.0` still loses inherited
+bold/italic when size and family are already resolved, skips references when the
+styles part is missing, and reports undefined character styles as errors when it
+is present. The other changes above affect the website, browser adapter and
+repository packaging.
 
 ## 0.4.0 — 2026-09-06
 
