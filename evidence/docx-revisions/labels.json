@@ -1,0 +1,421 @@
+[
+  {
+    "id": "basic-save",
+    "source": "basic",
+    "action": "save",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": []
+  },
+  {
+    "id": "basic-edit",
+    "source": "basic",
+    "action": "edit",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "nested-save",
+    "source": "nested",
+    "action": "save",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": []
+  },
+  {
+    "id": "nested-edit",
+    "source": "nested",
+    "action": "edit",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "table-save",
+    "source": "table",
+    "action": "save",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": []
+  },
+  {
+    "id": "table-edit",
+    "source": "table",
+    "action": "edit",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "notes-save",
+    "source": "notes",
+    "action": "save",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": []
+  },
+  {
+    "id": "notes-edit",
+    "source": "notes",
+    "action": "edit",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "stories-save",
+    "source": "stories",
+    "action": "save",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": []
+  },
+  {
+    "id": "stories-edit",
+    "source": "stories",
+    "action": "edit",
+    "cohort": "external_editor",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "duplicate-id",
+    "source": "basic",
+    "action": "duplicate-id",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "REV001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "deletion-uses-t",
+    "source": "basic",
+    "action": "deletion-uses-t",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "REV002",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "insertion-uses-delText",
+    "source": "basic",
+    "action": "insertion-uses-delText",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "REV003",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "drop-insertion",
+    "source": "basic",
+    "action": "drop-insertion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "drop-deletion",
+    "source": "basic",
+    "action": "drop-deletion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "replace-unrelated-insertion",
+    "source": "basic",
+    "action": "replace-unrelated-insertion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [],
+    "known_miss": true
+  },
+  {
+    "id": "unwrap-note-insertion",
+    "source": "notes",
+    "action": "unwrap-note-insertion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [],
+    "known_miss": true
+  },
+  {
+    "id": "unwrap-header-insertion",
+    "source": "stories",
+    "action": "unwrap-header-insertion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID008",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "drop-footer-deletion",
+    "source": "stories",
+    "action": "drop-footer-deletion",
+    "cohort": "seeded_defect",
+    "intent_correct": false,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID008",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "known_miss": false
+  },
+  {
+    "id": "synthetic-partial-accept",
+    "source": "basic",
+    "action": "accept",
+    "cohort": "characterization",
+    "intent_correct": true,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "101"
+      ]
+    ],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "producer": "synthetic"
+  },
+  {
+    "id": "synthetic-partial-reject",
+    "source": "basic",
+    "action": "reject",
+    "cohort": "characterization",
+    "intent_correct": true,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "102"
+      ]
+    ],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "The review is complete.",
+        "The review is retired complete."
+      ]
+    ],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "producer": "synthetic"
+  },
+  {
+    "id": "adeu-partial-accept",
+    "source": "basic",
+    "action": "accept",
+    "cohort": "characterization",
+    "intent_correct": true,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "101"
+      ]
+    ],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "producer": "adeu"
+  },
+  {
+    "id": "adeu-partial-reject",
+    "source": "basic",
+    "action": "reject",
+    "cohort": "characterization",
+    "intent_correct": true,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "102"
+      ]
+    ],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "The review is complete.",
+        "The review is retired complete."
+      ]
+    ],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "producer": "adeu"
+  },
+  {
+    "id": "synthetic-accept-table-replacement",
+    "source": "table",
+    "action": "accept-table",
+    "cohort": "characterization",
+    "intent_correct": true,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "301"
+      ],
+      [
+        "word/document.xml",
+        "302"
+      ]
+    ],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 2
+      }
+    ],
+    "producer": "synthetic"
+  },
+  {
+    "id": "synthetic-accept-with-unrelated-loss",
+    "source": "basic",
+    "action": "accept-with-loss",
+    "cohort": "characterization",
+    "intent_correct": false,
+    "allowed_revision_losses": [
+      [
+        "word/document.xml",
+        "101"
+      ]
+    ],
+    "allowed_text_changes": [],
+    "expected_findings": [
+      {
+        "code": "FID001",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ],
+    "producer": "synthetic"
+  }
+]

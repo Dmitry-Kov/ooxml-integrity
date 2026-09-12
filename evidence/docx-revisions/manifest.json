@@ -1,0 +1,1165 @@
+{
+  "schema_version": 1,
+  "license": "MIT",
+  "labels_sha256": "6f6821a1d5ba6d74f551ee080a260f1beb3b8186b3d0d777c2df99a54fa8f7d9",
+  "label_files_sha256": {
+    "labels.json": "6f6821a1d5ba6d74f551ee080a260f1beb3b8186b3d0d777c2df99a54fa8f7d9",
+    "labels-online.json": "ff4cd3fc2c3893bd19f359d237513cb703ee8dc67f2a679fdff6751a1591720f"
+  },
+  "source_producer": "revision-fixture-builder 1; synthetic XML, not Office capture",
+  "source_reference_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
+  "pairs": [
+    {
+      "id": "basic-save",
+      "source": "basic",
+      "action": "save",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/basic-save.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "636716315c70e4cd1060a55809b3f837b25af7463d0f925c9dc29e9372e5fb9e",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "basic-edit",
+      "source": "basic",
+      "action": "edit",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/basic-edit.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "45224fec0c04dcda1ef68959aa9129da5ae77703cbcd42a8941d11063560a7f4",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "nested-save",
+      "source": "nested",
+      "action": "save",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "source_path": "sources/nested.docx",
+      "output_path": "outputs/nested-save.docx",
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "output_sha256": "c4a245425a7c305b6eb31a3c21a25988398a9489657c6cc41f06bea960db0cd6",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "nested-edit",
+      "source": "nested",
+      "action": "edit",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/nested.docx",
+      "output_path": "outputs/nested-edit.docx",
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "output_sha256": "166bcc85be9896d3f7988f2e3e32550fe2fb6707fa0479dbf90c311aecb1f849",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "table-save",
+      "source": "table",
+      "action": "save",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "source_path": "sources/table.docx",
+      "output_path": "outputs/table-save.docx",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output_sha256": "4921e4cf2d6cb7d2654102a3bf20033871faa0c1de292ff4673418e489b126ec",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "table-edit",
+      "source": "table",
+      "action": "edit",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/table.docx",
+      "output_path": "outputs/table-edit.docx",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output_sha256": "ee9b78f980657c45a4dce91c7054383525bb71ceb8dda3d4c9d188306273026e",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "notes-save",
+      "source": "notes",
+      "action": "save",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "source_path": "sources/notes.docx",
+      "output_path": "outputs/notes-save.docx",
+      "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "output_sha256": "f1cc6d97dddf526d9a027a91a36786eac11054da9589250eed7c52e21b6fee38",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "notes-edit",
+      "source": "notes",
+      "action": "edit",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/notes.docx",
+      "output_path": "outputs/notes-edit.docx",
+      "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "output_sha256": "b937726fb03e8cdc0db4f424cb7a5e90846328c4f5a0d17b366402c536fcea93",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "stories-save",
+      "source": "stories",
+      "action": "save",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "source_path": "sources/stories.docx",
+      "output_path": "outputs/stories-save.docx",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "output_sha256": "10b7cfa5372248bfd1711f9b01d9d2b2ea41e984ae288bcda8b528346e1a8875",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "stories-edit",
+      "source": "stories",
+      "action": "edit",
+      "cohort": "external_editor",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/stories.docx",
+      "output_path": "outputs/stories-edit.docx",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "output_sha256": "98f7b89db0f13c213c4a3b022857da210060b7a26a6844057a3266adc8f1e68d",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "duplicate-id",
+      "source": "basic",
+      "action": "duplicate-id",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "REV001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/duplicate-id.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "f879520276a04a4659cd7fc91a9e2a1eddd29c67bf3e6f518e020edb0434e34d",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": [
+            [
+              "word/document.xml",
+              "101"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "deletion-uses-t",
+      "source": "basic",
+      "action": "deletion-uses-t",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "REV002",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/deletion-uses-t.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "aa962b2599638f5067dc8aabdbc7c58e7c9ba81367836b77d8305f06e2b8a929",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [
+            [
+              "word/document.xml",
+              "102"
+            ]
+          ],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "insertion-uses-delText",
+      "source": "basic",
+      "action": "insertion-uses-delText",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "REV003",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/insertion-uses-delText.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "a53bbba3f279771d419be3ad57bfd10b5b065a33b3853bb7e26dc890d030fc81",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml"
+          ],
+          "changed_review_structures": [],
+          "invalid_revision_text": [
+            [
+              "word/document.xml",
+              "101"
+            ]
+          ],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "drop-insertion",
+      "source": "basic",
+      "action": "drop-insertion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/drop-insertion.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "75c909d23a28d470b6d3396afcee0144a1397581d4f8b8721f1c7c0873020a13",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "101"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "101"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml"
+          ],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "drop-deletion",
+      "source": "basic",
+      "action": "drop-deletion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/drop-deletion.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "8bb2bfc67e6ba736aab886b405e55cc92966fd080ed1ab2d562adb23315d295f",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "102"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "102"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "replace-unrelated-insertion",
+      "source": "basic",
+      "action": "replace-unrelated-insertion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "known_miss": true,
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/replace-unrelated-insertion.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "2467424bb6300866f98aacfba694c1171fb0e6ac99cd53aa1afbaad0edc22eac",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "103"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "103"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [
+            [
+              "word/document.xml",
+              "ins",
+              "Reviewer B",
+              "invented",
+              1
+            ]
+          ],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml"
+          ],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "unwrap-note-insertion",
+      "source": "notes",
+      "action": "unwrap-note-insertion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [],
+      "known_miss": true,
+      "source_path": "sources/notes.docx",
+      "output_path": "outputs/unwrap-note-insertion.docx",
+      "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "output_sha256": "1f76698a706892f2df4238d01f147dcd55cedcbc19802b9d413fd132026d9478",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/footnotes.xml",
+            "401"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/footnotes.xml",
+              "401"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "unwrap-header-insertion",
+      "source": "stories",
+      "action": "unwrap-header-insertion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID008",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/stories.docx",
+      "output_path": "outputs/unwrap-header-insertion.docx",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "output_sha256": "e8d31d09394719126a5c94e946ff889f73f4c0953613cd4f425a4f06815f3c55",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/header1.xml",
+            "501"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/header1.xml",
+              "501"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "drop-footer-deletion",
+      "source": "stories",
+      "action": "drop-footer-deletion",
+      "cohort": "seeded_defect",
+      "intent_correct": false,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID008",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "known_miss": false,
+      "source_path": "sources/stories.docx",
+      "output_path": "outputs/drop-footer-deletion.docx",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "output_sha256": "592eba57f9c62612b2099d06ad9ee7fb424b54288ec783d1764fa87e89b7735d",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/footer1.xml",
+            "502"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/footer1.xml",
+              "502"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "synthetic-partial-accept",
+      "source": "basic",
+      "action": "accept",
+      "cohort": "characterization",
+      "intent_correct": true,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "101"
+        ]
+      ],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "producer": "synthetic",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/synthetic-partial-accept.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "4b2d8ed6e718bd618bdce3858d069433d5df6147a819a16bcb23c24794804cee",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "101"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "synthetic-partial-reject",
+      "source": "basic",
+      "action": "reject",
+      "cohort": "characterization",
+      "intent_correct": true,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "102"
+        ]
+      ],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "The review is complete.",
+          "The review is retired complete."
+        ]
+      ],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "producer": "synthetic",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/synthetic-partial-reject.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "b1c84da2847a645d06b0c4786bd11ba72755e37685ec17678d475be19717d3c3",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "102"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "adeu-partial-accept",
+      "source": "basic",
+      "action": "accept",
+      "cohort": "characterization",
+      "intent_correct": true,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "101"
+        ]
+      ],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "producer": "adeu",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/adeu-partial-accept.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "0b8bbb9333bd40b9f52b5f99f0dcb35c9aad49ecc40d12dff270b1dc6e2eb63d",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "101"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "adeu-partial-reject",
+      "source": "basic",
+      "action": "reject",
+      "cohort": "characterization",
+      "intent_correct": true,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "102"
+        ]
+      ],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "The review is complete.",
+          "The review is retired complete."
+        ]
+      ],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "producer": "adeu",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/adeu-partial-reject.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "22ddc121df2993957dab4c57ceec27b06e697c6f702d799f76353815d6bb84d0",
+      "producer_name": "adeu",
+      "producer_version": "3.0.4",
+      "provenance": "controlled_external_tool_run",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "102"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "synthetic-accept-table-replacement",
+      "source": "table",
+      "action": "accept-table",
+      "cohort": "characterization",
+      "intent_correct": true,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "301"
+        ],
+        [
+          "word/document.xml",
+          "302"
+        ]
+      ],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 2
+        }
+      ],
+      "producer": "synthetic",
+      "source_path": "sources/table.docx",
+      "output_path": "outputs/synthetic-accept-table-replacement.docx",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output_sha256": "f3b9728043b680d2cc8d5fdded4cd6f5c42cc09a45e26014544886fa14c497b0",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "301"
+          ],
+          [
+            "word/document.xml",
+            "302"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "synthetic-accept-with-unrelated-loss",
+      "source": "basic",
+      "action": "accept-with-loss",
+      "cohort": "characterization",
+      "intent_correct": false,
+      "allowed_revision_losses": [
+        [
+          "word/document.xml",
+          "101"
+        ]
+      ],
+      "allowed_text_changes": [],
+      "expected_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ],
+      "producer": "synthetic",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/synthetic-accept-with-unrelated-loss.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "4d4d01d2b1045782dfd75db392992b39a9efcefa0ebfc4522766c75678066f49",
+      "producer_name": "revision-fixture-builder",
+      "producer_version": "1",
+      "provenance": "synthetic_xml_mutation",
+      "oracle": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "101"
+          ],
+          [
+            "word/document.xml",
+            "103"
+          ]
+        ],
+        "violations": {
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "103"
+            ]
+          ],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml"
+          ],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "online-basic-edit",
+      "source": "basic",
+      "action": "edit",
+      "cohort": "word_online",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/online-basic-edit.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "433a56494a93f09d217aaa7f4ab2a4e48098101470b4a65dd386ebb63e6b2200",
+      "producer_name": "Microsoft Word for the web",
+      "producer_version": "2026-09-12 session; service build not exposed",
+      "provenance": "observed_word_online_edit",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "online-table-edit",
+      "source": "table",
+      "action": "edit",
+      "cohort": "word_online",
+      "intent_correct": true,
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [
+        [
+          "word/document.xml",
+          "EDITBEFORE",
+          "EDITAFTER"
+        ]
+      ],
+      "expected_findings": [],
+      "source_path": "sources/table.docx",
+      "output_path": "outputs/online-table-edit.docx",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output_sha256": "f879ee0f769809dce84d16020a9f5d415cb449131ad1a7615a2b387f57714b44",
+      "producer_name": "Microsoft Word for the web",
+      "producer_version": "2026-09-12 session; service build not exposed",
+      "provenance": "observed_word_online_edit",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    }
+  ]
+}

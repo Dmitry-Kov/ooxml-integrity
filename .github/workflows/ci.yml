@@ -94,6 +94,9 @@ jobs:
       - name: Evaluate committed DOCX producer evidence (no Office required)
         run: python research/build_docx_evidence.py evaluate
 
+      - name: Evaluate existing-revision evidence and known detection gaps
+        run: python research/revision_evidence.py evaluate
+
       - name: The reference corpus rebuilds byte-clean
         working-directory: research
         env:

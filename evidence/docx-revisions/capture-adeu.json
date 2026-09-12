@@ -1,0 +1,103 @@
+{
+  "producer": "adeu",
+  "version": "3.0.4",
+  "captured_at": "2026-09-12T05:53:59.953095+00:00",
+  "platform": "Darwin",
+  "python": "3.12.14",
+  "labels_sha256": "6f6821a1d5ba6d74f551ee080a260f1beb3b8186b3d0d777c2df99a54fa8f7d9",
+  "dependencies": {
+    "adeu": "3.0.4",
+    "lxml": "6.1.3",
+    "python-docx": "1.2.0",
+    "pydantic": "2.13.5",
+    "diff-match-patch": "20241021"
+  },
+  "author": "Evidence Editor",
+  "sanitizer": "none; fixture-only metadata inspected before publication",
+  "cases": [
+    {
+      "id": "basic-save",
+      "action": "save",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_output_sha256": "636716315c70e4cd1060a55809b3f837b25af7463d0f925c9dc29e9372e5fb9e",
+      "applied": null
+    },
+    {
+      "id": "basic-edit",
+      "action": "edit",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_output_sha256": "45224fec0c04dcda1ef68959aa9129da5ae77703cbcd42a8941d11063560a7f4",
+      "applied": 1
+    },
+    {
+      "id": "nested-save",
+      "action": "save",
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "raw_output_sha256": "c4a245425a7c305b6eb31a3c21a25988398a9489657c6cc41f06bea960db0cd6",
+      "applied": null
+    },
+    {
+      "id": "nested-edit",
+      "action": "edit",
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "raw_output_sha256": "166bcc85be9896d3f7988f2e3e32550fe2fb6707fa0479dbf90c311aecb1f849",
+      "applied": 1
+    },
+    {
+      "id": "table-save",
+      "action": "save",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "raw_output_sha256": "4921e4cf2d6cb7d2654102a3bf20033871faa0c1de292ff4673418e489b126ec",
+      "applied": null
+    },
+    {
+      "id": "table-edit",
+      "action": "edit",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "raw_output_sha256": "ee9b78f980657c45a4dce91c7054383525bb71ceb8dda3d4c9d188306273026e",
+      "applied": 1
+    },
+    {
+      "id": "notes-save",
+      "action": "save",
+      "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "raw_output_sha256": "f1cc6d97dddf526d9a027a91a36786eac11054da9589250eed7c52e21b6fee38",
+      "applied": null
+    },
+    {
+      "id": "notes-edit",
+      "action": "edit",
+      "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "raw_output_sha256": "b937726fb03e8cdc0db4f424cb7a5e90846328c4f5a0d17b366402c536fcea93",
+      "applied": 1
+    },
+    {
+      "id": "stories-save",
+      "action": "save",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "raw_output_sha256": "10b7cfa5372248bfd1711f9b01d9d2b2ea41e984ae288bcda8b528346e1a8875",
+      "applied": null
+    },
+    {
+      "id": "stories-edit",
+      "action": "edit",
+      "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "raw_output_sha256": "98f7b89db0f13c213c4a3b022857da210060b7a26a6844057a3266adc8f1e68d",
+      "applied": 1
+    },
+    {
+      "id": "adeu-partial-accept",
+      "action": "accept",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_output_sha256": "0b8bbb9333bd40b9f52b5f99f0dcb35c9aad49ecc40d12dff270b1dc6e2eb63d",
+      "applied": 1
+    },
+    {
+      "id": "adeu-partial-reject",
+      "action": "reject",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_output_sha256": "22ddc121df2993957dab4c57ceec27b06e697c6f702d799f76353815d6bb84d0",
+      "applied": 1
+    }
+  ]
+}

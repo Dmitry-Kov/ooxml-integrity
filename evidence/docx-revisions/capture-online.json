@@ -1,0 +1,97 @@
+{
+  "producer": "Microsoft Word for the web",
+  "observed_on": "2026-09-12",
+  "service_build": null,
+  "package_app_version": "16.0000",
+  "service": "word.cloud.microsoft",
+  "labels_sha256": "ff4cd3fc2c3893bd19f359d237513cb703ee8dc67f2a679fdff6751a1591720f",
+  "sanitizer": "Only core.xml lastModifiedBy replaced with Evidence Editor; ZIP repacked",
+  "cases": [
+    {
+      "id": "online-basic-edit",
+      "raw_sha256": "e4cd0f6ce05ba19a2c04e92d44a0efe546af726334a083955cb8b5e17449feb4",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "operation": "Word Online Replace All EDITBEFORE to EDITAFTER; autosave; OneDrive Download",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "published_sha256": "433a56494a93f09d217aaa7f4ab2a4e48098101470b4a65dd386ebb63e6b2200",
+      "raw_part_sha256": {
+        "[Content_Types].xml": "7dd55c7701f745795177c83f2079c2edb252a37243940d0199fd6c523bc92819",
+        "_rels/.rels": "d7c0d53e7a259b5fd0ea9659ffcc74bbf8c4f08fa48be399235269cab4c6518e",
+        "docProps/app.xml": "5f5f26a0c2a598bb8d36990df935cda5c829fa4503095fd85cc09022a114205f",
+        "docProps/core.xml": "219ecd878012baa6d3ed813b73e6b3d7d46a8544cea7a7fbd0cb073019fa76fd",
+        "word/_rels/document.xml.rels": "48a464f13b3a553921b4de3bc5d2e7dcd7009880a6186be9c4f084ab011a54b6",
+        "word/comments.xml": "45605e97955df6635220dedb9d33053bdbe1bed92913bf7f6398e0c6f364a1e0",
+        "word/document.xml": "5e859e1abb10493325a9df2a8d712d47efd4ca63f086d11fb195aa3b3702ef5b",
+        "word/footer1.xml": "61f6ceb7a3482a33c510b338249317f5af30b48a0eab520d3376a68ad78131f6",
+        "word/footnotes.xml": "df97ef013bc561b420467cac9efe7d687eb52adda494f43e12ff6cca21b4b29b",
+        "word/header1.xml": "6a84fd8dc9e0908d59cfb4629b5f5be4b2a400ec8f669de322f0628055b5a23c",
+        "word/numbering.xml": "abd30445b928d5e2e3fe3c6acce2d0771431572f71acfc700c6bfcd7814de520",
+        "word/settings.xml": "1be3c0c42efc02add86cb4d2e5b0a69b369a261093db37a611a5330e59ca542e",
+        "word/styles.xml": "650063fbd5aa553029636c634eb960c05720a0a3d3a9f014ccfb2c34171b2d1a"
+      },
+      "published_part_sha256": {
+        "[Content_Types].xml": "7dd55c7701f745795177c83f2079c2edb252a37243940d0199fd6c523bc92819",
+        "_rels/.rels": "d7c0d53e7a259b5fd0ea9659ffcc74bbf8c4f08fa48be399235269cab4c6518e",
+        "docProps/app.xml": "5f5f26a0c2a598bb8d36990df935cda5c829fa4503095fd85cc09022a114205f",
+        "docProps/core.xml": "16493867a90c87d270c93ade24c58821ff3f945be91c1419b76cbfdbd3419cb9",
+        "word/_rels/document.xml.rels": "48a464f13b3a553921b4de3bc5d2e7dcd7009880a6186be9c4f084ab011a54b6",
+        "word/comments.xml": "45605e97955df6635220dedb9d33053bdbe1bed92913bf7f6398e0c6f364a1e0",
+        "word/document.xml": "5e859e1abb10493325a9df2a8d712d47efd4ca63f086d11fb195aa3b3702ef5b",
+        "word/footer1.xml": "61f6ceb7a3482a33c510b338249317f5af30b48a0eab520d3376a68ad78131f6",
+        "word/footnotes.xml": "df97ef013bc561b420467cac9efe7d687eb52adda494f43e12ff6cca21b4b29b",
+        "word/header1.xml": "6a84fd8dc9e0908d59cfb4629b5f5be4b2a400ec8f669de322f0628055b5a23c",
+        "word/numbering.xml": "abd30445b928d5e2e3fe3c6acce2d0771431572f71acfc700c6bfcd7814de520",
+        "word/settings.xml": "1be3c0c42efc02add86cb4d2e5b0a69b369a261093db37a611a5330e59ca542e",
+        "word/styles.xml": "650063fbd5aa553029636c634eb960c05720a0a3d3a9f014ccfb2c34171b2d1a"
+      },
+      "changed_parts": [
+        "docProps/core.xml"
+      ]
+    },
+    {
+      "id": "online-table-edit",
+      "raw_sha256": "b612291481955790ffd5d493dc88e586b540a5bddfa6fc54f9f165052e6804f0",
+      "replace_count": 1,
+      "saved": true,
+      "downloaded": true,
+      "operation": "Word Online Replace All EDITBEFORE to EDITAFTER; autosave; OneDrive Download",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "published_sha256": "f879ee0f769809dce84d16020a9f5d415cb449131ad1a7615a2b387f57714b44",
+      "raw_part_sha256": {
+        "[Content_Types].xml": "7dd55c7701f745795177c83f2079c2edb252a37243940d0199fd6c523bc92819",
+        "_rels/.rels": "d7c0d53e7a259b5fd0ea9659ffcc74bbf8c4f08fa48be399235269cab4c6518e",
+        "docProps/app.xml": "5f5f26a0c2a598bb8d36990df935cda5c829fa4503095fd85cc09022a114205f",
+        "docProps/core.xml": "6ec76373826bb1e3e8a48d155d1137224b9984808c11944ed79815479482a297",
+        "word/_rels/document.xml.rels": "48a464f13b3a553921b4de3bc5d2e7dcd7009880a6186be9c4f084ab011a54b6",
+        "word/comments.xml": "45605e97955df6635220dedb9d33053bdbe1bed92913bf7f6398e0c6f364a1e0",
+        "word/document.xml": "56c8496f84ecbc10130b9667f26733749b335d6a3cba4bf203e50545442da9fa",
+        "word/footer1.xml": "61f6ceb7a3482a33c510b338249317f5af30b48a0eab520d3376a68ad78131f6",
+        "word/footnotes.xml": "0ff423818cf298229e7d331ffaa6df567c007057dc13dd8d76cc1fb04fbddb1b",
+        "word/header1.xml": "6a84fd8dc9e0908d59cfb4629b5f5be4b2a400ec8f669de322f0628055b5a23c",
+        "word/numbering.xml": "3786ac65275a02b030b023ad5ffbed1c87ce20145b9dffab00d2f1c084077c1c",
+        "word/settings.xml": "56e14bf6713aaf78837c84cdb420c2ff698177759c7acef9e74368339e606127",
+        "word/styles.xml": "650063fbd5aa553029636c634eb960c05720a0a3d3a9f014ccfb2c34171b2d1a"
+      },
+      "published_part_sha256": {
+        "[Content_Types].xml": "7dd55c7701f745795177c83f2079c2edb252a37243940d0199fd6c523bc92819",
+        "_rels/.rels": "d7c0d53e7a259b5fd0ea9659ffcc74bbf8c4f08fa48be399235269cab4c6518e",
+        "docProps/app.xml": "5f5f26a0c2a598bb8d36990df935cda5c829fa4503095fd85cc09022a114205f",
+        "docProps/core.xml": "4f4616536ed2fb116d1b69a286c7d1049d8292b1e8a0f1fca6c32393b0af643a",
+        "word/_rels/document.xml.rels": "48a464f13b3a553921b4de3bc5d2e7dcd7009880a6186be9c4f084ab011a54b6",
+        "word/comments.xml": "45605e97955df6635220dedb9d33053bdbe1bed92913bf7f6398e0c6f364a1e0",
+        "word/document.xml": "56c8496f84ecbc10130b9667f26733749b335d6a3cba4bf203e50545442da9fa",
+        "word/footer1.xml": "61f6ceb7a3482a33c510b338249317f5af30b48a0eab520d3376a68ad78131f6",
+        "word/footnotes.xml": "0ff423818cf298229e7d331ffaa6df567c007057dc13dd8d76cc1fb04fbddb1b",
+        "word/header1.xml": "6a84fd8dc9e0908d59cfb4629b5f5be4b2a400ec8f669de322f0628055b5a23c",
+        "word/numbering.xml": "3786ac65275a02b030b023ad5ffbed1c87ce20145b9dffab00d2f1c084077c1c",
+        "word/settings.xml": "56e14bf6713aaf78837c84cdb420c2ff698177759c7acef9e74368339e606127",
+        "word/styles.xml": "650063fbd5aa553029636c634eb960c05720a0a3d3a9f014ccfb2c34171b2d1a"
+      },
+      "changed_parts": [
+        "docProps/core.xml"
+      ]
+    }
+  ]
+}

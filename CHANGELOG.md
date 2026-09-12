@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Added a separate [existing-revision corpus](evidence/docx-revisions/README.md)
+  with five synthetic sources and 27 labelled pairs: 12 clean controls from
+  adeu/Word Online, nine seeded defects and six accept/reject characterizations.
+  Independent XML intent checks and exact finding/hash gates retain two known
+  preservation misses explicitly; accept/reject is excluded from preservation
+  metrics. The original 220-pair corpus and production checks are unchanged.
+
 - Updated the public demo pin and current Action examples to published `0.4.1`
   after release verification. The browser suite checks the exact public PyPI
   package before the Pages deployment. Historical browser receipts are retained.

@@ -6,6 +6,11 @@ the checker. The measurements apply to the recorded documents, fonts and
 application builds. The [limitations](#limitations) section gives that scope
 in more detail.
 
+The later [existing-revision evidence](../evidence/docx-revisions/README.md)
+records 27 additional pairs without changing the original beta corpus. It
+separates actual adeu/Word Online edits, seeded defects and accept/reject
+characterization, and retains two preservation false negatives explicitly.
+
 ## The finding
 
 The starting point was a services agreement with tracked changes from counsel

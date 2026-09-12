@@ -247,6 +247,11 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
   positives, zero false positives and zero false negatives. The 100% precision
   and recall apply to that corpus; 14 rules are measured and 30 are unmeasured.
   Accuracy on customer documents has not been measured.
+- A separate [existing-revision tranche](evidence/docx-revisions/README.md)
+  has 27 pairs: 12 clean adeu/Word Online controls, nine seeded defects (seven
+  detected, two missed), and six accept/reject characterizations excluded from
+  preservation metrics. Producer groups are reported separately; Windows Word
+  observations with existing revisions are still missing.
 - Eight real agent runs is a small sample, on one document, on one day.
 - PPTX evidence comes from PowerPoint for Mac editing-view checks and native
   exports of the later regression decks. Windows and Slide Show mode are
@@ -281,6 +286,7 @@ docs/                  research notes, configuration, support matrix, validation
 demo/                  browser checker, landing page, bundled fonts and examples
 corpus/                reference .docx and .pptx, byte-reproducible
 evidence/docx-beta/    50 producer sources and 220 labelled DOCX pairs
+evidence/docx-revisions/  27 pairs with existing revisions and explicit known misses
 runs/                  eight real agent outputs, used as fixtures
 action.yml             the GitHub Action
 ```
