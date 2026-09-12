@@ -1,0 +1,34 @@
+[
+  {
+    "id": "online-basic-edit",
+    "source": "basic",
+    "action": "edit",
+    "cohort": "word_online",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  },
+  {
+    "id": "online-table-edit",
+    "source": "table",
+    "action": "edit",
+    "cohort": "word_online",
+    "intent_correct": true,
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [
+      [
+        "word/document.xml",
+        "EDITBEFORE",
+        "EDITAFTER"
+      ]
+    ],
+    "expected_findings": []
+  }
+]

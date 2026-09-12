@@ -1,0 +1,327 @@
+{
+  "checker_version": "0.4.1",
+  "metric_unit": "document pair; actionable ERROR/WARN",
+  "groups": {
+    "external_editor": {
+      "pairs": 10,
+      "label_mismatches": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "tn": 10
+    },
+    "seeded_defect": {
+      "pairs": 9,
+      "label_mismatches": 0,
+      "tp": 7,
+      "fp": 0,
+      "fn": 2,
+      "tn": 0
+    },
+    "characterization": {
+      "pairs": 6,
+      "label_mismatches": 0,
+      "excluded_from_preservation_metrics": true,
+      "correct_actions": 5,
+      "incorrect_actions": 1
+    },
+    "word_online": {
+      "pairs": 2,
+      "label_mismatches": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "tn": 2
+    }
+  },
+  "rules_with_seeded_positive_cases": {
+    "FID001": 2,
+    "FID008": 2,
+    "REV001": 1,
+    "REV002": 1,
+    "REV003": 1
+  },
+  "rules_without_positive_cases": [
+    "CMT001",
+    "CMT002",
+    "CMT003",
+    "CMT004",
+    "CMT005",
+    "FID000",
+    "FID002",
+    "FID003",
+    "FID004",
+    "FID005",
+    "FID006",
+    "FID007",
+    "FTN001",
+    "FTN002",
+    "INT001",
+    "NUM001",
+    "NUM002",
+    "NUM003",
+    "NUM004",
+    "PKG000",
+    "PKG001",
+    "PKG002",
+    "PKG003",
+    "PKG004",
+    "PKG005",
+    "PKG006",
+    "PKG007",
+    "PKG008",
+    "REL001",
+    "REL002",
+    "REL003",
+    "SDT001",
+    "SDT002",
+    "STY001",
+    "STY002",
+    "TBL001",
+    "TBL002",
+    "TXT001",
+    "XML001"
+  ],
+  "cases": [
+    {
+      "id": "basic-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "basic-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "nested-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "nested-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "table-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "table-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "notes-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "notes-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "stories-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "stories-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "duplicate-id",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "deletion-uses-t",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "REV002",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "insertion-uses-delText",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "REV003",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "drop-insertion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "drop-deletion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "replace-unrelated-insertion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": []
+    },
+    {
+      "id": "unwrap-note-insertion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": []
+    },
+    {
+      "id": "unwrap-header-insertion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "FID008",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "drop-footer-deletion",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "FID008",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "synthetic-partial-accept",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "synthetic-partial-reject",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "adeu-partial-accept",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "adeu-partial-reject",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "synthetic-accept-table-replacement",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "synthetic-accept-with-unrelated-loss",
+      "matches_expected_checker": true,
+      "intent_correct": false,
+      "actionable_findings": [
+        {
+          "code": "FID001",
+          "severity": "ERROR",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "online-basic-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "online-table-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    }
+  ]
+}
