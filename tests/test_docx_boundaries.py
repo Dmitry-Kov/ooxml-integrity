@@ -133,6 +133,7 @@ def test_explicit_true_formatting_is_equivalent(source, tmp_path):
     assert n.assess(source, write(tmp_path, parts), 'split', n.ADAPTERS[1])['protected_content_preserved']
 
 
+@pytest.mark.frozen_checker
 def test_protocol_and_source_derivation_reproduce():
     import json
     data = n.protocol()
@@ -143,6 +144,7 @@ def test_protocol_and_source_derivation_reproduce():
         assert json.loads(b.json_bytes(n.evaluate(directory))) == json.loads((directory / 'evaluation.json').read_text())
 
 
+@pytest.mark.frozen_checker
 def test_local_agent_declares_sixty_attempts_and_exact_requests(monkeypatch, tmp_path):
     import json
     import sys
@@ -167,6 +169,7 @@ def test_local_agent_declares_sixty_attempts_and_exact_requests(monkeypatch, tmp
     assert not (directory / 'capture.json').exists()
 
 
+@pytest.mark.frozen_checker
 def test_incomplete_deterministic_inventory_is_rejected(tmp_path):
     import json
     import shutil
@@ -179,6 +182,7 @@ def test_incomplete_deterministic_inventory_is_rejected(tmp_path):
         n.evaluate(tmp_path)
 
 
+@pytest.mark.frozen_checker
 def test_completed_agent_capture_replays_if_available():
     import json
     from research import capture_docx_boundaries_agent as agent

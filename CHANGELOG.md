@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Fixed a `FID001` false loss report when Word coalesces plain inline insertion
+  or deletion fragments. A lower wrapper count is exempt only when an ordered
+  text/author/effective-time/direct-format/paragraph-position comparison agrees;
+  unsupported structures and genuine count losses retain the existing ERROR.
+  No code, severity, report, coverage or baseline schema changed, but affected
+  comparisons can now exit 0 instead of 1. Header/footer `FID008`, count-neutral
+  revision changes and accept/reject intent remain outside this fix.
+  [Scope, captured Word regression and compatibility](evidence/docx-fid001-coalescence/README.md).
+
 - Documented compatibility for rule codes, per-finding severity, CLI/JSON/SARIF,
   coverage/Doctor and baseline versions, including patch fixes that change a
   CI result. Added contribution and security-reporting guides with a private

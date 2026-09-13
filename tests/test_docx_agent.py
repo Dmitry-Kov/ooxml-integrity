@@ -85,6 +85,7 @@ Path('checks.json').write_text(json.dumps(checks))
     assert not (tmp_path / "forbidden.txt").exists()
 
 
+@pytest.mark.frozen_checker
 def test_saved_agent_capture_replays_if_present():
     directory = bench.BASE / "agent-local-1"
     if not (directory / "capture.json").exists():

@@ -165,6 +165,7 @@ def test_receipts_refuse_overwrite(tmp_path):
     assert json.loads(path.read_text()) == {"original": True}
 
 
+@pytest.mark.frozen_checker
 def test_captured_receipts_and_evaluations_replay_when_present():
     captures = list((bench.BASE / "captures").glob("*/capture.json"))
     if not captures:
@@ -187,6 +188,7 @@ def test_initial_and_reviewed_capture_adapters_have_identical_code():
         assert adapters(path) == current
 
 
+@pytest.mark.frozen_checker
 def test_verification_rejects_tampered_output(tmp_path):
     original = bench.BASE / "captures/python-docx-1"
     if not original.exists():

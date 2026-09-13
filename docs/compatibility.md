@@ -24,6 +24,13 @@ The same patch changes undefined *character* styles from error to warning;
 those alone pass the default error threshold. These are finding changes with
 unchanged CLI exits and JSON field types. Baseline v2 remains compatible.
 
+The unreleased [FID001 coalescence correction](../evidence/docx-fid001-coalescence/README.md)
+can remove an ERROR when a lower inline revision-wrapper count is explained by
+preserved content. Such a pair can change from exit 1 to exit 0. Codes, remaining
+severities, report fields, coverage and baseline v2 identities are unchanged;
+no baseline regeneration is required. An obsolete baseline entry may remain
+unused. This does not authorize accepting revisions or certify a clean document.
+
 ## Rule codes, severity and exit status
 
 Use `code`, such as `CMT005`, as the rule identifier. Codes retain their

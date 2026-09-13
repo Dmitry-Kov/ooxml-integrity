@@ -6,6 +6,7 @@ what actually ships, not a parallel set of hand-made files.
 from __future__ import annotations
 
 import shutil
+import os
 import subprocess
 import sys
 import zipfile
@@ -14,6 +15,31 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+@pytest.fixture(scope="session")
+def frozen_checker_workspace(tmp_path_factory):
+    from research.replay_frozen_docx import prepare
+    return prepare(tmp_path_factory.mktemp("frozen-checker"))
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_pyfunc_call(pyfuncitem):
+    """Version-bound receipts execute against their real historical source."""
+    if pyfuncitem.get_closest_marker("frozen_checker") is None:
+        return None
+    from research import replay_frozen_docx as replay
+    if os.environ.get(replay.CHILD):
+        import ooxml_integrity
+        assert replay.is_baseline_source(), "Historical checker source drift"
+        assert Path(ooxml_integrity.__file__).resolve().parent == ROOT/'src/ooxml_integrity'
+        return None
+    if replay.is_baseline_source():
+        return None
+    directory = pyfuncitem._request.getfixturevalue("frozen_checker_workspace")
+    result = replay.run_tests(directory, [pyfuncitem.nodeid])
+    assert result.returncode == 0, result.stdout + result.stderr
+    return True
 
 
 @pytest.fixture(scope="session")

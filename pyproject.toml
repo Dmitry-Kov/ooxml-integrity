@@ -56,4 +56,5 @@ include = ["src/", "tests/", "research/", "corpus/", "evidence/", "docs/",
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --strict-markers"
-markers = ["needs_docx: requires python-docx (dev extra)"]
+markers = ["needs_docx: requires python-docx (dev extra)",
+           "frozen_checker: historical DOCX receipts replay with the archived checker"]

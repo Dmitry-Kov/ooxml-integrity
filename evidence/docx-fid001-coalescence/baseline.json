@@ -1,0 +1,24 @@
+{
+  "archive_sha256": "ca714b9f480ffc4ce2f2171d12875863c18ff06d50f65bf40ce13f9229e0d21e",
+  "checker_version": "0.4.1",
+  "commit": "c66df6e722bcd304cd0cfa4264ddd8583bf5c6d8",
+  "files": {
+    "src/ooxml_integrity/__init__.py": "4effd906e44ef13a73b104910ee02398556ae9975c430727215600a0ea1c6eab",
+    "src/ooxml_integrity/__main__.py": "d12bc1927c08e7e0319693d5aae64c074acfbff078964d22caf875cf33ed8d30",
+    "src/ooxml_integrity/archive.py": "7e805e74b80d6177da97d0998e960585b0282c84166e67e0f880e53787a11c7a",
+    "src/ooxml_integrity/cli.py": "786e37cc5859f04f5484fe4020024907772e7f88190c05f901189d4c25929f6f",
+    "src/ooxml_integrity/coverage.py": "8524038b6a63a8bdf04391930467731071c76eb45c3d9190fa55a91a6ab394a7",
+    "src/ooxml_integrity/doctor.py": "c0eb0904410f5dfd02c09b7a7912f9dd5a6e0120b3620744cd9b53839ba5ec30",
+    "src/ooxml_integrity/fidelity.py": "02dc45d415f3616662afa9250a794508edb6bcbe9b4e337538d47e13fc8352a6",
+    "src/ooxml_integrity/finding.py": "31920c85ad6b20fa49edeb29dffe53438ef01346e60e97244ba2392a8b5d7bf9",
+    "src/ooxml_integrity/fonts.py": "eec0e9acec5f5666ec2f981aa40049dd86402c67dc62f7c5f3f7b6b165e11855",
+    "src/ooxml_integrity/inspector.py": "4c4e4ea89aad55302f26090a3ac816d8173f635c7c01032f3508ba7678074b43",
+    "src/ooxml_integrity/policy.py": "943ddf8c3eb04053f925f06c13e292cd7bfd7ceaadbb67706e6999a7df6fce9b",
+    "src/ooxml_integrity/pptx_checks.py": "3ac84966afcdb6a80e12796cb9ed662eaeacc10ae1c52459c47cb7ad35c10110",
+    "src/ooxml_integrity/pptx_layout.py": "1270c002e6936287465a6264d008f341a7704b582c5b997f42845c6551c6db6a",
+    "src/ooxml_integrity/sarif.py": "dedeaf008f74ce791f5a2c5ca1005e9f48119606882f4aa42cf27177682de99a",
+    "src/ooxml_integrity/xmlutil.py": "4a4b1431efc8c7493be2ad820bd0df6c8109acb2f264edfbe26d74234cbd9c9b"
+  },
+  "purpose": "Exact historical checker source for offline replay of frozen benchmark receipts; never imported by the production checker.",
+  "source_tree_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375"
+}

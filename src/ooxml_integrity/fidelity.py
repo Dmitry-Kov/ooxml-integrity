@@ -85,6 +85,94 @@ _ASCII_LOWER = str.maketrans(
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz",
 )
 
+_REVISION_TAGS = {W + "ins", W + "del"}
+_DATE_UTC = "{http://schemas.microsoft.com/office/word/2023/wordml/word16du}dateUtc"
+_REVISION_ATTRIBUTES = {W + "id", W + "author", W + "date", _DATE_UTC}
+
+
+def _run_properties(node):
+    """Expanded XML names avoid prefix differences; only b/i booleans fold."""
+    if node.tag == W + "rPrChange":
+        raise ValueError("revision of run properties")
+    attrs = dict(node.attrib)
+    if node.tag in (W + "b", W + "i"):
+        value = attrs.get(W + "val", "1")
+        if value in ("1", "true", "on"):
+            attrs[W + "val"] = "1"
+        elif value in ("0", "false", "off"):
+            attrs[W + "val"] = "0"
+    return (node.tag, tuple(sorted(attrs.items())), node.text or "",
+            tuple(_run_properties(child) for child in node))
+
+
+def _revision_text_signature(document, tag: str):
+    """A conservative witness for plain inline revision coalescence.
+
+    Only paragraphs made of direct text runs and nonempty ins/del wrappers
+    qualify. Their complete ordered text, revision kind/author/effective date,
+    direct run properties and paragraph ordinal must agree. IDs and wrapper/run
+    fragmentation may differ. Unsupported content returns None, retaining the
+    existing count warning; this is not general revision identity matching.
+    """
+    revisions = list(document.iter(W + tag))
+    if not revisions:
+        return ()
+    if any(node.getparent() is None or node.getparent().tag != W + "p"
+           for node in revisions):
+        return None
+    paragraphs = {node.getparent() for node in revisions}
+    result = []
+    try:
+        for ordinal, paragraph in enumerate(document.iter(W + "p")):
+            if paragraph not in paragraphs:
+                continue
+            tokens = []
+
+            def text_run(run, context):
+                if run.tag != W + "r":
+                    raise ValueError("non-run revision content")
+                properties = run.find(W + "rPr")
+                props = _run_properties(properties) if properties is not None else ()
+                expected = W + ("delText" if context[0] == W + "del" else "t")
+                texts = []
+                for child in run:
+                    if child is properties:
+                        continue
+                    if child.tag != expected or len(child):
+                        raise ValueError("non-text run content")
+                    if set(child.attrib) - {"{http://www.w3.org/XML/1998/namespace}space"}:
+                        raise ValueError("unknown text attributes")
+                    texts.append(child.text or "")
+                text = "".join(texts)
+                if not text:
+                    raise ValueError("empty run")
+                identity = (context, props)
+                if tokens and tokens[-1][0] == identity:
+                    tokens[-1][1].append(text)
+                else:
+                    tokens.append((identity, [text]))
+
+            for child in paragraph:
+                if child.tag == W + "pPr":
+                    continue
+                if child.tag == W + "r":
+                    text_run(child, (None, None, None))
+                elif child.tag in _REVISION_TAGS:
+                    if (not len(child) or not child.get(W + "author")
+                            or child.get(W + "id") is None
+                            or set(child.attrib) - _REVISION_ATTRIBUTES):
+                        raise ValueError("unsupported revision metadata/content")
+                    context = (child.tag, child.get(W + "author"),
+                               child.get(_DATE_UTC, child.get(W + "date")))
+                    for run in child:
+                        text_run(run, context)
+                else:
+                    raise ValueError("non-text paragraph content")
+            result.append((ordinal, tuple((key, "".join(chunks)) for key, chunks in tokens)))
+    except ValueError:
+        return None
+    return tuple(result)
+
 
 def _norm(text: str) -> str:
     """Whitespace-insensitive body text: a reflowed comment is not a lost one."""
@@ -278,6 +366,7 @@ class _Snapshot:
     authors: dict[tuple[str, str], str]
     text_length: int
     stories: _StoryFacts
+    revision_text: dict[str, tuple | None]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -311,6 +400,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     return _Snapshot(
         counts, bodies, authors, text_length,
         _story_facts(parts, doc, references=story_references),
+        {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
     )
 
 
@@ -389,6 +479,12 @@ def compare(source: str | Path, edited: str | Path, *,
         if not a:
             continue
         if b < a:
+            # Word can join adjacent deletion/insertion wrappers on a save.
+            # Suppress the count-only loss only with a positive content witness;
+            # two unsupported (None) signatures must never count as equal.
+            witness = source_snapshot.revision_text.get(tag)
+            if witness is not None and witness == edited_snapshot.revision_text.get(tag):
+                continue
             lost = a - b
             out.append(Finding(
                 "FID001",

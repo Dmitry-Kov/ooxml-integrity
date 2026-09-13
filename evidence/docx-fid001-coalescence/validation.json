@@ -1,0 +1,123 @@
+{
+  "verified_at": "2026-09-13T19:10:09.933541+00:00",
+  "base_commit": "c66df6e722bcd304cd0cfa4264ddd8583bf5c6d8",
+  "branch": "fix/fid001-revision-coalescence",
+  "python": "3.9.6",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "module_version": "0.4.1",
+  "release_status": "Unreleased source fix; no package version, release tag, demo pin or external publication changed",
+  "checker_source_sha256": "d0241c81be426884c5f9b112a210e14b64df5f65cc9dc48ebe72d347a10572a2",
+  "historical_checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "historical_archive_verified_against_git_commit": true,
+  "commands": [
+    {
+      "command": ".venv/bin/python -m pytest --basetemp tmp/fid001-final-tests -ra",
+      "exit_code": 0,
+      "log": "validation-pytest-final.txt",
+      "passed": 881,
+      "skipped": 7,
+      "historical_checker_tests_included": 8,
+      "skip_reason": "Seven missing-font scenarios skipped because those fonts are installed.",
+      "log_sha256": "bb7dea7550ba5e236f265feb68dbd0b15d490c96e76665267428cbd2b6518533"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/test_revision_coalescence.py tests/test_fidelity.py tests/test_header_footer_fidelity.py --basetemp tmp/fid001-final-targeted -ra",
+      "exit_code": 0,
+      "log": "validation-targeted.txt",
+      "passed": 67,
+      "log_sha256": "763a8a73e25b8cf75c3e24f1d0a987c6a18e22dbe6bb03dccc87e60358b8adeb"
+    },
+    {
+      "command": ".venv/bin/python research/replay_frozen_docx.py",
+      "exit_code": 0,
+      "log": "validation-frozen-final.txt",
+      "passed": 8,
+      "historical_output_pairs": 168,
+      "historical_failed_agent_attempts": 45,
+      "log_sha256": "556322822e3c8efc43308e491e57a6ee2f47529593f0e7d56f09d40327256ad6"
+    },
+    {
+      "command": ".venv/bin/python research/review_fid001_fix.py",
+      "exit_code": 0,
+      "log": "validation-candidate.txt",
+      "candidate_output_pairs": 168,
+      "changed_pairs": 2,
+      "unchanged_pairs": 166,
+      "log_sha256": "9cb3068f55897c7a18575a8781b96632319be49e5c5e9172d8e1f84335beccaf"
+    },
+    {
+      "command": ".venv/bin/python research/build_docx_evidence.py evaluate",
+      "exit_code": 0,
+      "log": "validation-beta.txt",
+      "pairs": 220,
+      "label_mismatches": 0,
+      "log_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8"
+    },
+    {
+      "command": ".venv/bin/python research/revision_evidence.py evaluate",
+      "exit_code": 0,
+      "log": "validation-revisions.txt",
+      "pairs": 30,
+      "label_mismatches": 0,
+      "log_sha256": "5d0ddf18f6c67c27409fa011fdad533b5fe103a6d3575ea4062f002f77225df5"
+    },
+    {
+      "command": ".venv/bin/python -m ooxml_integrity check evidence/docx-word-id-followup/outputs/unique-id-control-word.docx --against evidence/docx-word-id-followup/inputs/unique-id-control.docx --no-config --json",
+      "exit_code": 0,
+      "log": "checker-unique-candidate.json",
+      "findings": 0,
+      "suppressed": 0,
+      "log_sha256": "df779aa94f596b67cd89c7d307ee82c1983e3af1f4862476bc0e33fbec697a59"
+    }
+  ],
+  "protected_paths_unchanged": [
+    "evidence/docx-benchmark",
+    "evidence/docx-benchmark-boundaries",
+    "evidence/docx-word-id-followup",
+    "evidence/docx-revisions",
+    "research/docx_benchmark.py",
+    "research/docx_boundaries.py",
+    "research/capture_docx_agent.py",
+    "research/capture_docx_boundaries_agent.py",
+    "research/revision_evidence.py",
+    "research/inspect_word_revision_ids.py",
+    "README.md",
+    "AUDIT_PLAN.md",
+    "docs/pilot.md"
+  ],
+  "limits": [
+    "No new editor/model runs",
+    "REV001 unchanged",
+    "Header/footer FID008 unchanged",
+    "No general revision comparison at equal counts",
+    "No inherited-format, visual or accept/reject-group certification"
+  ],
+  "sha256": {
+    "evidence/docx-fid001-coalescence/README.md": "1c8381dad4eff3181714c8a8cf07c5cd91506615150b73e686d180c929f156da",
+    "evidence/docx-fid001-coalescence/baseline-checker.zip": "ca714b9f480ffc4ce2f2171d12875863c18ff06d50f65bf40ce13f9229e0d21e",
+    "evidence/docx-fid001-coalescence/baseline.json": "2560ff477b1dfc9e2c22a1d6ba260461a72f358bf82bae6cc39c2b9b18da97be",
+    "evidence/docx-fid001-coalescence/candidate.json": "7b40a9533e88ea20f28bc9f359dc1f8bc00304970a747d46f8e6db4412fbe238",
+    "evidence/docx-fid001-coalescence/checker-unique-candidate.json": "df779aa94f596b67cd89c7d307ee82c1983e3af1f4862476bc0e33fbec697a59",
+    "evidence/docx-fid001-coalescence/validation-beta.txt": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+    "evidence/docx-fid001-coalescence/validation-candidate.txt": "9cb3068f55897c7a18575a8781b96632319be49e5c5e9172d8e1f84335beccaf",
+    "evidence/docx-fid001-coalescence/validation-frozen-final.txt": "556322822e3c8efc43308e491e57a6ee2f47529593f0e7d56f09d40327256ad6",
+    "evidence/docx-fid001-coalescence/validation-frozen.txt": "e8ae80e2271735bb5aac1334ef9f3d3a95d97e52d49acf219043d2b72c4b1aab",
+    "evidence/docx-fid001-coalescence/validation-pytest-final.txt": "bb7dea7550ba5e236f265feb68dbd0b15d490c96e76665267428cbd2b6518533",
+    "evidence/docx-fid001-coalescence/validation-pytest.txt": "7668eba850ec9a9f886a23dfd077d8a0d0f87e376a5fbcacf17d9a3fbbe54fed",
+    "evidence/docx-fid001-coalescence/validation-revisions.txt": "5d0ddf18f6c67c27409fa011fdad533b5fe103a6d3575ea4062f002f77225df5",
+    "evidence/docx-fid001-coalescence/validation-targeted.txt": "763a8a73e25b8cf75c3e24f1d0a987c6a18e22dbe6bb03dccc87e60358b8adeb",
+    "src/ooxml_integrity/fidelity.py": "6339904a0a7faed368b94b8641f1129f1cb5cf77c3dca3b36f7f8ba4cbf2d551",
+    "research/replay_frozen_docx.py": "1d43720792d44d6705b2a2d03476253998e3fa9696cb52622d5c313b9f38654b",
+    "research/review_fid001_fix.py": "51fb7e74b5cc8a9f7807cfca946dfe68c2d0373904825d50bd2d7146ed813c7f",
+    "tests/test_revision_coalescence.py": "1a3cc69dbef0f4a344c53624b67259b86a7dfbd564efce13abf51972e6ef2261",
+    "tests/conftest.py": "1fc159acd6dec3b357c0d361ab253dc1cc3a74a0113710626bd4092b36aaa186",
+    "tests/test_docx_agent.py": "201e4c0d19e9877d67d03dcee2a38e2639b8c1fab58f305a074cd19c8b9f0d6d",
+    "tests/test_docx_benchmark.py": "28c898fb81960d291a9c6e8d3bec907a12d1f2a4d4652d2ac6f4f6b781e62183",
+    "tests/test_docx_boundaries.py": "40ae5651021b614df589598391df6db3cd843c0bc3a81b90eb9e224cac4f60b9",
+    "tests/test_word_revision_ids.py": "d5e881a72be7fc06d247829cdab61688dc883485ebdc8415ae502e065dc2e93f",
+    "pyproject.toml": "fd2de5c1e133b66a30ec7e1d18777efdd0bde790a7241a17617945ab4bb50d15",
+    "CHANGELOG.md": "ad4a47bd3ba701b22f54353c994d919e7599bf31d7c2758a10d1c4b061578bfd",
+    "docs/support-matrix.md": "2efeb6b4244e8c2fc8388f9c04e6a93d48faf99351a0ce01151a7ce1b4b648f2",
+    "docs/compatibility.md": "2c9b65dfa91a221c9faade69b406b8df4756eef6fd3462a4ad450205c62fb79b"
+  }
+}

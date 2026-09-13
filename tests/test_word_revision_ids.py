@@ -74,6 +74,7 @@ def test_anchor_or_note_relocation_changes_diagnostic(kind):
     assert w.anchors(before) != w.anchors({**before, r.MAIN: r.xml(root)})
 
 
+@pytest.mark.frozen_checker
 def test_saved_word_evidence_and_hashes_replay():
     actual = json.loads(w.b.json_bytes(w.evaluate()))
     assert actual == json.loads((w.BASE / 'evaluation.json').read_text())
