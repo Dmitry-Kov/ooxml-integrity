@@ -104,6 +104,8 @@ input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--green); 
 #result-status.error { color: #96352c; }
 .results pre { font: 13px/1.65 var(--mono); min-height: 164px; max-height: 520px; overflow: auto; margin: 0; padding: 20px; white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 2; }
 .fineprint { font-size: 12.5px; color: var(--muted); margin: 14px 0 0; max-width: 900px; }
+.feedback { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px; max-width: 760px; }
+.feedback p { margin: 10px 0 0; }
 
 /* shared code blocks */
 pre.cmd, pre.output { font: 13px/1.6 var(--mono); margin: 0; padding: 14px 16px; background: var(--sheet); border: 1px solid var(--line); overflow: auto; white-space: pre; }

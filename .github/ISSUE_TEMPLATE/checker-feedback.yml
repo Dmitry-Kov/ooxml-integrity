@@ -1,0 +1,82 @@
+name: Checker feedback
+description: Report a useful finding, a false alarm, a missed defect, or a setup problem.
+title: "[Feedback] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reports here are public. A description is enough; attaching a document is optional.
+        Review any report excerpts before posting: they can contain filenames or document text.
+        The browser demo does not send files or findings to this form.
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: What happened?
+      options:
+        - A useful finding
+        - A false alarm
+        - A defect was missed
+        - Installation or startup failed
+        - A check completed without findings
+        - I would like to try a pilot
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: generator
+    attributes:
+      label: Generator or editor and version
+      description: Name the tool that created or edited the file, including its version if known.
+      placeholder: "For example: python-docx 1.2.0, adeu 3.0.4, Word build, or an internal generator"
+    validations:
+      required: true
+  - type: input
+    id: checker-version
+    attributes:
+      label: ooxml-integrity version
+      description: Use the demo footer or `python -m ooxml_integrity --version`. Write unknown or not run if needed.
+      placeholder: "For example: 0.4.1"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: How did you run the check?
+      description: Browser and OS, or CLI/Python/CI environment. Include whether an original was supplied and any config or baseline used.
+      placeholder: "Browser demo, Chrome on Windows 11, original supplied; or a command with private paths replaced"
+    validations:
+      required: true
+  - type: input
+    id: rule-codes
+    attributes:
+      label: Finding codes
+      description: List codes from the report, or write none if a defect was missed or the check did not start.
+      placeholder: "For example: CMT005, FID001, STY001, or none"
+    validations:
+      required: true
+  - type: textarea
+    id: expected-actual
+    attributes:
+      label: Expected and actual result
+      description: Describe the intended edit, what the checker reported, and what you verified independently in the document or editor.
+      placeholder: |
+        Intended edit:
+        Expected document/checker behavior:
+        Actual checker result:
+        What I verified independently:
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction or report excerpt (optional)
+      description: A small script, synthetic example, or reviewed excerpt helps. Private files and full JSON reports are not required.
+    validations:
+      required: false
+  - type: textarea
+    id: usefulness
+    attributes:
+      label: What changed after the check? (optional)
+      description: Did you fix a defect, keep a suppression with a reason, save manual review, or decide against using the check? Was it run again?
+    validations:
+      required: false

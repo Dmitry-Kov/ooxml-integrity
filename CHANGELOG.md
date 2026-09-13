@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added a DOCX pilot guide and voluntary feedback form linked from the browser
+  demo. Feedback covers generator/checker versions, finding codes and
+  expected/actual behavior; document attachments are optional. Opening the
+  link sends no selected file, filename or report content. Browser checks
+  cover the navigation boundary and feedback layout.
+
 - Added a separate [existing-revision corpus](evidence/docx-revisions/README.md)
   with five synthetic sources and 30 labelled pairs: 15 review-content controls
   from adeu/Word Online/Word for Windows, nine seeded defects and six

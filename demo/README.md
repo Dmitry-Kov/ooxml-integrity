@@ -58,6 +58,22 @@ Checks themselves need no network. Loading the application does: the host and
 CDNs receive ordinary web requests, and the tab executes Python code downloaded
 from PyPI and the CDN.
 
+## Voluntary feedback
+
+The link below the results opens a public GitHub issue form in a new tab. It
+passes only the fixed template name; files, filenames, findings and document
+text are not included. `noreferrer` and `noopener` prevent referrer and opener
+sharing. The user chooses what to enter and submit on GitHub. A document
+attachment is optional. The link is static and remains available if Python
+startup fails; it does not add telemetry or a report-upload endpoint.
+
+The form asks for the generator and checker versions, environment, finding
+codes and expected/actual behavior. The [pilot guide](../docs/pilot.md) describes
+a local comparison, optional CI trial and agreed follow-up. Public links use
+the default-branch form and guide, so those destinations become available when
+the PR adding them is merged. No issue or pilot sign-up is created by opening
+the link.
+
 ## Font caveat
 
 Calibri is measured with Carlito, Cambria with Caladea, Arial with Liberation
