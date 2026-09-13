@@ -24,6 +24,8 @@ def test_labels_precede_capture_and_are_not_reconstructed_from_findings(manifest
     assert len(declared) == 25
     declared.extend(json.loads((evidence.BASE / "labels-online.json").read_text(encoding="utf-8")))
     assert len(declared) == 27
+    declared.extend(json.loads((evidence.BASE / "labels-windows.json").read_text(encoding="utf-8")))
+    assert len(declared) == 30
     assert {c["id"] for c in declared} == {c["id"] for c in manifest["pairs"]}
     records = {c["id"]: c for c in manifest["pairs"]}
     for case in declared:
@@ -73,6 +75,8 @@ def test_external_preservation_and_seeded_detection_have_separate_denominators(m
     assert "CMT001" in metrics["rules_without_positive_cases"]
     online = metrics["groups"]["word_online"]
     assert {key: online[key] for key in ("pairs", "tp", "fp", "fn", "tn")} == dict(pairs=2, tp=0, fp=0, fn=0, tn=2)
+    windows = metrics["groups"]["word_windows"]
+    assert {key: windows[key] for key in ("pairs", "tp", "fp", "fn", "tn")} == dict(pairs=3, tp=0, fp=0, fn=0, tn=3)
 
 
 def test_online_raw_and_published_parts_differ_only_in_scrubbed_core_metadata(manifest):

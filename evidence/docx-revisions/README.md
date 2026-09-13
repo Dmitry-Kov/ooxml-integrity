@@ -1,6 +1,6 @@
 # Existing revision evidence
 
-This separate tranche contains **5 synthetic sources and 27 labelled pairs**
+This separate tranche contains **5 synthetic sources and 30 labelled pairs**
 with pending tracked revisions. It leaves the original
 [50-source / 220-pair corpus](../docx-beta/README.md) unchanged.
 The current checker preserves the distinction between structural consistency,
@@ -23,13 +23,16 @@ reported.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Published adeu 3.0.4: five no-op saves and five nearby tracked edits | 10 | 0 | 0 | 0 | 10 |
 | Observed Word Online: two nearby untracked marker edits | 2 | 0 | 0 | 0 | 2 |
+| Observed Word for Windows: three no-op saves | 3 | 0 | 0 | 0 | 3 |
 | Seeded XML defects | 9 | 7 | 0 | 2 | 0 |
 | Accept/reject characterization | 6 | Excluded | Excluded | Excluded | Excluded |
 
-There are **12 clean controls with pre-existing revisions**. A clean-only editor
+There are **15 clean controls for preserving pre-existing review content**. A clean-only editor
 cohort cannot measure recall or positive predictive value. The seeded cohort
 detects 7 of its 9 defects; this says nothing about defect prevalence in real
-documents. All 27 pairs match their predeclared current checker findings.
+documents. All 30 pairs match their expected current checker findings. Windows
+expectations were declared before capture; the content assessment and comparison
+profile below were finalized before checker evaluation.
 Matching the expected absence of a warning on a known miss does **not** turn
 that file into a clean control.
 
@@ -63,15 +66,26 @@ No production rule is suppressed or weakened to accommodate these cases.
 evaluation. Its SHA-256 is pinned in [capture-adeu.json](capture-adeu.json).
 [labels-online.json](labels-online.json) was declared separately before uploading
 either Word Online input and before checking either downloaded output. It is
-pinned in [capture-online.json](capture-online.json). The manifest retains both
+pinned in [capture-online.json](capture-online.json). The manifest retains all
 label hashes, every file hash, the requested action, allowed revision losses,
 allowed text changes, current expected findings and the independent XML result.
+
+[expectations-windows.json](expectations-windows.json) and
+[batch-windows.json](batch-windows.json) are byte-exact copies of the handoff
+prepared on 2026-09-12, before Word ran. The returned originals, all three input
+hashes and the unchanged capture script match that handoff. The expectations
+permit no revision removal or text edit. [labels-windows.json](labels-windows.json)
+records the subsequent independent content assessment, the explicit comparison
+profile and the originally expected empty finding set. No checker result was
+used to set those labels. [capture-windows.json](capture-windows.json) pins both
+the original expectations and the finalized labels, with raw/published hashes.
 
 | Material | Producer and operation | Scope |
 | --- | --- | --- |
 | Five sources | `revision-fixture-builder 1`; deterministic OOXML using parts of the MIT reference package | Synthetic source construction, not an Office observation |
 | Twelve adeu outputs | Published Python `adeu==3.0.4`, CLI build `7461e17`; `RedlineEngine.save_to_stream()` or one `process_batch()` action followed by save | Controlled use of an external tool by this project's maintainer, not an independent pilot |
 | Two web outputs | Word for the web, observed 2026-09-12; package AppVersion `16.0000`, exact service build not exposed | Basic and table profiles, one `EDITBEFORE` → `EDITAFTER` replacement each, autosave confirmed, downloaded through OneDrive |
+| Three Windows outputs | Word `16.0.14334.20848` x64 on Windows 11 Pro `10.0.26200`; PowerShell `5.1.26100.9168`; captured 2026-09-13 | Owner-supplied COM Open/SaveAs2 of basic, nested and table sources, no edit, acceptance/rejection or requested repair |
 | Thirteen remaining outputs | Nine seeded defects and four synthetic accept/reject characterizations | Reproducible XML operations, not editor-produced defects |
 
 The adeu capture used Python 3.12.14, lxml 6.1.3, python-docx 1.2.0,
@@ -108,6 +122,32 @@ nesting definitions are documented by Microsoft for
 [inserted runs](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.insertedrun)
 and [deleted runs](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.deletedrun).
 
+### Windows content comparison and layout observations
+
+The original comparison reports differences on all three Windows saves even
+though revision payloads, authors, dates and nesting survive. Those original
+results remain in `capture-windows.json`; they are not erased. Word renumbered
+story relationships, added an empty body paragraph after the terminal table,
+added separator-only endnotes and auxiliary XML parts, and recalculated table
+column widths. The original 27 labels, pair records and fixture bytes are unchanged.
+
+Only the three Windows cases opt into `word-save-content-v1`. It resolves
+header/footer relationship IDs to their type and existing package target;
+missing, external or retargeted references remain different. It omits the one
+childless paragraph between the final table and section properties, empty
+endnote separator paragraphs, and auxiliary parts with no protected structures.
+It compares table columns, row/cell boundaries, cell text and merge markers,
+while treating auto-layout column widths as a separate layout observation.
+Fixed-layout widths stay protected. All revision, author, date, text, comment
+and footnote checks remain active, with mutation regressions for these boundaries.
+
+The source grid is `4600 / 4600` twips. Word saved `910 / 1589` for basic/nested
+and `910 / 1377` for table; the local renders visibly show narrower tables.
+These fixtures have no fixed layout, consistent with the documented
+[auto-layout default](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.tablelayout?view=openxml-3.0.1).
+This cohort measures preservation of review content, **not unchanged formatting
+or layout**. It does not establish whether every Word layout change is acceptable.
+
 ## Privacy and visual review
 
 All prose, dates and reviewer names in the fixtures are invented. The reference
@@ -116,14 +156,14 @@ document was used. The only external link in generated sources is the reserved
 example URL `https://example.org/spec`.
 
 Before publishing, XML metadata and external relationships were inspected.
-For each Word Online output, only `docProps/core.xml`'s `lastModifiedBy` was
+For each Word Online and Windows output, only `docProps/core.xml`'s `lastModifiedBy` was
 replaced with `Evidence Editor`, and the ZIP was repacked. Every other part's
 bytes are unchanged from the download; raw/published per-part hashes are in the
 capture receipt. Raw files containing the account name remain outside Git in
 ignored staging. Account IDs, cloud document URLs and browser session IDs are
 not part of the published receipt.
 
-All 32 source/output documents were rendered with the bundled LibreOffice
+All 35 source/output documents were rendered with the bundled LibreOffice
 renderer and reviewed as one-page images. Identical page images were checked
 by hash against the same inspected image. Layout was readable; intentional
 missing wording/revision marks in defect fixtures were retained. In particular,
@@ -133,6 +173,12 @@ Comments and references were also inspected structurally because PDF export
 does not reliably show comments. This is local visual QA, not an Office-wide
 layout compatibility claim or independent human review.
 
+The three Windows outputs were also rendered before and after the metadata
+scrub: each is one page, and each published page PNG matches its raw counterpart
+byte-for-byte. The narrower tables have little cell padding; this observed
+formatting is retained rather than edited in the evidence. All wording remains
+readable. No Windows screenshots or independent human layout review are claimed.
+
 ## Reproduce
 
 From the repository root, routine verification needs the project's development
@@ -140,7 +186,7 @@ dependencies and no Office login, network or adeu installation:
 
 ```sh
 python research/revision_evidence.py evaluate
-python -m pytest tests/test_revision_evidence.py
+python -m pytest tests/test_revision_evidence.py tests/test_revision_windows.py
 python research/revision_evidence.py rebuild
 git diff --exit-code -- evidence/docx-revisions/outputs
 ```
@@ -161,11 +207,21 @@ files and the observed counts/statuses as described in
 `research/import_revision_online.py`; the importer refuses incomplete actions,
 changed hashes, unreviewed author/link metadata and failed intent comparisons.
 
+For Windows, copy the three declared sources into the batch's `inputs/`, and
+run `research/save_docx_word_windows.ps1 -Batch PATH/TO/batch.json` in an ordinary
+Windows desktop session with installed Word. Keep the original expectations,
+batch, script, inputs, `raw/` outputs and `word-run.json` together. The reviewed
+batch is imported with `python research/import_revision_windows.py --staging STAGING_DIR`;
+the importer refuses to overwrite an existing published capture. Future builds
+or additional cases need a new declared tranche, independent XML/metadata review
+and visual review before publication. The importer does not execute the supplied
+script or invoke the checker.
+
 ## Unmeasured cases and follow-up
 
-- Word for Windows: no connected Windows/Word environment was available for
-  this tranche. Prior Windows captures in the beta corpus contain no existing
-  revisions and cannot fill this gap.
+- Word for Windows: only three no-op saves on one build. Nearby edits,
+  partial accept/reject, note/story revision operations and other builds remain
+  unmeasured; unchanged page layout is not established by these saves.
 - Word Online: only two nearby edits in one service session. Web no-op saves,
   partial accept/reject, nested revisions, note/story revision operations and
   other sessions remain unmeasured.

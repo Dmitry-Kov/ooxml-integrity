@@ -4,7 +4,8 @@
   "labels_sha256": "6f6821a1d5ba6d74f551ee080a260f1beb3b8186b3d0d777c2df99a54fa8f7d9",
   "label_files_sha256": {
     "labels.json": "6f6821a1d5ba6d74f551ee080a260f1beb3b8186b3d0d777c2df99a54fa8f7d9",
-    "labels-online.json": "ff4cd3fc2c3893bd19f359d237513cb703ee8dc67f2a679fdff6751a1591720f"
+    "labels-online.json": "ff4cd3fc2c3893bd19f359d237513cb703ee8dc67f2a679fdff6751a1591720f",
+    "labels-windows.json": "8f654eafba070762a4812606d5ea0a8d7edad3343d0fa2ff2efad052e31e1a22"
   },
   "source_producer": "revision-fixture-builder 1; synthetic XML, not Office capture",
   "source_reference_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
@@ -1146,6 +1147,102 @@
       "producer_name": "Microsoft Word for the web",
       "producer_version": "2026-09-12 session; service build not exposed",
       "provenance": "observed_word_online_edit",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "windows-basic-save",
+      "source": "basic",
+      "action": "save",
+      "cohort": "word_windows",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "intent_correct": true,
+      "expected_findings": [],
+      "comparison_profile": "word-save-content-v1",
+      "source_path": "sources/basic.docx",
+      "output_path": "outputs/windows-basic-save.docx",
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output_sha256": "7a18cb18991a9017976287bdb072f2bf2453fe9851630f2113117d3111c24bb8",
+      "producer_name": "Microsoft Word for Windows",
+      "producer_version": "16.0.14334.20848",
+      "provenance": "observed_word_windows_save",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "windows-nested-save",
+      "source": "nested",
+      "action": "save",
+      "cohort": "word_windows",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "intent_correct": true,
+      "expected_findings": [],
+      "comparison_profile": "word-save-content-v1",
+      "source_path": "sources/nested.docx",
+      "output_path": "outputs/windows-nested-save.docx",
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "output_sha256": "cb871437032b9d97edfbedfc9b27615a1f7792c515fac2bc7d59b2ef243194c8",
+      "producer_name": "Microsoft Word for Windows",
+      "producer_version": "16.0.14334.20848",
+      "provenance": "observed_word_windows_save",
+      "oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [],
+          "changed_review_structures": [],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      }
+    },
+    {
+      "id": "windows-table-save",
+      "source": "table",
+      "action": "save",
+      "cohort": "word_windows",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "intent_correct": true,
+      "expected_findings": [],
+      "comparison_profile": "word-save-content-v1",
+      "source_path": "sources/table.docx",
+      "output_path": "outputs/windows-table-save.docx",
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output_sha256": "308ee6d274f6d2536190b9d98ed22afb9350501f2bea7570fd31bcbab000102c",
+      "producer_name": "Microsoft Word for Windows",
+      "producer_version": "16.0.14334.20848",
+      "provenance": "observed_word_windows_save",
       "oracle": {
         "intent_correct": true,
         "lost_revisions": [],

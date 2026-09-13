@@ -1,0 +1,35 @@
+[
+  {
+    "id": "windows-basic-save",
+    "source": "basic",
+    "action": "save",
+    "cohort": "word_windows",
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "intent_correct": true,
+    "expected_findings": [],
+    "comparison_profile": "word-save-content-v1"
+  },
+  {
+    "id": "windows-nested-save",
+    "source": "nested",
+    "action": "save",
+    "cohort": "word_windows",
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "intent_correct": true,
+    "expected_findings": [],
+    "comparison_profile": "word-save-content-v1"
+  },
+  {
+    "id": "windows-table-save",
+    "source": "table",
+    "action": "save",
+    "cohort": "word_windows",
+    "allowed_revision_losses": [],
+    "allowed_text_changes": [],
+    "intent_correct": true,
+    "expected_findings": [],
+    "comparison_profile": "word-save-content-v1"
+  }
+]

@@ -7,8 +7,8 @@ application builds. The [limitations](#limitations) section gives that scope
 in more detail.
 
 The later [existing-revision evidence](../evidence/docx-revisions/README.md)
-records 27 additional pairs without changing the original beta corpus. It
-separates actual adeu/Word Online edits, seeded defects and accept/reject
+records 30 additional pairs without changing the original beta corpus. It
+separates actual adeu/Word Online edits and Windows saves, seeded defects and accept/reject
 characterization, and retains two preservation false negatives explicitly.
 
 ## The finding
@@ -521,7 +521,10 @@ comments and footnotes but no pending revisions. The revision-bearing material
 lives in `corpus/base.docx` and the eight agent outputs under `runs/`, and only
 `runs/t1_bare` and `runs/t1_pres` contain nested `w:ins > w:del`. Contributions
 to other projects were sourced accordingly. Producing pre-redlined pairs
-directly from Word for Windows and Word Online remains open work.
+directly from Word for Windows and Word Online was subsequent work: the
+[existing-revision tranche](../evidence/docx-revisions/README.md) now retains two
+observed web edits and three Windows saves. Broader review operations and
+independently supplied customer material remain unmeasured.
 
 ---
 
