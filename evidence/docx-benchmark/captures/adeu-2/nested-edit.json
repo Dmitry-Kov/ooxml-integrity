@@ -1,0 +1,61 @@
+{
+  "action": "edit",
+  "finished_at": "2026-09-13T10:22:35.246097+00:00",
+  "id": "nested-edit",
+  "output": "nested-edit.docx",
+  "output_sha256": "33182771a027baad4df78e4bcb8b0bad266f4f999f3dc7f69e1811fe009d2450",
+  "source": "evidence/docx-revisions/sources/nested.docx",
+  "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+  "started_at": "2026-09-13T10:22:35.241242+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n2026-09-13 15:22:35 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 15:22:35 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n2026-09-13 15:22:35 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 15:22:35 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 15:22:35 [debug    ] Applying Edit at [100:110] Op=MODIFICATION\n2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n2026-09-13 15:22:35 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 15:22:35 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": {
+      "comment": null,
+      "match_mode": "strict",
+      "new_text": "EDITAFTER",
+      "regex": false,
+      "target_text": "EDITBEFORE",
+      "type": "modify"
+    },
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": {
+      "actions_already_resolved": 0,
+      "actions_applied": 0,
+      "actions_skipped": 0,
+      "author_impersonation_warning": null,
+      "edits": [
+        {
+          "clean_text": "e nested\n\nThe cycle marker is EDITAFTER. The service is ",
+          "comment": null,
+          "critic_markup": "e nested\n\nThe cycle marker is {--EDITBEFORE--}{++EDITAFTER++}. The service is ",
+          "error": null,
+          "field": "",
+          "heading_path": "Existing revision preservation",
+          "match_mode": "strict",
+          "new_text": "EDITAFTER",
+          "occurrences_modified": 1,
+          "pages": [
+            1
+          ],
+          "status": "applied",
+          "target_text": "EDITBEFORE",
+          "type": "modify",
+          "warning": null
+        }
+      ],
+      "edits_applied": 1,
+      "edits_skipped": 0,
+      "engine": "python",
+      "failed": [],
+      "occurrences_modified": 1,
+      "overrides_note": null,
+      "skipped_details": [],
+      "status": "ok",
+      "version": "3.0.4"
+    }
+  }
+}

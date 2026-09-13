@@ -1,0 +1,44 @@
+{
+  "action": "edit",
+  "artifacts_sha256": {
+    "edit.py": "bfd2df04fe807b61046fce1e62108fa0edbe0d60d292bdefc21571e8af00739a",
+    "input.docx": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+    "output.docx": "09e397ffce4abbe14f70237f478599676acf0f7250e3775a0c5cba26d4ce5950",
+    "request.json": "586359047c316be5ac272965a22d6a4ba6aafe81758fc3583e46fe779fbb7cfc",
+    "response.json": "b699d3b28e628f0e26afaaeec38971bce88fbcdd240f27b3ee112d72b53fe439",
+    "response.txt": "25232c6a770ee55a7efc493394cf7c454d21b52958142a7b3fd33b83b6f433ee",
+    "sandbox.sb": "e0c11257736b1c8462d83c872e990a2e813a7cd8410f6b311c572354d42993aa",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark/agent-local-1/table-edit-102/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.05789995801751502,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/run-1/table-edit-102"
+    },
+    "returncode": 0,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:07:38.127608+00:00",
+  "id": "table-edit-102",
+  "input_unchanged": true,
+  "model_duration_seconds": 4.189367625018349,
+  "path": "evidence/docx-revisions/sources/table.docx",
+  "profile": "table",
+  "seed": 102,
+  "sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+  "started_at": "2026-09-13T11:07:33.873220+00:00",
+  "status": "ok"
+}

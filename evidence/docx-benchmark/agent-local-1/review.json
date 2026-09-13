@@ -1,0 +1,111 @@
+{
+  "capture_sha256": "57de3f246c514b64a1157b4242ea9c9818feaa673d820df2f5acd485a9e862b5",
+  "distinct_script_sha256": {
+    "edit": [
+      "bfd2df04fe807b61046fce1e62108fa0edbe0d60d292bdefc21571e8af00739a"
+    ],
+    "save": [
+      "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718"
+    ]
+  },
+  "evaluation_sha256": "1d270a8d4b250fb22fd9e6b34e56c30c8853e5ea3d7da8436304c7f45ba9739e",
+  "groups": {
+    "edit": {
+      "actionable_findings": 0,
+      "attempts": 15,
+      "completed": 15,
+      "overall_successes": 15,
+      "preserved": 15,
+      "status": {
+        "ok": 15
+      }
+    },
+    "save": {
+      "actionable_findings": 0,
+      "attempts": 15,
+      "completed": 15,
+      "overall_successes": 15,
+      "preserved": 15,
+      "status": {
+        "ok": 15
+      }
+    }
+  },
+  "metric_unit": "one fresh local model request plus one execution; 3 seeds per source/action; all attempts retained",
+  "model_feedback": false,
+  "model_retries": 0,
+  "non_benchmark_inference": {
+    "count": 1,
+    "purpose": "Infrastructure smoke: Reply with OK only."
+  },
+  "operation_review": {
+    "edit": "The generated program loops direct body paragraph.runs and assigns run._element.text after replacement. This private python-docx CT_R proxy access is not the documented Run.text adapter. It is run-local and preserves neighboring revisions in these pinned fixtures. No claim of API stability.",
+    "save": "The function is named copy_docx, but it calls Document(input_path) then Document.save(output_path); it actually opens and serializes, not a byte copy."
+  },
+  "profiles": {
+    "basic": {
+      "edit": [
+        true,
+        true,
+        true
+      ],
+      "save": [
+        true,
+        true,
+        true
+      ]
+    },
+    "nested": {
+      "edit": [
+        true,
+        true,
+        true
+      ],
+      "save": [
+        true,
+        true,
+        true
+      ]
+    },
+    "notes": {
+      "edit": [
+        true,
+        true,
+        true
+      ],
+      "save": [
+        true,
+        true,
+        true
+      ]
+    },
+    "stories": {
+      "edit": [
+        true,
+        true,
+        true
+      ],
+      "save": [
+        true,
+        true,
+        true
+      ]
+    },
+    "table": {
+      "edit": [
+        true,
+        true,
+        true
+      ],
+      "save": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "repetitions": "For temperature 0 and seeds 101/102/103, all 15 save scripts are identical and all 15 edit scripts are identical. Repeated scripts/requests are not independent source documents or model approaches.",
+  "reviewed_at": "2026-09-13T11:09:19.571630+00:00",
+  "script_repairs": 0,
+  "visual_review": "not performed"
+}

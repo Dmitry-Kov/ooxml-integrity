@@ -1,0 +1,20 @@
+{
+  "action": "save",
+  "finished_at": "2026-09-13T10:22:35.256333+00:00",
+  "id": "stories-save",
+  "output": "stories-save.docx",
+  "output_sha256": "dd8940d34c95d406636578509f37755eff9dec0738dcf4e233042c7261319f1b",
+  "source": "evidence/docx-revisions/sources/stories.docx",
+  "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+  "started_at": "2026-09-13T10:22:35.253621+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n2026-09-13 15:22:35 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 15:22:35 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": null,
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": null
+  }
+}

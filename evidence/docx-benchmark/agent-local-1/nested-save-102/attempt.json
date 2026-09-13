@@ -1,0 +1,44 @@
+{
+  "action": "save",
+  "artifacts_sha256": {
+    "edit.py": "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718",
+    "input.docx": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+    "output.docx": "0a0912076e2930207354e5e38c2ad566816a81caba1856008fb3f86df312f1ca",
+    "request.json": "f64c10d375b37f9c88994a8973df518ae8239207006410359a50920730565cc5",
+    "response.json": "1c38867e23255c92b1e49a501e5b95f58ad6201e839e5950db9e33bb56e1cef4",
+    "response.txt": "de6c9ff0fbcbc908dad741f070cfcee92d534fed47e8b50e64b8af8b0d7f848d",
+    "sandbox.sb": "872f391f4b9d737496127ce6119211e8a3dfbf429ab3f84ad228b64a9e46add3",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "7e9f3270f3f0b5b53d60b78b84123735591a321be6190c7fb4c4bab798ef0376"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark/agent-local-1/nested-save-102/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.058053749991813675,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/run-1/nested-save-102"
+    },
+    "returncode": 0,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:06:15.880153+00:00",
+  "id": "nested-save-102",
+  "input_unchanged": true,
+  "model_duration_seconds": 3.513539541978389,
+  "path": "evidence/docx-revisions/sources/nested.docx",
+  "profile": "nested",
+  "seed": 102,
+  "sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+  "started_at": "2026-09-13T11:06:12.307107+00:00",
+  "status": "ok"
+}

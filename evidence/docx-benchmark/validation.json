@@ -1,0 +1,86 @@
+{
+  "capture_replay": [
+    {
+      "attempts": 10,
+      "capture": "adeu-1",
+      "replayed": true,
+      "successes": 10
+    },
+    {
+      "attempts": 10,
+      "capture": "adeu-2",
+      "replayed": true,
+      "successes": 10
+    },
+    {
+      "attempts": 10,
+      "capture": "python-docx-1",
+      "replayed": true,
+      "successes": 10
+    },
+    {
+      "attempts": 10,
+      "capture": "python-docx-2",
+      "replayed": true,
+      "successes": 10
+    }
+  ],
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "checker_version": "0.4.1",
+  "corpora": [
+    {
+      "command": ".venv/bin/python research/build_docx_evidence.py evaluate",
+      "label_mismatches": 0,
+      "pairs": 220
+    },
+    {
+      "command": ".venv/bin/python research/revision_evidence.py evaluate",
+      "label_mismatches": 0,
+      "pairs": 30
+    }
+  ],
+  "excluded": [
+    "visual/renderer verification",
+    "Office editing",
+    "model runs",
+    "new installation from requirements on another machine"
+  ],
+  "full_suite": {
+    "command": ".venv/bin/python -m pytest --basetemp tmp/benchmark-final-full-tests -ra",
+    "log_sha256": "d311e256760c833a73fc13c6d150009fdffa649c2c0a4a9d5a77b45f52e3a3c7",
+    "passed": 780,
+    "seconds": 27.07,
+    "skip_reason": "Missing-font tests skip because Century Gothic, Garamond, Palatino Linotype, Segoe UI, Tahoma, Trebuchet MS and Verdana are installed",
+    "skipped": 7
+  },
+  "harness_sha256": "24e855bcac05a4864e5a49547a16d2863dcf3ad6533e3856593347a1c7dc85a5",
+  "local_links_checked": 16,
+  "old_tracked_files_changed": false,
+  "package_metadata_review": {
+    "authors": [
+      "Evidence Editor",
+      "Reviewer A",
+      "Reviewer B",
+      "Reviewer C"
+    ],
+    "creator_and_lastModifiedBy": [
+      "Revision fixture builder"
+    ],
+    "external_links": [
+      "https://example.org/spec"
+    ],
+    "outputs": 40
+  },
+  "protocol_sha256": "8c19d04394357abc540795bcfe97c375849619dc7e36a90f8e7a9b0b9202daa6",
+  "repeat_semantic_mismatches": {
+    "adeu": 0,
+    "python-docx": 0
+  },
+  "targeted": {
+    "command": ".venv/bin/python -m pytest tests/test_docx_benchmark.py tests/test_revision_evidence.py tests/test_revision_windows.py --basetemp tmp/benchmark-final-targeted-tests -ra",
+    "passed": 73,
+    "skipped": 0
+  },
+  "verified_at": "2026-09-13T10:27:15.974489+00:00",
+  "whitespace_files_checked": 70
+}

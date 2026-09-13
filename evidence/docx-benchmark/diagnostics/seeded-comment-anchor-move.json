@@ -1,0 +1,74 @@
+{
+  "assessment": {
+    "actionable_findings": [],
+    "changed_raw_parts": [
+      "word/document.xml"
+    ],
+    "checker_detection": "checker_silent_on_undeclared_change",
+    "checker_findings": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ],
+    "mutable_metadata_changed": false,
+    "normalized_package_sha256": "2b8de9b09630d5f247d80b568f46649926b052331ab19754c87244e1ca2b91de",
+    "protected_content_preserved": false,
+    "raw_part_sha256": {
+      "[Content_Types].xml": "7dd55c7701f745795177c83f2079c2edb252a37243940d0199fd6c523bc92819",
+      "_rels/.rels": "d7c0d53e7a259b5fd0ea9659ffcc74bbf8c4f08fa48be399235269cab4c6518e",
+      "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+      "docProps/core.xml": "85ba14ab1f4f8a8e4a715f3cc121db17419d33a777ebd2f6b5310712cd751a1e",
+      "word/_rels/document.xml.rels": "92d2ae1ece3a4ec8a846f3dff846f33e32ac53484b759db3af000b39ba9a6c28",
+      "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+      "word/document.xml": "d1fb6976413388c5f5ca907595230a4d7caf382955eac4a5ff1a128f84ce3546",
+      "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+      "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+      "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+      "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+      "word/numbering.xml": "241b17b8a29d29a0ea6f3bd0d0979a2a71624f33102492b2ece0b0fc2a0555a4",
+      "word/settings.xml": "955a97737bf5de4089314f5b90ed6675547a496f5a84dadf44ff318e7eb4e32b",
+      "word/styles.xml": "e12cd2dcb2d9548d4a25e395bc8fa0054cb0e6d8a34cd06b68c5f3a60a352f0a"
+    },
+    "requested_change_completed": true,
+    "revision_oracle": {
+      "intent_correct": true,
+      "lost_revisions": [],
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    "violations": {
+      "changed_review_structures": [],
+      "duplicate_revision_ids": [],
+      "invalid_revision_text": [],
+      "protected_package_changes": [
+        "word/document.xml"
+      ],
+      "protected_text_changes": [],
+      "unexpected_new_revisions": [],
+      "unrelated_revision_losses": [],
+      "unresolved_requested_revisions": []
+    }
+  },
+  "kind": "seeded_diagnostic_not_editor_output",
+  "mutation": "Move existing commentRangeStart id=1 from delivery paragraph to start of second body paragraph; no other XML node changed.",
+  "output_sha256": "c300fe0fc388e7c588beb7fbfc2783528fd09aa0b6e1b5993cb4f1a0a41ea55c",
+  "source": "evidence/docx-revisions/sources/basic.docx",
+  "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f"
+}

@@ -1,0 +1,17 @@
+{
+  "action": "save",
+  "finished_at": "2026-09-13T10:22:35.394879+00:00",
+  "id": "stories-save",
+  "output": "stories-save.docx",
+  "output_sha256": "dd8940d34c95d406636578509f37755eff9dec0738dcf4e233042c7261319f1b",
+  "source": "evidence/docx-revisions/sources/stories.docx",
+  "source_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+  "started_at": "2026-09-13T10:22:35.393509+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "tool_result": {
+    "operation": "Document/Run.text/Document.save",
+    "replacement_count": 0
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "agent_capture_sha256": "57de3f246c514b64a1157b4242ea9c9818feaa673d820df2f5acd485a9e862b5",
+  "agent_evaluation_sha256": "1d270a8d4b250fb22fd9e6b34e56c30c8853e5ea3d7da8436304c7f45ba9739e",
+  "agent_replay": {
+    "all_output_hashes_checked": true,
+    "attempts": 30,
+    "no_op_scripts_open_and_serialize": true,
+    "source_and_request_hashes_checked": true,
+    "source_model_manifest_unchanged": true,
+    "successes": 30
+  },
+  "agent_review_sha256": "e58a3e5c41537408d1bbc6a9aef5dedac9c345bcdf2c3437affc99fcddc52dd9",
+  "authored_whitespace_checks": [
+    "research/capture_docx_agent.py",
+    "tests/test_docx_agent.py",
+    "evidence/docx-benchmark/README.md",
+    "evidence/docx-benchmark/LOCAL_RUNTIME.md"
+  ],
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "full_suite": {
+    "command": ".venv/bin/python -m pytest --basetemp tmp/agent-final-full-tests -ra",
+    "log_sha256": "641cd62aa65472a03ea4369b49264fd7ab88f6223be72994594188ce9250207c",
+    "passed": 788,
+    "seconds": 27.12,
+    "skip_reason": "Seven existing missing-font tests: corresponding fonts are installed.",
+    "skipped": 7
+  },
+  "local_benchmark_model_calls": 30,
+  "local_infrastructure_smoke_calls": 1,
+  "local_links_checked": 23,
+  "metadata_review": {
+    "authors": [
+      "Reviewer A",
+      "Reviewer B",
+      "Reviewer C"
+    ],
+    "external_links": [
+      "https://example.org/spec"
+    ],
+    "outputs": 30
+  },
+  "new_remote_inference_calls": 0,
+  "previous_adapter_captures_replayed": 4,
+  "protocol_sha256": "8c19d04394357abc540795bcfe97c375849619dc7e36a90f8e7a9b0b9202daa6",
+  "raw_model_whitespace": "retained unmodified",
+  "targeted": {
+    "command": ".venv/bin/python -m pytest tests/test_docx_agent.py tests/test_docx_benchmark.py tests/test_revision_evidence.py tests/test_revision_windows.py --basetemp tmp/agent-final-targeted-tests -ra",
+    "passed": 81,
+    "skipped": 0
+  },
+  "verified_at": "2026-09-13T11:10:04.035633+00:00"
+}

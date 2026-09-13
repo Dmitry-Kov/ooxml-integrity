@@ -1,0 +1,17 @@
+{
+  "action": "edit",
+  "finished_at": "2026-09-13T10:22:35.388971+00:00",
+  "id": "basic-edit",
+  "output": "basic-edit.docx",
+  "output_sha256": "19941d17ae7f846f0d8e055d0d8b08ecd5dac6969aaa876b034da69701430a89",
+  "source": "evidence/docx-revisions/sources/basic.docx",
+  "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+  "started_at": "2026-09-13T10:22:35.387630+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "tool_result": {
+    "operation": "Document/Run.text/Document.save",
+    "replacement_count": 1
+  }
+}

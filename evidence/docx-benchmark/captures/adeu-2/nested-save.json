@@ -1,0 +1,20 @@
+{
+  "action": "save",
+  "finished_at": "2026-09-13T10:22:35.241083+00:00",
+  "id": "nested-save",
+  "output": "nested-save.docx",
+  "output_sha256": "5ec510568cc9803d9b0093c12a91bd27909228ef377ce2bbeeeb3ab8954b6f9d",
+  "source": "evidence/docx-revisions/sources/nested.docx",
+  "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+  "started_at": "2026-09-13T10:22:35.238652+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n2026-09-13 15:22:35 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 15:22:35 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 15:22:35 [debug    ] Initializing CommentsManager\n",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": null,
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": null
+  }
+}
