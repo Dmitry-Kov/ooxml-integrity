@@ -51,7 +51,7 @@ packages = ["src/ooxml_integrity"]
 
 [tool.hatch.build.targets.sdist]
 include = ["src/", "tests/", "research/", "corpus/", "evidence/", "docs/",
-           "CHANGELOG.md", "README.md", "LICENSE"]
+           "CHANGELOG.md", "README.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

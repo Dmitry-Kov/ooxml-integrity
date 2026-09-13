@@ -4,6 +4,9 @@ This page explains how to introduce [`ooxml-integrity`](../README.md) into an
 existing repository, account for known findings, and show results in pull
 request reviews.
 
+Before changing the checker version, read [compatibility and upgrades](compatibility.md)
+for report contracts, severity changes and reviewing an existing baseline.
+
 ## Adopting it in a repository that already has findings
 
 A repository may already contain findings when you first add the checker to

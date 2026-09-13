@@ -11,6 +11,9 @@ scope fixed while preparing a release.
    and versioned release notes with the new Action example. Keep working public
    examples on the existing tag until publication, and historical evidence
    unchanged. Explain every incompatible change, including baseline migration.
+   Apply the [compatibility policy](compatibility.md): describe finding and
+   severity changes even when report formats remain compatible. Review its
+   format-version table and the maintained release in [SECURITY.md](../SECURITY.md).
 2. Update the public Action pins in `.github/workflows/release.yml` to the new
    tag. These jobs test the same pinned ref a consumer would use, with no
    source/version override. They must not resolve to a local working copy or
