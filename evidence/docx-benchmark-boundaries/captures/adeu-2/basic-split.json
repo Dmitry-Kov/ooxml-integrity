@@ -1,0 +1,62 @@
+{
+  "finished_at": "2026-09-13T11:24:24.795095+00:00",
+  "id": "basic-split",
+  "output": "basic-split.docx",
+  "output_sha256": "d4d4903ec0bd83519100c4e13cbd5aec5f59c3839905b5ca1199a4df70d8455b",
+  "profile": "basic",
+  "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+  "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+  "started_at": "2026-09-13T11:24:24.788689+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [101:114] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+  "task": "split",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": {
+      "comment": null,
+      "match_mode": "strict",
+      "new_text": "**DONE**_AFTER_",
+      "regex": false,
+      "target_text": "EDITBEFORE",
+      "type": "modify"
+    },
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": {
+      "actions_already_resolved": 0,
+      "actions_applied": 0,
+      "actions_skipped": 0,
+      "author_impersonation_warning": null,
+      "edits": [
+        {
+          "clean_text": "le basic\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+          "comment": null,
+          "critic_markup": "le basic\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+          "error": null,
+          "field": "",
+          "heading_path": "Existing revision preservation",
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "occurrences_modified": 1,
+          "pages": [
+            1
+          ],
+          "status": "applied",
+          "target_text": "EDITBEFORE",
+          "type": "modify",
+          "warning": null
+        }
+      ],
+      "edits_applied": 1,
+      "edits_skipped": 0,
+      "engine": "python",
+      "failed": [],
+      "occurrences_modified": 1,
+      "overrides_note": null,
+      "skipped_details": [],
+      "status": "ok",
+      "version": "3.0.4"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:25.003089+00:00",
+  "id": "stories-save",
+  "output": "stories-save.docx",
+  "output_sha256": "b42455075c5fad9965f099a7f042eb2ebf913814d53f716defc463a2704619c6",
+  "profile": "stories",
+  "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+  "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+  "started_at": "2026-09-13T11:24:25.002176+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "save",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "save"
+  }
+}

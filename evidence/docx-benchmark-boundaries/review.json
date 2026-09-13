@@ -1,0 +1,435 @@
+{
+  "adeu_split_mapping": {
+    "checker": "REV001 reports that exact repeated ID",
+    "classification": "Protocol failure; practical impact unresolved",
+    "independent_evidence": "Raw XML IDs counted by unchanged revision facts, not checker findings",
+    "observed": "Two new adjacent deletion fragments share one ID",
+    "pre_existing_content_loss_observed": false,
+    "word_repair_or_loss_confirmed": false
+  },
+  "agent_errors": {
+    "comment": {
+      "basic-comment-101": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "basic-comment-102": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "basic-comment-103": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "nested-comment-101": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "nested-comment-102": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "nested-comment-103": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "notes-comment-101": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "notes-comment-102": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "notes-comment-103": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "stories-comment-101": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "stories-comment-102": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "stories-comment-103": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "table-comment-101": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "table-comment-102": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'",
+      "table-comment-103": "Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'"
+    },
+    "save": {},
+    "split": {
+      "basic-split-101": "Exception: Could not find the third body paragraph with pending revisions.",
+      "basic-split-102": "Exception: Could not find the third body paragraph with pending revisions.",
+      "basic-split-103": "Exception: Could not find the third body paragraph with pending revisions.",
+      "nested-split-101": "Exception: Could not find the third body paragraph with pending revisions.",
+      "nested-split-102": "Exception: Could not find the third body paragraph with pending revisions.",
+      "nested-split-103": "Exception: Could not find the third body paragraph with pending revisions.",
+      "notes-split-101": "Exception: Could not find the third body paragraph with pending revisions.",
+      "notes-split-102": "Exception: Could not find the third body paragraph with pending revisions.",
+      "notes-split-103": "Exception: Could not find the third body paragraph with pending revisions.",
+      "stories-split-101": "Exception: Could not find the third body paragraph with pending revisions.",
+      "stories-split-102": "Exception: Could not find the third body paragraph with pending revisions.",
+      "stories-split-103": "Exception: Could not find the third body paragraph with pending revisions.",
+      "table-split-101": "Exception: Could not find the third body paragraph with pending revisions.",
+      "table-split-102": "Exception: Could not find the third body paragraph with pending revisions.",
+      "table-split-103": "Exception: Could not find the third body paragraph with pending revisions."
+    },
+    "table": {
+      "basic-table-101": "ValueError: Invalid tag name 'w:t'",
+      "basic-table-102": "ValueError: Invalid tag name 'w:t'",
+      "basic-table-103": "ValueError: Invalid tag name 'w:t'",
+      "nested-table-101": "ValueError: Invalid tag name 'w:t'",
+      "nested-table-102": "ValueError: Invalid tag name 'w:t'",
+      "nested-table-103": "ValueError: Invalid tag name 'w:t'",
+      "notes-table-101": "ValueError: Invalid tag name 'w:t'",
+      "notes-table-102": "ValueError: Invalid tag name 'w:t'",
+      "notes-table-103": "ValueError: Invalid tag name 'w:t'",
+      "stories-table-101": "ValueError: Invalid tag name 'w:t'",
+      "stories-table-102": "ValueError: Invalid tag name 'w:t'",
+      "stories-table-103": "ValueError: Invalid tag name 'w:t'",
+      "table-table-101": "ValueError: Invalid tag name 'w:t'",
+      "table-table-102": "ValueError: Invalid tag name 'w:t'",
+      "table-table-103": "ValueError: Invalid tag name 'w:t'"
+    }
+  },
+  "agent_input_unchanged": true,
+  "agent_save_script_review": "All retained save scripts inspected: Document(input_path) and doc.save(output_path), not a byte copy.",
+  "agent_scripts": {
+    "comment": {
+      "8b4a52758d2a51102d2e63f60ecb0626b1f48a584e6b7e1934c0f7ef6bfe9996": 15
+    },
+    "save": {
+      "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718": 15
+    },
+    "split": {
+      "086df2dc27dd8dc710e8da4d91bdc7b811f8f43e13f643f7c42d9305fbdd1d44": 15
+    },
+    "table": {
+      "c569c21bc60af860eef5577cc6a44c690920fde0fe017eb02460a414797e8a5b": 15
+    }
+  },
+  "captures": {
+    "adeu-1": {
+      "capture_sha256": "36b10e6ad436dc317ce2ca4b9133df07ad5ef25971b21f6832ba11a6f5b65b4d",
+      "evaluation_sha256": "112e67d5cef91c2a7f6cc6bd8c1e4bfb4c5c657f5b1a6ab6f13b211c762908c0"
+    },
+    "adeu-2": {
+      "capture_sha256": "22d064b853eba00931e2557a1b40eecdec3318e9ca1794f9a58ff45a69b86205",
+      "evaluation_sha256": "2d66c6f51091538d56e85650fa902b6307cb19947311575c8ae693d97ab02f53"
+    },
+    "agent-local-1": {
+      "capture_sha256": "bb2fa13c4f911fa3bc4c2ed3e87c4ff2d8f9f3fbe8760908cfda9d8c1dadbdf7",
+      "evaluation_sha256": "6aa4effbb4a33886b8df6da195dd9250823ba8c5565fc5ddd586256847a1beff"
+    },
+    "python-docx-1": {
+      "capture_sha256": "e4d5d9f31bb2816832ea63462bb958a962f49400bc8470ee11ebdfbe72223402",
+      "evaluation_sha256": "f0fb1a730599227457edcf3adf453b5eae170b8c17ab5007ee531b112d1b3e55"
+    },
+    "python-docx-2": {
+      "capture_sha256": "6bd9dbe27e802d7ce3a7204039726cd46bb66abc4476c4a5c90c2df072db5564",
+      "evaluation_sha256": "22595474c285b07d6ac7259032fde0cd3602921d8333fcea2c955d09e59756e2"
+    }
+  },
+  "groups": [
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "save",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {
+        "REV001": 5
+      },
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-1",
+      "independent_violation_types": {
+        "raw_duplicate_revision_ids": 5
+      },
+      "outputs_evaluated": 5,
+      "overall_success": 0,
+      "preservation_and_integrity_pass": 0,
+      "status": {
+        "ok": 5
+      },
+      "task": "split",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "comment",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "table",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "save",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {
+        "REV001": 5
+      },
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-2",
+      "independent_violation_types": {
+        "raw_duplicate_revision_ids": 5
+      },
+      "outputs_evaluated": 5,
+      "overall_success": 0,
+      "preservation_and_integrity_pass": 0,
+      "status": {
+        "ok": 5
+      },
+      "task": "split",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "comment",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "adeu-sdk-boundaries-v1",
+      "attempts": 5,
+      "capture": "adeu-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "table",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "save",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "split",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "comment",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "table",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "save",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "split",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "comment",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "python-docx-targets-v2",
+      "attempts": 5,
+      "capture": "python-docx-2",
+      "independent_violation_types": {},
+      "outputs_evaluated": 5,
+      "overall_success": 5,
+      "preservation_and_integrity_pass": 5,
+      "status": {
+        "ok": 5
+      },
+      "task": "table",
+      "task_completed": 5
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "local-agent-boundaries-v1",
+      "attempts": 15,
+      "capture": "agent-local-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 15,
+      "overall_success": 15,
+      "preservation_and_integrity_pass": 15,
+      "status": {
+        "ok": 15
+      },
+      "task": "save",
+      "task_completed": 15
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "local-agent-boundaries-v1",
+      "attempts": 15,
+      "capture": "agent-local-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 0,
+      "overall_success": 0,
+      "preservation_and_integrity_pass": 0,
+      "status": {
+        "error": 15
+      },
+      "task": "split",
+      "task_completed": 0
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "local-agent-boundaries-v1",
+      "attempts": 15,
+      "capture": "agent-local-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 0,
+      "overall_success": 0,
+      "preservation_and_integrity_pass": 0,
+      "status": {
+        "error": 15
+      },
+      "task": "comment",
+      "task_completed": 0
+    },
+    {
+      "actionable_findings": {},
+      "adapter": "local-agent-boundaries-v1",
+      "attempts": 15,
+      "capture": "agent-local-1",
+      "independent_violation_types": {},
+      "outputs_evaluated": 0,
+      "overall_success": 0,
+      "preservation_and_integrity_pass": 0,
+      "status": {
+        "error": 15
+      },
+      "task": "table",
+      "task_completed": 0
+    }
+  ],
+  "protocol_sha256": "5c76b1454f7491cb8736f58a9b468ebd930f7b30bcf7775c330b238fe2a9a5a7",
+  "repetitions": {
+    "adeu": {
+      "adapter": "adeu-sdk-boundaries-v1",
+      "assessment_mismatches": [],
+      "captures": [
+        "36b10e6ad436dc317ce2ca4b9133df07ad5ef25971b21f6832ba11a6f5b65b4d",
+        "22d064b853eba00931e2557a1b40eecdec3318e9ca1794f9a58ff45a69b86205"
+      ],
+      "pairs": 20,
+      "raw_byte_equal": []
+    },
+    "python-docx": {
+      "adapter": "python-docx-targets-v2",
+      "assessment_mismatches": [],
+      "captures": [
+        "e4d5d9f31bb2816832ea63462bb958a962f49400bc8470ee11ebdfbe72223402",
+        "6bd9dbe27e802d7ce3a7204039726cd46bb66abc4476c4a5c90c2df072db5564"
+      ],
+      "pairs": 20,
+      "raw_byte_equal": []
+    }
+  }
+}

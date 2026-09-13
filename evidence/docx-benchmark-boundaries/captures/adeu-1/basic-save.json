@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-09-13T11:24:16.076167+00:00",
+  "id": "basic-save",
+  "output": "basic-save.docx",
+  "output_sha256": "58f3fec7b756856078e3b0de1e5446446a2795806fed2caed5889ccb25008e41",
+  "profile": "basic",
+  "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+  "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+  "started_at": "2026-09-13T11:24:16.070024+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 16:24:16 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:16 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:16 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:16 [debug    ] Initializing CommentsManager\n",
+  "task": "save",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": null,
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": null
+  }
+}

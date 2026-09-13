@@ -1,0 +1,2150 @@
+{
+  "adapter": "adeu-sdk-boundaries-v1",
+  "capture_sha256": "22d064b853eba00931e2557a1b40eecdec3318e9ca1794f9a58ff45a69b86205",
+  "cases": [
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-save",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "2914f3b944482487a8fcb8f49cb7dc5b23d31a8b375da1161cd2aba680ecce3e",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "fb176d597d5b97b59c05cd8b799e9563acd8b77c8a25cf21bbb944741ff8716b",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "message": "revision id 104 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "findings_require_mapping",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 104 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-split",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 3,
+      "normalized_package_sha256": "56dda7098607175b126c5a927bdad004c39939a4b3adcff814559d738c2a1e51",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": false,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "c9f4d04c0675fa3083614c3f7a7a83b3e9160ea0e8b7571f26c9cfc53612c7d0",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "split",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [
+          [
+            "word/document.xml",
+            "104"
+          ]
+        ],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-comment",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "7a41ee414d957dab93b2c8cf9f5380f00192425cee998aa52c67830e8f754f34",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "df9699e9c92797b5417558d35b318b847635685d6cb52edbac53b080589731c2",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "comment",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-table",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "053028d620c288e5f73b1ee29d4672937d557491428eda7980133d7e20100b92",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "e71908c1185187e1c87b5910a6af45e5c0d9ef789e8f79c19bef1cf9d8beff40",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "table",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-save",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "6cc8ed58b445da91a7338ba2df72128d1301572c81b253bbb62d2c1a832c1dd0",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "d1b8a44f1e6ae8b48be3cbd215d90807cb4e2775eec417b3b38049c22c16c750",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "message": "revision id 203 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "findings_require_mapping",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 203 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-split",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 3,
+      "normalized_package_sha256": "c3b54f0c0e7643ca11f22c11b80309da14d5e5ecb957f030f84444b963ef1eb0",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": false,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "62bef6e56719ba4e0ff313e5230ab6d8c10417e83d17ae0f091f074d2c2261ee",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "split",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [
+          [
+            "word/document.xml",
+            "203"
+          ]
+        ],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-comment",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "d66c81fda5254a9596687cb8f710ba189d35ea80e17bcfed38c95791321bf9c7",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "7208672452c68d82205ec7402ecd3a8827b9754f67da63816dd91622da93fe93",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "comment",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-table",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "d199e19842dd3314ca01fffce29cf977631fb95d9c2a54548d46e085662771a9",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "6c511a798615cc16cae5bb179f1c69bedafb9d4418d1e506ffa4a6a8f11893cd",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "table",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-save",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "4dd11032a8dd23c427a07fd501e10431e2e02463ba024900cd3aee7773999322",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "f2a645fcd678ba29bbff5ba038c99c90289440d2493e14bc392d865f3b2a9f38",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "message": "revision id 402 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "findings_require_mapping",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 402 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-split",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 3,
+      "normalized_package_sha256": "df73d7323273a763907e021842e3a81b00637433e6ba864524c58aa8d880c27b",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": false,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "1bc9b048344073c624ad234eb31b079877985ea5f3ddc62869cdd09345923466",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "split",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [
+          [
+            "word/document.xml",
+            "402"
+          ]
+        ],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-comment",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "32b33b03e3479e6529a8a11ddac33e3b9a9c65883d65d9bf7a6c741db19b80b2",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "b0f341a68893fcc301c4e4b5be2e3f4ff7cfc7ee52dd39687c0661d78912e5c9",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "comment",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-table",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "5a3c58931f6ec842022e28adaddc7b3b91e3c1312d0f2c8227f0a6859e5408e4",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "1d25f76eb1916fac855aacc723032a37e5af3f648b40f8df7074afdd83afce83",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "table",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-save",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "ffb1dcba227372a1fe75ea5ff69e968eccc9fbfdd67feb1884e0c06dadbb1277",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "7cdfe10325ff551ca89effd9662c0283b67993303d2291d3fd5717c28e81f7cd",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "message": "revision id 503 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "findings_require_mapping",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 503 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-split",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 3,
+      "normalized_package_sha256": "13166f708c135becf621e7418a9a6cac8229a6db83c41972d2467a41b754c696",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": false,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "a7ad0d704451ca016ae6c2ddeab29839f97c403f96769d3b0680f0c732033622",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "split",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [
+          [
+            "word/document.xml",
+            "503"
+          ]
+        ],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-comment",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "4a25b32baa34a45d1fe21eaa01267ff9605865d96e6c87c74bc772aefcaa031f",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "3372b15a0b97941e5f8f05f2e4253d9df8a87fe108efe068408f7429183bbc8c",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "comment",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 2,
+            "before": 1,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 1 -> 2 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-table",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "ad162068b1abe7a7df47da461c1355c9286ad1dc0c11f67299a81f0d2aa5df3e",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "2c958fcedc8e5307a6f4ad0ed7f6deb71e0f2787a5f580c1f2b8564abd180827",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "table",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "table-save",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "02bbcc8d5a2f3f691f37c1d88953b80e8dc1e01253c6be76f4bb28ffc25c85ba",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "77cb2b5ad40861a55f98b9db3f51c3d60947ca681d5eae786a0b1c51675b0bfb",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [
+        {
+          "code": "REV001",
+          "message": "revision id 303 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "findings_require_mapping",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 303 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "table-split",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 3,
+      "normalized_package_sha256": "4f6278da00e7069bfee7a1d3963a5c0d2d73d3596f286e877814ac13dae7aa21",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": false,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "04169de4688a03faea20a93ed2158904bf604116c28814fd2b6b3d9dda15ed20",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "split",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [
+          [
+            "word/document.xml",
+            "303"
+          ]
+        ],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "table-comment",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "c8f3dde6aa037811d3c5b13b5f9eaf918a9cda1dca39b9bb553790cb4e862695",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "1a9a39ac8b1a50e595af65d95e3809cd4251886586e88d6e7258223fef64a2da",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "comment",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 4,
+            "before": 3,
+            "tag": "ins"
+          },
+          "message": "tracked insertions: 3 -> 4 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        },
+        {
+          "code": "FID002",
+          "extra": {
+            "after": 3,
+            "before": 2,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 2 -> 3 - added during editing (only a defect if ids collide, see REV001)",
+          "severity": "info"
+        }
+      ],
+      "id": "table-table",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 2,
+      "normalized_package_sha256": "de1a98cb47713a28c7df4355e3a9c6d4e2fd40ef27c7d78c642e2eb931ba24a1",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "17b1dbc683d3ea1da6d2cd313f2f79e5d325c95a35f8e8502473693a1c34f9c1",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "status": "ok",
+      "task": "table",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    }
+  ],
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "evaluator_sha256": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+  "source_findings": {
+    "basic": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ],
+    "nested": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ],
+    "notes": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ],
+    "stories": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ],
+    "table": [
+      {
+        "code": "REL003",
+        "message": "rId7 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      },
+      {
+        "code": "REL003",
+        "message": "rId8 declared but never referenced",
+        "part": "word/_rels/document.xml.rels",
+        "severity": "info"
+      }
+    ]
+  }
+}

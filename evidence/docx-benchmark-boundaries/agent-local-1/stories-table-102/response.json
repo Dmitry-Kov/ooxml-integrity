@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-09-13T11:28:47.329657Z",
+  "done": true,
+  "done_reason": "stop",
+  "eval_count": 186,
+  "eval_duration": 6074534000,
+  "load_duration": 84920541,
+  "message": {
+    "content": "```python\nfrom docx import Document\n\ndef replace_marker(input_path, output_path):\n    doc = Document(input_path)\n    \n    tables = doc.tables\n    if len(tables) < 1:\n        raise Exception(\"No tables found in the document.\")\n    \n    table = tables[0]\n    if len(table.rows) < 2 or len(table.rows[1].cells) < 2:\n        raise Exception(\"The specified cell does not exist.\")\n    \n    cell = table.cell(1, 1)\n    for paragraph in cell.paragraphs:\n        for run in paragraph.runs:\n            if run.text == \"TABLEBEFORE\":\n                run.text = \"TABLEAFTER\"\n                run._element.tag = 'w:t'\n                run._element.set('xml:space', 'preserve')\n    \n    doc.save(output_path)\n\nreplace_marker(\"input.docx\", \"output.docx\")\n```",
+    "role": "assistant"
+  },
+  "model": "qwen2.5-coder:7b",
+  "prompt_eval_count": 239,
+  "prompt_eval_duration": 33345000,
+  "total_duration": 6194619041
+}

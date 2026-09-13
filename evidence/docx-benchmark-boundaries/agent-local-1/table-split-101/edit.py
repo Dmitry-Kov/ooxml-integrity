@@ -1,0 +1,25 @@
+from docx import Document
+
+def replace_marker(input_path, output_path):
+    doc = Document(input_path)
+    
+    # Find the third body paragraph with pending revisions
+    for i, para in enumerate(doc.paragraphs):
+        if para.style.name == 'Normal' and len(para.runs) > 0:
+            run = para.runs[0]
+            if run.bold and run.italic and run.text == 'EDITBEFORE':
+                # Replace the marker with DONEAFTER
+                run._element.getparent().remove(run._element)
+                new_run = para.add_run('DONEAFTER')
+                new_run.bold = True
+                new_run.italic = True
+                break
+    
+    if i != 2:
+        raise Exception("Could not find the third body paragraph with pending revisions.")
+    
+    # Save the modified document
+    doc.save(output_path)
+
+# Call the function with the input and output file paths
+replace_marker('input.docx', 'output.docx')

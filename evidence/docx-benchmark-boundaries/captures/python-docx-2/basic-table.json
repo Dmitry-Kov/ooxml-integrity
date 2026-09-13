@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.991965+00:00",
+  "id": "basic-table",
+  "output": "basic-table.docx",
+  "output_sha256": "35b3a3a61784afed711877c18d5c5cf78b4c53c08767e37510b0be01d679c578",
+  "profile": "basic",
+  "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+  "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+  "started_at": "2026-09-13T11:24:24.990732+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "table",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "table"
+  }
+}

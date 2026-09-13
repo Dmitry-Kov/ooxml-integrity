@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/stories-split-102/edit.py", line 25, in <module>
+    replace_marker('input.docx', 'output.docx')
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/stories-split-102/edit.py", line 19, in replace_marker
+    raise Exception("Could not find the third body paragraph with pending revisions.")
+Exception: Could not find the third body paragraph with pending revisions.

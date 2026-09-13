@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.999952+00:00",
+  "id": "notes-split",
+  "output": "notes-split.docx",
+  "output_sha256": "7a7295d8d9c38f8846e2f56b4c2544f155576f95be837dae957a58c2a8ed08c4",
+  "profile": "notes",
+  "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+  "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+  "started_at": "2026-09-13T11:24:24.998947+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "split",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "split"
+  }
+}

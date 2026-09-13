@@ -1,0 +1,31 @@
+{
+  "api_ps": {
+    "models": [
+      {
+        "context_length": 8192,
+        "details": {
+          "families": [
+            "qwen2"
+          ],
+          "family": "qwen2",
+          "format": "gguf",
+          "parameter_size": "7.6B",
+          "parent_model": "",
+          "quantization_level": "Q4_K_M"
+        },
+        "digest": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364",
+        "expires_at": "2026-09-13T16:59:59.048133+05:00",
+        "model": "qwen2.5-coder:7b",
+        "name": "qwen2.5-coder:7b",
+        "size": 5119263374,
+        "size_vram": 5119263374
+      }
+    ]
+  },
+  "api_version": {
+    "version": "0.30.7"
+  },
+  "observed_at": "2026-09-13T11:30:48.141567+00:00",
+  "service_log": "tmp/benchmark-runtime/boundaries-ollama.log",
+  "service_pid": 39160
+}
