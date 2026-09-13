@@ -1,0 +1,3 @@
+source-control review characters preserved: True target formats: True anchors: True removed parts: ['word/media/chart.png']
+adeu-shared-id review characters preserved: True target formats: True anchors: True removed parts: ['word/media/chart.png']
+unique-id-control review characters preserved: True target formats: True anchors: True removed parts: ['word/media/chart.png']

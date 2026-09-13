@@ -1,0 +1,6 @@
+adeu-1 10 replayed
+adeu-2 10 replayed
+python-docx-1 10 replayed
+python-docx-2 10 replayed
+agent-local-1 30 replayed
+total 70
