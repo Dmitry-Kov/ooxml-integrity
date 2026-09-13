@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Documented compatibility for rule codes, per-finding severity, CLI/JSON/SARIF,
+  coverage/Doctor and baseline versions, including patch fixes that change a
+  CI result. Added contribution and security-reporting guides with a private
+  GitHub reporting channel. The source distribution now includes both guides;
+  the release checklist links the compatibility and maintenance policy.
+
 - Added a DOCX pilot guide and voluntary feedback form linked from the browser
   demo. Feedback covers generator/checker versions, finding codes and
   expected/actual behavior; document attachments are optional. Opening the

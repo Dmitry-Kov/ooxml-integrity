@@ -280,6 +280,15 @@ about a useful finding, false alarm, missed defect or setup problem. Include
 the generator and checker versions, finding code and expected/actual behavior.
 GitHub reports are public; attaching a document is optional.
 
+## Contributing and compatibility
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for reproducible reports, development
+setup, evidence requirements and the checks relevant to a PR.
+[Compatibility and upgrades](docs/compatibility.md) explains rule codes,
+severity, JSON/coverage versions, baseline migration and changes that can
+affect a CI gate even in a patch release. For sensitive vulnerability reports,
+use the private channel in [SECURITY.md](SECURITY.md).
+
 ## Repository layout
 
 ```

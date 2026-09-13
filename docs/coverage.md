@@ -4,6 +4,9 @@ A file can have no findings even when some of its content could not be checked.
 Coverage records what the checker evaluated, what it estimated, and what it
 could not assess for that file.
 
+See [compatibility and upgrades](compatibility.md#machine-readable-formats) for
+the distinction between the package, coverage, Doctor and baseline versions.
+
 ## Per-file coverage
 
 Add `--coverage` to an ordinary check:
