@@ -36,7 +36,7 @@ fall back to the installed release. The same procedure accepts a new candidate
 during release preparation. It does not publish a package or change
 the repository version.
 
-Six scenarios run for both release and wheel:
+Seven scenarios run for both release and wheel:
 
 - Clean DOCX, detached-comment/source pair and defective PPTX through the UI;
   human and JSON output, coverage off/on, Doctor, actual package/runtime
@@ -52,6 +52,12 @@ Six scenarios run for both release and wheel:
   The UI must stay responsive, the real Worker must close, and checks must
   recover after reloading the unmodified bridge. No virtual clock, shortened
   timer or mocked Worker/checker results are used.
+- Voluntary feedback after a real comparison: no GitHub request before the
+  click, then a new-tab GET with only the fixed template parameter and no
+  document/report data, referrer or opener. The GitHub destination is intercepted
+  locally; no issue is submitted and GitHub's form rendering is not simulated
+  as a product guarantee. Feedback layout is captured at 1280px/390px, and the
+  link stays available during runtime/font startup failures.
 
 Reports live in `tmp/browser-results/release/` or `tmp/browser-results/wheel/`.
 `browser-results.json` includes the Git commit, modified tracked files (for a

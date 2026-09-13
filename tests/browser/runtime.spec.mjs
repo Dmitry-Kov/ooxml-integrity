@@ -147,6 +147,7 @@ for (const dependency of ['runtime', 'font']) {
     await expect(page.locator('#human-output')).toContainText('Check your network connection and reload');
     await expect(page.getByRole('button', {name:'Doctor', exact:true})).toBeDisabled();
     await expect(page.getByRole('button', {name:'A clean document', exact:true})).toBeDisabled();
+    await expect(page.getByRole('link', {name:'Share feedback on GitHub'})).toBeVisible();
     expect((await json(page)).error).toContain('Could not start Python');
     await context.unroute(pattern);
     await page.reload();
@@ -154,6 +155,45 @@ for (const dependency of ['runtime', 'font']) {
     await run(page, 'A clean document', 0);
   });
 }
+
+test('feedback is voluntary and sends no selected document or report data', async ({page, context}, info) => {
+  const target = 'https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml';
+  const contacts = [];
+  // Inspect the outgoing navigation without contacting GitHub or submitting
+  // an issue. Python and the checker still run normally on synthetic inputs.
+  await context.route('https://github.com/**', async route => {
+    const request = route.request();
+    contacts.push({url:request.url(), method:request.method(), body:request.postData(),
+      referrer:request.headers()['referer'] || null});
+    await route.fulfill({status:200, contentType:'text/html', body:'<!doctype html><title>Feedback destination</title>'});
+  });
+  await open(page);
+  await page.locator('#file-input').setInputFiles(file('private-client-edited.docx', 'agreement.docx'));
+  await page.locator('#source-input').setInputFiles(file('private-client-original.docx'));
+  const report = await run(page, 'Check', 1);
+  expect(codes(report)).toEqual(expect.arrayContaining(['CMT005', 'FID001']));
+  expect(contacts).toEqual([]);
+  const feedback = page.getByRole('complementary', {name:'Was this result useful?'});
+  const link = feedback.getByRole('link', {name:'Share feedback on GitHub'});
+  await expect(link).toHaveAttribute('href', target);
+  await expect(feedback).toContainText('GitHub reports are public');
+  await expect(feedback).toContainText('No document upload is required');
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({width, height:900});
+    await feedback.scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    await info.attach(`feedback-${width}`, {body:await feedback.screenshot(), contentType:'image/png'});
+  }
+  const opened = page.waitForEvent('popup');
+  await link.click();
+  const popup = await opened;
+  await popup.waitForLoadState();
+  await expect(popup).toHaveURL(target);
+  expect(await popup.evaluate(() => window.opener)).toBeNull();
+  expect(contacts).toEqual([{url:target, method:'GET', body:null, referrer:null}]);
+  await info.attach('feedback-navigation', {contentType:'application/json', body:JSON.stringify(contacts, null, 2)});
+  await popup.close();
+});
 
 test('delayed runtime download: progress remains visible and then a real check succeeds', async ({page, context}, info) => {
   let intercepted = 0;

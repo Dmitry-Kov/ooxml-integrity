@@ -273,9 +273,12 @@ lose review information on the same document. I would like to compare more
 DOCX editing tools and agent setups on a shared corpus, with enough real
 documents to make the results useful outside this experiment.
 
-If your workflow includes automated Office edits followed by human review,
-open an issue with a description of what breaks. Reproducible examples would
-help decide which checks and document types to work on next.
+If your workflow includes automated DOCX edits followed by human review,
+try a [30-minute pilot](docs/pilot.md) with one local before/after pair.
+[Share feedback](https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml)
+about a useful finding, false alarm, missed defect or setup problem. Include
+the generator and checker versions, finding code and expected/actual behavior.
+GitHub reports are public; attaching a document is optional.
 
 ## Repository layout
 
