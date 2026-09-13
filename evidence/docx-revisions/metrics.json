@@ -32,6 +32,14 @@
       "fp": 0,
       "fn": 0,
       "tn": 2
+    },
+    "word_windows": {
+      "pairs": 3,
+      "label_mismatches": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3
     }
   },
   "rules_with_seeded_positive_cases": {
@@ -319,6 +327,24 @@
     },
     {
       "id": "online-table-edit",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "windows-basic-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "windows-nested-save",
+      "matches_expected_checker": true,
+      "intent_correct": true,
+      "actionable_findings": []
+    },
+    {
+      "id": "windows-table-save",
       "matches_expected_checker": true,
       "intent_correct": true,
       "actionable_findings": []

@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "producer": "Microsoft Word for Windows",
+  "captured_at_utc": "2026-09-13T08:19:48Z",
+  "environment": {
+    "word_version": "16.0",
+    "word_build": "16.0.14334",
+    "word_file_version": "16.0.14334.20848",
+    "word_architecture": "x64",
+    "windows_caption": "Майкрософт Windows 11 Pro",
+    "windows_version": "10.0.26200",
+    "windows_build": "26200",
+    "windows_architecture": "64-разрядная",
+    "powershell_version": "5.1.26100.9168"
+  },
+  "operation": "Word.Application COM Documents.Open then Document.SaveAs2",
+  "batch_sha256": "ac09ccb1615213f62522fe69db20a5b51ac541c336ef094f22cfecf144b6f83f",
+  "expectations_sha256": "dc14d551ed19ec1028a5cdd3700cae3c47398700fc1ec62b30c6ec51e98100c4",
+  "labels_sha256": "8f654eafba070762a4812606d5ea0a8d7edad3343d0fa2ff2efad052e31e1a22",
+  "raw_run_sha256": "ff0be0a8f4070494beeedff7a6d9af2e9f0040296d245516903b926a15e6e850",
+  "sanitizer": "Only core.xml lastModifiedBy replaced with Evidence Editor; ZIP repacked. All other part bytes retained.",
+  "review": "Owner-supplied COM capture; independent XML comparison and local LibreOffice page review by the coding agent. No independent human or Windows screenshot review claimed.",
+  "cases": [
+    {
+      "id": "windows-basic-save",
+      "input_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_output_sha256": "365907d7d57a32f1a7c5719acf0cd41691a89556538f0423de1e5b6c4649da96",
+      "saved": true,
+      "open_and_repair": false,
+      "save_format": 12,
+      "input_object_counts": {
+        "comments": 1,
+        "tables": 1,
+        "sections": 1
+      },
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "raw_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "fb9eabe53029dbe68c19e05372ce9cec3741eea3ae6e40c80381c434ad05ae1d",
+        "docProps/core.xml": "d2d1ee2b16bf15bbce20d50ab9c2991cba8eef78fc1e374257a0c72173faec09",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "0a4658439ff48703e9406e75284d0f20393c735d9756b28051fd766442b2feaf",
+        "word/commentsExtended.xml": "91a14e73557e4aabf1ca1cd09cb28ed24b136df20acb82a03de06904e01fb5d6",
+        "word/commentsIds.xml": "dea1089d684987c0c83346e313693e0f7c966dba9c2555fe7ef8e0e949e102f0",
+        "word/document.xml": "d9c0211b2cea5eecc78e65f9aab129994bdb8da7936e196708f8ea1d59386e04",
+        "word/endnotes.xml": "156eb0e163bb709199311eb5ae2476939be6c86ebc0826251c7b12b2b03d271e",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "c77dfaaeb72ea3c7fc3f72dd44f93f1b74299760c9cc6f7e3f84c7bd9cb87ba6",
+        "word/footnotes.xml": "a0bf241a6a38862643caf1c382153e9c44294177ef7fdcd1760098b357d995cf",
+        "word/header1.xml": "fe235ee0054ee2fc789b8c83b264453bd847b9da09202d193fb3945b03b3d070",
+        "word/numbering.xml": "bc28e48673ab3f02bd5242cff9eab2de6e3cb98fd7d79c5147c8c98d5a71c2a0",
+        "word/settings.xml": "10469ab7c2e5c17f18c48e7f87ecb5936a721b20e01e563b83b34bc0bdffb0b8",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "published_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "fb9eabe53029dbe68c19e05372ce9cec3741eea3ae6e40c80381c434ad05ae1d",
+        "docProps/core.xml": "05eca0f0c2ee41cb4c798f9ae39304996fbe92cc24c947c172377800ee2c807a",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "0a4658439ff48703e9406e75284d0f20393c735d9756b28051fd766442b2feaf",
+        "word/commentsExtended.xml": "91a14e73557e4aabf1ca1cd09cb28ed24b136df20acb82a03de06904e01fb5d6",
+        "word/commentsIds.xml": "dea1089d684987c0c83346e313693e0f7c966dba9c2555fe7ef8e0e949e102f0",
+        "word/document.xml": "d9c0211b2cea5eecc78e65f9aab129994bdb8da7936e196708f8ea1d59386e04",
+        "word/endnotes.xml": "156eb0e163bb709199311eb5ae2476939be6c86ebc0826251c7b12b2b03d271e",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "c77dfaaeb72ea3c7fc3f72dd44f93f1b74299760c9cc6f7e3f84c7bd9cb87ba6",
+        "word/footnotes.xml": "a0bf241a6a38862643caf1c382153e9c44294177ef7fdcd1760098b357d995cf",
+        "word/header1.xml": "fe235ee0054ee2fc789b8c83b264453bd847b9da09202d193fb3945b03b3d070",
+        "word/numbering.xml": "bc28e48673ab3f02bd5242cff9eab2de6e3cb98fd7d79c5147c8c98d5a71c2a0",
+        "word/settings.xml": "10469ab7c2e5c17f18c48e7f87ecb5936a721b20e01e563b83b34bc0bdffb0b8",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "original_comparison": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml",
+            "word/endnotes.xml"
+          ],
+          "changed_review_structures": [
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/document.xml",
+            "word/endnotes.xml",
+            "word/fontTable.xml",
+            "word/theme/theme1.xml",
+            "word/webSettings.xml"
+          ],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      },
+      "comparison_profile": "word-save-content-v1",
+      "table_grid_widths_twips": {
+        "source": [
+          "4600",
+          "4600"
+        ],
+        "output": [
+          "910",
+          "1589"
+        ]
+      },
+      "published_sha256": "7a18cb18991a9017976287bdb072f2bf2453fe9851630f2113117d3111c24bb8"
+    },
+    {
+      "id": "windows-nested-save",
+      "input_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "raw_output_sha256": "ccc133cc067ee15672f550f777a1faed9659c56171ac1e816c21df03eb05e0b2",
+      "saved": true,
+      "open_and_repair": false,
+      "save_format": 12,
+      "input_object_counts": {
+        "comments": 1,
+        "tables": 1,
+        "sections": 1
+      },
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "raw_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "e64a7d71906b1bc3c09fd94c496dd3635b4cab12fe029f696b55d44f248abef8",
+        "docProps/core.xml": "d2d1ee2b16bf15bbce20d50ab9c2991cba8eef78fc1e374257a0c72173faec09",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "a8a7033bbdf308bfc8dbea9d0af75b4ce932ce93cbb4b00d574684f6bf2e357d",
+        "word/commentsExtended.xml": "5e04f91b98de69fbd918d68d5730ef2aa35bad1d5c93aa78a827f5b48b616216",
+        "word/commentsIds.xml": "e854f8c8b7255678968608f24a32960118ed6609d55dfb50768fbb771d54861b",
+        "word/document.xml": "c21038c51950d28ae94fb348cfcac50f20d27ea8d98da9d26db69872bd4a8dde",
+        "word/endnotes.xml": "a0496d5c6125e344c1f0d60fcd78814d2d3df87d8de7016f6d7ebd8a206a68a2",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "feb3ca4a8e2283a51c04195cda1f3d74c85e0441ef4adcb5aec1409a28adba64",
+        "word/footnotes.xml": "5b8ee7db9734d204f2bb648d14ee335bd2da80c0960c6ae1c2e2be59b15935b9",
+        "word/header1.xml": "dc57f27dd3bf34e5474a9c3a3b11c1efebc24163e8474224f7d8cd47ef8b6d3a",
+        "word/numbering.xml": "3b36c745372b33a168a20a6e18c01741e61cb920aa5dbae9a6d037bdee603866",
+        "word/settings.xml": "ace713d13962b28c48e96b93e7d2106e688422b8fa9d6e3d02406decb5091adf",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "published_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "e64a7d71906b1bc3c09fd94c496dd3635b4cab12fe029f696b55d44f248abef8",
+        "docProps/core.xml": "05eca0f0c2ee41cb4c798f9ae39304996fbe92cc24c947c172377800ee2c807a",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "a8a7033bbdf308bfc8dbea9d0af75b4ce932ce93cbb4b00d574684f6bf2e357d",
+        "word/commentsExtended.xml": "5e04f91b98de69fbd918d68d5730ef2aa35bad1d5c93aa78a827f5b48b616216",
+        "word/commentsIds.xml": "e854f8c8b7255678968608f24a32960118ed6609d55dfb50768fbb771d54861b",
+        "word/document.xml": "c21038c51950d28ae94fb348cfcac50f20d27ea8d98da9d26db69872bd4a8dde",
+        "word/endnotes.xml": "a0496d5c6125e344c1f0d60fcd78814d2d3df87d8de7016f6d7ebd8a206a68a2",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "feb3ca4a8e2283a51c04195cda1f3d74c85e0441ef4adcb5aec1409a28adba64",
+        "word/footnotes.xml": "5b8ee7db9734d204f2bb648d14ee335bd2da80c0960c6ae1c2e2be59b15935b9",
+        "word/header1.xml": "dc57f27dd3bf34e5474a9c3a3b11c1efebc24163e8474224f7d8cd47ef8b6d3a",
+        "word/numbering.xml": "3b36c745372b33a168a20a6e18c01741e61cb920aa5dbae9a6d037bdee603866",
+        "word/settings.xml": "ace713d13962b28c48e96b93e7d2106e688422b8fa9d6e3d02406decb5091adf",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "original_comparison": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml",
+            "word/endnotes.xml"
+          ],
+          "changed_review_structures": [
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/document.xml",
+            "word/endnotes.xml",
+            "word/fontTable.xml",
+            "word/theme/theme1.xml",
+            "word/webSettings.xml"
+          ],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      },
+      "comparison_profile": "word-save-content-v1",
+      "table_grid_widths_twips": {
+        "source": [
+          "4600",
+          "4600"
+        ],
+        "output": [
+          "910",
+          "1589"
+        ]
+      },
+      "published_sha256": "cb871437032b9d97edfbedfc9b27615a1f7792c515fac2bc7d59b2ef243194c8"
+    },
+    {
+      "id": "windows-table-save",
+      "input_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "raw_output_sha256": "c6c4423b8e1364434cbe8368bd137641b648c3c3e3ada9f76c55991e9309a210",
+      "saved": true,
+      "open_and_repair": false,
+      "save_format": 12,
+      "input_object_counts": {
+        "comments": 1,
+        "tables": 1,
+        "sections": 1
+      },
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "raw_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "094ddf133bb0ee0b75b7f72deab1098c26f0ba1addf2304b6afcfc8d66b4a87e",
+        "docProps/core.xml": "d2d1ee2b16bf15bbce20d50ab9c2991cba8eef78fc1e374257a0c72173faec09",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "d13775fc261594a2dc40c2bf0798d95628101b8444499e0ab4cd6d3ec6a804a7",
+        "word/commentsExtended.xml": "69708468430b948319a61da6503277ddc7aa95132294d061a40da400ad926f42",
+        "word/commentsIds.xml": "011094b5c86f46a3a7bd9b32f70dac7065596c96e6b57bd5d2aeec0c5d424d2a",
+        "word/document.xml": "4983bad6ac8e218d5d153717278f899c13f5f8a87568117b8e299bd1872632ca",
+        "word/endnotes.xml": "6ddb2c2e638859209f75acd45e66ac0778a15fecc9142cc607531e7e6c006212",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "df2fc7fcb33fab42d1e082811c07e8bb648ae80c7ddcfc1d0bb942e20ef8f3a0",
+        "word/footnotes.xml": "755aefc4db7d9bf768fb35b6b021dd6a56b90cc087f694abb4d82eeaea090a62",
+        "word/header1.xml": "a2ecec3207f8129b1edda1b33ee69d66152cc16af80c7d1f3e9185a63fb3bc18",
+        "word/numbering.xml": "da4dbe964e008eb501f4d470ca1e84cb444dc745f973631c4ea75881d4d73207",
+        "word/settings.xml": "dad36bedfcc0e75bc2e3162f0b43415aacdeec2ae2e303e551736d2d4951c2e2",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "published_part_sha256": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "094ddf133bb0ee0b75b7f72deab1098c26f0ba1addf2304b6afcfc8d66b4a87e",
+        "docProps/core.xml": "05eca0f0c2ee41cb4c798f9ae39304996fbe92cc24c947c172377800ee2c807a",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "d13775fc261594a2dc40c2bf0798d95628101b8444499e0ab4cd6d3ec6a804a7",
+        "word/commentsExtended.xml": "69708468430b948319a61da6503277ddc7aa95132294d061a40da400ad926f42",
+        "word/commentsIds.xml": "011094b5c86f46a3a7bd9b32f70dac7065596c96e6b57bd5d2aeec0c5d424d2a",
+        "word/document.xml": "4983bad6ac8e218d5d153717278f899c13f5f8a87568117b8e299bd1872632ca",
+        "word/endnotes.xml": "6ddb2c2e638859209f75acd45e66ac0778a15fecc9142cc607531e7e6c006212",
+        "word/fontTable.xml": "26a7888c08228fc410951b6b24e449e98a263fb3d3eda30b8a7a5b8c41769a0d",
+        "word/footer1.xml": "df2fc7fcb33fab42d1e082811c07e8bb648ae80c7ddcfc1d0bb942e20ef8f3a0",
+        "word/footnotes.xml": "755aefc4db7d9bf768fb35b6b021dd6a56b90cc087f694abb4d82eeaea090a62",
+        "word/header1.xml": "a2ecec3207f8129b1edda1b33ee69d66152cc16af80c7d1f3e9185a63fb3bc18",
+        "word/numbering.xml": "da4dbe964e008eb501f4d470ca1e84cb444dc745f973631c4ea75881d4d73207",
+        "word/settings.xml": "dad36bedfcc0e75bc2e3162f0b43415aacdeec2ae2e303e551736d2d4951c2e2",
+        "word/styles.xml": "076f58e1240fb06f4050f700a132e54968488058b8fa89103cd7454d717c59fe",
+        "word/theme/theme1.xml": "66112b00cf96d9f52a52d711740925ee944679b6b46f0a1abe5cddd9ce7c500e",
+        "word/webSettings.xml": "c99d68045ebe2a916a8ff7997daa87efa2526650089c91c0e7529b73b2ea33c7"
+      },
+      "changed_parts": [
+        "docProps/core.xml"
+      ],
+      "original_comparison": {
+        "intent_correct": false,
+        "lost_revisions": [],
+        "violations": {
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": [],
+          "unexpected_new_revisions": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_text_changes": [
+            "word/document.xml",
+            "word/endnotes.xml"
+          ],
+          "changed_review_structures": [
+            "word/commentsExtended.xml",
+            "word/commentsIds.xml",
+            "word/document.xml",
+            "word/endnotes.xml",
+            "word/fontTable.xml",
+            "word/theme/theme1.xml",
+            "word/webSettings.xml"
+          ],
+          "invalid_revision_text": [],
+          "duplicate_revision_ids": []
+        }
+      },
+      "comparison_profile": "word-save-content-v1",
+      "table_grid_widths_twips": {
+        "source": [
+          "4600",
+          "4600"
+        ],
+        "output": [
+          "910",
+          "1377"
+        ]
+      },
+      "published_sha256": "308ee6d274f6d2536190b9d98ed22afb9350501f2bea7570fd31bcbab000102c"
+    }
+  ]
+}

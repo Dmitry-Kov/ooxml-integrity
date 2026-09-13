@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import posixpath
 import re
 from collections import Counter
 from pathlib import Path
@@ -23,7 +24,9 @@ NS = {"w": W[1:-1]}
 MAIN = "word/document.xml"
 PROFILES = ("basic", "nested", "table", "notes", "stories")
 DATE = "2026-09-12T00:00:00Z"
-LABEL_FILES = ("labels.json", "labels-online.json")
+LABEL_FILES = ("labels.json", "labels-online.json", "labels-windows.json")
+WORD_SAVE_PROFILE = "word-save-content-v1"
+R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 
 
 def digest(blob):
@@ -199,7 +202,7 @@ def mutate(parts, action):
     return parts
 
 
-def facts(parts):
+def facts(parts, word_save=False):
     """Independent XML oracle: payloads, authors, nesting and accepted text.
 
     This deliberately does not import inspector/fidelity or compare tag counts.
@@ -216,13 +219,30 @@ def facts(parts):
             for node in E.fromstring(parts[part]).iter(W + kind):
                 definitions[kind][node.get(W + "id")] = (node.get(W + "type"), "".join(t.text or "" for t in node.iter(W + "t")))
 
-    def attributes(node):
+    def attributes(node, part):
         attrs = dict(node.attrib)
         name = E.QName(node).localname
         kind = "footnote" if name in ("footnote", "footnoteReference") else "comment" if name.startswith("comment") else None
         if kind is not None and W + "id" in attrs:
             ident = attrs[W + "id"]
             attrs[W + "id"] = definitions[kind].get(ident, ("missing definition", ident))
+        if word_save and name in ("headerReference", "footerReference"):
+            relpart = posixpath.join(posixpath.dirname(part), "_rels", posixpath.basename(part) + ".rels")
+            rels = E.fromstring(parts[relpart]) if relpart in parts else []
+            matches = [rel for rel in rels if rel.get("Id") == node.get(R + "id")]
+            identity = ("invalid story reference", node.get(R + "id"))
+            if len(matches) == 1:
+                rel = matches[0]
+                target = posixpath.normpath(posixpath.join(posixpath.dirname(part), rel.get("Target", "")))
+                if target in parts and rel.get("TargetMode") != "External":
+                    identity = (rel.get("Type"), target)
+            attrs[R + "id"] = identity
+        if word_save and name == "gridCol":
+            table = next((a for a in node.iterancestors() if a.tag == W + "tbl"), None)
+            # Width is a layout observation, not a content invariant for the
+            # reviewed auto-layout fixtures. Fixed-layout widths stay protected.
+            if table is not None and not table.xpath("./w:tblPr/w:tblLayout[@w:type='fixed']", namespaces=NS):
+                attrs.pop(W + "w", None)
         return sorted(attrs.items())
     for part, blob in sorted(parts.items()):
         if not part.startswith("word/") or not part.endswith(".xml"):
@@ -242,9 +262,29 @@ def facts(parts):
                     invalid.append((part, ancestor.get(W + "id")))
         duplicates.extend((part, ident) for ident, n in Counter(local_ids).items() if ident is not None and n > 1)
         protected_tags = {W + name for name in ("commentRangeStart", "commentRangeEnd", "commentReference", "footnoteReference", "comment", "footnote", "tblGrid", "gridCol", "headerReference", "footerReference")}
-        protected[part] = [(E.QName(node).localname, attributes(node)) for node in root.iter() if node.tag in protected_tags]
+        protected[part] = [(E.QName(node).localname, attributes(node, part)) for node in root.iter() if node.tag in protected_tags]
+        if word_save:
+            # Retain row/cell boundaries and cell text even when auto-layout
+            # recalculates widths. Moving the same text between cells must fail.
+            for table in root.iter(W + "tbl"):
+                cells = [[("".join(t.text or "" for t in cell.iter() if t.tag in (W + "t", W + "delText")),
+                           tuple((E.QName(n).localname, tuple(sorted(n.attrib.items()))) for n in cell.xpath("./w:tcPr/w:gridSpan | ./w:tcPr/w:vMerge", namespaces=NS)))
+                          for cell in row.findall("w:tc", NS)] for row in table.findall("w:tr", NS)]
+                protected[part].append(("table_cells", cells))
+            if not protected[part]:
+                del protected[part]
         paragraphs = []
         for p in root.iter(W + "p"):
+            if word_save and part == MAIN and p.getparent().tag == W + "body" and len(p) == 0 and not (p.text or "").strip():
+                previous, following = p.getprevious(), p.getnext()
+                if previous is not None and previous.tag == W + "tbl" and following is not None and following.tag == W + "sectPr" and following.getnext() is None:
+                    continue
+            if word_save and part == "word/endnotes.xml":
+                note = p.getparent()
+                if note.tag == W + "endnote" and note.get(W + "type") in ("separator", "continuationSeparator"):
+                    allowed_tags = {W + n for n in ("p", "pPr", "spacing", "r", "separator", "continuationSeparator")}
+                    if all(n.tag in allowed_tags and not (n.text or "").strip() for n in p.iter()):
+                        continue
             paragraphs.append("".join(t.text or "" for t in p.iter(W + "t")
                                       if not any(a.tag == W + "del" for a in t.iterancestors())))
         if paragraphs:
@@ -253,7 +293,10 @@ def facts(parts):
 
 
 def oracle(source, output, case):
-    before, after = facts(source), facts(output)
+    profile = case.get("comparison_profile")
+    if profile not in (None, WORD_SAVE_PROFILE):
+        raise ValueError(f"Unknown comparison profile: {profile}")
+    before, after = facts(source, profile == WORD_SAVE_PROFILE), facts(output, profile == WORD_SAVE_PROFILE)
     available = Counter(r["signature"] for r in after["revisions"])
     lost = []
     for r in before["revisions"]:
@@ -321,11 +364,13 @@ def manifest():
         source = BASE / "sources" / f"{case['source']}.docx"
         external = case["cohort"] == "external_editor" or case.get("producer") == "adeu"
         online = case["cohort"] == "word_online"
+        windows = case["cohort"] == "word_windows"
+        windows_capture = json.loads((BASE / "capture-windows.json").read_text(encoding="utf-8")) if windows else None
         record = dict(case, source_path=str(source.relative_to(BASE)), output_path=str(output.relative_to(BASE)),
                       source_sha256=digest(source.read_bytes()), output_sha256=digest(output.read_bytes()),
-                      producer_name="Microsoft Word for the web" if online else "adeu" if external else "revision-fixture-builder",
-                      producer_version="2026-09-12 session; service build not exposed" if online else "3.0.4" if external else "1",
-                      provenance="observed_word_online_edit" if online else "controlled_external_tool_run" if external else "synthetic_xml_mutation",
+                      producer_name="Microsoft Word for Windows" if windows else "Microsoft Word for the web" if online else "adeu" if external else "revision-fixture-builder",
+                      producer_version=windows_capture["environment"]["word_file_version"] if windows else "2026-09-12 session; service build not exposed" if online else "3.0.4" if external else "1",
+                      provenance="observed_word_windows_save" if windows else "observed_word_online_edit" if online else "controlled_external_tool_run" if external else "synthetic_xml_mutation",
                       oracle=oracle(read(source), read(output), case))
         if record["oracle"]["intent_correct"] != case["intent_correct"]:
             raise ValueError(f"Editor contract mismatch: {case['id']}: {record['oracle']}")

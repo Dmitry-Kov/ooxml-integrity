@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "operation": "synthetic-clean-inputs-only",
+  "repository": "https://github.com/Dmitry-Kov/ooxml-integrity",
+  "repository_commit": "6dd60d64c46f8ac22921ebf31c0c02276a53a290",
+  "source_directory": "evidence/docx-revisions/sources",
+  "expectations_sha256": "dc14d551ed19ec1028a5cdd3700cae3c47398700fc1ec62b30c6ec51e98100c4",
+  "capture_script_sha256": "df41764f90d947f27cd7fdf458509c0a954cf2f73f1d79e890fb7864c6e87e14",
+  "documents": [
+    {
+      "id": "windows-basic-save",
+      "input": "inputs/basic.docx",
+      "input_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "output": "raw/windows-basic-save.docx"
+    },
+    {
+      "id": "windows-nested-save",
+      "input": "inputs/nested.docx",
+      "input_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "output": "raw/windows-nested-save.docx"
+    },
+    {
+      "id": "windows-table-save",
+      "input": "inputs/table.docx",
+      "input_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "output": "raw/windows-table-save.docx"
+    }
+  ]
+}

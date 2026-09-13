@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "prepared_at_utc": "2026-09-12",
+  "repository_commit": "6dd60d64c46f8ac22921ebf31c0c02276a53a290",
+  "purpose": "Predeclared no-edit Word for Windows observations for E1; no measured result yet.",
+  "label_policy": "Assess output intent independently from checker findings. Record any editor loss as an observed failure; do not alter expectations to hide it.",
+  "cases": [
+    {
+      "id": "windows-basic-save",
+      "source": "basic",
+      "action": "save",
+      "cohort": "word_windows",
+      "capture_status": "pending",
+      "expected_editor_behavior": "preserve_existing_revisions_and_document_content",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings_if_preserved": [],
+      "source_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f"
+    },
+    {
+      "id": "windows-nested-save",
+      "source": "nested",
+      "action": "save",
+      "cohort": "word_windows",
+      "capture_status": "pending",
+      "expected_editor_behavior": "preserve_existing_revisions_and_document_content",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings_if_preserved": [],
+      "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e"
+    },
+    {
+      "id": "windows-table-save",
+      "source": "table",
+      "action": "save",
+      "cohort": "word_windows",
+      "capture_status": "pending",
+      "expected_editor_behavior": "preserve_existing_revisions_and_document_content",
+      "allowed_revision_losses": [],
+      "allowed_text_changes": [],
+      "expected_findings_if_preserved": [],
+      "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2"
+    }
+  ]
+}

@@ -3,8 +3,12 @@
 ## Unreleased
 
 - Added a separate [existing-revision corpus](evidence/docx-revisions/README.md)
-  with five synthetic sources and 27 labelled pairs: 12 clean controls from
-  adeu/Word Online, nine seeded defects and six accept/reject characterizations.
+  with five synthetic sources and 30 labelled pairs: 15 review-content controls
+  from adeu/Word Online/Word for Windows, nine seeded defects and six
+  accept/reject characterizations. The three Windows no-op saves retain revision
+  payloads/authors/dates/nesting; changed table widths and XML serialization are
+  recorded separately. A guarded content-comparison profile applies only to
+  these cases; unchanged layout is not claimed.
   Independent XML intent checks and exact finding/hash gates retain two known
   preservation misses explicitly; accept/reject is excluded from preservation
   metrics. The original 220-pair corpus and production checks are unchanged.
