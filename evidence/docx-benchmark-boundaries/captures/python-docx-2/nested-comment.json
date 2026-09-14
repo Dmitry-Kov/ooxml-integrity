@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.996061+00:00",
+  "id": "nested-comment",
+  "output": "nested-comment.docx",
+  "output_sha256": "9a1d3079b027639a9483a70b4d47a1371335fe3dda0ad3dbe754990fcc56c85f",
+  "profile": "nested",
+  "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:24:24.994613+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "comment",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "comment"
+  }
+}

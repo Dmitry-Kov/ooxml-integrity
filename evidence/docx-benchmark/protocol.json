@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "id": "docx-preservation-v1",
+  "declared_at": "2026-09-13T10:18:23.556655+00:00",
+  "base_commit": "63633c2e13bacb0a8dd3118cfc02b65586a5536d",
+  "sources": {
+    "basic": {
+      "path": "evidence/docx-revisions/sources/basic.docx",
+      "sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f"
+    },
+    "nested": {
+      "path": "evidence/docx-revisions/sources/nested.docx",
+      "sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e"
+    },
+    "notes": {
+      "path": "evidence/docx-revisions/sources/notes.docx",
+      "sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf"
+    },
+    "stories": {
+      "path": "evidence/docx-revisions/sources/stories.docx",
+      "sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e"
+    },
+    "table": {
+      "path": "evidence/docx-revisions/sources/table.docx",
+      "sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2"
+    }
+  },
+  "frozen_files": {
+    "evidence/docx-benchmark/PROTOCOL.md": "c3d0b518b21c5f786d375accdc0d12f04b02995d87a55286e563744739c8e67c",
+    "evidence/docx-benchmark/AGENT.md": "1b1fc7aa459b70e11fae10c09af8bd309d39f036c9ace58d99f1abc32636aadd",
+    "research/revision_evidence.py": "dc919c3bbaa704b9e90025202353f8ba49b0137fac3a9154aaba53c9d54dfed2"
+  },
+  "actions": [
+    "save",
+    "edit"
+  ],
+  "local_adapters": [
+    "adeu-sdk-v1",
+    "python-docx-run-v1"
+  ],
+  "local_captures": 2,
+  "agent": {
+    "id": "local-agent-v1",
+    "status": "not_run",
+    "repetitions": 3,
+    "reason": "Specified local Ollama runtime absent from PATH; no model downloaded; external calls not authorized."
+  }
+}

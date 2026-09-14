@@ -1,0 +1,44 @@
+{
+  "artifacts_sha256": {
+    "edit.py": "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718",
+    "input.docx": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+    "output.docx": "97d036efc7a7241efdb0c2cc45fae925db1fbb19efd33811319cda5bfbcb5332",
+    "request.json": "cf761c35b7dd61f0d07a573c1ae1c9d073a97e4d25bd0b3d2517cbb3ee88e50c",
+    "response.json": "28457bc36b31da0f71ef3ff81d054fafe66bc6532805974f259b73acbb913c7b",
+    "response.txt": "de6c9ff0fbcbc908dad741f070cfcee92d534fed47e8b50e64b8af8b0d7f848d",
+    "sandbox.sb": "698be2af1b18287ca038b9416669b35080172f59ab30d925a63ae3030bd4ca20",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "7e9f3270f3f0b5b53d60b78b84123735591a321be6190c7fb4c4bab798ef0376"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/agent-local-1/nested-save-101/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.06114958299440332,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/nested-save-101"
+    },
+    "returncode": 0,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:25:40.041970+00:00",
+  "id": "nested-save-101",
+  "input_unchanged": true,
+  "model_duration_seconds": 3.80098454200197,
+  "path": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "profile": "nested",
+  "seed": 101,
+  "sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:25:36.177812+00:00",
+  "status": "ok",
+  "task": "save"
+}

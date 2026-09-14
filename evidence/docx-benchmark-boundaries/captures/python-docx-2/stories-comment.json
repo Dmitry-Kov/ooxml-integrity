@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:25.005363+00:00",
+  "id": "stories-comment",
+  "output": "stories-comment.docx",
+  "output_sha256": "2bace2934f95f7223c3a7afdaa1121d545786bb79f52a6852d95a7a1a8b03e18",
+  "profile": "stories",
+  "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+  "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+  "started_at": "2026-09-13T11:24:25.004409+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "comment",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "comment"
+  }
+}

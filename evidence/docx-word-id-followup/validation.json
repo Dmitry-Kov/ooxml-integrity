@@ -1,0 +1,102 @@
+{
+  "verified_at": "2026-09-13T18:58:31.909418+00:00",
+  "base_commit": "727159243d64de6b0df78c49dea6e7c8736e2dbc",
+  "python": "3.9.6",
+  "checker_version": "0.4.1",
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "commands": [
+    {
+      "command": ".venv/bin/python research/inspect_word_revision_ids.py",
+      "exit_code": 0,
+      "log": "validation-word-replay.txt",
+      "word_pairs_replayed": 3,
+      "log_sha256": "b4266a2e7c51269cad628fc72d6b08bf26e50dc20569a3aa3b19dc0302da62a4"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/test_word_revision_ids.py --basetemp tmp/word-id-tests -ra",
+      "exit_code": 0,
+      "log": "validation-targeted.txt",
+      "passed": 11,
+      "log_sha256": "0c394615874d874af11ec1ba465e8d8bb64998cf503a1f1dd54e79518a79aea9"
+    },
+    {
+      "command": ".venv/bin/python -m pytest --basetemp tmp/word-id-final-tests -ra",
+      "exit_code": 0,
+      "log": "validation-pytest.txt",
+      "passed": 839,
+      "skipped": 7,
+      "skip_reason": "Missing-font tests skipped because the seven target fonts are installed.",
+      "log_sha256": "4de409ff1df422b4075b7357828db54ad090ba62cd7d02a21e9d3a832818edec"
+    },
+    {
+      "command": ".venv/bin/python research/review_docx_boundaries.py",
+      "exit_code": 0,
+      "log": "validation-benchmarks.txt",
+      "attempts_replayed": 140,
+      "log_sha256": "20aaa872cc81548b6602c839bfc3c735648645cd36da9de8fda7b7de6112cbb3"
+    },
+    {
+      "command": ".venv/bin/python research/build_docx_evidence.py evaluate",
+      "exit_code": 0,
+      "log": "validation-beta.txt",
+      "pairs": 220,
+      "label_mismatches": 0,
+      "log_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8"
+    },
+    {
+      "command": ".venv/bin/python research/revision_evidence.py evaluate",
+      "exit_code": 0,
+      "log": "validation-revisions.txt",
+      "pairs": 30,
+      "label_mismatches": 0,
+      "log_sha256": "5d0ddf18f6c67c27409fa011fdad533b5fe103a6d3575ea4062f002f77225df5"
+    },
+    {
+      "command": ".venv/bin/python -m ooxml_integrity check evidence/docx-word-id-followup/outputs/unique-id-control-word.docx --against evidence/docx-word-id-followup/inputs/unique-id-control.docx --no-config --json",
+      "exit_code": 1,
+      "log": "checker-unique-word.json",
+      "expected": "FID001 ERROR: tracked deletions 3 -> 2 (1 lost)",
+      "log_sha256": "19dbf7258908af7261c2d748c68d666493444dc9f7174236ceaa56f7db841d9e"
+    }
+  ],
+  "v1_replay": {
+    "method": "Canonical JSON comparison of docx_benchmark.evaluate to each of four evaluation.reviewed.json receipts and capture_docx_agent.evaluate to agent-local-1/evaluation.json",
+    "attempts": 70,
+    "log": "validation-v1.txt",
+    "log_sha256": "35ab642aac642452af93db2ae7465e25fcc1cce4f65f564529ce8bd0ddbd4edf"
+  },
+  "development_checks": {
+    "initial_targeted_test": "10 passed, one date mutation assertion failed because the test changed only w:date while dateUtc was retained. The test now changes both for actual time loss; the analyzer and frozen evaluation were not changed.",
+    "cli_example": "Corrected --source to documented --against after CLI usage validation; final command reproduces the expected FID001 exit 1."
+  },
+  "existing_tracked_files_unchanged_from_base_commit": true,
+  "old_benchmarks_and_checker_modified": false,
+  "ui_reproducibility": "Three real captures and saved outputs replayed; fresh native UI runs require Word and a new receipt. No claim of unattended native UI replay.",
+  "sha256": {
+    "evidence/docx-word-id-followup/PROTOCOL.md": "6ea08e09a6dba9ab9efb4af04606fe45e17d8161d8dd877d40147615801b48a3",
+    "evidence/docx-word-id-followup/README.md": "649c03577643d3fa8bfef8fc91f22950a09a44cec27a83b77cadc7f4a8585dd8",
+    "evidence/docx-word-id-followup/capture.json": "1bdc0dfefdbe2a913f763455df95347ba788811f0a0e6af324a4e92a25c3e322",
+    "evidence/docx-word-id-followup/checker-unique-word.json": "19dbf7258908af7261c2d748c68d666493444dc9f7174236ceaa56f7db841d9e",
+    "evidence/docx-word-id-followup/declaration.json": "0f05504e2fdcbb5289097d172f17276a2dabf1977daf1ff5094a61c7fe515d1a",
+    "evidence/docx-word-id-followup/evaluation.json": "42ab8f9189ea970242f81e1916f2e590a024b2054c3addc34096139097ab1bc7",
+    "evidence/docx-word-id-followup/inputs/adeu-shared-id.docx": "325440cd850aaafb2b9ead03c35a253d9fd695f1fec26f9cef91449b81ac2bf7",
+    "evidence/docx-word-id-followup/inputs/source-control.docx": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+    "evidence/docx-word-id-followup/inputs/unique-id-control.docx": "84bc09162c5c36d73a86c9add83153c69129fa5dcbe4560d3744ab350af8525d",
+    "evidence/docx-word-id-followup/observations/UI.md": "d44f4f71ed84267b434f348e0cb5c919f68927437f1d0a1c55705b066af51905",
+    "evidence/docx-word-id-followup/outputs/adeu-shared-id-word.docx": "57d3d2788baa52540f1ecf6b360aee4d2086591ae828bee8cdf82cb25745bb50",
+    "evidence/docx-word-id-followup/outputs/source-control-word.docx": "a8a92cc7f31ebcd9ddaba4f499ba355ffd8a42b8206172cf605866437dc6528a",
+    "evidence/docx-word-id-followup/outputs/unique-id-control-word.docx": "cc72fb9450ae7d24085a65af236ae040520d3e1a1bd3337179ed132068141fdf",
+    "evidence/docx-word-id-followup/standards.json": "afd00c0c39a010e3de41fa1be7b5a4d64b15f420c2804dd119731ba3056124be",
+    "evidence/docx-word-id-followup/validation-benchmarks.txt": "20aaa872cc81548b6602c839bfc3c735648645cd36da9de8fda7b7de6112cbb3",
+    "evidence/docx-word-id-followup/validation-beta.txt": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+    "evidence/docx-word-id-followup/validation-pytest.txt": "4de409ff1df422b4075b7357828db54ad090ba62cd7d02a21e9d3a832818edec",
+    "evidence/docx-word-id-followup/validation-revisions.txt": "5d0ddf18f6c67c27409fa011fdad533b5fe103a6d3575ea4062f002f77225df5",
+    "evidence/docx-word-id-followup/validation-targeted.txt": "0c394615874d874af11ec1ba465e8d8bb64998cf503a1f1dd54e79518a79aea9",
+    "evidence/docx-word-id-followup/validation-v1.txt": "35ab642aac642452af93db2ae7465e25fcc1cce4f65f564529ce8bd0ddbd4edf",
+    "evidence/docx-word-id-followup/validation-word-replay.txt": "b4266a2e7c51269cad628fc72d6b08bf26e50dc20569a3aa3b19dc0302da62a4",
+    "research/inspect_word_revision_ids.py": "1f87774fe0d18c49a3cb271930f6ccb49c717dc334cb8d1a4dbd445cb8f5b8f7",
+    "tests/test_word_revision_ids.py": "62289c72014ab473c257eff01722bd3eaa91aa4a6df3e76ba70e8bafe7303d5a",
+    "research/docx_benchmark.py": "24e855bcac05a4864e5a49547a16d2863dcf3ad6533e3856593347a1c7dc85a5",
+    "research/revision_evidence.py": "dc919c3bbaa704b9e90025202353f8ba49b0137fac3a9154aaba53c9d54dfed2"
+  }
+}

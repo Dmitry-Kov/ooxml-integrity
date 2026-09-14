@@ -1,0 +1,24 @@
+{
+  "consulted_at_utc_date": "2026-09-13",
+  "primary_document": {
+    "title": "ECMA-376 Part 1: Fundamentals and Markup Language Reference",
+    "edition": "Fifth edition, December 2016",
+    "publisher_url": "https://ecma-international.org/publications-and-standards/standards/ecma-376/",
+    "archive_url": "https://ecma-international.org/wp-content/uploads/ECMA-376-1_5th_edition_december_2016.zip",
+    "archive_entry": "Ecma Office Open XML Part 1 - Fundamentals And Markup Language Reference.pdf",
+    "pdf_size": 35304993,
+    "pdf_sha256": "7cccfd0ad0e2ef89316acece15e44a8a088d0603ce4bba4e7b0361b50d13a37d",
+    "zip_entry_crc32": "ffcc3053",
+    "acquisition": "Complete first PDF entry extracted from the official ZIP download; uncompressed size and CRC verified. Remaining archive entries were not downloaded. PDF retained only in ignored tmp/word-id-standard; not redistributed.",
+    "clause": "17.13.5.14 del (Deleted Run Content), id attribute",
+    "printed_page": 846,
+    "pdf_page_1_based": 856,
+    "observation": "Identifier required and described as unique for an annotation; no adjacent-fragment shared-ID exception stated in this clause.",
+    "scope_limit": "Focused clause inspection, not a complete normative or schema validation."
+  },
+  "microsoft_extension": {
+    "title": "MS-DOCX 2.12.2.1 dateUtc",
+    "url": "https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/d760867e-6bc3-43c7-ac53-b32247e1b7e6",
+    "observation": "Tracked-change dateUtc is defined in the UTC timezone."
+  }
+}

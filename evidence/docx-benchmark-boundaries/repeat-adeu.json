@@ -1,0 +1,10 @@
+{
+  "adapter": "adeu-sdk-boundaries-v1",
+  "assessment_mismatches": [],
+  "captures": [
+    "36b10e6ad436dc317ce2ca4b9133df07ad5ef25971b21f6832ba11a6f5b65b4d",
+    "22d064b853eba00931e2557a1b40eecdec3318e9ca1794f9a58ff45a69b86205"
+  ],
+  "pairs": 20,
+  "raw_byte_equal": []
+}

@@ -1,0 +1,44 @@
+{
+  "artifacts_sha256": {
+    "edit.py": "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718",
+    "input.docx": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+    "output.docx": "1fa79775c775bf635b626cafdccd7fda1c46724d1311c6e8a00b12560c04d7f4",
+    "request.json": "5c97eb9bee1385db7bed7c93ba9c50761c47792a327a77c7b956071673893b82",
+    "response.json": "cd20c7cb4a41547c82b885fece0d70a0c115793e3e9b88ee28382f450c71e0ef",
+    "response.txt": "de6c9ff0fbcbc908dad741f070cfcee92d534fed47e8b50e64b8af8b0d7f848d",
+    "sandbox.sb": "bdbc48b029d7a54b839e5bb546f3f712a7530257cd301dec7cb7e48f56fbf546",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "7e9f3270f3f0b5b53d60b78b84123735591a321be6190c7fb4c4bab798ef0376"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/agent-local-1/notes-save-103/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.05792129199835472,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/notes-save-103"
+    },
+    "returncode": 0,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:26:54.047862+00:00",
+  "id": "notes-save-103",
+  "input_unchanged": true,
+  "model_duration_seconds": 3.7067498749820516,
+  "path": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+  "profile": "notes",
+  "seed": 103,
+  "sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+  "started_at": "2026-09-13T11:26:50.281602+00:00",
+  "status": "ok",
+  "task": "save"
+}

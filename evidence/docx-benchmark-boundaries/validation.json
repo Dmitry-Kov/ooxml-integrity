@@ -1,0 +1,53 @@
+{
+  "base_commit": "22481ed",
+  "boundary_attempts_replayed": 140,
+  "deterministic_repeat_pairs": 40,
+  "frozen_inputs_and_protocol_verified": true,
+  "full_pytest": {
+    "command": ".venv/bin/python -m pytest --basetemp tmp/boundary-final-tests -ra",
+    "exit_code": 0,
+    "passed": 828,
+    "skip_reason": "Font-missing tests skipped because those fonts are installed",
+    "skipped": 7
+  },
+  "old_corpora_regression_only": {
+    "beta_pairs": 220,
+    "label_mismatches": 0,
+    "revision_pairs": 30
+  },
+  "protected_paths_unchanged_from_v1_commit": [
+    "src",
+    "README.md",
+    "AUDIT_PLAN.md",
+    "docs/pilot.md",
+    "evidence/docx-revisions",
+    "evidence/docx-benchmark",
+    "research/docx_benchmark.py",
+    "research/capture_docx_agent.py",
+    "research/revision_evidence.py"
+  ],
+  "repeat_mismatches": 0,
+  "sandbox_preflight": {
+    "checks": [
+      "python-docx save permitted",
+      "outside file read/write denied",
+      "network denied",
+      "subprocess denied"
+    ],
+    "passed": true
+  },
+  "sha256": {
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/protocol.json": "5c76b1454f7491cb8736f58a9b468ebd930f7b30bcf7775c330b238fe2a9a5a7",
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/review.json": "b32be8fa2b1b039f738af8e5b4f9908fbc967be80b1ec52941792c108bbd4ae7",
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/validation-beta-corpus.txt": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/validation-preflight.txt": "6dc86b0a547ee3dfbadb84d3cd2b8264f39573d52f3dc0ceaa09946646d47b4d",
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/validation-pytest-final.txt": "67c005075b298ab5dcb629bd321b4cfc5924e542c690950f0ab8cb639f49c514",
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/validation-revision-corpus.txt": "5d0ddf18f6c67c27409fa011fdad533b5fe103a6d3575ea4062f002f77225df5",
+    "research/capture_docx_boundaries_agent.py": "4e5e2da11c34e0bbedc051ea8e931d91bf51dedc53d38c43ded47b6a40e70d7b",
+    "research/docx_boundaries.py": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+    "research/review_docx_boundaries.py": "d06d3ef7fd3f4dc94121f67344c987d2ffce8436d22c91c3628cb8840dd2fed5",
+    "tests/test_docx_boundaries.py": "0cb8d053ae9e4fd139213f3762eff606c94d8512bf2e5a3745014c0140855b2e"
+  },
+  "v1_attempts_replayed": 70,
+  "validated_at": "2026-09-13T11:32:41.777180+00:00"
+}

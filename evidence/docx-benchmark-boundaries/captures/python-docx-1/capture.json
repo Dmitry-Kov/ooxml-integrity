@@ -1,0 +1,390 @@
+{
+  "adapter": "python-docx-targets-v2",
+  "cases": [
+    {
+      "finished_at": "2026-09-13T11:24:16.333559+00:00",
+      "id": "basic-save",
+      "output": "basic-save.docx",
+      "output_sha256": "58f3fec7b756856078e3b0de1e5446446a2795806fed2caed5889ccb25008e41",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:16.331540+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "save",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "save"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.335027+00:00",
+      "id": "basic-split",
+      "output": "basic-split.docx",
+      "output_sha256": "f7d152aaed8a6c5afc96acea05c4638745633b4da83c3df6369c2c0cb376bbea",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:16.333730+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "split",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "split"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.336228+00:00",
+      "id": "basic-comment",
+      "output": "basic-comment.docx",
+      "output_sha256": "c8d6dcdf346529cd9a5662b21468fc27dc92609b7cc4f515d0b2c48b0fb2b105",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:16.335142+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "comment",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "comment"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.337519+00:00",
+      "id": "basic-table",
+      "output": "basic-table.docx",
+      "output_sha256": "d2cad52220702eddf040086a68e568662ce078f36b23c07d7aefc10b673aa1b7",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:16.336344+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "table",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "table"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.338566+00:00",
+      "id": "nested-save",
+      "output": "nested-save.docx",
+      "output_sha256": "bd3a743994e750c19823c4d056926b5564fb7f2f0a53ac36ff6d0a3a66520e1b",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:16.337629+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "save",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "save"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.339713+00:00",
+      "id": "nested-split",
+      "output": "nested-split.docx",
+      "output_sha256": "9677ba1d9c20273d90fa166d1b701bb940622a9594f8848d39dfc86beac007c5",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:16.338665+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "split",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "split"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.340842+00:00",
+      "id": "nested-comment",
+      "output": "nested-comment.docx",
+      "output_sha256": "f0985e2000d072472c891adfe969e60b25cc8e1f6b49172a6c75220695826c5e",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:16.339830+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "comment",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "comment"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.342478+00:00",
+      "id": "nested-table",
+      "output": "nested-table.docx",
+      "output_sha256": "748066f42bcc62dd8c6d2ce44f62e2ebcc549e9a10ce5b1d3d148cce5c2d2c17",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:16.340959+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "table",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "table"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.343894+00:00",
+      "id": "notes-save",
+      "output": "notes-save.docx",
+      "output_sha256": "82268670c0ee329e29d5175483b0952683935f4b62d2f4dc03be6b0090533b35",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:16.342630+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "save",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "save"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.345195+00:00",
+      "id": "notes-split",
+      "output": "notes-split.docx",
+      "output_sha256": "1fa905d68dd66b02eb15728a00e6774c8567a5e8cd5a41b33351ddceabccf1c9",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:16.344024+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "split",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "split"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.346363+00:00",
+      "id": "notes-comment",
+      "output": "notes-comment.docx",
+      "output_sha256": "0d3b2403575716780f5d858bd0fb2f56553db87ecf86e96c84527922637a7acb",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:16.345303+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "comment",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "comment"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.347519+00:00",
+      "id": "notes-table",
+      "output": "notes-table.docx",
+      "output_sha256": "1de2b771e0e37cd742fc5735fcb85f4fce9fbe10eebcdfe2e9b6fa5382b979d2",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:16.346483+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "table",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "table"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.348596+00:00",
+      "id": "stories-save",
+      "output": "stories-save.docx",
+      "output_sha256": "a1407dd752b7da47beebdad436681dbfc801d19c52e2857c1821a32ba6c53c5c",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:16.347638+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "save",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "save"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.349852+00:00",
+      "id": "stories-split",
+      "output": "stories-split.docx",
+      "output_sha256": "d6765d8e6074af860278e8bb1e7a283101130964ec8ec6ec8c64ad4a186e956c",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:16.348696+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "split",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "split"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.350928+00:00",
+      "id": "stories-comment",
+      "output": "stories-comment.docx",
+      "output_sha256": "e55cd38038ffe16d04f417fc7a6626d351bc9654b02ecbfef5fcd32f92dfb835",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:16.349958+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "comment",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "comment"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.352547+00:00",
+      "id": "stories-table",
+      "output": "stories-table.docx",
+      "output_sha256": "aa477c654ea361bb9398480b4f2b5df0f7f93f7569e6e760297a2519cf329c37",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:16.351025+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "table",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "table"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.353553+00:00",
+      "id": "table-save",
+      "output": "table-save.docx",
+      "output_sha256": "43754e2a6a5bd463f3e9fe8e4128d2a42273b6a716f635b0c2abbf92ca19f379",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:16.352655+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "save",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "save"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.354650+00:00",
+      "id": "table-split",
+      "output": "table-split.docx",
+      "output_sha256": "554b3e5bc2517ceb0f4009af498d1c2df54a93ce5338eab69c599affe1a6daeb",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:16.353658+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "split",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "split"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.355834+00:00",
+      "id": "table-comment",
+      "output": "table-comment.docx",
+      "output_sha256": "91a82dec1b04b9388044d3781417b080c05e63a920b4849dd33d24e98b6bec83",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:16.354750+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "comment",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "comment"
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:16.356947+00:00",
+      "id": "table-table",
+      "output": "table-table.docx",
+      "output_sha256": "d4d8bc07e51ea994e1b84ebcae2bb7c7543cb41c177c0465c0473d00ee0b0949",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:16.355941+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "",
+      "task": "table",
+      "tool_result": {
+        "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+        "task": "table"
+      }
+    }
+  ],
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+    "research/docx_boundaries.py",
+    "capture",
+    "--adapter",
+    "python-docx-targets-v2",
+    "--directory",
+    "evidence/docx-benchmark-boundaries/captures/python-docx-1"
+  ],
+  "cwd": "/Users/dmitriikovalev/Projects/ooxml-integrity",
+  "distributions": {
+    "lxml": "6.1.3",
+    "pip": "25.0.1",
+    "python-docx": "1.2.0",
+    "typing_extensions": "4.16.0"
+  },
+  "finished_at": "2026-09-13T11:24:16.357065+00:00",
+  "harness_sha256": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+  "implementation_sha256": {
+    "docx": "046a785eb96dfd11161d4d72219e7550efdf786ca51c30e4b185927434a867ae"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "protocol_sha256": "5c76b1454f7491cb8736f58a9b468ebd930f7b30bcf7775c330b238fe2a9a5a7",
+  "python": "3.12.14",
+  "started_at": "2026-09-13T11:24:16.322222+00:00"
+}

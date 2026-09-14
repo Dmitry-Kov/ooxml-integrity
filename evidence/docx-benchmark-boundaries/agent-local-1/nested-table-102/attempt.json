@@ -1,0 +1,43 @@
+{
+  "artifacts_sha256": {
+    "edit.py": "c569c21bc60af860eef5577cc6a44c690920fde0fe017eb02460a414797e8a5b",
+    "input.docx": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+    "request.json": "a2205f70c0757f9b44b9b84f43964994507d1c9692360aae66e2735a0bddbba1",
+    "response.json": "99ef20a1f67a192ad0da3a3e8eea3c1054984c9bd1179bb4e7f4bfec6482a16d",
+    "response.txt": "7d7b8d647990c51d622d61b06faea200acfc7e2d1433e818e33e06b42bc211dc",
+    "sandbox.sb": "c4ddb3e7a064f2c212119eeed1d170f8e3844fa24d5ee0d4196fb57d03ce6f49",
+    "stderr.txt": "e7d199ef5d34a64279a14c5929b2b61173b7de45932f28734b51b33ccd363894",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/agent-local-1/nested-table-102/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.05852633298491128,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/nested-table-102"
+    },
+    "returncode": 1,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:26:36.531968+00:00",
+  "id": "nested-table-102",
+  "input_unchanged": true,
+  "model_duration_seconds": 6.229755540989572,
+  "path": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "profile": "nested",
+  "seed": 102,
+  "sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:26:30.242106+00:00",
+  "status": "error",
+  "task": "table"
+}

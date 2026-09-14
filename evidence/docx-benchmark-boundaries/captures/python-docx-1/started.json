@@ -1,0 +1,28 @@
+{
+  "adapter": "python-docx-targets-v2",
+  "cases": [],
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+    "research/docx_boundaries.py",
+    "capture",
+    "--adapter",
+    "python-docx-targets-v2",
+    "--directory",
+    "evidence/docx-benchmark-boundaries/captures/python-docx-1"
+  ],
+  "cwd": "/Users/dmitriikovalev/Projects/ooxml-integrity",
+  "distributions": {
+    "lxml": "6.1.3",
+    "pip": "25.0.1",
+    "python-docx": "1.2.0",
+    "typing_extensions": "4.16.0"
+  },
+  "harness_sha256": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+  "implementation_sha256": {
+    "docx": "046a785eb96dfd11161d4d72219e7550efdf786ca51c30e4b185927434a867ae"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "protocol_sha256": "5c76b1454f7491cb8736f58a9b468ebd930f7b30bcf7775c330b238fe2a9a5a7",
+  "python": "3.12.14",
+  "started_at": "2026-09-13T11:24:16.322222+00:00"
+}

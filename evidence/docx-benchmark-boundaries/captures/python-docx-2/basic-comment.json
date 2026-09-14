@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.990629+00:00",
+  "id": "basic-comment",
+  "output": "basic-comment.docx",
+  "output_sha256": "6f36ffe5b4ae252572c767875a59fc06816201f6739db8eac256af75b0952a21",
+  "profile": "basic",
+  "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+  "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+  "started_at": "2026-09-13T11:24:24.989535+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "comment",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "comment"
+  }
+}

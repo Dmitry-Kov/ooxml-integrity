@@ -148,7 +148,7 @@ def _run_doctor(*, json_output: bool) -> int:
         item["status"] == "unavailable" for item in capabilities
     )
     if json_output:
-        json.dump(report, sys.stdout, indent=2, ensure_ascii=False)
+        json.dump(report, sys.stdout, indent=2, ensure_ascii=True)
         sys.stdout.write("\n")
         return EXIT_FINDINGS if unavailable else EXIT_OK
 
@@ -226,6 +226,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Redirected Windows streams can use a legacy encoding. Keep that encoding
+    # but escape unencodable diagnostic characters instead of truncating output.
+    # JSON below uses JSON escapes so decoding restores the exact original text.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="backslashreplace")
     args = build_parser().parse_args(argv)
 
     if args.command == "doctor":
@@ -336,7 +342,7 @@ def main(argv: list[str] | None = None) -> int:
             "baseline": args.baseline,
             "files": files,
         }
-        json.dump(payload, sys.stdout, indent=2, ensure_ascii=False)
+        json.dump(payload, sys.stdout, indent=2, ensure_ascii=True)
         sys.stdout.write("\n")
     else:
         for i, (p, f) in enumerate(results.items()):

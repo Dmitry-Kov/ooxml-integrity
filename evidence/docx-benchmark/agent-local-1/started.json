@@ -1,0 +1,16 @@
+{
+  "cases": [],
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+    "research/capture_docx_agent.py",
+    "capture",
+    "--directory",
+    "evidence/docx-benchmark/agent-local-1",
+    "--work-root",
+    "tmp/docx-benchmark-agent/run-1"
+  ],
+  "declaration_sha256": "e58a0c08a1dca992ff962d94546d401bb8f1ebcc3297b1046f6f8d4b932dabc7",
+  "pipeline": "local-agent-v1",
+  "schema": 1,
+  "started_at": "2026-09-13T11:05:44.635453+00:00"
+}

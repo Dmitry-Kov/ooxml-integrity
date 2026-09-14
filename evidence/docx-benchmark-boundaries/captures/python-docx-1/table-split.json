@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:16.354650+00:00",
+  "id": "table-split",
+  "output": "table-split.docx",
+  "output_sha256": "554b3e5bc2517ceb0f4009af498d1c2df54a93ce5338eab69c599affe1a6daeb",
+  "profile": "table",
+  "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+  "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+  "started_at": "2026-09-13T11:24:16.353658+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "split",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "split"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "adapter": "adeu-sdk-v1",
+  "left_capture_sha256": "30178042bd1eea957ef76840efb04268dde68ac61e54bf5791de24bf79d5dfc6",
+  "pairs": 10,
+  "raw_byte_equal": [],
+  "right_capture_sha256": "7c8afff6455d41d7f1bdcd7e69e673a1000c1389834fe75b5a22c180af00cfca",
+  "semantic_mismatches": []
+}

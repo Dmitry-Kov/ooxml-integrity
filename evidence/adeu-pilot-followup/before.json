@@ -1,0 +1,344 @@
+{
+  "scope": "Synthetic checker probes; no native Windows or editor execution",
+  "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/.venv/bin/python",
+    "research/adeu_pilot_probe.py",
+    "--output",
+    "tmp/adeu-pilot-followup/before-replay.json"
+  ],
+  "checker_module_path": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity",
+  "PYTHONPATH": "tmp/adeu-pilot-followup/baseline-src",
+  "script_sha256": "ad7f7989e9edc346dbcee5108ffcb2cdbb52b6d46d39dcb201b7886c0d678c69",
+  "base_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
+  "checker_files_sha256": {
+    "__init__.py": "4effd906e44ef13a73b104910ee02398556ae9975c430727215600a0ea1c6eab",
+    "__main__.py": "d12bc1927c08e7e0319693d5aae64c074acfbff078964d22caf875cf33ed8d30",
+    "archive.py": "7e805e74b80d6177da97d0998e960585b0282c84166e67e0f880e53787a11c7a",
+    "cli.py": "786e37cc5859f04f5484fe4020024907772e7f88190c05f901189d4c25929f6f",
+    "coverage.py": "8524038b6a63a8bdf04391930467731071c76eb45c3d9190fa55a91a6ab394a7",
+    "doctor.py": "c0eb0904410f5dfd02c09b7a7912f9dd5a6e0120b3620744cd9b53839ba5ec30",
+    "fidelity.py": "6339904a0a7faed368b94b8641f1129f1cb5cf77c3dca3b36f7f8ba4cbf2d551",
+    "finding.py": "31920c85ad6b20fa49edeb29dffe53438ef01346e60e97244ba2392a8b5d7bf9",
+    "fonts.py": "eec0e9acec5f5666ec2f981aa40049dd86402c67dc62f7c5f3f7b6b165e11855",
+    "inspector.py": "4c4e4ea89aad55302f26090a3ac816d8173f635c7c01032f3508ba7678074b43",
+    "policy.py": "943ddf8c3eb04053f925f06c13e292cd7bfd7ceaadbb67706e6999a7df6fce9b",
+    "pptx_checks.py": "3ac84966afcdb6a80e12796cb9ed662eaeacc10ae1c52459c47cb7ad35c10110",
+    "pptx_layout.py": "1270c002e6936287465a6264d008f341a7704b582c5b997f42845c6551c6db6a",
+    "sarif.py": "dedeaf008f74ce791f5a2c5ca1005e9f48119606882f4aa42cf27177682de99a",
+    "xmlutil.py": "4a4b1431efc8c7493be2ad820bd0df6c8109acb2f264edfbe26d74234cbd9c9b"
+  },
+  "fixtures_sha256": {
+    "ascii.docx": "f5edcad66b0fe6b8b5cc9377a6d408d76e9b591fbb26ee367acbafacecc4427b",
+    "changed-comment.docx": "1c88e4b2de20b8da696216cb1e40545ce2296e98fd5fa381181017b050a95dfd",
+    "inherited.docx": "b76d4056d17b76a9661a8b5c77448c63d06f317630198c7e192b971f06b0c237",
+    "large-16000.docx": "02c46204d2b0e0669ef3d1379970a1a26f2fdb84dbc47c100861a477451fa39a",
+    "large-4000.docx": "502010ddb6d05a9c214d0be8bfd125930bee8c4f7248a18054a2667d4938e5d4",
+    "nbsp.docx": "9b9862110b171ec886dbd4a01a3c7930863e0bac37423b8dc0c7fb0d57dcc478",
+    "override.docx": "9d84347eb18f15f12e525e1dec639361d72011a23eacabd2ef464006c8a59e52",
+    "renamed.docx": "7433a7ee0516792f7662d8db0b9e316f945cf7451b99581f300bb9d9b3dee98d",
+    "unicode.docx": "4704546e30864b6b1f5c0458879efef353000a27da3070fb2a3c09f8f0ae563e"
+  },
+  "cli": [
+    {
+      "json": false,
+      "threshold": "error",
+      "command": [
+        "/Users/dmitriikovalev/Projects/ooxml-integrity/.venv/bin/python",
+        "-m",
+        "ooxml_integrity",
+        "check",
+        "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx",
+        "--no-config",
+        "--fail-on",
+        "error"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "cp1252:strict",
+        "PYTHONUTF8": "0"
+      },
+      "exit": 1,
+      "stdout": "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx: 0 error(s), 1 warning(s), 0 info\n",
+      "stderr": "Traceback (most recent call last):\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 197, in _run_module_as_main\n    return _run_code(code, main_globals, None,\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/__main__.py\", line 13, in <module>\n    raise SystemExit(main())\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 345, in main\n    _print_human(\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 117, in _print_human\n    print(\"  \" + str(f).replace(\"\\n\", \"\\n  \"), file=out)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/encodings/cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2012' in position 91: character maps to <undefined>\n"
+    },
+    {
+      "json": false,
+      "threshold": "warn",
+      "command": [
+        "/Users/dmitriikovalev/Projects/ooxml-integrity/.venv/bin/python",
+        "-m",
+        "ooxml_integrity",
+        "check",
+        "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx",
+        "--no-config",
+        "--fail-on",
+        "warn"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "cp1252:strict",
+        "PYTHONUTF8": "0"
+      },
+      "exit": 1,
+      "stdout": "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx: 0 error(s), 1 warning(s), 0 info\n",
+      "stderr": "Traceback (most recent call last):\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 197, in _run_module_as_main\n    return _run_code(code, main_globals, None,\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/__main__.py\", line 13, in <module>\n    raise SystemExit(main())\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 345, in main\n    _print_human(\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 117, in _print_human\n    print(\"  \" + str(f).replace(\"\\n\", \"\\n  \"), file=out)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/encodings/cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2012' in position 91: character maps to <undefined>\n"
+    },
+    {
+      "json": true,
+      "threshold": "error",
+      "command": [
+        "/Users/dmitriikovalev/Projects/ooxml-integrity/.venv/bin/python",
+        "-m",
+        "ooxml_integrity",
+        "check",
+        "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx",
+        "--no-config",
+        "--fail-on",
+        "error",
+        "--json"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "cp1252:strict",
+        "PYTHONUTF8": "0"
+      },
+      "exit": 1,
+      "stdout": "{\n  \"version\": \"0.4.1\",\n  \"fail_on\": \"error\",\n  \"config\": null,\n  \"baseline\": null,\n  \"files\": [\n    {\n      \"path\": \"tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx\",\n      \"summary\": {\n        \"error\": 0,\n        \"warn\": 1,\n        \"info\": 0\n      },\n      \"worst\": \"warn\",\n      \"findings\": [\n        {\n          \"code\": \"TXT001\",\n          \"severity\": \"warn\",\n          \"message\": ",
+      "stderr": "Traceback (most recent call last):\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 197, in _run_module_as_main\n    return _run_code(code, main_globals, None,\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/__main__.py\", line 13, in <module>\n    raise SystemExit(main())\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 339, in main\n    json.dump(payload, sys.stdout, indent=2, ensure_ascii=False)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/__init__.py\", line 180, in dump\n    fp.write(chunk)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/encodings/cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2012' in position 76: character maps to <undefined>\n"
+    },
+    {
+      "json": true,
+      "threshold": "warn",
+      "command": [
+        "/Users/dmitriikovalev/Projects/ooxml-integrity/.venv/bin/python",
+        "-m",
+        "ooxml_integrity",
+        "check",
+        "tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx",
+        "--no-config",
+        "--fail-on",
+        "warn",
+        "--json"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "cp1252:strict",
+        "PYTHONUTF8": "0"
+      },
+      "exit": 1,
+      "stdout": "{\n  \"version\": \"0.4.1\",\n  \"fail_on\": \"warn\",\n  \"config\": null,\n  \"baseline\": null,\n  \"files\": [\n    {\n      \"path\": \"tmp/adeu-pilot-followup/before-replay-fixtures/unicode.docx\",\n      \"summary\": {\n        \"error\": 0,\n        \"warn\": 1,\n        \"info\": 0\n      },\n      \"worst\": \"warn\",\n      \"findings\": [\n        {\n          \"code\": \"TXT001\",\n          \"severity\": \"warn\",\n          \"message\": ",
+      "stderr": "Traceback (most recent call last):\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 197, in _run_module_as_main\n    return _run_code(code, main_globals, None,\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/__main__.py\", line 13, in <module>\n    raise SystemExit(main())\n  File \"/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/cli.py\", line 339, in main\n    json.dump(payload, sys.stdout, indent=2, ensure_ascii=False)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/json/__init__.py\", line 180, in dump\n    fp.write(chunk)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/encodings/cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2012' in position 76: character maps to <undefined>\n"
+    }
+  ],
+  "comments": {
+    "retained": {
+      "check": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "message": "commentReference id=1 not found in comments.xml",
+          "part": "word/document.xml"
+        },
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "message": "commentReference id=2 not found in comments.xml",
+          "part": "word/document.xml"
+        }
+      ],
+      "compare": [
+        {
+          "code": "FID004",
+          "severity": "error",
+          "message": "a comment present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Comment by M. Reviewer: \"Confirm this figure against the source table before circu...\"",
+          "part": "word/comments.xml",
+          "extra": {
+            "body": "Confirm this figure against the source table before circulation.",
+            "author": "M. Reviewer",
+            "lost": 1,
+            "in_source": 1
+          }
+        },
+        {
+          "code": "FID004",
+          "severity": "error",
+          "message": "a comment present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Comment by A. Counsel: \"Defined term must match the definitions schedule.\"",
+          "part": "word/comments.xml",
+          "extra": {
+            "body": "Defined term must match the definitions schedule.",
+            "author": "A. Counsel",
+            "lost": 1,
+            "in_source": 1
+          }
+        }
+      ]
+    },
+    "changed": {
+      "check": [
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "message": "commentReference id=1 not found in comments.xml",
+          "part": "word/document.xml"
+        },
+        {
+          "code": "CMT004",
+          "severity": "error",
+          "message": "commentReference id=2 not found in comments.xml",
+          "part": "word/document.xml"
+        }
+      ],
+      "compare": []
+    }
+  },
+  "whitespace": {
+    "ascii": [
+      {
+        "code": "TXT001",
+        "severity": "warn",
+        "message": "run has edge whitespace without xml:space=\"preserve\" - it will vanish: ' ordinary '",
+        "where": "/w:document/w:body/w:p/w:r/w:t"
+      }
+    ],
+    "nbsp": [
+      {
+        "code": "TXT001",
+        "severity": "warn",
+        "message": "run has edge whitespace without xml:space=\"preserve\" - it will vanish: '\\xa0ordinary\\xa0'",
+        "where": "/w:document/w:body/w:p/w:r/w:t"
+      }
+    ],
+    "inherited": [
+      {
+        "code": "TXT001",
+        "severity": "warn",
+        "message": "run has edge whitespace without xml:space=\"preserve\" - it will vanish: ' ordinary '",
+        "where": "/w:document/w:body/w:p/w:r/w:t"
+      }
+    ],
+    "override": [
+      {
+        "code": "TXT001",
+        "severity": "warn",
+        "message": "run has edge whitespace without xml:space=\"preserve\" - it will vanish: ' ordinary '",
+        "where": "/w:document/w:body/w:p/w:r/w:t"
+      }
+    ]
+  },
+  "performance": [
+    {
+      "paragraphs": 4000,
+      "text_nodes": 24000,
+      "scope": "check_whitespace only; XML load excluded; cProfile enabled",
+      "seconds": 0.37855325,
+      "count": 24000,
+      "findings_sha256": "59543e31c8d8ee9743649a989ee611eadd7cb04f09726593039f94b494a83a95",
+      "hot_functions": [
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 535, 'check_whitespace')",
+          "calls": 1,
+          "self_seconds": 0.016347719,
+          "cumulative_seconds": 0.378536666
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 74, '_xpath')",
+          "calls": 24000,
+          "self_seconds": 0.33366915900000005,
+          "cumulative_seconds": 0.33366915900000005
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 68, '_add')",
+          "calls": 24000,
+          "self_seconds": 0.010942337,
+          "cumulative_seconds": 0.027730802000000002
+        },
+        {
+          "function": "('<string>', 2, '__init__')",
+          "calls": 24000,
+          "self_seconds": 0.016241975000000002,
+          "cumulative_seconds": 0.016241975000000002
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 24000,
+          "self_seconds": 0.0007856100000000001,
+          "cumulative_seconds": 0.0007856100000000001
+        },
+        {
+          "function": "('~', 0, \"<method 'append' of 'list' objects>\")",
+          "calls": 24000,
+          "self_seconds": 0.0005464900000000001,
+          "cumulative_seconds": 0.0005464900000000001
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 71, '_tree')",
+          "calls": 1,
+          "self_seconds": 2.418e-06,
+          "cumulative_seconds": 2.459e-06
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 38, '_w')",
+          "calls": 1,
+          "self_seconds": 9.170000000000001e-07,
+          "cumulative_seconds": 9.170000000000001e-07
+        }
+      ]
+    },
+    {
+      "paragraphs": 16000,
+      "text_nodes": 96000,
+      "scope": "check_whitespace only; XML load excluded; cProfile enabled",
+      "seconds": 5.766559458,
+      "count": 96000,
+      "findings_sha256": "44e3339a82b995a1df79938e555279338455680708ef43b8978b6fd4ed638f6c",
+      "hot_functions": [
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 535, 'check_whitespace')",
+          "calls": 1,
+          "self_seconds": 0.07199810400000001,
+          "cumulative_seconds": 5.766547708
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 74, '_xpath')",
+          "calls": 96000,
+          "self_seconds": 5.564566940000001,
+          "cumulative_seconds": 5.564566940000001
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 68, '_add')",
+          "calls": 96000,
+          "self_seconds": 0.043047277,
+          "cumulative_seconds": 0.126569438
+        },
+        {
+          "function": "('<string>', 2, '__init__')",
+          "calls": 96000,
+          "self_seconds": 0.081251349,
+          "cumulative_seconds": 0.081251349
+        },
+        {
+          "function": "('~', 0, \"<method 'strip' of 'str' objects>\")",
+          "calls": 96000,
+          "self_seconds": 0.003409184,
+          "cumulative_seconds": 0.003409184
+        },
+        {
+          "function": "('~', 0, \"<method 'append' of 'list' objects>\")",
+          "calls": 96000,
+          "self_seconds": 0.002270812,
+          "cumulative_seconds": 0.002270812
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 71, '_tree')",
+          "calls": 1,
+          "self_seconds": 2.792e-06,
+          "cumulative_seconds": 2.917e-06
+        },
+        {
+          "function": "('/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/adeu-pilot-followup/baseline-src/ooxml_integrity/inspector.py', 38, '_w')",
+          "calls": 1,
+          "self_seconds": 1.125e-06,
+          "cumulative_seconds": 1.125e-06
+        }
+      ]
+    }
+  ]
+}

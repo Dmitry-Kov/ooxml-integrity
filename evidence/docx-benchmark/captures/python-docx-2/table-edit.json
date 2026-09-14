@@ -1,0 +1,17 @@
+{
+  "action": "edit",
+  "finished_at": "2026-09-13T10:22:35.399110+00:00",
+  "id": "table-edit",
+  "output": "table-edit.docx",
+  "output_sha256": "5233cba4db5339c7b36417a4acdcdab0bd6a362994cc94a232603a17ca28e917",
+  "source": "evidence/docx-revisions/sources/table.docx",
+  "source_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+  "started_at": "2026-09-13T10:22:35.397891+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "tool_result": {
+    "operation": "Document/Run.text/Document.save",
+    "replacement_count": 1
+  }
+}

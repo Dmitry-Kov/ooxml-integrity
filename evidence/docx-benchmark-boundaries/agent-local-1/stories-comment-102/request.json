@@ -1,0 +1,21 @@
+{
+  "messages": [
+    {
+      "content": "You write one standalone Python program for a local DOCX editing task. Return only Python source, with no explanation. Read input.docx and write output.docx in the current directory. You may use the Python standard library, python-docx 1.2.0 and lxml 6.1.3. Do not use network access, subprocesses, other files, or external services. The input contains existing comments and pending tracked changes. Preserve all existing review content, authors, dates, formatting, relationships and other document content. Do not accept or reject existing changes. If you cannot perform the task, raise a clear exception. Do not use an integrity checker.",
+      "role": "system"
+    },
+    {
+      "content": "In input.docx replace the unique sentence Review the delivery terms. with Review the payment terms. exactly once. It is inside comment 1 in the sixth body paragraph. Keep that comment anchored to the full replacement sentence and preserve its comment reference, the following footnote reference, and all other content. Change nothing else. The replacement may be untracked. If you create tracked text, use Evidence Editor as its author and preserve all earlier changes. Save the result as output.docx.",
+      "role": "user"
+    }
+  ],
+  "model": "qwen2.5-coder:7b",
+  "options": {
+    "num_ctx": 8192,
+    "num_predict": 4096,
+    "seed": 102,
+    "temperature": 0
+  },
+  "stream": false,
+  "think": false
+}

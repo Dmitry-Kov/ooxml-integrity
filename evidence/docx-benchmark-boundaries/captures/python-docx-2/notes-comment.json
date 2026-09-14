@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:25.001029+00:00",
+  "id": "notes-comment",
+  "output": "notes-comment.docx",
+  "output_sha256": "80eda299d9f50e05feef737dbb25ea9eedc561a1d9c39ea47e70700d19e2967a",
+  "profile": "notes",
+  "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+  "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+  "started_at": "2026-09-13T11:24:25.000074+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "comment",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "comment"
+  }
+}

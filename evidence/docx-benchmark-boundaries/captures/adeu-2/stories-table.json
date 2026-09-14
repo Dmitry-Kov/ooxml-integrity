@@ -1,0 +1,62 @@
+{
+  "finished_at": "2026-09-13T11:24:24.866525+00:00",
+  "id": "stories-table",
+  "output": "stories-table.docx",
+  "output_sha256": "36593746bc4ebb158a77edb0629b355188b1a7a35eaff7971dccfea06c54658e",
+  "profile": "stories",
+  "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+  "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+  "started_at": "2026-09-13T11:24:24.861643+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [863:874] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+  "task": "table",
+  "tool_result": {
+    "author": "Evidence Editor",
+    "change": {
+      "comment": null,
+      "match_mode": "strict",
+      "new_text": "TABLEAFTER",
+      "regex": false,
+      "target_text": "TABLEBEFORE",
+      "type": "modify"
+    },
+    "engine_options": "3.0.4 defaults except author",
+    "partial": false,
+    "stats": {
+      "actions_already_resolved": 0,
+      "actions_applied": 0,
+      "actions_skipped": 0,
+      "author_impersonation_warning": null,
+      "edits": [
+        {
+          "clean_text": "-- | ---\nDelivery | Scheduled TABLEAFTER\n\n",
+          "comment": null,
+          "critic_markup": "-- | ---\nDelivery | Scheduled {--TABLEBEFORE--}{++TABLEAFTER++}\n\n{--former --}",
+          "error": null,
+          "field": "",
+          "heading_path": "Existing revision preservation",
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "occurrences_modified": 1,
+          "pages": [
+            1
+          ],
+          "status": "applied",
+          "target_text": "TABLEBEFORE",
+          "type": "modify",
+          "warning": null
+        }
+      ],
+      "edits_applied": 1,
+      "edits_skipped": 0,
+      "engine": "python",
+      "failed": [],
+      "occurrences_modified": 1,
+      "overrides_note": null,
+      "skipped_details": [],
+      "status": "ok",
+      "version": "3.0.4"
+    }
+  }
+}

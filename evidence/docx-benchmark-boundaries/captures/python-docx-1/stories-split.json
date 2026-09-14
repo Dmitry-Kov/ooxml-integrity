@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:16.349852+00:00",
+  "id": "stories-split",
+  "output": "stories-split.docx",
+  "output_sha256": "d6765d8e6074af860278e8bb1e7a283101130964ec8ec6ec8c64ad4a186e956c",
+  "profile": "stories",
+  "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+  "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+  "started_at": "2026-09-13T11:24:16.348696+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "split",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "split"
+  }
+}

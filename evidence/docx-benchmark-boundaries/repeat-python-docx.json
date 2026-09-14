@@ -1,0 +1,10 @@
+{
+  "adapter": "python-docx-targets-v2",
+  "assessment_mismatches": [],
+  "captures": [
+    "e4d5d9f31bb2816832ea63462bb958a962f49400bc8470ee11ebdfbe72223402",
+    "6bd9dbe27e802d7ce3a7204039726cd46bb66abc4476c4a5c90c2df072db5564"
+  ],
+  "pairs": 20,
+  "raw_byte_equal": []
+}

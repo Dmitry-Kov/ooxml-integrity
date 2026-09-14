@@ -1,0 +1,17 @@
+{
+  "action": "edit",
+  "finished_at": "2026-09-13T10:21:24.464774+00:00",
+  "id": "notes-edit",
+  "output": "notes-edit.docx",
+  "output_sha256": "c2e9117cee87f1720a6e62155495231420dce08dd94fba75dbc4cbb233692a32",
+  "source": "evidence/docx-revisions/sources/notes.docx",
+  "source_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+  "started_at": "2026-09-13T10:21:24.463532+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "tool_result": {
+    "operation": "Document/Run.text/Document.save",
+    "replacement_count": 1
+  }
+}

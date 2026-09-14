@@ -1,0 +1,43 @@
+{
+  "artifacts_sha256": {
+    "edit.py": "8b4a52758d2a51102d2e63f60ecb0626b1f48a584e6b7e1934c0f7ef6bfe9996",
+    "input.docx": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+    "request.json": "e6b29fc5b697da5a984e6a11e65d6a679a03243d0f21d3efac4932a65bba78ab",
+    "response.json": "5f65a15142528de3e6d937c666395624302494ae8342b526d825f7fceaede086",
+    "response.txt": "c4aceaac45e418c8798a04fd65a974e4e8bc011d260feb4d2575b55c617944af",
+    "sandbox.sb": "9c66ec1aaab77f47d192b51561804403639946e2f58a86d6c3be315a759b92a1",
+    "stderr.txt": "8f44a675898e6796afa134f6b4447fcf7796b37a21b1fd2a207b5cd508a762e4",
+    "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/agent-local-1/nested-comment-101/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.056269958993652835,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/nested-comment-101"
+    },
+    "returncode": 1,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:26:14.658938+00:00",
+  "id": "nested-comment-101",
+  "input_unchanged": true,
+  "model_duration_seconds": 4.679373916995246,
+  "path": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "profile": "nested",
+  "seed": 101,
+  "sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:26:09.922052+00:00",
+  "status": "error",
+  "task": "comment"
+}

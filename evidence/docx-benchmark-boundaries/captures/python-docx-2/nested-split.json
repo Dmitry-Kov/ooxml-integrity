@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.994388+00:00",
+  "id": "nested-split",
+  "output": "nested-split.docx",
+  "output_sha256": "f2b36333a371446d7a0390dc6b5f3ce52b92dbfdbfe24aca527f63aed68068f5",
+  "profile": "nested",
+  "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:24:24.993153+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "split",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "split"
+  }
+}

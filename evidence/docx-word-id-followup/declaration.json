@@ -1,0 +1,36 @@
+{
+  "base_commit": "727159243d64de6b0df78c49dea6e7c8736e2dbc",
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "declared_at": "2026-09-13T18:45:07.907071+00:00",
+  "inputs": [
+    {
+      "cohort": "benchmark_source",
+      "id": "source-control",
+      "origin": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "path": "evidence/docx-word-id-followup/inputs/source-control.docx",
+      "sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904"
+    },
+    {
+      "cohort": "actual_adeu_capture",
+      "id": "adeu-shared-id",
+      "origin": "evidence/docx-benchmark-boundaries/captures/adeu-1/basic-split.docx",
+      "path": "evidence/docx-word-id-followup/inputs/adeu-shared-id.docx",
+      "sha256": "325440cd850aaafb2b9ead03c35a253d9fd695f1fec26f9cef91449b81ac2bf7"
+    },
+    {
+      "cohort": "synthetic_id_only_diagnostic",
+      "id": "unique-id-control",
+      "mutation": "Second w:del id 104 -> 106",
+      "origin": "inputs/adeu-shared-id.docx",
+      "path": "evidence/docx-word-id-followup/inputs/unique-id-control.docx",
+      "sha256": "84bc09162c5c36d73a86c9add83153c69129fa5dcbe4560d3744ab350af8525d"
+    }
+  ],
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "pre_existing_documents": [],
+  "preflight": "Word Home/New screen; AppleScript read-only version/documents returned 16.112.4, missing value. No input opened yet.",
+  "protocol_sha256": "6ea08e09a6dba9ab9efb4af04606fe45e17d8161d8dd877d40147615801b48a3",
+  "ui_driver": "CUA native application UI",
+  "word_bundle_build": "16.112.26090911",
+  "word_version": "16.112.4"
+}

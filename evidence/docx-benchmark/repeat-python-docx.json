@@ -1,0 +1,8 @@
+{
+  "adapter": "python-docx-run-v1",
+  "left_capture_sha256": "f0bab55a0437a533f109721543695f1cd28ec070c5b770eb4e7735cbf45f808d",
+  "pairs": 10,
+  "raw_byte_equal": [],
+  "right_capture_sha256": "7497c1688890ecf22104d23d37ab2e719b874c8ce7da4328b9b7331c175bfe76",
+  "semantic_mismatches": []
+}

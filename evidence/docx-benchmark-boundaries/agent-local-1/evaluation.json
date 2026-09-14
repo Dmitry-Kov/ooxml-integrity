@@ -1,0 +1,1779 @@
+{
+  "adapter": "local-agent-boundaries-v1",
+  "capture_sha256": "bb2fa13c4f911fa3bc4c2ed3e87c4ff2d8f9f3fbe8760908cfda9d8c1dadbdf7",
+  "cases": [
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-save-101",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "2914f3b944482487a8fcb8f49cb7dc5b23d31a8b375da1161cd2aba680ecce3e",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "fb176d597d5b97b59c05cd8b799e9563acd8b77c8a25cf21bbb944741ff8716b",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 101,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-save-102",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "2914f3b944482487a8fcb8f49cb7dc5b23d31a8b375da1161cd2aba680ecce3e",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "fb176d597d5b97b59c05cd8b799e9563acd8b77c8a25cf21bbb944741ff8716b",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 102,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "basic-save-103",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "2914f3b944482487a8fcb8f49cb7dc5b23d31a8b375da1161cd2aba680ecce3e",
+      "overall_success": true,
+      "profile": "basic",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "fb176d597d5b97b59c05cd8b799e9563acd8b77c8a25cf21bbb944741ff8716b",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 103,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-split-101",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-split-102",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-split-103",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-comment-101",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-comment-102",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-comment-103",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-table-101",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-table-102",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "basic-table-103",
+      "overall_success": false,
+      "profile": "basic",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-save-101",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "6cc8ed58b445da91a7338ba2df72128d1301572c81b253bbb62d2c1a832c1dd0",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "d1b8a44f1e6ae8b48be3cbd215d90807cb4e2775eec417b3b38049c22c16c750",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 101,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-save-102",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "6cc8ed58b445da91a7338ba2df72128d1301572c81b253bbb62d2c1a832c1dd0",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "d1b8a44f1e6ae8b48be3cbd215d90807cb4e2775eec417b3b38049c22c16c750",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 102,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "nested-save-103",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "6cc8ed58b445da91a7338ba2df72128d1301572c81b253bbb62d2c1a832c1dd0",
+      "overall_success": true,
+      "profile": "nested",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "d1b8a44f1e6ae8b48be3cbd215d90807cb4e2775eec417b3b38049c22c16c750",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 103,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-split-101",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-split-102",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-split-103",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-comment-101",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-comment-102",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-comment-103",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-table-101",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-table-102",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "nested-table-103",
+      "overall_success": false,
+      "profile": "nested",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-save-101",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "4dd11032a8dd23c427a07fd501e10431e2e02463ba024900cd3aee7773999322",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "f2a645fcd678ba29bbff5ba038c99c90289440d2493e14bc392d865f3b2a9f38",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 101,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-save-102",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "4dd11032a8dd23c427a07fd501e10431e2e02463ba024900cd3aee7773999322",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "f2a645fcd678ba29bbff5ba038c99c90289440d2493e14bc392d865f3b2a9f38",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 102,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "notes-save-103",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "4dd11032a8dd23c427a07fd501e10431e2e02463ba024900cd3aee7773999322",
+      "overall_success": true,
+      "profile": "notes",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "f2a645fcd678ba29bbff5ba038c99c90289440d2493e14bc392d865f3b2a9f38",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "afd822b9f370ea68c3f01862bb72b277f990b54c81365dde8b2fb21e0a63a72b",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 103,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-split-101",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-split-102",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-split-103",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-comment-101",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-comment-102",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-comment-103",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-table-101",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-table-102",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "notes-table-103",
+      "overall_success": false,
+      "profile": "notes",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-save-101",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "ffb1dcba227372a1fe75ea5ff69e968eccc9fbfdd67feb1884e0c06dadbb1277",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "7cdfe10325ff551ca89effd9662c0283b67993303d2291d3fd5717c28e81f7cd",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 101,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-save-102",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "ffb1dcba227372a1fe75ea5ff69e968eccc9fbfdd67feb1884e0c06dadbb1277",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "7cdfe10325ff551ca89effd9662c0283b67993303d2291d3fd5717c28e81f7cd",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 102,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "stories-save-103",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "ffb1dcba227372a1fe75ea5ff69e968eccc9fbfdd67feb1884e0c06dadbb1277",
+      "overall_success": true,
+      "profile": "stories",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "7cdfe10325ff551ca89effd9662c0283b67993303d2291d3fd5717c28e81f7cd",
+        "word/footer1.xml": "f4e2f38af651c239e2d2f89556c4e338438638d6303731718d5936d6c9798652",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "b515208a549c749bfda311b392f19bd235080bcf666887695d80cb76dbeac46b",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 103,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-split-101",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-split-102",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-split-103",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-comment-101",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-comment-102",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-comment-103",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-table-101",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-table-102",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "stories-table-103",
+      "overall_success": false,
+      "profile": "stories",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "table-save-101",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "02bbcc8d5a2f3f691f37c1d88953b80e8dc1e01253c6be76f4bb28ffc25c85ba",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "77cb2b5ad40861a55f98b9db3f51c3d60947ca681d5eae786a0b1c51675b0bfb",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 101,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "table-save-102",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "02bbcc8d5a2f3f691f37c1d88953b80e8dc1e01253c6be76f4bb28ffc25c85ba",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "77cb2b5ad40861a55f98b9db3f51c3d60947ca681d5eae786a0b1c51675b0bfb",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 102,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "actionable_findings": [],
+      "changed_raw_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/document.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_detection": "no_independent_defect",
+      "checker_findings": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "id": "table-save-103",
+      "mutable_metadata_changed": false,
+      "new_revision_wrappers": 0,
+      "normalized_package_sha256": "02bbcc8d5a2f3f691f37c1d88953b80e8dc1e01253c6be76f4bb28ffc25c85ba",
+      "overall_success": true,
+      "profile": "table",
+      "protected_content_preserved": true,
+      "raw_part_sha256": {
+        "[Content_Types].xml": "1362c2c3cd63b8f1c070084c44efeaee42a4a5886608ae1c196b76dfa2b1d7fd",
+        "_rels/.rels": "31fdca0ad7c42897d50ec0c1719627a3fb18b67beca068ca803faa764bbd5c5d",
+        "docProps/app.xml": "114536e5cdb7affa9c2edde9f184356ea369b15769e769d35d673876dc163810",
+        "docProps/core.xml": "4da38fb16efff1a36254753f64df0d75c6ec97c98545217f8bb954decec6da42",
+        "word/_rels/document.xml.rels": "3ef6639e8f32b2407127d17dcf2b622d8b0278a3cee45b0a19d3708820b17e05",
+        "word/comments.xml": "8b32c88ca99b4b0eb532edf5eefb7867266a1f275503006ae059723c1de47788",
+        "word/document.xml": "77cb2b5ad40861a55f98b9db3f51c3d60947ca681d5eae786a0b1c51675b0bfb",
+        "word/footer1.xml": "77b5002a6cb79408ede7b7a7d8969c3faa9a6ebc1dbd347a2b057da2d0bbaffd",
+        "word/footnotes.xml": "48e0f0b176ad2782fdc75a380da573a94ff02969bc21588525d7363aa36cb1b1",
+        "word/header1.xml": "280d30735f1b57da01d07eac742909415611e4a4510e36ff28959e2030c4a8c7",
+        "word/media/chart.png": "c7092cfa6dead621a0dde5ae7af27e515595879df718dd949f04468798c9c298",
+        "word/numbering.xml": "6623154ebe43ba93c2a75d3ef71e372e17a486c78261a1e4e6b1a69027c43f49",
+        "word/settings.xml": "6f479d1436402a2c6ad310d99941c9e6653f74695b8f47b639865cc8082ef0f3",
+        "word/styles.xml": "bd0700b7144e00dbbd72a22aa657e93b2041e47d618b969afc0b963bd98b781e"
+      },
+      "requested_change_completed": true,
+      "revision_oracle": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "seed": 103,
+      "status": "ok",
+      "task": "save",
+      "tracked_edit_missing": false,
+      "violations": {
+        "changed_review_structures": [],
+        "duplicate_revision_ids": [],
+        "invalid_revision_text": [],
+        "missing_requested_tracked_edits": [],
+        "new_revision_shape": [],
+        "original_revision_view_changes": [],
+        "protected_package_changes": [],
+        "raw_duplicate_revision_ids": [],
+        "raw_invalid_revision_text": [],
+        "unexpected_new_revisions": [],
+        "unexpected_text_changes": [],
+        "unrelated_revision_losses": [],
+        "unresolved_requested_revisions": []
+      }
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-split-101",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-split-102",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-split-103",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "split"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-comment-101",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-comment-102",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-comment-103",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "comment"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-table-101",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 101,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-table-102",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 102,
+      "status": "error",
+      "task": "table"
+    },
+    {
+      "checker_detection": "not_evaluated",
+      "id": "table-table-103",
+      "overall_success": false,
+      "profile": "table",
+      "protected_content_preserved": null,
+      "requested_change_completed": null,
+      "seed": 103,
+      "status": "error",
+      "task": "table"
+    }
+  ],
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "evaluation_harness_sha256": "4e5e2da11c34e0bbedc051ea8e931d91bf51dedc53d38c43ded47b6a40e70d7b",
+  "evaluator_sha256": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade"
+}

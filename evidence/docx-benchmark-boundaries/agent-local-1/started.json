@@ -1,0 +1,15 @@
+{
+  "adapter": "local-agent-boundaries-v1",
+  "cases": [],
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+    "research/capture_docx_boundaries_agent.py",
+    "capture",
+    "--directory",
+    "evidence/docx-benchmark-boundaries/agent-local-1",
+    "--work-root",
+    "tmp/docx-benchmark-agent/boundaries-1"
+  ],
+  "declaration_sha256": "f23fe5593f1809ef5788123f976c2eea2bb12d118be75075e5cc33b6f2f241ac",
+  "started_at": "2026-09-13T11:24:25.309035+00:00"
+}

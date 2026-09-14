@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/table-comment-102/edit.py", line 17, in <module>
+    replace_sentence_in_comment('input.docx', 'output.docx')
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/table-comment-102/edit.py", line 7, in replace_sentence_in_comment
+    if len(paragraph.comments) > 0 and paragraph._element.tag.endswith('p'):
+           ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Paragraph' object has no attribute 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/table-comment-102/edit.py", line 19, in <module>
+    raise Exception(f"Failed to perform the task: {e}")
+Exception: Failed to perform the task: 'Paragraph' object has no attribute 'comments'

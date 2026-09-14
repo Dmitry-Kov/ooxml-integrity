@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-09-13T11:24:24.993042+00:00",
+  "id": "nested-save",
+  "output": "nested-save.docx",
+  "output_sha256": "f2c08eaed4a77228ebd5b6bcbdd49eb7fb13175e047fd240b25e756926fe4517",
+  "profile": "nested",
+  "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+  "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+  "started_at": "2026-09-13T11:24:24.992088+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "task": "save",
+  "tool_result": {
+    "operation": "Document/paragraphs or tables.rows.cells.paragraphs/Run.text/save",
+    "task": "save"
+  }
+}

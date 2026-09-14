@@ -1,0 +1,44 @@
+{
+  "artifacts_sha256": {
+    "edit.py": "b2127686580c033d0b50d873e631f54dc2ff79bc2986dbd736dcdef0edab6718",
+    "input.docx": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+    "output.docx": "1d9666cd7f1871500cf017321667ca64c57ac98057eca5a807eda1e079c68c6c",
+    "request.json": "cf761c35b7dd61f0d07a573c1ae1c9d073a97e4d25bd0b3d2517cbb3ee88e50c",
+    "response.json": "6a552b6a53b317cb71dc2450a5e458e456462ccac233c92fae09abac49002cee",
+    "response.txt": "de6c9ff0fbcbc908dad741f070cfcee92d534fed47e8b50e64b8af8b0d7f848d",
+    "sandbox.sb": "a7a39fec410519e539ebe6fca302795e14c3c5751d28995c5409d73c1e40e8a8",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.txt": "7e9f3270f3f0b5b53d60b78b84123735591a321be6190c7fb4c4bab798ef0376"
+  },
+  "execution": {
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-f",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/evidence/docx-benchmark-boundaries/agent-local-1/basic-save-101/sandbox.sb",
+      "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin/python",
+      "-I",
+      "-B",
+      "edit.py"
+    ],
+    "duration_seconds": 0.06207575000007637,
+    "environment": {
+      "LANG": "en_US.UTF-8",
+      "PATH": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/benchmark-runtime/python-env/bin",
+      "TMPDIR": "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/basic-save-101"
+    },
+    "returncode": 0,
+    "timeout": false
+  },
+  "extraction": "removed_one_outer_fence",
+  "finished_at": "2026-09-13T11:24:31.273537+00:00",
+  "id": "basic-save-101",
+  "input_unchanged": true,
+  "model_duration_seconds": 5.898861666006269,
+  "path": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+  "profile": "basic",
+  "seed": 101,
+  "sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+  "started_at": "2026-09-13T11:24:25.310393+00:00",
+  "status": "ok",
+  "task": "save"
+}

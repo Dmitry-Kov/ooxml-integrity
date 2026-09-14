@@ -15,6 +15,7 @@ from .archive import (
     read_package,
 )
 from .finding import Finding
+from .comments import comment_part, comment_tree
 from .fidelity import story_reference_count
 from .fonts import resolve_face
 from .pptx_layout import Deck, layout_shape, read_deck
@@ -23,7 +24,7 @@ from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 STRICT_WORD = "{http://purl.oclc.org/ooxml/wordprocessingml/main}"
-BODY_PARTS = {"word/comments.xml", "word/footnotes.xml", "word/endnotes.xml"}
+BODY_PARTS = {"word/footnotes.xml", "word/endnotes.xml"}
 
 
 class CoverageStatus(str, Enum):
@@ -218,6 +219,18 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         )
     items.append(styles)
 
+    try:
+        comments = comment_part(parts)
+        comments_tree = comment_tree(parts, comments) if comments is not None else None
+        comments_surface = _combined_surface(
+            document, comments_tree, "commentReference", "comment", "docx.comments", "comment",
+        )
+    except (ValueError, etree.XMLSyntaxError) as e:
+        comments_surface = _item(
+            "docx.comments", CoverageStatus.SKIPPED,
+            f"comments could not be resolved or parsed: {e}",
+        )
+
     items.extend((
         _element_surface(document, "numPr", "docx.numbering",
                          "numbered-list property", "numbered-list properties"),
@@ -225,10 +238,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             document, trees.get("word/footnotes.xml"),
             "footnoteReference", "footnote", "docx.footnotes", "footnote",
         ),
-        _combined_surface(
-            document, trees.get("word/comments.xml"),
-            "commentReference", "comment", "docx.comments", "comment",
-        ),
+        comments_surface,
     ))
 
     if document is None:
@@ -314,13 +324,22 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         note_parts = BODY_PARTS.intersection(parts).union(
             BODY_PARTS.intersection(source_parts)
         )
-        items.append(_item(
-            "docx.fidelity.note-bodies",
-            CoverageStatus.CHECKED if note_parts else CoverageStatus.NOT_PRESENT,
-            ("comment, footnote and endnote bodies were compared as multisets"
-             if note_parts else "neither file contained note-body parts"),
-            len(note_parts),
-        ))
+        try:
+            for package in (parts, source_parts):
+                comments = comment_part(package)
+                if comments is not None:
+                    comment_tree(package, comments)
+                    note_parts.add(comments)
+            items.append(_item(
+                "docx.fidelity.note-bodies",
+                CoverageStatus.CHECKED if note_parts else CoverageStatus.NOT_PRESENT,
+                ("comment, footnote and endnote bodies were compared as multisets"
+                 if note_parts else "neither file contained note-body parts"),
+                len(note_parts),
+            ))
+        except (ValueError, etree.XMLSyntaxError) as e:
+            items.append(_item("docx.fidelity.note-bodies", CoverageStatus.SKIPPED,
+                               f"comments could not be resolved or parsed: {e}"))
         try:
             story_count = (
                 story_reference_count(parts)

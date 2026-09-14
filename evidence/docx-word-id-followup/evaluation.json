@@ -1,0 +1,1045 @@
+{
+  "analysis_scope": "Diagnostic comparison after capture, no new pass profile or score changes",
+  "analysis_source_sha256": "1f87774fe0d18c49a3cb271930f6ccb49c717dc334cb8d1a4dbd445cb8f5b8f7",
+  "capture_sha256": "1bdc0dfefdbe2a913f763455df95347ba788811f0a0e6af324a4e92a25c3e322",
+  "cases": [
+    {
+      "added_parts": [
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "added_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2011/relationships/commentsExtended",
+          "commentsExtended.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme",
+          "theme/theme1.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable",
+          "fontTable.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes",
+          "endnotes.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings",
+          "webSettings.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2016/09/relationships/commentsIds",
+          "commentsIds.xml",
+          "Internal"
+        ]
+      ],
+      "anchors_after": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "anchors_and_note_references_at_same_text_positions": true,
+      "anchors_before": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "changed_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/document.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_after": [],
+      "checker_before": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "cohort": "benchmark_source",
+      "current_text_preserved": true,
+      "id": "source-control",
+      "input_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "normalized_package_differences": [
+        "[Content_Types].xml",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/document.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/media/chart.png",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "original_oracle_unmodified": {
+        "intent_correct": true,
+        "lost_revisions": [],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "output_sha256": "a8a92cc7f31ebcd9ddaba4f499ba355ffd8a42b8206172cf605866437dc6528a",
+      "raw_duplicate_ids_after": [],
+      "raw_duplicate_ids_before": [],
+      "raw_part_hashes_after": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "14947a98f48f794e16cc16ed8741cc2d4bed004696bac9ade62194b6dbbcf380",
+        "docProps/core.xml": "c2af06790ca6bcb9505cc66bc6a0000e66b60129937396981177301509093cbc",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "a1c297f50bd0c1d8a2e2bb3530224cf5123825a1671b6de236ce4c510fac60df",
+        "word/commentsExtended.xml": "bc97b0f436cd6981bc22a3a777906173f1d8bf8e2f4b7896472aa0a1a3238b74",
+        "word/commentsIds.xml": "52d024b0dbfb29f4fb3ae22beee5a95c215e087b04c9f4573d0467d3d8d8bdc0",
+        "word/document.xml": "575c4dd9377160e2cc7d8e5068d4d6d7bb765f313e29381e9f4f7cc6e91ac26f",
+        "word/endnotes.xml": "855485ff2f36d8318fedddb082504f91839a4b17abdb6b39069ef672555bb01c",
+        "word/fontTable.xml": "7229c2eb034c9db2d89df2de99b96ebda5426de9b800898526e45efa346cd115",
+        "word/footer1.xml": "28e53b7b7ea731ec943703ecf6f3ff53ba30eba117a4fda6475be183209c16c9",
+        "word/footnotes.xml": "324c0fb1428e2acdb60d92dc353a1d7c3abca306de9f0909b549c1fbf8c7059e",
+        "word/header1.xml": "205ae914f5ec5dafa5f4b88834a40787e96e9f0b19e956852d57ab0af51a69a2",
+        "word/numbering.xml": "d4aca1f412bcd0a32c1d4232fccdedd2ceb82c5f3cfd2e9f14d25548294dd3fe",
+        "word/settings.xml": "bddf10cc90ac7673ce7ac1e857181bb152a8110e8b45264d14cb63bde06ffde0",
+        "word/styles.xml": "b1694300fd5fcdb158c629b62eca74ecd91257425305a6fee2d29dbb17f2cdd0",
+        "word/theme/theme1.xml": "e7948e69d1ab51203d82e7e57d491987a16229547a1b6bfd124133a3a895c0ac",
+        "word/webSettings.xml": "12443b63e8559a3bf80aaabbdd692ea4cbf767636132f64ced1ed25222c625ef"
+      },
+      "removed_parts": [
+        "word/media/chart.png"
+      ],
+      "removed_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+          "media/chart.png",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+          "https://example.org/spec",
+          "External"
+        ]
+      ],
+      "review_character_count": [
+        25,
+        25
+      ],
+      "review_character_sha256": [
+        "b829b061e02be8786cdbe3ea11dc53c62b39389fe41589f8a1e8eed0eca9c6f1",
+        "b829b061e02be8786cdbe3ea11dc53c62b39389fe41589f8a1e8eed0eca9c6f1"
+      ],
+      "review_characters_authors_utc_positions_direct_bold_italic_preserved": true,
+      "revision_nodes_after": [
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "0",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "1",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "2",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "revision_nodes_before": [
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "101",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "103",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "102",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "target_current_text_and_direct_bold_italic_preserved": true
+    },
+    {
+      "added_parts": [
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "added_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2011/relationships/commentsExtended",
+          "commentsExtended.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme",
+          "theme/theme1.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable",
+          "fontTable.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes",
+          "endnotes.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings",
+          "webSettings.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2016/09/relationships/commentsIds",
+          "commentsIds.xml",
+          "Internal"
+        ]
+      ],
+      "anchors_after": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "anchors_and_note_references_at_same_text_positions": true,
+      "anchors_before": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "changed_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/document.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_after": [
+        {
+          "code": "FID001",
+          "extra": {
+            "after": 2,
+            "before": 3,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 3 -> 2 (1 lost)",
+          "severity": "error"
+        }
+      ],
+      "checker_before": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REV001",
+          "message": "revision id 104 used 2 times - a known cause of Word's \"unreadable content\" warning",
+          "part": "word/document.xml",
+          "severity": "error"
+        }
+      ],
+      "cohort": "actual_adeu_capture",
+      "current_text_preserved": true,
+      "id": "adeu-shared-id",
+      "input_sha256": "325440cd850aaafb2b9ead03c35a253d9fd695f1fec26f9cef91449b81ac2bf7",
+      "normalized_package_differences": [
+        "[Content_Types].xml",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/document.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/media/chart.png",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "original_oracle_unmodified": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "104"
+          ],
+          [
+            "word/document.xml",
+            "104"
+          ],
+          [
+            "word/document.xml",
+            "105"
+          ]
+        ],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [
+            [
+              "word/document.xml",
+              "del",
+              "Evidence Editor",
+              "EDITBEFORE",
+              1
+            ],
+            [
+              "word/document.xml",
+              "ins",
+              "Evidence Editor",
+              "DONEAFTER",
+              1
+            ]
+          ],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "104"
+            ],
+            [
+              "word/document.xml",
+              "105"
+            ]
+          ],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "output_sha256": "57d3d2788baa52540f1ecf6b360aee4d2086591ae828bee8cdf82cb25745bb50",
+      "raw_duplicate_ids_after": [],
+      "raw_duplicate_ids_before": [
+        [
+          "word/document.xml",
+          "104"
+        ]
+      ],
+      "raw_part_hashes_after": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "7cf0032b599287f3a8e3007620b1cbcfc86f82184e8bc82a497ea29fecffef66",
+        "docProps/core.xml": "a425a5a4fe5ea5755e930457b4572d576a346a757d7aa5c7717c46fd937c0f12",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "82a9468d42b3f672d51e01e6a1ff4e42cf3ed982f8d2145a0872bc9f13f0c4e2",
+        "word/commentsExtended.xml": "ba58af2c955f9f62249b8f59cbac8fa69961573b0a773a7fd0ffbaeef1aec402",
+        "word/commentsIds.xml": "fa67c0660cb06174df94e6aafae74f6c45eebcb79181069e11151ec03e99357f",
+        "word/document.xml": "6a8100047b0150e17fb1a3d03f0dc51b31f607e9b946c2ba527f3316ea228155",
+        "word/endnotes.xml": "be62c7db00e8580b97abf6834abbae5bacdc8dd5eea4666ed7fa7cca9cb972c4",
+        "word/fontTable.xml": "7229c2eb034c9db2d89df2de99b96ebda5426de9b800898526e45efa346cd115",
+        "word/footer1.xml": "5c4b6b302326f0cae604155613b4fcdfa2de1541173d11e4200e40a24c9c9903",
+        "word/footnotes.xml": "887bb875f33202c5f55c0f513f4aeaeb901da844ccfe2b54f8673326d0656abc",
+        "word/header1.xml": "91399ee7c1c9850d49a3a8adb16f927f4991e137c20d22bfbb5ec2718ca83b5a",
+        "word/numbering.xml": "1f5f69a1205869aeff2a1a254770219cd88d2593c45f1c2e57394f397944b067",
+        "word/settings.xml": "f7a54fd69d2cba0a9c0b01dfc46c69b0c86cd79412b349eed078f76c8f6969a4",
+        "word/styles.xml": "b1694300fd5fcdb158c629b62eca74ecd91257425305a6fee2d29dbb17f2cdd0",
+        "word/theme/theme1.xml": "e7948e69d1ab51203d82e7e57d491987a16229547a1b6bfd124133a3a895c0ac",
+        "word/webSettings.xml": "12443b63e8559a3bf80aaabbdd692ea4cbf767636132f64ced1ed25222c625ef"
+      },
+      "removed_parts": [
+        "word/media/chart.png"
+      ],
+      "removed_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+          "media/chart.png",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+          "https://example.org/spec",
+          "External"
+        ]
+      ],
+      "review_character_count": [
+        44,
+        44
+      ],
+      "review_character_sha256": [
+        "bcf7c429672cf20ab5e6720cc9dc7f7123a2c55552688e3ce3bb779e0125c37c",
+        "bcf7c429672cf20ab5e6720cc9dc7f7123a2c55552688e3ce3bb779e0125c37c"
+      ],
+      "review_characters_authors_utc_positions_direct_bold_italic_preserved": true,
+      "revision_nodes_after": [
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:00Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "0",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "EDITBEFORE"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:00Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "1",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "DONEAFTER"
+        },
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "2",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "3",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "4",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "revision_nodes_before": [
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "104",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "EDIT"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "104",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "BEFORE"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "105",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "DONEAFTER"
+        },
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "101",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "103",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "102",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "target_current_text_and_direct_bold_italic_preserved": true
+    },
+    {
+      "added_parts": [
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "added_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2011/relationships/commentsExtended",
+          "commentsExtended.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme",
+          "theme/theme1.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable",
+          "fontTable.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes",
+          "endnotes.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings",
+          "webSettings.xml",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.microsoft.com/office/2016/09/relationships/commentsIds",
+          "commentsIds.xml",
+          "Internal"
+        ]
+      ],
+      "anchors_after": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "anchors_and_note_references_at_same_text_positions": true,
+      "anchors_before": [
+        [
+          5,
+          0,
+          "commentRangeStart",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentRangeEnd",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "commentReference",
+          "Preserve this independent delivery comment."
+        ],
+        [
+          5,
+          26,
+          "footnoteReference",
+          "The review record includes retained supporting information."
+        ]
+      ],
+      "changed_parts": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/document.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml"
+      ],
+      "checker_after": [
+        {
+          "code": "FID001",
+          "extra": {
+            "after": 2,
+            "before": 3,
+            "tag": "del"
+          },
+          "message": "tracked deletions: 3 -> 2 (1 lost)",
+          "severity": "error"
+        }
+      ],
+      "checker_before": [
+        {
+          "code": "REL003",
+          "message": "rId7 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        },
+        {
+          "code": "REL003",
+          "message": "rId8 declared but never referenced",
+          "part": "word/_rels/document.xml.rels",
+          "severity": "info"
+        }
+      ],
+      "cohort": "synthetic_id_only_diagnostic",
+      "current_text_preserved": true,
+      "id": "unique-id-control",
+      "input_sha256": "84bc09162c5c36d73a86c9add83153c69129fa5dcbe4560d3744ab350af8525d",
+      "normalized_package_differences": [
+        "[Content_Types].xml",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "word/_rels/document.xml.rels",
+        "word/comments.xml",
+        "word/commentsExtended.xml",
+        "word/commentsIds.xml",
+        "word/document.xml",
+        "word/endnotes.xml",
+        "word/fontTable.xml",
+        "word/footer1.xml",
+        "word/footnotes.xml",
+        "word/header1.xml",
+        "word/media/chart.png",
+        "word/numbering.xml",
+        "word/settings.xml",
+        "word/styles.xml",
+        "word/theme/theme1.xml",
+        "word/webSettings.xml"
+      ],
+      "original_oracle_unmodified": {
+        "intent_correct": false,
+        "lost_revisions": [
+          [
+            "word/document.xml",
+            "104"
+          ],
+          [
+            "word/document.xml",
+            "106"
+          ],
+          [
+            "word/document.xml",
+            "105"
+          ]
+        ],
+        "violations": {
+          "changed_review_structures": [],
+          "duplicate_revision_ids": [],
+          "invalid_revision_text": [],
+          "missing_requested_tracked_edits": [],
+          "unexpected_new_revisions": [
+            [
+              "word/document.xml",
+              "del",
+              "Evidence Editor",
+              "EDITBEFORE",
+              1
+            ],
+            [
+              "word/document.xml",
+              "ins",
+              "Evidence Editor",
+              "DONEAFTER",
+              1
+            ]
+          ],
+          "unexpected_text_changes": [],
+          "unrelated_revision_losses": [
+            [
+              "word/document.xml",
+              "104"
+            ],
+            [
+              "word/document.xml",
+              "105"
+            ],
+            [
+              "word/document.xml",
+              "106"
+            ]
+          ],
+          "unresolved_requested_revisions": []
+        }
+      },
+      "output_sha256": "cc72fb9450ae7d24085a65af236ae040520d3e1a1bd3337179ed132068141fdf",
+      "raw_duplicate_ids_after": [],
+      "raw_duplicate_ids_before": [],
+      "raw_part_hashes_after": {
+        "[Content_Types].xml": "8d10654933e995f68a8ffb7700172707d169919d6b6031d4bf0f79090e06ca04",
+        "_rels/.rels": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+        "docProps/app.xml": "9ddefd8e4bb29be02cfcaa980c6bd404078ef3a915663ef06323e85571cf0cd4",
+        "docProps/core.xml": "c3168cb671776bb0034229ab5c49569b48022788717290275f08e1ab241e92c2",
+        "word/_rels/document.xml.rels": "43097e706a32fd1f668129db352e49e24ba7ad665dac140d896a7038cc51fb83",
+        "word/comments.xml": "ab43c97fcb8a3df549cef7b67a9b7a622a0ed4c4b2aec584b1b78c02f76b79d3",
+        "word/commentsExtended.xml": "e157e32355a33b0f8f2d8f001bb1eb5fbf735c59727afe7f44cde3070f3b113d",
+        "word/commentsIds.xml": "47119daef9e45cf13d176b3c47b7651957f5921abb4140e9ddc28528f51b012e",
+        "word/document.xml": "594a712e4f7cf1a607ccd07d719b34bbb3a9562a12c46ed3d499bf3bf0eecb5f",
+        "word/endnotes.xml": "dc2a1812887842cfd0e8ed31a29067c5c7bd141034e067bed4f3acdfba0d9726",
+        "word/fontTable.xml": "7229c2eb034c9db2d89df2de99b96ebda5426de9b800898526e45efa346cd115",
+        "word/footer1.xml": "9e9416c4c7869ace9a819bc580c7ea7c47a6a8683405613c9156b9b114c2f880",
+        "word/footnotes.xml": "63241a4c20b9e14028741fd4dd8987c4bade4bc46e693a575d5a3fe396bb63e2",
+        "word/header1.xml": "d77f94c2e555c106e51a123872a28ffbcaa11d965397aea4192f1f460b62060c",
+        "word/numbering.xml": "3da5185f9b56c3cda52e9bb201f1936845d272dfe7ecab5f7c5ac89487095abf",
+        "word/settings.xml": "4878238544942e7d6905ea7800545200b3bcdad7a538161218fa9356291145ee",
+        "word/styles.xml": "b1694300fd5fcdb158c629b62eca74ecd91257425305a6fee2d29dbb17f2cdd0",
+        "word/theme/theme1.xml": "e7948e69d1ab51203d82e7e57d491987a16229547a1b6bfd124133a3a895c0ac",
+        "word/webSettings.xml": "12443b63e8559a3bf80aaabbdd692ea4cbf767636132f64ced1ed25222c625ef"
+      },
+      "removed_parts": [
+        "word/media/chart.png"
+      ],
+      "removed_relationships": [
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+          "media/chart.png",
+          "Internal"
+        ],
+        [
+          "word/_rels/document.xml.rels",
+          "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+          "https://example.org/spec",
+          "External"
+        ]
+      ],
+      "review_character_count": [
+        44,
+        44
+      ],
+      "review_character_sha256": [
+        "bcf7c429672cf20ab5e6720cc9dc7f7123a2c55552688e3ce3bb779e0125c37c",
+        "bcf7c429672cf20ab5e6720cc9dc7f7123a2c55552688e3ce3bb779e0125c37c"
+      ],
+      "review_characters_authors_utc_positions_direct_bold_italic_preserved": true,
+      "revision_nodes_after": [
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:00Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "0",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "EDITBEFORE"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:00Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "1",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "DONEAFTER"
+        },
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "2",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "3",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "4",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "revision_nodes_before": [
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "104",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "EDIT"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "106",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": "BEFORE"
+        },
+        {
+          "author": "Evidence Editor",
+          "date": "2026-09-13T11:24:16Z",
+          "dateUtc": "2026-09-13T11:24:16Z",
+          "id": "105",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "DONEAFTER"
+        },
+        {
+          "author": "Reviewer A",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "101",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "renewable"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "103",
+          "kind": "ins",
+          "part": "word/document.xml",
+          "text": "optional"
+        },
+        {
+          "author": "Reviewer B",
+          "date": "2026-09-12T00:00:00Z",
+          "dateUtc": null,
+          "id": "102",
+          "kind": "del",
+          "part": "word/document.xml",
+          "text": " retired"
+        }
+      ],
+      "target_current_text_and_direct_bold_italic_preserved": true
+    }
+  ]
+}

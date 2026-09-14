@@ -1,0 +1,17 @@
+{
+  "action": "edit",
+  "finished_at": "2026-09-13T10:21:24.462156+00:00",
+  "id": "nested-edit",
+  "output": "nested-edit.docx",
+  "output_sha256": "b0a9ae41efc97af9f87de93679a063485945b264b9c464fd6d142397434c59b6",
+  "source": "evidence/docx-revisions/sources/nested.docx",
+  "source_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+  "started_at": "2026-09-13T10:21:24.460727+00:00",
+  "status": "ok",
+  "stderr": "",
+  "stdout": "",
+  "tool_result": {
+    "operation": "Document/Run.text/Document.save",
+    "replacement_count": 1
+  }
+}

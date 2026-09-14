@@ -61,6 +61,7 @@ def test_seeded_outputs_rebuild_without_running_editors(tmp_path):
         assert path.read_bytes() == (evidence.BASE / "outputs" / path.name).read_bytes()
 
 
+@pytest.mark.frozen_checker
 def test_every_pair_hash_and_exact_finding_multiset(metrics):
     assert all(case["matches_expected_checker"] for case in metrics["cases"])
     assert metrics == json.loads((evidence.BASE / "metrics.json").read_text(encoding="utf-8"))

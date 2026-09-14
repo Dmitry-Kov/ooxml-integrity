@@ -1,0 +1,1139 @@
+{
+  "adapter": "adeu-sdk-boundaries-v1",
+  "cases": [
+    {
+      "finished_at": "2026-09-13T11:24:24.788500+00:00",
+      "id": "basic-save",
+      "output": "basic-save.docx",
+      "output_sha256": "f66769198983a8c7d294f9a499c5c4a99b4569f4d44b392f181ad28456408027",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:24.784012+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n",
+      "task": "save",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": null,
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": null
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.795095+00:00",
+      "id": "basic-split",
+      "output": "basic-split.docx",
+      "output_sha256": "d4d4903ec0bd83519100c4e13cbd5aec5f59c3839905b5ca1199a4df70d8455b",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:24.788689+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [101:114] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "split",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "regex": false,
+          "target_text": "EDITBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "le basic\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+              "comment": null,
+              "critic_markup": "le basic\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "**DONE**_AFTER_",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "EDITBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.801179+00:00",
+      "id": "basic-comment",
+      "output": "basic-comment.docx",
+      "output_sha256": "ac85393e29bffb929956a463612d40a2d8bc22dec68dd11f0ff2b268f77ad9a4",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:24.795295+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [645:653] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "comment",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "Review the payment terms.",
+          "regex": false,
+          "target_text": "Review the delivery terms.",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "d its authors.\n\nReview the payment terms.",
+              "comment": null,
+              "critic_markup": "d its authors.\n\n{==Review the ==}{--delivery--}{++payment++}{== terms.==}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "Review the payment terms.",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "Review the delivery terms.",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.806174+00:00",
+      "id": "basic-table",
+      "output": "basic-table.docx",
+      "output_sha256": "cc79476bbad919df6cff46413e30508cd7fb3846f5b4754bdcf4dd50825b3e2c",
+      "profile": "basic",
+      "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "source_sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904",
+      "started_at": "2026-09-13T11:24:24.801368+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [814:825] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "table",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "regex": false,
+          "target_text": "TABLEBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "-- | ---\nDelivery | Scheduled TABLEAFTER\n\nReview record footer\n\n---\n##",
+              "comment": null,
+              "critic_markup": "-- | ---\nDelivery | Scheduled {--TABLEBEFORE--}{++TABLEAFTER++}\n\nReview record footer\n\n---\n##",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "TABLEAFTER",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "TABLEBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.808957+00:00",
+      "id": "nested-save",
+      "output": "nested-save.docx",
+      "output_sha256": "f2c08eaed4a77228ebd5b6bcbdd49eb7fb13175e047fd240b25e756926fe4517",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:24.806358+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n",
+      "task": "save",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": null,
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": null
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.813887+00:00",
+      "id": "nested-split",
+      "output": "nested-split.docx",
+      "output_sha256": "4da29539535863fa63a8df3ade66de486fa166626488c5a96e16c58e92a878d4",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:24.809102+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [102:115] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "split",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "regex": false,
+          "target_text": "EDITBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "e nested\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+              "comment": null,
+              "critic_markup": "e nested\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "**DONE**_AFTER_",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "EDITBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.818747+00:00",
+      "id": "nested-comment",
+      "output": "nested-comment.docx",
+      "output_sha256": "746c17c73c152f6bb6214470f27d8a48b433beb005f184b31531383923e9dc2e",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:24.814077+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [646:654] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "comment",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "Review the payment terms.",
+          "regex": false,
+          "target_text": "Review the delivery terms.",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "d its authors.\n\nReview the payment terms.",
+              "comment": null,
+              "critic_markup": "d its authors.\n\n{==Review the ==}{--delivery--}{++payment++}{== terms.==}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "Review the payment terms.",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "Review the delivery terms.",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.823541+00:00",
+      "id": "nested-table",
+      "output": "nested-table.docx",
+      "output_sha256": "b7b4a647ab2749b2be658db34ce22f400660f0ae677fda5b53a406912e9f5d06",
+      "profile": "nested",
+      "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "source_sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402",
+      "started_at": "2026-09-13T11:24:24.818913+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [939:950] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "table",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "regex": false,
+          "target_text": "TABLEBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "-- | ---\nDelivery | Scheduled TABLEAFTER\n\nReview record footer\n\n---\n##",
+              "comment": null,
+              "critic_markup": "-- | ---\nDelivery | Scheduled {--TABLEBEFORE--}{++TABLEAFTER++}\n\nReview record footer\n\n---\n##",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "TABLEAFTER",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "TABLEBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.826177+00:00",
+      "id": "notes-save",
+      "output": "notes-save.docx",
+      "output_sha256": "c83ffe824c1aea8f7d650c90d8a99225b4b86a6bfa99fb7d89082df46322dad2",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:24.823707+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n",
+      "task": "save",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": null,
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": null
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.831033+00:00",
+      "id": "notes-split",
+      "output": "notes-split.docx",
+      "output_sha256": "ccd9a0ced6aeeb51d2ed2c6e4deb13c2b1ae1febba0b49662461523fb45ad7da",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:24.826317+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [101:114] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "split",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "regex": false,
+          "target_text": "EDITBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "le notes\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+              "comment": null,
+              "critic_markup": "le notes\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "**DONE**_AFTER_",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "EDITBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.836030+00:00",
+      "id": "notes-comment",
+      "output": "notes-comment.docx",
+      "output_sha256": "53c40c8dda4461fc28ae91afd30fb25a9fd0031b11d02b5b1fc88fd9918cf7a7",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:24.831198+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [645:653] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "comment",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "Review the payment terms.",
+          "regex": false,
+          "target_text": "Review the delivery terms.",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "d its authors.\n\nReview the payment terms.",
+              "comment": null,
+              "critic_markup": "d its authors.\n\n{==Review the ==}{--delivery--}{++payment++}{== terms.==}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "Review the payment terms.",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "Review the delivery terms.",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.840669+00:00",
+      "id": "notes-table",
+      "output": "notes-table.docx",
+      "output_sha256": "eed5065c338ec1fcb824db902f47db0d5242ce78e0bb67cc634ff156de168052",
+      "profile": "notes",
+      "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "source_sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601",
+      "started_at": "2026-09-13T11:24:24.836267+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [814:825] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "table",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "regex": false,
+          "target_text": "TABLEBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "-- | ---\nDelivery | Scheduled TABLEAFTER\n\nReview record footer\n\n---\n##",
+              "comment": null,
+              "critic_markup": "-- | ---\nDelivery | Scheduled {--TABLEBEFORE--}{++TABLEAFTER++}\n\nReview record footer\n\n---\n##",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "TABLEAFTER",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "TABLEBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.844070+00:00",
+      "id": "stories-save",
+      "output": "stories-save.docx",
+      "output_sha256": "b42455075c5fad9965f099a7f042eb2ebf913814d53f716defc463a2704619c6",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:24.840890+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n",
+      "task": "save",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": null,
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": null
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.849359+00:00",
+      "id": "stories-split",
+      "output": "stories-split.docx",
+      "output_sha256": "cc8d4e759b062a8d2fba69e4c6fa2438156c4471788c016cad74d374c0da5feb",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:24.844258+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [150:163] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "split",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "regex": false,
+          "target_text": "EDITBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": " stories\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+              "comment": null,
+              "critic_markup": " stories\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "**DONE**_AFTER_",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "EDITBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.861458+00:00",
+      "id": "stories-comment",
+      "output": "stories-comment.docx",
+      "output_sha256": "96672c564308abd954b2a72589d1e42dc2d7a3fa06275c934ac14ff1a8d1bc8a",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:24.849562+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [694:702] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "comment",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "Review the payment terms.",
+          "regex": false,
+          "target_text": "Review the delivery terms.",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "d its authors.\n\nReview the payment terms.",
+              "comment": null,
+              "critic_markup": "d its authors.\n\n{==Review the ==}{--delivery--}{++payment++}{== terms.==}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "Review the payment terms.",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "Review the delivery terms.",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.866525+00:00",
+      "id": "stories-table",
+      "output": "stories-table.docx",
+      "output_sha256": "36593746bc4ebb158a77edb0629b355188b1a7a35eaff7971dccfea06c54658e",
+      "profile": "stories",
+      "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "source_sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0",
+      "started_at": "2026-09-13T11:24:24.861643+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [863:874] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "table",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "regex": false,
+          "target_text": "TABLEBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "-- | ---\nDelivery | Scheduled TABLEAFTER\n\n",
+              "comment": null,
+              "critic_markup": "-- | ---\nDelivery | Scheduled {--TABLEBEFORE--}{++TABLEAFTER++}\n\n{--former --}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "TABLEAFTER",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "TABLEBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.869239+00:00",
+      "id": "table-save",
+      "output": "table-save.docx",
+      "output_sha256": "68c56be6f82ec19a2dc0041c2251942aba48c027445443eb3a4489919d72bc1c",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:24.866732+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n",
+      "task": "save",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": null,
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": null
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.873823+00:00",
+      "id": "table-split",
+      "output": "table-split.docx",
+      "output_sha256": "ce67aa51d69627606d54a2bba690acaa3a8e2684aa6c987d513e86dbebbef15f",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:24.869379+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [101:114] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "split",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "**DONE**_AFTER_",
+          "regex": false,
+          "target_text": "EDITBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "le table\n\nThe cycle marker is **DONE**_AFTER_. The service is ",
+              "comment": null,
+              "critic_markup": "le table\n\nThe cycle marker is {--**EDIT**_BEFORE_--}{++**DONE**_AFTER_++}. The service is ",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "**DONE**_AFTER_",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "EDITBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.879793+00:00",
+      "id": "table-comment",
+      "output": "table-comment.docx",
+      "output_sha256": "d6b8da4e85a88ced49a0cbb02e74156ef4e99af3f22d6564655cc9234af3b83b",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:24.874014+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [645:653] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "comment",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "Review the payment terms.",
+          "regex": false,
+          "target_text": "Review the delivery terms.",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "d its authors.\n\nReview the payment terms.",
+              "comment": null,
+              "critic_markup": "d its authors.\n\n{==Review the ==}{--delivery--}{++payment++}{== terms.==}",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "Review the payment terms.",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "Review the delivery terms.",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    },
+    {
+      "finished_at": "2026-09-13T11:24:24.885048+00:00",
+      "id": "table-table",
+      "output": "table-table.docx",
+      "output_sha256": "26c12477674c70381964b99f1781ee7ab8f8923a7a194422095fcb6612e1a8dc",
+      "profile": "table",
+      "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "source_sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a",
+      "started_at": "2026-09-13T11:24:24.880008+00:00",
+      "status": "ok",
+      "stderr": "",
+      "stdout": "2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n2026-09-13 16:24:24 [debug    ] Applying Edit at [885:896] Op=MODIFICATION\n2026-09-13 16:24:24 [debug    ] Initializing CommentsManager\n2026-09-13 16:24:24 [debug    ] Found existing part by content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml partname=/word/comments.xml\n2026-09-13 16:24:24 [debug    ] No existing part found for content type content_type=application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\n",
+      "task": "table",
+      "tool_result": {
+        "author": "Evidence Editor",
+        "change": {
+          "comment": null,
+          "match_mode": "strict",
+          "new_text": "TABLEAFTER",
+          "regex": false,
+          "target_text": "TABLEBEFORE",
+          "type": "modify"
+        },
+        "engine_options": "3.0.4 defaults except author",
+        "partial": false,
+        "stats": {
+          "actions_already_resolved": 0,
+          "actions_applied": 0,
+          "actions_skipped": 0,
+          "author_impersonation_warning": null,
+          "edits": [
+            {
+              "clean_text": "-\nDelivery | new TABLEAFTER\n\nReview record footer\n\n---\n##",
+              "comment": null,
+              "critic_markup": "-\nDelivery | {--old --}{++new ++}{--TABLEBEFORE--}{++TABLEAFTER++}\n\nReview record footer\n\n---\n##",
+              "error": null,
+              "field": "",
+              "heading_path": "Existing revision preservation",
+              "match_mode": "strict",
+              "new_text": "TABLEAFTER",
+              "occurrences_modified": 1,
+              "pages": [
+                1
+              ],
+              "status": "applied",
+              "target_text": "TABLEBEFORE",
+              "type": "modify",
+              "warning": null
+            }
+          ],
+          "edits_applied": 1,
+          "edits_skipped": 0,
+          "engine": "python",
+          "failed": [],
+          "occurrences_modified": 1,
+          "overrides_note": null,
+          "skipped_details": [],
+          "status": "ok",
+          "version": "3.0.4"
+        }
+      }
+    }
+  ],
+  "command": [
+    "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/e1/adeu-env/bin/python",
+    "research/docx_boundaries.py",
+    "capture",
+    "--adapter",
+    "adeu-sdk-boundaries-v1",
+    "--directory",
+    "evidence/docx-benchmark-boundaries/captures/adeu-2"
+  ],
+  "cwd": "/Users/dmitriikovalev/Projects/ooxml-integrity",
+  "distributions": {
+    "Authlib": "1.8.0",
+    "Jinja2": "3.1.6",
+    "MarkupSafe": "3.0.3",
+    "PyJWT": "2.14.0",
+    "PyYAML": "6.0.3",
+    "Pygments": "2.21.0",
+    "RapidFuzz": "3.14.6",
+    "adeu": "3.0.4",
+    "aiofile": "3.12.3",
+    "annotated-types": "0.8.0",
+    "anyio": "4.15.1",
+    "attrs": "26.1.0",
+    "beartype": "0.22.9",
+    "cachetools": "7.1.8",
+    "caio": "0.12.4",
+    "certifi": "2026.7.22",
+    "cffi": "2.1.1",
+    "click": "8.5.0",
+    "cryptography": "50.0.1",
+    "cyclopts": "4.25.2",
+    "diff-match-patch": "20241021",
+    "dnspython": "2.8.0",
+    "docstring_parser": "0.18.0",
+    "email-validator": "2.3.0",
+    "exceptiongroup": "1.3.1",
+    "fastmcp": "3.4.7",
+    "fastmcp-slim": "3.4.7",
+    "griffelib": "2.3.0",
+    "h11": "0.16.0",
+    "httpcore": "1.0.9",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "idna": "3.19",
+    "jaraco.classes": "3.4.0",
+    "jaraco.context": "6.1.2",
+    "jaraco.functools": "4.6.0",
+    "joserfc": "1.7.5",
+    "jsonref": "1.1.0",
+    "jsonschema": "4.26.0",
+    "jsonschema-path": "0.5.0",
+    "jsonschema-specifications": "2025.9.1",
+    "keyring": "25.7.0",
+    "lxml": "6.1.3",
+    "markdown-it-py": "4.2.0",
+    "mcp": "1.30.0",
+    "mdurl": "0.1.2",
+    "more-itertools": "11.1.0",
+    "openapi-pydantic": "0.5.1",
+    "opentelemetry-api": "1.44.0",
+    "packaging": "26.3",
+    "pathable": "0.6.0",
+    "pip": "25.0.1",
+    "platformdirs": "4.11.8",
+    "prefab-ui": "0.20.2",
+    "py-key-value-aio": "0.4.5",
+    "pycparser": "3.0",
+    "pydantic": "2.13.5",
+    "pydantic-settings": "2.15.0",
+    "pydantic_core": "2.46.5",
+    "pyperclip": "1.11.0",
+    "python-docx": "1.2.0",
+    "python-dotenv": "1.2.3",
+    "python-multipart": "0.0.32",
+    "referencing": "0.37.0",
+    "regex": "2026.9.10",
+    "rich": "15.0.0",
+    "rich-rst": "2.1.0",
+    "rpds-py": "2026.6.3",
+    "sse-starlette": "3.4.11",
+    "starlette": "1.6.0",
+    "structlog": "26.1.0",
+    "typing-inspection": "0.4.4",
+    "typing_extensions": "4.16.0",
+    "uncalled-for": "0.4.0",
+    "uvicorn": "0.52.4",
+    "watchfiles": "1.2.0",
+    "websockets": "17.1"
+  },
+  "finished_at": "2026-09-13T11:24:24.885234+00:00",
+  "harness_sha256": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+  "implementation_sha256": {
+    "adeu": "ebc1b79b26a190255e2abcee74639f030be03793068ded2ea707295a1dbd9bcd",
+    "docx": "046a785eb96dfd11161d4d72219e7550efdf786ca51c30e4b185927434a867ae"
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "protocol_sha256": "5c76b1454f7491cb8736f58a9b468ebd930f7b30bcf7775c330b238fe2a9a5a7",
+  "python": "3.12.14",
+  "started_at": "2026-09-13T11:24:24.756323+00:00"
+}

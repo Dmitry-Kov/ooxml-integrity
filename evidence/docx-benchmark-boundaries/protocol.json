@@ -1,0 +1,66 @@
+{
+  "base_commit": "22481ed05d142c16190f5eedcb0bf61d453a5be5",
+  "checker_source_sha256": "085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375",
+  "declared_at": "2026-09-13T11:24:05.612263+00:00",
+  "frozen_files": {
+    "evidence/docx-benchmark-boundaries/PROTOCOL.md": "6a14df6027c9520050d70c5e98b3dd312ae3f8627e8907e45ee5cd788cccf4ee",
+    "evidence/docx-benchmark-boundaries/prompts.json": "dedf6ce9d325e172c60cc301bf78656b46b508a4631dd1f6600f5a20d9f57483",
+    "research/capture_docx_agent.py": "cc5eed848cf19983ecee86ffc65c43d43b35d516be0b8eb1c6fc6dbb07e5ce6d",
+    "research/capture_docx_boundaries_agent.py": "4e5e2da11c34e0bbedc051ea8e931d91bf51dedc53d38c43ded47b6a40e70d7b",
+    "research/docx_benchmark.py": "24e855bcac05a4864e5a49547a16d2863dcf3ad6533e3856593347a1c7dc85a5",
+    "research/docx_boundaries.py": "a75141d208718d1c79cc71775988af4dfe0af549b6426f7163a21ac45c1bfade",
+    "research/revision_evidence.py": "dc919c3bbaa704b9e90025202353f8ba49b0137fac3a9154aaba53c9d54dfed2"
+  },
+  "schema": 1,
+  "sources": {
+    "basic": {
+      "original": "evidence/docx-revisions/sources/basic.docx",
+      "original_sha256": "10bbf8d4891371bfd3ab3bc8c8fda89291b3d41fdc5afaf01e334a1ae074fd7f",
+      "path": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+      "sha256": "30e00d9b373a36fc64c6e3c1813f8054fba0a530c1632aed17ffdcc3106a8904"
+    },
+    "nested": {
+      "original": "evidence/docx-revisions/sources/nested.docx",
+      "original_sha256": "23028db3aef4637dc6972b6d3be5de757408a971818027b048c3a0b2f10f5f3e",
+      "path": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+      "sha256": "addd0fa28f457c09986809169cb3c2e73cc7f6646326f7c34860b5c1b6706402"
+    },
+    "notes": {
+      "original": "evidence/docx-revisions/sources/notes.docx",
+      "original_sha256": "1702fbaba63e0a26c98d72f1bdf9db017a5cfe52747e5b399ae9b9a1205c2fbf",
+      "path": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+      "sha256": "4725e3b808dce1dc34a14749be673d12d1acc4c14707a0137e45e9d016ede601"
+    },
+    "stories": {
+      "original": "evidence/docx-revisions/sources/stories.docx",
+      "original_sha256": "a968cf24800e12359f9b428608a02887511d95a3af0ff3bb6b2cd30692d4709e",
+      "path": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+      "sha256": "6443400a0233e81a3def9d8aea48d4205c848ea3a2940fb9c1b1bfc314d259b0"
+    },
+    "table": {
+      "original": "evidence/docx-revisions/sources/table.docx",
+      "original_sha256": "533d09bc910ccfb6a88fbe2c1816a642372a33805f9598df975e842707ad7ff2",
+      "path": "evidence/docx-benchmark-boundaries/sources/table.docx",
+      "sha256": "9f299ee526e1c7c9582762c659ada885c217ba463755e0b85825c86b2cc4f97a"
+    }
+  },
+  "tasks": {
+    "comment": {
+      "new": "Review the payment terms.",
+      "old": "Review the delivery terms."
+    },
+    "save": {
+      "new": null,
+      "old": null
+    },
+    "split": {
+      "adeu_new": "**DONE**_AFTER_",
+      "new": "DONEAFTER",
+      "old": "EDITBEFORE"
+    },
+    "table": {
+      "new": "TABLEAFTER",
+      "old": "TABLEBEFORE"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/stories-table-103/edit.py", line 24, in <module>
+    replace_marker("input.docx", "output.docx")
+  File "/Users/dmitriikovalev/Projects/ooxml-integrity/tmp/docx-benchmark-agent/boundaries-1/stories-table-103/edit.py", line 19, in replace_marker
+    run._element.tag = 'w:t'
+    ^^^^^^^^^^^^^^^^
+  File "src/lxml/etree.pyx", line 1142, in lxml.etree._Element.tag.__set__
+  File "src/lxml/apihelpers.pxi", line 1748, in lxml.etree._tagValidOrRaise
+ValueError: Invalid tag name 'w:t'

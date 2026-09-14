@@ -1,0 +1,41 @@
+{
+  "external_editor": {
+    "pairs": 10,
+    "label_mismatches": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0,
+    "tn": 10
+  },
+  "seeded_defect": {
+    "pairs": 9,
+    "label_mismatches": 0,
+    "tp": 7,
+    "fp": 0,
+    "fn": 2,
+    "tn": 0
+  },
+  "characterization": {
+    "pairs": 6,
+    "label_mismatches": 0,
+    "excluded_from_preservation_metrics": true,
+    "correct_actions": 5,
+    "incorrect_actions": 1
+  },
+  "word_online": {
+    "pairs": 2,
+    "label_mismatches": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0,
+    "tn": 2
+  },
+  "word_windows": {
+    "pairs": 3,
+    "label_mismatches": 0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0,
+    "tn": 3
+  }
+}
