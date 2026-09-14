@@ -134,5 +134,22 @@ def test_group_denominators_and_legacy_error_results_are_preserved(metrics):
     }
 
 
+@pytest.mark.frozen_checker
 def test_published_metrics_match_the_immutable_evaluation(metrics):
     assert metrics == json.loads((MANIFEST.parent / "metrics.json").read_text(encoding="utf-8"))
+
+
+def test_new_receipt_preserves_published_metrics_and_refuses_overwrite(tmp_path, metrics):
+    from research.build_docx_evidence import main
+
+    published = MANIFEST.parent / "metrics.json"
+    before = published.read_bytes()
+    receipt = tmp_path / "candidate.json"
+    assert main(["evaluate", "--output", str(receipt)]) == 0
+    assert json.loads(receipt.read_text(encoding="utf-8")) == metrics
+    receipt.write_text("retain existing receipt", encoding="utf-8")
+    with pytest.raises(SystemExit) as error:
+        main(["evaluate", "--output", str(receipt)])
+    assert error.value.code == 2
+    assert receipt.read_text(encoding="utf-8") == "retain existing receipt"
+    assert published.read_bytes() == before

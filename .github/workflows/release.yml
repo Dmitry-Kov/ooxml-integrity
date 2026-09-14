@@ -61,7 +61,7 @@ jobs:
       # Update these pins when preparing the next release.
       - name: Clean input via pinned Action
         id: clean
-        uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.2
         with:
           files: corpus/base.docx
           config: none
@@ -69,7 +69,7 @@ jobs:
       - name: Findings, JSON and SARIF via pinned Action
         id: findings
         continue-on-error: true
-        uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.2
         with:
           files: runs/t4_fast_fee/agreement.docx
           against: corpus/base.docx
@@ -79,7 +79,7 @@ jobs:
       - name: Usage error via pinned Action
         id: usage
         continue-on-error: true
-        uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.2
         with:
           files: corpus/base.docx
           config: none
@@ -111,7 +111,7 @@ jobs:
             --no-config --write-baseline release-baseline.json
       - name: Baseline via pinned Action
         id: baseline
-        uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+        uses: Dmitry-Kov/ooxml-integrity@v0.4.2
         with:
           files: runs/t4_fast_fee/agreement.docx
           against: corpus/base.docx

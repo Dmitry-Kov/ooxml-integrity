@@ -193,8 +193,8 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe `0.4.1` plus the unreleased corrections recorded in the
-[changelog](CHANGELOG.md#unreleased). Version `0.4.0` treated undefined character styles
+These tables describe the [0.4.2 candidate](docs/releases/0.4.2.md), which is
+not yet published. Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 `.docx`:
@@ -217,8 +217,8 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID001-003` | losses and additions relative to the source, by construct count; drop in text volume |
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids |
 | `FID007-008` | header/footer story missing or changed; tracked constructs lost from headers/footers |
-| `FID009` | unreleased: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
-| `FID010` | unreleased: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
+| `FID009` | 0.4.2 candidate: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
+| `FID010` | 0.4.2 candidate: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
 
 `.pptx`:
 
@@ -253,7 +253,7 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
 - A separate [existing-revision tranche](evidence/docx-revisions/README.md)
   has 30 pairs: 15 controls preserving review content through adeu, Word Online
   and Word for Windows, nine seeded defects (published checker: seven detected,
-  two missed; unreleased [FID009/FID010 follow-up](evidence/docx-note-revisions/README.md):
+  two missed; 0.4.2 candidate [FID009/FID010 follow-up](evidence/docx-note-revisions/README.md):
   nine detected), and six accept/reject characterizations excluded from
   preservation metrics. Producer groups are reported separately. The three
   Windows saves preserve revisions but change table widths; unchanged layout

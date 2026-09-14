@@ -1085,8 +1085,13 @@ def main(argv: list[str] | None = None) -> int:
         windows_parser = commands.add_parser(name, help="append-only Windows Word evidence workflow")
         windows_parser.add_argument("--staging", type=Path, required=True)
     evaluate_parser = commands.add_parser("evaluate", help="score committed labels")
-    evaluate_parser.add_argument(
+    output = evaluate_parser.add_mutually_exclusive_group()
+    output.add_argument(
         "--write", action="store_true", help="update metrics.json and RESULTS.md",
+    )
+    output.add_argument(
+        "--output", type=Path,
+        help="save a new JSON receipt without changing historical metrics (refuses overwrite)",
     )
     args = parser.parse_args(argv)
 
@@ -1120,6 +1125,12 @@ def main(argv: list[str] | None = None) -> int:
         metrics = evaluate()
         if args.write:
             _write_results(metrics)
+        elif args.output:
+            try:
+                with args.output.open("x", encoding="utf-8") as receipt:
+                    receipt.write(json.dumps(metrics, indent=2, sort_keys=True) + "\n")
+            except OSError as exc:
+                parser.error(str(exc))
 
     problems = _check_floor(metrics)
     error = metrics["error_level"]

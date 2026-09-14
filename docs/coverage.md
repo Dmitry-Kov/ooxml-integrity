@@ -82,7 +82,7 @@ DOCX reports:
   `docx.fidelity.note-revisions`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
-The unreleased `docx.fidelity.revision-text` item covers the bounded literal
+The 0.4.2 candidate `docx.fidelity.revision-text` item covers the bounded literal
 text comparison behind `FID009`, separately for main-document insertions and
 deletions with equal nonzero wrapper counts. Each kind requires nonempty plain
 text in direct runs below paragraph-level revisions. Nested, property-only or
@@ -102,7 +102,7 @@ formatting, edit intent or visual preservation. Incidental wording elsewhere
 can mask loss. Coverage remains additive under `schema_version: 1` and does not
 independently fail a gate; [scope and reproductions](../evidence/docx-revision-text/README.md).
 
-The unreleased `docx.fidelity.note-revisions` item covers FID010 in conventional
+The 0.4.2 candidate `docx.fidelity.note-revisions` item covers FID010 in conventional
 footnote/endnote parts. Non-housekeeping notes are grouped by normalized
 concatenated `w:t` and `w:delText`. Only nonempty groups with equal note
 multiplicity in both inputs are assessed. Each source note contributes once
