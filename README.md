@@ -218,6 +218,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids |
 | `FID007-008` | header/footer story missing or changed; tracked constructs lost from headers/footers |
 | `FID009` | unreleased: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
+| `FID010` | unreleased: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
 
 `.pptx`:
 
@@ -251,8 +252,9 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
   Accuracy on customer documents has not been measured.
 - A separate [existing-revision tranche](evidence/docx-revisions/README.md)
   has 30 pairs: 15 controls preserving review content through adeu, Word Online
-  and Word for Windows, nine seeded defects (seven
-  detected, two missed), and six accept/reject characterizations excluded from
+  and Word for Windows, nine seeded defects (published checker: seven detected,
+  two missed; unreleased [FID009/FID010 follow-up](evidence/docx-note-revisions/README.md):
+  nine detected), and six accept/reject characterizations excluded from
   preservation metrics. Producer groups are reported separately. The three
   Windows saves preserve revisions but change table widths; unchanged layout
   and broader Office review operations remain unmeasured.

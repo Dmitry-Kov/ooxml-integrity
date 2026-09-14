@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Version-specific revision-text regression gate; never runs an editor/model.
 
-Historical labels and captures are read-only. The candidate adds exactly one
-declared finding; --baseline instead requires the original finding multisets.
+Historical labels and captures are read-only. An evidence directory declares
+baseline corrections and candidate additions to the original finding multisets.
+The default directory retains the earlier FID009-only comparison contract.
 """
 import argparse
 from collections import Counter
@@ -27,14 +28,16 @@ def multiset(findings):
     return Counter({(f['code'], f['severity']): f['count'] for f in findings})
 
 
-def review(*, baseline=False, saved_outputs=False):
-    declaration = json.loads((BASE/'expectations.json').read_text())
+def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
+    evidence_dir = Path(evidence_dir)
+    declaration = json.loads((evidence_dir/'expectations.json').read_text())
     manifest = r.BASE/'manifest.json'
     if b.digest(manifest) != declaration['historical_manifest_sha256']:
         raise ValueError('Historical revision manifest drift')
     originals = {c['id']: c for c in json.loads(manifest.read_text())['pairs']}
     additions = declaration['candidate_additions']
-    if not set(additions) <= set(originals):
+    baseline_additions = declaration.get('baseline_additions', {})
+    if not (set(additions) | set(baseline_additions)) <= set(originals):
         raise ValueError('Unknown candidate case')
     # This verifies all source/output hashes, original labels and XML oracle.
     current = r.evaluate()
@@ -43,6 +46,7 @@ def review(*, baseline=False, saved_outputs=False):
         ident = case['id']
         old = originals[ident]
         expected = multiset(old['expected_findings'])
+        expected.update(multiset(baseline_additions.get(ident, [])))
         if not baseline:
             expected.update(multiset(additions.get(ident, [])))
         actual = multiset(case['actionable_findings'])
@@ -73,8 +77,8 @@ def review(*, baseline=False, saved_outputs=False):
         'python': platform.python_version(), 'platform': platform.platform(),
         'lxml': lxml.etree.LXML_VERSION,
         'review_script_sha256': b.digest(__file__),
-        'protocol_sha256': b.digest(BASE/'PROTOCOL.md'),
-        'expectations_sha256': b.digest(BASE/'expectations.json'),
+        'protocol_sha256': b.digest(evidence_dir/'PROTOCOL.md'),
+        'expectations_sha256': b.digest(evidence_dir/'expectations.json'),
         'historical_manifest_sha256': b.digest(manifest),
         'oracle_script_sha256': b.digest(r.__file__),
         'pairs': len(cases), 'groups': groups,
@@ -111,9 +115,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline', action='store_true')
     parser.add_argument('--saved-outputs', action='store_true')
+    parser.add_argument('--evidence-dir', type=Path, default=BASE,
+                        help='Version-specific protocol and expected finding additions')
     parser.add_argument('--output', type=Path, help='Write a new receipt; refuses overwrite')
     args = parser.parse_args()
-    result = review(baseline=args.baseline, saved_outputs=args.saved_outputs)
+    result = review(baseline=args.baseline, saved_outputs=args.saved_outputs,
+                    evidence_dir=args.evidence_dir)
     if args.output:
         b.save_json(args.output, result)
     print(json.dumps({k:result[k] for k in (

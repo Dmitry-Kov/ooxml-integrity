@@ -78,7 +78,8 @@ DOCX reports:
   `docx.text-whitespace`;
 - `docx.header-footer-semantics`, `docx.media-content`, and
   `docx.strict-wordprocessingml`;
-- `docx.fidelity.main-story`, `docx.fidelity.revision-text`, `docx.fidelity.note-bodies`, and
+- `docx.fidelity.main-story`, `docx.fidelity.revision-text`,
+  `docx.fidelity.note-revisions`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
 The unreleased `docx.fidelity.revision-text` item covers the bounded literal
@@ -100,6 +101,25 @@ literal inventory does not establish revision identity, author/date, position,
 formatting, edit intent or visual preservation. Incidental wording elsewhere
 can mask loss. Coverage remains additive under `schema_version: 1` and does not
 independently fail a gate; [scope and reproductions](../evidence/docx-revision-text/README.md).
+
+The unreleased `docx.fidelity.note-revisions` item covers FID010 in conventional
+footnote/endnote parts. Non-housekeeping notes are grouped by normalized
+concatenated `w:t` and `w:delText`. Only nonempty groups with equal note
+multiplicity in both inputs are assessed. Each source note contributes once
+for insertion presence and once for deletion presence, irrespective of wrapper
+count. `count` is the number of these source note/kind records assessed, not
+the number of revisions, notes matched by ID, or clean notes.
+
+All records assessed gives `checked`; some assessed plus unmatched/empty groups
+gives `estimated`; none assessed gives `skipped`. Reasons identify empty text
+or changed text/group multiplicity. No source note revisions gives `not-present`,
+count zero. An absent/failed comparison or unavailable source read for coverage
+gives `skipped` without a count. Parsing
+failure or an unexpected note-part root also prevents this assessment. The check
+does not certify complete revision preservation: partial removal within a note
+and reassignment across identically worded notes can remain invisible. This new
+identifier is additive under schema v1; coverage alone does not fail a gate.
+[Reproduction and scope](../evidence/docx-note-revisions/README.md).
 
 `docx.styles` is `checked` when references in `word/document.xml` are evaluated,
 including when `word/styles.xml` is missing: those references have no definitions

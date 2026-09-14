@@ -1,0 +1,248 @@
+{
+  "before_fix": {
+    "checker_source_sha256": "7d8a63e7e205147514a1914670f9e9ec9ba92fcefb8cc02bf82cf56ecc34c0f6",
+    "failed_as_expected": 25,
+    "log_sha256": "bceafc2a09d2962085c2fc861a1c09a34c360eb4ff0e5c88ea6c7ade50718e56",
+    "passed": 3,
+    "primary_cli_exit_code": 0,
+    "primary_cli_json": {
+      "baseline": null,
+      "config": null,
+      "fail_on": "error",
+      "files": [
+        {
+          "coverage": {
+            "items": [
+              {
+                "count": 14,
+                "id": "package.read",
+                "reason": "archive budgets passed and 14 members were loaded",
+                "status": "checked"
+              },
+              {
+                "count": 13,
+                "id": "package.xml",
+                "reason": "safely parsed 13 XML parts",
+                "status": "checked"
+              },
+              {
+                "id": "package.content-types",
+                "reason": "content-type coverage was evaluated",
+                "status": "checked"
+              },
+              {
+                "count": 2,
+                "id": "package.relationships",
+                "reason": "evaluated 2 relationship parts",
+                "status": "checked"
+              },
+              {
+                "count": 12,
+                "id": "docx.styles",
+                "reason": "evaluated 2 reference(s) and 10 definition(s)",
+                "status": "checked"
+              },
+              {
+                "count": 0,
+                "id": "docx.numbering",
+                "reason": "no numbered-list properties were present",
+                "status": "not-present"
+              },
+              {
+                "count": 4,
+                "id": "docx.footnotes",
+                "reason": "evaluated 1 reference(s) and 3 definition(s)",
+                "status": "checked"
+              },
+              {
+                "count": 2,
+                "id": "docx.comments",
+                "reason": "evaluated 1 reference(s) and 1 definition(s)",
+                "status": "checked"
+              },
+              {
+                "count": 3,
+                "id": "docx.revisions",
+                "reason": "evaluated 3 tracked revisions",
+                "status": "checked"
+              },
+              {
+                "count": 1,
+                "id": "docx.tables",
+                "reason": "evaluated 1 table",
+                "status": "checked"
+              },
+              {
+                "count": 0,
+                "id": "docx.content-controls",
+                "reason": "no content controls were present",
+                "status": "not-present"
+              },
+              {
+                "count": 16,
+                "id": "docx.text-whitespace",
+                "reason": "evaluated 16 text runs",
+                "status": "checked"
+              },
+              {
+                "count": 2,
+                "id": "docx.header-footer-semantics",
+                "reason": "header/footer XML and relationships were checked, but their Word semantics and layout were not",
+                "status": "unsupported"
+              },
+              {
+                "count": 1,
+                "id": "docx.media-content",
+                "reason": "relationships to media were checked, but media bytes and rendering were not",
+                "status": "unsupported"
+              },
+              {
+                "count": 0,
+                "id": "docx.strict-wordprocessingml",
+                "reason": "Strict WordprocessingML was not encountered",
+                "status": "not-present"
+              },
+              {
+                "id": "docx.fidelity.main-story",
+                "reason": "source and edited main-story fidelity was compared",
+                "status": "checked"
+              },
+              {
+                "count": 3,
+                "id": "docx.fidelity.revision-text",
+                "reason": "compared 3 source revision payload(s) as literal text; identity, metadata, order and formatting are not checked",
+                "status": "checked"
+              },
+              {
+                "count": 2,
+                "id": "docx.fidelity.note-bodies",
+                "reason": "comment, footnote and endnote bodies were compared as multisets",
+                "status": "checked"
+              },
+              {
+                "count": 4,
+                "id": "docx.fidelity.headers-footers",
+                "reason": "effective first/even/default header and footer story text and tracked constructs were compared",
+                "status": "checked"
+              }
+            ],
+            "schema_version": 1,
+            "summary": {
+              "checked": 14,
+              "estimated": 0,
+              "not-present": 3,
+              "skipped": 0,
+              "unsupported": 2
+            }
+          },
+          "findings": [
+            {
+              "code": "REL003",
+              "message": "rId7 declared but never referenced",
+              "part": "word/_rels/document.xml.rels",
+              "severity": "info"
+            },
+            {
+              "code": "REL003",
+              "message": "rId8 declared but never referenced",
+              "part": "word/_rels/document.xml.rels",
+              "severity": "info"
+            }
+          ],
+          "path": "evidence/docx-revisions/outputs/unwrap-note-insertion.docx",
+          "summary": {
+            "error": 0,
+            "info": 2,
+            "warn": 0
+          },
+          "suppressed": [],
+          "worst": "info"
+        }
+      ],
+      "version": "0.4.1"
+    },
+    "regression_command": ".venv/bin/python -m pytest tests/test_note_revisions.py -ra",
+    "test_revision": "Initial 28 cases before the additional coverage-read regression"
+  },
+  "checker_source_sha256": "71fd9d248e8d54a951cbae7188979513c64182fb6ffefde43b17d48627cbad1b",
+  "checks": [
+    {
+      "command": ".venv/bin/python -m pytest -ra",
+      "exit_code": 0,
+      "name": "Full local suite",
+      "result": {
+        "passed": 981,
+        "skipped": 7
+      },
+      "stdout": "........................................................................ [  7%]\n........................................................................ [ 14%]\n........................................................................ [ 21%]\n........................................................................ [ 29%]\n........................................................................ [ 36%]\n........................................................................ [ 43%]\n........................................................................ [ 51%]\n..........................................................sssssss....... [ 58%]\n........................................................................ [ 65%]\n........................................................................ [ 72%]\n........................................................................ [ 80%]\n........................................................................ [ 87%]\n........................................................................ [ 94%]\n....................................................                     [100%]\n=========================== short test summary info ============================\nSKIPPED [1] tests/test_pptx.py:175: century gothic is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: garamond is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: palatino linotype is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: segoe ui is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: tahoma is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: trebuchet ms is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: verdana is actually installed here\n981 passed, 7 skipped in 34.09s\n"
+    },
+    {
+      "checker_source_sha256": "0130bcbaf7579e7950710ab5621103d8c6bd7a8883eef1dbbd47afea5440a09c",
+      "command": ".venv/bin/python -m pytest tests/test_note_revisions.py tests/test_fidelity.py tests/test_revision_text.py tests/test_revision_coalescence.py tests/test_coverage.py tests/test_docx_benchmark.py tests/test_adeu_pilot_feedback.py -ra",
+      "exit_code": 0,
+      "name": "Targeted regression",
+      "note": "Ran before a diagnostic-wording clarification; full suite ran on the final checker source above.",
+      "result": {
+        "passed": 195
+      },
+      "stdout": "........................................................................ [ 36%]\n........................................................................ [ 73%]\n...................................................                      [100%]\n195 passed in 6.48s\n"
+    },
+    {
+      "checker_source_sha256": "6cbf273a9f50ff952892665b864a650ea3013534edc90f0869e00a41d11358d5",
+      "command": ".venv/bin/python research/replay_frozen_docx.py",
+      "exit_code": 0,
+      "name": "Frozen historical expectations",
+      "note": "Ran before the final source-read coverage guard; frozen replay imports its separate archived checker.",
+      "result": {
+        "deselected": 114,
+        "passed": 15
+      },
+      "stdout": "...............                                                          [100%]\n15 passed, 114 deselected in 2.57s\n{\"checker_source_sha256\": \"085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375\", \"mode\": \"historical checker, frozen receipts unchanged\"}\n"
+    },
+    {
+      "checker_source_sha256": "6cbf273a9f50ff952892665b864a650ea3013534edc90f0869e00a41d11358d5",
+      "command": ".venv/bin/python research/build_docx_evidence.py evaluate",
+      "exit_code": 0,
+      "name": "Original producer corpus",
+      "note": "Ran before the final source-read coverage guard; frozen replay imports its separate archived checker.",
+      "result": {
+        "label_mismatches": 0,
+        "pairs": 220,
+        "sources": 50
+      },
+      "stdout": "sources=50 pairs=220 error precision=100.0% recall=100.0% label mismatches=0\n"
+    },
+    {
+      "checker_source_sha256": "6cbf273a9f50ff952892665b864a650ea3013534edc90f0869e00a41d11358d5",
+      "command": ".venv/bin/python research/revision_evidence.py evaluate",
+      "exit_code": 1,
+      "name": "Original labels on current checker",
+      "note": "Ran before the final source-read coverage guard; frozen replay imports its separate archived checker.",
+      "result": {
+        "expected_mismatches": [
+          "replace-unrelated-insertion",
+          "unwrap-note-insertion"
+        ]
+      },
+      "stdout": "{\n  \"external_editor\": {\n    \"pairs\": 10,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 10\n  },\n  \"seeded_defect\": {\n    \"pairs\": 9,\n    \"label_mismatches\": 2,\n    \"tp\": 9,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 0\n  },\n  \"characterization\": {\n    \"pairs\": 6,\n    \"label_mismatches\": 0,\n    \"excluded_from_preservation_metrics\": true,\n    \"correct_actions\": 5,\n    \"incorrect_actions\": 1\n  },\n  \"word_online\": {\n    \"pairs\": 2,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 2\n  },\n  \"word_windows\": {\n    \"pairs\": 3,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 3\n  }\n}\n"
+    }
+  ],
+  "coverage_regression": {
+    "checker_source_sha256": "6cbf273a9f50ff952892665b864a650ea3013534edc90f0869e00a41d11358d5",
+    "command": ".venv/bin/python -m pytest tests/test_note_revisions.py::test_unavailable_source_coverage_does_not_claim_absent_note_revisions -ra",
+    "failed_as_expected": 1,
+    "log_sha256": "2f3fe99418e96b0b783943af8f44e99b553021387b19a5801e14eae20a9321c4",
+    "resolved_in_final_full_suite": true
+  },
+  "reproducibility": {
+    "baseline_receipt_sha256": "3545252b40d2bfb46db893530a845b56ef2deeff3dca8f49b9b67441476ee455",
+    "candidate_receipt_sha256": "bd27e076287414c474d43ff0815f85a05ba994d3e2d14c77172101b7980716c9",
+    "command": ".venv/bin/python research/review_revision_text.py --evidence-dir evidence/docx-note-revisions --saved-outputs --output NEW_PATH.json",
+    "independent_runs": 2,
+    "receipts_byte_identical": true
+  },
+  "tests_sha256": {
+    "tests/test_docx_benchmark.py": "3e4772dd9debfe407ade1013d65c58d5a56bf989b99e8d5f50c44b1ba57c0970",
+    "tests/test_note_revisions.py": "c014b2a5fcf8c60471007dfb56529a3a57362a8d9ffd7b3ef66c1d91ec719bc2"
+  }
+}

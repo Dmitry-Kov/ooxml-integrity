@@ -32,6 +32,7 @@ DOCX_COVERAGE_IDS = (
     "docx.strict-wordprocessingml",
     "docx.fidelity.main-story",
     "docx.fidelity.revision-text",
+    "docx.fidelity.note-revisions",
     "docx.fidelity.note-bodies",
     "docx.fidelity.headers-footers",
 )

@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Added `FID010` ERROR when footnote/endnote text groups retain their note
+  multiplicity but fewer notes contain insertion or deletion markup. Note and
+  revision IDs and fragment counts are not identities; partial removal inside
+  one note remains outside this presence check. Empty or changed text groups
+  are explicit gaps in new `docx.fidelity.note-revisions` coverage. An unexpected
+  conventional note-part root now fails a requested comparison with `FID000`.
+  These errors can change exit 0 to 1; baseline v2 and coverage schema v1 retain
+  their formats. [Protocol, current results and limits](evidence/docx-note-revisions/README.md).
+
 - Added `FID009` ERROR for lost literal text in simple main-document insertions
   and deletions when same-kind wrapper counts are unchanged. IDs and run/wrapper
   fragmentation are not identities; incidental repeated wording can still mask

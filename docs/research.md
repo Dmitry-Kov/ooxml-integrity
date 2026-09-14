@@ -13,8 +13,10 @@ characterization, and retains two preservation false negatives explicitly.
 
 The separate unreleased [revision-text correction](../evidence/docx-revision-text/README.md)
 rechecks those saved pairs with FID009: the seeded substitution is now detected,
-while footnote revision removal remains missed. Its 8/9 seeded detections are
-a checker regression result; original editor captures and metrics stay frozen.
+giving 8/9 seeded detections. The subsequent [FID010 note-presence correction](../evidence/docx-note-revisions/README.md)
+detects the recorded footnote-wrapper removal, giving 9/9 on that same seeded
+set. These are checker regression results; partial note revision removal remains
+a gap, and original editor captures and metrics stay frozen.
 
 ## The finding
 

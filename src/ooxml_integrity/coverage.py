@@ -17,7 +17,7 @@ from .archive import (
 from .finding import Finding
 from .comments import comment_part, comment_tree
 from .revision_text import inventory as revision_inventory, assess as assess_revision_text
-from .fidelity import story_reference_count
+from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
 from .fonts import resolve_face
 from .pptx_layout import Deck, layout_shape, read_deck
 from .xmlutil import fromstring as parse_xml
@@ -350,6 +350,34 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     else:
         text_surface = _item('docx.fidelity.revision-text', fidelity_status, fidelity_reason)
     items.append(text_surface)
+    if fidelity_status is CoverageStatus.CHECKED:
+        try:
+            if not source_parts:
+                raise ValueError('source package unavailable for note revision coverage')
+            note_result = assess_note_revisions(
+                note_revision_inventory(source_parts), note_revision_inventory(parts),
+            )
+            if not note_result.source_count:
+                note_status = CoverageStatus.NOT_PRESENT
+                note_reason = 'no source note insertion/deletion presence to compare'
+            elif note_result.skipped:
+                note_status = (CoverageStatus.ESTIMATED if note_result.compared
+                               else CoverageStatus.SKIPPED)
+                note_reason = (f'compared {note_result.compared} source note/kind '
+                               'record(s); ' + '; '.join(note_result.skipped))
+            else:
+                note_status = CoverageStatus.CHECKED
+                note_reason = (f'compared {note_result.compared} source note/kind '
+                               'record(s) by revision presence in equal text groups; '
+                               'partial removal, identity and metadata are not checked')
+            note_surface = _item('docx.fidelity.note-revisions', note_status,
+                                 note_reason, note_result.compared)
+        except (ValueError, etree.XMLSyntaxError) as e:
+            note_surface = _item('docx.fidelity.note-revisions', CoverageStatus.SKIPPED,
+                                 f'note revision comparison unavailable: {e}')
+    else:
+        note_surface = _item('docx.fidelity.note-revisions', fidelity_status, fidelity_reason)
+    items.append(note_surface)
     if fidelity_status is CoverageStatus.CHECKED:
         note_parts = BODY_PARTS.intersection(parts).union(
             BODY_PARTS.intersection(source_parts)

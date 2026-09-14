@@ -177,12 +177,12 @@ def test_whitespace_locations_match_lxml(base_docx, tmp_path):
 
 
 def test_current_checker_retains_revision_corpus_results():
-    # Current expectations now live beside the FID009 follow-up; the original
+    # Current expectations now live beside the note follow-up; the original
     # 30-pair receipt is still tested against its archived checker.
-    from research.review_revision_text import review
-    metrics = review()
-    assert metrics['corrected_known_misses'] == ['replace-unrelated-insertion']
-    assert metrics['remaining_known_misses'] == ['unwrap-note-insertion']
+    from research.review_revision_text import review, ROOT
+    metrics = review(evidence_dir=ROOT/'evidence/docx-note-revisions')
+    assert metrics['corrected_known_misses'] == ['replace-unrelated-insertion', 'unwrap-note-insertion']
+    assert metrics['remaining_known_misses'] == []
 
 
 @pytest.mark.parametrize('xml', [
