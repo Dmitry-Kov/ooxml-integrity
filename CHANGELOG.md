@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Added `FID009` ERROR for lost literal text in simple main-document insertions
+  and deletions when same-kind wrapper counts are unchanged. IDs and run/wrapper
+  fragmentation are not identities; incidental repeated wording can still mask
+  a loss. Unsupported content, changed counts and bounded-search omissions are
+  explicit in new `docx.fidelity.revision-text` coverage. This can change exit 0
+  to 1. Baseline v2 remains compatible; the new rule distinguishes kind, wording
+  and loss multiplicity. [Protocol, separate current results and limits](evidence/docx-revision-text/README.md).
+
 - Fixed redirected CLI output on legacy encodings such as Windows cp1252:
   JSON escapes Unicode losslessly; human diagnostics escape characters the
   selected stream encoding cannot represent instead of crashing mid-report.

@@ -1,0 +1,65 @@
+{
+  "checker_source_sha256": "7d8a63e7e205147514a1914670f9e9ec9ba92fcefb8cc02bf82cf56ecc34c0f6",
+  "checks": [
+    {
+      "command": ".venv/bin/python -m pytest -q -ra",
+      "exit_code": 0,
+      "name": "Full local suite",
+      "result": {
+        "collected": 959,
+        "passed": 952,
+        "skip_reason": "Seven missing-font tests skip because those fonts are actually installed.",
+        "skipped": 7
+      },
+      "stdout": "........................................................................ [  7%]\n........................................................................ [ 15%]\n........................................................................ [ 22%]\n........................................................................ [ 30%]\n........................................................................ [ 37%]\n........................................................................ [ 45%]\n........................................................................ [ 52%]\n.............................sssssss.................................... [ 60%]\n........................................................................ [ 67%]\n........................................................................ [ 75%]\n........................................................................ [ 82%]\n........................................................................ [ 90%]\n........................................................................ [ 97%]\n.......................                                                  [100%]\n=========================== short test summary info ============================\nSKIPPED [1] tests/test_pptx.py:175: century gothic is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: garamond is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: palatino linotype is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: segoe ui is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: tahoma is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: trebuchet ms is actually installed here\nSKIPPED [1] tests/test_pptx.py:175: verdana is actually installed here\n"
+    },
+    {
+      "command": ".venv/bin/python research/replay_frozen_docx.py",
+      "exit_code": 0,
+      "name": "Frozen historical expectations",
+      "result": {
+        "deselected": 114,
+        "passed": 15
+      },
+      "stdout": "...............                                                          [100%]\n15 passed, 114 deselected in 2.58s\n{\"checker_source_sha256\": \"085969829b6aeb7c4a021d5539f6ff5cc56a03b2899ae4e17fc5c2b3aa341375\", \"mode\": \"historical checker, frozen receipts unchanged\"}\n"
+    },
+    {
+      "command": ".venv/bin/python research/build_docx_evidence.py evaluate",
+      "exit_code": 0,
+      "name": "Original producer corpus",
+      "result": {
+        "label_mismatches": 0,
+        "pairs": 220,
+        "sources": 50
+      },
+      "stdout": "sources=50 pairs=220 error precision=100.0% recall=100.0% label mismatches=0\n"
+    },
+    {
+      "command": ".venv/bin/python research/revision_evidence.py evaluate",
+      "exit_code": 1,
+      "name": "Original labels on changed checker",
+      "result": {
+        "expected_mismatch": "replace-unrelated-insertion: new FID009 ERROR; historical labels are unchanged"
+      },
+      "stdout": "{\n  \"external_editor\": {\n    \"pairs\": 10,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 10\n  },\n  \"seeded_defect\": {\n    \"pairs\": 9,\n    \"label_mismatches\": 1,\n    \"tp\": 8,\n    \"fp\": 0,\n    \"fn\": 1,\n    \"tn\": 0\n  },\n  \"characterization\": {\n    \"pairs\": 6,\n    \"label_mismatches\": 0,\n    \"excluded_from_preservation_metrics\": true,\n    \"correct_actions\": 5,\n    \"incorrect_actions\": 1\n  },\n  \"word_online\": {\n    \"pairs\": 2,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 2\n  },\n  \"word_windows\": {\n    \"pairs\": 3,\n    \"label_mismatches\": 0,\n    \"tp\": 0,\n    \"fp\": 0,\n    \"fn\": 0,\n    \"tn\": 3\n  }\n}\n"
+    }
+  ],
+  "new_test_files_sha256": {
+    "tests/test_docx_benchmark.py": "2f0b3d8b5fbcd19a0eaeab03d062c3d8337c3ad4529bef60143ac78778e1c51e",
+    "tests/test_revision_text.py": "5ba32fc5f7ad79758df0270ba6c44a99362535341c600506c0ef0ff0d3c4a270"
+  },
+  "pre_fix_regression": {
+    "command": ".venv/bin/python -m pytest tests/test_revision_text.py -ra",
+    "failed_as_expected": 17,
+    "log_sha256": "3d31e703c8a87a2447504f1c8c447d10c940e0c87901ce7afc17c55b88469989",
+    "passed": 10,
+    "test_revision": "Initial 27 cases before four additional boundary tests"
+  },
+  "reproducibility": {
+    "baseline_receipt_sha256": "3899ac58f456851340e5682ca66d582b8701336a8e3cc3a831e21a798dfe3d2a",
+    "candidate_receipt_sha256": "8b7503f380f8dc5a927408354f5b54b6130e7091b27f02f13c72144767e447c2",
+    "command": ".venv/bin/python research/review_revision_text.py --saved-outputs --output NEW_PATH.json",
+    "independent_runs": 2,
+    "receipts_byte_identical": true
+  }
+}

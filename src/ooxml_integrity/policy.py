@@ -310,6 +310,12 @@ def fingerprint(file: str, f: Finding) -> str:
         variant = f.extra.get("variant", "")
         if tag:
             stable = f"story={kind}/{variant}:tag={tag}"
+    elif f.code == "FID009":
+        body = f.extra.get("body")
+        if isinstance(body, str):
+            digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+            stable = (f"tag={f.extra.get('tag', '')}:body-sha256={digest}"
+                      f":lost={f.extra.get('lost', '')}")
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key

@@ -63,6 +63,7 @@ def test_exact_untracked_edit_preserves_content(profile, tmp_path):
 
 
 @pytest.mark.parametrize("defect,profile", [("replace-unrelated-insertion", "basic"), ("unwrap-note-insertion", "notes")])
+@pytest.mark.frozen_checker
 def test_existing_checker_misses_stay_losses_even_when_task_is_completed(defect, profile, tmp_path):
     parts = rev.mutate(untracked_parts(profile), defect)
     result = bench.inspect_pair(source(profile), output(tmp_path, parts), "edit", "python-docx-run-v1")
@@ -70,6 +71,19 @@ def test_existing_checker_misses_stay_losses_even_when_task_is_completed(defect,
     assert not result["protected_content_preserved"]
     assert result["violations"]["unrelated_revision_losses"]
     assert result["actionable_findings"] == []
+
+
+@pytest.mark.parametrize('defect,profile,expected', [
+    ('replace-unrelated-insertion', 'basic', ['FID009']),
+    ('unwrap-note-insertion', 'notes', []),
+])
+def test_current_detection_does_not_change_independent_task_verdict(defect, profile, expected, tmp_path):
+    parts = rev.mutate(untracked_parts(profile), defect)
+    result = bench.inspect_pair(source(profile), output(tmp_path, parts), 'edit', 'python-docx-run-v1')
+    assert result['requested_change_completed']
+    assert not result['protected_content_preserved']
+    assert result['violations']['unrelated_revision_losses']
+    assert [f['code'] for f in result['actionable_findings']] == expected
 
 
 @pytest.mark.parametrize("defect", ["anchor", "style", "relationship", "asset", "cell"])
