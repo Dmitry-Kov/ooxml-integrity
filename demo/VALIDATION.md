@@ -1,5 +1,50 @@
 # Browser validation
 
+## Published 0.4.2 pin — 2026-09-15 (Asia/Tashkent)
+
+Package `0.4.2` was published on 2026-09-14 at 20:55 UTC, before changing the
+demo pin. Its [release workflow](https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34895403980)
+passed on tag `v0.4.2`, commit `ffbf4bb44fb886385300b12e43ff9be2d524809d`,
+after all eight source CI jobs passed on that commit. Both release archives,
+GitHub checksums and PyPI metadata agree; a fresh no-cache PyPI installation
+passed the installed-package smoke. [Publication receipt](../evidence/releases/0.4.2/publication.json).
+
+The local pin update is based on that release commit. The public browser run
+requested the following wheel from files.pythonhosted.org, using the exact
+micropip requirement without a preview override:
+
+```text
+a0c16aaef7c92fa5c79649acd654c065c55c8b956889160305c527a5c75dad87  ooxml_integrity-0.4.2-py3-none-any.whl
+```
+
+All seven public-package browser scenarios passed with no skips or retries:
+examples/uploads, JSON/coverage/Doctor, runtime/font failures and reload
+recovery, voluntary feedback, four-second injected latency, and real 60-second
+worker termination with successful recovery. The footer read
+**ooxml-integrity 0.4.2 · Pyodide 314.0.6**. Chromium was 153.0.8010.12,
+Playwright 1.63.0 and Node 26.8.1 on macOS. Doctor reported CPython 3.14.2 /
+Emscripten 5.0.3, lxml 6.0.2.0 / libxml2 2.9.10 and fonttools 4.62.1.
+
+The checkout wheel has SHA-256
+`62b391004acf3f89b427152f6e5983d289f4ebb839ed34f682875f12c3225736`.
+Its Python module bytes match the published package; only METADATA and RECORD
+differ because the README now describes the published release. Its isolated
+preview also passed all seven scenarios without skips or retries.
+[Browser receipt](../evidence/releases/0.4.2/demo-pin.json) records both modes,
+exact page SHA-256 hashes, downloads, runtime versions and scenario results.
+
+The 29 targeted Python tests (demo adapter, preview generator and version
+agreement), JavaScript syntax and whitespace checks passed. The 390px table
+and feedback screenshots were inspected. These are desktop Chromium viewports,
+not physical mobile-device or Office-rendering evidence. All inputs were the
+existing synthetic examples; feedback navigation was intercepted locally and
+no issue or document was sent to GitHub.
+
+This record describes the branch served locally. The separate pin-update PR
+must pass both browser modes in CI; Pages repeats them after merge and deploys
+only the public demo directory. The immutable tag/package and earlier validation
+records remain unchanged.
+
 ## Published 0.4.1 pin — 2026-09-12
 
 Package `0.4.1` was published before changing the demo pin. Its

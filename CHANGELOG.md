@@ -2,9 +2,13 @@
 
 ## Unreleased
 
-## 0.4.2 — candidate
+- Updated the demo pin and current consumer examples to published 0.4.2 after
+  release verification. Historical candidate and browser receipts are retained.
 
-Prepared for review; no release tag or PyPI publication yet.
+## 0.4.2 — 2026-09-14
+
+Published at 20:55 UTC after verification on `ffbf4bb`. The public demo
+and consumer pins move from 0.4.1 in a separate post-publication change.
 [Upgrade notes and verification](docs/releases/0.4.2.md).
 
 - Release validation now checks installed source bytes and FID009/FID010 from

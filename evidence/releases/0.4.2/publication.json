@@ -1,0 +1,136 @@
+{
+  "artifact_verification": "Downloaded GitHub assets match SHA256SUMS and PyPI metadata; pip downloaded the matching public wheel; release browser tested the same wheel hash",
+  "files": {
+    "ooxml_integrity-0.4.2-py3-none-any.whl": {
+      "bytes": 81526,
+      "github_url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/download/v0.4.2/ooxml_integrity-0.4.2-py3-none-any.whl",
+      "pypi_uploaded_at": "2026-09-14T20:54:54.075318Z",
+      "pypi_url": "https://files.pythonhosted.org/packages/96/7d/646bda386b576e20bc6adfdd9912c285af96a1bc1bc5478e323cfe4631cc/ooxml_integrity-0.4.2-py3-none-any.whl",
+      "sha256": "a0c16aaef7c92fa5c79649acd654c065c55c8b956889160305c527a5c75dad87"
+    },
+    "ooxml_integrity-0.4.2.tar.gz": {
+      "bytes": 8857536,
+      "github_url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/download/v0.4.2/ooxml_integrity-0.4.2.tar.gz",
+      "pypi_uploaded_at": "2026-09-14T20:54:56.253846Z",
+      "pypi_url": "https://files.pythonhosted.org/packages/f0/59/457b879faaf3b9a191fed0bd7950cd37fd965c0a9846ce2e3403a991556b/ooxml_integrity-0.4.2.tar.gz",
+      "sha256": "3fa7db06f3290454bd9c6f4e73ae97b50643892e10f15a81da7e1079bd0e2e7a"
+    }
+  },
+  "fresh_pypi_install": {
+    "command": "tmp/publication-0.4.2/pypi-env/bin/python -m pip install --no-cache-dir --index-url https://pypi.org/simple --report tmp/publication-0.4.2/pip-install-report.json ooxml-integrity==0.4.2",
+    "install_report_sha256": "6723905d2eed806fc4f6b35742983724792fe261171dac2286675eb418af41cb",
+    "packages": [
+      {
+        "name": "ooxml-integrity",
+        "version": "0.4.2"
+      },
+      {
+        "name": "fonttools",
+        "version": "4.65.0"
+      },
+      {
+        "name": "lxml",
+        "version": "6.1.3"
+      }
+    ],
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "smoke_command": "tmp/publication-0.4.2/pypi-env/bin/python research/release_smoke.py --version 0.4.2",
+    "smoke_result": "Installed 0.4.2: source-byte parity, FID009/FID010 and their coverage, both entry points, clean/findings/usage exits, JSON, coverage, baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed"
+  },
+  "github_published_at": "2026-09-14T20:55:13Z",
+  "local_date": "2026-09-15 Asia/Tashkent",
+  "notes_scope": "The immutable tag/sdist retain preparation-time candidate wording. GitHub release notes and current repository documentation receive a post-publication status update.",
+  "public_demo_at_publication": "0.4.1; the 0.4.2 pin is a separate post-publication PR",
+  "release_browser": {
+    "metadata": {
+      "actualWorkers": 1,
+      "changedTrackedFiles": [],
+      "checkerVersion": "0.4.2",
+      "ci": {
+        "buildHref": "https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34895403980",
+        "commitHash": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+        "commitHref": "https://github.com/Dmitry-Kov/ooxml-integrity/commit/ffbf4bb44fb886385300b12e43ff9be2d524809d"
+      },
+      "commit": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+      "gitCommit": {
+        "author": {
+          "email": "dmitry.kov.wk@gmail.com",
+          "name": "Dmitry Kovalev",
+          "time": 1789418875000
+        },
+        "body": "Merge pull request #18 from Dmitry-Kov/release/0.4.2\n\nPrepare 0.4.2 release candidate",
+        "branch": "HEAD",
+        "committer": {
+          "email": "noreply@github.com",
+          "name": "GitHub",
+          "time": 1789418875000
+        },
+        "hash": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+        "shortHash": "ffbf4bb",
+        "subject": "Merge pull request #18 from Dmitry-Kov/release/0.4.2"
+      },
+      "mode": "wheel",
+      "pageSha256": {
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955",
+        "index.html": "3c7776925cbdb5a2e3e2040686e567745a72640d147a1a173d5bef2af45236b1",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "worker.js": "c5091abb4e8d76e37a88b14b1880489cb16024f58e8c9b70f420756e84600f02"
+      },
+      "preview": {
+        "kind": "local-wheel-preview",
+        "sha256": "a0c16aaef7c92fa5c79649acd654c065c55c8b956889160305c527a5c75dad87",
+        "version": "0.4.2",
+        "wheel": "ooxml_integrity-0.4.2-py3-none-any.whl"
+      },
+      "pyodideVersion": "314.0.6"
+    },
+    "receipt_sha256": "8f7ab744a14e7d67bd1e7405d7ccd342480ed17c594b0eee8848fe3825aa2659",
+    "stats": {
+      "duration": 117557.628,
+      "expected": 7,
+      "flaky": 0,
+      "skipped": 0,
+      "startTime": "2026-09-14T20:52:27.728Z",
+      "unexpected": 0
+    }
+  },
+  "release_ci": {
+    "head_sha": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+    "jobs": [
+      {
+        "conclusion": "success",
+        "name": "Verify release prerequisites"
+      },
+      {
+        "conclusion": "success",
+        "name": "Verify the published Action ref"
+      },
+      {
+        "conclusion": "success",
+        "name": "build / Wheel, sdist and Pyodide"
+      },
+      {
+        "conclusion": "success",
+        "name": "Publish to PyPI"
+      },
+      {
+        "conclusion": "success",
+        "name": "Create GitHub Release"
+      }
+    ],
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34895403980"
+  },
+  "source_ci": {
+    "head_sha": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+    "jobs_passed": 8,
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/34895077298"
+  },
+  "status": "published and verified",
+  "tag": "v0.4.2",
+  "tag_object": "17d40cdda3c0be19c7f8e84268875a751963f716",
+  "tag_target": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+  "unchanged": "No published tag, archive, historical corpus or candidate receipt was rewritten"
+}
