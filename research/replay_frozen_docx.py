@@ -22,7 +22,8 @@ BASE = ROOT / 'evidence/docx-fid001-coalescence'
 CHILD = 'OOXML_FROZEN_CHECKER_CHILD'
 TEST_FILES = ['tests/test_docx_benchmark.py', 'tests/test_docx_boundaries.py',
               'tests/test_docx_agent.py', 'tests/test_word_revision_ids.py',
-              'tests/test_revision_evidence.py', 'tests/test_windows_evidence.py']
+              'tests/test_revision_evidence.py', 'tests/test_windows_evidence.py',
+              'tests/test_evidence_corpus.py']
 
 
 def digest(data):

@@ -1,12 +1,13 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.1
+    python research/release_smoke.py --version 0.4.2
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -28,6 +29,14 @@ def main():
     installed = Path(ooxml_integrity.__file__).resolve()
     assert not installed.is_relative_to(root / "src"), "must test an installed distribution"
     assert ooxml_integrity.__version__ == metadata.version("ooxml-integrity") == args.version
+
+    def source_hashes(directory):
+        return {p.relative_to(directory).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in directory.rglob("*.py")}
+
+    assert source_hashes(installed.parent) == source_hashes(root / "src/ooxml_integrity"), (
+        "installed Python sources differ from this release checkout"
+    )
     source = root / "corpus/base.docx"
     edited = root / "runs/t4_fast_fee/agreement.docx"
 
@@ -48,6 +57,21 @@ def main():
     assert report["version"] == args.version
     assert {"CMT005", "FID001"} <= {f["code"] for f in report["files"][0]["findings"]}
     assert report["files"][0]["coverage"]["schema_version"] == 1
+
+    # Previously missed seeded defects must also fail from the built package.
+    # Read static fixtures only: research imports can add checkout/src to sys.path.
+    revisions = root / "evidence/docx-revisions"
+    for output, original, rule, coverage_id in (
+        ("replace-unrelated-insertion", "basic", "FID009", "docx.fidelity.revision-text"),
+        ("unwrap-note-insertion", "notes", "FID010", "docx.fidelity.note-revisions"),
+    ):
+        result = json.loads(cli("check", revisions / f"outputs/{output}.docx", "--against",
+                                revisions / f"sources/{original}.docx", "--no-config",
+                                "--json", "--coverage", code=1).stdout)["files"][0]
+        assert rule in {f["code"] for f in result["findings"]}
+        coverage = {item["id"]: item for item in result["coverage"]["items"]}
+        assert coverage[coverage_id]["status"] == "checked"
+        assert coverage[coverage_id]["count"] > 0
 
     with tempfile.TemporaryDirectory(prefix="ooxml-release-") as folder:
         work = Path(folder)
@@ -86,7 +110,8 @@ def main():
         assert [f["code"] for f in limited["files"][0]["findings"]] == ["PKG007"]
         config.write_text('unknown-option = true\n', encoding="utf-8")
         cli("check", source, "--config", config, code=2)
-    print(f"Installed {args.version}: both entry points, clean/findings/usage exits, JSON, coverage, "
+    print(f"Installed {args.version}: source-byte parity, FID009/FID010 and their coverage, "
+          "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
 
 

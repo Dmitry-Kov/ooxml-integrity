@@ -3,7 +3,8 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[release notes](releases/0.4.1.md) before changing a version pin.
+[published 0.4.1 notes](releases/0.4.1.md) and
+[0.4.2 candidate notes](releases/0.4.2.md) before changing a version pin.
 
 ## What a release can change
 
@@ -24,7 +25,7 @@ The same patch changes undefined *character* styles from error to warning;
 those alone pass the default error threshold. These are finding changes with
 unchanged CLI exits and JSON field types. Baseline v2 remains compatible.
 
-The unreleased [FID001 coalescence correction](../evidence/docx-fid001-coalescence/README.md)
+The 0.4.2 candidate [FID001 coalescence correction](../evidence/docx-fid001-coalescence/README.md)
 can remove an ERROR when a lower inline revision-wrapper count is explained by
 preserved content. Such a pair can change from exit 1 to exit 0. Codes, remaining
 severities, report fields, coverage and baseline v2 identities are unchanged;
@@ -33,7 +34,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The unreleased [note-revision correction](../evidence/docx-note-revisions/README.md)
+The 0.4.2 candidate [note-revision correction](../evidence/docx-note-revisions/README.md)
 adds `FID010` ERROR when fewer notes retain insertion/deletion presence within
 equally populated footnote/endnote text groups. An intentional acceptance can
 also remove this audit signal; unchanged words do not establish authorization.
@@ -45,7 +46,7 @@ revision kind, normalized body digest and missing multiplicity. Review any new
 finding before accepting it into a baseline. No automatic migration, package
 release or demo-pin change is implied.
 
-The unreleased [revision-text correction](../evidence/docx-revision-text/README.md)
+The 0.4.2 candidate [revision-text correction](../evidence/docx-revision-text/README.md)
 adds `FID009` ERROR. With a source and equal same-kind revision counts, loss of
 supported main-document literal revision text can change exit 0 to 1 at the
 default threshold. It does not infer authorized revision rewrites or acceptance.
@@ -57,7 +58,7 @@ the missing occurrence count, so accepting one loss cannot hide a greater loss
 of the same wording. No migration or automatic regeneration is required; review
 new findings before recording a scoped exception. PyPI and demo pins are unchanged.
 
-The unreleased [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
+The 0.4.2 candidate [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
 can remove false CMT004/FID004 errors for renamed comments parts, expose genuine
 FID004 losses in those parts, and add CMT006 ERROR for invalid/ambiguous comments
 resolution. Unresolvable fidelity is FID000 rather than a clean comparison.
@@ -113,11 +114,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in current releases | Meaning |
+| Output | Version in the 0.4.2 candidate | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.4.1"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.4.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.4.1"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.4.2"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

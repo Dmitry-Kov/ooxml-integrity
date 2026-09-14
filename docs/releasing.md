@@ -18,9 +18,14 @@ scope fixed while preparing a release.
    tag. These jobs test the same pinned ref a consumer would use, with no
    source/version override. They must not resolve to a local working copy or
    the current PyPI version.
-3. Run `python research/build_docx_evidence.py evaluate --write` to record the
-   new checker version in the corpus metrics; review the diff and retain the
-   committed documents and labels. Run all tests and the reference-deck assertion.
+3. Run `python research/build_docx_evidence.py evaluate --output NEW_PATH.json`
+   to save current corpus metrics separately (the destination parent must exist).
+   Do not use `--write` to relabel historical metrics with a new checker version.
+   Existing receipts, documents and labels remain immutable. Re-evaluate the
+   saved revision/benchmark pairs with the current expectation declaration, e.g.
+   `python research/review_revision_text.py --evidence-dir evidence/docx-note-revisions --saved-outputs --output ANOTHER_NEW_PATH.json`.
+   These are rechecks of stored outputs, not new editor runs.
+   Run all tests and the reference-deck assertion.
    Build wheel and sdist; validate with `twine check --strict`; install each in a
    fresh environment and run `research/release_smoke.py --version VERSION`.
    Run the [real browser suite](../tests/browser/README.md) against that candidate

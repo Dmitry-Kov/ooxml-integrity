@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.4.2 — candidate
+
+Prepared for review; no release tag or PyPI publication yet.
+[Upgrade notes and verification](docs/releases/0.4.2.md).
+
+- Release validation now checks installed source bytes and FID009/FID010 from
+  both distributions. Corpus evaluation can save a new receipt with `--output`
+  without overwriting historical metrics; the published-metrics equality check
+  replays its archived checker while current corpus gates remain active.
+
 - Added `FID010` ERROR when footnote/endnote text groups retain their note
   multiplicity but fewer notes contain insertion or deletion markup. Note and
   revision IDs and fragment counts are not identities; partial removal inside
@@ -61,9 +71,10 @@
   payloads/authors/dates/nesting; changed table widths and XML serialization are
   recorded separately. A guarded content-comparison profile applies only to
   these cases; unchanged layout is not claimed.
-  Independent XML intent checks and exact finding/hash gates retain two known
-  preservation misses explicitly; accept/reject is excluded from preservation
-  metrics. The original 220-pair corpus and production checks are unchanged.
+  The historical report retains two preservation misses from its checker
+  revision; the separate FID009/FID010 follow-ups above detect both seeded
+  defects. Accept/reject is excluded from preservation metrics. The original
+  220-pair corpus is unchanged.
 
 - Updated the public demo pin and current Action examples to published `0.4.1`
   after release verification. The browser suite checks the exact public PyPI
