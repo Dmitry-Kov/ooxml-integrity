@@ -33,6 +33,23 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
+can remove false CMT004/FID004 errors for renamed comments parts, expose genuine
+FID004 losses in those parts, and add CMT006 ERROR for invalid/ambiguous comments
+resolution. Unresolvable fidelity is FID000 rather than a clean comparison.
+REL002 no longer rejects ASCII case-equivalent target names. TXT001 no longer
+warns for Unicode non-XML spaces alone or inherited preservation. All of these
+can change a gate; no existing severity or schema version changed.
+
+CLI stdout JSON now uses ASCII JSON escapes: JSON parsers recover exactly the
+same Unicode values. Human stdout/stderr retain the stream encoding and use
+backslash escapes for unencodable characters. UTF-8 report files remain UTF-8.
+Successful serialization restores the documented exit behavior on legacy streams.
+Baseline v2 remains readable. Locations for genuinely lost renamed comments now
+name their actual source part, so such entries need review; do not regenerate a
+baseline automatically. Existing conventional-part locations and TXT001 paths
+are retained.
+
 Use `code`, such as `CMT005`, as the rule identifier. Codes retain their
 documented purpose; a different kind of check should receive a different code.
 The [rule list](../README.md#what-it-reports-and-how-much-it-covered) and [support matrix](support-matrix.md)

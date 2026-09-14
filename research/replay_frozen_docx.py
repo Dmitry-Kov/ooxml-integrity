@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'evidence/docx-fid001-coalescence'
 CHILD = 'OOXML_FROZEN_CHECKER_CHILD'
 TEST_FILES = ['tests/test_docx_benchmark.py', 'tests/test_docx_boundaries.py',
-              'tests/test_docx_agent.py', 'tests/test_word_revision_ids.py']
+              'tests/test_docx_agent.py', 'tests/test_word_revision_ids.py',
+              'tests/test_revision_evidence.py', 'tests/test_windows_evidence.py']
 
 
 def digest(data):
@@ -60,7 +61,7 @@ def prepare(directory):
     ignore = shutil.ignore_patterns('__pycache__', '*.pyc', '.DS_Store')
     for name in ('research', 'tests', 'corpus'):
         shutil.copytree(ROOT/name, directory/name, ignore=ignore)
-    for name in ('docx-benchmark', 'docx-benchmark-boundaries', 'docx-revisions',
+    for name in ('docx-beta', 'docx-benchmark', 'docx-benchmark-boundaries', 'docx-revisions',
                  'docx-word-id-followup', 'docx-fid001-coalescence'):
         shutil.copytree(ROOT/'evidence'/name, directory/'evidence'/name, ignore=ignore)
     shutil.copyfile(ROOT/'pyproject.toml', directory/'pyproject.toml')

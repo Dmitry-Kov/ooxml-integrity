@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Fixed redirected CLI output on legacy encodings such as Windows cp1252:
+  JSON escapes Unicode losslessly; human diagnostics escape characters the
+  selected stream encoding cannot represent instead of crashing mid-report.
+- Resolve main-document comments through their typed internal relationship in
+  structural checks, fidelity and coverage. Renamed parts no longer trigger
+  false CMT004/FID004 findings, and body loss in such parts is detected. New
+  `CMT006` ERROR reports ambiguous, invalid or unreadable comments relationships
+  or targets; an unresolvable source comparison remains `FID000`. `REL002`
+  accepts ASCII case-equivalent package targets, consistently with OPC names.
+- `TXT001` now checks XML whitespace only and respects inherited `xml:space`.
+  Non-breaking spaces alone no longer trigger it. Computing warning locations
+  counts siblings once per parent, avoiding quadratic work on large stories.
+  These fixes can change CI outcomes; [local pilot follow-up and limits](evidence/adeu-pilot-followup/README.md).
+
 - Fixed a `FID001` false loss report when Word coalesces plain inline insertion
   or deletion fragments. A lower wrapper count is exempt only when an ordered
   text/author/effective-time/direct-format/paragraph-position comparison agrees;

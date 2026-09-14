@@ -207,11 +207,11 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `STY002` | undefined `basedOn` / `next` / `link` style references: warning |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
-| `CMT001-005` | `commentRangeStart` ↔ `commentRangeEnd` ↔ `commentReference` ↔ `comments.xml` |
+| `CMT001-006` | Comment ranges/references ↔ the related comments part; unresolved or unreadable comments parts |
 | `REV001-003` | revision-id uniqueness; `w:del` carries `w:delText`, respecting legal `w:ins > w:del` nesting |
 | `TBL001-002` | `tblGrid` present; cells per row vs grid columns, accounting for `gridSpan` |
 | `SDT001-002` | content-control integrity |
-| `TXT001` | edge whitespace in runs without `xml:space="preserve"` |
+| `TXT001` | XML edge whitespace in runs without effective `xml:space="preserve"` |
 | `FID000` | requested source comparison could not run |
 | `FID001-003` | losses and additions relative to the source, by construct count; drop in text volume |
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids |

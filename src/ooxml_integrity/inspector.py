@@ -24,7 +24,8 @@ from .archive import (
     read_package,
 )
 from .finding import ERROR, INFO, WARN, Finding
-from .xmlutil import UnsafeXML, fromstring as parse_xml
+from .comments import ASCII_LOWER, comment_part, comment_tree
+from .xmlutil import UnsafeXML, fromstring as parse_xml, text_contexts
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -272,6 +273,7 @@ class Inspector:
         # deliberately narrower. It is only meaningful when the owning XML part
         # parsed and could be searched; root relationships and relationships of a
         # binary source are implicit and must not be called unused.
+        equivalent_names = {name.translate(ASCII_LOWER) for name in self.parts}
         for relsname, tree in self.trees.items():
             if not relsname.endswith(".rels"):
                 continue
@@ -295,7 +297,9 @@ class Inspector:
                     )
                     continue
                 candidates = self._target_candidates(source, target)
-                if not candidates or not any(c in self.parts for c in candidates):
+                if not candidates or not any(
+                    c.translate(ASCII_LOWER) in equivalent_names for c in candidates
+                ):
                     self._add(
                         "REL002", ERROR,
                         f"{rid} points at a missing part: {target}",
@@ -423,7 +427,18 @@ class Inspector:
         doc = self._tree("word/document.xml")
         if doc is None:
             return
-        cm = self._tree("word/comments.xml")
+        cm = None
+        cm_part = None
+        try:
+            cm_part = comment_part(self.parts)
+            if cm_part is not None:
+                cm = comment_tree(self.parts, cm_part)
+        except (ValueError, etree.XMLSyntaxError) as e:
+            self._add("CMT006", ERROR,
+                      f"comments could not be resolved or parsed: {e}",
+                      part="word/_rels/document.xml.rels")
+        cm_label = ("comments.xml" if cm_part == "word/comments.xml"
+                    else cm_part or "the related comments part")
         defined = (
             {c.get(_w("id")) for c in cm.findall(_w("comment"))} if cm is not None
             else set()
@@ -447,13 +462,13 @@ class Inspector:
                       "will not render", part="word/document.xml")
         for i in srt(refs - defined):
             self._add("CMT004", ERROR,
-                      f"commentReference id={i} not found in comments.xml",
+                      f"commentReference id={i} not found in {cm_label}",
                       part="word/document.xml")
         for i in srt(defined - refs):
             self._add("CMT005", ERROR,
-                      f"comment id={i} is orphaned - present in comments.xml but "
+                      f"comment id={i} is orphaned - present in {cm_label} but "
                       "anchored to nothing - the reviewer's note is invisible in Word",
-                      part="word/comments.xml")
+                      part=cm_part or "")
 
     def check_revisions(self) -> None:
         doc = self._tree("word/document.xml")
@@ -533,17 +548,25 @@ class Inspector:
                           "disappears", f"sdt[{i}]")
 
     def check_whitespace(self) -> None:
-        """Edge whitespace in a run without xml:space="preserve" is silently eaten."""
+        """XML edge whitespace without effective preservation risks being lost."""
         doc = self._tree("word/document.xml")
         if doc is None:
             return
+        # Ordinary clean documents need no paths at all. Avoid a full path
+        # traversal when every edge-space node already declares preservation.
         xml_space = "{http://www.w3.org/XML/1998/namespace}space"
-        for t in doc.iter(_w("t")):
+        if not any(
+            (t.text or "") != (t.text or "").strip(" \t\r\n")
+            and t.get(xml_space) != "preserve"
+            for t in doc.iter(_w("t"))
+        ):
+            return
+        for t, where, space in text_contexts(doc, _w("t")):
             txt = t.text or ""
-            if txt != txt.strip() and t.get(xml_space) != "preserve":
+            if txt != txt.strip(" \t\r\n") and space != "preserve":
                 self._add("TXT001", WARN,
                           'run has edge whitespace without xml:space="preserve" - '
-                          f"it will vanish: {txt[:40]!r}", self._xpath(t))
+                          f"it will vanish: {txt[:40]!r}", where)
 
     CHECKS = (
         check_content_types, check_relationships, check_styles, check_numbering,

@@ -22,6 +22,7 @@ from .archive import (
     read_package,
 )
 from .finding import ERROR, INFO, WARN, Finding
+from .comments import comment_part, comment_tree
 from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -367,6 +368,7 @@ class _Snapshot:
     text_length: int
     stories: _StoryFacts
     revision_text: dict[str, tuple | None]
+    body_locations: dict[str, str]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -383,17 +385,31 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     }
     parts = read_package(path, limits, members=wanted)
     doc = parse_xml(parts["word/document.xml"])
+    comments = comment_part(parts, names=names)
+    if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
+        raise ValueError("document has comment references but no comments relationship")
     story_references = _effective_story_references(parts, doc, names=names)
     story_parts = {part for _, _, part in story_references}
+    if comments is not None:
+        story_parts.add(comments)
     if story_parts:
         parts.update(read_package(path, limits, members=story_parts))
+    if comments is not None:
+        comment_tree(parts, comments)
     counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
     text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
     bodies: dict[str, collections.Counter] = {}
     authors: dict[tuple[str, str], str] = {}
+    locations: dict[str, str] = {}
     for part, tag, _, _ in BODY_PARTS:
-        body_counts, body_authors = _bodies(parts, part, tag)
+        actual = comments if tag == "comment" else part
+        body_counts, body_authors = (
+            _bodies(parts, actual, tag) if actual is not None
+            else (collections.Counter(), {})
+        )
         bodies[part] = body_counts
+        if actual is not None:
+            locations[part] = actual
         authors.update(
             ((part, body), author) for body, author in body_authors.items()
         )
@@ -401,6 +417,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         counts, bodies, authors, text_length,
         _story_facts(parts, doc, references=story_references),
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
+        locations,
     )
 
 
@@ -522,7 +539,7 @@ def compare(source: str | Path, edited: str | Path, *,
                 + (f". {label.capitalize()} by {who}: " if who
                    else f". {label.capitalize()}: ")
                 + f'"{snippet}"',
-                part=part,
+                part=source_snapshot.body_locations.get(part, part),
                 extra={"body": body, "author": who, "lost": lost,
                        "in_source": n},
             ))

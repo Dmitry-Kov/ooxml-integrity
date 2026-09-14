@@ -152,6 +152,7 @@ def test_batch_paths_cannot_escape_staging(tmp_path):
         windows.batch_path(tmp_path, "../outside.docx")
 
 
+@pytest.mark.frozen_checker
 def test_rebuild_preserves_real_word_pairs_and_every_committed_docx(tmp_path):
     copied = tmp_path / "evidence"
     shutil.copytree(ROOT, copied)
