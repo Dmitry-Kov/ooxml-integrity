@@ -26,7 +26,7 @@ unless they have security impact that needs private handling.
 
 ## Maintained versions
 
-Security fixes target the latest published release (currently `0.4.1`).
+Security fixes target the latest published release (currently `0.4.2`).
 Older releases do not have a separate maintenance or backport commitment.
 Report an issue found on an older version and state whether it also reproduces
 on the latest release. An unreleased fix on `main` is not yet in a PyPI package

@@ -15,10 +15,10 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
-The demo pins published `0.4.1` and reports its installed version in the footer.
+The demo pins published `0.4.2` and reports its installed version in the footer.
 [Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
-Version `0.4.1` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.4.1/).
-The [upgrade notes](docs/releases/0.4.1.md) describe changed findings and compatibility.
+Version `0.4.2` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.4.2/).
+The [upgrade notes](docs/releases/0.4.2.md) describe changed findings and compatibility.
 
 ```bash
 pip install ooxml-integrity
@@ -154,7 +154,7 @@ notes record the cases and their remaining limits.
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.2
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -166,7 +166,7 @@ the source and edited files are still available for comparison.
 
 The action writes a summary to the job page and can produce JSON and SARIF
 reports. SARIF findings can appear as code-scanning annotations in a pull
-request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.1/docs/configuration.md)
+request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.2/docs/configuration.md)
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
@@ -193,8 +193,7 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe the [0.4.2 candidate](docs/releases/0.4.2.md), which is
-not yet published. Version `0.4.0` treated undefined character styles
+These tables describe [0.4.2](docs/releases/0.4.2.md). Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 `.docx`:
@@ -217,8 +216,8 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID001-003` | losses and additions relative to the source, by construct count; drop in text volume |
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids |
 | `FID007-008` | header/footer story missing or changed; tracked constructs lost from headers/footers |
-| `FID009` | 0.4.2 candidate: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
-| `FID010` | 0.4.2 candidate: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
+| `FID009` | 0.4.2: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
+| `FID010` | 0.4.2: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
 
 `.pptx`:
 
@@ -238,8 +237,8 @@ Use `--coverage` to see the scope of a result. It distinguishes
 `unsupported` surfaces per file, and a result with a gap says
 `no findings in checked surfaces`, not `clean`. `ooxml-integrity doctor`
 reports which measurements are available on the current machine.
-See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.1/docs/support-matrix.md) and
-[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.1/docs/coverage.md).
+See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.2/docs/support-matrix.md) and
+[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.2/docs/coverage.md).
 
 ## Limitations
 
@@ -252,8 +251,8 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
   Accuracy on customer documents has not been measured.
 - A separate [existing-revision tranche](evidence/docx-revisions/README.md)
   has 30 pairs: 15 controls preserving review content through adeu, Word Online
-  and Word for Windows, nine seeded defects (published checker: seven detected,
-  two missed; 0.4.2 candidate [FID009/FID010 follow-up](evidence/docx-note-revisions/README.md):
+  and Word for Windows, nine seeded defects (historical checker revision: seven detected,
+  two missed; 0.4.2 [FID009/FID010 follow-up](evidence/docx-note-revisions/README.md):
   nine detected), and six accept/reject characterizations excluded from
   preservation metrics. Producer groups are reported separately. The three
   Windows saves preserve revisions but change table widths; unchanged layout

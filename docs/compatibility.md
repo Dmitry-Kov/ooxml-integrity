@@ -3,8 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[published 0.4.1 notes](releases/0.4.1.md) and
-[0.4.2 candidate notes](releases/0.4.2.md) before changing a version pin.
+[0.4.2 release notes](releases/0.4.2.md) before changing a version pin.
 
 ## What a release can change
 
@@ -25,7 +24,7 @@ The same patch changes undefined *character* styles from error to warning;
 those alone pass the default error threshold. These are finding changes with
 unchanged CLI exits and JSON field types. Baseline v2 remains compatible.
 
-The 0.4.2 candidate [FID001 coalescence correction](../evidence/docx-fid001-coalescence/README.md)
+The 0.4.2 [FID001 coalescence correction](../evidence/docx-fid001-coalescence/README.md)
 can remove an ERROR when a lower inline revision-wrapper count is explained by
 preserved content. Such a pair can change from exit 1 to exit 0. Codes, remaining
 severities, report fields, coverage and baseline v2 identities are unchanged;
@@ -34,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The 0.4.2 candidate [note-revision correction](../evidence/docx-note-revisions/README.md)
+The 0.4.2 [note-revision correction](../evidence/docx-note-revisions/README.md)
 adds `FID010` ERROR when fewer notes retain insertion/deletion presence within
 equally populated footnote/endnote text groups. An intentional acceptance can
 also remove this audit signal; unchanged words do not establish authorization.
@@ -43,10 +42,10 @@ These cases can change exit 0 to 1. New `docx.fidelity.note-revisions` coverage
 is additive under schema v1; empty/changed groups are explicit gaps. Baseline v2
 retains its format and existing identities; FID010 keys distinguish note part,
 revision kind, normalized body digest and missing multiplicity. Review any new
-finding before accepting it into a baseline. No automatic migration, package
-release or demo-pin change is implied.
+finding before accepting it into a baseline. No automatic baseline migration
+is performed; package and demo versions are recorded separately.
 
-The 0.4.2 candidate [revision-text correction](../evidence/docx-revision-text/README.md)
+The 0.4.2 [revision-text correction](../evidence/docx-revision-text/README.md)
 adds `FID009` ERROR. With a source and equal same-kind revision counts, loss of
 supported main-document literal revision text can change exit 0 to 1 at the
 default threshold. It does not infer authorized revision rewrites or acceptance.
@@ -56,9 +55,10 @@ Baseline v2 keeps its format and all existing identities. The new rule's key
 includes insertion/deletion kind, a SHA-256 digest of the original wording and
 the missing occurrence count, so accepting one loss cannot hide a greater loss
 of the same wording. No migration or automatic regeneration is required; review
-new findings before recording a scoped exception. PyPI and demo pins are unchanged.
+new findings before recording a scoped exception. Check the installed version
+or demo footer to establish which checker ran.
 
-The 0.4.2 candidate [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
+The 0.4.2 [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
 can remove false CMT004/FID004 errors for renamed comments parts, expose genuine
 FID004 losses in those parts, and add CMT006 ERROR for invalid/ambiguous comments
 resolution. Unresolvable fidelity is FID000 rather than a clean comparison.
@@ -114,7 +114,7 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in the 0.4.2 candidate | Meaning |
+| Output | Version in 0.4.2 | Meaning |
 | --- | --- | --- |
 | `check --json` | Top-level `version: "0.4.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
@@ -203,7 +203,7 @@ automatically just to make an upgrade pass.
    the CI run to finish before adopting the upgrade.
 
 For a published package, pin explicitly, for example
-`python -m pip install "ooxml-integrity==0.4.1"`. With the GitHub Action, pin
+`python -m pip install "ooxml-integrity==0.4.2"`. With the GitHub Action, pin
 the Action ref and, when using PyPI, set the `version` input explicitly as in
 the [pilot guide](pilot.md#try-it-after-generation-in-ci). The optional `source`
 input takes precedence over `version`; with neither override the Action

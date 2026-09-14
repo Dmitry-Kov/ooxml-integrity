@@ -1,0 +1,450 @@
+{
+  "checkout_wheel": {
+    "difference_from_published": [
+      "ooxml_integrity-0.4.2.dist-info/METADATA",
+      "ooxml_integrity-0.4.2.dist-info/RECORD"
+    ],
+    "python_sources_identical": true,
+    "sha256": "62b391004acf3f89b427152f6e5983d289f4ebb839ed34f682875f12c3225736"
+  },
+  "modes": {
+    "release": {
+      "cases": [
+        {
+          "duration_ms": 14556,
+          "observations": {
+            "doctor": {
+              "fonts": {
+                "failures": [],
+                "probes": [
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/Carlito-Regular.ttf",
+                    "requested": "Calibri",
+                    "resolved_family": "Carlito"
+                  },
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/LiberationSans-Regular.ttf",
+                    "requested": "Arial",
+                    "resolved_family": "Liberation Sans"
+                  },
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/LiberationSerif-Regular.ttf",
+                    "requested": "Times New Roman",
+                    "resolved_family": "Liberation Serif"
+                  }
+                ]
+              },
+              "runtime": {
+                "fonttools": "4.62.1",
+                "implementation": "CPython",
+                "libxml2": "2.9.10",
+                "lxml": "6.0.2.0",
+                "platform": "Emscripten-5.0.3-wasm32-32bit",
+                "python": "3.14.2"
+              },
+              "schema_version": 1,
+              "status": "ready",
+              "version": "0.4.2"
+            },
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 390
+              }
+            },
+            "package-downloads": [
+              {
+                "method": "GET",
+                "url": "https://files.pythonhosted.org/packages/96/7d/646bda386b576e20bc6adfdd9912c285af96a1bc1bc5478e323cfe4631cc/ooxml_integrity-0.4.2-py3-none-any.whl"
+              }
+            ]
+          },
+          "status": "passed",
+          "title": "real package: examples, JSON, coverage, Doctor and narrow layout"
+        },
+        {
+          "duration_ms": 5504,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "uploads: same names, remove/reselect, corrupt input and recovery"
+        },
+        {
+          "duration_ms": 4173,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "unavailable runtime: visible startup error, disabled checks, reload recovery"
+        },
+        {
+          "duration_ms": 6000,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "unavailable font: visible startup error, disabled checks, reload recovery"
+        },
+        {
+          "duration_ms": 4904,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 390
+              }
+            },
+            "feedback-navigation": [
+              {
+                "body": null,
+                "method": "GET",
+                "referrer": null,
+                "url": "https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml"
+              }
+            ]
+          },
+          "status": "passed",
+          "title": "feedback is voluntary and sends no selected document or report data"
+        },
+        {
+          "duration_ms": 8642,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            },
+            "network-scenario": {
+              "elapsedMs": 8436,
+              "injectedLatencyMs": 4000,
+              "scope": "pyodide.mjs request; no bandwidth throttle"
+            }
+          },
+          "status": "passed",
+          "title": "delayed runtime download: progress remains visible and then a real check succeeds"
+        },
+        {
+          "duration_ms": 69396,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            },
+            "timeout": {
+              "elapsedMs": 62967,
+              "workerClosed": true
+            }
+          },
+          "status": "passed",
+          "title": "60-second deadline terminates a busy Python worker; reload restores checks"
+        }
+      ],
+      "full_report_local_path": "tmp/publication-0.4.2/browser-release/browser-results.json",
+      "full_report_sha256": "8838c9088d97b1a4a43a9ae9d30690e7bd3775311a79b3a3113fab856b4372f9",
+      "metadata": {
+        "actualWorkers": 1,
+        "changedTrackedFiles": [
+          "CHANGELOG.md",
+          "README.md",
+          "SECURITY.md",
+          "demo/README.md",
+          "demo/index.html",
+          "demo/worker.js",
+          "docs/compatibility.md",
+          "docs/configuration.md",
+          "docs/coverage.md",
+          "docs/releases/0.4.2.md",
+          "docs/support-matrix.md"
+        ],
+        "checkerVersion": "0.4.2",
+        "commit": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+        "mode": "release",
+        "pageSha256": {
+          "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+          "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+          "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955",
+          "index.html": "57c20bb58e10b0266d69264fe880534274dcb5c3c37933f112829f16292c205e",
+          "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+          "worker.js": "63b59964243230c9299ca1856d6df7f1a8816a78e7aba60b5e98ec0d0ce899c3"
+        },
+        "preview": null,
+        "pyodideVersion": "314.0.6"
+      },
+      "stats": {
+        "duration": 113813.928,
+        "expected": 7,
+        "flaky": 0,
+        "skipped": 0,
+        "startTime": "2026-09-14T20:58:18.801Z",
+        "unexpected": 0
+      }
+    },
+    "wheel": {
+      "cases": [
+        {
+          "duration_ms": 13421,
+          "observations": {
+            "doctor": {
+              "fonts": {
+                "failures": [],
+                "probes": [
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/Carlito-Regular.ttf",
+                    "requested": "Calibri",
+                    "resolved_family": "Carlito"
+                  },
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/LiberationSans-Regular.ttf",
+                    "requested": "Arial",
+                    "resolved_family": "Liberation Sans"
+                  },
+                  {
+                    "confidence": "metric",
+                    "face_index": 0,
+                    "path": "/usr/share/fonts/LiberationSerif-Regular.ttf",
+                    "requested": "Times New Roman",
+                    "resolved_family": "Liberation Serif"
+                  }
+                ]
+              },
+              "runtime": {
+                "fonttools": "4.62.1",
+                "implementation": "CPython",
+                "libxml2": "2.9.10",
+                "lxml": "6.0.2.0",
+                "platform": "Emscripten-5.0.3-wasm32-32bit",
+                "python": "3.14.2"
+              },
+              "schema_version": 1,
+              "status": "ready",
+              "version": "0.4.2"
+            },
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 390
+              }
+            },
+            "package-downloads": [
+              {
+                "method": "GET",
+                "url": "http://127.0.0.1:8766/_wheels/ooxml_integrity-0.4.2-py3-none-any.whl"
+              }
+            ]
+          },
+          "status": "passed",
+          "title": "real package: examples, JSON, coverage, Doctor and narrow layout"
+        },
+        {
+          "duration_ms": 4461,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "uploads: same names, remove/reselect, corrupt input and recovery"
+        },
+        {
+          "duration_ms": 3690,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "unavailable runtime: visible startup error, disabled checks, reload recovery"
+        },
+        {
+          "duration_ms": 6000,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            }
+          },
+          "status": "passed",
+          "title": "unavailable font: visible startup error, disabled checks, reload recovery"
+        },
+        {
+          "duration_ms": 3921,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 390
+              }
+            },
+            "feedback-navigation": [
+              {
+                "body": null,
+                "method": "GET",
+                "referrer": null,
+                "url": "https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml"
+              }
+            ]
+          },
+          "status": "passed",
+          "title": "feedback is voluntary and sends no selected document or report data"
+        },
+        {
+          "duration_ms": 7628,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            },
+            "network-scenario": {
+              "elapsedMs": 7425,
+              "injectedLatencyMs": 4000,
+              "scope": "pyodide.mjs request; no bandwidth throttle"
+            }
+          },
+          "status": "passed",
+          "title": "delayed runtime download: progress remains visible and then a real check succeeds"
+        },
+        {
+          "duration_ms": 68897,
+          "observations": {
+            "environment": {
+              "browser": "153.0.8010.12",
+              "footer": "ooxml-integrity 0.4.2 \u00b7 Pyodide 314.0.6",
+              "viewport": {
+                "height": 900,
+                "width": 1280
+              }
+            },
+            "timeout": {
+              "elapsedMs": 62973,
+              "workerClosed": true
+            }
+          },
+          "status": "passed",
+          "title": "60-second deadline terminates a busy Python worker; reload restores checks"
+        }
+      ],
+      "full_report_local_path": "tmp/publication-0.4.2/browser-wheel/browser-results.json",
+      "full_report_sha256": "d161507fed852f6e099d64984789bf27834ecbb8a912c8bbf66ec8e57569942b",
+      "metadata": {
+        "actualWorkers": 1,
+        "changedTrackedFiles": [
+          "CHANGELOG.md",
+          "README.md",
+          "SECURITY.md",
+          "demo/README.md",
+          "demo/index.html",
+          "demo/worker.js",
+          "docs/compatibility.md",
+          "docs/configuration.md",
+          "docs/coverage.md",
+          "docs/releases/0.4.2.md",
+          "docs/support-matrix.md"
+        ],
+        "checkerVersion": "0.4.2",
+        "commit": "ffbf4bb44fb886385300b12e43ff9be2d524809d",
+        "mode": "wheel",
+        "pageSha256": {
+          "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+          "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+          "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955",
+          "index.html": "57c20bb58e10b0266d69264fe880534274dcb5c3c37933f112829f16292c205e",
+          "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+          "worker.js": "c5091abb4e8d76e37a88b14b1880489cb16024f58e8c9b70f420756e84600f02"
+        },
+        "preview": {
+          "kind": "local-wheel-preview",
+          "sha256": "62b391004acf3f89b427152f6e5983d289f4ebb839ed34f682875f12c3225736",
+          "version": "0.4.2",
+          "wheel": "ooxml_integrity-0.4.2-py3-none-any.whl"
+        },
+        "pyodideVersion": "314.0.6"
+      },
+      "stats": {
+        "duration": 108478.382,
+        "expected": 7,
+        "flaky": 0,
+        "skipped": 0,
+        "startTime": "2026-09-14T21:00:33.639Z",
+        "unexpected": 0
+      }
+    }
+  },
+  "node": "26.8.1",
+  "playwright": "1.63.0",
+  "production_deployment_performed": false,
+  "python_targeted": {
+    "command": ".venv/bin/python -m pytest tests/test_browser_demo.py tests/test_browser_preview.py tests/test_release_version.py -ra",
+    "duration_seconds": 8.16,
+    "passed": 29
+  },
+  "scope": "Post-publication demo pin, served locally from release commit plus the recorded modified tracked files; deployment follows separate PR",
+  "screenshots_inspected": [
+    "public narrow-table at 390px",
+    "public feedback at 390px"
+  ]
+}
