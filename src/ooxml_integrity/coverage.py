@@ -16,6 +16,7 @@ from .archive import (
 )
 from .finding import Finding
 from .comments import comment_part, comment_tree
+from .revision_text import inventory as revision_inventory, assess as assess_revision_text
 from .fidelity import story_reference_count
 from .fonts import resolve_face
 from .pptx_layout import Deck, layout_shape, read_deck
@@ -320,6 +321,35 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     items.append(_item(
         "docx.fidelity.main-story", fidelity_status, fidelity_reason,
     ))
+    if fidelity_status is CoverageStatus.CHECKED:
+        try:
+            source_document = parse_xml(source_parts['word/document.xml'])
+            if document is None:
+                raise ValueError('edited main document could not be parsed')
+            text_result = assess_revision_text(
+                revision_inventory(source_document), revision_inventory(document),
+            )
+            if not text_result.source_count:
+                text_status = CoverageStatus.NOT_PRESENT
+                text_reason = 'no source insertion/deletion text to compare'
+            elif text_result.skipped:
+                text_status = (CoverageStatus.ESTIMATED if text_result.compared
+                               else CoverageStatus.SKIPPED)
+                text_reason = (f'compared {text_result.compared} source revision '
+                               'payload(s); ' + '; '.join(text_result.skipped))
+            else:
+                text_status = CoverageStatus.CHECKED
+                text_reason = (f'compared {text_result.compared} source revision '
+                               'payload(s) as literal text; identity, metadata, '
+                               'order and formatting are not checked')
+            text_surface = _item('docx.fidelity.revision-text', text_status,
+                                 text_reason, text_result.compared)
+        except (KeyError, ValueError, etree.XMLSyntaxError) as e:
+            text_surface = _item('docx.fidelity.revision-text', CoverageStatus.SKIPPED,
+                                 f'revision text comparison unavailable: {e}')
+    else:
+        text_surface = _item('docx.fidelity.revision-text', fidelity_status, fidelity_reason)
+    items.append(text_surface)
     if fidelity_status is CoverageStatus.CHECKED:
         note_parts = BODY_PARTS.intersection(parts).union(
             BODY_PARTS.intersection(source_parts)

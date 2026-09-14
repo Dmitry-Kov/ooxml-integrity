@@ -1,0 +1,15 @@
+{
+  "baseline_commit": "83a773cc340a851ecb2a0a4d5a03203ed0945c05",
+  "historical_manifest_sha256": "b5d7fdf649808e902b18ec6b2ad0973d130d9724e4c1edf495e11711b2b1557a",
+  "candidate_additions": {
+    "replace-unrelated-insertion": [
+      {
+        "code": "FID009",
+        "severity": "ERROR",
+        "count": 1
+      }
+    ]
+  },
+  "other_revision_pairs": "Unchanged actionable finding multisets from historical manifest",
+  "saved_editor_pairs": "168 output pairs retain the previous candidate findings; 45 missing outputs remain unevaluated"
+}

@@ -33,6 +33,18 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased [revision-text correction](../evidence/docx-revision-text/README.md)
+adds `FID009` ERROR. With a source and equal same-kind revision counts, loss of
+supported main-document literal revision text can change exit 0 to 1 at the
+default threshold. It does not infer authorized revision rewrites or acceptance.
+The new `docx.fidelity.revision-text` coverage item is additive under schema v1;
+unsupported/unequal-count cases and exhausted searches remain explicit gaps.
+Baseline v2 keeps its format and all existing identities. The new rule's key
+includes insertion/deletion kind, a SHA-256 digest of the original wording and
+the missing occurrence count, so accepting one loss cannot hide a greater loss
+of the same wording. No migration or automatic regeneration is required; review
+new findings before recording a scoped exception. PyPI and demo pins are unchanged.
+
 The unreleased [adeu pilot corrections](../evidence/adeu-pilot-followup/README.md)
 can remove false CMT004/FID004 errors for renamed comments parts, expose genuine
 FID004 losses in those parts, and add CMT006 ERROR for invalid/ambiguous comments

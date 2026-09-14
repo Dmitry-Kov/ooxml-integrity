@@ -67,6 +67,7 @@ def test_every_pair_hash_and_exact_finding_multiset(metrics):
     assert metrics == json.loads((evidence.BASE / "metrics.json").read_text(encoding="utf-8"))
 
 
+@pytest.mark.frozen_checker
 def test_external_preservation_and_seeded_detection_have_separate_denominators(metrics):
     editor = metrics["groups"]["external_editor"]
     assert {key: editor[key] for key in ("pairs", "tp", "fp", "fn", "tn")} == dict(pairs=10, tp=0, fp=0, fn=0, tn=10)
@@ -125,6 +126,7 @@ def test_accept_reject_is_characterization_not_preservation_precision(metrics):
 
 
 @pytest.mark.parametrize("ident", ["replace-unrelated-insertion", "unwrap-note-insertion"])
+@pytest.mark.frozen_checker
 def test_known_misses_remain_defects_when_current_checker_is_silent(ident, manifest, metrics):
     record = next(case for case in manifest["pairs"] if case["id"] == ident)
     assert record["known_miss"] is True

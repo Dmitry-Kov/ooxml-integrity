@@ -177,11 +177,12 @@ def test_whitespace_locations_match_lxml(base_docx, tmp_path):
 
 
 def test_current_checker_retains_revision_corpus_results():
-    from research import revision_evidence
-    metrics = revision_evidence.evaluate()
-    assert all(case['matches_expected_checker'] for case in metrics['cases'])
-    assert metrics['groups']['seeded_defect']['fn'] == 2
-    assert 'CMT006' in metrics['rules_without_positive_cases']
+    # Current expectations now live beside the FID009 follow-up; the original
+    # 30-pair receipt is still tested against its archived checker.
+    from research.review_revision_text import review
+    metrics = review()
+    assert metrics['corrected_known_misses'] == ['replace-unrelated-insertion']
+    assert metrics['remaining_known_misses'] == ['unwrap-note-insertion']
 
 
 @pytest.mark.parametrize('xml', [

@@ -23,6 +23,7 @@ from .archive import (
 )
 from .finding import ERROR, INFO, WARN, Finding
 from .comments import comment_part, comment_tree
+from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
 from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -369,6 +370,7 @@ class _Snapshot:
     stories: _StoryFacts
     revision_text: dict[str, tuple | None]
     body_locations: dict[str, str]
+    inline_revision_text: RevisionText
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -418,6 +420,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         _story_facts(parts, doc, references=story_references),
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
+        revision_inventory(doc),
     )
 
 
@@ -545,6 +548,9 @@ def compare(source: str | Path, edited: str | Path, *,
             ))
 
     out.extend(_story_losses(source_snapshot, edited_snapshot))
+    out.extend(assess_revision_text(
+        source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
+    ).findings)
 
     ta, tb = source_snapshot.text_length, edited_snapshot.text_length
     if ta and tb < ta * TEXT_LOSS_THRESHOLD:

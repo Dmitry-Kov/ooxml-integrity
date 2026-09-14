@@ -78,8 +78,28 @@ DOCX reports:
   `docx.text-whitespace`;
 - `docx.header-footer-semantics`, `docx.media-content`, and
   `docx.strict-wordprocessingml`;
-- `docx.fidelity.main-story`, `docx.fidelity.note-bodies`, and
+- `docx.fidelity.main-story`, `docx.fidelity.revision-text`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
+
+The unreleased `docx.fidelity.revision-text` item covers the bounded literal
+text comparison behind `FID009`, separately for main-document insertions and
+deletions with equal nonzero wrapper counts. Each kind requires nonempty plain
+text in direct runs below paragraph-level revisions. Nested, property-only or
+non-text content makes that kind ineligible. Exact payload matches are followed
+by nonoverlapping literal searches across concatenated same-kind output text;
+the searches share a budget of 64 × 1024 × 1024 scanned characters per assessment.
+This is an internal bound, not a CLI setting.
+
+`count` is the number of source revision payload occurrences assessed, including
+those with a finding. All eligible occurrences assessed gives `checked`; a mix
+of assessed and skipped occurrences gives `estimated`; none assessed gives
+`skipped`, with unsupported content, changed counts or exhausted search budget
+named in the reason. No source insertions/deletions gives `not-present`, count
+zero. An absent/failed comparison gives `skipped` without a count. A checked
+literal inventory does not establish revision identity, author/date, position,
+formatting, edit intent or visual preservation. Incidental wording elsewhere
+can mask loss. Coverage remains additive under `schema_version: 1` and does not
+independently fail a gate; [scope and reproductions](../evidence/docx-revision-text/README.md).
 
 `docx.styles` is `checked` when references in `word/document.xml` are evaluated,
 including when `word/styles.xml` is missing: those references have no definitions
