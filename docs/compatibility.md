@@ -33,6 +33,18 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased [note-revision correction](../evidence/docx-note-revisions/README.md)
+adds `FID010` ERROR when fewer notes retain insertion/deletion presence within
+equally populated footnote/endnote text groups. An intentional acceptance can
+also remove this audit signal; unchanged words do not establish authorization.
+Unexpected roots in conventional note parts now prevent comparison (`FID000`).
+These cases can change exit 0 to 1. New `docx.fidelity.note-revisions` coverage
+is additive under schema v1; empty/changed groups are explicit gaps. Baseline v2
+retains its format and existing identities; FID010 keys distinguish note part,
+revision kind, normalized body digest and missing multiplicity. Review any new
+finding before accepting it into a baseline. No automatic migration, package
+release or demo-pin change is implied.
+
 The unreleased [revision-text correction](../evidence/docx-revision-text/README.md)
 adds `FID009` ERROR. With a source and equal same-kind revision counts, loss of
 supported main-document literal revision text can change exit 0 to 1 at the

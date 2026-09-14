@@ -205,6 +205,86 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
 
 
 @dataclass
+class NoteRevisions:
+    notes: collections.Counter
+    revised: collections.Counter
+    empty_records: int
+
+
+def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
+    """Note/kind presence grouped by text, never by note or revision IDs.
+
+    Include deleted words in the key so unwrapping a deletion can be compared
+    with the same words in ordinary runs. This is not rendered text or identity.
+    One note contributes at most once per kind, regardless of fragment count.
+    """
+    result = NoteRevisions(collections.Counter(), collections.Counter(), 0)
+    for part, kind in (('word/footnotes.xml','footnote'), ('word/endnotes.xml','endnote')):
+        if part not in parts:
+            continue
+        root = parse_xml(parts[part])
+        if root.tag != W + kind + 's':
+            raise ValueError(f'{part} has unexpected note-part root {root.tag!r}')
+        for note in root.findall(W + kind):
+            if note.get(W + 'type') in _BOILERPLATE:
+                continue
+            chunks, kinds = [], set()
+            for node in note.iter():
+                if node.tag in (W + 't', W + 'delText'):
+                    chunks.append(node.text or '')
+                elif node.tag in _REVISION_TAGS:
+                    kinds.add(node.tag[len(W):])
+            body = _norm(''.join(chunks))
+            if not body:
+                result.empty_records += len(kinds)
+                continue
+            result.notes[(part, body)] += 1
+            for tag in sorted(kinds):
+                result.revised[(part, body, tag)] += 1
+    return result
+
+
+@dataclass
+class NoteRevisionComparison:
+    findings: list[Finding]
+    source_count: int
+    compared: int
+    skipped: list[str]
+
+
+def assess_note_revisions(source: NoteRevisions, edited: NoteRevisions) -> NoteRevisionComparison:
+    """Detect missing ins/del presence only in equally populated text groups.
+
+    A surviving same-kind revision can mask partial removal within a note, and
+    identical note text can mask reassignment across notes. Coalescence inside
+    a note preserves presence and therefore cannot alone trigger this rule.
+    """
+    result = NoteRevisionComparison([], sum(source.revised.values()) + source.empty_records, 0, [])
+    if source.empty_records:
+        result.skipped.append(f'{source.empty_records} source note/kind record(s) have empty text')
+    unmatched = collections.Counter()
+    for (part, body, tag), count in source.revised.items():
+        if source.notes[(part, body)] != edited.notes[(part, body)]:
+            unmatched[part] += count
+            continue
+        result.compared += count
+        lost = count - edited.revised[(part, body, tag)]
+        if lost <= 0:
+            continue
+        label = 'insertion' if tag == 'ins' else 'deletion'
+        snippet = body if len(body) <= 80 else body[:77] + '...'
+        result.findings.append(Finding(
+            'FID010', ERROR,
+            f'tracked {label} presence lost in {lost} of {count} source note(s) '
+            f'with matching normalized text and note multiplicity: {snippet!r}',
+            part=part, extra={'tag':tag, 'body':body, 'lost':lost, 'in_source':count},
+        ))
+    result.skipped.extend(f'{part}: {count} source note/kind record(s) have changed '
+                          'text or note multiplicity' for part, count in unmatched.items())
+    return result
+
+
+@dataclass
 class _StoryFacts:
     texts: collections.Counter
     constructs: collections.Counter
@@ -371,6 +451,7 @@ class _Snapshot:
     revision_text: dict[str, tuple | None]
     body_locations: dict[str, str]
     inline_revision_text: RevisionText
+    note_revisions: NoteRevisions
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -421,6 +502,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
         revision_inventory(doc),
+        note_revision_inventory(parts),
     )
 
 
@@ -550,6 +632,9 @@ def compare(source: str | Path, edited: str | Path, *,
     out.extend(_story_losses(source_snapshot, edited_snapshot))
     out.extend(assess_revision_text(
         source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
+    ).findings)
+    out.extend(assess_note_revisions(
+        source_snapshot.note_revisions, edited_snapshot.note_revisions,
     ).findings)
 
     ta, tb = source_snapshot.text_length, edited_snapshot.text_length

@@ -75,7 +75,7 @@ def test_existing_checker_misses_stay_losses_even_when_task_is_completed(defect,
 
 @pytest.mark.parametrize('defect,profile,expected', [
     ('replace-unrelated-insertion', 'basic', ['FID009']),
-    ('unwrap-note-insertion', 'notes', []),
+    ('unwrap-note-insertion', 'notes', ['FID010']),
 ])
 def test_current_detection_does_not_change_independent_task_verdict(defect, profile, expected, tmp_path):
     parts = rev.mutate(untracked_parts(profile), defect)

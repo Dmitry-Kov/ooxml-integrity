@@ -69,7 +69,9 @@ revision text loss or a removed footnote revision can be missed. The
 [existing-revision evidence](../evidence/docx-revisions/README.md) records those
 cases for published `0.4.1`. The unreleased [FID009 follow-up](../evidence/docx-revision-text/README.md)
 detects the recorded main-document text substitution in a limited plain-text
-profile; footnote revision removal and broader identity losses remain gaps.
+profile. The subsequent [FID010 follow-up](../evidence/docx-note-revisions/README.md)
+detects the recorded note-wrapper removal in matching note text groups. Partial
+revision removal and broader identity losses remain gaps in unreleased source.
 Keep intended changes and independent document review alongside findings.
 
 ## Try it after generation in CI

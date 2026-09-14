@@ -310,7 +310,7 @@ def fingerprint(file: str, f: Finding) -> str:
         variant = f.extra.get("variant", "")
         if tag:
             stable = f"story={kind}/{variant}:tag={tag}"
-    elif f.code == "FID009":
+    elif f.code in ("FID009", "FID010"):
         body = f.extra.get("body")
         if isinstance(body, str):
             digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
