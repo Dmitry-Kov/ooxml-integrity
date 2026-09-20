@@ -23,7 +23,7 @@ scope fixed while preparing a release.
    Do not use `--write` to relabel historical metrics with a new checker version.
    Existing receipts, documents and labels remain immutable. Re-evaluate the
    saved revision/benchmark pairs with the current expectation declaration, e.g.
-   `python research/review_revision_text.py --evidence-dir evidence/docx-note-revisions --saved-outputs --output ANOTHER_NEW_PATH.json`.
+   `python research/review_revision_text.py --evidence-dir evidence/docx-paragraph-revision-ids --saved-outputs --output ANOTHER_NEW_PATH.json`.
    These are rechecks of stored outputs, not new editor runs.
    Run all tests and the reference-deck assertion.
    Build wheel and sdist; validate with `twine check --strict`; install each in a

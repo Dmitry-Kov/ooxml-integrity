@@ -1,0 +1,216 @@
+{
+  "scope": "Local candidate packaging verification; no fresh editor/model runs. Later CI/release archives are rebuilt from the completed commit.",
+  "version": "0.4.3",
+  "base_head": "ef9697fdd1a1faec8c80eaab2be42af8cba6fec2",
+  "merged_fix": "e7742fb6fed6682f418d270e430418d4a25bf281",
+  "python": "3.12.14",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "tools": {
+    "build": "1.6.1",
+    "twine": "7.0.0",
+    "lxml": "6.1.3",
+    "pytest": "9.1.1",
+    "fonttools": "4.65.0"
+  },
+  "local_archive_sha256": {
+    "ooxml_integrity-0.4.3-py3-none-any.whl": "40001841166065fed8c78c180c6e1cab1f8b574eff5277e6c1d9c5a771208087",
+    "ooxml_integrity-0.4.3.tar.gz": "2d10e7b4eecb19089c63e0234b657e81dff7425c8fe2512a141afd2e0f295036"
+  },
+  "commands": {
+    "pytest": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 46.21387712500291,
+      "stdout_sha256": "6afc8b269c52f950d40096456efdf2c442660c78359b5576cf45aefaf93485ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "corpus": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "research/build_docx_evidence.py",
+        "evaluate",
+        "--output",
+        "$REPO/tmp/release-0.4.3/docx-beta.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.7018825830018613,
+      "stdout_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "revisions": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "research/review_revision_text.py",
+        "--evidence-dir",
+        "evidence/docx-paragraph-revision-ids",
+        "--saved-outputs",
+        "--output",
+        "$REPO/tmp/release-0.4.3/revisions-current.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.5597605829825625,
+      "stdout_sha256": "0d71230f11779e0e115b811d9cc70c78ae0fe690dc1546fcdb6ba92ed1d28848",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frozen": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "research/replay_frozen_docx.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.4641728339775,
+      "stdout_sha256": "e8be23d6c78b35387e791b401476654b2dcbbb001f4b935963eda344a9164d35",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "deck": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "research/assert_deck.py",
+        "corpus/deck.pptx"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.40160145799745806,
+      "stdout_sha256": "906daebb2c9557a16571dee6e689be934da23a591b83d8a45fac9e65d7f48f1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": {
+      "command": [
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "$REPO/tmp/release-0.4.3/dist"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 9.93792354100151,
+      "stdout_sha256": "13cf80ce4e89835f721f2a69045e76f1e8739b8db40629e41b5b6c6d2f2e67b1",
+      "stderr_sha256": "57ee32dd8d55d4d224f3b18d7936c54026378b9342f9f8fd465feb1b2f3ba5eb"
+    },
+    "twine": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/rev001-hud-2026-09-20/dev-env/bin/python",
+        "-m",
+        "twine",
+        "check",
+        "--strict",
+        "$REPO/tmp/release-0.4.3/dist/ooxml_integrity-0.4.3-py3-none-any.whl",
+        "$REPO/tmp/release-0.4.3/dist/ooxml_integrity-0.4.3.tar.gz"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.5402651250187773,
+      "stdout_sha256": "81a22f9562f63fb9dd7e3f812303c569c2f90b8a13ac0597679c6d19dd7f4533",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wheel-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.3/wheel-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.3"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.2593325000198092,
+      "stdout_sha256": "d24081dabf66301e874954f341f9f9203acaeaac120760039752cedf044fca47",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sdist-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.3/sdist-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.3"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.4143305830075406,
+      "stdout_sha256": "d24081dabf66301e874954f341f9f9203acaeaac120760039752cedf044fca47",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-wheel-retry": {
+      "command": [
+        "/opt/homebrew/bin/npm",
+        "test",
+        "--prefix",
+        "tests/browser"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 119.93511708398,
+      "stdout_sha256": "cca95e1bba5068d9d194242a15372081e722884b18161187fab401ff949d04e5",
+      "stderr_sha256": "99cd16c985f6c95a0b1c64e03a9d52b75b501b3a11c7bb39ebf7ed192b594314"
+    }
+  },
+  "pytest_summary": "1046 passed, 7 skipped in 46.03s",
+  "preserved_historical_files": 1573,
+  "browser": {
+    "stats": {
+      "startTime": "2026-09-20T18:56:24.972Z",
+      "duration": 119518.882,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "metadata": {
+      "commit": "ef9697fdd1a1faec8c80eaab2be42af8cba6fec2",
+      "changedTrackedFiles": [
+        ".github/workflows/release.yml",
+        "CHANGELOG.md",
+        "docs/compatibility.md",
+        "docs/coverage.md",
+        "docs/paragraph-revision-ids.md",
+        "docs/releasing.md",
+        "docs/support-matrix.md",
+        "pyproject.toml",
+        "research/release_smoke.py",
+        "src/ooxml_integrity/__init__.py"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.4.3",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.4.3",
+        "wheel": "ooxml_integrity-0.4.3-py3-none-any.whl",
+        "sha256": "40001841166065fed8c78c180c6e1cab1f8b574eff5277e6c1d9c5a771208087"
+      },
+      "pageSha256": {
+        "index.html": "57c20bb58e10b0266d69264fe880534274dcb5c3c37933f112829f16292c205e",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "bb52c02a318fa2f0778a3ba7a53fda1febc7b91e0658c43d6ffb189e6627c469",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    }
+  },
+  "initial_browser_launch": "Nonexistent bundled npm path failed before browser execution; corrected to installed npm with bundled Node 24. Same archives retained."
+}

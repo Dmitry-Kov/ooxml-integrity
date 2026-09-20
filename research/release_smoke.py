@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.2
+    python research/release_smoke.py --version 0.4.3
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -17,6 +17,7 @@ import sysconfig
 import tempfile
 from importlib import metadata
 from pathlib import Path
+from zipfile import ZipFile
 
 
 def main():
@@ -75,6 +76,32 @@ def main():
 
     with tempfile.TemporaryDirectory(prefix="ooxml-release-") as folder:
         work = Path(folder)
+        # Synthetic public inputs: exercise the 0.4.3 correction in the actual
+        # installation, including a third occurrence that must remain an error.
+        for kind, text_tag in (("ins", "t"), ("del", "delText")):
+            attrs = 'w:id="9" w:author="Reviewer" w:date="2026-09-20T12:00:00Z"'
+            content = (f'<w:{kind} {attrs}><w:r><w:{text_tag}>Tracked paragraph.'
+                       f'</w:{text_tag}></w:r></w:{kind}>')
+            paragraph = (f'<w:p><w:pPr><w:rPr><w:{kind} {attrs}/></w:rPr></w:pPr>'
+                         f'{content}</w:p>')
+            for duplicate in (False, True):
+                sample = work / f"paragraph-{kind}-{duplicate}.docx"
+                with ZipFile(sample, "w") as z:
+                    z.writestr("[Content_Types].xml", '''<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+                      <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+                      <Default Extension="xml" ContentType="application/xml"/>
+                      <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+                    </Types>''')
+                    z.writestr("_rels/.rels", '''<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+                    </Relationships>''')
+                    extra = f"<w:p>{content}</w:p>" if duplicate else ""
+                    z.writestr("word/document.xml",
+                               '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                               f'<w:body>{paragraph}{extra}</w:body></w:document>')
+                found = json.loads(cli("check", sample, "--no-config", "--json",
+                                       code=int(duplicate)).stdout)["files"][0]["findings"]
+                assert [f["code"] for f in found] == (["REV001"] if duplicate else [])
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -110,7 +137,8 @@ def main():
         assert [f["code"] for f in limited["files"][0]["findings"]] == ["PKG007"]
         config.write_text('unknown-option = true\n', encoding="utf-8")
         cli("check", source, "--config", config, code=2)
-    print(f"Installed {args.version}: source-byte parity, FID009/FID010 and their coverage, "
+    print(f"Installed {args.version}: source-byte parity, REV001 mark/content and third-occurrence controls, "
+          "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
 

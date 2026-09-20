@@ -82,7 +82,7 @@ DOCX reports:
   `docx.fidelity.note-revisions`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
-The unreleased [paragraph-mark/content ID correction](paragraph-revision-ids.md)
+The 0.4.3 [paragraph-mark/content ID correction](paragraph-revision-ids.md)
 does not change `docx.revisions` coverage counts or schema v1: both revision
 elements are still counted and assessed. `checked` means the scoped rules ran,
 not that all shared IDs, metadata, review operations or OOXML schemas were

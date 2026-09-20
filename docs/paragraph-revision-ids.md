@@ -1,6 +1,7 @@
 # Paragraph-mark and content revision IDs
 
-This describes an **unreleased checkout change**. Published 0.4.2 reports
+This describes the **0.4.3 correction**; see its [release notes](releases/0.4.3.md).
+Version 0.4.2 reports
 `REV001` when a paragraph mark and its tracked content share an ID, even in a
 plain whole-paragraph insertion or deletion. That count alone does not establish
 an ID collision or predict Word's unreadable-content warning.
@@ -71,5 +72,5 @@ collisions remain a different case and are not exempted by this change.
 An exempted pair can lose its only ERROR and change exit 1 to 0. Other shared IDs
 retain `REV001` ERROR. Report fields, coverage schema/counts and baseline v2
 fingerprints are unchanged. `FID002` only says that a construct count increased;
-correctness still needs review. No release, version bump or consumer-pin change
-is implied by this local correction.
+correctness still needs review. Publication and consumer/demo-pin updates follow the separate
+[release procedure](releasing.md).
