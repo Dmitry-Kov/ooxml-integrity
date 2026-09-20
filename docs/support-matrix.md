@@ -1,8 +1,8 @@
 # Support matrix
 
-This page describes [0.4.2](releases/0.4.2.md), including its changes from `0.4.1`.
+This page describes [0.4.3](releases/0.4.3.md), including its changes from `0.4.2`.
 The browser footer identifies its installed version.
-The unreleased checkout adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
+Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
 to `REV001`; the published 0.4.2 behavior remains unchanged.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
@@ -72,7 +72,7 @@ extend the Word semantic checks below to those parts.
 | Document layout and pagination | **Not checked** | Page count, line and page breaks, clipping, overlap, font substitution and Word rendering are not predicted. |
 | Fields, equations, citations and bibliography semantics | **Not checked** | These may be parsed as XML, but their correctness and displayed values are not evaluated. |
 
-In the unreleased checkout, a plain whole paragraph directly under `w:body`
+In 0.4.3, a plain whole paragraph directly under `w:body`
 can have exactly two same-kind `ins` or `del` elements sharing an ID:
 `p/pPr/rPr/ins|del` and `p/ins|del`. Matching nonempty author/date and matching
 optional `w16du:dateUtc` are required. Nested/non-text revisions, mixed content,

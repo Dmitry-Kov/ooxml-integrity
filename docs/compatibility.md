@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.4.2 release notes](releases/0.4.2.md) before changing a version pin.
+[0.4.3 release notes](releases/0.4.3.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The unreleased [paragraph revision ID correction](paragraph-revision-ids.md)
+The 0.4.3 [paragraph revision ID correction](paragraph-revision-ids.md)
 removes `REV001` ERROR only for the verified plain whole-paragraph mark/content
 pair. Such inputs can change exit 1 to 0 at the default threshold. Other shared
 IDs retain their severity; new wording avoids a universal Word repair claim.
@@ -123,11 +123,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in 0.4.2 | Meaning |
+| Output | Version in 0.4.3 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.4.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.4.3"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.4.2"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.4.3"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.4.3 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.3.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
+
 - Corrected `REV001` for a narrowly verified whole-paragraph insertion/deletion:
   one paragraph-mark revision and one plain content revision may share an ID
   when their author/date metadata match. Unrelated duplicates and unverified
