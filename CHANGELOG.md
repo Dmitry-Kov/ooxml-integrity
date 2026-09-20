@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Corrected `REV001` for a narrowly verified whole-paragraph insertion/deletion:
+  one paragraph-mark revision and one plain content revision may share an ID
+  when their author/date metadata match. Unrelated duplicates and unverified
+  structures remain errors. The diagnostic no longer predicts a Word repair
+  warning from the ID count alone. `FID002` now describes only a count increase.
+  Affected inputs can change exit 1 to 0; report/coverage schemas and baseline
+  v2 identities are unchanged. [Scope and evidence](docs/paragraph-revision-ids.md).
 - Updated the demo pin and current consumer examples to published 0.4.2 after
   release verification. Historical candidate and browser receipts are retained.
 

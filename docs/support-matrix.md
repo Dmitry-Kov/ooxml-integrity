@@ -2,6 +2,8 @@
 
 This page describes [0.4.2](releases/0.4.2.md), including its changes from `0.4.1`.
 The browser footer identifies its installed version.
+The unreleased checkout adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
+to `REV001`; the published 0.4.2 behavior remains unchanged.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -69,6 +71,14 @@ extend the Word semantic checks below to those parts.
 | Headers and footers | **Partial** | Their XML and relationships receive package-wide syntax and relationship checks. Their styles, numbering, comments, revisions, tables, text and visual layout are not checked by the main-story semantic rules. |
 | Document layout and pagination | **Not checked** | Page count, line and page breaks, clipping, overlap, font substitution and Word rendering are not predicted. |
 | Fields, equations, citations and bibliography semantics | **Not checked** | These may be parsed as XML, but their correctness and displayed values are not evaluated. |
+
+In the unreleased checkout, a plain whole paragraph directly under `w:body`
+can have exactly two same-kind `ins` or `del` elements sharing an ID:
+`p/pPr/rPr/ins|del` and `p/ins|del`. Matching nonempty author/date and matching
+optional `w16du:dateUtc` are required. Nested/non-text revisions, mixed content,
+table paragraphs, property history, moves and third occurrences are not exempt.
+These are conservative exception conditions, not OOXML validity requirements;
+unverified shared-ID cases can still be false alarms. [Details](paragraph-revision-ids.md).
 
 ## DOCX fidelity against a source
 

@@ -68,17 +68,20 @@ When touching DOCX evidence or its evaluators, run:
 
 ```sh
 python research/build_docx_evidence.py evaluate
-python research/review_revision_text.py --evidence-dir evidence/docx-note-revisions --saved-outputs
+python research/review_revision_text.py --evidence-dir evidence/docx-paragraph-revision-ids --saved-outputs
 ```
 
 The current revision gate keeps the original labels and allows only the finding
-changes declared in the [note-revision follow-up](evidence/docx-note-revisions/README.md).
+changes and exact diagnostic replacements declared in the
+[paragraph-revision follow-up](evidence/docx-paragraph-revision-ids/PROTOCOL.md).
 `python research/replay_frozen_docx.py` verifies historical expectations against
 their archived checker. Running `research/revision_evidence.py evaluate` directly
 uses the active checker and original labels; after FID009/FID010 it intentionally
 reports two mismatches, the former known misses. The review command's default
 evidence directory retains the FID009-only contract; use the explicit current
-directory above. Do not rewrite historical receipts to match a changed checker.
+directory above. The previous note-revision contract still requires the former
+message wording; it is retained as historical evidence. Do not rewrite historical
+receipts to match a changed checker.
 
 Read the [producer corpus](evidence/docx-beta/README.md) and
 [existing-revision corpus](evidence/docx-revisions/README.md) before changing

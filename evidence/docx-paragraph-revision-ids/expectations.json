@@ -1,0 +1,36 @@
+{
+  "baseline_additions": {
+    "replace-unrelated-insertion": [
+      {
+        "code": "FID009",
+        "count": 1,
+        "severity": "ERROR"
+      }
+    ]
+  },
+  "baseline_commit": "6c075bfabc13cce08703b0ed3af6ce29a37f17e9",
+  "candidate_additions": {
+    "unwrap-note-insertion": [
+      {
+        "code": "FID010",
+        "count": 1,
+        "severity": "ERROR"
+      }
+    ]
+  },
+  "historical_manifest_sha256": "b5d7fdf649808e902b18ec6b2ad0973d130d9724e4c1edf495e11711b2b1557a",
+  "other_revision_pairs": "Unchanged actionable finding multisets from historical manifest plus the prior FID009 correction",
+  "saved_editor_pairs": "168 pairs retain all finding fields except exactly declared message suffixes; 45 missing outputs remain unevaluated",
+  "saved_output_message_suffixes": [
+    {
+      "code": "FID002",
+      "old": "(only a defect if ids collide, see REV001)",
+      "new": "(count increase alone does not establish a defect)"
+    },
+    {
+      "code": "REV001",
+      "old": " - a known cause of Word's \"unreadable content\" warning",
+      "new": " - outside the verified paragraph-mark/content pair; review for an ID collision"
+    }
+  ]
+}

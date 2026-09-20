@@ -82,6 +82,13 @@ DOCX reports:
   `docx.fidelity.note-revisions`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
 
+The unreleased [paragraph-mark/content ID correction](paragraph-revision-ids.md)
+does not change `docx.revisions` coverage counts or schema v1: both revision
+elements are still counted and assessed. `checked` means the scoped rules ran,
+not that all shared IDs, metadata, review operations or OOXML schemas were
+validated. The narrow exception does not expand `FID009` text coverage;
+paragraph-mark revisions remain outside that literal inventory's supported shape.
+
 The 0.4.2 `docx.fidelity.revision-text` item covers the bounded literal
 text comparison behind `FID009`, separately for main-document insertions and
 deletions with equal nonzero wrapper counts. Each kind requires nonempty plain
