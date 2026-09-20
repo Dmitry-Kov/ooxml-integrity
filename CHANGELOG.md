@@ -2,10 +2,11 @@
 
 ## Unreleased
 
-## 0.4.3 — release candidate
+## 0.4.3 — 2026-09-20
 
-[Upgrade notes and validation](docs/releases/0.4.3.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.4.3.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - Corrected `REV001` for a narrowly verified whole-paragraph insertion/deletion:
   one paragraph-mark revision and one plain content revision may share an ID

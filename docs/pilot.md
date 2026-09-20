@@ -24,7 +24,7 @@ Create one with `python -m venv .venv`. Activate it using
 Windows Command Prompt, then run:
 
 ```sh
-python -m pip install "ooxml-integrity==0.4.2"
+python -m pip install "ooxml-integrity==0.4.3"
 python -m ooxml_integrity --version
 python -m ooxml_integrity check edited.docx --against original.docx --no-config --coverage
 ```
@@ -82,9 +82,9 @@ Actions job after the step that produces the edited document:
 
 ```yaml
 - name: Check generated DOCX against its original
-  uses: Dmitry-Kov/ooxml-integrity@v0.4.2
+  uses: Dmitry-Kov/ooxml-integrity@v0.4.3
   with:
-    version: "0.4.2"
+    version: "0.4.3"
     files: "out/edited.docx"
     against: input/original.docx
     config: none
