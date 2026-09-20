@@ -95,7 +95,7 @@ jobs:
         run: python research/build_docx_evidence.py evaluate
 
       - name: Evaluate current revision findings and saved editor outputs
-        run: python research/review_revision_text.py --evidence-dir evidence/docx-note-revisions --saved-outputs
+        run: python research/review_revision_text.py --evidence-dir evidence/docx-paragraph-revision-ids --saved-outputs
 
       - name: The reference corpus rebuilds byte-clean
         working-directory: research

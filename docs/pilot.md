@@ -24,7 +24,7 @@ Create one with `python -m venv .venv`. Activate it using
 Windows Command Prompt, then run:
 
 ```sh
-python -m pip install "ooxml-integrity==0.4.1"
+python -m pip install "ooxml-integrity==0.4.2"
 python -m ooxml_integrity --version
 python -m ooxml_integrity check edited.docx --against original.docx --no-config --coverage
 ```
@@ -64,14 +64,15 @@ ongoing CI use are different outcomes. Record a no-finding run as such; it is
 not a measured accuracy score.
 
 The checker has [known limits](support-matrix.md). In particular, `FID001` can
-report counts removed by legitimate accept/reject operations, and count-neutral
-revision text loss or a removed footnote revision can be missed. The
-[existing-revision evidence](../evidence/docx-revisions/README.md) records those
-cases for published `0.4.1`. The unreleased [FID009 follow-up](../evidence/docx-revision-text/README.md)
-detects the recorded main-document text substitution in a limited plain-text
-profile. The subsequent [FID010 follow-up](../evidence/docx-note-revisions/README.md)
-detects the recorded note-wrapper removal in matching note text groups. Partial
-revision removal and broader identity losses remain gaps in unreleased source.
+report counts removed by legitimate accept/reject operations. The historical
+[existing-revision evidence](../evidence/docx-revisions/README.md) records two
+missed cases in `0.4.1`. Both follow-ups are included in
+[released `0.4.2`](releases/0.4.2.md):
+[FID009](../evidence/docx-revision-text/README.md) detects the recorded
+main-document text substitution in a limited plain-text profile, and
+[FID010](../evidence/docx-note-revisions/README.md) detects the recorded
+note-wrapper removal in matching note text groups. Partial revision removal,
+unsupported revision structures and broader identity losses remain gaps.
 Keep intended changes and independent document review alongside findings.
 
 ## Try it after generation in CI
@@ -81,9 +82,9 @@ Actions job after the step that produces the edited document:
 
 ```yaml
 - name: Check generated DOCX against its original
-  uses: Dmitry-Kov/ooxml-integrity@v0.4.1
+  uses: Dmitry-Kov/ooxml-integrity@v0.4.2
   with:
-    version: "0.4.1"
+    version: "0.4.2"
     files: "out/edited.docx"
     against: input/original.docx
     config: none

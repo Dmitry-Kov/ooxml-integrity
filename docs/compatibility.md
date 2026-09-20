@@ -33,6 +33,15 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased [paragraph revision ID correction](paragraph-revision-ids.md)
+removes `REV001` ERROR only for the verified plain whole-paragraph mark/content
+pair. Such inputs can change exit 1 to 0 at the default threshold. Other shared
+IDs retain their severity; new wording avoids a universal Word repair claim.
+`FID002` wording also no longer equates duplication solely with colliding IDs.
+No code, report field, coverage schema/count or baseline v2 identity changes.
+Messages are excluded from baseline fingerprints, so no regeneration is needed;
+an entry for an exempted pair may become unused. Published pins are unchanged.
+
 The 0.4.2 [note-revision correction](../evidence/docx-note-revisions/README.md)
 adds `FID010` ERROR when fewer notes retain insertion/deletion presence within
 equally populated footnote/endnote text groups. An intentional acceptance can

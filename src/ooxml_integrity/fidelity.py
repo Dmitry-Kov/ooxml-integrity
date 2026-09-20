@@ -597,12 +597,12 @@ def compare(source: str | Path, edited: str | Path, *,
             ))
         elif b > a:
             # A higher count is not itself a defect: the agent may legitimately
-            # have added an item, or wrapped its edit in w:ins. Real duplication
-            # is caught by colliding ids (REV001), not by a counter.
+            # have added an item, or wrapped its edit in w:ins. Neither this
+            # count nor revision-ID uniqueness establishes editing correctness.
             out.append(Finding(
                 "FID002", INFO,
                 f"{label}: {a} -> {b} - added during editing "
-                "(only a defect if ids collide, see REV001)",
+                "(count increase alone does not establish a defect)",
                 extra={"tag": tag, "before": a, "after": b},
             ))
 

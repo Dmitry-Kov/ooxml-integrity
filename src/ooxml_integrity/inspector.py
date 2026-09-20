@@ -44,6 +44,64 @@ def _r(tag: str) -> str:
     return f"{{{NS['r']}}}{tag}"
 
 
+def _paragraph_revision_pair(elements: list[etree._Element]) -> bool:
+    """Recognize only the verified plain whole-paragraph mark/content pair.
+
+    A paragraph-mark ins/del and a content ins/del have distinct OOXML types
+    (SDK Inserted/Deleted vs InsertedRun/DeletedRun). Sharing an ID between
+    these types is not itself a collision. Keep all unverified shapes on the
+    conservative path; this is neither schema nor revision-identity validation.
+    """
+    if len(elements) != 2 or elements[0].tag != elements[1].tag:
+        return False
+    ident = elements[0].get(_w("id"), "")
+    if not ident or any(c not in "0123456789" for c in ident):
+        return False
+    kind = elements[0].tag
+    if kind not in (_w("ins"), _w("del")):
+        return False
+    content = next((e for e in elements if e.getparent() is not None
+                    and e.getparent().tag == _w("p")), None)
+    if content is None:
+        return False
+    paragraph = content.getparent()
+    if paragraph.getparent() is None or paragraph.getparent().tag != _w("body"):
+        return False
+    mark = elements[1] if content is elements[0] else elements[0]
+    props = paragraph.find(_w("pPr"))
+    if (props is None or list(paragraph) != [props, content]
+            or mark is not props.find(f"{_w('rPr')}/{kind}") or len(mark)):
+        return False
+    for attr in (_w("author"), _w("date")):
+        if not mark.get(attr) or mark.get(attr) != content.get(attr):
+            return False
+    utc = "{http://schemas.microsoft.com/office/word/2023/wordml/word16du}dateUtc"
+    if mark.get(utc) != content.get(utc):
+        return False
+    # No other revisions/property history, even with a different ID.
+    revision_tags = {_w(t) for t in ("ins", "del", "moveFrom", "moveTo")}
+    for e in paragraph.iter():
+        if e.tag in revision_tags and e is not mark and e is not content:
+            return False
+        if isinstance(e.tag, str) and e.tag.startswith(f"{{{NS['w']}}}"):
+            local = etree.QName(e).localname
+            if local.endswith("Change") or local.startswith("move"):
+                return False
+    text_tag = _w("t" if kind == _w("ins") else "delText")
+    has_text = False
+    for run in content:
+        if run.tag != _w("r"):
+            return False
+        for child in run:
+            if child.tag == text_tag:
+                if len(child):
+                    return False
+                has_text |= bool(child.text)
+            elif child.tag != _w("rPr"):
+                return False
+    return has_text
+
+
 # relationship types that are referenced from the package rather than from
 # the body, so "declared but never used" is not meaningful for them
 _IMPLICIT_RELS = (
@@ -475,15 +533,18 @@ class Inspector:
         if doc is None:
             return
 
-        ids: list[str | None] = []
+        by_id: dict[str, list[etree._Element]] = {}
         for tag in ("ins", "del", "moveFrom", "moveTo"):
             for el in doc.iter(_w(tag)):
-                ids.append(el.get(_w("id")))
-        for i, n in Counter(i for i in ids if i is not None).items():
-            if n > 1:
+                revision_id = el.get(_w("id"))
+                if revision_id is not None:
+                    by_id.setdefault(revision_id, []).append(el)
+        for i, elements in by_id.items():
+            n = len(elements)
+            if n > 1 and not _paragraph_revision_pair(elements):
                 self._add("REV001", ERROR,
-                          f"revision id {i} used {n} times - a known cause of "
-                          'Word\'s "unreadable content" warning',
+                          f"revision id {i} used {n} times - outside the verified "
+                          "paragraph-mark/content pair; review for an ID collision",
                           part="word/document.xml")
 
         # w:del must carry w:delText, not w:t.

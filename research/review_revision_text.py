@@ -92,10 +92,27 @@ def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
         old = {c['id']: c for c in prior['cases']}
         if {c['id'] for c in saved['cases']} != set(old):
             raise ValueError('Saved output inventory drift')
+        diagnostic_changes = []
+        replacements = declaration.get('saved_output_message_suffixes', [])
         for case in saved['cases']:
-            for key in ('source_sha256', 'output_sha256', 'after'):
+            for key in ('source_sha256', 'output_sha256'):
                 if case[key] != old[case['id']][key]:
                     raise ValueError(f'Saved output drift: {case["id"]}: {key}')
+            expected = []
+            for finding in old[case['id']]['after']:
+                adjusted = dict(finding)
+                for replacement in replacements:
+                    message = adjusted.get('message', '')
+                    if (adjusted['code'] == replacement['code']
+                            and message.endswith(replacement['old'])):
+                        adjusted['message'] = (message[:-len(replacement['old'])]
+                                               + replacement['new'])
+                        break
+                expected.append(adjusted)
+            if case['after'] != expected:
+                raise ValueError(f'Saved output drift: {case["id"]}: after')
+            if case['after'] != old[case['id']]['after']:
+                diagnostic_changes.append(case['id'])
         if saved['not_evaluated'] != prior['not_evaluated']:
             raise ValueError('Unavailable output inventory drift')
         # The referenced receipt contains every pair's paths, hashes and findings.
@@ -105,9 +122,11 @@ def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
             'reference_sha256': b.digest(prior_path),
             'review_script_sha256': b.digest(review_fid001_fix.__file__),
             'historical_receipts_sha256': saved['historical_receipts_sha256'],
-            'output_pairs': saved['output_pairs'], 'changed_pairs': [],
+            'output_pairs': saved['output_pairs'], 'changed_pairs': diagnostic_changes,
             'not_evaluated_no_output': len(saved['not_evaluated']),
         }
+        if replacements:
+            result['saved_outputs']['allowed_message_suffixes'] = replacements
     return result
 
 
