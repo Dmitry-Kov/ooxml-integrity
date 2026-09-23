@@ -28,6 +28,11 @@
   real-world DOCX, mostly older LibreOffice exports, have this layout.
   Affected inputs can change exit 1 to 0.
 
+- `PKG002` names an OLE compound file (an encrypted OOXML document or a
+  legacy binary Office file) instead of reporting a missing ZIP end record.
+  Text output shows the package part when a finding has no XPath, for example
+  for `FTN002` and `XML001`; JSON is unchanged.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published

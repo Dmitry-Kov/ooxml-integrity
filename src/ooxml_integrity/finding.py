@@ -73,7 +73,8 @@ class Finding:
 
     def __str__(self) -> str:
         head = f"[{self.severity.value.upper():5}] {self.code}  {self.message}"
-        return f"{head}\n          -> {self.where}" if self.where else head
+        where = self.where or self.part
+        return f"{head}\n          -> {where}" if where else head
 
 
 def summarize(findings: list[Finding]) -> dict[str, int]:

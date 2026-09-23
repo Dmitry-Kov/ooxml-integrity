@@ -306,3 +306,19 @@ def test_relationship_parts_without_content_type_are_an_error(base_docx, tmp_pat
     assert [f.severity.value for f in findings] == ["error"]
     assert "_rels/.rels" in findings[0].message
 
+
+# ------------------------------------------------------------ reporting
+
+def test_encrypted_documents_are_named_as_such(tmp_path):
+    encrypted = tmp_path / "encrypted.docx"
+    encrypted.write_bytes(bytes.fromhex("D0CF11E0A1B11AE1") + b"\0" * 1024)
+    findings = check(encrypted)
+    assert [f.code for f in findings] == ["PKG002"]
+    assert "OLE compound file" in findings[0].message
+
+
+def test_human_output_names_the_part_when_there_is_no_xpath():
+    from ooxml_integrity import Finding, ERROR
+    finding = Finding("FTN002", ERROR, "footnote id=3 is defined but never "
+                      "referenced", part="word/footnotes.xml")
+    assert str(finding).endswith("-> word/footnotes.xml")

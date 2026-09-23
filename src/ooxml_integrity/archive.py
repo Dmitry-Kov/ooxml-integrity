@@ -24,6 +24,8 @@ _EOCD = struct.Struct("<4s4H2LH")
 _ZIP64_LOCATOR = struct.Struct("<4sLQL")
 _ZIP64_EOCD = struct.Struct("<4sQ2H2L4Q")
 _CENTRAL_HEADER = struct.Struct("<4s6H3L5H2L")
+# Encrypted OOXML and legacy .doc/.ppt files are OLE compound files (MS-CFB)
+_CFB_SIGNATURE = bytes.fromhex("D0CF11E0A1B11AE1")
 _ASCII_LOWER = str.maketrans(
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz",
 )
@@ -94,6 +96,12 @@ def _directory_bounds(raw: BinaryIO, file_size: int) -> tuple[int, int, int]:
     # valid trailer can disagree with its interpretation of a crafted comment.
     pos = tail.rfind(b"PK\x05\x06")
     if pos < 0 or pos + _EOCD.size > len(tail):
+        raw.seek(0)
+        if raw.read(len(_CFB_SIGNATURE)) == _CFB_SIGNATURE:
+            raise _invalid_directory(
+                "this is an OLE compound file, not a ZIP package - usually a "
+                "password-protected (encrypted) document or a legacy binary "
+                "Office file; it cannot be inspected")
         raise _invalid_directory("missing or truncated end record")
     end = _EOCD.unpack_from(tail, pos)
     if pos + _EOCD.size + end[7] != len(tail):
