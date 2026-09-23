@@ -1,20 +1,21 @@
 """Spec-valid constructs from real producers must not raise structural errors.
 
 Each case was first seen in public test documents (LibreOffice's
-sw/qa/extras/ooxmlexport corpus, Word 2007 files) and is rebuilt here from
-corpus/base.docx. Every case keeps a negative control, so the rule still fires
-on a genuine defect.
+sw/qa/extras/ooxmlexport corpus, Word 2007 files, docx4j's samples) and is
+rebuilt here from corpus/base.docx. Every case keeps a negative control, so the
+rule still fires on a genuine defect.
 """
 from __future__ import annotations
 
 import re
 import zipfile
 
+import pytest
 from lxml import etree
 
 from conftest import read_part, repack
 
-from ooxml_integrity import check
+from ooxml_integrity import check, compare, coverage_for
 
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -322,3 +323,118 @@ def test_human_output_names_the_part_when_there_is_no_xpath():
     finding = Finding("FTN002", ERROR, "footnote id=3 is defined but never "
                       "referenced", part="word/footnotes.xml")
     assert str(finding).endswith("-> word/footnotes.xml")
+
+
+# ------------------------------------------------------------ main part name
+
+ROOT_RELS = "_rels/.rels"
+OFFICE_DOCUMENT = ("http://schemas.openxmlformats.org/officeDocument/2006/"
+                   "relationships/officeDocument")
+
+
+def _once(text, old, new):
+    assert text.count(old) == 1, "the reference document changed"
+    return text.replace(old, new)
+
+
+def _moved_main_part(source, target, name, *, root_target=None,
+                     edit=lambda xml: xml, stale=None):
+    """Name the main part as only the officeDocument relationship knows it.
+
+    docx4j's Word Online sample uses word/document22.xml (targeted as
+    /word/document22.xml), LibreOffice's tdf104713 test word/trial.xml.
+    `stale` keeps an unrelated copy under the conventional name.
+    """
+    with zipfile.ZipFile(source) as z:
+        parts = {n: z.read(n).decode() for n in z.namelist()
+                 if not n.startswith("word/media/")}
+        media = {n: z.read(n) for n in z.namelist() if n.startswith("word/media/")}
+    document = parts.pop(DOC)
+    rels = parts.pop("word/_rels/document.xml.rels")
+    parts[name] = edit(document)
+    parts["word/_rels/%s.rels" % name.rsplit("/", 1)[1]] = rels
+    if stale is not None:
+        parts[DOC] = stale(document)
+        parts["word/_rels/document.xml.rels"] = rels
+    parts[ROOT_RELS] = _once(parts[ROOT_RELS], 'Target="word/document.xml"',
+                             'Target="%s"' % (root_target or name))
+    parts[CT] = _once(parts[CT], 'PartName="/word/document.xml"',
+                      'PartName="/%s"' % name)
+    with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as z:
+        for n, data in parts.items():
+            z.writestr(n, data.encode())
+        for n, data in media.items():
+            z.writestr(n, data)
+    return target
+
+
+def _drop_comment_anchor(xml):
+    return _once(xml, '<w:commentReference w:id="1"/>', "")
+
+
+@pytest.mark.parametrize("name, root_target", [
+    ("word/trial.xml", None),
+    ("word/document22.xml", "/word/document22.xml"),
+    ("word/body", None),          # the Override, not ".xml", gives the type
+])
+def test_main_part_is_found_through_the_office_document_relationship(
+        base_docx, tmp_path, name, root_target):
+    moved = _moved_main_part(base_docx, tmp_path / "moved.docx", name,
+                             root_target=root_target)
+    assert check(moved) == []
+    # headers, footers and comments resolve through the moved part's relationships
+    assert compare(base_docx, moved) == []
+    coverage = {i.id: i.status.value for i in coverage_for(moved, []).items}
+    assert coverage["docx.comments"] == coverage["docx.tables"] == "checked"
+
+
+def test_findings_in_a_moved_main_part_are_reported_there(base_docx, tmp_path):
+    moved = _moved_main_part(base_docx, tmp_path / "moved-orphan.docx",
+                             "word/trial.xml", edit=_drop_comment_anchor)
+    assert {f.code: f.part for f in check(moved)} == {
+        "CMT003": "word/trial.xml", "CMT005": "word/comments.xml"}
+    assert "FID001" in [f.code for f in compare(base_docx, moved)]
+
+
+def test_an_unrelated_word_document_xml_is_not_the_main_part(base_docx, tmp_path):
+    moved = _moved_main_part(base_docx, tmp_path / "stale.docx", "word/trial.xml",
+                             stale=_drop_comment_anchor)
+    assert check(moved) == []
+
+
+def test_a_missing_main_part_is_not_replaced_by_the_conventional_name(
+        base_docx, tmp_path):
+    rels = _once(read_part(base_docx, ROOT_RELS), 'Target="word/document.xml"',
+                 'Target="word/missing.xml"')
+    out = repack(base_docx, tmp_path / "missing-main.docx",
+                 {ROOT_RELS: rels.encode()})
+    assert [f.message for f in check(out) if f.code == "PKG006"] == [
+        "missing word/missing.xml"]
+    tables = next(i for i in coverage_for(out, []).items if i.id == "docx.tables")
+    assert tables.status.value == "skipped"
+    assert tables.reason.startswith("word/missing.xml ")
+    with pytest.raises(ValueError, match="word/missing.xml is missing"):
+        compare(base_docx, out)
+
+
+def test_a_main_part_that_is_not_a_word_document_is_an_error(root):
+    findings = [f for f in check(root / "corpus" / "deck.pptx") if f.code == "PKG006"]
+    assert [(f.severity.value, f.part) for f in findings] == [
+        ("error", "ppt/presentation.xml")]
+
+
+@pytest.mark.parametrize("second, ambiguous", [
+    ("word/trial.xml", True),
+    ("/word/document.xml", False),      # the same part, spelled absolutely
+])
+def test_office_document_relationships_to_two_parts_are_ambiguous(
+        base_docx, tmp_path, second, ambiguous):
+    rels = _once(read_part(base_docx, ROOT_RELS), "</Relationships>",
+                 '<Relationship Id="rId9" Type="%s" Target="%s"/></Relationships>'
+                 % (OFFICE_DOCUMENT, second))
+    out = repack(base_docx, tmp_path / "two-entry-points.docx", {
+        ROOT_RELS: rels.encode(), "word/trial.xml": read_part(base_docx, DOC).encode()})
+    root = [f.message for f in check(out) if f.code == "REL001" and f.part == ROOT_RELS]
+    assert root == ([
+        "_rels/.rels has officeDocument relationships to 2 different parts - the "
+        "main document is ambiguous"] if ambiguous else [])
