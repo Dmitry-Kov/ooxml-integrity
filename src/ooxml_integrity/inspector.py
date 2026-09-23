@@ -422,14 +422,21 @@ class Inspector:
         num = self._tree("word/numbering.xml")
         nums: dict[str, str | None] = {}
         abstracts: dict[str, set] = {}
+        overrides: dict[str, set] = {}
         if num is not None:
             for n in num.findall(_w("num")):
                 a = n.find(_w("abstractNumId"))
                 nums[n.get(_w("numId"))] = a.get(_w("val")) if a is not None else None
+                # a w:lvlOverride may carry a complete w:lvl for this instance
+                overrides[n.get(_w("numId"))] = {
+                    o.get(_w("ilvl")) for o in n.findall(_w("lvlOverride"))
+                    if o.find(_w("lvl")) is not None
+                }
             for a in num.findall(_w("abstractNum")):
                 abstracts[a.get(_w("abstractNumId"))] = {
                     lv.get(_w("ilvl")) for lv in a.findall(_w("lvl"))
                 }
+            self._inherit_numbering_style_levels(num, nums, abstracts)
 
         for npr in doc.iter(_w("numPr")):
             nid_el = npr.find(_w("numId"))
@@ -459,9 +466,43 @@ class Inspector:
                 continue
             ilvl_el = npr.find(_w("ilvl"))
             lvl = ilvl_el.get(_w("val")) if ilvl_el is not None else "0"
-            if lvl not in abstracts[aid]:
+            if lvl not in abstracts[aid] | overrides.get(nid, set()):
                 self._add("NUM004", WARN,
                           f"level ilvl={lvl} undefined in abstractNum {aid}", where)
+
+    def _inherit_numbering_style_levels(self, num, nums: dict, abstracts: dict) -> None:
+        """Give an abstractNum with w:numStyleLink the levels of its list style.
+
+        Word stores a list style's levels once, in the abstractNum whose
+        w:styleLink names the style; abstractNums that use the style carry only
+        w:numStyleLink. Resolve through w:styleLink first, then through the
+        numbering style's own numId in styles.xml.
+        """
+        by_style: dict[str, set] = {}
+        for a in num.findall(_w("abstractNum")):
+            link = a.find(_w("styleLink"))
+            if link is not None and link.get(_w("val")):
+                by_style[link.get(_w("val"))] = abstracts.get(
+                    a.get(_w("abstractNumId")), set())
+        styles = self._tree("word/styles.xml")
+        for a in num.findall(_w("abstractNum")):
+            link = a.find(_w("numStyleLink"))
+            if link is None or not link.get(_w("val")):
+                continue
+            name = link.get(_w("val"))
+            levels = by_style.get(name)
+            if levels is None and styles is not None:
+                for style in styles.findall(_w("style")):
+                    if style.get(_w("styleId")) != name:
+                        continue
+                    nid = style.find(f'{_w("pPr")}/{_w("numPr")}/{_w("numId")}')
+                    target = nums.get(nid.get(_w("val"))) if nid is not None else None
+                    if target is not None and target != a.get(_w("abstractNumId")):
+                        levels = abstracts.get(target)
+                    break
+            if levels:
+                aid = a.get(_w("abstractNumId"))
+                abstracts[aid] = abstracts.get(aid, set()) | levels
 
     def check_footnotes(self) -> None:
         doc = self._tree("word/document.xml")

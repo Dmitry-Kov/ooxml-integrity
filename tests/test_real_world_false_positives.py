@@ -200,3 +200,83 @@ def test_missing_cell_without_grid_skip_is_still_reported(base_docx, tmp_path):
     assert _tbl002(edited) == [
         "table 1, row 3: 2 cells vs 3 tblGrid columns - Word will re-lay out the table"]
 
+
+# ------------------------------------------------------------ list styles
+
+LIST_STYLE_NUMBERING = b"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:numbering xmlns:w="%s">
+<w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="multilevel"/>
+<w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:lvlText w:val="%%1."/></w:lvl>
+<w:lvl w:ilvl="1"><w:start w:val="1"/><w:numFmt w:val="lowerLetter"/><w:lvlText w:val="%%1.%%2"/></w:lvl>
+</w:abstractNum>
+<w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="multilevel"/>
+<w:numStyleLink w:val="%s"/></w:abstractNum>
+%s
+<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>
+<w:num w:numId="2"><w:abstractNumId w:val="1"/>%s</w:num>
+%s
+</w:numbering>"""
+
+
+def _numbering(tmp_path, name, *, link="BulletList", style_link=True,
+               override="", extra_num="", styles=None, source=None):
+    defining = ""
+    if style_link:
+        defining = ('<w:abstractNum w:abstractNumId="2"><w:multiLevelType '
+                    'w:val="multilevel"/><w:styleLink w:val="BulletList"/>'
+                    '<w:lvl w:ilvl="0"><w:numFmt w:val="bullet"/>'
+                    '<w:lvlText w:val="-"/></w:lvl></w:abstractNum>')
+    elif extra_num:
+        defining = ('<w:abstractNum w:abstractNumId="2"><w:multiLevelType '
+                    'w:val="multilevel"/><w:lvl w:ilvl="0"><w:numFmt '
+                    'w:val="bullet"/><w:lvlText w:val="-"/></w:lvl>'
+                    '</w:abstractNum>')
+    xml = LIST_STYLE_NUMBERING % (W_NS.encode(), link.encode(), defining.encode(),
+                                  override.encode(), extra_num.encode())
+    edits = {NUMBERING: xml}
+    if styles is not None:
+        edits["word/styles.xml"] = styles
+    return repack(source, tmp_path / name, edits)
+
+
+def _num004(path):
+    return [f.message for f in check(path) if f.code.startswith("NUM")]
+
+
+def test_num_style_link_uses_the_list_style_levels(base_docx, tmp_path):
+    edited = _numbering(tmp_path, "style-link.docx", source=base_docx)
+    assert _num004(edited) == []
+
+
+def test_num_style_link_resolves_through_styles_part(base_docx, tmp_path):
+    styles = read_part(base_docx, "word/styles.xml").replace(
+        "</w:styles>",
+        '<w:style w:type="numbering" w:styleId="BulletList"><w:name '
+        'w:val="Bullet List"/><w:pPr><w:numPr><w:numId w:val="3"/></w:numPr>'
+        "</w:pPr></w:style></w:styles>").encode()
+    edited = _numbering(
+        tmp_path, "style-numid.docx", style_link=False, styles=styles,
+        extra_num='<w:num w:numId="3"><w:abstractNumId w:val="2"/></w:num>',
+        source=base_docx)
+    assert _num004(edited) == []
+
+
+def test_level_defined_by_lvl_override_is_defined(base_docx, tmp_path):
+    document = read_part(base_docx, DOC).replace(
+        '<w:ilvl w:val="0"/><w:numId w:val="2"/>',
+        '<w:ilvl w:val="3"/><w:numId w:val="2"/>', 1)
+    source = repack(base_docx, tmp_path / "ilvl3.docx", {DOC: document.encode()})
+    override = ('<w:lvlOverride w:ilvl="3"><w:lvl w:ilvl="3"><w:numFmt '
+                'w:val="bullet"/><w:lvlText w:val="-"/></w:lvl></w:lvlOverride>')
+    with_override = _numbering(tmp_path, "override.docx", override=override,
+                               source=source)
+    without = _numbering(tmp_path, "no-override.docx", source=source)
+    assert _num004(with_override) == []
+    assert _num004(without) == ["level ilvl=3 undefined in abstractNum 1"]
+
+
+def test_unresolved_num_style_link_is_still_reported(base_docx, tmp_path):
+    edited = _numbering(tmp_path, "dangling-link.docx", link="NoSuchStyle",
+                        source=base_docx)
+    assert _num004(edited) == ["level ilvl=0 undefined in abstractNum 1"] * 2
+
