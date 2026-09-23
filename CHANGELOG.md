@@ -22,6 +22,12 @@
   levels that a `w:num` defines in `w:lvlOverride/w:lvl`. Levels that no
   definition provides, such as `ilvl=9`, are still reported.
 
+- `PKG004` is an ERROR only when a relationship part has no content type at
+  all. A package that declares every relationship part by `Override` instead of
+  `<Default Extension="rels">` is OPC-legal and is now a WARN; 86 public
+  real-world DOCX, mostly older LibreOffice exports, have this layout.
+  Affected inputs can change exit 1 to 0.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published

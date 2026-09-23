@@ -280,3 +280,29 @@ def test_unresolved_num_style_link_is_still_reported(base_docx, tmp_path):
                         source=base_docx)
     assert _num004(edited) == ["level ilvl=0 undefined in abstractNum 1"] * 2
 
+
+# ------------------------------------------------------------ relationship content types
+
+def test_override_only_relationship_parts_are_a_warning(base_docx, tmp_path):
+    with zipfile.ZipFile(base_docx) as z:
+        rels = [n for n in z.namelist() if n.endswith(".rels")]
+    ct = read_part(base_docx, CT)
+    default = re.search(r'<Default Extension="rels"[^>]*/>', ct).group(0)
+    overrides = "".join(
+        '<Override PartName="/%s" ContentType="application/'
+        'vnd.openxmlformats-package.relationships+xml"/>' % n for n in rels)
+    edited = repack(base_docx, tmp_path / "rels-override.docx", {
+        CT: ct.replace(default, overrides).encode()})
+    findings = [f for f in check(edited) if f.code == "PKG004"]
+    assert [f.severity.value for f in findings] == ["warn"]
+
+
+def test_relationship_parts_without_content_type_are_an_error(base_docx, tmp_path):
+    ct = read_part(base_docx, CT)
+    default = re.search(r'<Default Extension="rels"[^>]*/>', ct).group(0)
+    edited = repack(base_docx, tmp_path / "rels-uncovered.docx", {
+        CT: ct.replace(default, "").encode()})
+    findings = [f for f in check(edited) if f.code == "PKG004"]
+    assert [f.severity.value for f in findings] == ["error"]
+    assert "_rels/.rels" in findings[0].message
+

@@ -185,12 +185,30 @@ class Inspector:
         }
         overrides = {o.get("PartName") for o in ct.findall(f"{{{NS['ct']}}}Override")}
         if "rels" not in defaults:
-            self._add(
-                "PKG004", ERROR,
-                'no <Default Extension="rels"> - OPC-legal, but Word reports the '
-                "package as corrupt",
-                part="[Content_Types].xml",
-            )
+            # An Override covers a relationship part as well as any other part.
+            # Only relationship parts left without any content type break the
+            # package; Override-only declarations are OPC-legal.
+            uncovered = [
+                name for name in self.parts
+                if name.endswith(".rels")
+                and (name.startswith("_rels/") or "/_rels/" in name)
+                and "/" + name not in overrides
+            ]
+            if uncovered:
+                self._add(
+                    "PKG004", ERROR,
+                    'no <Default Extension="rels"> and no Override for '
+                    f"{len(uncovered)} relationship part(s), e.g. {uncovered[0]} "
+                    "- Word reports the package as corrupt",
+                    part="[Content_Types].xml",
+                )
+            else:
+                self._add(
+                    "PKG004", WARN,
+                    'no <Default Extension="rels">; every relationship part is '
+                    "declared by Override instead - OPC-legal",
+                    part="[Content_Types].xml",
+                )
         for name in self.parts:
             if name.endswith("/"):          # zip directory entry, not an OPC part
                 continue
