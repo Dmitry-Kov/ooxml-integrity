@@ -194,6 +194,8 @@ class Inspector:
         for name in self.parts:
             if name.endswith("/"):          # zip directory entry, not an OPC part
                 continue
+            if name == "[Content_Types].xml":  # the stream itself, not an OPC part
+                continue
             if name.startswith("_rels/") or "/_rels/" in name:
                 continue
             ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
@@ -434,6 +436,10 @@ class Inspector:
             if nid_el is None:
                 continue
             nid = nid_el.get(_w("val"))
+            if nid == "0":
+                # ECMA-376 numId: 0 never points to a numbering instance; it
+                # removes numbering inherited from the style hierarchy.
+                continue
             where = self._xpath(npr)
             if num is None:
                 self._add("NUM001", ERROR,
@@ -462,10 +468,12 @@ class Inspector:
         if doc is None:
             return
         fn = self._tree("word/footnotes.xml")
-        defined = (
-            {f.get(_w("id")) for f in fn.findall(_w("footnote"))} if fn is not None
-            else set()
-        )
+        notes = fn.findall(_w("footnote")) if fn is not None else []
+        defined = {f.get(_w("id")) for f in notes}
+        # Separator notes are identified by w:type, not by id: Word 2010+
+        # writes -1/0, while Word 2007 and LibreOffice write 0/1.
+        special = {f.get(_w("id")) for f in notes
+                   if f.get(_w("type")) not in (None, "normal")}
         used = set()
         for ref in doc.iter(_w("footnoteReference")):
             i = ref.get(_w("id"))
@@ -474,7 +482,7 @@ class Inspector:
                 self._add("FTN001", ERROR,
                           f"footnote reference id={i} has no entry in footnotes.xml",
                           self._xpath(ref))
-        for i in sorted(defined - used, key=lambda x: (x is None, x)):
+        for i in sorted(defined - used - special, key=lambda x: (x is None, x)):
             if i not in ("-1", "0"):
                 self._add("FTN002", ERROR,
                           f"footnote id={i} is defined but never referenced - "

@@ -1,0 +1,147 @@
+"""Spec-valid constructs from real producers must not raise structural errors.
+
+Each case was first seen in public test documents (LibreOffice's
+sw/qa/extras/ooxmlexport corpus, Word 2007 files) and is rebuilt here from
+corpus/base.docx. Every case keeps a negative control, so the rule still fires
+on a genuine defect.
+"""
+from __future__ import annotations
+
+import re
+import zipfile
+
+from lxml import etree
+
+from conftest import read_part, repack
+
+from ooxml_integrity import check
+
+
+W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+W = "{%s}" % W_NS
+CT_NS = "http://schemas.openxmlformats.org/package/2006/content-types"
+DOC = "word/document.xml"
+FOOTNOTES = "word/footnotes.xml"
+NUMBERING = "word/numbering.xml"
+CT = "[Content_Types].xml"
+
+
+def _codes(path):
+    return [f.code for f in check(path)]
+
+
+# ------------------------------------------------------------ separator notes
+
+def _libreoffice_footnote_ids(source, target, *, drop_reference=None):
+    """Renumber notes the way LibreOffice and Word 2007 do: separators 0/1."""
+    notes = etree.fromstring(read_part(source, FOOTNOTES).encode())
+    document = read_part(source, DOC)
+    mapping = {}
+    for note in notes.findall(W + "footnote"):
+        old = note.get(W + "id")
+        kind = note.get(W + "type")
+        new = {"separator": "0", "continuationSeparator": "1"}.get(
+            kind, str(int(old) + 1))
+        mapping[old] = new
+        note.set(W + "id", new)
+    document = re.sub(
+        r'(<w:footnoteReference w:id=")(-?\d+)(")',
+        lambda m: m.group(1) + mapping[m.group(2)] + m.group(3), document)
+    if drop_reference is not None:
+        document = document.replace(
+            '<w:footnoteReference w:id="%s"/>' % drop_reference, "", 1)
+    return repack(source, target, {
+        FOOTNOTES: etree.tostring(notes, xml_declaration=True,
+                                  encoding="UTF-8", standalone=True),
+        DOC: document.encode(),
+    })
+
+
+def test_separator_notes_are_identified_by_type_not_id(base_docx, tmp_path):
+    edited = _libreoffice_footnote_ids(base_docx, tmp_path / "lo-notes.docx")
+    assert 'w:type="continuationSeparator" w:id="1"' in read_part(edited, FOOTNOTES)
+    codes = _codes(edited)
+    assert "FTN001" not in codes and "FTN002" not in codes
+
+
+def test_orphaned_normal_note_is_still_reported_with_0_1_separators(
+        base_docx, tmp_path):
+    edited = _libreoffice_footnote_ids(
+        base_docx, tmp_path / "lo-orphan.docx", drop_reference="2")
+    findings = [f for f in check(edited) if f.code == "FTN002"]
+    assert [f.message.split(" ")[1] for f in findings] == ["id=2"]
+
+
+# ------------------------------------------------------------ numId="0"
+
+def _with_num_id(source, target, value, *, drop_numbering=False):
+    document = read_part(source, DOC)
+    document, n = re.subn(r'<w:numId w:val="2"/>',
+                          '<w:numId w:val="%s"/>' % value, document, count=1)
+    assert n == 1, "the reference document changed"
+    edits = {DOC: document.encode()}
+    if not drop_numbering:
+        return repack(source, target, edits)
+    tmp = repack(source, target.with_suffix(".tmp.docx"), edits)
+    with zipfile.ZipFile(tmp) as z:
+        parts = {name: z.read(name) for name in z.namelist() if name != NUMBERING}
+    with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as z:
+        for name, data in parts.items():
+            z.writestr(name, data)
+    return target
+
+
+def test_num_id_zero_removes_numbering_and_is_not_a_dangling_reference(
+        base_docx, tmp_path):
+    codes = _codes(_with_num_id(base_docx, tmp_path / "num0.docx", "0"))
+    assert not [c for c in codes if c.startswith("NUM")]
+
+
+def test_num_id_zero_without_numbering_part_is_not_reported(base_docx, tmp_path):
+    edited = _with_num_id(base_docx, tmp_path / "num0-nopart.docx", "0",
+                          drop_numbering=True)
+    num001 = [f.message for f in check(edited) if f.code == "NUM001"]
+    # the other numbered paragraphs (numId=1/2) still lose their definitions
+    assert num001 and not [m for m in num001 if "numId=0 " in m]
+
+
+def test_undefined_nonzero_num_id_is_still_an_error(base_docx, tmp_path):
+    codes = _codes(_with_num_id(base_docx, tmp_path / "num999.docx", "999"))
+    assert "NUM002" in codes
+
+
+# ------------------------------------------------------------ content types
+
+def _override_only_content_types(source, target, *, uncovered=None):
+    """Declare every part by Override, as older LibreOffice exports did."""
+    with zipfile.ZipFile(source) as z:
+        names = [n for n in z.namelist() if not n.endswith("/")]
+    tree = etree.fromstring(read_part(source, CT).encode())
+    overrides = {o.get("PartName") for o in tree.findall("{%s}Override" % CT_NS)}
+    for default in tree.findall("{%s}Default" % CT_NS):
+        if default.get("Extension") == "xml":
+            tree.remove(default)
+    for name in names:
+        if name == CT or not name.endswith(".xml") or "/" + name in overrides:
+            continue
+        el = etree.SubElement(tree, "{%s}Override" % CT_NS)
+        el.set("PartName", "/" + name)
+        el.set("ContentType", "application/xml")
+    edits = {CT: etree.tostring(tree, xml_declaration=True, encoding="UTF-8",
+                                standalone=True)}
+    if uncovered:
+        edits[uncovered] = b"<x/>"
+    return repack(source, target, edits)
+
+
+def test_content_types_stream_is_not_a_part(base_docx, tmp_path):
+    edited = _override_only_content_types(base_docx, tmp_path / "ct.docx")
+    assert 'Extension="xml"' not in read_part(edited, CT)
+    assert [f for f in check(edited) if f.code == "PKG005"] == []
+
+
+def test_uncovered_part_is_still_reported(base_docx, tmp_path):
+    edited = _override_only_content_types(
+        base_docx, tmp_path / "ct-uncovered.docx", uncovered="word/extra.xml")
+    flagged = [f.part for f in check(edited) if f.code == "PKG005"]
+    assert flagged == ["word/extra.xml"]

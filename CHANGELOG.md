@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Fixed three structural false positives seen in public real-world DOCX
+  (LibreOffice's `ooxmlexport` test corpus, Word 2007 files, a LibreOffice 24.2
+  save): separator and continuation-separator footnotes are now identified by
+  `w:type`, not by ids `-1`/`0`, so LibreOffice and Word 2007 notes (`0`/`1`)
+  no longer raise `FTN002`; `w:numId w:val="0"`, which removes numbering
+  per ECMA-376, no longer raises `NUM001`/`NUM002`; `[Content_Types].xml`
+  itself is no longer reported as an uncovered part (`PKG005`). Genuine orphaned
+  notes, undefined non-zero `numId` values and uncovered parts are still
+  reported. Affected inputs can change exit 1 to 0.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published
