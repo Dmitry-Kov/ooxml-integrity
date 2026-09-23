@@ -185,14 +185,34 @@ class Inspector:
         }
         overrides = {o.get("PartName") for o in ct.findall(f"{{{NS['ct']}}}Override")}
         if "rels" not in defaults:
-            self._add(
-                "PKG004", ERROR,
-                'no <Default Extension="rels"> - OPC-legal, but Word reports the '
-                "package as corrupt",
-                part="[Content_Types].xml",
-            )
+            # An Override covers a relationship part as well as any other part.
+            # Only relationship parts left without any content type break the
+            # package; Override-only declarations are OPC-legal.
+            uncovered = [
+                name for name in self.parts
+                if name.endswith(".rels")
+                and (name.startswith("_rels/") or "/_rels/" in name)
+                and "/" + name not in overrides
+            ]
+            if uncovered:
+                self._add(
+                    "PKG004", ERROR,
+                    'no <Default Extension="rels"> and no Override for '
+                    f"{len(uncovered)} relationship part(s), e.g. {uncovered[0]} "
+                    "- Word reports the package as corrupt",
+                    part="[Content_Types].xml",
+                )
+            else:
+                self._add(
+                    "PKG004", WARN,
+                    'no <Default Extension="rels">; every relationship part is '
+                    "declared by Override instead - OPC-legal",
+                    part="[Content_Types].xml",
+                )
         for name in self.parts:
             if name.endswith("/"):          # zip directory entry, not an OPC part
+                continue
+            if name == "[Content_Types].xml":  # the stream itself, not an OPC part
                 continue
             if name.startswith("_rels/") or "/_rels/" in name:
                 continue
@@ -420,20 +440,31 @@ class Inspector:
         num = self._tree("word/numbering.xml")
         nums: dict[str, str | None] = {}
         abstracts: dict[str, set] = {}
+        overrides: dict[str, set] = {}
         if num is not None:
             for n in num.findall(_w("num")):
                 a = n.find(_w("abstractNumId"))
                 nums[n.get(_w("numId"))] = a.get(_w("val")) if a is not None else None
+                # a w:lvlOverride may carry a complete w:lvl for this instance
+                overrides[n.get(_w("numId"))] = {
+                    o.get(_w("ilvl")) for o in n.findall(_w("lvlOverride"))
+                    if o.find(_w("lvl")) is not None
+                }
             for a in num.findall(_w("abstractNum")):
                 abstracts[a.get(_w("abstractNumId"))] = {
                     lv.get(_w("ilvl")) for lv in a.findall(_w("lvl"))
                 }
+            self._inherit_numbering_style_levels(num, nums, abstracts)
 
         for npr in doc.iter(_w("numPr")):
             nid_el = npr.find(_w("numId"))
             if nid_el is None:
                 continue
             nid = nid_el.get(_w("val"))
+            if nid == "0":
+                # ECMA-376 numId: 0 never points to a numbering instance; it
+                # removes numbering inherited from the style hierarchy.
+                continue
             where = self._xpath(npr)
             if num is None:
                 self._add("NUM001", ERROR,
@@ -453,19 +484,55 @@ class Inspector:
                 continue
             ilvl_el = npr.find(_w("ilvl"))
             lvl = ilvl_el.get(_w("val")) if ilvl_el is not None else "0"
-            if lvl not in abstracts[aid]:
+            if lvl not in abstracts[aid] | overrides.get(nid, set()):
                 self._add("NUM004", WARN,
                           f"level ilvl={lvl} undefined in abstractNum {aid}", where)
+
+    def _inherit_numbering_style_levels(self, num, nums: dict, abstracts: dict) -> None:
+        """Give an abstractNum with w:numStyleLink the levels of its list style.
+
+        Word stores a list style's levels once, in the abstractNum whose
+        w:styleLink names the style; abstractNums that use the style carry only
+        w:numStyleLink. Resolve through w:styleLink first, then through the
+        numbering style's own numId in styles.xml.
+        """
+        by_style: dict[str, set] = {}
+        for a in num.findall(_w("abstractNum")):
+            link = a.find(_w("styleLink"))
+            if link is not None and link.get(_w("val")):
+                by_style[link.get(_w("val"))] = abstracts.get(
+                    a.get(_w("abstractNumId")), set())
+        styles = self._tree("word/styles.xml")
+        for a in num.findall(_w("abstractNum")):
+            link = a.find(_w("numStyleLink"))
+            if link is None or not link.get(_w("val")):
+                continue
+            name = link.get(_w("val"))
+            levels = by_style.get(name)
+            if levels is None and styles is not None:
+                for style in styles.findall(_w("style")):
+                    if style.get(_w("styleId")) != name:
+                        continue
+                    nid = style.find(f'{_w("pPr")}/{_w("numPr")}/{_w("numId")}')
+                    target = nums.get(nid.get(_w("val"))) if nid is not None else None
+                    if target is not None and target != a.get(_w("abstractNumId")):
+                        levels = abstracts.get(target)
+                    break
+            if levels:
+                aid = a.get(_w("abstractNumId"))
+                abstracts[aid] = abstracts.get(aid, set()) | levels
 
     def check_footnotes(self) -> None:
         doc = self._tree("word/document.xml")
         if doc is None:
             return
         fn = self._tree("word/footnotes.xml")
-        defined = (
-            {f.get(_w("id")) for f in fn.findall(_w("footnote"))} if fn is not None
-            else set()
-        )
+        notes = fn.findall(_w("footnote")) if fn is not None else []
+        defined = {f.get(_w("id")) for f in notes}
+        # Separator notes are identified by w:type, not by id: Word 2010+
+        # writes -1/0, while Word 2007 and LibreOffice write 0/1.
+        special = {f.get(_w("id")) for f in notes
+                   if f.get(_w("type")) not in (None, "normal")}
         used = set()
         for ref in doc.iter(_w("footnoteReference")):
             i = ref.get(_w("id"))
@@ -474,7 +541,7 @@ class Inspector:
                 self._add("FTN001", ERROR,
                           f"footnote reference id={i} has no entry in footnotes.xml",
                           self._xpath(ref))
-        for i in sorted(defined - used, key=lambda x: (x is None, x)):
+        for i in sorted(defined - used - special, key=lambda x: (x is None, x)):
             if i not in ("-1", "0"):
                 self._add("FTN002", ERROR,
                           f"footnote id={i} is defined but never referenced - "
@@ -583,17 +650,42 @@ class Inspector:
             ncols = len(grid.findall(_w("gridCol")))
             for ri, tr in enumerate(tbl.findall(_w("tr")), 1):
                 span = 0
-                for tc in tr.findall(_w("tc")):
+                for tc in self._row_cells(tr):
                     gs = tc.find(f'{_w("tcPr")}/{_w("gridSpan")}')
                     try:
                         span += int(gs.get(_w("val"))) if gs is not None else 1
                     except (TypeError, ValueError):
                         span += 1
+                # Grid columns skipped before the first or after the last cell
+                # (ragged rows) are part of the row's width, not missing cells.
+                trpr = tr.find(_w("trPr"))
+                for tag in ("gridBefore", "gridAfter"):
+                    skipped = trpr.find(_w(tag)) if trpr is not None else None
+                    if skipped is not None:
+                        try:
+                            span += int(skipped.get(_w("val")))
+                        except (TypeError, ValueError):
+                            pass
                 if span != ncols:
                     self._add("TBL002", WARN,
                               f"table {ti}, row {ri}: {span} cells vs {ncols} "
                               "tblGrid columns - Word will re-lay out the table",
                               f"tbl[{ti}]/tr[{ri}]")
+
+    @staticmethod
+    def _row_cells(container) -> list:
+        """A row's cells, including cells wrapped in content controls or custom XML."""
+        cells = []
+        for child in container:
+            if child.tag == _w("tc"):
+                cells.append(child)
+            elif child.tag == _w("sdt"):
+                content = child.find(_w("sdtContent"))
+                if content is not None:
+                    cells.extend(Inspector._row_cells(content))
+            elif child.tag == _w("customXml"):
+                cells.extend(Inspector._row_cells(child))
+        return cells
 
     def check_sdt(self) -> None:
         doc = self._tree("word/document.xml")

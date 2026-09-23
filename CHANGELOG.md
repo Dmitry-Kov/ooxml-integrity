@@ -2,6 +2,42 @@
 
 ## Unreleased
 
+- Fixed three structural false positives seen in public real-world DOCX
+  (LibreOffice's `ooxmlexport` test corpus, Word 2007 files, a LibreOffice 24.2
+  save): separator and continuation-separator footnotes are now identified by
+  `w:type`, not by ids `-1`/`0`, so LibreOffice and Word 2007 notes (`0`/`1`)
+  no longer raise `FTN002`; `w:numId w:val="0"`, which removes numbering
+  per ECMA-376, no longer raises `NUM001`/`NUM002`; `[Content_Types].xml`
+  itself is no longer reported as an uncovered part (`PKG005`). Genuine orphaned
+  notes, undefined non-zero `numId` values and uncovered parts are still
+  reported. Affected inputs can change exit 1 to 0.
+
+- `TBL002` now counts grid columns skipped by `w:gridBefore`/`w:gridAfter`
+  and cells wrapped in content controls (`w:sdt`) or `w:customXml`. On 1,887
+  public real-world DOCX this removed 282 of 306 warnings. Rows that are
+  genuinely short of cells are still reported.
+
+- `NUM004` resolves `w:numStyleLink` to the levels of its list style, through
+  `w:styleLink` or the numbering style's `numId` in `styles.xml`, and accepts
+  levels that a `w:num` defines in `w:lvlOverride/w:lvl`. Levels that no
+  definition provides, such as `ilvl=9`, are still reported.
+
+- `PKG004` is an ERROR only when a relationship part has no content type at
+  all. A package that declares every relationship part by `Override` instead of
+  `<Default Extension="rels">` is OPC-legal and is now a WARN; 86 public
+  real-world DOCX, mostly older LibreOffice exports, have this layout.
+  Affected inputs can change exit 1 to 0.
+
+- `PKG002` names an OLE compound file (an encrypted OOXML document or a
+  legacy binary Office file) instead of reporting a missing ZIP end record.
+  Text output shows the package part when a finding has no XPath, for example
+  for `FTN002` and `XML001`; JSON is unchanged.
+
+- Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
+  on six public test corpora (1,887 DOCX, 605 PPTX): structural noise by rule,
+  python-docx no-op round trips, and destructive and careful edits applied to
+  the real documents.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published
