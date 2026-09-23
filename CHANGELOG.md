@@ -33,6 +33,11 @@
   Text output shows the package part when a finding has no XPath, for example
   for `FTN002` and `XML001`; JSON is unchanged.
 
+- Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
+  on six public test corpora (1,887 DOCX, 605 PPTX): structural noise by rule,
+  python-docx no-op round trips, and destructive and careful edits applied to
+  the real documents.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published
