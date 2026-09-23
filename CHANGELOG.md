@@ -12,6 +12,11 @@
   notes, undefined non-zero `numId` values and uncovered parts are still
   reported. Affected inputs can change exit 1 to 0.
 
+- `TBL002` now counts grid columns skipped by `w:gridBefore`/`w:gridAfter`
+  and cells wrapped in content controls (`w:sdt`) or `w:customXml`. On 1,887
+  public real-world DOCX this removed 282 of 306 warnings. Rows that are
+  genuinely short of cells are still reported.
+
 ## 0.4.3 — 2026-09-20
 
 [Upgrade notes and verified publication](docs/releases/0.4.3.md). Published

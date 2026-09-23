@@ -591,17 +591,42 @@ class Inspector:
             ncols = len(grid.findall(_w("gridCol")))
             for ri, tr in enumerate(tbl.findall(_w("tr")), 1):
                 span = 0
-                for tc in tr.findall(_w("tc")):
+                for tc in self._row_cells(tr):
                     gs = tc.find(f'{_w("tcPr")}/{_w("gridSpan")}')
                     try:
                         span += int(gs.get(_w("val"))) if gs is not None else 1
                     except (TypeError, ValueError):
                         span += 1
+                # Grid columns skipped before the first or after the last cell
+                # (ragged rows) are part of the row's width, not missing cells.
+                trpr = tr.find(_w("trPr"))
+                for tag in ("gridBefore", "gridAfter"):
+                    skipped = trpr.find(_w(tag)) if trpr is not None else None
+                    if skipped is not None:
+                        try:
+                            span += int(skipped.get(_w("val")))
+                        except (TypeError, ValueError):
+                            pass
                 if span != ncols:
                     self._add("TBL002", WARN,
                               f"table {ti}, row {ri}: {span} cells vs {ncols} "
                               "tblGrid columns - Word will re-lay out the table",
                               f"tbl[{ti}]/tr[{ri}]")
+
+    @staticmethod
+    def _row_cells(container) -> list:
+        """A row's cells, including cells wrapped in content controls or custom XML."""
+        cells = []
+        for child in container:
+            if child.tag == _w("tc"):
+                cells.append(child)
+            elif child.tag == _w("sdt"):
+                content = child.find(_w("sdtContent"))
+                if content is not None:
+                    cells.extend(Inspector._row_cells(content))
+            elif child.tag == _w("customXml"):
+                cells.extend(Inspector._row_cells(child))
+        return cells
 
     def check_sdt(self) -> None:
         doc = self._tree("word/document.xml")

@@ -145,3 +145,58 @@ def test_uncovered_part_is_still_reported(base_docx, tmp_path):
         base_docx, tmp_path / "ct-uncovered.docx", uncovered="word/extra.xml")
     flagged = [f.part for f in check(edited) if f.code == "PKG005"]
     assert flagged == ["word/extra.xml"]
+
+
+# ------------------------------------------------------------ table rows
+
+DELIVERY_ROW = re.compile(r"<w:tr>\s*(<w:tc>(?:(?!</w:tc>).)*Delivery.*?</w:tc>)"
+                          r"(.*?)</w:tr>", re.S)
+
+
+def _edit_delivery_row(source, target, edit):
+    document = read_part(source, DOC)
+    match = DELIVERY_ROW.search(document)
+    assert match, "the reference document changed"
+    first, rest = match.group(1), match.group(2)
+    row = edit(first, rest)
+    return repack(source, target, {
+        DOC: (document[:match.start()] + row + document[match.end():]).encode()})
+
+
+def _tbl002(path):
+    return [f.message for f in check(path) if f.code == "TBL002"]
+
+
+def test_grid_before_accounts_for_skipped_columns(base_docx, tmp_path):
+    edited = _edit_delivery_row(
+        base_docx, tmp_path / "grid-before.docx",
+        lambda first, rest: '<w:tr><w:trPr><w:gridBefore w:val="1"/></w:trPr>'
+                            + rest + "</w:tr>")
+    assert _tbl002(edited) == []
+
+
+def test_grid_after_accounts_for_skipped_columns(base_docx, tmp_path):
+    def drop_last(first, rest):
+        cells = re.findall(r"<w:tc>.*?</w:tc>", rest, re.S)
+        return ('<w:tr><w:trPr><w:gridAfter w:val="1"/></w:trPr>' + first
+                + cells[0] + "</w:tr>")
+    edited = _edit_delivery_row(base_docx, tmp_path / "grid-after.docx", drop_last)
+    assert _tbl002(edited) == []
+
+
+def test_cells_inside_content_controls_are_counted(base_docx, tmp_path):
+    edited = _edit_delivery_row(
+        base_docx, tmp_path / "cell-sdt.docx",
+        lambda first, rest: "<w:tr><w:sdt><w:sdtPr/><w:sdtContent>" + first
+                            + "</w:sdtContent></w:sdt>" + rest + "</w:tr>")
+    codes = _codes(edited)
+    assert "TBL002" not in codes and "SDT001" not in codes
+
+
+def test_missing_cell_without_grid_skip_is_still_reported(base_docx, tmp_path):
+    edited = _edit_delivery_row(
+        base_docx, tmp_path / "ragged.docx",
+        lambda first, rest: "<w:tr>" + rest + "</w:tr>")
+    assert _tbl002(edited) == [
+        "table 1, row 3: 2 cells vs 3 tblGrid columns - Word will re-lay out the table"]
+
