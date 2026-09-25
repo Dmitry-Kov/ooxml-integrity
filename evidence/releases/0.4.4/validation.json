@@ -1,0 +1,245 @@
+{
+  "scope": "Local candidate packaging verification; no fresh editor/model runs. Later CI/release archives are rebuilt from the merged tree and carry their own hashes.",
+  "version": "0.4.4",
+  "base_head": "e5820c9d2d2b6cd0e08d28b9aa38e3e76552adde",
+  "merged_changes": [
+    "#23",
+    "#24",
+    "#25",
+    "#26",
+    "#27"
+  ],
+  "python": "3.12.8",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "tools": {
+    "build": "1.6.1",
+    "twine": "7.0.0",
+    "lxml": "6.1.3",
+    "pytest": "9.1.1",
+    "fonttools": "4.66.0",
+    "python-docx": "1.2.0"
+  },
+  "local_archive_sha256": {
+    "ooxml_integrity-0.4.4-py3-none-any.whl": "1babb29e96d5f0bc8f0f31673e831a6da72d9fd50f137d2e0c94774acb50db8e",
+    "ooxml_integrity-0.4.4.tar.gz": "f45551050331340d1d05f64cbb41d311509c5ba9584380c9173a087d3a79be1f"
+  },
+  "commands": {
+    "pytest": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 48.6,
+      "log_sha256": "55b76167d5798cc82edb45527041b869eea69896abd6fce3e36fa5d35495aec4"
+    },
+    "corpus": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/build_docx_evidence.py",
+        "evaluate",
+        "--output",
+        "evidence/releases/0.4.4/docx-beta.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.9,
+      "log_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8"
+    },
+    "revisions": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/review_revision_text.py",
+        "--evidence-dir",
+        "evidence/docx-paragraph-revision-ids",
+        "--saved-outputs",
+        "--output",
+        "evidence/releases/0.4.4/revisions.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.6,
+      "log_sha256": "0d71230f11779e0e115b811d9cc70c78ae0fe690dc1546fcdb6ba92ed1d28848"
+    },
+    "frozen": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/replay_frozen_docx.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.5,
+      "log_sha256": "69dd9740400579a305d72a3168b0dc729efe716e98ab014d654221b4056512f7"
+    },
+    "comment-stories": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/comment_story_evidence.py",
+        "evaluate"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.1,
+      "log_sha256": "10891d01a63aad614d5270ca35a3337ea99f3a69e70bbdf3d31a51d6474b6796"
+    },
+    "deck": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/assert_deck.py",
+        "corpus/deck.pptx"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.4,
+      "log_sha256": "906daebb2c9557a16571dee6e689be934da23a591b83d8a45fac9e65d7f48f1e"
+    },
+    "build": {
+      "command": [
+        "$REPO/.venv/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "$REPO/tmp/release-0.4.4/dist"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.1,
+      "log_sha256": "8692e71a7123d1c68b189d5d58eceadca9b255204734bf6b7b05199dbd00969b"
+    },
+    "twine": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "twine",
+        "check",
+        "--strict",
+        "$REPO/tmp/release-0.4.4/dist/ooxml_integrity-0.4.4-py3-none-any.whl",
+        "$REPO/tmp/release-0.4.4/dist/ooxml_integrity-0.4.4.tar.gz"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 1.2,
+      "log_sha256": "cdcabda65ab97f180193666fbdbf1457816d6b098d951b62d0cd53fe07af03fd"
+    },
+    "wheel-env": {
+      "command": [
+        "/bin/sh",
+        "-c",
+        "\"/opt/homebrew/opt/python@3.12/bin/python3.12\" -m venv \"$REPO/tmp/release-0.4.4/wheel-env\" && \"$REPO/tmp/release-0.4.4/wheel-env/bin/python\" -m pip install -q \"$REPO/tmp/release-0.4.4/dist/ooxml_integrity-0.4.4-py3-none-any.whl\""
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.1,
+      "log_sha256": "9ce7af5c415ee2a382a243595f7cbe37181016da2c3adfde42ac40a5f4026348"
+    },
+    "wheel-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.4/wheel-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.4"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.7,
+      "log_sha256": "cc02cc1a05471e8a31e8249cc1a8eb6be4a1f4663ec8a6bf9c693ca98027cd51"
+    },
+    "sdist-env": {
+      "command": [
+        "/bin/sh",
+        "-c",
+        "\"/opt/homebrew/opt/python@3.12/bin/python3.12\" -m venv \"$REPO/tmp/release-0.4.4/sdist-env\" && \"$REPO/tmp/release-0.4.4/sdist-env/bin/python\" -m pip install -q \"$REPO/tmp/release-0.4.4/dist/ooxml_integrity-0.4.4.tar.gz\""
+      ],
+      "exit_code": 0,
+      "duration_seconds": 5.0,
+      "log_sha256": "62e4285ff5addcec5df651b7f9bab726721d6d47da8935f4b71a87cb325d5718"
+    },
+    "sdist-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.4/sdist-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.4"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.8,
+      "log_sha256": "cc02cc1a05471e8a31e8249cc1a8eb6be4a1f4663ec8a6bf9c693ca98027cd51"
+    },
+    "browser-wheel": {
+      "command": [
+        "env",
+        "OOXML_DEMO_DIR=$REPO/tmp/browser-preview",
+        "npm",
+        "test",
+        "--prefix",
+        "tests/browser"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 115.9,
+      "log_sha256": "a1f40babc94c1e8c762633988e97a05526a6a2f0dc1a943254c7156f1606356b"
+    }
+  },
+  "pytest_summary": "1092 passed, 7 skipped in 48.40s",
+  "preserved_historical_files": 1582,
+  "browser": {
+    "stats": {
+      "startTime": "2026-09-25T12:58:14.665Z",
+      "duration": 115850.30900000001,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "metadata": {
+      "commit": "e5820c9d2d2b6cd0e08d28b9aa38e3e76552adde",
+      "changedTrackedFiles": [
+        ".github/workflows/release.yml",
+        "CHANGELOG.md",
+        "docs/compatibility.md",
+        "docs/real-world-corpora.md",
+        "docs/support-matrix.md",
+        "pyproject.toml",
+        "research/release_smoke.py",
+        "src/ooxml_integrity/__init__.py"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.4.4",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.4.4",
+        "wheel": "ooxml_integrity-0.4.4-py3-none-any.whl",
+        "sha256": "1babb29e96d5f0bc8f0f31673e831a6da72d9fd50f137d2e0c94774acb50db8e"
+      },
+      "pageSha256": {
+        "index.html": "eb5045d0bcc841dc0865c907073a834fc249748f220fac975c56cd193451ef9e",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "72d254a1e071d1930d2eb6b4e6adb995755eca852f3e5999489e75b47e20d617",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    }
+  }
+}

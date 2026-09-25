@@ -1,0 +1,489 @@
+{
+  "checker_version": "0.4.4",
+  "clean_pairs": 120,
+  "corpus": "docx-beta-synthetic-v1",
+  "error_level": {
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 111
+  },
+  "groups": {
+    "kind:deterministic-mutation": {
+      "clean_pairs": 100,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 200,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 111
+    },
+    "kind:word-online-edit": {
+      "clean_pairs": 10,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 10,
+      "precision": null,
+      "recall": null,
+      "tp": 0
+    },
+    "kind:word-roundtrip": {
+      "clean_pairs": 10,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 10,
+      "precision": null,
+      "recall": null,
+      "tp": 0
+    },
+    "producer:libreoffice": {
+      "clean_pairs": 20,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 40,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 21
+    },
+    "producer:python-docx": {
+      "clean_pairs": 20,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 40,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 23
+    },
+    "producer:word-mac": {
+      "clean_pairs": 20,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 40,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 21
+    },
+    "producer:word-online": {
+      "clean_pairs": 30,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 50,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 23
+    },
+    "producer:word-windows": {
+      "clean_pairs": 30,
+      "fn": 0,
+      "fp": 0,
+      "pairs": 50,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 23
+    }
+  },
+  "pair_failures": [],
+  "pairs": 220,
+  "rules": [
+    {
+      "code": "CMT001",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "CMT002",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "CMT003",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "CMT004",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "CMT005",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "FID000",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "FID001",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "FID002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "FID003",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 7
+    },
+    {
+      "code": "FID004",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "FID005",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "FID006",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "FID007",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 16
+    },
+    {
+      "code": "FID008",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "FTN001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "FTN002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "INT001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "NUM001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "NUM002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "NUM003",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "NUM004",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG000",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG003",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG004",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG005",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG006",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG007",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "PKG008",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "REL001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "REL002",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "REL003",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "REV001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "REV002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "REV003",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "SDT001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "SDT002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "STY001",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 7
+    },
+    {
+      "code": "STY002",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    },
+    {
+      "code": "TBL001",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "TBL002",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 9
+    },
+    {
+      "code": "TXT001",
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "status": "measured",
+      "tp": 7
+    },
+    {
+      "code": "XML001",
+      "fn": 0,
+      "fp": 0,
+      "precision": null,
+      "recall": null,
+      "status": "not-measured",
+      "tp": 0
+    }
+  ],
+  "schema_version": 1,
+  "seeded_defect_pairs": 100,
+  "sources": 50
+}

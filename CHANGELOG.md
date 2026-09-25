@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.4 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.4.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - Fixed three structural false positives seen in public real-world DOCX
   (LibreOffice's `ooxmlexport` test corpus, Word 2007 files, a LibreOffice 24.2
