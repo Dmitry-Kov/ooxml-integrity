@@ -201,6 +201,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | code | check |
 |---|---|
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
+| `PKG009` | unreleased: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
@@ -224,6 +225,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | code | check |
 |---|---|
 | `PPT000` | text could not be measured; reported as an error |
+| `PKG009` | unreleased: Strict Open XML is not supported, so the layout checks were not run; reported as an error |
 | `PPT001` | text taller than its box, beyond the measurement tolerance |
 | `PPT002` | predicted text height exceeds the box by up to 5% — borderline overflow |
 | `PPT003` | line runs outside the usable width: wrap off, or a single overwide glyph |

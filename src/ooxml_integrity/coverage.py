@@ -16,7 +16,9 @@ from .archive import (
 )
 from .finding import Finding
 from .comments import (
-    DOCUMENT_ROOTS,
+    DOCUMENT,
+    STRICT,
+    STRICT_DOCUMENT,
     comment_part,
     comment_tree,
     main_document,
@@ -31,7 +33,6 @@ from .xmlutil import fromstring as parse_xml
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
-STRICT_WORD = "{http://purl.oclc.org/ooxml/wordprocessingml/main}"
 BODY_PARTS = {"word/footnotes.xml", "word/endnotes.xml"}
 
 
@@ -187,8 +188,12 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     ))
 
     document = trees.get(main)
+    strict = document is not None and document.tag == STRICT_DOCUMENT
     gap = f"{main} was missing or could not be safely parsed"
-    if document is not None and document.tag not in DOCUMENT_ROOTS:
+    if strict:
+        document = None
+        gap = f"{main}: {STRICT}"
+    elif document is not None and document.tag != DOCUMENT:
         document = None
         gap = (f"{main} is the main document part but is not a "
                "WordprocessingML document")
@@ -309,7 +314,6 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         len(media),
     ))
 
-    strict = document is not None and document.tag.startswith(STRICT_WORD)
     items.append(_item(
         "docx.strict-wordprocessingml",
         CoverageStatus.UNSUPPORTED if strict else CoverageStatus.NOT_PRESENT,

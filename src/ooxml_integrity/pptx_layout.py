@@ -49,6 +49,7 @@ EMERGENCY_WRAP_TOLERANCE = 0.05
 
 A = "http://schemas.openxmlformats.org/drawingml/2006/main"
 P = "http://schemas.openxmlformats.org/presentationml/2006/main"
+STRICT_PRESENTATION = "{http://purl.oclc.org/ooxml/presentationml/main}presentation"
 R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 REL = "http://schemas.openxmlformats.org/package/2006/relationships"
 
@@ -285,6 +286,11 @@ class DeckReader:
         self.pkg = _Package(path, limits)
         self.path = Path(path)
         pres = self.pkg.tree("ppt/presentation.xml")
+        if pres is not None and pres.tag == STRICT_PRESENTATION:
+            raise PackageIssue(
+                "PKG009", "Strict Open XML (ISO/IEC 29500 Strict) is not "
+                "supported, so the layout checks were NOT run",
+                part="ppt/presentation.xml")
         if pres is None or pres.tag != _p("presentation"):
             raise PackageIssue(
                 "PKG002", "missing, unreadable or unsupported presentation root; "

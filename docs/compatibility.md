@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased Strict correction adds `PKG009` ERROR for a Strict Open XML
+DOCX or PPTX: its Word or layout checks were not run. A Strict DOCX, which
+passed with only `REL003` INFO, changes exit 0 to 1; a Strict PPTX keeps exit
+1, with `PKG009` in place of `PKG002`. A Strict comparison raises `ValueError`,
+reported by the CLI as `FID000`. Projects that accept Strict files unchecked
+can lower the rule in their [configuration](configuration.md). Other codes,
+report fields, coverage schema v1 and baseline v2 identities are unchanged.
+
 The unreleased [package correction](real-world-corpora.md#checked-in-word-and-powerpoint)
 lowers `XML001` to WARN for a malformed part that no relationship reaches,
 which can change exit 1 to 0. Related parts, and packages with an unreadable

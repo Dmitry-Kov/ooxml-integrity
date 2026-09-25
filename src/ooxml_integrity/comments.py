@@ -13,8 +13,10 @@ REL = '{http://schemas.openxmlformats.org/package/2006/relationships}'
 COMMENTS_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
 ASCII_LOWER = str.maketrans('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')
 MAIN_DOCUMENT = 'word/document.xml'
-# Strict documents keep being read as before; the rules only know Transitional names.
-DOCUMENT_ROOTS = (W + 'document', '{http://purl.oclc.org/ooxml/wordprocessingml/main}document')
+DOCUMENT = W + 'document'
+# The rules only know Transitional names; a Strict document is reported, not checked.
+STRICT_DOCUMENT = '{http://purl.oclc.org/ooxml/wordprocessingml/main}document'
+STRICT = 'Strict Open XML (ISO/IEC 29500 Strict) is not supported'
 
 
 def relationships_part(part: str) -> str:
@@ -117,7 +119,9 @@ def main_part(parts: dict[str, bytes], *, names: set[str] | None = None) -> str:
 
 def main_document(parts: dict[str, bytes], part: str):
     root = parse_xml(parts[part])
-    if root.tag not in DOCUMENT_ROOTS:
+    if root.tag == STRICT_DOCUMENT:
+        raise ValueError(f'{part}: {STRICT}')
+    if root.tag != DOCUMENT:
         raise ValueError(f'{part} is the main document part but has root {root.tag!r}')
     return root
 

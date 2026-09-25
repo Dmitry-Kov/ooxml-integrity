@@ -66,6 +66,14 @@
   newline. [Office observations](docs/real-world-corpora.md#checked-in-word-and-powerpoint).
   Affected inputs can change exit 1 to 0.
 
+- Added `PKG009` ERROR for Strict Open XML (ISO/IEC 29500 Strict), which the
+  rules do not read: a Strict DOCX passed with only `REL003` INFO although
+  nothing was checked, and a Strict PPTX was called unreadable (`PKG002`).
+  Both now get one finding saying that their checks were not run; a Strict
+  comparison fails with `FID000`. On the public corpora, 17 Strict DOCX, all
+  saved by Word, change exit 0 to 1, and 4 Strict PPTX keep exit 1. Lower the
+  rule in configuration to accept Strict files unchecked.
+
 - Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
   on six public test corpora (1,887 DOCX, 605 PPTX): structural noise by rule,
   python-docx no-op round trips, and destructive and careful edits applied to
