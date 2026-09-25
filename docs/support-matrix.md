@@ -5,8 +5,9 @@ The browser footer identifies its installed version.
 Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
 to `REV001`; the published 0.4.2 behavior remains unchanged.
 The unreleased checkout finds the main document part through the package
-`officeDocument` relationship, and reads comment anchors in the header, footer
-and note parts it relates; see [Package and relationships](#package-and-relationships)
+`officeDocument` relationship, reads comment anchors in the header, footer and
+note parts it relates, and lowers `XML001` for parts no relationship reaches;
+see [Package and relationships](#package-and-relationships)
 and [WordprocessingML structures](#wordprocessingml-structures).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
@@ -69,6 +70,11 @@ relationships to more than one part are `REL001`. Only when no usable
 relationship names a part, itself `REL001`, are the checks run on
 `word/document.xml`. Styles, numbering, footnote and endnote parts are still
 read under their conventional names.
+
+In the unreleased checkout, a malformed part that no relationship reaches is
+an `XML001` WARN, while related parts keep the ERROR; Word for Mac 16.113
+opened such a package without a prompt. Any item without a content type
+stays a `PKG005` ERROR. [Office observations](real-world-corpora.md#checked-in-word-and-powerpoint).
 
 ### WordprocessingML structures
 

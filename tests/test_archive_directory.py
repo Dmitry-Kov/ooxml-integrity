@@ -362,3 +362,16 @@ def test_invalid_index_fields_are_findings_without_member_reads(
 def test_directory_budget_rejects_invalid_config(value):
     with pytest.raises(ConfigError, match="positive integer"):
         Policy._from_dict({"archive": {"max-directory-bytes": value}})
+
+
+@pytest.mark.parametrize("extra, message", [
+    (b"\n", "1 byte after the end record"),       # as in three POI decks
+    (b"trailing", "8 bytes after the end record"),
+])
+def test_bytes_after_the_end_record_are_counted(tmp_path, extra, message):
+    path = _archive(tmp_path / "trailing.zip")
+    path.write_bytes(path.read_bytes() + extra)
+    with pytest.raises(PackageIssue) as caught:
+        read_package(path)
+    assert caught.value.code == "PKG002"
+    assert str(caught.value).endswith(message)

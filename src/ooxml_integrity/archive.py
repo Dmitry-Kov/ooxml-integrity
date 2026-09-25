@@ -104,8 +104,13 @@ def _directory_bounds(raw: BinaryIO, file_size: int) -> tuple[int, int, int]:
                 "Office file; it cannot be inspected")
         raise _invalid_directory("missing or truncated end record")
     end = _EOCD.unpack_from(tail, pos)
-    if pos + _EOCD.size + end[7] != len(tail):
-        raise _invalid_directory("comment length or trailing bytes do not match")
+    extra = len(tail) - (pos + _EOCD.size + end[7])
+    if extra < 0:
+        raise _invalid_directory("the end record's comment is truncated")
+    if extra:
+        # One trailing newline is enough for PowerPoint to offer a repair.
+        raise _invalid_directory(
+            f"{extra} byte{'s' if extra > 1 else ''} after the end record")
     if end[1] != 0 or end[2] != 0:
         raise _invalid_directory("multi-disk archives are not supported")
     disk_count, count, size, offset = end[3:7]

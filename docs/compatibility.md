@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased [package correction](real-world-corpora.md#checked-in-word-and-powerpoint)
+lowers `XML001` to WARN for a malformed part that no relationship reaches,
+which can change exit 1 to 0. Related parts, and packages with an unreadable
+relationship part, keep the ERROR. `PKG005` and `PKG002` keep their
+severities; their messages now say that Word asks to recover the document
+and count the bytes after a ZIP end record. Messages are not part of baseline
+fingerprints; codes, parts and baseline v2 identities are unchanged.
+
 The unreleased main-part correction reads the main document part through the
 package `officeDocument` relationship. Packages that name it otherwise, such
 as docx4j's `word/document22.xml`, change from `PKG006` alone to a full check
