@@ -1,15 +1,14 @@
 # Support matrix
 
-This page describes [0.4.3](releases/0.4.3.md), including its changes from `0.4.2`.
+This page describes [0.4.4](releases/0.4.4.md), including its changes from `0.4.3`.
 The browser footer identifies its installed version.
-Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
-to `REV001`; the published 0.4.2 behavior remains unchanged.
-The unreleased checkout finds the main document part through the package
+Version 0.4.4 finds the main document part through the package
 `officeDocument` relationship, reads comment anchors in the header, footer and
 note parts it relates, lowers `XML001` for parts no relationship reaches, and
 reports Strict Open XML as `PKG009`;
 see [Package and relationships](#package-and-relationships)
-and [WordprocessingML structures](#wordprocessingml-structures).
+and [WordprocessingML structures](#wordprocessingml-structures). It also
+corrects false positives seen on [public real-world documents](real-world-corpora.md).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -37,31 +36,32 @@ machine-readable block. See [coverage and doctor](coverage.md).
 
 The DOCX inspector works on Transitional WordprocessingML namespaces. Unless a
 row says otherwise, the Word-specific checks below inspect matching descendants
-of the main document part, `word/document.xml`.
+of the main document part: the target of the package `officeDocument`
+relationship, which the rows call `word/document.xml`, its usual name.
 
 ### Package and relationships
 
 | surface | status | current scope |
 | --- | --- | --- |
 | ZIP/package readability | **Supported** | Reports a missing file, an invalid or unsupported ZIP layout and a corrupt ZIP member. The supported single-disk ZIP/ZIP64 profile is defined in [archive resource limits](archive-limits.md). |
-| XML well-formedness | **Supported** | Parses every package member whose name ends in `.xml` or `.rels` and reports XML syntax errors. This is not schema validation. |
+| XML well-formedness | **Supported** | Parses every package member whose name ends in `.xml` or `.rels`, and the main document and story parts whatever their names, and reports XML syntax errors. A malformed part that no relationship reaches is a WARN, otherwise an ERROR. This is not schema validation. |
 | DTDs and XML entities | **Supported** | OOXML parts are parsed with DTD loading, entity expansion and network access disabled. A part containing a `DOCTYPE` is rejected. |
 | Archive resource budgets | **Supported** | Before allocating the ZIP index, checks archive bytes, central-directory bytes, declared and actual entry counts, and consistent directory/trailer bounds using fixed-size reads. Before member decompression, enforces total and per-entry expanded-byte limits and per-entry compression ratios. The same limits apply to DOCX, PPTX and both comparison inputs. Defaults, supported ZIP layout and measurements are documented in [archive resource limits](archive-limits.md). |
 | Package part names | **Supported** | Rejects absolute, traversal-like, backslash-separated and otherwise non-canonical member names, plus names that collide after percent-decoding and OPC's ASCII-case-insensitive comparison. This is package-name validation, not malware scanning. |
-| Content-type coverage | **Partial** | Requires `[Content_Types].xml`, checks that package members are covered by an extension default or part override, and requires a default for `.rels`. It does not verify that a declared content type is the correct one for the part. |
-| Root office-document relationship | **Partial** | Requires `_rels/.rels` to contain an `officeDocument` relationship with a non-empty, non-external target, and the package-wide target check requires that target to exist. The Word semantic checks still require the conventional `word/document.xml`; the relationship target and that hard-coded main part are not cross-validated as one entry point. |
+| Content-type coverage | **Partial** | Requires `[Content_Types].xml` and checks that every other package member is covered by an extension default or part override; an uncovered item is `PKG005`, and Word asks to recover such a document. A relationship part with no content type is a `PKG004` ERROR; declaring every relationship part by `Override` instead of a `.rels` default is OPC-legal and a WARN. It does not verify that a declared content type is the correct one for the part. |
+| Root office-document relationship | **Partial** | Requires `_rels/.rels` to contain an `officeDocument` relationship with a non-empty, non-external target, and the package-wide target check requires that target to exist. Its target is the main document part for the Word checks and fidelity; relationships to more than one part are `REL001`. The main part's content type is not checked. |
 | Internal relationship targets | **Supported** | Checks `_rels/.rels` and every successfully parsed companion `*_rels/*.rels` present in the package. Every internal relationship must have a non-empty target that resolves to an existing package member. A malformed relationship part receives `XML001`; its targets cannot then be inspected. External targets are not fetched or tested. |
 | Relationship references from XML | **Partial** | For each parseable XML source part, checks Transitional relationship attributes `r:id`, `r:embed` and `r:link` against that part's companion relationship set; a referenced id with no companion part does not resolve. Other relationship-bearing attributes and Strict OOXML namespaces are not covered. |
 | Unused relationships | **Partial** | Emits informational `REL003` findings for explicit relationships unused by a parseable XML source part. Root relationships and known package-level/implicit relationship types are excluded. This is a diagnostic, not a proof that every declared relationship is necessary. |
 | Full ECMA-376 schema validation | **Not checked** | The project does not bundle or run the complete OOXML XSD set. |
-| Strict OOXML | **Not checked** | Strict namespace variants are not recognised by the Word-specific rules or by relationship-reference scanning. |
+| Strict OOXML | **Not checked** | Strict namespace variants are not recognised by the Word-specific rules or by relationship-reference scanning. A Strict DOCX or PPTX reports `PKG009` ERROR: its checks were not run. |
 | Encryption, signatures and broader package security | **Not checked** | Encryption validity, digital signatures, macros, embedded-object safety, external-link safety and malware are outside the current scope. Resource budgets constrain ZIP expansion but do not make the checker a malware scanner. |
 
 The package-wide relationship checks cover missing targets and the named
 relationship attributes in headers, footers and other XML parts. They do not
 extend the Word semantic checks below to those parts.
 
-In the unreleased checkout, the rows below that name `word/document.xml` apply
+In 0.4.4, the rows below that name `word/document.xml` apply
 to the target of the package `officeDocument` relationship, whatever its name
 (docx4j's Word Online sample uses `word/document22.xml`). Header, footer and
 comments relationships are read from that part's relationship part. An
@@ -72,12 +72,12 @@ relationship names a part, itself `REL001`, are the checks run on
 `word/document.xml`. Styles, numbering, footnote and endnote parts are still
 read under their conventional names.
 
-In the unreleased checkout, a malformed part that no relationship reaches is
+In 0.4.4, a malformed part that no relationship reaches is
 an `XML001` WARN, while related parts keep the ERROR; Word for Mac 16.113
 opened such a package without a prompt. Any item without a content type
 stays a `PKG005` ERROR. [Office observations](real-world-corpora.md#checked-in-word-and-powerpoint).
 
-In the unreleased checkout, a Strict DOCX gets one `PKG009` ERROR saying that
+In 0.4.4, a Strict DOCX gets one `PKG009` ERROR saying that
 its Word checks were not run, instead of passing with only `REL003` INFO for
 relationships whose Strict attributes are not recognised. A Strict comparison
 fails with `FID000`. Word saves Strict files; to accept them unchecked, lower
@@ -88,15 +88,15 @@ the rule with `[severity] PKG009 = "warn"` in the project configuration.
 | surface | status | current scope |
 | --- | --- | --- |
 | Styles | **Partial** | Checks paragraph, run and table style references found in `word/document.xml`, including when `word/styles.xml` is missing. Undefined `pStyle`/`tblStyle` references are `STY001` errors because they can carry numbering and structure; undefined `rStyle` references are `STY001` warnings, including comment reference marks. An absent styles part without main-document references is not a finding by itself. A malformed or unsafe styles part receives `XML001`; style resolution is skipped without a cascade of undefined-reference findings. Undefined `basedOn`, `next` and `link` references in readable `word/styles.xml` are `STY002` warnings. It does not compare style definitions with a source or predict rendered formatting. |
-| Numbering | **Partial** | Checks `numId -> abstractNumId -> abstractNum` resolution and referenced levels for numbering found in `word/document.xml`. Numbering used in other package parts is not inspected semantically. |
-| Footnotes | **Partial** | Checks footnote references in `word/document.xml` against `word/footnotes.xml` and reports non-housekeeping footnotes with no reference in that main part. It does not lay out or render footnotes. |
-| Comments | **Partial** | Checks range starts, range ends and comment references in `word/document.xml` against its typed internal comments relationship, including renamed parts. An absent relationship leaves references undefined (`CMT004`); ambiguous/invalid relationships and unreadable/wrong-root targets produce `CMT006` and skipped comment coverage. An unlinked conventional `word/comments.xml` is never substituted for the related part. Unlinked comment parts, comments in other stories, modern threads, replies, resolved state and people metadata are not validated semantically. |
+| Numbering | **Partial** | Checks `numId -> abstractNumId -> abstractNum` resolution and referenced levels for numbering found in `word/document.xml`, including levels inherited through `w:numStyleLink` and defined in `w:lvlOverride/w:lvl`. `numId="0"` removes numbering and is not a reference. Numbering used in other package parts is not inspected semantically. |
+| Footnotes | **Partial** | Checks footnote references in `word/document.xml` against `word/footnotes.xml` and reports non-housekeeping footnotes with no reference in that main part; separators are recognised by `w:type`, not by id. It does not lay out or render footnotes. |
+| Comments | **Partial** | Checks range starts, range ends and comment references in `word/document.xml` and in the header, footer, footnote and endnote parts it relates, against its typed internal comments relationship, including renamed parts. An absent relationship leaves references undefined (`CMT004`); ambiguous/invalid relationships and unreadable/wrong-root targets produce `CMT006` and skipped comment coverage. An unlinked conventional `word/comments.xml` is never substituted for the related part. Unlinked comment parts, modern threads, replies, resolved state and people metadata are not validated semantically. |
 | Tracked changes | **Partial** | Checks revision-id collisions and `w:t`/`w:delText` use inside insertions and deletions in `word/document.xml`, including legal nested revisions. It does not judge whether an edit should have been tracked, or validate author/date metadata and every revision type. |
-| Tables | **Partial** | Checks that tables in `word/document.xml` have `tblGrid` and compares each direct row's effective cell span with the grid width. Merges, layout, widths, borders and rendered appearance are not otherwise validated. |
+| Tables | **Partial** | Checks that tables in `word/document.xml` have `tblGrid` and compares each row's effective cell span, including `w:gridBefore`/`w:gridAfter` columns and cells inside `w:sdt` or `w:customXml`, with the grid width. Merges, layout, widths, borders and rendered appearance are not otherwise validated. |
 | Content controls | **Partial** | Checks that `w:sdt` elements in `word/document.xml` contain `w:sdtPr` and `w:sdtContent`. Bindings, custom XML, field semantics and displayed values are not checked. |
 | Edge whitespace | **Partial** | Reports `w:t` nodes in `word/document.xml` with leading/trailing XML whitespace (space, tab, CR, LF) without effective `xml:space="preserve"`, including inheritance and nearer overrides. NBSP and other Unicode spacing characters alone are not XML whitespace. This is a preservation-risk heuristic, not proof of text loss in a particular renderer; general text normalisation is not checked. |
 | Images, charts and embedded objects | **Partial** | Package-wide relationship checks can detect a missing internally related part when it is referenced through a covered attribute. Image/chart content, dimensions, cropping, accessibility and rendering are not checked. |
-| Headers and footers | **Partial** | Their XML and relationships receive package-wide syntax and relationship checks. Their styles, numbering, comments, revisions, tables, text and visual layout are not checked by the main-story semantic rules. |
+| Headers and footers | **Partial** | Their XML and relationships receive package-wide syntax and relationship checks, and their comment anchors take part in the comment checks. Their styles, numbering, revisions, tables, text and visual layout are not checked by the main-story semantic rules. |
 | Document layout and pagination | **Not checked** | Page count, line and page breaks, clipping, overlap, font substitution and Word rendering are not predicted. |
 | Fields, equations, citations and bibliography semantics | **Not checked** | These may be parsed as XML, but their correctness and displayed values are not evaluated. |
 
@@ -108,7 +108,7 @@ table paragraphs, property history, moves and third occurrences are not exempt.
 These are conservative exception conditions, not OOXML validity requirements;
 unverified shared-ID cases can still be false alarms. [Details](paragraph-revision-ids.md).
 
-In the unreleased checkout, the Comments row also reads comment ranges and
+In 0.4.4, the Comments row also reads comment ranges and
 references in the header, footer, footnote and endnote parts that the main part
 relates. A comment anchored only there is not `CMT005`. A range pairs within
 one story, and `CMT001`–`CMT004` name the part they are in. If a related story
@@ -192,7 +192,7 @@ It does not run the DOCX package inspector over a presentation.
 | Notes, comments, transitions and animations | **Not checked** | Their presence, integrity and preservation are not evaluated. |
 | Semantic correctness | **Not checked** | Correct text, numbers, chart data, reading order, accessibility and presentation intent are outside the current checks. |
 
-In the unreleased checkout, a Strict PPTX gets `PKG009` ERROR, saying that its
+In 0.4.4, a Strict PPTX gets `PKG009` ERROR, saying that its
 layout checks were not run, instead of `PKG002`.
 
 ## Producer and platform evidence

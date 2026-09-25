@@ -34,7 +34,7 @@ producer of 1,522 of the DOCX files.
 
 `python research/realworld_scan.py scan corpora/`, no config, 25 September 2026.
 
-| DOCX | 0.4.3 | unreleased |
+| DOCX | 0.4.3 | 0.4.4 |
 | --- | --- | --- |
 | files with an ERROR | 283 | 130 |
 | Word-saved files with an ERROR | 150 of 1,522 | 80 of 1,522 |

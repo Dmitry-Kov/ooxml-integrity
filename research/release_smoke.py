@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.3
+    python research/release_smoke.py --version 0.4.4
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -102,6 +102,49 @@ def main():
                 found = json.loads(cli("check", sample, "--no-config", "--json",
                                        code=int(duplicate)).stdout)["files"][0]["findings"]
                 assert [f["code"] for f in found] == (["REV001"] if duplicate else [])
+
+        # 0.4.4 corrections, on variants of the reference document.
+        with ZipFile(source) as z:
+            base = {name: z.read(name) for name in z.namelist()}
+
+        def variant(name, parts):
+            path = work / name
+            with ZipFile(path, "w") as z:
+                for part, data in parts.items():
+                    z.writestr(part, data)
+            return path
+
+        def found(path, code=0):
+            report = json.loads(cli("check", path, "--no-config", "--json", code=code).stdout)
+            return [(f["code"], f["severity"]) for f in report["files"][0]["findings"]]
+
+        # The main part is the officeDocument target, whatever its name.
+        moved = dict(base)
+        moved["word/document22.xml"] = moved.pop("word/document.xml")
+        moved["word/_rels/document22.xml.rels"] = moved.pop("word/_rels/document.xml.rels")
+        for part, old in (("_rels/.rels", b"word/document.xml"),
+                          ("[Content_Types].xml", b"/word/document.xml")):
+            assert moved[part].count(old) == 1
+            moved[part] = moved[part].replace(old, old.replace(b"document", b"document22"))
+        assert found(variant("moved.docx", moved)) == []
+        # A malformed part that nothing relates is a warning.
+        assert found(variant("dump.docx", {**base, "word/dump.xml": b"not XML"})) == [
+            ("XML001", "warn")]
+        # Strict Open XML is reported as not checked.
+        strict = {}
+        for part, data in base.items():
+            if part.endswith((".xml", ".rels")):
+                data = data.replace(b"http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+                                    b"http://purl.oclc.org/ooxml/wordprocessingml/main")
+                data = data.replace(b"http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+                                    b"http://purl.oclc.org/ooxml/officeDocument/relationships")
+            strict[part] = data
+        assert found(variant("strict.docx", strict), code=1) == [("PKG009", "error")]
+        # A comment anchored only in a header is not orphaned; losing that anchor is.
+        stories = root / "evidence/docx-comment-stories"
+        assert found(stories / "sources/header-anchor.docx") == []
+        assert found(stories / "outputs/header-anchor-lost-anchor.docx", code=1) == [
+            ("CMT005", "error")]
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -138,6 +181,7 @@ def main():
         config.write_text('unknown-option = true\n', encoding="utf-8")
         cli("check", source, "--config", config, code=2)
     print(f"Installed {args.version}: source-byte parity, REV001 mark/content and third-occurrence controls, "
+          "renamed main part, unreferenced malformed part, Strict and comment-story controls, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

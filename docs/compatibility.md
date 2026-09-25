@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.4.3 release notes](releases/0.4.3.md) before changing a version pin.
+[0.4.4 release notes](releases/0.4.4.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,16 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The unreleased Strict correction adds `PKG009` ERROR for a Strict Open XML
+The 0.4.4 [real-world corrections](real-world-corpora.md) remove false
+errors and warnings: separator footnotes are recognised by `w:type`
+(`FTN002`), `numId="0"` is not a reference (`NUM001`/`NUM002`), list-style
+and override levels are defined (`NUM004`), `[Content_Types].xml` is not a part
+(`PKG005`), skipped grid columns and wrapped cells count (`TBL002`), and an
+Override-only declaration of relationship parts is a `PKG004` WARN. Affected
+inputs can change exit 1 to 0; genuine defects are still reported. Codes,
+report fields, coverage schema v1 and baseline v2 identities are unchanged.
+
+The 0.4.4 Strict correction adds `PKG009` ERROR for a Strict Open XML
 DOCX or PPTX: its Word or layout checks were not run. A Strict DOCX, which
 passed with only `REL003` INFO, changes exit 0 to 1; a Strict PPTX keeps exit
 1, with `PKG009` in place of `PKG002`. A Strict comparison raises `ValueError`,
@@ -41,7 +50,7 @@ reported by the CLI as `FID000`. Projects that accept Strict files unchecked
 can lower the rule in their [configuration](configuration.md). Other codes,
 report fields, coverage schema v1 and baseline v2 identities are unchanged.
 
-The unreleased [package correction](real-world-corpora.md#checked-in-word-and-powerpoint)
+The 0.4.4 [package correction](real-world-corpora.md#checked-in-word-and-powerpoint)
 lowers `XML001` to WARN for a malformed part that no relationship reaches,
 which can change exit 1 to 0. Related parts, and packages with an unreadable
 relationship part, keep the ERROR. `PKG005` and `PKG002` keep their
@@ -49,7 +58,7 @@ severities; their messages now say that Word asks to recover the document
 and count the bytes after a ZIP end record. Messages are not part of baseline
 fingerprints; codes, parts and baseline v2 identities are unchanged.
 
-The unreleased main-part correction reads the main document part through the
+The 0.4.4 main-part correction reads the main document part through the
 package `officeDocument` relationship. Packages that name it otherwise, such
 as docx4j's `word/document22.xml`, change from `PKG006` alone to a full check
 and can change exit 1 to 0. A relationship to a part whose root is not
@@ -61,7 +70,7 @@ identities. Without a main part, `compare()` raises `ValueError` naming it
 instead of `KeyError`, and the CLI still reports `FID000`. Coverage reasons
 name the part; schema v1 is unchanged.
 
-The unreleased [comment-story correction](../evidence/docx-comment-stories/README.md)
+The 0.4.4 [comment-story correction](../evidence/docx-comment-stories/README.md)
 reads comment ranges and references in the header, footer, footnote and
 endnote parts that the main part relates. A comment anchored only there no
 longer raises `CMT005`, which can change exit 1 to 0. `CMT001`–`CMT004` in
@@ -161,11 +170,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in 0.4.3 | Meaning |
+| Output | Version in 0.4.4 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.4.3"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.4.4"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.4.3"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.4.4"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
