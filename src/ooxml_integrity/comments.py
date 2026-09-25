@@ -35,6 +35,30 @@ def _existing(candidates, names: set[str]) -> str | None:
     return None
 
 
+def _resolve(target: str, base: str) -> str | None:
+    """A relationship target as a part name, or None when it leaves the package."""
+    path = urlsplit(target).path
+    if not path:
+        return None
+    resolved = posixpath.normpath(
+        path.lstrip('/') if path.startswith('/') else posixpath.join(base, path))
+    if resolved in ('.', '..') or resolved.startswith('../'):
+        return None
+    return resolved
+
+
+def _relationships(parts: dict[str, bytes], name: str) -> list:
+    """Relationship elements of one relationship part; unreadable ones have none."""
+    blob = parts.get(name)
+    if blob is None:
+        return []
+    try:
+        root = parse_xml(blob)
+    except (ValueError, etree.XMLSyntaxError):
+        return []
+    return root.findall(REL + 'Relationship')
+
+
 def office_documents(parts: dict[str, bytes], *,
                      names: set[str] | None = None) -> list[str]:
     """Distinct parts named by internal package officeDocument relationships.
@@ -44,26 +68,41 @@ def office_documents(parts: dict[str, bytes], *,
     A missing target keeps its resolved name. Unreadable root relationships
     name nothing; the inspector reports them as XML001.
     """
-    blob = parts.get('_rels/.rels')
-    if blob is None:
-        return []
-    try:
-        root = parse_xml(blob)
-    except (ValueError, etree.XMLSyntaxError):
-        return []
     names = set(parts) if names is None else names
     found: dict[str, str] = {}
-    for rel in root.findall(REL + 'Relationship'):
+    for rel in _relationships(parts, '_rels/.rels'):
         if (not (rel.get('Type') or '').endswith('/officeDocument')
                 or rel.get('TargetMode') == 'External'):
             continue
-        path = urlsplit(rel.get('Target') or '').path
-        resolved = posixpath.normpath(path.lstrip('/')) if path else ''
-        if resolved in ('', '.', '..') or resolved.startswith('../'):
+        resolved = _resolve(rel.get('Target') or '', '')
+        if resolved is None:
             continue
         part = _existing((resolved, unquote(resolved)), names) or resolved
         found.setdefault(part.translate(ASCII_LOWER), part)
     return list(found.values())
+
+
+def story_parts(parts: dict[str, bytes], main: str, *,
+                names: set[str] | None = None) -> list[str]:
+    """The main part, then the header, footer and note parts it relates.
+
+    Comment ranges and references may be written in any of these stories, so
+    a comment anchored only in a header is not orphaned. Only existing parts
+    are returned, each once, in relationship order.
+    """
+    names = set(parts) if names is None else names
+    stories = [main]
+    for rel in _relationships(parts, relationships_part(main)):
+        kind = (rel.get('Type') or '').rsplit('/', 1)[-1]
+        if (kind not in ('header', 'footer', 'footnotes', 'endnotes')
+                or rel.get('TargetMode') == 'External'):
+            continue
+        resolved = _resolve(rel.get('Target') or '', posixpath.dirname(main))
+        part = (_existing((resolved, unquote(resolved)), names)
+                if resolved is not None else None)
+        if part is not None and part not in stories:
+            stories.append(part)
+    return stories
 
 
 def main_part(parts: dict[str, bytes], *, names: set[str] | None = None) -> str:

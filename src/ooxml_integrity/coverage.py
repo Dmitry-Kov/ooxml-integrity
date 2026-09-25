@@ -21,6 +21,7 @@ from .comments import (
     comment_tree,
     main_document,
     main_part,
+    story_parts,
 )
 from .revision_text import inventory as revision_inventory, assess as assess_revision_text
 from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
@@ -103,12 +104,12 @@ def _element_surface(root, tag: str, identifier: str, singular: str,
                  f"evaluated {count} {label}", count)
 
 
-def _combined_surface(document, supporting, tag: str, supporting_tag: str,
+def _combined_surface(stories, supporting, tag: str, supporting_tag: str,
                       identifier: str, label: str, *, gap: str) -> CoverageItem:
     """Describe checks that consider both references and definitions."""
-    if document is None:
+    if stories is None:
         return _item(identifier, CoverageStatus.SKIPPED, gap)
-    references = len(list(document.iter(W + tag)))
+    references = sum(len(list(root.iter(W + tag))) for root in stories)
     definitions = (
         len(list(supporting.iter(W + supporting_tag)))
         if supporting is not None else 0
@@ -139,8 +140,9 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     trees: dict[str, etree._Element] = {}
     failed_xml: list[str] = []
     main = main_part(parts)
+    stories = story_parts(parts, main)
     xml_names = [name for name in parts
-                 if name.endswith((".xml", ".rels")) or name == main]
+                 if name.endswith((".xml", ".rels")) or name in stories]
     for name in xml_names:
         try:
             trees[name] = parse_xml(parts[name])
@@ -227,10 +229,20 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     try:
         comments = comment_part(parts, main=main)
         comments_tree = comment_tree(parts, comments) if comments is not None else None
-        comments_surface = _combined_surface(
-            document, comments_tree, "commentReference", "comment", "docx.comments", "comment",
-            gap=gap,
-        )
+        unread = [part for part in stories[1:] if part not in trees]
+        if document is not None and unread:
+            comments_surface = _item(
+                "docx.comments", CoverageStatus.SKIPPED,
+                f"{unread[0]} could not be safely parsed; comment anchors in "
+                "it were not evaluated",
+            )
+        else:
+            comments_surface = _combined_surface(
+                None if document is None
+                else [document, *(trees[part] for part in stories[1:])],
+                comments_tree, "commentReference", "comment", "docx.comments",
+                "comment", gap=gap,
+            )
     except (ValueError, etree.XMLSyntaxError) as e:
         comments_surface = _item(
             "docx.comments", CoverageStatus.SKIPPED,
@@ -242,7 +254,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
                          "numbered-list property", "numbered-list properties",
                          gap=gap),
         _combined_surface(
-            document, trees.get("word/footnotes.xml"),
+            None if document is None else [document], trees.get("word/footnotes.xml"),
             "footnoteReference", "footnote", "docx.footnotes", "footnote",
             gap=gap,
         ),

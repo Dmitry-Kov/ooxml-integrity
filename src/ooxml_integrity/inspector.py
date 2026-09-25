@@ -33,6 +33,7 @@ from .comments import (
     main_part,
     office_documents,
     relationships_part,
+    story_parts,
 )
 from .xmlutil import UnsafeXML, fromstring as parse_xml, text_contexts
 
@@ -175,10 +176,12 @@ class Inspector:
             self.readable = False
             return False
 
-        # The content type, not the extension, makes a part the main document.
+        # Relationships and content types, not extensions, make a part the
+        # main document or one of its stories.
         self.main = main_part(self.parts)
+        stories = set(story_parts(self.parts, self.main))
         for name, data in self.parts.items():
-            if name.endswith((".xml", ".rels")) or name == self.main:
+            if name.endswith((".xml", ".rels")) or name in stories:
                 try:
                     self.trees[name] = parse_xml(data)
                 except UnsafeXML as e:
@@ -597,28 +600,41 @@ class Inspector:
             {c.get(_w("id")) for c in cm.findall(_w("comment"))} if cm is not None
             else set()
         )
-        starts = {e.get(_w("id")) for e in doc.iter(_w("commentRangeStart"))}
-        ends = {e.get(_w("id")) for e in doc.iter(_w("commentRangeEnd"))}
-        refs = {e.get(_w("id")) for e in doc.iter(_w("commentReference"))}
-
+        # A range and its reference belong to one story: the main part, or a
+        # header, footer or note part it relates. A comment is orphaned only
+        # when no story refers to it. An unreadable story hides its anchors, so
+        # orphans are not decided then; XML001 already reports that part.
         srt = lambda s: sorted(s, key=lambda x: (x is None, x))
-        for i in srt(starts - ends):
-            self._add("CMT001", ERROR,
-                      f"commentRangeStart id={i} with no commentRangeEnd - "
-                      "malformed range", part=self.main)
-        for i in srt(ends - starts):
-            self._add("CMT002", ERROR,
-                      f"commentRangeEnd id={i} with no commentRangeStart",
-                      part=self.main)
-        for i in srt(starts - refs):
-            self._add("CMT003", ERROR,
-                      f"comment range id={i} has no commentReference - the comment "
-                      "will not render", part=self.main)
-        for i in srt(refs - defined):
-            self._add("CMT004", ERROR,
-                      f"commentReference id={i} not found in {cm_label}",
-                      part=self.main)
-        for i in srt(defined - refs):
+        referenced: set = set()
+        unread = False
+        for part in story_parts(self.parts, self.main):
+            tree = doc if part == self.main else self._tree(part)
+            if tree is None:
+                unread = True
+                continue
+            starts = {e.get(_w("id")) for e in tree.iter(_w("commentRangeStart"))}
+            ends = {e.get(_w("id")) for e in tree.iter(_w("commentRangeEnd"))}
+            refs = {e.get(_w("id")) for e in tree.iter(_w("commentReference"))}
+            referenced |= refs
+            for i in srt(starts - ends):
+                self._add("CMT001", ERROR,
+                          f"commentRangeStart id={i} with no commentRangeEnd - "
+                          "malformed range", part=part)
+            for i in srt(ends - starts):
+                self._add("CMT002", ERROR,
+                          f"commentRangeEnd id={i} with no commentRangeStart",
+                          part=part)
+            for i in srt(starts - refs):
+                self._add("CMT003", ERROR,
+                          f"comment range id={i} has no commentReference - the "
+                          "comment will not render", part=part)
+            for i in srt(refs - defined):
+                self._add("CMT004", ERROR,
+                          f"commentReference id={i} not found in {cm_label}",
+                          part=part)
+        if unread:
+            return
+        for i in srt(defined - referenced):
             self._add("CMT005", ERROR,
                       f"comment id={i} is orphaned - present in {cm_label} but "
                       "anchored to nothing - the reviewer's note is invisible in Word",

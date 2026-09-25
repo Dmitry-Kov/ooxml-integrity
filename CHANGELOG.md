@@ -46,6 +46,15 @@
   exists, which is itself `REL001`. Affected inputs can change exit 1 to 0 or
   0 to 1.
 
+- `CMT001`–`CMT005` read comment ranges and references in the header, footer,
+  footnote and endnote parts that the main part relates, not only in the main
+  part. A comment anchored only in a header or a footnote is no longer
+  `CMT005`. A range still pairs within one story, and `CMT001`–`CMT004` name
+  the part they are in. When a related story cannot be parsed, orphans are not
+  decided and `docx.comments` coverage is skipped; its reference count includes
+  those stories. [Labelled pairs](evidence/docx-comment-stories/README.md).
+  Affected inputs can change exit 1 to 0.
+
 - Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
   on six public test corpora (1,887 DOCX, 605 PPTX): structural noise by rule,
   python-docx no-op round trips, and destructive and careful edits applied to
