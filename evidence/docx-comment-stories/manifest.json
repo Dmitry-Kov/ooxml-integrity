@@ -1,0 +1,80 @@
+{
+  "construction": {
+    "base": "corpus/base.docx",
+    "base_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
+    "script": "research/comment_story_evidence.py"
+  },
+  "pairs": [
+    {
+      "expected_findings": [],
+      "id": "header-anchor-control",
+      "label_rationale": "Range start, range end and reference of comment 1 are all in the default header, which the main part relates and references.",
+      "mutation": "byte-identical control",
+      "output_path": "outputs/header-anchor-control.docx",
+      "output_sha256": "76fc036dab8562086d7efe5906230c3062ee874c4cae0a942af1e107bb64aa1f",
+      "source": "header-anchor"
+    },
+    {
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "count": 1,
+          "severity": "error"
+        },
+        {
+          "code": "FID008",
+          "count": 1,
+          "severity": "error"
+        }
+      ],
+      "id": "header-anchor-lost-anchor",
+      "label_rationale": "The header keeps its text but loses the range and reference; the comment stays in comments.xml with no anchor in any story (CMT005), and the default header's comment anchors fall from 1 to 0 (FID008).",
+      "mutation": "comment 1 anchors removed from word/header1.xml",
+      "output_path": "outputs/header-anchor-lost-anchor.docx",
+      "output_sha256": "0a7f2bd4671fdbd3ccb67bbd78d14613f5e249d51a9daaf8dbce5601a9cbe4eb",
+      "source": "header-anchor"
+    },
+    {
+      "expected_findings": [],
+      "id": "footnote-anchor-control",
+      "label_rationale": "Range start, range end and reference of comment 1 are all in footnote 1, which the main part references.",
+      "mutation": "byte-identical control",
+      "output_path": "outputs/footnote-anchor-control.docx",
+      "output_sha256": "bc7bbd17cf8eaea8f3df2039b2a212e80ede0aebe8652f124779ca9ae13188e3",
+      "source": "footnote-anchor"
+    },
+    {
+      "expected_findings": [
+        {
+          "code": "CMT005",
+          "count": 1,
+          "severity": "error"
+        }
+      ],
+      "id": "footnote-anchor-lost-anchor",
+      "label_rationale": "Footnote 1 keeps its text but loses the range and reference; the comment has no anchor in any story (CMT005). The source comparison does not count comment anchors in notes, so it adds nothing.",
+      "mutation": "comment 1 anchors removed from word/footnotes.xml",
+      "output_path": "outputs/footnote-anchor-lost-anchor.docx",
+      "output_sha256": "30251f442d68ed368dad45d4d2318785a3bee33c66be40d3bdfcb5140881bfa9",
+      "source": "footnote-anchor"
+    }
+  ],
+  "schema_version": 1,
+  "scoring": "exact actionable (rule, severity, count) multiset of check() on the output plus compare() against its source",
+  "sources": [
+    {
+      "description": "comment 1 anchored around the text of the default header",
+      "id": "header-anchor",
+      "path": "sources/header-anchor.docx",
+      "sha256": "76fc036dab8562086d7efe5906230c3062ee874c4cae0a942af1e107bb64aa1f",
+      "story": "word/header1.xml"
+    },
+    {
+      "description": "comment 1 anchored around the text of footnote 1",
+      "id": "footnote-anchor",
+      "path": "sources/footnote-anchor.docx",
+      "sha256": "bc7bbd17cf8eaea8f3df2039b2a212e80ede0aebe8652f124779ca9ae13188e3",
+      "story": "word/footnotes.xml"
+    }
+  ]
+}

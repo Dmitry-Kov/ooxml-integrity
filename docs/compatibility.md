@@ -45,6 +45,16 @@ identities. Without a main part, `compare()` raises `ValueError` naming it
 instead of `KeyError`, and the CLI still reports `FID000`. Coverage reasons
 name the part; schema v1 is unchanged.
 
+The unreleased [comment-story correction](../evidence/docx-comment-stories/README.md)
+reads comment ranges and references in the header, footer, footnote and
+endnote parts that the main part relates. A comment anchored only there no
+longer raises `CMT005`, which can change exit 1 to 0. `CMT001`–`CMT004` in
+those parts are new findings that name the part; findings in the main part
+keep their parts and baseline v2 identities. An unreadable related story
+suppresses `CMT005`, while its `XML001` remains an error, and skips
+`docx.comments`. That item's reference count now includes story references;
+coverage schema v1 is unchanged.
+
 The 0.4.3 [paragraph revision ID correction](paragraph-revision-ids.md)
 removes `REV001` ERROR only for the verified plain whole-paragraph mark/content
 pair. Such inputs can change exit 1 to 0 at the default threshold. Other shared

@@ -5,7 +5,9 @@ The browser footer identifies its installed version.
 Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
 to `REV001`; the published 0.4.2 behavior remains unchanged.
 The unreleased checkout finds the main document part through the package
-`officeDocument` relationship; see [Package and relationships](#package-and-relationships).
+`officeDocument` relationship, and reads comment anchors in the header, footer
+and note parts it relates; see [Package and relationships](#package-and-relationships)
+and [WordprocessingML structures](#wordprocessingml-structures).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -92,6 +94,14 @@ optional `w16du:dateUtc` are required. Nested/non-text revisions, mixed content,
 table paragraphs, property history, moves and third occurrences are not exempt.
 These are conservative exception conditions, not OOXML validity requirements;
 unverified shared-ID cases can still be false alarms. [Details](paragraph-revision-ids.md).
+
+In the unreleased checkout, the Comments row also reads comment ranges and
+references in the header, footer, footnote and endnote parts that the main part
+relates. A comment anchored only there is not `CMT005`. A range pairs within
+one story, and `CMT001`–`CMT004` name the part they are in. If a related story
+cannot be parsed, orphans are not decided and `docx.comments` coverage is
+skipped. Headers and footers otherwise keep the scope of their row.
+[Labelled pairs](../evidence/docx-comment-stories/README.md).
 
 ## DOCX fidelity against a source
 

@@ -1,0 +1,104 @@
+{
+  "cases": [
+    {
+      "actual": [],
+      "expected": [],
+      "id": "header-anchor-control",
+      "matches_label": true
+    },
+    {
+      "actual": [
+        {
+          "code": "CMT005",
+          "message": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+          "part": "word/comments.xml",
+          "severity": "error"
+        },
+        {
+          "code": "FID008",
+          "message": "default header comment anchors: 1 -> 0 (all lost)",
+          "part": "",
+          "severity": "error"
+        }
+      ],
+      "expected": [
+        {
+          "code": "CMT005",
+          "count": 1,
+          "severity": "error"
+        },
+        {
+          "code": "FID008",
+          "count": 1,
+          "severity": "error"
+        }
+      ],
+      "id": "header-anchor-lost-anchor",
+      "matches_label": true
+    },
+    {
+      "actual": [],
+      "expected": [],
+      "id": "footnote-anchor-control",
+      "matches_label": true
+    },
+    {
+      "actual": [
+        {
+          "code": "CMT005",
+          "message": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+          "part": "word/comments.xml",
+          "severity": "error"
+        }
+      ],
+      "expected": [
+        {
+          "code": "CMT005",
+          "count": 1,
+          "severity": "error"
+        }
+      ],
+      "id": "footnote-anchor-lost-anchor",
+      "matches_label": true
+    }
+  ],
+  "checker_files_sha256": {
+    "__init__.py": "c5013a39c814626223d2582d9667e936a1bf2e1ffb0a570170e8bff1d85c5832",
+    "__main__.py": "d12bc1927c08e7e0319693d5aae64c074acfbff078964d22caf875cf33ed8d30",
+    "archive.py": "eb1c694c99a19d71b135bcb4c27bc264681d00d9adf064485dfb7094021ebc0f",
+    "cli.py": "6850e337f253c8e61d57878e28924877e9f2a083350a0c402efb0788420f4763",
+    "comments.py": "42a78df15adec14783f57f98c44397f2291f7b80fb53c979e7d4eb3e1ef11e58",
+    "coverage.py": "08317d7a9fe16916d3b1ddeb0b4623ef5c7a6a0e95d1ea5000e30d0c6a81a2f3",
+    "doctor.py": "c0eb0904410f5dfd02c09b7a7912f9dd5a6e0120b3620744cd9b53839ba5ec30",
+    "fidelity.py": "742b86921daddeeb18598df6fded0adb6ce94206abe9a65d4d394fa94c2148df",
+    "finding.py": "d640391d573f2249edacf52c005df9d88cec4f8c1bc6b8c2585f1d2f33303a2c",
+    "fonts.py": "eec0e9acec5f5666ec2f981aa40049dd86402c67dc62f7c5f3f7b6b165e11855",
+    "inspector.py": "1750ece2f239473597c24297da2ea5d0222f493251201e8c905a02d1c7c907de",
+    "policy.py": "c96c8ea933e70b166295e14be857c17496ee4fdc32879d8d2d02bea35a058ca7",
+    "pptx_checks.py": "3ac84966afcdb6a80e12796cb9ed662eaeacc10ae1c52459c47cb7ad35c10110",
+    "pptx_layout.py": "1270c002e6936287465a6264d008f341a7704b582c5b997f42845c6551c6db6a",
+    "revision_text.py": "e0a811fb9455f5c7f09845b8bcf67c187825f20a43e14f6aad0b934b6ec7104f",
+    "sarif.py": "dedeaf008f74ce791f5a2c5ca1005e9f48119606882f4aa42cf27177682de99a",
+    "xmlutil.py": "dbef1a84265a7d2288d760fc4ff0c19c92cc764aafd5980ca71976a45f78f041"
+  },
+  "checker_source_sha256": "7b9fdc5b43212f087770ea6928aee9046b49601e15f9df1ac1e5fcc54fae46d8",
+  "checker_version": "0.4.3",
+  "lxml": [
+    6,
+    1,
+    3,
+    0
+  ],
+  "manifest_sha256": "917d31f77c40ce37a7826a530f059e3e07d0c210db9f271123c4ddd6679f9d4b",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "python": "3.12.8",
+  "scope": "Synthetic comment-story pairs; no editor or Office run",
+  "script_sha256": "1eafa4f147b563b1252ea06a7d55fe40eb36d4128a05fa94720207bb31b2e332",
+  "totals": {
+    "fn": 0,
+    "fp": 0,
+    "label_mismatches": 0,
+    "pairs": 4,
+    "tp": 3
+  }
+}
