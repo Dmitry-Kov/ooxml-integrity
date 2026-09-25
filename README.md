@@ -15,10 +15,10 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
-The demo pins published `0.4.3` and reports its installed version in the footer.
+The demo pins published `0.4.4` and reports its installed version in the footer.
 [Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
-Version `0.4.3` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.4.3/).
-The [upgrade notes](docs/releases/0.4.3.md) describe changed findings and compatibility.
+Version `0.4.4` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.4.4/).
+The [upgrade notes](docs/releases/0.4.4.md) describe changed findings and compatibility.
 
 ```bash
 pip install ooxml-integrity
@@ -154,7 +154,7 @@ notes record the cases and their remaining limits.
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.4.3
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.4
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -166,7 +166,7 @@ the source and edited files are still available for comparison.
 
 The action writes a summary to the job page and can produce JSON and SARIF
 reports. SARIF findings can appear as code-scanning annotations in a pull
-request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.3/docs/configuration.md)
+request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.4/docs/configuration.md)
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
@@ -193,7 +193,7 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe [0.4.3](docs/releases/0.4.3.md). Version `0.4.0` treated undefined character styles
+These tables describe [0.4.4](docs/releases/0.4.4.md). Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 `.docx`:
@@ -201,7 +201,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | code | check |
 |---|---|
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
-| `PKG009` | unreleased: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
+| `PKG009` | 0.4.4: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
@@ -225,7 +225,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | code | check |
 |---|---|
 | `PPT000` | text could not be measured; reported as an error |
-| `PKG009` | unreleased: Strict Open XML is not supported, so the layout checks were not run; reported as an error |
+| `PKG009` | 0.4.4: Strict Open XML is not supported, so the layout checks were not run; reported as an error |
 | `PPT001` | text taller than its box, beyond the measurement tolerance |
 | `PPT002` | predicted text height exceeds the box by up to 5% — borderline overflow |
 | `PPT003` | line runs outside the usable width: wrap off, or a single overwide glyph |
@@ -239,8 +239,8 @@ Use `--coverage` to see the scope of a result. It distinguishes
 `unsupported` surfaces per file, and a result with a gap says
 `no findings in checked surfaces`, not `clean`. `ooxml-integrity doctor`
 reports which measurements are available on the current machine.
-See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.3/docs/support-matrix.md) and
-[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.3/docs/coverage.md).
+See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.4/docs/support-matrix.md) and
+[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.4/docs/coverage.md).
 
 ## Limitations
 
