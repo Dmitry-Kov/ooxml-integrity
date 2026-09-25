@@ -438,3 +438,37 @@ def test_office_document_relationships_to_two_parts_are_ambiguous(
     assert root == ([
         "_rels/.rels has officeDocument relationships to 2 different parts - the "
         "main document is ambiguous"] if ambiguous else [])
+
+
+# ------------------------------------------------------------ unreferenced items
+
+def _non_info(path):
+    return [(f.code, f.severity.value, f.part) for f in check(path)
+            if f.severity.value != "info"]
+
+
+def test_malformed_xml_that_no_relationship_reaches_is_a_warning(base_docx, tmp_path):
+    out = repack(base_docx, tmp_path / "dump.docx",
+                 {"word/dump.xml": b"plain text dump, not XML\n"})
+    assert _non_info(out) == [("XML001", "warn", "word/dump.xml")]
+
+
+def test_malformed_xml_in_a_related_part_is_still_an_error(base_docx, tmp_path):
+    out = repack(base_docx, tmp_path / "bad-notes.docx", {FOOTNOTES: b"<w:footnotes"})
+    assert [(s, p) for c, s, p in _non_info(out) if c == "XML001"] == [
+        ("error", FOOTNOTES)]
+
+
+def test_malformed_xml_stays_an_error_when_reachability_is_unknown(
+        base_docx, tmp_path):
+    out = repack(base_docx, tmp_path / "bad-root.docx", {
+        "_rels/.rels": b"<Relationships", "word/dump.xml": b"not XML\n"})
+    assert sorted((s, p) for c, s, p in _non_info(out) if c == "XML001") == [
+        ("error", "_rels/.rels"), ("error", "word/dump.xml")]
+
+
+def test_an_item_without_a_content_type_is_an_error_even_unreferenced(
+        base_docx, tmp_path):
+    # Word 16.113 for Mac offered to recover base.docx with this one item added
+    out = repack(base_docx, tmp_path / "trash.docx", {"[trash]/0000.dat": bytes(16)})
+    assert [(c, s) for c, s, _ in _non_info(out)] == [("PKG005", "error")]

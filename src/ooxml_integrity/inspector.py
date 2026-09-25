@@ -180,19 +180,58 @@ class Inspector:
         # main document or one of its stories.
         self.main = main_part(self.parts)
         stories = set(story_parts(self.parts, self.main))
+        failed: list[tuple[str, str]] = []
         for name, data in self.parts.items():
             if name.endswith((".xml", ".rels")) or name in stories:
                 try:
                     self.trees[name] = parse_xml(data)
                 except UnsafeXML as e:
-                    self._add(
-                        "XML001", ERROR,
-                        f"XML could not be safely parsed: {e}",
-                        part=name,
-                    )
+                    failed.append((name, f"XML could not be safely parsed: {e}"))
                 except etree.XMLSyntaxError as e:
-                    self._add("XML001", ERROR, f"XML is not well-formed: {e}", part=name)
+                    failed.append((name, f"XML is not well-formed: {e}"))
+        # Word 16.113 for Mac opened a package with an unreferenced text dump
+        # named *.xml without a prompt. Such a part cannot break the document.
+        reached = self._reachable() if failed else None
+        for name, message in failed:
+            if reached is not None and name not in reached:
+                self._add("XML001", WARN,
+                          f"{message} - no relationship reaches this part; Word "
+                          "opens such a package without a prompt", part=name)
+            else:
+                self._add("XML001", ERROR, message, part=name)
         return True
+
+    def _reachable(self) -> set[str] | None:
+        """Parts reached from the package through internal relationships.
+
+        None when a relationship part on the way cannot be read: the parts it
+        relates are then unknown.
+        """
+        if self._tree("_rels/.rels") is None:
+            return None
+        names = {name.translate(ASCII_LOWER): name for name in self.parts}
+        reached = {"[Content_Types].xml"}
+        todo = [""]
+        while todo:
+            source = todo.pop()
+            rels = relationships_part(source)
+            if rels not in self.parts:
+                continue
+            tree = self._tree(rels)
+            if tree is None:
+                return None
+            reached.add(rels)
+            for rel in tree.findall(f"{{{NS['rel']}}}Relationship"):
+                if rel.get("TargetMode") == "External" or not rel.get("Target"):
+                    continue
+                for candidate in self._target_candidates(source, rel.get("Target")):
+                    part = names.get(candidate.translate(ASCII_LOWER))
+                    if part is not None:
+                        if part not in reached:
+                            reached.add(part)
+                            todo.append(part)
+                        break
+        return reached
 
     # ---------------------------------------------------------------- checks
     def check_content_types(self) -> None:
@@ -239,8 +278,9 @@ class Inspector:
             ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
             if "/" + name in overrides or ext in defaults:
                 continue
-            self._add("PKG005", ERROR, f"part not covered by content types: {name}",
-                      part=name)
+            self._add("PKG005", ERROR,
+                      f"part not covered by content types: {name} - Word asks "
+                      "to recover the document", part=name)
 
     def _rels_for(self, part: str) -> tuple[dict[str, tuple], str]:
         d, _, base = part.rpartition("/")

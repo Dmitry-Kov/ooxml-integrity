@@ -25,8 +25,9 @@
 - `PKG004` is an ERROR only when a relationship part has no content type at
   all. A package that declares every relationship part by `Override` instead of
   `<Default Extension="rels">` is OPC-legal and is now a WARN; 86 public
-  real-world DOCX, mostly older LibreOffice exports, have this layout.
-  Affected inputs can change exit 1 to 0.
+  real-world DOCX, mostly older LibreOffice exports, have this layout. Word
+  for Mac 16.113 opened such a package without a prompt. Affected inputs can
+  change exit 1 to 0.
 
 - `PKG002` names an OLE compound file (an encrypted OOXML document or a
   legacy binary Office file) instead of reporting a missing ZIP end record.
@@ -53,6 +54,16 @@
   the part they are in. When a related story cannot be parsed, orphans are not
   decided and `docx.comments` coverage is skipped; its reference count includes
   those stories. [Labelled pairs](evidence/docx-comment-stories/README.md).
+  Affected inputs can change exit 1 to 0.
+
+- `XML001` is a WARN for a malformed part that no relationship reaches, such
+  as a text dump named `*.xml`: Word for Mac 16.113 opened such a package
+  without a prompt. It stays an ERROR for related parts and when a
+  relationship part cannot be read. `PKG005` stays an ERROR for any item
+  without a content type, related or not, and now says that Word asks to
+  recover the document. `PKG002` counts the bytes after a ZIP end record;
+  PowerPoint for Mac 16.113.2 offered to repair a deck with one trailing
+  newline. [Office observations](docs/real-world-corpora.md#checked-in-word-and-powerpoint).
   Affected inputs can change exit 1 to 0.
 
 - Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
