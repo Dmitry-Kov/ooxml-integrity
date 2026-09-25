@@ -6,7 +6,8 @@ Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revisi
 to `REV001`; the published 0.4.2 behavior remains unchanged.
 The unreleased checkout finds the main document part through the package
 `officeDocument` relationship, reads comment anchors in the header, footer and
-note parts it relates, and lowers `XML001` for parts no relationship reaches;
+note parts it relates, lowers `XML001` for parts no relationship reaches, and
+reports Strict Open XML as `PKG009`;
 see [Package and relationships](#package-and-relationships)
 and [WordprocessingML structures](#wordprocessingml-structures).
 Each table row defines
@@ -75,6 +76,12 @@ In the unreleased checkout, a malformed part that no relationship reaches is
 an `XML001` WARN, while related parts keep the ERROR; Word for Mac 16.113
 opened such a package without a prompt. Any item without a content type
 stays a `PKG005` ERROR. [Office observations](real-world-corpora.md#checked-in-word-and-powerpoint).
+
+In the unreleased checkout, a Strict DOCX gets one `PKG009` ERROR saying that
+its Word checks were not run, instead of passing with only `REL003` INFO for
+relationships whose Strict attributes are not recognised. A Strict comparison
+fails with `FID000`. Word saves Strict files; to accept them unchecked, lower
+the rule with `[severity] PKG009 = "warn"` in the project configuration.
 
 ### WordprocessingML structures
 
@@ -184,6 +191,9 @@ It does not run the DOCX package inspector over a presentation.
 | Fidelity against a source PPTX | **Not checked** | An explicit `--against` emits `FID000` as an error with `comparison was NOT performed`; layout checks still run, but the default CLI result cannot pass without the requested comparison. |
 | Notes, comments, transitions and animations | **Not checked** | Their presence, integrity and preservation are not evaluated. |
 | Semantic correctness | **Not checked** | Correct text, numbers, chart data, reading order, accessibility and presentation intent are outside the current checks. |
+
+In the unreleased checkout, a Strict PPTX gets `PKG009` ERROR, saying that its
+layout checks were not run, instead of `PKG002`.
 
 ## Producer and platform evidence
 

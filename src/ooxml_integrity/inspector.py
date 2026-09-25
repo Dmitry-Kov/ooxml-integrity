@@ -26,8 +26,10 @@ from .archive import (
 from .finding import ERROR, INFO, WARN, Finding
 from .comments import (
     ASCII_LOWER,
-    DOCUMENT_ROOTS,
+    DOCUMENT,
     MAIN_DOCUMENT,
+    STRICT,
+    STRICT_DOCUMENT,
     comment_part,
     comment_tree,
     main_part,
@@ -142,9 +144,9 @@ class Inspector:
         return self.trees.get(name)
 
     def _document(self):
-        """The main document tree, if it parsed and is a WordprocessingML document."""
+        """The main document tree, if it parsed and is Transitional WordprocessingML."""
         tree = self._tree(self.main)
-        return tree if tree is not None and tree.tag in DOCUMENT_ROOTS else None
+        return tree if tree is not None and tree.tag == DOCUMENT else None
 
     @staticmethod
     def _xpath(el) -> str:
@@ -343,9 +345,15 @@ class Inspector:
 
     def check_relationships(self) -> None:
         tree = self._tree(self.main)
+        strict = tree is not None and tree.tag == STRICT_DOCUMENT
         if tree is None:
             self._add("PKG006", ERROR, f"missing {self.main}")
-        elif tree.tag not in DOCUMENT_ROOTS:
+        elif strict:
+            # Word opens Strict files; the rules below cannot read them.
+            self._add("PKG009", ERROR,
+                      f"{STRICT}, so the Word checks were NOT run - only the "
+                      "package structure was checked", part=self.main)
+        elif tree.tag != DOCUMENT:
             self._add("PKG006", ERROR,
                       f"{self.main} is the main document part but has root "
                       f"{tree.tag!r}", part=self.main)
@@ -456,7 +464,9 @@ class Inspector:
                         part=relsname,
                     )
 
-            if not source or source not in used_by_source:
+            # Strict relationship attributes are not recognised, so every
+            # relationship would look unused.
+            if strict or not source or source not in used_by_source:
                 continue
             used = used_by_source[source]
             for rid, (_, _, rtype) in rels.items():

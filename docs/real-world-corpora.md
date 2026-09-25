@@ -36,9 +36,9 @@ producer of 1,522 of the DOCX files.
 
 | DOCX | 0.4.3 | unreleased |
 | --- | --- | --- |
-| files with an ERROR | 283 | 113 |
-| Word-saved files with an ERROR | 150 of 1,522 | 63 of 1,522 |
-| ERROR findings | 498 | 186 |
+| files with an ERROR | 283 | 130 |
+| Word-saved files with an ERROR | 150 of 1,522 | 80 of 1,522 |
+| ERROR findings | 498 | 203 |
 | WARN findings | 421 | 244 |
 
 ### What changed
@@ -54,13 +54,15 @@ producer of 1,522 of the DOCX files.
 | `NUM004` WARN | 14 | 2 | levels inherited through `w:numStyleLink` were not followed |
 | `PKG006` ERROR | 9 | 6 | the main part was looked up as `word/document.xml`, not through the `officeDocument` relationship. Two copies of docx4j's Word Online sample (`word/document22.xml`) are clean; a LibreOffice test (`word/trial.xml`) now reports 8 `TBL002` (`w:tblCol` instead of `w:gridCol`) and 2 `STY002` |
 | `NUM001` ERROR | 1 | 0 | `numId="0"` without a numbering part |
+| `PKG009` ERROR | 0 | 17 | new: each Strict DOCX, all saved by Word, passed with only `REL003` INFO although nothing was checked; it now reports that its Word checks were not run |
 
 The remaining findings were sampled by rule. Most describe real damage in bug
 reproductions: relationships to parts removed from a minimised test file
 (`REL002`), undefined styles (`STY001`), orphaned comments and footnotes with
 no anchor in any story (`CMT005`, `FTN002`), tables without `w:tblGrid`
 (`TBL001`), encrypted or truncated packages (`PKG002`), and malformed or unsafe
-XML in referenced parts (`XML001`). PPTX results are unchanged by this work.
+XML in referenced parts (`XML001`). PPTX results are unchanged, except that the
+four Strict decks report `PKG009` instead of `PKG002`.
 
 ### Checked in Word and PowerPoint
 
@@ -90,9 +92,6 @@ they came from, so a transfer probably added it.
 
 ### Open questions
 
-- **Strict OOXML.** All 17 Strict DOCX files pass with no finding above INFO:
-  no transitional-namespace construct is found, so nothing is checked, and
-  relationships appear unused (`REL003`). Strict PPTX files fail with `PKG002`.
 - **Dangling `w:link` and `w:next`.** 73 of the 79 `STY002` warnings point
   from a style to a missing linked (71) or next (2) style. The specification defines a
   fallback for both.
