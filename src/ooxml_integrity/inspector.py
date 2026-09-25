@@ -24,7 +24,16 @@ from .archive import (
     read_package,
 )
 from .finding import ERROR, INFO, WARN, Finding
-from .comments import ASCII_LOWER, comment_part, comment_tree
+from .comments import (
+    ASCII_LOWER,
+    DOCUMENT_ROOTS,
+    MAIN_DOCUMENT,
+    comment_part,
+    comment_tree,
+    main_part,
+    office_documents,
+    relationships_part,
+)
 from .xmlutil import UnsafeXML, fromstring as parse_xml, text_contexts
 
 NS = {
@@ -121,6 +130,7 @@ class Inspector:
         self.findings: list[Finding] = []
         self.parts: dict[str, bytes] = {}
         self.trees: dict[str, etree._Element] = {}
+        self.main = MAIN_DOCUMENT
         self.readable = True
 
     # ------------------------------------------------------------------ util
@@ -129,6 +139,11 @@ class Inspector:
 
     def _tree(self, name: str):
         return self.trees.get(name)
+
+    def _document(self):
+        """The main document tree, if it parsed and is a WordprocessingML document."""
+        tree = self._tree(self.main)
+        return tree if tree is not None and tree.tag in DOCUMENT_ROOTS else None
 
     @staticmethod
     def _xpath(el) -> str:
@@ -160,8 +175,10 @@ class Inspector:
             self.readable = False
             return False
 
+        # The content type, not the extension, makes a part the main document.
+        self.main = main_part(self.parts)
         for name, data in self.parts.items():
-            if name.endswith((".xml", ".rels")):
+            if name.endswith((".xml", ".rels")) or name == self.main:
                 try:
                     self.trees[name] = parse_xml(data)
                 except UnsafeXML as e:
@@ -282,13 +299,17 @@ class Inspector:
         return ((resolved, decoded) if decoded != resolved else (resolved,))
 
     def check_relationships(self) -> None:
-        doc = self._tree("word/document.xml")
-        if doc is None:
-            self._add("PKG006", ERROR, "missing word/document.xml")
+        tree = self._tree(self.main)
+        if tree is None:
+            self._add("PKG006", ERROR, f"missing {self.main}")
+        elif tree.tag not in DOCUMENT_ROOTS:
+            self._add("PKG006", ERROR,
+                      f"{self.main} is the main document part but has root "
+                      f"{tree.tag!r}", part=self.main)
 
         # A DOCX is entered through the package-level officeDocument
-        # relationship. Hard-coding word/document.xml without checking the root
-        # graph can call a package clean even though Word has no way to find it.
+        # relationship, and its target is the main part every story check
+        # reads. A name such as word/document.xml is only a convention.
         root_rels = self._tree("_rels/.rels")
         if root_rels is None:
             if "_rels/.rels" not in self.parts:  # malformed XML already has XML001
@@ -319,6 +340,14 @@ class Inspector:
                     "REL001", ERROR,
                     "the package officeDocument relationship must have an "
                     "internal target",
+                    part="_rels/.rels",
+                )
+            elif len(targets := office_documents(self.parts)) > 1:
+                self._add(
+                    "REL001", ERROR,
+                    f"_rels/.rels has officeDocument relationships to "
+                    f"{len(targets)} different parts - the main document is "
+                    "ambiguous",
                     part="_rels/.rels",
                 )
 
@@ -400,7 +429,7 @@ class Inspector:
 
     def check_styles(self) -> None:
         st = self._tree("word/styles.xml")
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         if st is None and "word/styles.xml" in self.parts:
@@ -420,7 +449,7 @@ class Inspector:
                         "STY001", WARN if tag == "rStyle" else ERROR,
                         f'{tag} references undefined style "{v}" - formatting is '
                         "silently lost",
-                        self._xpath(el), "word/document.xml",
+                        self._xpath(el), self.main,
                     )
         for s in styles:
             for tag in ("basedOn", "next", "link"):
@@ -434,7 +463,7 @@ class Inspector:
                     )
 
     def check_numbering(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         num = self._tree("word/numbering.xml")
@@ -523,7 +552,7 @@ class Inspector:
                 abstracts[aid] = abstracts.get(aid, set()) | levels
 
     def check_footnotes(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         fn = self._tree("word/footnotes.xml")
@@ -549,19 +578,19 @@ class Inspector:
                           part="word/footnotes.xml")
 
     def check_comments(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         cm = None
         cm_part = None
         try:
-            cm_part = comment_part(self.parts)
+            cm_part = comment_part(self.parts, main=self.main)
             if cm_part is not None:
                 cm = comment_tree(self.parts, cm_part)
         except (ValueError, etree.XMLSyntaxError) as e:
             self._add("CMT006", ERROR,
                       f"comments could not be resolved or parsed: {e}",
-                      part="word/_rels/document.xml.rels")
+                      part=relationships_part(self.main))
         cm_label = ("comments.xml" if cm_part == "word/comments.xml"
                     else cm_part or "the related comments part")
         defined = (
@@ -576,19 +605,19 @@ class Inspector:
         for i in srt(starts - ends):
             self._add("CMT001", ERROR,
                       f"commentRangeStart id={i} with no commentRangeEnd - "
-                      "malformed range", part="word/document.xml")
+                      "malformed range", part=self.main)
         for i in srt(ends - starts):
             self._add("CMT002", ERROR,
                       f"commentRangeEnd id={i} with no commentRangeStart",
-                      part="word/document.xml")
+                      part=self.main)
         for i in srt(starts - refs):
             self._add("CMT003", ERROR,
                       f"comment range id={i} has no commentReference - the comment "
-                      "will not render", part="word/document.xml")
+                      "will not render", part=self.main)
         for i in srt(refs - defined):
             self._add("CMT004", ERROR,
                       f"commentReference id={i} not found in {cm_label}",
-                      part="word/document.xml")
+                      part=self.main)
         for i in srt(defined - refs):
             self._add("CMT005", ERROR,
                       f"comment id={i} is orphaned - present in {cm_label} but "
@@ -596,7 +625,7 @@ class Inspector:
                       part=cm_part or "")
 
     def check_revisions(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
 
@@ -612,7 +641,7 @@ class Inspector:
                 self._add("REV001", ERROR,
                           f"revision id {i} used {n} times - outside the verified "
                           "paragraph-mark/content pair; review for an ID collision",
-                          part="word/document.xml")
+                          part=self.main)
 
         # w:del must carry w:delText, not w:t.
         # w:ins > w:del nesting (and the reverse) is legal and means "inserted by
@@ -638,7 +667,7 @@ class Inspector:
                           self._xpath(t))
 
     def check_tables(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         for ti, tbl in enumerate(doc.iter(_w("tbl")), 1):
@@ -688,7 +717,7 @@ class Inspector:
         return cells
 
     def check_sdt(self) -> None:
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         for i, sdt in enumerate(doc.iter(_w("sdt")), 1):
@@ -702,7 +731,7 @@ class Inspector:
 
     def check_whitespace(self) -> None:
         """XML edge whitespace without effective preservation risks being lost."""
-        doc = self._tree("word/document.xml")
+        doc = self._document()
         if doc is None:
             return
         # Ordinary clean documents need no paths at all. Avoid a full path

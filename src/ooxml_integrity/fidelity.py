@@ -22,7 +22,13 @@ from .archive import (
     read_package,
 )
 from .finding import ERROR, INFO, WARN, Finding
-from .comments import comment_part, comment_tree
+from .comments import (
+    comment_part,
+    comment_tree,
+    main_document,
+    main_part,
+    relationships_part,
+)
 from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
 from .xmlutil import fromstring as parse_xml
 
@@ -291,7 +297,7 @@ class _StoryFacts:
     parts: dict[tuple[str, str, str], str]
 
 
-def _relationship_part(target: str, names: set[str],
+def _relationship_part(target: str, base: str, names: set[str],
                        names_by_equivalent: dict[str, str]) -> str:
     """Resolve a document relationship target to an existing package part."""
     parsed = urlsplit(target)
@@ -300,7 +306,7 @@ def _relationship_part(target: str, names: set[str],
     if parsed.path.startswith("/"):
         resolved = parsed.path.lstrip("/")
     else:
-        resolved = posixpath.join("word", parsed.path)
+        resolved = posixpath.join(base, parsed.path)
     resolved = posixpath.normpath(resolved).lstrip("/")
     if resolved in ("", ".", "..") or resolved.startswith("../"):
         raise ValueError(f"unsafe header/footer relationship target: {target!r}")
@@ -316,7 +322,8 @@ def _relationship_part(target: str, names: set[str],
 
 
 def _effective_story_references(
-        parts: dict[str, bytes], document, *, names: set[str] | None = None,
+        parts: dict[str, bytes], document, *, main: str,
+        names: set[str] | None = None,
         ) -> list[tuple[str, str, str]]:
     """Return effective (kind, variant, part) once for every section slot.
 
@@ -338,7 +345,7 @@ def _effective_story_references(
     if not direct:
         return []
 
-    rel_blob = parts.get("word/_rels/document.xml.rels")
+    rel_blob = parts.get(relationships_part(main))
     if rel_blob is None:
         raise ValueError(
             "document has header/footer references but no document relationships"
@@ -383,7 +390,7 @@ def _effective_story_references(
                 )
             target = rel.get("Target") or ""
             current[(kind, variant)] = _relationship_part(
-                target, names, names_by_equivalent,
+                target, posixpath.dirname(main), names, names_by_equivalent,
             )
         effective.extend(
             (kind, variant, part)
@@ -407,16 +414,12 @@ def _story_text(root) -> str:
 
 
 def _story_facts(parts: dict[str, bytes], document, *,
-                 references: list[tuple[str, str, str]] | None = None,
+                 references: list[tuple[str, str, str]],
                  ) -> _StoryFacts:
     texts: collections.Counter = collections.Counter()
     constructs: collections.Counter = collections.Counter()
     locations: dict[tuple[str, str, str], str] = {}
     trees: dict[str, object] = {}
-    references = (
-        references if references is not None
-        else _effective_story_references(parts, document)
-    )
     for kind, variant, part in references:
         if part not in trees:
             root = parse_xml(parts[part])
@@ -437,8 +440,9 @@ def _story_facts(parts: dict[str, bytes], document, *,
 
 def story_reference_count(parts: dict[str, bytes]) -> int:
     """Number of effective first/even/default header/footer section slots."""
-    document = parse_xml(parts["word/document.xml"])
-    return len(_effective_story_references(parts, document))
+    main = main_part(parts)
+    document = main_document(parts, main)
+    return len(_effective_story_references(parts, document, main=main))
 
 
 @dataclass
@@ -452,26 +456,34 @@ class _Snapshot:
     body_locations: dict[str, str]
     inline_revision_text: RevisionText
     note_revisions: NoteRevisions
+    main: str
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     """Read one bounded package, retain only the fidelity facts, then release it."""
-    # Header/footer part names are relationship targets and cannot be known
-    # before document.xml.rels is parsed. Inspect metadata first, then read only
-    # the main, note-body, relationship and referenced story parts. Large media
-    # inside an otherwise valid package never needs to enter fidelity memory.
+    # The main part and header/footer part names are relationship targets and
+    # cannot be known before the relationship parts are parsed. Inspect
+    # metadata first, then read only the main, note-body, relationship and
+    # referenced story parts. Large media inside an otherwise valid package
+    # never needs to enter fidelity memory.
     names = set(package_names(path, limits))
+    parts = read_package(path, limits, members={"_rels/.rels"})
+    main = main_part(parts, names=names)
+    if main not in names:
+        raise ValueError(f"main document part {main} is missing")
     wanted = {
-        "word/document.xml",
-        "word/_rels/document.xml.rels",
+        main,
+        relationships_part(main),
         *(part for part, _, _, _ in BODY_PARTS),
     }
-    parts = read_package(path, limits, members=wanted)
-    doc = parse_xml(parts["word/document.xml"])
-    comments = comment_part(parts, names=names)
+    parts.update(read_package(path, limits, members=wanted))
+    doc = main_document(parts, main)
+    comments = comment_part(parts, names=names, main=main)
     if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
         raise ValueError("document has comment references but no comments relationship")
-    story_references = _effective_story_references(parts, doc, names=names)
+    story_references = _effective_story_references(
+        parts, doc, main=main, names=names,
+    )
     story_parts = {part for _, _, part in story_references}
     if comments is not None:
         story_parts.add(comments)
@@ -503,6 +515,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         locations,
         revision_inventory(doc),
         note_revision_inventory(parts),
+        main,
     )
 
 
@@ -632,6 +645,7 @@ def compare(source: str | Path, edited: str | Path, *,
     out.extend(_story_losses(source_snapshot, edited_snapshot))
     out.extend(assess_revision_text(
         source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
+        part=source_snapshot.main,
     ).findings)
     out.extend(assess_note_revisions(
         source_snapshot.note_revisions, edited_snapshot.note_revisions,

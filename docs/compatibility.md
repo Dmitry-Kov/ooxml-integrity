@@ -33,6 +33,18 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased main-part correction reads the main document part through the
+package `officeDocument` relationship. Packages that name it otherwise, such
+as docx4j's `word/document22.xml`, change from `PKG006` alone to a full check
+and can change exit 1 to 0. A relationship to a part whose root is not
+`w:document`, or `officeDocument` relationships to more than one part (new
+`REL001`), can change exit 0 to 1; one to a missing part is `PKG006` even when
+an unrelated `word/document.xml` exists. Findings in a renamed main part name
+it; findings in `word/document.xml` keep their parts and baseline v2
+identities. Without a main part, `compare()` raises `ValueError` naming it
+instead of `KeyError`, and the CLI still reports `FID000`. Coverage reasons
+name the part; schema v1 is unchanged.
+
 The 0.4.3 [paragraph revision ID correction](paragraph-revision-ids.md)
 removes `REV001` ERROR only for the verified plain whole-paragraph mark/content
 pair. Such inputs can change exit 1 to 0 at the default threshold. Other shared

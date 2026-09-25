@@ -15,7 +15,13 @@ from .archive import (
     read_package,
 )
 from .finding import Finding
-from .comments import comment_part, comment_tree
+from .comments import (
+    DOCUMENT_ROOTS,
+    comment_part,
+    comment_tree,
+    main_document,
+    main_part,
+)
 from .revision_text import inventory as revision_inventory, assess as assess_revision_text
 from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
 from .fonts import resolve_face
@@ -85,12 +91,9 @@ def _unreadable(reason: str) -> CoverageReport:
 
 
 def _element_surface(root, tag: str, identifier: str, singular: str,
-                     plural: str | None = None) -> CoverageItem:
+                     plural: str | None = None, *, gap: str) -> CoverageItem:
     if root is None:
-        return _item(
-            identifier, CoverageStatus.SKIPPED,
-            "word/document.xml was missing or could not be safely parsed",
-        )
+        return _item(identifier, CoverageStatus.SKIPPED, gap)
     count = len(list(root.iter(W + tag)))
     if not count:
         return _item(identifier, CoverageStatus.NOT_PRESENT,
@@ -101,13 +104,10 @@ def _element_surface(root, tag: str, identifier: str, singular: str,
 
 
 def _combined_surface(document, supporting, tag: str, supporting_tag: str,
-                      identifier: str, label: str) -> CoverageItem:
+                      identifier: str, label: str, *, gap: str) -> CoverageItem:
     """Describe checks that consider both references and definitions."""
     if document is None:
-        return _item(
-            identifier, CoverageStatus.SKIPPED,
-            "word/document.xml was missing or could not be safely parsed",
-        )
+        return _item(identifier, CoverageStatus.SKIPPED, gap)
     references = len(list(document.iter(W + tag)))
     definitions = (
         len(list(supporting.iter(W + supporting_tag)))
@@ -138,7 +138,9 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
 
     trees: dict[str, etree._Element] = {}
     failed_xml: list[str] = []
-    xml_names = [name for name in parts if name.endswith((".xml", ".rels"))]
+    main = main_part(parts)
+    xml_names = [name for name in parts
+                 if name.endswith((".xml", ".rels")) or name == main]
     for name in xml_names:
         try:
             trees[name] = parse_xml(parts[name])
@@ -182,7 +184,12 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         len(rel_names),
     ))
 
-    document = trees.get("word/document.xml")
+    document = trees.get(main)
+    gap = f"{main} was missing or could not be safely parsed"
+    if document is not None and document.tag not in DOCUMENT_ROOTS:
+        document = None
+        gap = (f"{main} is the main document part but is not a "
+               "WordprocessingML document")
     style_tree = trees.get("word/styles.xml")
     style_refs = sum(
         len(list(document.iter(W + tag))) for tag in ("pStyle", "rStyle", "tblStyle")
@@ -191,10 +198,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         len(list(style_tree.iter(W + "style"))) if style_tree is not None else 0
     )
     if document is None:
-        styles = _item(
-            "docx.styles", CoverageStatus.SKIPPED,
-            "word/document.xml was missing or could not be safely parsed",
-        )
+        styles = _item("docx.styles", CoverageStatus.SKIPPED, gap)
     elif style_tree is None and "word/styles.xml" in parts:
         styles = _item(
             "docx.styles", CoverageStatus.SKIPPED,
@@ -221,10 +225,11 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     items.append(styles)
 
     try:
-        comments = comment_part(parts)
+        comments = comment_part(parts, main=main)
         comments_tree = comment_tree(parts, comments) if comments is not None else None
         comments_surface = _combined_surface(
             document, comments_tree, "commentReference", "comment", "docx.comments", "comment",
+            gap=gap,
         )
     except (ValueError, etree.XMLSyntaxError) as e:
         comments_surface = _item(
@@ -234,19 +239,18 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
 
     items.extend((
         _element_surface(document, "numPr", "docx.numbering",
-                         "numbered-list property", "numbered-list properties"),
+                         "numbered-list property", "numbered-list properties",
+                         gap=gap),
         _combined_surface(
             document, trees.get("word/footnotes.xml"),
             "footnoteReference", "footnote", "docx.footnotes", "footnote",
+            gap=gap,
         ),
         comments_surface,
     ))
 
     if document is None:
-        revisions = _item(
-            "docx.revisions", CoverageStatus.SKIPPED,
-            "word/document.xml was missing or could not be safely parsed",
-        )
+        revisions = _item("docx.revisions", CoverageStatus.SKIPPED, gap)
     else:
         revision_count = sum(
             len(list(document.iter(W + tag)))
@@ -261,10 +265,11 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         )
     items.append(revisions)
     items.extend((
-        _element_surface(document, "tbl", "docx.tables", "table"),
+        _element_surface(document, "tbl", "docx.tables", "table", gap=gap),
         _element_surface(document, "sdt", "docx.content-controls",
-                         "content control"),
-        _element_surface(document, "t", "docx.text-whitespace", "text run"),
+                         "content control", gap=gap),
+        _element_surface(document, "t", "docx.text-whitespace", "text run",
+                         gap=gap),
     ))
 
     story_names = [
@@ -323,7 +328,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     ))
     if fidelity_status is CoverageStatus.CHECKED:
         try:
-            source_document = parse_xml(source_parts['word/document.xml'])
+            source_document = main_document(source_parts, main_part(source_parts))
             if document is None:
                 raise ValueError('edited main document could not be parsed')
             text_result = assess_revision_text(

@@ -4,6 +4,8 @@ This page describes [0.4.3](releases/0.4.3.md), including its changes from `0.4.
 The browser footer identifies its installed version.
 Version 0.4.3 adds one narrow [paragraph revision ID exception](paragraph-revision-ids.md)
 to `REV001`; the published 0.4.2 behavior remains unchanged.
+The unreleased checkout finds the main document part through the package
+`officeDocument` relationship; see [Package and relationships](#package-and-relationships).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -54,6 +56,17 @@ of the main document part, `word/document.xml`.
 The package-wide relationship checks cover missing targets and the named
 relationship attributes in headers, footers and other XML parts. They do not
 extend the Word semantic checks below to those parts.
+
+In the unreleased checkout, the rows below that name `word/document.xml` apply
+to the target of the package `officeDocument` relationship, whatever its name
+(docx4j's Word Online sample uses `word/document22.xml`). Header, footer and
+comments relationships are read from that part's relationship part. An
+unrelated `word/document.xml` is not substituted: a missing target, or a target
+whose root is not a WordprocessingML `w:document`, is `PKG006`, and
+relationships to more than one part are `REL001`. Only when no usable
+relationship names a part, itself `REL001`, are the checks run on
+`word/document.xml`. Styles, numbering, footnote and endnote parts are still
+read under their conventional names.
 
 ### WordprocessingML structures
 

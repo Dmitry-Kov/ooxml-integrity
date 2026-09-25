@@ -68,7 +68,8 @@ class TextComparison:
 
 
 def assess(source: RevisionText, edited: RevisionText, *,
-           scan_limit: int = MAX_SCAN_WORK) -> TextComparison:
+           scan_limit: int = MAX_SCAN_WORK,
+           part: str = 'word/document.xml') -> TextComparison:
     """Report text deficits only where both same-kind inventories are supported.
 
     Exact payload matches are cheap. For changed boundaries, count nonoverlapping
@@ -112,7 +113,7 @@ def assess(source: RevisionText, edited: RevisionText, *,
                 f'source tracked {label} text is missing or altered despite '
                 f'unchanged wrapper count ({lost} of {count} literal occurrences '
                 f'not found): {snippet!r}',
-                part='word/document.xml',
+                part=part,
                 extra={'tag':kind, 'body':body, 'lost':lost, 'in_source':count},
             ))
         if budget_skipped:

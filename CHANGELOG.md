@@ -33,6 +33,19 @@
   Text output shows the package part when a finding has no XPath, for example
   for `FTN002` and `XML001`; JSON is unchanged.
 
+- The DOCX checks, `compare()` and coverage find the main document part
+  through the package `officeDocument` relationship instead of by the name
+  `word/document.xml`, and read header, footer and comments relationships from
+  that part. docx4j's Word Online sample (`word/document22.xml`) and a
+  LibreOffice test (`word/trial.xml`) got only `PKG006` and `compare()` raised
+  `KeyError`; both are now checked. An unrelated `word/document.xml` is never
+  substituted: a missing target, or one whose root is not `w:document` (for
+  example a presentation passed to `check()`), is `PKG006`, and
+  `officeDocument` relationships to more than one part are a new `REL001`
+  ERROR. The conventional name is still assumed when no usable relationship
+  exists, which is itself `REL001`. Affected inputs can change exit 1 to 0 or
+  0 to 1.
+
 - Added `research/realworld_scan.py` and a [record of its results](docs/real-world-corpora.md)
   on six public test corpora (1,887 DOCX, 605 PPTX): structural noise by rule,
   python-docx no-op round trips, and destructive and careful edits applied to
