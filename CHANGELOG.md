@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- `STY002` is INFO for an undefined `w:next` or `w:link` style: ISO/IEC
+  29500-1 (17.7.4.10, 17.7.4.6) ignores both, so a new paragraph keeps the
+  style and the style is simply not paired; the text keeps its formatting. An
+  undefined `w:basedOn` stays a WARN, because the style then inherits no
+  formatting (17.7.4.3); its message now says so. On the public corpora, 73 of
+  the 79 `STY002` warnings become INFO. Gates at `--fail-on warn` can change
+  exit 1 to 0.
+
 ## 0.4.4 — 2026-09-25
 
 [Upgrade notes and verified publication](docs/releases/0.4.4.md). Published

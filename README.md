@@ -205,7 +205,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
-| `STY002` | undefined `basedOn` / `next` / `link` style references: warning |
+| `STY002` | undefined `basedOn` / `next` / `link` style references: warning; unreleased: `next` / `link` are info |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
 | `CMT001-006` | Comment ranges/references ↔ the related comments part; unresolved or unreadable comments parts |

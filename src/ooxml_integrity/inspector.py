@@ -504,14 +504,22 @@ class Inspector:
                         "silently lost",
                         self._xpath(el), self.main,
                     )
+        # ISO/IEC 29500-1 17.7.4.3, 17.7.4.6 and 17.7.4.10 ignore each of these
+        # when the style is undefined. Only a lost parent changes formatting.
+        consequences = {
+            "basedOn": (WARN, "the style inherits no formatting from it"),
+            "next": (INFO, "a new paragraph after this style keeps it"),
+            "link": (INFO, "the style is not paired with another"),
+        }
         for s in styles:
-            for tag in ("basedOn", "next", "link"):
+            for tag, (severity, consequence) in consequences.items():
                 el = s.find(_w(tag))
                 if el is not None and el.get(_w("val")) not in defined:
                     self._add(
-                        "STY002", WARN,
+                        "STY002", severity,
                         f'style {s.get(_w("styleId"))}: {tag} -> '
-                        f'"{el.get(_w("val"))}" is undefined',
+                        f'"{el.get(_w("val"))}" is undefined; ISO/IEC 29500 '
+                        f"ignores it, so {consequence}",
                         part="word/styles.xml",
                     )
 

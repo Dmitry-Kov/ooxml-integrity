@@ -9,6 +9,8 @@ reports Strict Open XML as `PKG009`;
 see [Package and relationships](#package-and-relationships)
 and [WordprocessingML structures](#wordprocessingml-structures). It also
 corrects false positives seen on [public real-world documents](real-world-corpora.md).
+The unreleased checkout reports undefined `w:next` and `w:link` style references
+as `STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -107,6 +109,11 @@ optional `w16du:dateUtc` are required. Nested/non-text revisions, mixed content,
 table paragraphs, property history, moves and third occurrences are not exempt.
 These are conservative exception conditions, not OOXML validity requirements;
 unverified shared-ID cases can still be false alarms. [Details](paragraph-revision-ids.md).
+
+In the unreleased checkout, an undefined `w:next` or `w:link` in `word/styles.xml`
+is `STY002` INFO: ISO/IEC 29500-1 ignores both (17.7.4.10, 17.7.4.6), so the text
+keeps its formatting. An undefined `w:basedOn` stays a WARN, because the style
+then inherits no formatting (17.7.4.3).
 
 In 0.4.4, the Comments row also reads comment ranges and
 references in the header, footer, footnote and endnote parts that the main part

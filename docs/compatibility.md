@@ -33,6 +33,12 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased style-link correction lowers `STY002` to INFO for undefined
+`w:next` and `w:link` references, which ISO/IEC 29500-1 ignores. The default
+error threshold is unaffected; `--fail-on warn` gates can change exit 1 to 0.
+An undefined `w:basedOn` stays a WARN. Messages now state the consequence;
+codes, parts and baseline v2 identities are unchanged.
+
 The 0.4.4 [real-world corrections](real-world-corpora.md) remove false
 errors and warnings: separator footnotes are recognised by `w:type`
 (`FTN002`), `numId="0"` is not a reference (`NUM001`/`NUM002`), list-style
