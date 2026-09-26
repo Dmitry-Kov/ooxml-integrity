@@ -339,8 +339,10 @@ instruction or asked the agent to be quick.
 | **table, fast**                 | **fast**|      **2** |**34k** | **comment orphaned** |
 
 No structural defects were found in the six careful runs. All six used
-targeted XML replacements and recorded changes under a separate author.
-Several explicitly avoided `python-docx` because of tracked-change handling.
+targeted XML replacements. Five recorded their changes under a separate
+author; the table-edit run without the preservation request (`t2_bare`)
+changed the table without tracked changes. The checker does not judge whether
+an edit should have been tracked. Several explicitly avoided `python-docx` because of tracked-change handling.
 Two correctly nested `w:ins > w:del` where counsel's insertion was still
 pending. Both fast runs used `python-docx` and lost a comment anchor.
 
