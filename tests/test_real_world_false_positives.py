@@ -496,3 +496,34 @@ def test_an_undefined_parent_style_is_still_a_warning(base_docx, tmp_path):
     findings = check(out)
     assert [(f.code, f.severity.value) for f in findings] == [("STY002", "warn")]
     assert "inherits no formatting" in findings[0].message
+
+
+# ------------------------------------------------------------ parser limits
+
+def _nested(depth):
+    return "<w:x>" * depth + "</w:x>" * depth
+
+
+def test_nesting_beyond_the_parser_limit_is_named(base_docx, tmp_path):
+    # POI's deep-table-cell.docx: well-formed, deeper than libxml2's default 256
+    document = _once(read_part(base_docx, DOC), "</w:body>", _nested(300) + "</w:body>")
+    findings = {f.code: f for f in check(repack(base_docx, tmp_path / "deep.docx",
+                                                {DOC: document.encode()}))}
+    assert findings["XML001"].message == (
+        "XML could not be safely parsed: nesting deeper than 256 elements exceeds "
+        "the safe parser's limit")
+    assert findings["PKG006"].message == (
+        "word/document.xml could not be parsed, so the Word checks were not run")
+
+
+def test_broken_xml_is_still_called_not_well_formed(base_docx, tmp_path):
+    findings = {f.code: f for f in check(repack(base_docx, tmp_path / "broken.docx",
+                                                {DOC: b"<w:document"}))}
+    assert findings["XML001"].message.startswith("XML is not well-formed:")
+    assert findings["PKG006"].severity.value == "error"
+
+
+def test_a_deep_part_that_nothing_relates_is_a_warning(base_docx, tmp_path):
+    out = repack(base_docx, tmp_path / "deep-dump.docx",
+                 {"word/dump.xml": ("<x>" + _nested(300) + "</x>").encode()})
+    assert [(f.code, f.severity.value) for f in check(out)] == [("XML001", "warn")]

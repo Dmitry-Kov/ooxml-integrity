@@ -11,6 +11,8 @@ and [WordprocessingML structures](#wordprocessingml-structures). It also
 corrects false positives seen on [public real-world documents](real-world-corpora.md).
 The unreleased checkout reports undefined `w:next` and `w:link` style references
 as `STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
+Its `XML001` message names the parser limit for a part nested deeper than 256
+elements; such a part is still not checked.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.

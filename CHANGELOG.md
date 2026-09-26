@@ -10,6 +10,12 @@
   the 79 `STY002` warnings become INFO. Gates at `--fail-on warn` can change
   exit 1 to 0.
 
+- `XML001` names the safe parser's limit when a part is nested deeper than 256
+  elements, instead of calling it not well-formed, and `PKG006` says that a
+  main part which could not be parsed was not checked, instead of calling it
+  missing. POI's `deep-table-cell.docx` gets both. Codes and severities are
+  unchanged; the parser limit itself stays.
+
 ## 0.4.4 — 2026-09-25
 
 [Upgrade notes and verified publication](docs/releases/0.4.4.md). Published

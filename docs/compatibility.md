@@ -33,6 +33,11 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased parser-limit correction changes messages only: `XML001` names
+the 256-element nesting limit of the safe parser, and `PKG006` says that an
+unparseable main part was not checked rather than missing. Codes, severities,
+parts and baseline v2 identities are unchanged.
+
 The unreleased style-link correction lowers `STY002` to INFO for undefined
 `w:next` and `w:link` references, which ISO/IEC 29500-1 ignores. The default
 error threshold is unaffected; `--fail-on warn` gates can change exit 1 to 0.
