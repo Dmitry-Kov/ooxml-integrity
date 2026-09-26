@@ -16,6 +16,11 @@
   missing. POI's `deep-table-cell.docx` gets both. Codes and severities are
   unchanged; the parser limit itself stays.
 
+- Corrected the agent-run summary in `docs/research.md`: five of the six
+  careful runs recorded their edits as tracked changes under a separate
+  author; `runs/t2_bare` changed the table without tracking. Run outputs,
+  labels and checker results are unchanged.
+
 ## 0.4.4 — 2026-09-25
 
 [Upgrade notes and verified publication](docs/releases/0.4.4.md). Published
