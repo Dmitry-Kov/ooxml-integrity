@@ -37,7 +37,7 @@ from .comments import (
     relationships_part,
     story_parts,
 )
-from .xmlutil import UnsafeXML, fromstring as parse_xml, text_contexts
+from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -190,7 +190,9 @@ class Inspector:
                 except UnsafeXML as e:
                     failed.append((name, f"XML could not be safely parsed: {e}"))
                 except etree.XMLSyntaxError as e:
-                    failed.append((name, f"XML is not well-formed: {e}"))
+                    limit = parser_limit(e)
+                    failed.append((name, f"XML could not be safely parsed: {limit}"
+                                   if limit else f"XML is not well-formed: {e}"))
         # Word 16.113 for Mac opened a package with an unreferenced text dump
         # named *.xml without a prompt. Such a part cannot break the document.
         reached = self._reachable() if failed else None
@@ -346,7 +348,11 @@ class Inspector:
     def check_relationships(self) -> None:
         tree = self._tree(self.main)
         strict = tree is not None and tree.tag == STRICT_DOCUMENT
-        if tree is None:
+        if tree is None and self.main in self.parts:
+            # XML001 names the reason; the part exists.
+            self._add("PKG006", ERROR, f"{self.main} could not be parsed, so the "
+                      "Word checks were not run")
+        elif tree is None:
             self._add("PKG006", ERROR, f"missing {self.main}")
         elif strict:
             # Word opens Strict files; the rules below cannot read them.

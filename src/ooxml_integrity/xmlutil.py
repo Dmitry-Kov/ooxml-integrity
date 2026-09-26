@@ -32,6 +32,19 @@ def fromstring(data: bytes) -> etree._Element:
     return root
 
 
+#: Without huge_tree, libxml2 stops at this nesting depth.
+MAX_DEPTH = 256
+
+
+def parser_limit(error: etree.XMLSyntaxError) -> str | None:
+    """Why a parse stopped at a limit of the safe parser; None for broken XML."""
+    if "Excessive depth" in str(error):
+        return f"nesting deeper than {MAX_DEPTH} elements exceeds the safe parser's limit"
+    if error.code == getattr(etree.ErrorTypes, "ERR_RESOURCE_LIMIT", None):
+        return f"a resource limit of the safe parser was exceeded ({error})"
+    return None
+
+
 def text_contexts(root, tag: str):
     """Yield matching nodes, libxml-style paths and effective xml:space.
 

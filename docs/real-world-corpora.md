@@ -93,8 +93,12 @@ they came from, so a transfer probably added it.
 
 ### Open questions
 
-- **Parser depth.** A document nested deeper than 256 levels is reported as
-  "not well-formed" (`XML001`) although the limit belongs to the parser.
+The questions from the first run are answered above and in the changelog. A
+part nested deeper than 256 elements, as in POI's `deep-table-cell.docx`, now
+reports the safe parser's nesting limit instead of "not well-formed"; the
+checker does not raise that limit, so such a part is still not checked. Word
+for Windows was not checked on the unreferenced `[trash]/` items that Word
+2007–2013 wrote.
 
 ## Comparison with the source
 
