@@ -32,14 +32,14 @@ producer of 1,522 of the DOCX files.
 
 ## Structural check
 
-`python research/realworld_scan.py scan corpora/`, no config, 25 September 2026.
+`python research/realworld_scan.py scan corpora/`, no config, 26 September 2026.
 
-| DOCX | 0.4.3 | 0.4.4 |
-| --- | --- | --- |
-| files with an ERROR | 283 | 130 |
-| Word-saved files with an ERROR | 150 of 1,522 | 80 of 1,522 |
-| ERROR findings | 498 | 203 |
-| WARN findings | 421 | 244 |
+| DOCX | 0.4.3 | 0.4.4 | unreleased |
+| --- | --- | --- | --- |
+| files with an ERROR | 283 | 130 | 130 |
+| Word-saved files with an ERROR | 150 of 1,522 | 80 of 1,522 | 80 of 1,522 |
+| ERROR findings | 498 | 203 | 203 |
+| WARN findings | 421 | 244 | 171 |
 
 ### What changed
 
@@ -48,6 +48,7 @@ producer of 1,522 of the DOCX files.
 | `TBL002` WARN | 306 | 32 | `w:gridBefore`/`w:gridAfter` columns and cells inside `w:sdt`/`w:customXml` were not counted |
 | `PKG005` ERROR | 130 | 36 | `[Content_Types].xml` itself was reported as a part without a content type |
 | `PKG004` ERROR | 86 | 0 | Override-only relationship content types (older LibreOffice exports) are OPC-legal; now 86 WARN |
+| `STY002` WARN | 77 | 6 | undefined `w:next`/`w:link` are ignored by ISO/IEC 29500-1 and are now INFO (73); `w:basedOn` stays a WARN |
 | `FTN002` ERROR | 67 | 6 | separator notes were recognised by ids `-1`/`0`; LibreOffice and Word 2007 write `0`/`1` |
 | `NUM002` ERROR | 46 | 0 | `numId="0"` removes numbering; it is not a reference |
 | `XML001` ERROR | 25 | 4 | a malformed part that no relationship reaches, such as a text dump named `*.xml`, is now a WARN (21); Word opened such a package without a prompt |
@@ -92,9 +93,6 @@ they came from, so a transfer probably added it.
 
 ### Open questions
 
-- **Dangling `w:link` and `w:next`.** 73 of the 79 `STY002` warnings point
-  from a style to a missing linked (71) or next (2) style. The specification defines a
-  fallback for both.
 - **Parser depth.** A document nested deeper than 256 levels is reported as
   "not well-formed" (`XML001`) although the limit belongs to the parser.
 

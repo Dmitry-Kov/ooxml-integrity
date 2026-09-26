@@ -472,3 +472,27 @@ def test_an_item_without_a_content_type_is_an_error_even_unreferenced(
     # Word 16.113 for Mac offered to recover base.docx with this one item added
     out = repack(base_docx, tmp_path / "trash.docx", {"[trash]/0000.dat": bytes(16)})
     assert [(c, s) for c, s, _ in _non_info(out)] == [("PKG005", "error")]
+
+
+# ------------------------------------------------------------ style links
+
+def _style_with(base_docx, path, child):
+    styles = read_part(base_docx, "word/styles.xml")
+    assert styles.count("</w:styles>") == 1, "the reference document changed"
+    styles = styles.replace("</w:styles>", '<w:style w:type="paragraph" w:styleId="Pilot">'
+                            '<w:name w:val="Pilot"/>%s</w:style></w:styles>' % child)
+    return repack(base_docx, path, {"word/styles.xml": styles.encode()})
+
+
+@pytest.mark.parametrize("child", ['<w:next w:val="Missing"/>', '<w:link w:val="MissingChar"/>'])
+def test_an_undefined_next_or_linked_style_is_info(base_docx, tmp_path, child):
+    # ISO/IEC 29500-1 17.7.4.10 and 17.7.4.6 ignore both; text keeps its formatting
+    out = _style_with(base_docx, tmp_path / "style-link.docx", child)
+    assert [(f.code, f.severity.value) for f in check(out)] == [("STY002", "info")]
+
+
+def test_an_undefined_parent_style_is_still_a_warning(base_docx, tmp_path):
+    out = _style_with(base_docx, tmp_path / "based-on.docx", '<w:basedOn w:val="Missing"/>')
+    findings = check(out)
+    assert [(f.code, f.severity.value) for f in findings] == [("STY002", "warn")]
+    assert "inherits no formatting" in findings[0].message
