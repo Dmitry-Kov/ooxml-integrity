@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.4.4 release notes](releases/0.4.4.md) before changing a version pin.
+[0.4.5 release notes](releases/0.4.5.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,18 +33,18 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The unreleased parser-limit correction changes messages only: `XML001` names
+The 0.4.5 parser-limit correction changes messages only: `XML001` names
 the 256-element nesting limit of the safe parser, and `PKG006` says that an
 unparseable main part was not checked rather than missing. Codes, severities,
 parts and baseline v2 identities are unchanged.
 
-The unreleased style-link correction lowers `STY002` to INFO for undefined
+The 0.4.5 style-link correction lowers `STY002` to INFO for undefined
 `w:next` and `w:link` references, which ISO/IEC 29500-1 ignores. The default
 error threshold is unaffected; `--fail-on warn` gates can change exit 1 to 0.
 An undefined `w:basedOn` stays a WARN. Messages now state the consequence;
 codes, parts and baseline v2 identities are unchanged.
 
-The unreleased text-volume correction stops `FID003` from counting text kept as
+The 0.4.5 text-volume correction stops `FID003` from counting text kept as
 a new tracked deletion as lost. A tracked replacement that shortens a short
 document can change exit 1 to 0; untracked losses are reported as before. When
 tracked deletions are counted, the message says so and the finding carries
@@ -187,11 +187,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in 0.4.4 | Meaning |
+| Output | Version in 0.4.5 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.4.4"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.4.5"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.4.4"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.4.5"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

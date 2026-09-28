@@ -145,6 +145,54 @@ def main():
         assert found(stories / "sources/header-anchor.docx") == []
         assert found(stories / "outputs/header-anchor-lost-anchor.docx", code=1) == [
             ("CMT005", "error")]
+
+        # 0.4.5 corrections. An undefined w:next is INFO; an undefined w:basedOn stays WARN.
+        clause = b'<w:name w:val="Clause Body"/><w:basedOn w:val="Normal"/>'
+        assert base["word/styles.xml"].count(clause) == 1
+        for element, severity in ((b'<w:next w:val="NoSuchStyle"/>', "info"),
+                                  (b'<w:basedOn w:val="NoSuchStyle"/>', "warn")):
+            styled = clause.replace(b'<w:basedOn w:val="Normal"/>', element)
+            styles = base["word/styles.xml"].replace(clause, styled)
+            assert found(variant(f"style-{severity}.docx", {**base, "word/styles.xml": styles})) == [
+                ("STY002", severity)]
+        # A part nested past the parser's depth limit says so instead of "not well-formed".
+        deep = b"<a>" * 300 + b"</a>" * 300
+        report = json.loads(cli("check", variant("deep.docx", {**base, "word/deep.xml": deep}),
+                                "--no-config", "--json").stdout)
+        [finding] = report["files"][0]["findings"]
+        assert finding["code"] == "XML001" and "safe parser's limit" in finding["message"]
+        # Text kept as a new tracked deletion is not a text-volume loss; untracked loss is.
+        def minimal(name, body):
+            return variant(name, {
+                "[Content_Types].xml": '''<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+                  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+                  <Default Extension="xml" ContentType="application/xml"/>
+                  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+                </Types>''',
+                "_rels/.rels": '''<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+                  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+                </Relationships>''',
+                "word/document.xml": (
+                    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                    f"<w:body><w:p>{body}</w:p></w:body></w:document>").encode(),
+            })
+        rev = 'w:author="Editor" w:date="2026-09-27T00:00:00Z"'
+        short = minimal("short.docx", '<w:r><w:t xml:space="preserve">This is an initial document.</w:t></w:r>')
+        tracked = minimal("tracked.docx", (
+            '<w:r><w:t xml:space="preserve">This is an </w:t></w:r>'
+            f'<w:del w:id="1" {rev}><w:r><w:delText>initial document</w:delText></w:r></w:del>'
+            f'<w:ins w:id="2" {rev}><w:r><w:t>final contract</w:t></w:r></w:ins>'
+            '<w:r><w:t>.</w:t></w:r>'))
+        untracked = minimal("untracked.docx", '<w:r><w:t xml:space="preserve">This is an final contract.</w:t></w:r>')
+
+        def compared(edited_path, code=0):
+            report = json.loads(cli("check", edited_path, "--against", short, "--no-config",
+                                    "--json", code=code).stdout)
+            return [(f["code"], f["message"]) for f in report["files"][0]["findings"]]
+
+        assert compared(short) == [] and compared(tracked) == []
+        assert compared(untracked, code=1) == [
+            ("FID003", "text volume fell from 28 to 26 characters (7% of content lost)")]
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -182,6 +230,7 @@ def main():
         cli("check", source, "--config", config, code=2)
     print(f"Installed {args.version}: source-byte parity, REV001 mark/content and third-occurrence controls, "
           "renamed main part, unreferenced malformed part, Strict and comment-story controls, "
+          "STY002 next/basedOn, XML001 depth limit, FID003 tracked-deletion controls, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

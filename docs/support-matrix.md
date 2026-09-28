@@ -1,16 +1,9 @@
 # Support matrix
 
-This page describes [0.4.4](releases/0.4.4.md), including its changes from `0.4.3`.
+This page describes [0.4.5](releases/0.4.5.md), including its changes from `0.4.4`.
 The browser footer identifies its installed version.
-Version 0.4.4 finds the main document part through the package
-`officeDocument` relationship, reads comment anchors in the header, footer and
-note parts it relates, lowers `XML001` for parts no relationship reaches, and
-reports Strict Open XML as `PKG009`;
-see [Package and relationships](#package-and-relationships)
-and [WordprocessingML structures](#wordprocessingml-structures). It also
-corrects false positives seen on [public real-world documents](real-world-corpora.md).
-The unreleased checkout reports undefined `w:next` and `w:link` style references
-as `STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
+Version 0.4.5 reports undefined `w:next` and `w:link` style references as
+`STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
 Its `XML001` message names the parser limit for a part nested deeper than 256
 elements; such a part is still not checked. Its `FID003` counts text kept as new
 tracked deletions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source).
@@ -49,7 +42,7 @@ relationship, which the rows call `word/document.xml`, its usual name.
 | surface | status | current scope |
 | --- | --- | --- |
 | ZIP/package readability | **Supported** | Reports a missing file, an invalid or unsupported ZIP layout and a corrupt ZIP member. The supported single-disk ZIP/ZIP64 profile is defined in [archive resource limits](archive-limits.md). |
-| XML well-formedness | **Supported** | Parses every package member whose name ends in `.xml` or `.rels`, and the main document and story parts whatever their names, and reports XML syntax errors. A malformed part that no relationship reaches is a WARN, otherwise an ERROR. This is not schema validation. |
+| XML well-formedness | **Supported** | Parses every package member whose name ends in `.xml` or `.rels`, and the main document and story parts whatever their names, and reports XML syntax errors. A part nested deeper than 256 elements is reported as beyond the safe parser's limit and is not checked. A malformed part that no relationship reaches is a WARN, otherwise an ERROR. This is not schema validation. |
 | DTDs and XML entities | **Supported** | OOXML parts are parsed with DTD loading, entity expansion and network access disabled. A part containing a `DOCTYPE` is rejected. |
 | Archive resource budgets | **Supported** | Before allocating the ZIP index, checks archive bytes, central-directory bytes, declared and actual entry counts, and consistent directory/trailer bounds using fixed-size reads. Before member decompression, enforces total and per-entry expanded-byte limits and per-entry compression ratios. The same limits apply to DOCX, PPTX and both comparison inputs. Defaults, supported ZIP layout and measurements are documented in [archive resource limits](archive-limits.md). |
 | Package part names | **Supported** | Rejects absolute, traversal-like, backslash-separated and otherwise non-canonical member names, plus names that collide after percent-decoding and OPC's ASCII-case-insensitive comparison. This is package-name validation, not malware scanning. |
@@ -92,7 +85,7 @@ the rule with `[severity] PKG009 = "warn"` in the project configuration.
 
 | surface | status | current scope |
 | --- | --- | --- |
-| Styles | **Partial** | Checks paragraph, run and table style references found in `word/document.xml`, including when `word/styles.xml` is missing. Undefined `pStyle`/`tblStyle` references are `STY001` errors because they can carry numbering and structure; undefined `rStyle` references are `STY001` warnings, including comment reference marks. An absent styles part without main-document references is not a finding by itself. A malformed or unsafe styles part receives `XML001`; style resolution is skipped without a cascade of undefined-reference findings. Undefined `basedOn`, `next` and `link` references in readable `word/styles.xml` are `STY002` warnings. It does not compare style definitions with a source or predict rendered formatting. |
+| Styles | **Partial** | Checks paragraph, run and table style references found in `word/document.xml`, including when `word/styles.xml` is missing. Undefined `pStyle`/`tblStyle` references are `STY001` errors because they can carry numbering and structure; undefined `rStyle` references are `STY001` warnings, including comment reference marks. An absent styles part without main-document references is not a finding by itself. A malformed or unsafe styles part receives `XML001`; style resolution is skipped without a cascade of undefined-reference findings. In readable `word/styles.xml`, an undefined `basedOn` reference is a `STY002` warning and undefined `next` and `link` references are `STY002` INFO. It does not compare style definitions with a source or predict rendered formatting. |
 | Numbering | **Partial** | Checks `numId -> abstractNumId -> abstractNum` resolution and referenced levels for numbering found in `word/document.xml`, including levels inherited through `w:numStyleLink` and defined in `w:lvlOverride/w:lvl`. `numId="0"` removes numbering and is not a reference. Numbering used in other package parts is not inspected semantically. |
 | Footnotes | **Partial** | Checks footnote references in `word/document.xml` against `word/footnotes.xml` and reports non-housekeeping footnotes with no reference in that main part; separators are recognised by `w:type`, not by id. It does not lay out or render footnotes. |
 | Comments | **Partial** | Checks range starts, range ends and comment references in `word/document.xml` and in the header, footer, footnote and endnote parts it relates, against its typed internal comments relationship, including renamed parts. An absent relationship leaves references undefined (`CMT004`); ambiguous/invalid relationships and unreadable/wrong-root targets produce `CMT006` and skipped comment coverage. An unlinked conventional `word/comments.xml` is never substituted for the related part. Unlinked comment parts, modern threads, replies, resolved state and people metadata are not validated semantically. |
@@ -113,7 +106,7 @@ table paragraphs, property history, moves and third occurrences are not exempt.
 These are conservative exception conditions, not OOXML validity requirements;
 unverified shared-ID cases can still be false alarms. [Details](paragraph-revision-ids.md).
 
-In the unreleased checkout, an undefined `w:next` or `w:link` in `word/styles.xml`
+In 0.4.5, an undefined `w:next` or `w:link` in `word/styles.xml`
 is `STY002` INFO: ISO/IEC 29500-1 ignores both (17.7.4.10, 17.7.4.6), so the text
 keeps its formatting. An undefined `w:basedOn` stays a WARN, because the style
 then inherits no formatting (17.7.4.3).
@@ -142,14 +135,14 @@ threshold when the requested comparison could not run.
 | Comment, footnote and endnote bodies | **Supported** | Compares normalised body text as a multiset, independent of item ids. Comments follow the main document's typed relationship in each input; renaming the part preserves identity and lost-body locations name the source part. An unresolved comments relationship/target, or comment anchors without that relationship, prevents comparison (`FID000` in CLI). Footnotes/endnotes still use their conventional filenames. Whitespace-only reflow is ignored; losing one of two identical bodies is still detected. |
 | Header/footer story text | **Supported** | Resolves `default`, `first` and `even` header/footer references from every current `w:sectPr` through `word/_rels/document.xml.rels`, including [same-type inheritance from the preceding section](https://learn.microsoft.com/en-us/office/open-xml/word/how-to-replace-the-header-in-a-word-processing-document). Compares normalised descendant `w:t` text as a multiset of effective section slots. Relationship ids and part names may change, and shared parts may be split or merged without a finding. Explicitly referenced empty stories remain distinct because they can suppress an inherited story. Activation through `w:titlePg` and `w:evenAndOddHeaders` is not modelled separately; referenced first/even stories are preserved conservatively even when those display options are off. |
 | Header/footer tracked constructs | **Partial** | Within the same effective story slots, compares counts of the constructs listed for main-document fidelity: comments and footnotes, insertions and deletions, content controls, drawings, tables, hyperlinks, style references, numbering and table-header markers. This preserves supported audit/structure signals but is not a semantic comparison of fields, settings, section geometry or rendered appearance. |
-| Main-document text volume | **Partial** | Reports when concatenated descendant `w:t` text in `word/document.xml` falls below 95% of the source length. This is a coarse loss detector, not a semantic diff. |
+| Main-document text volume | **Partial** | Reports when concatenated descendant `w:t` text in `word/document.xml`, plus text the edit added to tracked deletions, falls below 95% of the source's `w:t` length. This is a coarse loss detector, not a semantic diff. |
 | Identifier preservation | **Not checked** | Legitimate renumbering is allowed. Except for self-consistency rules such as revision-id collision, fidelity does not require ids, relationship ids or header/footer part names to remain unchanged. |
 | Other-part fidelity | **Not checked** | Apart from the comment, footnote, endnote, and relationship-referenced header/footer comparisons named above, glossary parts and other package parts are not compared with the source as fidelity surfaces. |
 | Style, numbering, settings and relationship fidelity | **Not checked** | Definitions and package graphs are checked for some forms of self-consistency, but they are not compared source-to-output for semantic equivalence. |
 | Media and embedded-part fidelity | **Not checked** | The comparison does not prove that images, charts, embedded files or custom XML retained the same bytes or meaning. |
 | Intended edits and semantic correctness | **Not checked** | A structurally intact file can still contain the wrong amount, name, clause, slide text or other business content. |
 
-In the unreleased checkout, `FID003` adds the edit's new tracked-deletion text
+In 0.4.5, `FID003` adds the edit's new tracked-deletion text
 (`w:delText` beyond the source's amount) to the edited length, so a tracked
 replacement that shortens the main text is not reported as lost. Deletions
 already pending in the source are not counted and cannot hide an untracked loss;
