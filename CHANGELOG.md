@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.4.5 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.5.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
+
+- CI also tests Python 3.14 on Linux, and the package lists it in its
+  classifiers. The requirement stays Python 3.9+; dependencies are unchanged.
 
 - `STY002` is INFO for an undefined `w:next` or `w:link` style: ISO/IEC
   29500-1 (17.7.4.10, 17.7.4.6) ignores both, so a new paragraph keeps the
