@@ -1,5 +1,33 @@
 # Browser validation
 
+## Published 0.4.5 pin — 2026-09-29 (Asia/Tashkent)
+
+Version 0.4.5 was published before this pin update. The [publication receipt](../evidence/releases/0.4.5/publication.json)
+records green source CI on `fc4d646bb42d3840fe62e5d2f45af809a41d5954`, all release jobs,
+matching GitHub/PyPI hashes and the fresh no-cache public installation smoke.
+The public wheel SHA-256 is `47674ca3fed5060f811eb3c0d485b48a8c8db0cfc71964de37f74c7591fed3a8`.
+
+Both local browser modes passed all 7 scenarios with zero skips/retries:
+public PyPI installation and a newly built checkout wheel in an isolated preview.
+The public mode requested its wheel from files.pythonhosted.org; the preview
+used only its declared local wheel, whose hash differs from the published one
+because the wheel metadata carries the updated README. The observed footer was
+**ooxml-integrity 0.4.5 · Pyodide 314.0.6**. Chromium
+153.0.8010.12, Playwright 1.63.0 and Node v24.3.0 were used.
+[Browser receipt](../evidence/releases/0.4.5/demo-pin.json) includes actual runtime/Doctor
+versions, downloads, page-file hashes and separate scenario results for both modes.
+
+These checks cover the existing synthetic examples, JSON/coverage/Doctor,
+upload handling, responsive viewports, runtime/font failures, voluntary feedback,
+delayed startup and the actual 60-second worker deadline/recovery. No user
+document was uploaded and no feedback issue was submitted. This is Chromium
+verification, not physical mobile devices, other browsers or Office rendering.
+
+This record describes the branch tested locally. The pin PR must pass its
+checks before merge; Pages then repeats both modes before deployment. Only the
+public demo directory is deployed. The immutable release tag and archives remain
+unchanged.
+
 ## Published 0.4.4 pin — 2026-09-25 (Asia/Tashkent)
 
 Version 0.4.4 was published before this pin update. The [publication receipt](../evidence/releases/0.4.4/publication.json)
