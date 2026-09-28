@@ -451,6 +451,7 @@ class _Snapshot:
     bodies: dict[str, collections.Counter]
     authors: dict[tuple[str, str], str]
     text_length: int
+    deleted_length: int
     stories: _StoryFacts
     revision_text: dict[str, tuple | None]
     body_locations: dict[str, str]
@@ -493,6 +494,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         comment_tree(parts, comments)
     counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
     text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
+    deleted_length = sum(len(t.text or "") for t in doc.iter(W + "delText"))
     bodies: dict[str, collections.Counter] = {}
     authors: dict[tuple[str, str], str] = {}
     locations: dict[str, str] = {}
@@ -509,7 +511,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
             ((part, body), author) for body, author in body_authors.items()
         )
     return _Snapshot(
-        counts, bodies, authors, text_length,
+        counts, bodies, authors, text_length, deleted_length,
         _story_facts(parts, doc, references=story_references),
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
@@ -652,11 +654,19 @@ def compare(source: str | Path, edited: str | Path, *,
     ).findings)
 
     ta, tb = source_snapshot.text_length, edited_snapshot.text_length
-    if ta and tb < ta * TEXT_LOSS_THRESHOLD:
+    # Text an edit moved into new tracked deletions is still in the document,
+    # so a tracked replacement that shortens the text is not a loss. Only the
+    # growth counts: deletions already pending in the source cannot hide an
+    # untracked loss, and resolving them adds nothing to the edited side.
+    kept = max(0, edited_snapshot.deleted_length - source_snapshot.deleted_length)
+    if ta and tb + kept < ta * TEXT_LOSS_THRESHOLD:
+        note = (f", after counting {kept} characters kept as new tracked deletions"
+                if kept else "")
         out.append(Finding(
             "FID003", ERROR,
             f"text volume fell from {ta} to {tb} characters "
-            f"({round(100 * (1 - tb / ta))}% of content lost)",
-            extra={"before": ta, "after": tb},
+            f"({round(100 * (1 - (tb + kept) / ta))}% of content lost{note})",
+            extra={"before": ta, "after": tb,
+                   **({"tracked_deleted": kept} if kept else {})},
         ))
     return out

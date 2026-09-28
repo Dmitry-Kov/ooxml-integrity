@@ -44,6 +44,12 @@ error threshold is unaffected; `--fail-on warn` gates can change exit 1 to 0.
 An undefined `w:basedOn` stays a WARN. Messages now state the consequence;
 codes, parts and baseline v2 identities are unchanged.
 
+The unreleased text-volume correction stops `FID003` from counting text kept as
+a new tracked deletion as lost. A tracked replacement that shortens a short
+document can change exit 1 to 0; untracked losses are reported as before. When
+tracked deletions are counted, the message says so and the finding carries
+`tracked_deleted`. Codes, severities and baseline v2 identities are unchanged.
+
 The 0.4.4 [real-world corrections](real-world-corpora.md) remove false
 errors and warnings: separator footnotes are recognised by `w:type`
 (`FTN002`), `numId="0"` is not a reference (`NUM001`/`NUM002`), list-style

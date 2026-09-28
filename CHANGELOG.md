@@ -16,6 +16,14 @@
   missing. POI's `deep-table-cell.docx` gets both. Codes and severities are
   unchanged; the parser limit itself stays.
 
+- `FID003` no longer counts text kept as a new tracked deletion as lost. In
+  adeu's `01_basic_text_modification` scenario a tracked replacement shortened a
+  28-character document to 26 visible characters and was reported as 7% of
+  content lost. The edit's new `w:delText` now counts toward the edited length;
+  deletions already pending in the source do not, so they cannot hide an
+  untracked loss. Untracked losses are reported as before, and the message says
+  when tracked deletions were counted. Affected pairs can change exit 1 to 0.
+
 - Corrected the agent-run summary in `docs/research.md`: five of the six
   careful runs recorded their edits as tracked changes under a separate
   author; `runs/t2_bare` changed the table without tracking. Run outputs,
