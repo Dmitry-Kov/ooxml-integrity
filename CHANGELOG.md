@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- CI also tests Python 3.14 on Linux, and the package lists it in its
+  classifiers. The requirement stays Python 3.9+; dependencies are unchanged.
+
 - `STY002` is INFO for an undefined `w:next` or `w:link` style: ISO/IEC
   29500-1 (17.7.4.10, 17.7.4.6) ignores both, so a new paragraph keeps the
   style and the style is simply not paired; the text keeps its formatting. An

@@ -287,6 +287,6 @@ The Python API exported from `ooxml_integrity` is the intended library surface;
 the CLI's configuration discovery and baseline filtering are not automatically
 applied by `check`, `compare`, or `check_pptx`. Apply policy deliberately when
 embedding them. Internal helpers and research scripts are not stable APIs.
-The current package requires Python 3.9+; CI tests Python 3.9–3.13 on Linux and
+The current package requires Python 3.9+; CI tests Python 3.9–3.14 on Linux and
 3.12 on Windows/macOS. That matrix does not establish support for every newer
 interpreter, Office renderer or font environment.
