@@ -75,6 +75,82 @@ def test_text_volume_collapse_is_reported(tmp_docx, tmp_path, base_docx):
     assert "% of content lost" in fid003[0].message
 
 
+# ---------------------------------- text volume and tracked deletions
+REV = 'w:author="Editor" w:date="2026-09-27T00:00:00Z"'
+SHORT = '<w:p><w:r><w:t xml:space="preserve">This is an initial document.</w:t></w:r></w:p>'
+
+
+def with_body(tmp_docx, path, paragraphs: str):
+    """The reference package with its main body replaced by `paragraphs`."""
+    doc = read_part(tmp_docx, DOC)
+    body = doc.split("<w:body>")[0] + f"<w:body>{paragraphs}</w:body></w:document>"
+    return repack(tmp_docx, path, {DOC: body.encode()})
+
+
+def volume(findings):
+    return [f for f in findings if f.code == "FID003"]
+
+
+def test_tracked_replacement_that_shortens_short_text_is_not_a_loss(tmp_docx, tmp_path):
+    """adeu's 01 scenario: 28 -> 26 visible characters, the old words kept as w:delText."""
+    source = with_body(tmp_docx, tmp_path / "source.docx", SHORT)
+    edited = with_body(
+        tmp_docx, tmp_path / "tracked.docx",
+        '<w:p><w:r><w:t xml:space="preserve">This is an </w:t></w:r>'
+        f'<w:del w:id="1" {REV}><w:r><w:delText>initial document</w:delText></w:r></w:del>'
+        f'<w:ins w:id="2" {REV}><w:r><w:t>final contract</w:t></w:r></w:ins>'
+        "<w:r><w:t>.</w:t></w:r></w:p>",
+    )
+    assert volume(compare(source, edited)) == []
+
+
+def test_untracked_replacement_that_shortens_short_text_is_still_reported(tmp_docx, tmp_path):
+    source = with_body(tmp_docx, tmp_path / "source.docx", SHORT)
+    edited = with_body(
+        tmp_docx, tmp_path / "plain.docx",
+        '<w:p><w:r><w:t xml:space="preserve">This is an final contract.</w:t></w:r></w:p>',
+    )
+    [f] = volume(compare(source, edited))
+    assert f.severity is Severity.ERROR
+    assert f.message == "text volume fell from 28 to 26 characters (7% of content lost)"
+    assert f.extra == {"before": 28, "after": 26}
+
+
+def test_new_tracked_deletions_cover_only_their_own_length(tmp_docx, tmp_path):
+    """Tracking eight characters does not excuse dropping a 65-character paragraph."""
+    fee = "<w:p><w:r><w:t>The annual fee is EUR 40,000 and is payable quarterly in advance.</w:t></w:r></w:p>"
+    source = with_body(tmp_docx, tmp_path / "source.docx", SHORT + fee)
+    edited = with_body(
+        tmp_docx, tmp_path / "mixed.docx",
+        '<w:p><w:r><w:t xml:space="preserve">This is an </w:t></w:r>'
+        f'<w:del w:id="1" {REV}><w:r><w:delText xml:space="preserve">initial </w:delText></w:r></w:del>'
+        "<w:r><w:t>document.</w:t></w:r></w:p><w:p/>",
+    )
+    [f] = volume(compare(source, edited))
+    assert f.message == (
+        "text volume fell from 93 to 20 characters (70% of content lost, "
+        "after counting 8 characters kept as new tracked deletions)"
+    )
+    assert f.extra == {"before": 93, "after": 20, "tracked_deleted": 8}
+
+
+def test_pending_source_deletions_do_not_hide_an_untracked_loss(tmp_docx, tmp_path):
+    """Only deletion text added by the edit counts, not deletions already in the source."""
+    pending = f'<w:del w:id="1" {REV}><w:r><w:delText xml:space="preserve">earlier draft </w:delText></w:r></w:del>'
+    source = with_body(
+        tmp_docx, tmp_path / "source.docx",
+        f'<w:p><w:r><w:t xml:space="preserve">This is an </w:t></w:r>{pending}'
+        "<w:r><w:t>initial document.</w:t></w:r></w:p>",
+    )
+    edited = with_body(
+        tmp_docx, tmp_path / "dropped.docx",
+        f'<w:p><w:r><w:t xml:space="preserve">This is an </w:t></w:r>{pending}'
+        "<w:r><w:t>document.</w:t></w:r></w:p>",
+    )
+    [f] = volume(compare(source, edited))
+    assert f.extra == {"before": 28, "after": 20}
+
+
 def test_construct_absent_from_the_source_is_not_a_loss(tmp_path, tmp_docx):
     """No endnotes in the source means no complaint about endnotes."""
     findings = compare(tmp_docx, tmp_docx)

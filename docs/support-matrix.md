@@ -12,7 +12,8 @@ corrects false positives seen on [public real-world documents](real-world-corpor
 The unreleased checkout reports undefined `w:next` and `w:link` style references
 as `STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
 Its `XML001` message names the parser limit for a part nested deeper than 256
-elements; such a part is still not checked.
+elements; such a part is still not checked. Its `FID003` counts text kept as new
+tracked deletions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source).
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -147,6 +148,12 @@ threshold when the requested comparison could not run.
 | Style, numbering, settings and relationship fidelity | **Not checked** | Definitions and package graphs are checked for some forms of self-consistency, but they are not compared source-to-output for semantic equivalence. |
 | Media and embedded-part fidelity | **Not checked** | The comparison does not prove that images, charts, embedded files or custom XML retained the same bytes or meaning. |
 | Intended edits and semantic correctness | **Not checked** | A structurally intact file can still contain the wrong amount, name, clause, slide text or other business content. |
+
+In the unreleased checkout, `FID003` adds the edit's new tracked-deletion text
+(`w:delText` beyond the source's amount) to the edited length, so a tracked
+replacement that shortens the main text is not reported as lost. Deletions
+already pending in the source are not counted and cannot hide an untracked loss;
+the message states how many characters were counted this way.
 
 ## PPTX layout
 
