@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.4.5 — release candidate
+## 0.4.5 — 2026-09-28
 
-[Upgrade notes and validation](docs/releases/0.4.5.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.4.5.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - CI also tests Python 3.14 on Linux, and the package lists it in its
   classifiers. The requirement stays Python 3.9+; dependencies are unchanged.
