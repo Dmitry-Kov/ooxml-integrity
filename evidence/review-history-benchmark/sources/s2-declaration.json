@@ -1,0 +1,30 @@
+{
+  "declared_at": "2026-09-29T09:19:48+00:00",
+  "purpose": "S2 review-history source: Word for Mac writes the review record by following the checklist; nothing else edits the document.",
+  "word_for_mac": "16.113.2 (26092012), observed in the app bundle before the run",
+  "base": {
+    "path": "evidence/review-history-benchmark/sources/review-base.docx",
+    "sha256": "949896cd6ed764e80c8be4c316917a80d1177a5faf77a407234b36349f5621d8"
+  },
+  "checklist": {
+    "path": "evidence/review-history-benchmark/sources/s2-word-checklist.md",
+    "sha256": "c15608b6a7eee93973746554392d8c73ec595ffc2a58f50daf68bff8370cbb47"
+  },
+  "audit_script": {
+    "path": "research/review_history_sources.py",
+    "sha256": "d9ead53ca5c01fed711ce8678b7ec9e246f92541fce38c6f77d31ace610a23df"
+  },
+  "requirements": {
+    "authors": "Every revision, comment and person names Reviewer A or Reviewer B, and both appear.",
+    "comment-thread": "A comment by Reviewer A anchored on 'Completion Date' has a reply by Reviewer B, and the thread is not resolved.",
+    "comment-resolved": "A comment by Reviewer A anchored on 'EUR 12,000' in a table cell is resolved.",
+    "replacement": "Reviewer A deletes 'thirty' and inserts 'forty-five' in the body.",
+    "nested-deletion": "Reviewer B deletes 'any' inside Reviewer A's insertion of 'The Client may withhold any disputed amount.'",
+    "move": "Reviewer A moves 'Comply with the Client's information security policy.' (moveFrom and moveTo).",
+    "run-format-change": "Reviewer B's run formatting change on 'gross negligence' makes it bold.",
+    "paragraph-format-change": "Reviewer B's paragraph formatting change on the paragraph containing 'sixty days'.",
+    "header-revision": "Reviewer A changes 'Draft 3' to 'Draft 4' in the header.",
+    "endnote-revision": "Reviewer B changes '1 September' to '15 September' in the endnote.",
+    "privacy": "No e-mail address, presence identity, sensitivity label or company name, and lastModifiedBy is a declared reviewer."
+  }
+}
