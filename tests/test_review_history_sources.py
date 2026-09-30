@@ -200,3 +200,64 @@ def test_declaration_pins_the_committed_base_and_checklist():
         path = ROOT / declared[key]["path"]
         assert hashlib.sha256(path.read_bytes()).hexdigest() == declared[key]["sha256"], key
     assert declared["requirements"] == s2.REQUIREMENTS
+
+
+# --- the Word for Mac capture ------------------------------------------------
+
+CAPTURE = json.loads((s2.SOURCES / "s2-capture.json").read_text())
+REVIEW_A = s2.SOURCES / "review-a.docx"
+WORD_REVIEW = s2.SOURCES / "word-review.docx"
+STORIES = ("word/document.xml", "word/header1.xml", "word/footer1.xml",
+           "word/footnotes.xml", "word/endnotes.xml")
+
+
+def _view(path, part, view):
+    """Nonempty paragraph texts with every revision rejected or accepted."""
+    root = s2.etree.fromstring(zipfile.ZipFile(path).read(part), s2.PARSER)
+    hidden = ({s2.W + "ins", s2.W + "moveTo"} if view == "reject"
+              else {s2.W + "del", s2.W + "moveFrom"})
+    texts = []
+    for p in root.iter(s2.W + "p"):
+        text = "".join(t.text or "" for t in p.iter(s2.W + "t", s2.W + "delText")
+                       if not hidden & {a.tag for a in t.iterancestors()})
+        if text.strip():
+            texts.append(text)
+    return texts
+
+
+def test_capture_pins_the_saved_packages():
+    assert CAPTURE["input"]["sha256"] == hashlib.sha256(BASE.read_bytes()).hexdigest()
+    for output in CAPTURE["outputs"]:
+        path = ROOT / output["path"]
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == output["sha256"], path
+    for record in CAPTURE["operator_records"]:
+        path = ROOT / record["path"]
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == record["sha256"], path
+
+
+def test_word_review_meets_every_declared_requirement():
+    assert _failed(WORD_REVIEW) == []
+    assert _failed(REVIEW_A) == CAPTURE["audit"]["failed"]["review-a.docx"] == [
+        "authors", "comment-resolved", "comment-thread", "endnote-revision",
+        "nested-deletion", "paragraph-format-change", "run-format-change"]
+
+
+@pytest.mark.parametrize("output", [REVIEW_A, WORD_REVIEW], ids=lambda p: p.name)
+@pytest.mark.parametrize("part", STORIES)
+def test_rejecting_every_revision_restores_the_base(output, part):
+    assert _view(output, part, "reject") == _view(BASE, part, "accept")
+
+
+def test_accepting_every_revision_gives_only_the_checklist_edits():
+    base = _view(BASE, "word/document.xml", "accept")
+    moved = base.index(MOVED)
+    expected = base[:moved] + base[moved + 1:]
+    expected.insert(expected.index(FIRST), MOVED)
+    fees = expected.index("Fees are payable within thirty days of receipt of a valid invoice.")
+    expected[fees] = ("Fees are payable within forty-five days of receipt of a valid invoice. "
+                      "The Client may withhold disputed amount.")
+    assert _view(WORD_REVIEW, "word/document.xml", "accept") == expected
+    assert _view(WORD_REVIEW, "word/header1.xml", "accept") == [
+        "Consulting Services Agreement - Draft 4"]
+    assert _view(WORD_REVIEW, "word/endnotes.xml", "accept") == [
+        " Company details are taken from the public register on 15 September 2026."]
