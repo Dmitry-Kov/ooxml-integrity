@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- `FID004`-`FID007` also accept a tracked edit to a comment, note or
+  header/footer that already had pending revisions. In the review-history
+  benchmark a correct tracked edit to S2's header, next to Reviewer A's pending
+  change of the draft number, was reported as a lost story (`FID007`). The item
+  now matches when the edited item, with every revision the source item did not
+  have rejected, holds the same characters under the same pending revisions
+  (kind, author and date). Accepting, rejecting or re-dating a pending revision
+  still changes that record and is reported as before. Affected pairs can change
+  exit 1 to 0.
+
 ## 0.4.6 — 2026-09-30
 
 [Upgrade notes and verified publication](docs/releases/0.4.6.md). Published

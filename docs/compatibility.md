@@ -56,6 +56,12 @@ revision and it had no pending insertion, deletion or move in the source. Such
 pairs can change exit 1 to 0; untracked edits are reported as before. Codes,
 severities, messages and baseline v2 identities are unchanged.
 
+The unreleased correction extends this to items that already had pending
+revisions, when every pending revision keeps its characters, kind, author and
+date. Such pairs can change exit 1 to 0; accepting, rejecting or re-dating a
+pending revision is reported as before. Codes, severities, messages and
+baseline v2 identities are unchanged.
+
 The 0.4.4 [real-world corrections](real-world-corpora.md) remove false
 errors and warnings: separator footnotes are recognised by `w:type`
 (`FTN002`), `numId="0"` is not a reference (`NUM001`/`NUM002`), list-style

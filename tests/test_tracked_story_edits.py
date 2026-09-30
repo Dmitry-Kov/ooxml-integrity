@@ -118,3 +118,64 @@ def test_each_edited_note_accounts_for_one_source_note(base_docx, tmp_path):
 def test_word_for_mac_review_record_has_no_story_losses(source, edited):
     """S2: Word's own tracked header and endnote edits (see its README)."""
     assert _losses(S2 / source, S2 / edited) == []
+
+
+# Items that already have pending revisions: a tracked edit on top keeps them.
+
+S2_HEADER = "word/header1.xml"
+S2_HEADER_RUN = '<w:r><w:t xml:space="preserve">Consulting Services Agreement - Draft </w:t></w:r>'
+S2_PENDING_INS = ('<w:ins w:id="17" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" '
+                  'w16du:dateUtc="2026-09-29T09:26:00Z"><w:r w:rsidR="001B7773" w:rsidRPr="001B7773">'
+                  '<w:t>4</w:t></w:r></w:ins>')
+TRACKED_S2_HEADER = (_del(901, "Consulting") + _ins(902, "Consultancy")
+                     + _run(" Services Agreement - Draft "))
+
+
+def _header(tmp_path, name, *edits):
+    path = S2 / "word-review.docx"
+    for index, (old, new) in enumerate(edits):
+        path = _edit(path, tmp_path, f"{name}-{index}", S2_HEADER, old, new)
+    return path
+
+
+def test_a_tracked_edit_beside_a_pending_header_revision_is_kept(tmp_path):
+    output = _header(tmp_path, "tracked", (S2_HEADER_RUN, TRACKED_S2_HEADER))
+    assert _losses(S2 / "word-review.docx", output) == []
+
+
+def test_accepting_the_pending_header_revision_is_still_reported(tmp_path):
+    output = _header(tmp_path, "accepted", (S2_HEADER_RUN, TRACKED_S2_HEADER),
+                     (S2_PENDING_INS, '<w:r><w:t>4</w:t></w:r>'))
+    assert ("FID007", "ERROR") in _losses(S2 / "word-review.docx", output)
+
+
+def test_redating_the_pending_header_revision_is_still_reported(tmp_path):
+    output = _header(tmp_path, "redated", (S2_HEADER_RUN, TRACKED_S2_HEADER),
+                     (S2_PENDING_INS, S2_PENDING_INS.replace('w:date="2026-09-29T14:26:00Z"',
+                                                             'w:date="2026-10-01T00:00:00Z"')))
+    assert ("FID007", "ERROR") in _losses(S2 / "word-review.docx", output)
+
+
+def test_a_tracked_edit_in_a_note_with_a_pending_insertion_is_kept(base_docx, tmp_path):
+    pending = FOOTNOTE_RUN + _ins(801, " Excludes pilots.").replace(
+        "Benchmark Editor", "A. Counsel")
+    source = _edit(base_docx, tmp_path, "pending", FOOTNOTES, FOOTNOTE_RUN, pending)
+    edited = (_run(" Measured across the reference corpus, ") + _del(901, "Q2") + _ins(902, "Q3")
+              + _run(" 2026.") + pending[len(FOOTNOTE_RUN):])
+    output = _edit(source, tmp_path, "edited", FOOTNOTES, pending, edited)
+    assert _losses(source, output) == []
+    rejected = _edit(source, tmp_path, "edited-rejected", FOOTNOTES, pending,
+                     edited[:-len(pending[len(FOOTNOTE_RUN):])])
+    assert _losses(source, rejected) == [("FID005", "ERROR")]
+
+
+def test_a_tracked_edit_in_the_word_endnote_with_a_pending_revision_is_kept(tmp_path):
+    source = S2 / "word-review.docx"
+    endnotes = read_part(source, "word/endnotes.xml")
+    old = '<w:t xml:space="preserve"> Company details are taken from the public register on </w:t>'
+    assert endnotes.count(old) == 1
+    new = ('<w:t xml:space="preserve"> Company details are taken from the </w:t></w:r>'
+           + _del(901, "public") + _ins(902, "official")
+           + '<w:r><w:t xml:space="preserve"> register on </w:t>')
+    output = repack(source, tmp_path / "endnote.docx", {"word/endnotes.xml": endnotes.replace(old, new).encode()})
+    assert _losses(source, output) == []
