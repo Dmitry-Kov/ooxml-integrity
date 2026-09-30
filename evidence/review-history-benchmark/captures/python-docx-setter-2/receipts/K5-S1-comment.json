@@ -1,0 +1,9 @@
+{
+  "task": "K5-S1-comment",
+  "status": "ok",
+  "note": "new comment anchored on the whole run holding the phrase; reply unsupported",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K5-S1-comment.docx",
+  "output_sha256": "8ac754300a2db27a1ce48d68e1ac52f53c0869b13b444f99c9d67bbe5d28b2c2"
+}

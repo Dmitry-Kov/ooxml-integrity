@@ -106,7 +106,12 @@ def attribution(source: Path, output: Path, call: dict, mode: str, editor: str) 
     before = _find(source, call["story"], call["paragraph_current"])
     after = _find(output, call["story"], call["expected"]["current"], call["expected"]["original"])
     if after is None:
-        return ["target paragraph not found with the expected texts"]
+        unchanged = _find(output, call["story"], call["paragraph_current"], call["paragraph_original"])
+        if unchanged is None:
+            return None  # edited, but not as declared: judged on the oracle's facts instead
+        same = _characters(unchanged, editor) == _characters(before, editor) and (
+            _marks(unchanged) == _marks(before))
+        return [] if same else ["the untouched target paragraph changed its revisions"]
     a, b = _characters(before, editor), _characters(after, editor)
     visible = [i for i, (_, state) in enumerate(a)
                if not any(s[0] in ("del", "moveFrom") for s in state)]
@@ -173,12 +178,14 @@ def preservation(task: dict, source: Path, output: Path, editor: dict) -> dict:
         if o0 != o1:
             allow_change("paragraph", (story, o0), (story, o1))
         allow_change("paragraph_current", (story, o0, c0), (story, o1, c1))
-        # Revisions in the target paragraph are judged character by character.
-        in_target = lambda f: f[0] == story and f[6] in contexts  # noqa: E731
-        drop(lost, "revision", in_target)
-        drop(added, "revision", lambda f: in_target(f) and (task["mode"] == "tracked" or f[2] != name))
-        drop(changed, "revision", lambda pair: in_target(pair[0]) and in_target(pair[1]))
+        # Revisions in the target paragraph are judged character by character,
+        # unless the paragraph was edited but not as declared.
         extra["attribution"] = attribution(source, output, call, task["mode"], name)
+        if extra["attribution"] is not None:
+            in_target = lambda f: f[0] == story and f[6] in contexts  # noqa: E731
+            drop(lost, "revision", in_target)
+            drop(added, "revision", lambda f: in_target(f) and (task["mode"] == "tracked" or f[2] != name))
+            drop(changed, "revision", lambda pair: in_target(pair[0]) and in_target(pair[1]))
         # Other facts that record the paragraph's rejected text as their context.
         for category, at in (("note_reference", 3), ("list_item", 1)):
             for fact in [f for f in lost.get(category, []) if f[at] == o0]:
@@ -429,9 +436,24 @@ def freeze() -> dict:
     return record
 
 
-def verify() -> list[str]:
-    """Drift between the frozen protocol and the files it pins."""
+AMENDMENTS = EVIDENCE / "amendments"
+
+
+def pinned() -> dict:
+    """protocol.json with every amendment's new hashes applied, in order."""
     record = json.loads(PROTOCOL.read_text(encoding="utf-8"))
+    for path in sorted(AMENDMENTS.glob("*.json")):
+        amendment = json.loads(path.read_text(encoding="utf-8"))
+        for group in ("scripts", "sources"):
+            for name, change in amendment.get(group, {}).items():
+                assert record[group][name] == change["before"], (path.name, name)
+                record[group][name] = change["after"]
+    return record
+
+
+def verify() -> list[str]:
+    """Drift between the frozen protocol (with amendments) and the files it pins."""
+    record = pinned()
     problems = []
     for key in ("protocol", "tasks"):
         if _sha(ROOT / record[key]["path"]) != record[key]["sha256"]:

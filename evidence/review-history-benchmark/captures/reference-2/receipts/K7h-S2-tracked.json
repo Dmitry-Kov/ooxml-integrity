@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-tracked",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K7h-S2-tracked.docx",
+  "output_sha256": "6f7f54d0ff07a79aa5698ff8cca6e94c7ad175feefea46b301d9e8b709e2602b"
+}

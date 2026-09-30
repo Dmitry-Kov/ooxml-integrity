@@ -1,0 +1,7 @@
+{
+  "task": "K7n-S2-plain",
+  "status": "unsupported",
+  "note": "python-docx has no footnote or endnote API",
+  "seconds": 0.001,
+  "finished_at": "2026-09-30T09:40:27+00:00"
+}

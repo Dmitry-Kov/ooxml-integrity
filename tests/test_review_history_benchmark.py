@@ -75,7 +75,7 @@ def test_a_paragraph_text_setter_inside_other_revisions_destroys_them(tmp_path):
     # python-docx does not see text inside w:ins/w:del, so the edit cannot even
     # find its target; rewriting the paragraph still wipes every revision in it.
     output = _setter(tmp_path, "K4-S2-plain", "disputed amount", "disputed sum")
-    assert _summary("K4-S2-plain", output) == (False, ["attribution", "paragraph", "paragraph_current"])
+    assert _summary("K4-S2-plain", output) == (False, ["paragraph", "paragraph_current", "revision"])
 
 
 def test_an_untracked_edit_elsewhere_breaks_preservation(tmp_path):
@@ -195,3 +195,55 @@ def test_setter_rewrites_the_paragraph_and_runs_edit_in_place(tmp_path, adapter,
     paragraph = docx.Document(str(output)).paragraphs[0]
     assert paragraph.text == text
     assert any(run.bold for run in paragraph.runs) is bold
+
+
+def test_an_unchanged_output_is_incomplete_but_preserved(tmp_path):
+    # python-docx cannot see text inside w:ins and saves the paragraph untouched.
+    output = tmp_path / "unchanged.docx"
+    output.write_bytes((ROOT / TASK["K4-S2-plain"]["source_path"]).read_bytes())
+    assert _summary("K4-S2-plain", output) == (False, [])
+
+
+def test_a_wrong_edit_is_judged_on_the_facts(tmp_path):
+    docx = pytest.importorskip("docx")
+    document = docx.Document(str(ROOT / TASK["K7h-S2-plain"]["source_path"]))
+    paragraph = document.sections[0].header.paragraphs[0]
+    paragraph.text = paragraph.text.replace("Consulting", "Consultancy")
+    output = tmp_path / "setter.docx"
+    document.save(str(output))
+    # The setter never saw the pending "3"/"4" revision and wrote over it.
+    assert _summary("K7h-S2-plain", output) == (False, [
+        "paragraph", "paragraph_current", "revision", "story", "story_current"])
+
+
+# --- the frozen wave-1 captures ---------------------------------------------------
+
+EVALUATION = json.loads(bench.EVALUATION.read_text(encoding="utf-8"))
+
+
+def test_protocol_sources_scripts_and_captures_match_their_pins():
+    assert bench.verify() == []
+
+
+@pytest.mark.parametrize("recorded", EVALUATION["results"],
+                         ids=lambda r: f"{r['adapter']}-{r['repeat']}-{r['task']}")
+def test_frozen_captures_reevaluate_identically(recorded):
+    """Status, completion and preservation; the checker axis stays a receipt."""
+    folder = bench.CAPTURES / f"{recorded['adapter']}-{recorded['repeat']}"
+    output = folder / f"{recorded['task']}.docx" if recorded["status"] == "ok" else None
+    again = json.loads(json.dumps(oracle._jsonable(
+        bench.evaluate(TASK[recorded["task"]], output, recorded["status"], EDITOR))))
+    keep = lambda r: {k: v for k, v in r.items() if k not in ("checker", "detection", "adapter", "repeat")}  # noqa: E731
+    assert keep(again) == keep(recorded)
+
+
+def test_repeats_agree_except_python_docx_comment_timestamps():
+    differ = {}
+    for adapter in ("reference", "python-docx-setter", "python-docx-runs"):
+        for one in sorted((bench.CAPTURES / f"{adapter}-1").glob("*.docx")):
+            summary = oracle.summary(oracle.compare(one, bench.CAPTURES / f"{adapter}-2" / one.name))
+            if summary:
+                differ[(adapter, one.stem)] = summary
+    # add_comment stamps the current time; the two repeats can fall in different seconds.
+    assert all(key[1].startswith("K5-") and key[0].startswith("python-docx") and
+               value == {"comment_date": (0, 0, 1)} for key, value in differ.items()), differ

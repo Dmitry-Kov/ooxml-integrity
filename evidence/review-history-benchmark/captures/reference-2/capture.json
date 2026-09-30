@@ -1,0 +1,278 @@
+{
+  "adapter": "reference",
+  "repeat": 2,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K0-S1-save.docx",
+      "output_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K0-S2-save.docx",
+      "output_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S1-tracked.docx",
+      "output_sha256": "b2bbca23a90c760302d337d7769d6eb0bd14af7f6140caaa5d9dbb84943be350"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S1-plain.docx",
+      "output_sha256": "945e52df79d4de04e0c80739585e200d0db2664d9577a3faebcc58746997cdd8"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S2-tracked.docx",
+      "output_sha256": "d737afcfe35435324a27b52b3de2fd7270128ed494dc9f8b55b771630abcd4da"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "7566083c3cac44d6cef541a1404bd67a24ae4ca68789d9b1c04824f1abe09e86"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S1-tracked.docx",
+      "output_sha256": "a9151ec97316fdd84c385b2e6ab56d7bde2b91ca46776e99eab304901058a661"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S1-plain.docx",
+      "output_sha256": "53f34f5a8b361d625b33773c3a39b835fbd96d5f14b6ebe8d301b6625a41ba38"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S2-tracked.docx",
+      "output_sha256": "bf75052e8433dda545413896c4b9e027ba40d70fbf0e4dc509544a4e5b9801e4"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S2-plain.docx",
+      "output_sha256": "635782a650c6321a156484fa0846da84106cf222f67f3bd4045bf7bbcc1adda7"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S1-tracked.docx",
+      "output_sha256": "fcc1319003f1d10b80342716ac9f4698392178e743889629a7c68cd97a117012"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S1-plain.docx",
+      "output_sha256": "f681f222634449ee6d341035bb428029fbd707062be4ec6326d346006fc44116"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S2-tracked.docx",
+      "output_sha256": "6523d6017b532918486611b4c02bf0ce39de5b30733c2d1d980f0ea5359f5fc7"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "0c2402a60ee7b7d11c3956c8ace3400506574fb64ac35f83b9bacec14d67bb06"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S1-tracked.docx",
+      "output_sha256": "0b94e52fe52f72442541cf276146f7fef8861f06738a18dbeae8fbd43e2b02ba"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S1-plain.docx",
+      "output_sha256": "789ed48aa331ef030335ff19e58eacef026a6df7550ef6722774aedcd4756685"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S2-tracked.docx",
+      "output_sha256": "68e44079175a87e8df048438a11be2981da1b19f55c3790fd6897c09b38ab1b4"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "1bed6d57c7149200b1674b2ad3c1817262c8f73c92ec8473512cc7cf460e05bf"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K5-S1-comment.docx",
+      "output_sha256": "cd9eb8acaf74940a7740799d3444f9c8a15e28b399bd38b2b770d494d39a8eb4"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "4f51e6bedbf246e7a056e4380371335aaf88c738abe659e2f2e8b5aa08d0eb8e"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K6-S1-resolve.docx",
+      "output_sha256": "e74ccdad24795cfe5d60efde6adc92c9461c77b884d0a56da1696ccb8b2c4daf"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K6-S2-resolve.docx",
+      "output_sha256": "2096a297e7128bd8ca16fff6cbff456e8ef0aef37740b481d38955b60771b6be"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S1-tracked.docx",
+      "output_sha256": "7182712f11d3e53665412a4fecda451c8dd7c72d0ccccf97829e86d33fde618d"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S1-plain.docx",
+      "output_sha256": "6f3dc25544d08cc23f78c164d0d597f13c6a0b1958f76b4792ff26b01a266e55"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S2-tracked.docx",
+      "output_sha256": "6f7f54d0ff07a79aa5698ff8cca6e94c7ad175feefea46b301d9e8b709e2602b"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "700a66722bd22086ff638181071a9049bf5b615e73099687ad5cb887b5323dae"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7n-S1-tracked.docx",
+      "output_sha256": "e80ebf8a1b122ea92a86830bd57799dfea6424dd0642498b8e49d5add9f4baf4"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7n-S1-plain.docx",
+      "output_sha256": "47f4a7b1314abb2cb6ec433da2f422433b41ea8072709ca32816524d86e68119"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7n-S2-tracked.docx",
+      "output_sha256": "b79a72bed9d7b56cb0f77206cdaa1f467ed39564ce4bc271652acfc759118cfc"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "ok",
+      "note": "reference control",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7n-S2-plain.docx",
+      "output_sha256": "0001607be3e752581e681ba3fed1b5cf69caea368b9ba782414a4f51b0d4cce6"
+    }
+  ]
+}

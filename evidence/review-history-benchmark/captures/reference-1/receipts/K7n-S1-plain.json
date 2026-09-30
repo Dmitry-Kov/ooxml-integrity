@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-plain",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.001,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K7n-S1-plain.docx",
+  "output_sha256": "47f4a7b1314abb2cb6ec433da2f422433b41ea8072709ca32816524d86e68119"
+}

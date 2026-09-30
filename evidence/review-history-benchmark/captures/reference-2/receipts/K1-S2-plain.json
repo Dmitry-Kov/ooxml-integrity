@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-plain",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K1-S2-plain.docx",
+  "output_sha256": "7566083c3cac44d6cef541a1404bd67a24ae4ca68789d9b1c04824f1abe09e86"
+}
