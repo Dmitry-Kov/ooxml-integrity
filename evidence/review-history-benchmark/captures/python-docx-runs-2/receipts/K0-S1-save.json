@@ -1,0 +1,9 @@
+{
+  "task": "K0-S1-save",
+  "status": "ok",
+  "note": "",
+  "seconds": 0.015,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K0-S1-save.docx",
+  "output_sha256": "1b32cd18d0bbe52030ecee8ce5ad37de989696ff44ffa8b4848a5416a0fa321c"
+}

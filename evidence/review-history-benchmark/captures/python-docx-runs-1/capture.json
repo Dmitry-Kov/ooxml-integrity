@@ -1,0 +1,246 @@
+{
+  "adapter": "python-docx-runs",
+  "repeat": 1,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "ok",
+      "note": "",
+      "seconds": 0.015,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K0-S1-save.docx",
+      "output_sha256": "1b32cd18d0bbe52030ecee8ce5ad37de989696ff44ffa8b4848a5416a0fa321c"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "ok",
+      "note": "",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K0-S2-save.docx",
+      "output_sha256": "987d131b1463dec4ec5101f95fb2a987a557009596ab77e55aac97e46ccb1f48"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S1-plain.docx",
+      "output_sha256": "d74484d48070ed9f5067558cf5e33b41e321a963110593257a76df8730b77c8a"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "802ecd344c648c686ac5a0f8abcbdc349dfaa450a93140286f97403596d37039"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S1-plain.docx",
+      "output_sha256": "ebdfa412324cee9235fea15193cfad6b7b64ab19c47b45fc1c24853ae3f04c74"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K2-S2-plain.docx",
+      "output_sha256": "ce53d91e36e1e22918afed2439a90cde1bca28012d98fc1fb1b523dfdc0c2ddc"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S1-plain.docx",
+      "output_sha256": "e044de569e039e0593a5368f14879f9ce36b82af87de1b71604e20b8f329436d"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "598a11762b488f0ed5f9c1cb53353f291b490f0e38330a65ec90440836d2ef18"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "ok",
+      "note": "0 element(s) contained the old text",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S1-plain.docx",
+      "output_sha256": "1b32cd18d0bbe52030ecee8ce5ad37de989696ff44ffa8b4848a5416a0fa321c"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "0 element(s) contained the old text",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "987d131b1463dec4ec5101f95fb2a987a557009596ab77e55aac97e46ccb1f48"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "ok",
+      "note": "new comment anchored on the whole run holding the phrase; reply unsupported",
+      "seconds": 0.002,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K5-S1-comment.docx",
+      "output_sha256": "8ac754300a2db27a1ce48d68e1ac52f53c0869b13b444f99c9d67bbe5d28b2c2"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "new comment anchored on the whole run holding the phrase; reply unsupported",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "ccee6db01f33d6ce57f7cfd8ba23c18030a501ba432cc811e163287855e15b93"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S1-plain.docx",
+      "output_sha256": "7eec24f03606aee01bd7f932098201108abe2129a2f78cf1d4f9caafe59b9a1d"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "1 element(s) contained the old text",
+      "seconds": 0.003,
+      "finished_at": "2026-09-30T09:40:27+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "d3f93b22478de4933d9860a6f8873d162c1fd853238cea2e273c70ee36714db4"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "unsupported",
+      "note": "python-docx has no footnote or endnote API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "unsupported",
+      "note": "python-docx has no tracked-change API",
+      "seconds": 0.0,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "unsupported",
+      "note": "python-docx has no footnote or endnote API",
+      "seconds": 0.001,
+      "finished_at": "2026-09-30T09:40:27+00:00"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-plain",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K7h-S2-plain.docx",
+  "output_sha256": "700a66722bd22086ff638181071a9049bf5b615e73099687ad5cb887b5323dae"
+}

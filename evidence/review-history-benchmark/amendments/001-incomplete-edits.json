@@ -1,0 +1,21 @@
+{
+  "amended_at": "2026-09-30T09:43:02+00:00",
+  "number": 1,
+  "reason": "The first evaluation scored python-docx K4 outputs as preservation failures. python-docx does not see text inside w:ins, so it saved the target paragraph untouched; the evaluator reported 'target paragraph not found with the expected texts' as a lost attribution, confusing an incomplete task with damage.",
+  "rule": "Inside the target paragraph: when the declared edit is present, characters are judged as declared in PROTOCOL.md; when the paragraph is unchanged, it must equal the source character by character; when it was edited but not as declared, its revisions are judged on the oracle's revision facts like every other paragraph.",
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "adapters",
+    "captures",
+    "checker release"
+  ],
+  "found_by": "evaluate-all on the captures of 2026-09-30, before any result was reported",
+  "scripts": {
+    "research/review_history_benchmark.py": {
+      "before": "84606e188a90d959b79ec0d0ae6ca5421e1b2c9d15702100e8e75760a89fd276",
+      "after": "80755c7a9748a5919410c900e56e759a25e30f3b788240f38d7d9cd01fc07ed2"
+    }
+  }
+}

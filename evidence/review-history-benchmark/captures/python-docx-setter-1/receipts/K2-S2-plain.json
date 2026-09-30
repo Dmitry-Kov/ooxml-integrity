@@ -1,0 +1,9 @@
+{
+  "task": "K2-S2-plain",
+  "status": "ok",
+  "note": "1 element(s) contained the old text",
+  "seconds": 0.004,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K2-S2-plain.docx",
+  "output_sha256": "2c347b5499b014705557c35ae1496c7413ed7943e913b3afa27118b814faa8c9"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K6-S2-resolve",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K6-S2-resolve.docx",
+  "output_sha256": "2096a297e7128bd8ca16fff6cbff456e8ef0aef37740b481d38955b60771b6be"
+}
