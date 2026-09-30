@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.6 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.6.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `FID004`-`FID007` no longer report a comment, footnote, endnote or
   header/footer as lost when every change to it is a tracked revision. Word for

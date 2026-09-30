@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.4
+    python research/release_smoke.py --version 0.4.6
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -193,6 +193,27 @@ def main():
         assert compared(short) == [] and compared(tracked) == []
         assert compared(untracked, code=1) == [
             ("FID003", "text volume fell from 28 to 26 characters (7% of content lost)")]
+
+        # 0.4.6: a tracked edit to note or header text is not a loss; untracked is.
+        s2 = root / "evidence/review-history-benchmark/sources"
+        report = json.loads(cli("check", s2 / "word-review.docx", "--against",
+                                s2 / "review-base.docx", "--no-config", "--json").stdout)
+        assert {f["code"] for f in report["files"][0]["findings"]} == {"FID002"}
+        header_run = b"<w:r><w:t>Reference Agreement - Draft 7</w:t></w:r>"
+        assert base["word/header1.xml"].count(header_run) == 1
+        for name, run, code, expected in (
+            ("header-tracked.docx",
+             b'<w:r><w:t xml:space="preserve">Reference Agreement - Draft </w:t></w:r>'
+             + f'<w:del w:id="901" {rev}><w:r><w:delText>7</w:delText></w:r></w:del>'
+               f'<w:ins w:id="902" {rev}><w:r><w:t>8</w:t></w:r></w:ins>'.encode(), 0, []),
+            ("header-untracked.docx", b"<w:r><w:t>Reference Agreement - Draft 8</w:t></w:r>",
+             1, [("FID007", "error")]),
+        ):
+            header = base["word/header1.xml"].replace(header_run, run)
+            path = variant(name, {**base, "word/header1.xml": header})
+            report = json.loads(cli("check", path, "--against", source, "--no-config",
+                                    "--json", code=code).stdout)
+            assert [(f["code"], f["severity"]) for f in report["files"][0]["findings"]] == expected
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -231,6 +252,7 @@ def main():
     print(f"Installed {args.version}: source-byte parity, REV001 mark/content and third-occurrence controls, "
           "renamed main part, unreferenced malformed part, Strict and comment-story controls, "
           "STY002 next/basedOn, XML001 depth limit, FID003 tracked-deletion controls, "
+          "FID006/FID007 tracked note and header edits, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

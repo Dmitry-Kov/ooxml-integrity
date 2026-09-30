@@ -1,14 +1,12 @@
 # Support matrix
 
-This page describes [0.4.5](releases/0.4.5.md), including its changes from `0.4.4`.
+This page describes [0.4.6](releases/0.4.6.md), including its changes from `0.4.5`.
 The browser footer identifies its installed version.
-Version 0.4.5 reports undefined `w:next` and `w:link` style references as
-`STY002` INFO; see [WordprocessingML structures](#wordprocessingml-structures).
-Its `XML001` message names the parser limit for a part nested deeper than 256
-elements; such a part is still not checked. Its `FID003` counts text kept as new
-tracked deletions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source).
-The unreleased checkout also accepts tracked edits in comment, note and
-header/footer text, in the same section.
+Version 0.4.6 accepts tracked edits in comment, note and header/footer text; see
+[DOCX fidelity against a source](#docx-fidelity-against-a-source). Version 0.4.5
+reports undefined `w:next` and `w:link` style references as `STY002` INFO, names
+the parser limit in `XML001` for a part nested deeper than 256 elements, and
+counts text kept as new tracked deletions toward `FID003`.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -134,8 +132,8 @@ threshold when the requested comparison could not run.
 | Main-document construct counts | **Supported** | Compares counts of comment and footnote references, insertions, deletions, content controls, drawings, tables, hyperlinks, paragraph and character style references, numbered-list properties and table-header markers among all descendants of `word/document.xml`. Loss and addition are reported separately. A lower insertion/deletion count is exempt only for positively matched plain inline coalescence; [scope and conservative fallbacks](../evidence/docx-fid001-coalescence/README.md). This does not compare all revision payloads when counts match. |
 | Main-document revision text (0.4.2 FID009) | **Partial** | With equal same-kind wrapper counts, compares nonempty literal text in direct paragraph-level insertions/deletions. IDs, formatting, metadata and wrapper boundaries are not identities. Nested/empty/non-text revisions skip that kind; searches have a fixed work budget. Incidental wording elsewhere can mask loss. [Coverage and explicit limits](../evidence/docx-revision-text/README.md). |
 | Footnote/endnote revision presence (0.4.2 FID010) | **Partial** | In conventional note parts, compares how many notes retain insertion/deletion markup within nonempty, equally populated normalized text groups (`w:t` plus `w:delText`). IDs and within-note fragment counts may change. Empty/changed groups are skipped; partial removal within one note and reassignment across identical note text can be missed. Wrong note-part roots prevent comparison. [Scope and coverage](../evidence/docx-note-revisions/README.md). |
-| Comment, footnote and endnote bodies | **Supported** | Compares normalised body text as a multiset, independent of item ids. Comments follow the main document's typed relationship in each input; renaming the part preserves identity and lost-body locations name the source part. An unresolved comments relationship/target, or comment anchors without that relationship, prevents comparison (`FID000` in CLI). Footnotes/endnotes still use their conventional filenames. Whitespace-only reflow is ignored; losing one of two identical bodies is still detected. |
-| Header/footer story text | **Supported** | Resolves `default`, `first` and `even` header/footer references from every current `w:sectPr` through `word/_rels/document.xml.rels`, including [same-type inheritance from the preceding section](https://learn.microsoft.com/en-us/office/open-xml/word/how-to-replace-the-header-in-a-word-processing-document). Compares normalised descendant `w:t` text as a multiset of effective section slots. Relationship ids and part names may change, and shared parts may be split or merged without a finding. Explicitly referenced empty stories remain distinct because they can suppress an inherited story. Activation through `w:titlePg` and `w:evenAndOddHeaders` is not modelled separately; referenced first/even stories are preserved conservatively even when those display options are off. |
+| Comment, footnote and endnote bodies | **Supported** | Compares normalised body text as a multiset, independent of item ids. Comments follow the main document's typed relationship in each input; renaming the part preserves identity and lost-body locations name the source part. An unresolved comments relationship/target, or comment anchors without that relationship, prevents comparison (`FID000` in CLI). Footnotes/endnotes still use their conventional filenames. Whitespace-only reflow is ignored; losing one of two identical bodies is still detected. A body without pending insertions, deletions or moves also matches its tracked edit (below). |
+| Header/footer story text | **Supported** | Resolves `default`, `first` and `even` header/footer references from every current `w:sectPr` through `word/_rels/document.xml.rels`, including [same-type inheritance from the preceding section](https://learn.microsoft.com/en-us/office/open-xml/word/how-to-replace-the-header-in-a-word-processing-document). Compares normalised descendant `w:t` text as a multiset of effective section slots; a story without pending insertions, deletions or moves also matches its tracked edit (below). Relationship ids and part names may change, and shared parts may be split or merged without a finding. Explicitly referenced empty stories remain distinct because they can suppress an inherited story. Activation through `w:titlePg` and `w:evenAndOddHeaders` is not modelled separately; referenced first/even stories are preserved conservatively even when those display options are off. |
 | Header/footer tracked constructs | **Partial** | Within the same effective story slots, compares counts of the constructs listed for main-document fidelity: comments and footnotes, insertions and deletions, content controls, drawings, tables, hyperlinks, style references, numbering and table-header markers. This preserves supported audit/structure signals but is not a semantic comparison of fields, settings, section geometry or rendered appearance. |
 | Main-document text volume | **Partial** | Reports when concatenated descendant `w:t` text in `word/document.xml`, plus text the edit added to tracked deletions, falls below 95% of the source's `w:t` length. This is a coarse loss detector, not a semantic diff. |
 | Identifier preservation | **Not checked** | Legitimate renumbering is allowed. Except for self-consistency rules such as revision-id collision, fidelity does not require ids, relationship ids or header/footer part names to remain unchanged. |
@@ -150,7 +148,7 @@ replacement that shortens the main text is not reported as lost. Deletions
 already pending in the source are not counted and cannot hide an untracked loss;
 the message states how many characters were counted this way.
 
-In the unreleased checkout, a comment, footnote, endnote or header/footer story
+In 0.4.6, a comment, footnote, endnote or header/footer story
 with no insertion, deletion or move of its own in the source also matches an
 edited item whose text, with every revision rejected (inserted and moved-to text
 left out, `w:delText` kept), is the source text. A tracked edit to it is
