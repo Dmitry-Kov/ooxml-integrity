@@ -1,0 +1,657 @@
+{
+  "status": "declared",
+  "editor": {
+    "author": "Benchmark Editor",
+    "initials": "BE",
+    "date": "2026-10-01T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "id": "K0-S1-save",
+      "task": "K0",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "save",
+      "mode": "save",
+      "prompt": "Open the document and save it without making any change."
+    },
+    {
+      "id": "K0-S2-save",
+      "task": "K0",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "save",
+      "mode": "save",
+      "prompt": "Open the document and save it without making any change."
+    },
+    {
+      "id": "K1-S1-tracked",
+      "task": "K1",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the opening paragraph, inside the range of the comment 'Defined term must match the definitions schedule.', replace 'Effective Date' with 'Commencement Date'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+        "paragraph_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+        "old": "Effective Date",
+        "new": "Commencement Date",
+        "expected": {
+          "current": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+          "original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K1-S1-plain",
+      "task": "K1",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the opening paragraph, inside the range of the comment 'Defined term must match the definitions schedule.', replace 'Effective Date' with 'Commencement Date'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+        "paragraph_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+        "old": "Effective Date",
+        "new": "Commencement Date",
+        "expected": {
+          "current": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+          "original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K1-S2-tracked",
+      "task": "K1",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In clause 1 (Term), inside the range of the comment thread 'Completion Date is not defined.', replace 'Completion Date' with 'Expiry Date'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+        "paragraph_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+        "old": "Completion Date",
+        "new": "Expiry Date",
+        "expected": {
+          "current": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+          "original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K1-S2-plain",
+      "task": "K1",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In clause 1 (Term), inside the range of the comment thread 'Completion Date is not defined.', replace 'Completion Date' with 'Expiry Date'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+        "paragraph_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+        "old": "Completion Date",
+        "new": "Expiry Date",
+        "expected": {
+          "current": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+          "original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K2-S1-tracked",
+      "task": "K2",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the Fee cell of the Discovery row, which carries the comment 'Confirm this figure against the source table before circulation.', replace 'EUR 12,000' with 'EUR 12,500'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "EUR 12,000",
+        "paragraph_original": "EUR 12,000",
+        "old": "EUR 12,000",
+        "new": "EUR 12,500",
+        "expected": {
+          "current": "EUR 12,500",
+          "original": "EUR 12,000"
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K2-S1-plain",
+      "task": "K2",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the Fee cell of the Discovery row, which carries the comment 'Confirm this figure against the source table before circulation.', replace 'EUR 12,000' with 'EUR 12,500'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "EUR 12,000",
+        "paragraph_original": "EUR 12,000",
+        "old": "EUR 12,000",
+        "new": "EUR 12,500",
+        "expected": {
+          "current": "EUR 12,500",
+          "original": "EUR 12,500"
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K2-S2-tracked",
+      "task": "K2",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the Fee cell of the Discovery row, which carries the resolved comment 'Check this against the approved budget.', replace 'EUR 12,000' with 'EUR 12,500'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "EUR 12,000",
+        "paragraph_original": "EUR 12,000",
+        "old": "EUR 12,000",
+        "new": "EUR 12,500",
+        "expected": {
+          "current": "EUR 12,500",
+          "original": "EUR 12,000"
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K2-S2-plain",
+      "task": "K2",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the Fee cell of the Discovery row, which carries the resolved comment 'Check this against the approved budget.', replace 'EUR 12,000' with 'EUR 12,500'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "EUR 12,000",
+        "paragraph_original": "EUR 12,000",
+        "old": "EUR 12,000",
+        "new": "EUR 12,500",
+        "expected": {
+          "current": "EUR 12,500",
+          "original": "EUR 12,500"
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K3-S1-tracked",
+      "task": "K3",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the sentence before the chart, which ends with footnote 2, replace 'Historic spend' with 'Annual spend'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "Historic spend is shown below.",
+        "paragraph_original": "Historic spend is shown below.",
+        "old": "Historic spend",
+        "new": "Annual spend",
+        "expected": {
+          "current": "Annual spend is shown below.",
+          "original": "Historic spend is shown below."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K3-S1-plain",
+      "task": "K3",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the sentence before the chart, which ends with footnote 2, replace 'Historic spend' with 'Annual spend'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "Historic spend is shown below.",
+        "paragraph_original": "Historic spend is shown below.",
+        "old": "Historic spend",
+        "new": "Annual spend",
+        "expected": {
+          "current": "Annual spend is shown below.",
+          "original": "Annual spend is shown below."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K3-S2-tracked",
+      "task": "K3",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In clause 3 (Reporting), which ends with a footnote, replace 'ten business days' with 'fifteen business days'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+        "paragraph_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+        "old": "ten business days",
+        "new": "fifteen business days",
+        "expected": {
+          "current": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+          "original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K3-S2-plain",
+      "task": "K3",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In clause 3 (Reporting), which ends with a footnote, replace 'ten business days' with 'fifteen business days'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+        "paragraph_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+        "old": "ten business days",
+        "new": "fifteen business days",
+        "expected": {
+          "current": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+          "original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K4-S1-tracked",
+      "task": "K4",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the list item that A. Counsel inserted as a pending tracked change, replace 'professional indemnity insurance' with 'professional liability insurance'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Supplier shall maintain professional indemnity insurance.",
+        "paragraph_original": "",
+        "old": "professional indemnity insurance",
+        "new": "professional liability insurance",
+        "expected": {
+          "current": "The Supplier shall maintain professional liability insurance.",
+          "original": ""
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K4-S1-plain",
+      "task": "K4",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the list item that A. Counsel inserted as a pending tracked change, replace 'professional indemnity insurance' with 'professional liability insurance'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "The Supplier shall maintain professional indemnity insurance.",
+        "paragraph_original": "",
+        "old": "professional indemnity insurance",
+        "new": "professional liability insurance",
+        "expected": {
+          "current": "The Supplier shall maintain professional liability insurance.",
+          "original": ""
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K4-S2-tracked",
+      "task": "K4",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In clause 4 (Fees), inside the sentence Reviewer A inserted, next to Reviewer B's pending deletion of 'any', replace 'disputed amount' with 'disputed sum'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+        "paragraph_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+        "old": "disputed amount",
+        "new": "disputed sum",
+        "expected": {
+          "current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+          "original": "Fees are payable within thirty days of receipt of a valid invoice."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K4-S2-plain",
+      "task": "K4",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In clause 4 (Fees), inside the sentence Reviewer A inserted, next to Reviewer B's pending deletion of 'any', replace 'disputed amount' with 'disputed sum'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "document",
+        "paragraph_current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+        "paragraph_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+        "old": "disputed amount",
+        "new": "disputed sum",
+        "expected": {
+          "current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+          "original": "Fees are payable within thirty days of receipt of a valid invoice."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K5-S1-comment",
+      "task": "K5",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "comment",
+      "mode": "comment",
+      "prompt": "As 'Benchmark Editor', reply to the comment 'Defined term must match the definitions schedule.' with 'Checked against the definitions schedule.' Then add a new comment on '30 days' in the sentence 'Invoices are payable within 30 days.' with the text 'Confirm the payment term with finance.' Do not change anything else.",
+      "call": {
+        "reply_to": "Defined term must match the definitions schedule.",
+        "reply": "Checked against the definitions schedule.",
+        "anchor": {
+          "story": "document",
+          "paragraph_current": "Invoices are payable within 30 days.",
+          "text": "30 days"
+        },
+        "comment": "Confirm the payment term with finance."
+      }
+    },
+    {
+      "id": "K5-S2-comment",
+      "task": "K5",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "comment",
+      "mode": "comment",
+      "prompt": "As 'Benchmark Editor', reply to the comment 'Completion Date is not defined.' with 'Schedule 1 now defines it.' Then add a new comment on 'sixty days' in the sentence 'Either party may terminate this agreement on sixty days' written notice.' with the text 'Check the notice period with the client.' Do not change anything else.",
+      "call": {
+        "reply_to": "Completion Date is not defined.",
+        "reply": "Schedule 1 now defines it.",
+        "anchor": {
+          "story": "document",
+          "paragraph_current": "Either party may terminate this agreement on sixty days' written notice.",
+          "text": "sixty days"
+        },
+        "comment": "Check the notice period with the client."
+      }
+    },
+    {
+      "id": "K6-S1-resolve",
+      "task": "K6",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "resolve",
+      "mode": "resolve",
+      "prompt": "Accept A. Counsel's insertion of 'The Supplier shall maintain professional indemnity insurance.'. Reject A. Counsel's deletion of 'EUR 40,000'. Leave every other tracked change and every comment as it is. Do not change anything else.",
+      "call": {
+        "accept": [
+          [
+            "ins",
+            "A. Counsel",
+            "The Supplier shall maintain professional indemnity insurance."
+          ]
+        ],
+        "reject": [
+          [
+            "del",
+            "A. Counsel",
+            "EUR 40,000 "
+          ]
+        ],
+        "paragraphs": [
+          {
+            "story": "document",
+            "before": {
+              "original": "",
+              "current": "The Supplier shall maintain professional indemnity insurance."
+            },
+            "expected": {
+              "original": "The Supplier shall maintain professional indemnity insurance.",
+              "current": "The Supplier shall maintain professional indemnity insurance."
+            }
+          },
+          {
+            "story": "document",
+            "before": {
+              "original": "The parties agree the fee is EUR 40,000 per annum.",
+              "current": "The parties agree the fee is EUR 44,500 per annum."
+            },
+            "expected": {
+              "original": "The parties agree the fee is EUR 40,000 per annum.",
+              "current": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "K6-S2-resolve",
+      "task": "K6",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "resolve",
+      "mode": "resolve",
+      "prompt": "Accept Reviewer A's insertion of 'forty-five'. Reject Reviewer B's deletion of 'any'. Leave every other tracked change and every comment as it is. Do not change anything else.",
+      "call": {
+        "accept": [
+          [
+            "ins",
+            "Reviewer A",
+            "forty-five"
+          ]
+        ],
+        "reject": [
+          [
+            "del",
+            "Reviewer B",
+            "any "
+          ]
+        ],
+        "paragraphs": [
+          {
+            "story": "document",
+            "before": {
+              "original": "Fees are payable within thirty days of receipt of a valid invoice.",
+              "current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount."
+            },
+            "expected": {
+              "original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice.",
+              "current": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "K7h-S1-tracked",
+      "task": "K7h",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the page header, replace 'Draft 7' with 'Draft 8'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "header/default/1",
+        "paragraph_current": "Reference Agreement - Draft 7",
+        "paragraph_original": "Reference Agreement - Draft 7",
+        "old": "Draft 7",
+        "new": "Draft 8",
+        "expected": {
+          "current": "Reference Agreement - Draft 8",
+          "original": "Reference Agreement - Draft 7"
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K7h-S1-plain",
+      "task": "K7h",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the page header, replace 'Draft 7' with 'Draft 8'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "header/default/1",
+        "paragraph_current": "Reference Agreement - Draft 7",
+        "paragraph_original": "Reference Agreement - Draft 7",
+        "old": "Draft 7",
+        "new": "Draft 8",
+        "expected": {
+          "current": "Reference Agreement - Draft 8",
+          "original": "Reference Agreement - Draft 8"
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K7h-S2-tracked",
+      "task": "K7h",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the page header, which carries Reviewer A's pending change of the draft number, replace 'Consulting Services' with 'Consultancy Services'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "header/default/1",
+        "paragraph_current": "Consulting Services Agreement - Draft 4",
+        "paragraph_original": "Consulting Services Agreement - Draft 3",
+        "old": "Consulting Services",
+        "new": "Consultancy Services",
+        "expected": {
+          "current": "Consultancy Services Agreement - Draft 4",
+          "original": "Consulting Services Agreement - Draft 3"
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K7h-S2-plain",
+      "task": "K7h",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the page header, which carries Reviewer A's pending change of the draft number, replace 'Consulting Services' with 'Consultancy Services'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "header/default/1",
+        "paragraph_current": "Consulting Services Agreement - Draft 4",
+        "paragraph_original": "Consulting Services Agreement - Draft 3",
+        "old": "Consulting Services",
+        "new": "Consultancy Services",
+        "expected": {
+          "current": "Consultancy Services Agreement - Draft 4",
+          "original": "Consultancy Services Agreement - Draft 3"
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K7n-S1-tracked",
+      "task": "K7n",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the text of footnote 1, replace 'section 17.3.1' with 'section 17.3.2'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "footnotes",
+        "paragraph_current": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+        "paragraph_original": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+        "old": "section 17.3.1",
+        "new": "section 17.3.2",
+        "expected": {
+          "current": " ECMA-376 Part 1, 5th edition, section 17.3.2.",
+          "original": " ECMA-376 Part 1, 5th edition, section 17.3.1."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K7n-S1-plain",
+      "task": "K7n",
+      "source": "S1",
+      "source_path": "corpus/base.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the text of footnote 1, replace 'section 17.3.1' with 'section 17.3.2'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "footnotes",
+        "paragraph_current": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+        "paragraph_original": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+        "old": "section 17.3.1",
+        "new": "section 17.3.2",
+        "expected": {
+          "current": " ECMA-376 Part 1, 5th edition, section 17.3.2.",
+          "original": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+        },
+        "new_revisions_by_editor": false
+      }
+    },
+    {
+      "id": "K7n-S2-tracked",
+      "task": "K7n",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "tracked",
+      "prompt": "In the text of the footnote, replace 'England and Wales' with 'Scotland'. Record the change as a tracked change by the author 'Benchmark Editor'. Do not change anything else.",
+      "call": {
+        "story": "footnotes",
+        "paragraph_current": " Business days exclude public holidays in England and Wales.",
+        "paragraph_original": " Business days exclude public holidays in England and Wales.",
+        "old": "England and Wales",
+        "new": "Scotland",
+        "expected": {
+          "current": " Business days exclude public holidays in Scotland.",
+          "original": " Business days exclude public holidays in England and Wales."
+        },
+        "new_revisions_by_editor": true
+      }
+    },
+    {
+      "id": "K7n-S2-plain",
+      "task": "K7n",
+      "source": "S2",
+      "source_path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "kind": "replace",
+      "mode": "plain",
+      "prompt": "In the text of the footnote, replace 'England and Wales' with 'Scotland'. Make the change directly, without tracked changes. Do not change anything else.",
+      "call": {
+        "story": "footnotes",
+        "paragraph_current": " Business days exclude public holidays in England and Wales.",
+        "paragraph_original": " Business days exclude public holidays in England and Wales.",
+        "old": "England and Wales",
+        "new": "Scotland",
+        "expected": {
+          "current": " Business days exclude public holidays in Scotland.",
+          "original": " Business days exclude public holidays in Scotland."
+        },
+        "new_revisions_by_editor": false
+      }
+    }
+  ]
+}

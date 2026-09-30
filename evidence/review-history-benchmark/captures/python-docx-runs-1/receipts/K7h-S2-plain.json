@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-plain",
+  "status": "ok",
+  "note": "1 element(s) contained the old text",
+  "seconds": 0.003,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K7h-S2-plain.docx",
+  "output_sha256": "d3f93b22478de4933d9860a6f8873d162c1fd853238cea2e273c70ee36714db4"
+}

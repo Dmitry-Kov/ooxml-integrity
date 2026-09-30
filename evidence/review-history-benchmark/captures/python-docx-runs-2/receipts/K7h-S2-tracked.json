@@ -1,0 +1,7 @@
+{
+  "task": "K7h-S2-tracked",
+  "status": "unsupported",
+  "note": "python-docx has no tracked-change API",
+  "seconds": 0.0,
+  "finished_at": "2026-09-30T09:40:28+00:00"
+}

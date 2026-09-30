@@ -1,0 +1,43 @@
+{
+  "declared_at": "2026-09-30T09:40:21+00:00",
+  "protocol": {
+    "path": "evidence/review-history-benchmark/PROTOCOL.md",
+    "sha256": "2135e0a0b43d26c6e423cd377e70b693a48c91ed456fedf6e133c452e7aa35d3"
+  },
+  "tasks": {
+    "path": "evidence/review-history-benchmark/tasks.json",
+    "sha256": "766afd889e31595ecbdc84365e0617ed646c9c1662f3d7a40b40cabd566cb2bd",
+    "count": 30
+  },
+  "sources": {
+    "corpus/base.docx": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
+    "evidence/review-history-benchmark/sources/word-review.docx": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8"
+  },
+  "scripts": {
+    "research/review_history_oracle.py": "b612a57b9c42df2ad3a5cd3e3d3191d7d52c11f6e23687523f92a901640f0074",
+    "research/review_history_tasks.py": "47fafd0ebf4382002776f21f7772c4160954f6c90033b84f1d7894f5473d5d69",
+    "research/review_history_benchmark.py": "84606e188a90d959b79ec0d0ae6ca5421e1b2c9d15702100e8e75760a89fd276",
+    "research/review_history_reference.py": "6d8a0c727cc53709bde74f51348fa5bfefbfb8f17b5701174f793b889929c40d",
+    "research/review_history_adapters.py": "a80d0eec6a640cf978ca7ac1b76186a7595e17465122c54c9ee159c66174cdcb"
+  },
+  "checker": {
+    "package": "ooxml-integrity",
+    "version": "0.4.6",
+    "wheel_sha256": "7194485c9c8709e255d111f3efca5fc5ad44fa0c93800d4f6f87aba8432eb6de",
+    "run": "separate environment installed from that exact public PyPI wheel"
+  },
+  "adapters": {
+    "python-docx-setter": "deterministic",
+    "python-docx-runs": "deterministic",
+    "reference": "control (evaluator's positive control, not a benchmarked tool)"
+  },
+  "repeats": {
+    "deterministic": 2,
+    "agent": 5
+  },
+  "environment": {
+    "python": "3.12.8",
+    "python-docx": "1.2.0",
+    "lxml": "6.1.3"
+  }
+}

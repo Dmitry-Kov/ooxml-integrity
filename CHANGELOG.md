@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Research: the [review-history benchmark](evidence/review-history-benchmark/README.md)
+  asks what survives an ordinary edit to a reviewed DOCX and whether the checker
+  reports what does not. A frozen protocol declares 30 tasks on S1 and the Word
+  for Mac review record S2; an independent oracle and a four-axis evaluator are
+  checked on seeded mutations and a reference control first. In wave 1,
+  python-docx's `Paragraph.text`/`_Cell.text` setters damaged 14 of 28 outputs
+  (comment anchors, footnote references, a pending header revision) and 0.4.6
+  reported all 14; the `Run.text` path preserved all 28. On correct edits 0.4.6
+  raises false alarms for requested accept/reject (`FID001`), untracked header
+  and note edits (`FID007`/`FID005`) and a tracked header edit next to a
+  pending revision. No checker behaviour changes.
+
 ## 0.4.6 — 2026-09-30
 
 [Upgrade notes and verified publication](docs/releases/0.4.6.md). Published

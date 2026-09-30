@@ -1,0 +1,9 @@
+{
+  "task": "K4-S1-tracked",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.001,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K4-S1-tracked.docx",
+  "output_sha256": "0b94e52fe52f72442541cf276146f7fef8861f06738a18dbeae8fbd43e2b02ba"
+}

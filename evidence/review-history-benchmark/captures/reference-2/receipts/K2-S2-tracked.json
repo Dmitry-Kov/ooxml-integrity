@@ -1,0 +1,9 @@
+{
+  "task": "K2-S2-tracked",
+  "status": "ok",
+  "note": "reference control",
+  "seconds": 0.002,
+  "finished_at": "2026-09-30T09:40:27+00:00",
+  "output": "K2-S2-tracked.docx",
+  "output_sha256": "bf75052e8433dda545413896c4b9e027ba40d70fbf0e4dc509544a4e5b9801e4"
+}
