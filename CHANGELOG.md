@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- `FID004`-`FID007` no longer report a comment, footnote, endnote or
+  header/footer as lost when every change to it is a tracked revision. Word for
+  Mac's own review of the new S2 source changed `1 September` to `15 September`
+  in an endnote and `Draft 3` to `Draft 4` in the header, both tracked, and
+  `compare()` reported `FID006` and `FID007` errors although the old text stays
+  as `w:delText`. An item with no insertion, deletion or move of its own in the
+  source now also matches an edited item whose text, with every revision
+  rejected, is the source text. Items that already had pending revisions keep
+  the exact match, because rejecting one of them restores the same text while
+  losing the revision. Untracked edits are reported as before. Affected pairs
+  can change exit 1 to 0. [S2 source and capture](evidence/review-history-benchmark/sources/README.md).
+
 ## 0.4.5 — 2026-09-28
 
 [Upgrade notes and verified publication](docs/releases/0.4.5.md). Published

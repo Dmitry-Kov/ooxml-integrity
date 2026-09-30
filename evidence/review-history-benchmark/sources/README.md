@@ -70,3 +70,7 @@ review:
 This is recorded as observed, not corrected here. Any tool that correctly
 tracks an edit in a note body or header will get the same errors, so the
 benchmark's note and header tasks cannot yet separate a correct edit from a loss.
+
+The unreleased tracked-story correction (see the changelog) removes both
+errors; `compare()` then reports only INFO for all three pairs of this capture.
+The 0.4.5 observation in [s2-capture.json](s2-capture.json) is kept as recorded.

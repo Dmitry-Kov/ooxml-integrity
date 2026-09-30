@@ -7,6 +7,8 @@ Version 0.4.5 reports undefined `w:next` and `w:link` style references as
 Its `XML001` message names the parser limit for a part nested deeper than 256
 elements; such a part is still not checked. Its `FID003` counts text kept as new
 tracked deletions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source).
+The unreleased checkout also accepts tracked edits in comment, note and
+header/footer text, in the same section.
 Each table row defines
 the scope of one check, including the parts and constructs it reads. A package
 can be read successfully while some of its content remains unchecked.
@@ -147,6 +149,15 @@ In 0.4.5, `FID003` adds the edit's new tracked-deletion text
 replacement that shortens the main text is not reported as lost. Deletions
 already pending in the source are not counted and cannot hide an untracked loss;
 the message states how many characters were counted this way.
+
+In the unreleased checkout, a comment, footnote, endnote or header/footer story
+with no insertion, deletion or move of its own in the source also matches an
+edited item whose text, with every revision rejected (inserted and moved-to text
+left out, `w:delText` kept), is the source text. A tracked edit to it is
+therefore not reported by `FID004`-`FID007`; the same edit made untracked still
+is. An item that already had pending revisions keeps the exact current-text
+match, so rejecting or accepting one of them still counts as a change. Each
+edited item accounts for at most one source item.
 
 ## PPTX layout
 
