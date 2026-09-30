@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Task declarations for the review-history benchmark (DRAFT, not yet frozen).
+"""Task declarations for the review-history benchmark.
 
 One declaration per source and task gives a structured call for deterministic
 tools and a prompt for agents. `write` validates every target against its
@@ -241,8 +241,9 @@ def declarations() -> list[dict]:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("command", choices=["write", "show"])
+    parser.add_argument("--status", default="draft", choices=["draft", "declared"])
     args = parser.parse_args(argv)
-    record = {"status": "draft", "editor": EDITOR, "tasks": declarations()}
+    record = {"status": args.status, "editor": EDITOR, "tasks": declarations()}
     text = json.dumps(record, indent=2, ensure_ascii=False) + "\n"
     if args.command == "write":
         TASKS.write_text(text, encoding="utf-8")

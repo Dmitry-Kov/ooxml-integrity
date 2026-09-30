@@ -316,7 +316,7 @@ def completion(task: dict, source: Path, output: Path, editor: dict) -> dict:
 
 def checker(source: Path, output: Path, python: str) -> dict:
     def run(*args):
-        result = subprocess.run([python, "-m", "ooxml_integrity", *map(str, args),
+        result = subprocess.run([python, "-I", "-m", "ooxml_integrity", *map(str, args),
                                  "--no-config", "--json"], capture_output=True, text=True)
         assert result.returncode in (0, 1), result.stderr
         report = json.loads(result.stdout)
@@ -354,6 +354,163 @@ def evaluate(task: dict, output: Path | None, status: str, editor: dict,
     return result
 
 
+# --- protocol, capture, evaluation ------------------------------------------------
+
+EVIDENCE = ROOT / "evidence" / "review-history-benchmark"
+PROTOCOL = EVIDENCE / "protocol.json"
+CAPTURES = EVIDENCE / "captures"
+EVALUATION = EVIDENCE / "evaluation.json"
+SCRIPTS = ("research/review_history_oracle.py", "research/review_history_tasks.py",
+           "research/review_history_benchmark.py", "research/review_history_reference.py",
+           "research/review_history_adapters.py")
+CHECKER_VERSION = "0.4.6"
+#: Published wheel (evidence/releases/0.4.6/publication.json).
+CHECKER_WHEEL = "7194485c9c8709e255d111f3efca5fc5ad44fa0c93800d4f6f87aba8432eb6de"
+REPEATS = {"deterministic": 2, "agent": 5}
+
+
+def _sha(path: Path) -> str:
+    import hashlib
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def _now() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _write_new(path: Path, value) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as f:
+        json.dump(oracle._jsonable(value), f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+
+def _adapters():
+    from research import review_history_adapters, review_history_reference
+    found = dict(review_history_adapters.ADAPTERS)
+
+    def reference(task, editor, output):
+        review_history_reference.perform(task, editor, output)
+        return "ok", "reference control"
+    found["reference"] = reference
+    return found
+
+
+def _tool_versions() -> dict:
+    import importlib.metadata as metadata
+    import platform
+    return {"python": platform.python_version(), "python-docx": metadata.version("python-docx"),
+            "lxml": metadata.version("lxml")}
+
+
+def freeze() -> dict:
+    declared = json.loads(TASKS.read_text(encoding="utf-8"))
+    assert declared["status"] == "declared", "tasks.json is still a draft"
+    assert "DRAFT" not in (EVIDENCE / "PROTOCOL.md").read_text(encoding="utf-8")
+    sources = sorted({t["source_path"] for t in declared["tasks"]})
+    record = {
+        "declared_at": _now(),
+        "protocol": {"path": "evidence/review-history-benchmark/PROTOCOL.md",
+                     "sha256": _sha(EVIDENCE / "PROTOCOL.md")},
+        "tasks": {"path": "evidence/review-history-benchmark/tasks.json", "sha256": _sha(TASKS),
+                  "count": len(declared["tasks"])},
+        "sources": {s: _sha(ROOT / s) for s in sources},
+        "scripts": {s: _sha(ROOT / s) for s in SCRIPTS},
+        "checker": {"package": "ooxml-integrity", "version": CHECKER_VERSION,
+                    "wheel_sha256": CHECKER_WHEEL,
+                    "run": "separate environment installed from that exact public PyPI wheel"},
+        "adapters": {"python-docx-setter": "deterministic", "python-docx-runs": "deterministic",
+                     "reference": "control (evaluator's positive control, not a benchmarked tool)"},
+        "repeats": REPEATS,
+        "environment": _tool_versions(),
+    }
+    _write_new(PROTOCOL, record)
+    return record
+
+
+def verify() -> list[str]:
+    """Drift between the frozen protocol and the files it pins."""
+    record = json.loads(PROTOCOL.read_text(encoding="utf-8"))
+    problems = []
+    for key in ("protocol", "tasks"):
+        if _sha(ROOT / record[key]["path"]) != record[key]["sha256"]:
+            problems.append(record[key]["path"])
+    for group in ("sources", "scripts"):
+        problems += [p for p, h in record[group].items() if _sha(ROOT / p) != h]
+    for capture in sorted(CAPTURES.glob("*/capture.json")):
+        data = json.loads(capture.read_text(encoding="utf-8"))
+        for attempt in data["attempts"]:
+            if attempt.get("output_sha256"):
+                path = capture.parent / attempt["output"]
+                if not path.exists() or _sha(path) != attempt["output_sha256"]:
+                    problems.append(str(path.relative_to(ROOT)))
+    return problems
+
+
+def capture(adapter: str, repeat: int) -> dict:
+    import time
+    assert not verify(), "protocol drift"
+    protocol_sha = _sha(PROTOCOL)
+    declared = json.loads(TASKS.read_text(encoding="utf-8"))
+    perform = _adapters()[adapter]
+    folder = CAPTURES / f"{adapter}-{repeat}"
+    _write_new(folder / "started.json", {"started_at": _now(), "adapter": adapter, "repeat": repeat,
+                                         "protocol_sha256": protocol_sha,
+                                         "environment": _tool_versions()})
+    attempts = []
+    for task in declared["tasks"]:
+        output = folder / f"{task['id']}.docx"
+        began = time.monotonic()
+        try:
+            status, note = perform(task, declared["editor"], output)
+        except Exception as error:  # the tool's own failure is a result
+            status, note = "error", f"{type(error).__name__}: {error}"
+        receipt = {"task": task["id"], "status": status, "note": note,
+                   "seconds": round(time.monotonic() - began, 3), "finished_at": _now()}
+        if status == "ok":
+            receipt.update(output=output.name, output_sha256=_sha(output))
+        elif output.exists():
+            output.unlink()
+        _write_new(folder / "receipts" / f"{task['id']}.json", receipt)
+        attempts.append(receipt)
+    summary = {"adapter": adapter, "repeat": repeat, "protocol_sha256": protocol_sha,
+               "finished_at": _now(), "attempts": attempts}
+    _write_new(folder / "capture.json", summary)
+    return summary
+
+
+def evaluate_all(python: str) -> dict:
+    import collections
+    assert not verify(), "protocol drift"
+    version = subprocess.run([python, "-I", "-m", "ooxml_integrity", "--version"], capture_output=True,
+                             text=True, check=True).stdout.strip()
+    assert CHECKER_VERSION in version, version
+    declared = json.loads(TASKS.read_text(encoding="utf-8"))
+    tasks = {t["id"]: t for t in declared["tasks"]}
+    results, table = [], collections.defaultdict(collections.Counter)
+    for capture_file in sorted(CAPTURES.glob("*/capture.json")):
+        data = json.loads(capture_file.read_text(encoding="utf-8"))
+        for attempt in data["attempts"]:
+            output = capture_file.parent / attempt["output"] if attempt.get("output") else None
+            result = evaluate(tasks[attempt["task"]], output, attempt["status"], declared["editor"],
+                              python)
+            result.update(adapter=data["adapter"], repeat=data["repeat"])
+            results.append(result)
+            row = table[data["adapter"]]
+            row[attempt["status"]] += 1
+            if attempt["status"] == "ok":
+                row["completed"] += bool(result["completed"])
+                row["preserved"] += result["preservation"]["preserved"]
+                row["passed"] += bool(result["completed"]) and result["preservation"]["preserved"]
+                row[result["detection"]["outcome"]] += 1
+    record = {"evaluated_at": _now(), "checker": version, "protocol_sha256": _sha(PROTOCOL),
+              "summary": {k: dict(v) for k, v in sorted(table.items())}, "results": results}
+    EVALUATION.write_text(json.dumps(oracle._jsonable(record), indent=1, ensure_ascii=False) + "\n",
+                          encoding="utf-8")
+    return record
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     sub = parser.add_subparsers(dest="command", required=True)
@@ -361,7 +518,31 @@ def main(argv=None) -> int:
     one.add_argument("task")
     one.add_argument("output", type=Path)
     one.add_argument("--checker", default=sys.executable)
+    sub.add_parser("freeze")
+    sub.add_parser("verify")
+    run = sub.add_parser("capture")
+    run.add_argument("adapter")
+    run.add_argument("repeat", type=int)
+    every = sub.add_parser("evaluate-all")
+    every.add_argument("--checker", required=True, help="Python with ooxml-integrity 0.4.6")
     args = parser.parse_args(argv)
+    if args.command == "freeze":
+        print(json.dumps(freeze(), indent=1))
+        return 0
+    if args.command == "verify":
+        problems = verify()
+        print("\n".join(problems) or "protocol, sources, scripts and captures match")
+        return 1 if problems else 0
+    if args.command == "capture":
+        summary = capture(args.adapter, args.repeat)
+        counts = {}
+        for attempt in summary["attempts"]:
+            counts[attempt["status"]] = counts.get(attempt["status"], 0) + 1
+        print(args.adapter, args.repeat, counts)
+        return 0
+    if args.command == "evaluate-all":
+        print(json.dumps(evaluate_all(args.checker)["summary"], indent=1))
+        return 0
     declared = json.loads(TASKS.read_text(encoding="utf-8"))
     task = next(t for t in declared["tasks"] if t["id"] == args.task)
     result = evaluate(task, args.output, "ok", declared["editor"], args.checker)

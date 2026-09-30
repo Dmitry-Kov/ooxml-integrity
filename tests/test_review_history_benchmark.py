@@ -155,3 +155,43 @@ def test_detection_outcomes(preserved, codes, outcome):
                              {"new_actionable": [{"code": c} for c in codes]})
     assert result["outcome"] == outcome
     assert result["by_category"] == ({} if preserved else {"revision": bool(codes)})
+
+
+# --- adapters, on a synthetic document (never on the sources before capture) ------
+
+def _tiny(tmp_path):
+    docx = pytest.importorskip("docx")
+    document = docx.Document()
+    paragraph = document.add_paragraph("Alpha ")
+    paragraph.add_run("beta").bold = True
+    paragraph.add_run(" gamma.")
+    path = tmp_path / "tiny.docx"
+    document.save(str(path))
+    return path
+
+
+@pytest.mark.parametrize(("kind", "mode", "story", "status"), [
+    ("replace", "tracked", "document", "unsupported"), ("resolve", "resolve", None, "unsupported"),
+    ("replace", "plain", "footnotes", "unsupported"), ("save", "save", None, "ok")])
+def test_adapter_statuses(tmp_path, kind, mode, story, status):
+    from research.review_history_adapters import ADAPTERS
+    task = {"kind": kind, "mode": mode, "source_path": str(_tiny(tmp_path)),
+            "call": {"story": story, "old": "beta", "new": "delta"}}
+    for perform in ADAPTERS.values():
+        assert perform(task, EDITOR, tmp_path / "out.docx")[0] == status
+
+
+@pytest.mark.parametrize(("adapter", "old", "text", "bold"), [
+    ("python-docx-setter", "beta gamma", "Alpha delta.", False),
+    ("python-docx-runs", "beta gamma", "Alpha beta gamma.", True),
+    ("python-docx-runs", "beta", "Alpha delta gamma.", True)])
+def test_setter_rewrites_the_paragraph_and_runs_edit_in_place(tmp_path, adapter, old, text, bold):
+    docx = pytest.importorskip("docx")
+    from research.review_history_adapters import ADAPTERS
+    task = {"kind": "replace", "mode": "plain", "source_path": str(_tiny(tmp_path)),
+            "call": {"story": "document", "old": old, "new": "delta"}}
+    output = tmp_path / "out.docx"
+    assert ADAPTERS[adapter](task, EDITOR, output)[0] == "ok"
+    paragraph = docx.Document(str(output)).paragraphs[0]
+    assert paragraph.text == text
+    assert any(run.bold for run in paragraph.runs) is bold

@@ -1,8 +1,9 @@
-# Review-history benchmark — protocol (DRAFT, not frozen)
+# Review-history benchmark — protocol
 
-This draft is under review. Nothing has been run against it. It becomes the
-protocol only when `protocol.json` pins it, the task file, the sources, the
-oracle and the checker version, before the first tool call.
+Declared on 2026-09-30, before any benchmarked tool ran. [protocol.json](protocol.json)
+pins this file, the task file, the sources, the oracle, task, evaluator,
+reference and adapter scripts, and the checker release. Later waves add
+adapters under their own declarations; this text does not change for them.
 
 ## Question
 
@@ -111,7 +112,21 @@ Four axes, recorded separately. A pass needs all of the first three.
 
 ## Isolation and capture
 
-Each third-party tool runs in its own Docker image: base image by digest,
+The first wave runs two python-docx 1.2.0 adapters from
+`research/review_history_adapters.py` and the reference control from
+`research/review_history_reference.py`. python-docx has no tracked changes,
+comment replies or note API: tracked replacements, K6 and K7n are
+`unsupported`, and for K5 it adds only the new comment, on the whole run that
+holds the phrase. `python-docx-setter` is the tutorial and MCP-wrapper path
+(`Paragraph.text =`, `_Cell.text =`); `python-docx-runs` is the careful path
+(`Run.text =` on the runs that hold the old text). The reference control
+performs every task on the XML the way Word records it; it shows that a pass
+is reachable and is not scored as a tool.
+
+The checker runs in a separate environment installed from the exact public
+0.4.6 wheel (SHA-256 `7194485c…`), never from the checkout.
+
+Later third-party tools each run in their own Docker image: base image by digest,
 versions and lock files pinned, network only while building. Runs use
 `--network none --user 65534:65534 --cap-drop ALL --security-opt
 no-new-privileges -e HOME=/tmp`, with only the source (read-only) and an output
