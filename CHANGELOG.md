@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.4.6 — release candidate
+## 0.4.6 — 2026-09-30
 
-[Upgrade notes and validation](docs/releases/0.4.6.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.4.6.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `FID004`-`FID007` no longer report a comment, footnote, endnote or
   header/footer as lost when every change to it is a tracked revision. Word for
