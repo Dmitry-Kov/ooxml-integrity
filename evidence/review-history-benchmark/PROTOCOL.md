@@ -74,12 +74,19 @@ Four axes, recorded separately. A pass needs all of the first three.
 3. **Preserved**: the oracle's report from source to output
    (`research/review_history_oracle.py`, dates compared), minus what the task
    declares. Anything left is a preservation failure, listed by fact category.
-   The task may change:
+   Inside the target paragraph, revisions are judged character by character
+   over all of its text, deleted or not, with each character's revision
+   wrappers (kind, author, date) and its run's formatting revision. In tracked
+   mode, removing the editor's insertions and the editor's wrappers from the
+   output must give the source exactly, and the editor may delete only inside
+   the old text. In plain mode, the output must be the source with exactly the
+   old text replaced by the new text, which takes the old text's wrappers.
+   The paragraph's own revisions (its mark and property changes) must remain.
+   Outside it, the task may change:
    - the target paragraph's texts, to the declared ones; in plain mode, the
-     paragraph context recorded on other facts in that paragraph (revisions,
-     comment anchors, note references, list items) changes with it, and a
-     pending revision that contains the edited text may change its payload by
-     exactly the declared replacement;
+     paragraph context recorded on other facts in that paragraph (comment
+     anchors, note references, list items, and the cell or content control
+     that holds it) changes with it;
    - the current text of comment anchors inside the target paragraph (and, in
      plain mode, their original text), not their existence or markers;
    - for K7, the story or note facts of the edited header or note;
