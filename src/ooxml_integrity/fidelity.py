@@ -94,6 +94,9 @@ _ASCII_LOWER = str.maketrans(
 )
 
 _REVISION_TAGS = {W + "ins", W + "del"}
+#: Revisions that change text; rPrChange and pPrChange change only formatting.
+_TEXT_REVISIONS = (W + "ins", W + "del", W + "moveFrom", W + "moveTo")
+_INSERTED = {W + "ins", W + "moveTo"}
 _DATE_UTC = "{http://schemas.microsoft.com/office/word/2023/wordml/word16du}dateUtc"
 _REVISION_ATTRIBUTES = {W + "id", W + "author", W + "date", _DATE_UTC}
 
@@ -187,27 +190,88 @@ def _norm(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
 
-def _bodies(parts: dict[str, bytes], part: str, tag: str
-            ) -> tuple[collections.Counter, dict[str, str]]:
-    """Normalised body text of every item in `part`, as a multiset.
+def _inserted(node) -> bool:
+    return any(ancestor.tag in _INSERTED for ancestor in node.iterancestors())
 
-    A multiset rather than a set, so losing one of two identically worded
-    comments is still a loss.
+
+def _has_text_revisions(item) -> bool:
+    return next(item.iter(*_TEXT_REVISIONS), None) is not None
+
+
+#: One comment, note or story: (current text, text with every revision
+#: rejected, whether it has text revisions of its own).
+_Text = tuple[object, object, bool]
+
+
+def _bodies(parts: dict[str, bytes], part: str, tag: str
+            ) -> tuple[list[_Text], dict[str, str]]:
+    """Normalised texts of every item in `part`, one entry per item.
+
+    A list rather than a set, so losing one of two identically worded
+    comments is still a loss. An item is kept when either text is nonempty:
+    a note whose whole text is now a tracked deletion still accounts for its
+    source.
     """
     blob = parts.get(part)
     if blob is None:
-        return collections.Counter(), {}
+        return [], {}
     root = parse_xml(blob)
-    out: collections.Counter = collections.Counter()
+    out: list[_Text] = []
     authors: dict[str, str] = {}
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
             continue
         body = _norm("".join(t.text or "" for t in item.iter(W + "t")))
+        original = _norm("".join(
+            t.text or "" for t in item.iter(W + "t", W + "delText")
+            if not _inserted(t)
+        ))
+        if body or original:
+            out.append((body, original, _has_text_revisions(item)))
         if body:
-            out[body] += 1
             authors.setdefault(body, item.get(W + "author") or "")
     return out, authors
+
+
+def _unmatched(source: list[_Text], edited: list[_Text]) -> collections.Counter:
+    """Current texts of source items that no edited item accounts for.
+
+    An item is kept when an edited item has the same current text. A source
+    item with no text revisions of its own is also kept by an edited item
+    whose text, with every revision rejected, is the source text: each change
+    to it is tracked, and rejecting them restores it. Items that already had
+    revisions do not get that match, because rejecting a pending insertion or
+    deletion restores the same text while the reviewer's revision is lost.
+    Each edited item accounts for at most one source item.
+    """
+    by_current: dict = collections.defaultdict(collections.Counter)
+    by_original: dict = collections.defaultdict(collections.Counter)
+    for current, original, _ in edited:
+        by_current[current][original] += 1
+        by_original[original][current] += 1
+
+    def take(index: dict, reverse: dict, key) -> bool:
+        pool = index.get(key)
+        if not pool:
+            return False
+        partner = key if pool[key] else next(iter(pool))
+        pool[partner] -= 1
+        if not pool[partner]:
+            del pool[partner]
+        reverse[partner][key] -= 1
+        if not reverse[partner][key]:
+            del reverse[partner][key]
+        return True
+
+    pending = [
+        (current, revised) for current, _, revised in source
+        if not take(by_current, by_original, current)
+    ]
+    lost: collections.Counter = collections.Counter()
+    for current, revised in pending:
+        if revised or not take(by_original, by_current, current):
+            lost[current] += 1
+    return lost
 
 
 @dataclass
@@ -292,7 +356,8 @@ def assess_note_revisions(source: NoteRevisions, edited: NoteRevisions) -> NoteR
 
 @dataclass
 class _StoryFacts:
-    texts: collections.Counter
+    #: (kind, variant, text) keys, one entry per effective section slot
+    texts: list[_Text]
     constructs: collections.Counter
     parts: dict[tuple[str, str, str], str]
 
@@ -399,13 +464,19 @@ def _effective_story_references(
     return effective
 
 
-def _story_text(root) -> str:
-    """Normalised story text, preserving run joins and paragraph boundaries."""
+def _story_text(root, *, original: bool = False) -> str:
+    """Normalised story text, preserving run joins and paragraph boundaries.
+
+    `original` rejects every revision: inserted and moved-to text is left
+    out and deleted text is kept.
+    """
     paragraphs: list[str] = []
     for paragraph in root.iter(W + "p"):
         tokens: list[str] = []
         for node in paragraph.iter():
-            if node.tag == W + "t":
+            if original and _inserted(node):
+                continue
+            if node.tag == W + "t" or (original and node.tag == W + "delText"):
                 tokens.append(node.text or "")
             elif node.tag in (W + "tab", W + "br", W + "cr"):
                 tokens.append(" ")
@@ -416,7 +487,7 @@ def _story_text(root) -> str:
 def _story_facts(parts: dict[str, bytes], document, *,
                  references: list[tuple[str, str, str]],
                  ) -> _StoryFacts:
-    texts: collections.Counter = collections.Counter()
+    texts: list[_Text] = []
     constructs: collections.Counter = collections.Counter()
     locations: dict[tuple[str, str, str], str] = {}
     trees: dict[str, object] = {}
@@ -427,11 +498,12 @@ def _story_facts(parts: dict[str, bytes], document, *,
                 raise ValueError(
                     f"{part} is related as a {kind} but has root {root.tag!r}"
                 )
-            trees[part] = root
-        root = trees[part]
-        body = _story_text(root)
+            trees[part] = (root, _story_text(root),
+                           _story_text(root, original=True),
+                           _has_text_revisions(root))
+        root, body, original, revised = trees[part]
         identity = (kind, variant, body)
-        texts[identity] += 1
+        texts.append((identity, (kind, variant, original), revised))
         locations.setdefault(identity, part)
         for tag, _, _ in TRACKED:
             constructs[(kind, variant, tag)] += len(list(root.iter(W + tag)))
@@ -448,7 +520,7 @@ def story_reference_count(parts: dict[str, bytes]) -> int:
 @dataclass
 class _Snapshot:
     counts: dict[str, int]
-    bodies: dict[str, collections.Counter]
+    bodies: dict[str, list[_Text]]
     authors: dict[tuple[str, str], str]
     text_length: int
     deleted_length: int
@@ -495,14 +567,14 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
     text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
     deleted_length = sum(len(t.text or "") for t in doc.iter(W + "delText"))
-    bodies: dict[str, collections.Counter] = {}
+    bodies: dict[str, list[_Text]] = {}
     authors: dict[tuple[str, str], str] = {}
     locations: dict[str, str] = {}
     for part, tag, _, _ in BODY_PARTS:
         actual = comments if tag == "comment" else part
         body_counts, body_authors = (
             _bodies(parts, actual, tag) if actual is not None
-            else (collections.Counter(), {})
+            else ([], {})
         )
         bodies[part] = body_counts
         if actual is not None:
@@ -523,8 +595,11 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
 
 def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
     out: list[Finding] = []
-    for (kind, variant, body), n in source.stories.texts.items():
-        lost = n - edited.stories.texts.get((kind, variant, body), 0)
+    unmatched = _unmatched(source.stories.texts, edited.stories.texts)
+    in_source = collections.Counter(
+        identity for identity, _, _ in source.stories.texts)
+    for (kind, variant, body), n in in_source.items():
+        lost = unmatched[(kind, variant, body)]
         if lost <= 0:
             continue
         occurrences = (
@@ -622,10 +697,12 @@ def compare(source: str | Path, edited: str | Path, *,
             ))
 
     for part, tag, code, label in BODY_PARTS:
-        src_bodies = source_snapshot.bodies[part]
-        out_bodies = edited_snapshot.bodies[part]
-        for body, n in src_bodies.items():
-            lost = n - out_bodies.get(body, 0)
+        # A source item whose current text is empty has nothing to lose here.
+        src_bodies = [item for item in source_snapshot.bodies[part] if item[0]]
+        unmatched = _unmatched(src_bodies, edited_snapshot.bodies[part])
+        in_source = collections.Counter(body for body, _, _ in src_bodies)
+        for body, n in in_source.items():
+            lost = unmatched[body]
             if lost <= 0:
                 continue
             who = source_snapshot.authors.get((part, body), "")

@@ -1,0 +1,236 @@
+{
+  "source": "Native Microsoft Word for Mac 16.113.2 (26092012); read-only package verification",
+  "files": {
+    "review-base.docx": {
+      "sha256": "949896cd6ed764e80c8be4c316917a80d1177a5faf77a407234b36349f5621d8",
+      "size": 6518,
+      "zip_ok": true,
+      "xml_parts": 13,
+      "revision_counts": {},
+      "revision_records": [],
+      "comments": [],
+      "privacy_indicator_matches": [],
+      "track_changes_enabled": true,
+      "removePersonalInformation_present": false
+    },
+    "review-a.docx": {
+      "sha256": "42ff516d05e90088804af8c6d043e5fc441877ce3f10ebdbe21739edc064f375",
+      "size": 23802,
+      "zip_ok": true,
+      "xml_parts": 21,
+      "revision_counts": {
+        "moveTo": 2,
+        "moveFrom": 2,
+        "ins": 3,
+        "del": 2
+      },
+      "revision_records": [
+        {
+          "part": "word/document.xml",
+          "type": "moveTo",
+          "author": "Reviewer A",
+          "text": ""
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveTo",
+          "author": "Reviewer A",
+          "text": "Comply with the Client's information security policy."
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveFrom",
+          "author": "Reviewer A",
+          "text": ""
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveFrom",
+          "author": "Reviewer A",
+          "text": "Comply with the Client's information security policy."
+        },
+        {
+          "part": "word/document.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": "forty-five"
+        },
+        {
+          "part": "word/document.xml",
+          "type": "del",
+          "author": "Reviewer A",
+          "text": "thirty"
+        },
+        {
+          "part": "word/document.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": " The Client may withhold any disputed amount."
+        },
+        {
+          "part": "word/header1.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": "4"
+        },
+        {
+          "part": "word/header1.xml",
+          "type": "del",
+          "author": "Reviewer A",
+          "text": "3"
+        }
+      ],
+      "comments": [
+        {
+          "text": "Completion Date is not defined.",
+          "author": "Reviewer A",
+          "initials": "RA",
+          "paraId": "4DCE4551",
+          "parent": null,
+          "done": "0"
+        },
+        {
+          "text": "Check this against the approved budget.",
+          "author": "Reviewer A",
+          "initials": "RA",
+          "paraId": "644236CF",
+          "parent": null,
+          "done": "0"
+        }
+      ],
+      "privacy_indicator_matches": [],
+      "track_changes_enabled": true,
+      "removePersonalInformation_present": false
+    },
+    "word-review.docx": {
+      "sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+      "size": 24210,
+      "zip_ok": true,
+      "xml_parts": 21,
+      "revision_counts": {
+        "moveTo": 2,
+        "moveFrom": 2,
+        "ins": 4,
+        "del": 4,
+        "rPrChange": 1,
+        "pPrChange": 1
+      },
+      "revision_records": [
+        {
+          "part": "word/document.xml",
+          "type": "moveTo",
+          "author": "Reviewer A",
+          "text": ""
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveTo",
+          "author": "Reviewer A",
+          "text": "Comply with the Client's information security policy."
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveFrom",
+          "author": "Reviewer A",
+          "text": ""
+        },
+        {
+          "part": "word/document.xml",
+          "type": "moveFrom",
+          "author": "Reviewer A",
+          "text": "Comply with the Client's information security policy."
+        },
+        {
+          "part": "word/document.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": "forty-five"
+        },
+        {
+          "part": "word/document.xml",
+          "type": "del",
+          "author": "Reviewer A",
+          "text": "thirty"
+        },
+        {
+          "part": "word/document.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": " The Client may withhold any disputed amount."
+        },
+        {
+          "part": "word/document.xml",
+          "type": "del",
+          "author": "Reviewer B",
+          "text": "any "
+        },
+        {
+          "part": "word/document.xml",
+          "type": "rPrChange",
+          "author": "Reviewer B",
+          "text": ""
+        },
+        {
+          "part": "word/document.xml",
+          "type": "pPrChange",
+          "author": "Reviewer B",
+          "text": ""
+        },
+        {
+          "part": "word/endnotes.xml",
+          "type": "ins",
+          "author": "Reviewer B",
+          "text": "15"
+        },
+        {
+          "part": "word/endnotes.xml",
+          "type": "del",
+          "author": "Reviewer B",
+          "text": "1"
+        },
+        {
+          "part": "word/header1.xml",
+          "type": "ins",
+          "author": "Reviewer A",
+          "text": "4"
+        },
+        {
+          "part": "word/header1.xml",
+          "type": "del",
+          "author": "Reviewer A",
+          "text": "3"
+        }
+      ],
+      "comments": [
+        {
+          "text": "Completion Date is not defined.",
+          "author": "Reviewer A",
+          "initials": "RA",
+          "paraId": "4DCE4551",
+          "parent": null,
+          "done": "0"
+        },
+        {
+          "text": "Agreed. Add it to Schedule 1.",
+          "author": "Reviewer B",
+          "initials": "RB",
+          "paraId": "529A32D3",
+          "parent": "4DCE4551",
+          "done": "0"
+        },
+        {
+          "text": "Check this against the approved budget.",
+          "author": "Reviewer A",
+          "initials": "RA",
+          "paraId": "644236CF",
+          "parent": null,
+          "done": "1"
+        }
+      ],
+      "privacy_indicator_matches": [],
+      "track_changes_enabled": true,
+      "removePersonalInformation_present": false
+    }
+  },
+  "result": "PASS for requested saved package state; native UI steps and limitations recorded separately"
+}

@@ -1,0 +1,148 @@
+{
+  "recorded_at": "2026-09-30T06:25:47+00:00",
+  "declaration": {
+    "path": "evidence/review-history-benchmark/sources/s2-declaration.json",
+    "sha256": "99a750064344f349e00bb75526803c64dfd812c285a229f303682908fdabcd0b",
+    "declared_at": "2026-09-29T09:19:48+00:00"
+  },
+  "word_for_mac": {
+    "about_word": "16.113.2 (26092012)",
+    "edition": "Office LTSC Standard for Mac 2024"
+  },
+  "operation": "Every edit was made through Word for Mac's own UI. The UI was driven by an agent session through macOS accessibility (selectText, setValue, pasted plain text, keyboard shortcuts), not by hand as the checklist assumed. No script wrote or rewrote either package; the operator only read the saved XML.",
+  "input": {
+    "path": "evidence/review-history-benchmark/sources/review-base.docx",
+    "sha256": "949896cd6ed764e80c8be4c316917a80d1177a5faf77a407234b36349f5621d8",
+    "unchanged": true
+  },
+  "outputs": [
+    {
+      "path": "evidence/review-history-benchmark/sources/review-a.docx",
+      "sha256": "42ff516d05e90088804af8c6d043e5fc441877ce3f10ebdbe21739edc064f375",
+      "size": 23802,
+      "after_step": 11,
+      "saved_by": "Reviewer A",
+      "core_modified": "2026-09-29T09:26:00Z",
+      "zip_entry_time": "1980-01-01T00:00:00 (Word's)"
+    },
+    {
+      "path": "evidence/review-history-benchmark/sources/word-review.docx",
+      "sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+      "size": 24210,
+      "after_step": 20,
+      "saved_by": "Reviewer B",
+      "core_modified": "2026-09-29T09:28:00Z",
+      "zip_entry_time": "1980-01-01T00:00:00 (Word's)"
+    }
+  ],
+  "prompts": [
+    "Each of the two opens raised two Visual Basic for Applications windows: Run-time error '53': File not found: /Library/Application Support/Adobe/MACPDFM/MacPDFM.framework/Versions/A/MacPDFM (an installed Adobe PDF add-in). Each was closed with End; no add-in or security setting was changed.",
+    "No repair, recovery or file-format prompt appeared."
+  ],
+  "deviations": [
+    "Operator: an agent drove Word's UI through accessibility; the checklist assumed a person.",
+    "Step 2: 'Always use this name regardless of how I'm signed in to Office' was turned on for the run and restored afterwards with the original name and initials.",
+    "Step 3: 'Remove personal information from this file on save' was not shown in the available Security and Privacy panes; no settings.xml (base or outputs) contains removePersonalInformation.",
+    "Steps 5, 6, 14, 15: Word showed classic comments (no Post button, no thread menu). The reply used the Reply button. A first resolve attempt from the context menu did not mark the comment resolved; Review > Comments > Resolve did.",
+    "A mistaken shortcut for New Comment opened the Paragraph dialog, which was cancelled.",
+    "Before step 7 an imprecise double-click typed into a heading; it was undone with Cmd+Z at once. The saved packages carry no heading revision, and both text projections below match.",
+    "Step 9: cut and paste recorded a move on the first attempt; drag and drop was not needed.",
+    "Step 16: Word included the following space in the deletion ('any ')."
+  ],
+  "audit": {
+    "script_sha256": "d9ead53ca5c01fed711ce8678b7ec9e246f92541fce38c6f77d31ace610a23df",
+    "script_as_declared": true,
+    "failed": {
+      "review-a.docx": [
+        "authors",
+        "comment-resolved",
+        "comment-thread",
+        "endnote-revision",
+        "nested-deletion",
+        "paragraph-format-change",
+        "run-format-change"
+      ],
+      "word-review.docx": []
+    },
+    "expected_for_review_a": "Reviewer B's requirements and 'authors' (only Reviewer A is present) fail by design."
+  },
+  "projections": "For word/document.xml, header1, footer1, footnotes and endnotes of both outputs, the reject-all view equals the base text. Accept-all differs from the base only by the moved item, 'forty-five' plus the inserted sentence (without 'any' after Reviewer B), 'Draft 4' and '15 September 2026'. Checked by tests/test_review_history_sources.py.",
+  "privacy_review": "All XML parts and relationships of both outputs were searched for the operator's name, home directory, local paths, e-mail addresses, sensitivity labels and presence identities: none. Company is empty; lastModifiedBy is Reviewer A / Reviewer B; people.xml has providerId None for both reviewers.",
+  "checker_observation": {
+    "note": "An observation, not the oracle: check() and compare() of the pinned release on the captured files.",
+    "version": "0.4.5",
+    "check": {
+      "review-a.docx": [],
+      "word-review.docx": []
+    },
+    "compare_base_to_word_review": [
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "paragraph style references: 11 -> 12 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "character style references: 3 -> 6 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "numbered list items: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID006",
+        "severity": "error",
+        "part": "word/endnotes.xml",
+        "message": "a endnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Endnote: \"Company details are taken from the public register on 1 S...\""
+      },
+      {
+        "code": "FID007",
+        "severity": "error",
+        "part": "word/header1.xml",
+        "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 3\""
+      }
+    ],
+    "compare_review_a_to_word_review": [
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "comment anchors: 2 -> 3 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID002",
+        "severity": "info",
+        "part": "",
+        "message": "character style references: 5 -> 6 - added during editing (count increase alone does not establish a defect)"
+      },
+      {
+        "code": "FID006",
+        "severity": "error",
+        "part": "word/endnotes.xml",
+        "message": "a endnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Endnote: \"Company details are taken from the public register on 1 S...\""
+      }
+    ]
+  },
+  "operator_records": [
+    {
+      "path": "evidence/review-history-benchmark/sources/s2-operator-notes.ru.md",
+      "sha256": "eb7032633a7147dc77aa0490a8262928b0222b141ac23f5f7aca06cc977d2c33",
+      "language": "ru"
+    },
+    {
+      "path": "evidence/review-history-benchmark/sources/s2-operator-verification.json",
+      "sha256": "8e4360f7b9cd0b2d78d379b7f9b1c212ecf8904536f033c5d01f44392f36abb1"
+    }
+  ]
+}
