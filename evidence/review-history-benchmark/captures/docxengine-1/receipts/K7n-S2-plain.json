@@ -1,0 +1,7 @@
+{
+  "task": "K7n-S2-plain",
+  "status": "rejected",
+  "note": "docx_replace: not_found: Text not found: England and Wales.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: England and Wales.\"}]",
+  "seconds": 0.197,
+  "finished_at": "2026-10-01T08:19:51+00:00"
+}

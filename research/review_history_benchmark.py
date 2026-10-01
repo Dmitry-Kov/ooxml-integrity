@@ -41,8 +41,23 @@ RULES = {
     "content_control": ("FID001",), "table": ("FID001",), "hyperlink": ("FID001",),
     "image": ("FID001",), "list_item": ("FID001",),
     "paragraph": ("FID003",), "paragraph_current": ("FID003",),
-    "setting": (), "part": ("PKG",),
+    "setting": (), "part": ("PKG",), "package": ("XML", "PKG"),
 }
+
+
+def unparseable(output: Path) -> dict[str, str]:
+    """XML and relationship parts of a package that are not well-formed."""
+    import zipfile
+    from lxml import etree
+    broken = {}
+    with zipfile.ZipFile(output) as z:
+        for name in z.namelist():
+            if name.endswith((".xml", ".rels")):
+                try:
+                    etree.fromstring(z.read(name), oracle.PARSER)
+                except etree.XMLSyntaxError as error:
+                    broken[name] = str(error)
+    return broken
 
 
 # --- target paragraph -----------------------------------------------------------
@@ -321,10 +336,17 @@ def completion(task: dict, source: Path, output: Path, editor: dict) -> dict:
 
 # --- checker ----------------------------------------------------------------------
 
+def _relative(path: Path) -> str:
+    path = Path(path).resolve()
+    return str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
+
+
 def checker(source: Path, output: Path, python: str) -> dict:
     def run(*args):
+        # Repository-relative paths keep local directories out of recorded messages.
+        args = [_relative(a) if isinstance(a, Path) else a for a in args]
         result = subprocess.run([python, "-I", "-m", "ooxml_integrity", *map(str, args),
-                                 "--no-config", "--json"], capture_output=True, text=True)
+                                 "--no-config", "--json"], capture_output=True, text=True, cwd=ROOT)
         assert result.returncode in (0, 1), result.stderr
         report = json.loads(result.stdout)
         return report["version"], report["files"][0]["findings"]
@@ -352,8 +374,16 @@ def evaluate(task: dict, output: Path | None, status: str, editor: dict,
     if status != "ok" or output is None:
         return result
     source = ROOT / task["source_path"]
-    result.update(completion(task, source, output, editor))
-    result["preservation"] = preservation(task, source, output, editor)
+    broken = unparseable(output)
+    if broken:
+        # A part no XML parser accepts: the package itself is damaged.
+        result.update(completed=False, reason="package parts are not well-formed XML")
+        result["preservation"] = {"preserved": False,
+                                  "violations": {"package": {"unparseable": broken}},
+                                  "package_changes": {}, "anchor_follows_edit": None}
+    else:
+        result.update(completion(task, source, output, editor))
+        result["preservation"] = preservation(task, source, output, editor)
     if python:
         checked = checker(source, output, python)
         result["checker"] = checked
@@ -449,6 +479,7 @@ def pinned() -> dict:
                 assert record[group].get(name) == change["before"], (path.name, name)
                 record[group][name] = change["after"]
         record["adapters"].update(amendment.get("adapters", {}))
+        record.setdefault("superseded", []).extend(amendment.get("superseded_captures", []))
     return record
 
 
@@ -513,7 +544,10 @@ def evaluate_all(python: str) -> dict:
     declared = json.loads(TASKS.read_text(encoding="utf-8"))
     tasks = {t["id"]: t for t in declared["tasks"]}
     results, table = [], collections.defaultdict(collections.Counter)
+    superseded = set(pinned().get("superseded", []))
     for capture_file in sorted(CAPTURES.glob("*/capture.json")):
+        if capture_file.parent.name in superseded:
+            continue  # kept as evidence; an amendment replaced it
         data = json.loads(capture_file.read_text(encoding="utf-8"))
         for attempt in data["attempts"]:
             output = capture_file.parent / attempt["output"] if attempt.get("output") else None

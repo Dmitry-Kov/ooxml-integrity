@@ -1,0 +1,9 @@
+{
+  "task": "K2-S2-plain",
+  "status": "ok",
+  "note": "Cell text formatted successfully in table 0, cell (1,2): content='EUR 12,500'.",
+  "seconds": 0.235,
+  "finished_at": "2026-10-01T08:19:30+00:00",
+  "output": "K2-S2-plain.docx",
+  "output_sha256": "ab0f19c4686dd8b71b5c502aeda1a811f360e1f922e93d39086416022e5f1cde"
+}

@@ -1,0 +1,7 @@
+{
+  "task": "K0-S1-save",
+  "status": "unsupported",
+  "note": "{\"note\": \"docx-cli has no open-and-save command; every write is an edit\", \"steps\": []}",
+  "seconds": 0.136,
+  "finished_at": "2026-10-01T08:24:13+00:00"
+}

@@ -1,0 +1,7 @@
+{
+  "task": "K0-S1-save",
+  "status": "unsupported",
+  "note": "no open-and-save tool; copy_document copies the file",
+  "seconds": 0.211,
+  "finished_at": "2026-10-01T08:19:21+00:00"
+}

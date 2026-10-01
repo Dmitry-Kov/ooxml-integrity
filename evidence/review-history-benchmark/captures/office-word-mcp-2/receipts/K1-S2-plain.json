@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-plain",
+  "status": "ok",
+  "note": "Replaced 1 occurrence(s) of 'Completion Date' with 'Expiry Date'.",
+  "seconds": 0.238,
+  "finished_at": "2026-10-01T08:19:29+00:00",
+  "output": "K1-S2-plain.docx",
+  "output_sha256": "53633d1b29af61c101534874b8ec0e93e3321cb0976a3b761d2c9885e7f7a5d6"
+}

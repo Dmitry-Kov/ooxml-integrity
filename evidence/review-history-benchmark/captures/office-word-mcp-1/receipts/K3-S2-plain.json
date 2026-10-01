@@ -1,0 +1,9 @@
+{
+  "task": "K3-S2-plain",
+  "status": "ok",
+  "note": "Replaced 1 occurrence(s) of 'ten business days' with 'fifteen business days'.",
+  "seconds": 0.225,
+  "finished_at": "2026-10-01T08:19:24+00:00",
+  "output": "K3-S2-plain.docx",
+  "output_sha256": "36f633bfabb3e32ba6d45d2f6b94f168d0f49ffc4e8525ff1184290875a80b8e"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K4-S1-plain",
+  "status": "ok",
+  "note": "No occurrences of 'professional indemnity insurance' found.",
+  "seconds": 0.224,
+  "finished_at": "2026-10-01T08:19:24+00:00",
+  "output": "K4-S1-plain.docx",
+  "output_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd"
+}

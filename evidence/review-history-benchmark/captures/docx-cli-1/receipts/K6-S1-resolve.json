@@ -1,0 +1,9 @@
+{
+  "task": "K6-S1-resolve",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"list\", \"/out/output.docx\", \"--json\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"apply\", \"/out/output.docx\", \"--accept\", \"tc0\", \"--reject\", \"tc1\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.392,
+  "finished_at": "2026-10-01T08:19:07+00:00",
+  "output": "K6-S1-resolve.docx",
+  "output_sha256": "3ee7c71ebd1988374f76725a02e8ee16d097ad12bd492e0d3fd30c718cdf2376"
+}

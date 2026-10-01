@@ -1,0 +1,9 @@
+{
+  "task": "K3-S2-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"ten business days\", \"fifteen business days\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.543,
+  "finished_at": "2026-10-01T08:24:28+00:00",
+  "output": "K3-S2-plain.docx",
+  "output_sha256": "c0ba4fe4448264dd77ee76fce60a430dd0a2e96afe323b4f6e6a2c65f23a1976"
+}

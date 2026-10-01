@@ -193,3 +193,106 @@ def adeu(task: dict, editor: dict, output: Path) -> tuple[str, str]:
 
 
 ADAPTERS["adeu"] = adeu
+
+
+# --- other wave-1 tools, each in its own container --------------------------------
+
+def _source_facts(task: dict):
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from research import review_history_oracle as oracle
+    return oracle, oracle.Package(ROOT / task["source_path"])
+
+
+def _tracking_on(task: dict) -> bool:
+    oracle, pkg = _source_facts(task)
+    settings = pkg.xml(pkg.first("settings"))
+    node = None if settings is None else settings.find(oracle.W + "trackRevisions")
+    return node is not None and node.get(oracle.W + "val", "true") not in ("0", "false", "off")
+
+
+def _cell(task: dict) -> dict | None:
+    """Top-level table, row and column of the K2 cell, as python-docx counts them."""
+    if task["task"] != "K2":
+        return None
+    oracle, pkg = _source_facts(task)
+    body = pkg.xml(pkg.main).find(oracle.W + "body")
+    for t, table in enumerate(body.iter(oracle.W + "tbl")):
+        for r, row in enumerate(table.findall(oracle.W + "tr")):
+            for c, cell in enumerate(row.findall(oracle.W + "tc")):
+                if oracle.text(cell, "current") == task["call"]["paragraph_current"]:
+                    return {"table": t, "row": r, "col": c}
+    raise AssertionError("K2 cell not found")
+
+
+def _w_ids(task: dict) -> dict:
+    """The w:id values docx-mcp's methods take, read from the source XML."""
+    oracle, pkg = _source_facts(task)
+    call = task.get("call") or {}
+    if task["kind"] == "comment":
+        return {"reply_to": _comment_id(ROOT / task["source_path"], call["reply_to"])}
+    if task["kind"] == "resolve":
+        return {action: [_revision_id(ROOT / task["source_path"], k, a, t) for k, a, t in call[action]]
+                for action in ("accept", "reject")}
+    if task["kind"] == "replace" and call["story"] == "footnotes":
+        notes = pkg.xml(pkg.first("footnotes"))
+        hits = [n.get(oracle.W + "id") for n in notes.findall(oracle.W + "footnote")
+                if oracle.text(n, "current") == call["paragraph_current"]]
+        assert len(hits) == 1, hits
+        return {"footnote": hits[0]}
+    return {}
+
+
+#: adapter -> (image, interpreter, runner, extra spec)
+CONTAINER_TOOLS = {
+    "docx-cli": ("ooxml-bench-docx-cli:0.26.0", "bun", "docx_cli.mjs",
+                 lambda task: {"tracking_on": _tracking_on(task)}),
+    "office-word-mcp": ("ooxml-bench-office-word-mcp:1.1.11", "python", "office_word_mcp.py",
+                        lambda task: {"cell": _cell(task)}),
+    "docx-mcp": ("ooxml-bench-docx-mcp:0.7.4", "python", "docx_mcp.py",
+                 lambda task: {"ids": _w_ids(task)}),
+    "docxengine": ("ooxml-bench-docxengine:1.0.0", "python", "docxengine.py", lambda task: {}),
+}
+
+
+def container_tool(name: str):
+    image, interpreter, runner, extra = CONTAINER_TOOLS[name]
+
+    def perform(task: dict, editor: dict, output: Path) -> tuple[str, str]:
+        import json
+        import shutil
+        import subprocess
+        import tempfile
+
+        work = Path(tempfile.mkdtemp(prefix=f"{name}-", dir=ROOT / "tmp"))
+        try:
+            (work / "in").mkdir()
+            (work / "out").mkdir()
+            (work / "out").chmod(0o777)
+            shutil.copyfile(ROOT / task["source_path"], work / "in" / "source.docx")
+            suffix = Path(runner).suffix
+            shutil.copyfile(ROOT / "research" / "review_history_runners" / runner,
+                            work / "in" / f"runner{suffix}")
+            spec = {"task": task, "editor": editor, **extra(task)}
+            (work / "in" / "spec.json").write_text(json.dumps(spec), encoding="utf-8")
+            result = subprocess.run(SANDBOX + [
+                "-v", f"{work / 'in'}:/in:ro", "-v", f"{work / 'out'}:/out", image,
+                interpreter, f"/in/runner{suffix}", "/in/spec.json", "/in/source.docx",
+                "/out/output.docx"], capture_output=True, text=True, timeout=600)
+            lines = result.stdout.strip().splitlines()
+            if not lines:
+                return "error", (result.stderr or f"exit {result.returncode}").strip()[-2000:]
+            report = json.loads(lines[-1])
+            if report["status"] == "ok":
+                shutil.copyfile(work / "out" / "output.docx", output)
+            note = report.get("note") or ""
+            if report.get("steps") is not None:
+                note = json.dumps({"note": note, "steps": report["steps"]})[:4000]
+            return report["status"], note
+        finally:
+            shutil.rmtree(work, ignore_errors=True)
+    return perform
+
+
+for _name in CONTAINER_TOOLS:
+    ADAPTERS[_name] = container_tool(_name)

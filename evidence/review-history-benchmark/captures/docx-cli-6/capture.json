@@ -1,0 +1,274 @@
+{
+  "adapter": "docx-cli",
+  "repeat": 6,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-10-01T08:26:35+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "unsupported",
+      "note": "{\"note\": \"docx-cli has no open-and-save command; every write is an edit\", \"steps\": []}",
+      "seconds": 0.127,
+      "finished_at": "2026-10-01T08:26:24+00:00"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "unsupported",
+      "note": "{\"note\": \"docx-cli has no open-and-save command; every write is an edit\", \"steps\": []}",
+      "seconds": 0.122,
+      "finished_at": "2026-10-01T08:26:25+00:00"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Effective Date\", \"Commencement Date\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.256,
+      "finished_at": "2026-10-01T08:26:25+00:00",
+      "output": "K1-S1-tracked.docx",
+      "output_sha256": "a94dd5320804f883a4dbbf30d2c4c16abfadcf54be8df29553f702b58163966c"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Effective Date\", \"Commencement Date\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.271,
+      "finished_at": "2026-10-01T08:26:25+00:00",
+      "output": "K1-S1-plain.docx",
+      "output_sha256": "77c9a7eb61d3f917fac6def2499357756def474b68dfbbc2c703260a6599026d"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Completion Date\", \"Expiry Date\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.28,
+      "finished_at": "2026-10-01T08:26:25+00:00",
+      "output": "K1-S2-tracked.docx",
+      "output_sha256": "1d1e0b9296b4d0f14d8ce9c53a802636afc6640495bd3320968b9780def0bc02"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"Completion Date\", \"Expiry Date\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.534,
+      "finished_at": "2026-10-01T08:26:26+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "d83eb0f33a0890ef4190b557de4704aec3d9bae1943ebc845f003a9d1cb79e2e"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.294,
+      "finished_at": "2026-10-01T08:26:26+00:00",
+      "output": "K2-S1-tracked.docx",
+      "output_sha256": "59955a13262214e8fa81cf12364f80ce83127258a7d36ac45fdfb886fc758214"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.25,
+      "finished_at": "2026-10-01T08:26:26+00:00",
+      "output": "K2-S1-plain.docx",
+      "output_sha256": "b21ce1eac3f937e4c38232320dd633cf8b97f8af2bd6bdedd17865f0db0637ee"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.27,
+      "finished_at": "2026-10-01T08:26:27+00:00",
+      "output": "K2-S2-tracked.docx",
+      "output_sha256": "b8287c668024101e12099eb63ba6c4d5a5769ba647175225c38202d471831f84"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.538,
+      "finished_at": "2026-10-01T08:26:27+00:00",
+      "output": "K2-S2-plain.docx",
+      "output_sha256": "8be92d0dc16e75603a980294c97081861eb08c4b3a83769f843daba7b43076df"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Historic spend\", \"Annual spend\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.265,
+      "finished_at": "2026-10-01T08:26:28+00:00",
+      "output": "K3-S1-tracked.docx",
+      "output_sha256": "6ff8a942f80799fd6975a727de0528a9b0116a29f545e6fc29de65e53a4c8af4"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Historic spend\", \"Annual spend\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.273,
+      "finished_at": "2026-10-01T08:26:28+00:00",
+      "output": "K3-S1-plain.docx",
+      "output_sha256": "60e7bbe1a16afa6242107cde5e7c06775eb54f0eec1a1987560f017048484f7e"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"ten business days\", \"fifteen business days\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.273,
+      "finished_at": "2026-10-01T08:26:28+00:00",
+      "output": "K3-S2-tracked.docx",
+      "output_sha256": "89dd6100936d137e9554486ee174199e708838b1dbdfc13dce757bd67b53e100"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"ten business days\", \"fifteen business days\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.543,
+      "finished_at": "2026-10-01T08:26:29+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "c0ba4fe4448264dd77ee76fce60a430dd0a2e96afe323b4f6e6a2c65f23a1976"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"professional indemnity insurance\", \"professional liability insurance\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.258,
+      "finished_at": "2026-10-01T08:26:29+00:00",
+      "output": "K4-S1-tracked.docx",
+      "output_sha256": "57d2addcbb051a2318992822e5afd22c474bf86cdcd8b01aeafd8a52a0239675"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"professional indemnity insurance\", \"professional liability insurance\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.299,
+      "finished_at": "2026-10-01T08:26:29+00:00",
+      "output": "K4-S1-plain.docx",
+      "output_sha256": "a9131220e43a590cdb99c16e7cbfb55a3849344ea56112e4e784369b32a2fe42"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"disputed amount\", \"disputed sum\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.274,
+      "finished_at": "2026-10-01T08:26:29+00:00",
+      "output": "K4-S2-tracked.docx",
+      "output_sha256": "f26664cf789bbb38bff104473147a402168d5e0f8edc56a0208db432f59d4593"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"disputed amount\", \"disputed sum\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.551,
+      "finished_at": "2026-10-01T08:26:30+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "0acc8d5288e500ea8c006cd7dd7502ba9e3b2894b7bf897dabc582dfa3e4a3d0"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"comments\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"reply\", \"/out/output.docx\", \"--at\", \"c2\", \"--text\", \"Checked against the definitions schedule.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"add\", \"/out/output.docx\", \"--anchor\", \"30 days\", \"--text\", \"Confirm the payment term with finance.\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.491,
+      "finished_at": "2026-10-01T08:26:30+00:00",
+      "output": "K5-S1-comment.docx",
+      "output_sha256": "0f3afadaa4869e67ddd3b1a8f78c0c0a46c39b4408bef24a5b6b55a3d9db3994"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"comments\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"reply\", \"/out/output.docx\", \"--at\", \"c2\", \"--text\", \"Schedule 1 now defines it.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"add\", \"/out/output.docx\", \"--anchor\", \"sixty days\", \"--text\", \"Check the notice period with the client.\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.529,
+      "finished_at": "2026-10-01T08:26:31+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "067d8018464001c5679f819337b1afc68eaf6e8d23baefc06f871f4953cf1043"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"list\", \"/out/output.docx\", \"--json\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"apply\", \"/out/output.docx\", \"--accept\", \"tc0\", \"--reject\", \"tc1\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.394,
+      "finished_at": "2026-10-01T08:26:31+00:00",
+      "output": "K6-S1-resolve.docx",
+      "output_sha256": "3ee7c71ebd1988374f76725a02e8ee16d097ad12bd492e0d3fd30c718cdf2376"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"list\", \"/out/output.docx\", \"--json\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"apply\", \"/out/output.docx\", \"--accept\", \"tc2\", \"--reject\", \"tc5\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.389,
+      "finished_at": "2026-10-01T08:26:32+00:00",
+      "output": "K6-S2-resolve.docx",
+      "output_sha256": "17bdd39a470744e41968e20510b98caf222eaa4ac8642bb28850b1cc0ee89f9d"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Reference Agreement - Draft 8\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.258,
+      "finished_at": "2026-10-01T08:26:32+00:00",
+      "output": "K7h-S1-tracked.docx",
+      "output_sha256": "352ec781546847c68e0d7103da1aa7798de09241547c5fe322da70ea1fb150d5"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Reference Agreement - Draft 8\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.267,
+      "finished_at": "2026-10-01T08:26:32+00:00",
+      "output": "K7h-S1-plain.docx",
+      "output_sha256": "352ec781546847c68e0d7103da1aa7798de09241547c5fe322da70ea1fb150d5"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Consultancy Services Agreement - Draft 4\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.269,
+      "finished_at": "2026-10-01T08:26:33+00:00",
+      "output": "K7h-S2-tracked.docx",
+      "output_sha256": "71be9db4774a2153a0278448ffcadfe3a7d12ce21ec6fab0f75b44a327820fea"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Consultancy Services Agreement - Draft 4\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.535,
+      "finished_at": "2026-10-01T08:26:33+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "71be9db4774a2153a0278448ffcadfe3a7d12ce21ec6fab0f75b44a327820fea"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \"ECMA-376 Part 1, 5th edition, section 17.3.2.\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.369,
+      "finished_at": "2026-10-01T08:26:33+00:00",
+      "output": "K7n-S1-tracked.docx",
+      "output_sha256": "fe8cb4e41bd9b21ea087b26acefe9dc70fa28393db85188f89157d616ff3ae7f"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.377,
+      "finished_at": "2026-10-01T08:26:34+00:00",
+      "output": "K7n-S1-plain.docx",
+      "output_sha256": "a93cd209da115845f93dde24322485e4cfd43524871266a541e5151834a3360d"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \"Business days exclude public holidays in Scotland.\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.395,
+      "finished_at": "2026-10-01T08:26:34+00:00",
+      "output": "K7n-S2-tracked.docx",
+      "output_sha256": "51901d0c48a728fd6b0439b846513b90004fd1ff0acd797b415546f62ecfd30f"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "ok",
+      "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \"Business days exclude public holidays in Scotland.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+      "seconds": 0.649,
+      "finished_at": "2026-10-01T08:26:35+00:00",
+      "output": "K7n-S2-plain.docx",
+      "output_sha256": "66cd2b647f2919fcfe3cc558ce96179b9ac2dfa14a6efcb95c482bc39c672127"
+    }
+  ]
+}

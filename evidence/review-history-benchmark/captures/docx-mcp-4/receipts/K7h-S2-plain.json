@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-plain",
+  "status": "ok",
+  "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.17,
+  "finished_at": "2026-10-01T08:24:44+00:00",
+  "output": "K7h-S2-plain.docx",
+  "output_sha256": "bdc8a9ee6179ebdda7439125c8fe255aac5a46dcfd60355b991b7c8d88ef242c"
+}

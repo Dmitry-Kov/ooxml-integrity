@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-plain",
+  "status": "ok",
+  "note": "{\"result\": {\"del_id\": null, \"ins_id\": null, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.164,
+  "finished_at": "2026-10-01T08:24:41+00:00",
+  "output": "K1-S2-plain.docx",
+  "output_sha256": "37b3c59018c43a6af3d21535d9b49d1fc53f2cf582a9babc6577330e817d6297"
+}

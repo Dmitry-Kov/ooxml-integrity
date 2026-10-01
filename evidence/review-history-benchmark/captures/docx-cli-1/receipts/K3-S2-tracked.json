@@ -1,0 +1,9 @@
+{
+  "task": "K3-S2-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"ten business days\", \"fifteen business days\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.277,
+  "finished_at": "2026-10-01T08:19:04+00:00",
+  "output": "K3-S2-tracked.docx",
+  "output_sha256": "89dd6100936d137e9554486ee174199e708838b1dbdfc13dce757bd67b53e100"
+}

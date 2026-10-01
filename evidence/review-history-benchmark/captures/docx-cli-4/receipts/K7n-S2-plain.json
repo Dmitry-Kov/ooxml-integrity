@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S2-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \" Business days exclude public holidays in Scotland.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.656,
+  "finished_at": "2026-10-01T08:24:34+00:00",
+  "output": "K7n-S2-plain.docx",
+  "output_sha256": "d882b5047c8a96c951223e8299e9e50a88c03035b70f1d093d76c394d4b74188"
+}

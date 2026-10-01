@@ -1,0 +1,22 @@
+{
+  "amended_at": "2026-10-01T08:31:22+00:00",
+  "number": 7,
+  "reason": "The checker's FID000 message for docxengine's malformed K5 output named the source by its absolute path, which includes a local home directory.",
+  "rule": "The checker runs from the repository root with repository-relative paths. Scoring is unchanged.",
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "adapters",
+    "captures",
+    "checker release"
+  ],
+  "scripts": {
+    "research/review_history_benchmark.py": {
+      "before": "c9adf61dce4c9f202dc0785584fafb831bfeeb9f2aecdd399da42e0bfe2b8c85",
+      "after": "8e1625525651d08972d6e8189bccb82faac5a6da9df6807199656d6efa985ff9"
+    }
+  }
+}

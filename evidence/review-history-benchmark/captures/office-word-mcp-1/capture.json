@@ -1,0 +1,242 @@
+{
+  "adapter": "office-word-mcp",
+  "repeat": 1,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-10-01T08:19:27+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "unsupported",
+      "note": "no open-and-save tool; copy_document copies the file",
+      "seconds": 0.211,
+      "finished_at": "2026-10-01T08:19:21+00:00"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "unsupported",
+      "note": "no open-and-save tool; copy_document copies the file",
+      "seconds": 0.219,
+      "finished_at": "2026-10-01T08:19:21+00:00"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.237,
+      "finished_at": "2026-10-01T08:19:21+00:00"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "ok",
+      "note": "Replaced 1 occurrence(s) of 'Effective Date' with 'Commencement Date'.",
+      "seconds": 0.235,
+      "finished_at": "2026-10-01T08:19:21+00:00",
+      "output": "K1-S1-plain.docx",
+      "output_sha256": "e6b35dc55f47c185d199d0f7d397b74eab62611ab158cc96988113acd1d6192c"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.216,
+      "finished_at": "2026-10-01T08:19:22+00:00"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "Replaced 1 occurrence(s) of 'Completion Date' with 'Expiry Date'.",
+      "seconds": 0.238,
+      "finished_at": "2026-10-01T08:19:22+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "9734d1f2f449f5d09e72c0464bd153378388cebfd3697efda6b0e2a4e7b23984"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.232,
+      "finished_at": "2026-10-01T08:19:22+00:00"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "ok",
+      "note": "Cell text formatted successfully in table 0, cell (1,2): content='EUR 12,500'.",
+      "seconds": 0.213,
+      "finished_at": "2026-10-01T08:19:22+00:00",
+      "output": "K2-S1-plain.docx",
+      "output_sha256": "dbedbdfdf9b0600ef95a56c8d37c059a135a0739d8933dab453b5d9210d50eca"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.25,
+      "finished_at": "2026-10-01T08:19:22+00:00"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "ok",
+      "note": "Cell text formatted successfully in table 0, cell (1,2): content='EUR 12,500'.",
+      "seconds": 0.237,
+      "finished_at": "2026-10-01T08:19:23+00:00",
+      "output": "K2-S2-plain.docx",
+      "output_sha256": "7257e8036da85bc9a24596ad320881997001cd914f92df1854b57ed8cfed00db"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.217,
+      "finished_at": "2026-10-01T08:19:23+00:00"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "ok",
+      "note": "Replaced 1 occurrence(s) of 'Historic spend' with 'Annual spend'.",
+      "seconds": 0.228,
+      "finished_at": "2026-10-01T08:19:23+00:00",
+      "output": "K3-S1-plain.docx",
+      "output_sha256": "3e7ed2401c74e202d1c60535b36133001dbe486b02203678ce04edf9e17552c6"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.226,
+      "finished_at": "2026-10-01T08:19:23+00:00"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "Replaced 1 occurrence(s) of 'ten business days' with 'fifteen business days'.",
+      "seconds": 0.225,
+      "finished_at": "2026-10-01T08:19:24+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "36f633bfabb3e32ba6d45d2f6b94f168d0f49ffc4e8525ff1184290875a80b8e"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.212,
+      "finished_at": "2026-10-01T08:19:24+00:00"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "ok",
+      "note": "No occurrences of 'professional indemnity insurance' found.",
+      "seconds": 0.224,
+      "finished_at": "2026-10-01T08:19:24+00:00",
+      "output": "K4-S1-plain.docx",
+      "output_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.228,
+      "finished_at": "2026-10-01T08:19:24+00:00"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "No occurrences of 'disputed amount' found.",
+      "seconds": 0.228,
+      "finished_at": "2026-10-01T08:19:24+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "unsupported",
+      "note": "comment tools only read comments",
+      "seconds": 0.232,
+      "finished_at": "2026-10-01T08:19:25+00:00"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "unsupported",
+      "note": "comment tools only read comments",
+      "seconds": 0.213,
+      "finished_at": "2026-10-01T08:19:25+00:00"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.214,
+      "finished_at": "2026-10-01T08:19:25+00:00"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.223,
+      "finished_at": "2026-10-01T08:19:25+00:00"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.227,
+      "finished_at": "2026-10-01T08:19:26+00:00"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "ok",
+      "note": "No occurrences of 'Draft 7' found.",
+      "seconds": 0.221,
+      "finished_at": "2026-10-01T08:19:26+00:00",
+      "output": "K7h-S1-plain.docx",
+      "output_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.218,
+      "finished_at": "2026-10-01T08:19:26+00:00"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "Replaced 1 occurrence(s) of 'Consulting Services' with 'Consultancy Services'.",
+      "seconds": 0.239,
+      "finished_at": "2026-10-01T08:19:26+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "d2b06bc888f2e7c103ba34b620625828e6dd6a21533c1a47a9e108a95beecfdd"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.264,
+      "finished_at": "2026-10-01T08:19:27+00:00"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "ok",
+      "note": "No occurrences of 'section 17.3.1' found.",
+      "seconds": 0.222,
+      "finished_at": "2026-10-01T08:19:27+00:00",
+      "output": "K7n-S1-plain.docx",
+      "output_sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "unsupported",
+      "note": "no tracked-change tools",
+      "seconds": 0.211,
+      "finished_at": "2026-10-01T08:19:27+00:00"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "ok",
+      "note": "No occurrences of 'England and Wales' found.",
+      "seconds": 0.228,
+      "finished_at": "2026-10-01T08:19:27+00:00",
+      "output": "K7n-S2-plain.docx",
+      "output_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8"
+    }
+  ]
+}

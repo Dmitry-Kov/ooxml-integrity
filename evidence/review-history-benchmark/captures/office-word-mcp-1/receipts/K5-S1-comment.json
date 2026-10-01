@@ -1,0 +1,7 @@
+{
+  "task": "K5-S1-comment",
+  "status": "unsupported",
+  "note": "comment tools only read comments",
+  "seconds": 0.232,
+  "finished_at": "2026-10-01T08:19:25+00:00"
+}

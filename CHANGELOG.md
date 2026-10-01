@@ -25,7 +25,12 @@
   pending revision (corrected above). adeu 3.0.6 completes and preserves every
   tracked replacement it ran; it resolves both halves of a same-author
   replacement as one unit by design, so the K6 tasks, which name one half, are
-  not completed as declared. The benchmark itself changes no checker behaviour.
+  not completed as declared. docx-mcp preserves everything it ran. The checker
+  misses damage of kinds it does not model: docx-cli double-escapes a bullet's
+  `lvlText` and writes edits inside another author's insertion as that author's,
+  and Office-Word-MCP-Server and docxengine edit the document title instead of
+  the requested header; it reports docxengine's malformed `comments.xml`. The
+  benchmark itself changes no checker behaviour.
 
 ## 0.4.6 — 2026-09-30
 

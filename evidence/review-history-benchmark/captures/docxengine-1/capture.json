@@ -1,0 +1,258 @@
+{
+  "adapter": "docxengine",
+  "repeat": 1,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-10-01T08:19:51+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.185,
+      "finished_at": "2026-10-01T08:19:45+00:00",
+      "output": "K0-S1-save.docx",
+      "output_sha256": "aa270839de4cdb9c6522a47bf724bcc199f83719d378ce3d97651a1ba6acdb3c"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.193,
+      "finished_at": "2026-10-01T08:19:45+00:00",
+      "output": "K0-S2-save.docx",
+      "output_sha256": "4a8c0f2641b6a0362ea1671850ed1cc682ce9f14224f6dd52939b729ceeddd02"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.198,
+      "finished_at": "2026-10-01T08:19:46+00:00",
+      "output": "K1-S1-tracked.docx",
+      "output_sha256": "dbfafdd84b5e0ec22039e2f59c29fcfbb565fae310ca4c38fc42ebbf57674af6"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.206,
+      "finished_at": "2026-10-01T08:19:46+00:00",
+      "output": "K1-S1-plain.docx",
+      "output_sha256": "c8159d13f141d32e3382e5d1509d316866af8e41c08168a58621a4adf165ea43"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.215,
+      "finished_at": "2026-10-01T08:19:46+00:00",
+      "output": "K1-S2-tracked.docx",
+      "output_sha256": "4056f2a65e577d228e47bb6abdd5a93c96f26aa590fcc5bf6c23dea7a5e9a775"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.212,
+      "finished_at": "2026-10-01T08:19:46+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "6e15fcea1fdc8727d02eaf86d2a45f4b24e04e84070000937713654cdd0a7a99"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: EUR 12,000.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: EUR 12,000.\"}]",
+      "seconds": 0.192,
+      "finished_at": "2026-10-01T08:19:46+00:00"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: EUR 12,000.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: EUR 12,000.\"}]",
+      "seconds": 0.198,
+      "finished_at": "2026-10-01T08:19:47+00:00"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: EUR 12,000.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: EUR 12,000.\"}]",
+      "seconds": 0.222,
+      "finished_at": "2026-10-01T08:19:47+00:00"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: EUR 12,000.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: EUR 12,000.\"}]",
+      "seconds": 0.204,
+      "finished_at": "2026-10-01T08:19:47+00:00"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.228,
+      "finished_at": "2026-10-01T08:19:47+00:00",
+      "output": "K3-S1-tracked.docx",
+      "output_sha256": "67e8f5024b9997b059e4f341e507ad205eeda2f1ab895e7857e05c7b6c442def"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.205,
+      "finished_at": "2026-10-01T08:19:48+00:00",
+      "output": "K3-S1-plain.docx",
+      "output_sha256": "2513cd1229e2c6f8ea69b31c10978e1e4d85d4a4398de17696eb85054662d1ee"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.24,
+      "finished_at": "2026-10-01T08:19:48+00:00",
+      "output": "K3-S2-tracked.docx",
+      "output_sha256": "b547f2cc8483c4e2a891e9b08b964256d6f49d503864ddc33b872f86e62efb2d"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.22,
+      "finished_at": "2026-10-01T08:19:48+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "364823bdfabc6d1f1c5f220a39329036ee8d158ee5b29366e42520e275b7d99b"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.209,
+      "finished_at": "2026-10-01T08:19:48+00:00",
+      "output": "K4-S1-tracked.docx",
+      "output_sha256": "fa850236dd7f7557645603da35eff6c1e2c50c768adebc57578cbdf7b861b1a2"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.198,
+      "finished_at": "2026-10-01T08:19:48+00:00",
+      "output": "K4-S1-plain.docx",
+      "output_sha256": "80da01a8c4d75af747d742c49c6d5701b5ab291fe25d5f6e4d5e7d5f8f0cba60"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.213,
+      "finished_at": "2026-10-01T08:19:49+00:00",
+      "output": "K4-S2-tracked.docx",
+      "output_sha256": "3edab816da49a04c899acdd3f71d742f4f49c596a18f10e1ce39edfebf78427d"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.219,
+      "finished_at": "2026-10-01T08:19:49+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "490c7d860bd09327fe6b11900fb9a8d5d7bbc196094b8854550553271986377e"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_search\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.198,
+      "finished_at": "2026-10-01T08:19:49+00:00",
+      "output": "K5-S1-comment.docx",
+      "output_sha256": "152e91012280e770b8abb9fdbb9c04a5a6ef2b63fe5af326b657fb9737c93590"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_search\", \"error\": null, \"message\": null}, {\"tool\": \"docx_comment\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.246,
+      "finished_at": "2026-10-01T08:19:49+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "01869cba76c924b920ce9cffce626f0e88b3ba690bd404e98dd5fad5d97bf6b4"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.204,
+      "finished_at": "2026-10-01T08:19:50+00:00",
+      "output": "K6-S1-resolve.docx",
+      "output_sha256": "be9e2124d5c7c1622886173f7bbd1903c5ba3a88167afb04286f998375e3eac3"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_revision\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.206,
+      "finished_at": "2026-10-01T08:19:50+00:00",
+      "output": "K6-S2-resolve.docx",
+      "output_sha256": "16a038d9dcefb6fd6f4e8e5ac9caa2b4f618776e2e367f2b67fafeeb0e3300ad"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: Draft 7.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: Draft 7.\"}]",
+      "seconds": 0.204,
+      "finished_at": "2026-10-01T08:19:50+00:00"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: Draft 7.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: Draft 7.\"}]",
+      "seconds": 0.189,
+      "finished_at": "2026-10-01T08:19:50+00:00"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.207,
+      "finished_at": "2026-10-01T08:19:50+00:00",
+      "output": "K7h-S2-tracked.docx",
+      "output_sha256": "74784a9c56be5dbd8b0c9e277a40fc69a2f8f148ec6c0bdf8c1e4e221a66d0b5"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+      "seconds": 0.215,
+      "finished_at": "2026-10-01T08:19:51+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "3e9ddbc5b0ee804dd03bbbbaf07fe431b9bea00406bd9b50f08bc8aa7872c3b8"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: section 17.3.1.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: section 17.3.1.\"}]",
+      "seconds": 0.199,
+      "finished_at": "2026-10-01T08:19:51+00:00"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: section 17.3.1.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: section 17.3.1.\"}]",
+      "seconds": 0.193,
+      "finished_at": "2026-10-01T08:19:51+00:00"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: England and Wales.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: England and Wales.\"}]",
+      "seconds": 0.222,
+      "finished_at": "2026-10-01T08:19:51+00:00"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "rejected",
+      "note": "docx_replace: not_found: Text not found: England and Wales.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: England and Wales.\"}]",
+      "seconds": 0.197,
+      "finished_at": "2026-10-01T08:19:51+00:00"
+    }
+  ]
+}

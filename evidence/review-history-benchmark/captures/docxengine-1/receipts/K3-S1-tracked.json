@@ -1,0 +1,9 @@
+{
+  "task": "K3-S1-tracked",
+  "status": "ok",
+  "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+  "seconds": 0.228,
+  "finished_at": "2026-10-01T08:19:47+00:00",
+  "output": "K3-S1-tracked.docx",
+  "output_sha256": "67e8f5024b9997b059e4f341e507ad205eeda2f1ab895e7857e05c7b6c442def"
+}

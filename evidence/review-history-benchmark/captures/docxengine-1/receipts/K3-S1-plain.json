@@ -1,0 +1,9 @@
+{
+  "task": "K3-S1-plain",
+  "status": "ok",
+  "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+  "seconds": 0.205,
+  "finished_at": "2026-10-01T08:19:48+00:00",
+  "output": "K3-S1-plain.docx",
+  "output_sha256": "2513cd1229e2c6f8ea69b31c10978e1e4d85d4a4398de17696eb85054662d1ee"
+}

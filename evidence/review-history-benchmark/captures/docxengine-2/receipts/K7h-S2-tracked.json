@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-tracked",
+  "status": "ok",
+  "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+  "seconds": 0.193,
+  "finished_at": "2026-10-01T08:19:57+00:00",
+  "output": "K7h-S2-tracked.docx",
+  "output_sha256": "74784a9c56be5dbd8b0c9e277a40fc69a2f8f148ec6c0bdf8c1e4e221a66d0b5"
+}

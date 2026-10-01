@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-plain",
+  "status": "ok",
+  "note": "Replaced 1 occurrence(s) of 'Consulting Services' with 'Consultancy Services'.",
+  "seconds": 0.239,
+  "finished_at": "2026-10-01T08:19:26+00:00",
+  "output": "K7h-S2-plain.docx",
+  "output_sha256": "d2b06bc888f2e7c103ba34b620625828e6dd6a21533c1a47a9e108a95beecfdd"
+}

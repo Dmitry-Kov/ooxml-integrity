@@ -1,0 +1,9 @@
+{
+  "task": "K0-S2-save",
+  "status": "ok",
+  "note": "{\"result\": null, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.168,
+  "finished_at": "2026-10-01T08:24:40+00:00",
+  "output": "K0-S2-save.docx",
+  "output_sha256": "f2fac6d5316249b6d70bda7d2e5e8abcc4f90f6de698b7448abfcb30f0a0a7c5"
+}

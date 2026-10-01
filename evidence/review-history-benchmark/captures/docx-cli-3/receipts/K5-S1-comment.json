@@ -1,0 +1,9 @@
+{
+  "task": "K5-S1-comment",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"comments\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"reply\", \"/out/output.docx\", \"--at\", \"c2\", \"--text\", \"Checked against the definitions schedule.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"add\", \"/out/output.docx\", \"--anchor\", \"30 days\", \"--text\", \"Confirm the payment term with finance.\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.51,
+  "finished_at": "2026-10-01T08:24:19+00:00",
+  "output": "K5-S1-comment.docx",
+  "output_sha256": "601397437540917e0321b7f83cf07de78f9310a7b694349cb0a0d78a42bd8a9b"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K4-S2-tracked",
+  "status": "ok",
+  "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+  "seconds": 0.213,
+  "finished_at": "2026-10-01T08:19:49+00:00",
+  "output": "K4-S2-tracked.docx",
+  "output_sha256": "3edab816da49a04c899acdd3f71d742f4f49c596a18f10e1ce39edfebf78427d"
+}
