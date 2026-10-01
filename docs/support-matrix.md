@@ -2,8 +2,9 @@
 
 This page describes [0.4.6](releases/0.4.6.md), including its changes from `0.4.5`.
 The browser footer identifies its installed version.
-Version 0.4.6 accepts tracked edits in comment, note and header/footer text; see
-[DOCX fidelity against a source](#docx-fidelity-against-a-source). Version 0.4.5
+Version 0.4.6 accepts tracked edits in comment, note and header/footer text; the
+unreleased checkout also accepts them where such an item already had pending
+revisions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source). Version 0.4.5
 reports undefined `w:next` and `w:link` style references as `STY002` INFO, names
 the parser limit in `XML001` for a part nested deeper than 256 elements, and
 counts text kept as new tracked deletions toward `FID003`.
@@ -156,6 +157,13 @@ therefore not reported by `FID004`-`FID007`; the same edit made untracked still
 is. An item that already had pending revisions keeps the exact current-text
 match, so rejecting or accepting one of them still counts as a change. Each
 edited item accounts for at most one source item.
+
+In the unreleased checkout, an item with pending revisions also matches an
+edited item whose characters, deleted or not, with every revision the source
+item did not have rejected, are the source item's characters under the same
+revisions (kind, author, date) and paragraph marks. A tracked edit next to a
+pending revision is therefore not reported; accepting, rejecting or re-dating a
+pending revision, or an untracked change, still is.
 
 ## PPTX layout
 

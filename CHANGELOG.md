@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- `FID004`-`FID007` also accept a tracked edit to a comment, note or
+  header/footer that already had pending revisions. In the review-history
+  benchmark a correct tracked edit to S2's header, next to Reviewer A's pending
+  change of the draft number, was reported as a lost story (`FID007`). The item
+  now matches when the edited item, with every revision the source item did not
+  have rejected, holds the same characters under the same pending revisions
+  (kind, author and date). Accepting, rejecting or re-dating a pending revision
+  still changes that record and is reported as before. Affected pairs can change
+  exit 1 to 0.
+
 - Research: the [review-history benchmark](evidence/review-history-benchmark/README.md)
   asks what survives an ordinary edit to a reviewed DOCX and whether the checker
   reports what does not. A frozen protocol declares 30 tasks on S1 and the Word
@@ -12,7 +22,8 @@
   reported all 14; the `Run.text` path preserved all 28. On correct edits 0.4.6
   raises false alarms for requested accept/reject (`FID001`), untracked header
   and note edits (`FID007`/`FID005`) and a tracked header edit next to a
-  pending revision. No checker behaviour changes.
+  pending revision (corrected above). The benchmark itself changes no checker
+  behaviour.
 
 ## 0.4.6 — 2026-09-30
 

@@ -198,9 +198,41 @@ def _has_text_revisions(item) -> bool:
     return next(item.iter(*_TEXT_REVISIONS), None) is not None
 
 
+def _record(item) -> tuple | None:
+    """Every character of an item, deleted or not, with the text revisions
+    holding it as (tag, author, date), outermost first; each paragraph ends
+    with a mark carrying its own mark revisions. None without text revisions.
+    """
+    if not _has_text_revisions(item):
+        return None
+    wrappers = set(_TEXT_REVISIONS)
+    out = []
+    for paragraph in item.iter(W + "p"):
+        for node in paragraph.iter(W + "t", W + "delText"):
+            state = tuple((a.tag, a.get(W + "author"), a.get(W + "date"))
+                          for a in reversed(list(node.iterancestors())) if a.tag in wrappers)
+            out.extend((char, state) for char in node.text or "")
+        mark = paragraph.find(W + "pPr/" + W + "rPr")
+        out.append(("\n", () if mark is None else tuple(
+            (e.tag, e.get(W + "author"), e.get(W + "date")) for e in mark if e.tag in wrappers)))
+    return tuple(out)
+
+
+def _without_new_revisions(record: tuple, known: set) -> tuple:
+    """A record with the revisions not in `known` rejected: their insertions
+    dropped and their deletion wrappers removed."""
+    out = []
+    for char, state in record:
+        new = [w for w in state if w not in known]
+        if any(w[0] in _INSERTED for w in new):
+            continue
+        out.append((char, tuple(w for w in state if w in known)))
+    return tuple(out)
+
+
 #: One comment, note or story: (current text, text with every revision
-#: rejected, whether it has text revisions of its own).
-_Text = tuple[object, object, bool]
+#: rejected, character record if it has text revisions of its own, else None).
+_Text = tuple[object, object, object]
 
 
 def _bodies(parts: dict[str, bytes], part: str, tag: str
@@ -227,7 +259,7 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
             if not _inserted(t)
         ))
         if body or original:
-            out.append((body, original, _has_text_revisions(item)))
+            out.append((body, original, _record(item)))
         if body:
             authors.setdefault(body, item.get(W + "author") or "")
     return out, authors
@@ -239,38 +271,47 @@ def _unmatched(source: list[_Text], edited: list[_Text]) -> collections.Counter:
     An item is kept when an edited item has the same current text. A source
     item with no text revisions of its own is also kept by an edited item
     whose text, with every revision rejected, is the source text: each change
-    to it is tracked, and rejecting them restores it. Items that already had
-    revisions do not get that match, because rejecting a pending insertion or
-    deletion restores the same text while the reviewer's revision is lost.
-    Each edited item accounts for at most one source item.
+    to it is tracked, and rejecting them restores it. A source item with
+    pending revisions is kept by an edited item whose character record, with
+    every revision the source item did not have rejected, is the source
+    record: each pending revision keeps its text, author and date, and every
+    change is a new tracked revision. Rejecting or accepting a pending
+    revision changes the record and is not a match. Each edited item accounts
+    for at most one source item.
     """
-    by_current: dict = collections.defaultdict(collections.Counter)
-    by_original: dict = collections.defaultdict(collections.Counter)
-    for current, original, _ in edited:
-        by_current[current][original] += 1
-        by_original[original][current] += 1
+    by_current: dict = collections.defaultdict(list)
+    by_original: dict = collections.defaultdict(list)
+    for index, (current, original, _) in enumerate(edited):
+        by_current[current].append(index)
+        by_original[original].append(index)
+    used: set[int] = set()
 
-    def take(index: dict, reverse: dict, key) -> bool:
-        pool = index.get(key)
-        if not pool:
+    def take(index: dict, key, prefer=None) -> bool:
+        candidates = [i for i in index.get(key, ()) if i not in used]
+        if not candidates:
             return False
-        partner = key if pool[key] else next(iter(pool))
-        pool[partner] -= 1
-        if not pool[partner]:
-            del pool[partner]
-        reverse[partner][key] -= 1
-        if not reverse[partner][key]:
-            del reverse[partner][key]
+        chosen = next((i for i in candidates if prefer is not None and prefer(i)), candidates[0])
+        used.add(chosen)
         return True
 
     pending = [
-        (current, revised) for current, _, revised in source
-        if not take(by_current, by_original, current)
+        (current, original, record) for current, original, record in source
+        if not take(by_current, current, lambda i, o=original: edited[i][1] == o)
     ]
     lost: collections.Counter = collections.Counter()
-    for current, revised in pending:
-        if revised or not take(by_original, by_current, current):
+    for current, original, record in pending:
+        if record is None:
+            if not take(by_original, current):
+                lost[current] += 1
+            continue
+        known = {w for _, state in record for w in state}
+        match = next((i for i, (_, _, other) in enumerate(edited) if i not in used
+                      and other is not None and _without_new_revisions(other, known) == record),
+                     None)
+        if match is None:
             lost[current] += 1
+        else:
+            used.add(match)
     return lost
 
 
@@ -499,11 +540,10 @@ def _story_facts(parts: dict[str, bytes], document, *,
                     f"{part} is related as a {kind} but has root {root.tag!r}"
                 )
             trees[part] = (root, _story_text(root),
-                           _story_text(root, original=True),
-                           _has_text_revisions(root))
-        root, body, original, revised = trees[part]
+                           _story_text(root, original=True), _record(root))
+        root, body, original, record = trees[part]
         identity = (kind, variant, body)
-        texts.append((identity, (kind, variant, original), revised))
+        texts.append((identity, (kind, variant, original), record))
         locations.setdefault(identity, part)
         for tag, _, _ in TRACKED:
             constructs[(kind, variant, tag)] += len(list(root.iter(W + tag)))
