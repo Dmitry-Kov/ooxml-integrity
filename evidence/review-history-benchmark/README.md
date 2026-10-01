@@ -48,7 +48,7 @@ resolution. Inside another author's insertion it keeps one `w:id` on both
 fragments (`REV001`, the BND-001 class).
 
 **docx-cli** completes most tasks, with three kinds of damage the checker does
-not report:
+not report (the first two confirmed in Word for Mac, [word check](word-check/README.md)):
 
 - On every S1 output it rewrites `w:lvlText w:val="&#8226;"` in
   `numbering.xml` as `&amp;#8226;`, so the bullet becomes the literal text
@@ -96,7 +96,8 @@ outside this benchmark's scope: `STY001` on S1, where python-docx's new comment
 references a `CommentReference` style S1 does not define (docx-cli does the
 same, on outputs already damaged), `REV001` for
 adeu's repeated revision id, and `CMT005` for replies with no document anchor
-(docx-mcp, docxengine), which Word would not display.
+(docx-mcp, docxengine), which Word for Mac indeed does not display
+([word check](word-check/README.md)).
 
 ## Amendments
 
@@ -131,10 +132,8 @@ adeu, docx-mcp and python-docx stamp.
 ## Limits
 
 Two sources and one version of each tool. Formatting, layout and rendering are
-not compared. No output has yet been opened in Word; the native check of one
-representative output per damage class (bullet text, misattributed insertion,
-wrong-location edit, unanchored reply, malformed comments part) is still to
-come. The structured call names the old text only, so a tool that searches the
+not compared. Only one output per damage class was opened in Word, in one
+build of Word for Mac ([word check](word-check/README.md)). The structured call names the old text only, so a tool that searches the
 whole document can refuse a target that is unique only within its story. Agents
 are wave 2.
 

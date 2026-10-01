@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-01",
+  "timezone": "Asia/Tashkent",
+  "word": {
+    "version": "16.113.2",
+    "build": "26092012"
+  },
+  "macos": {
+    "version": "27.0",
+    "build": "26A428"
+  },
+  "protocol": "PROTOCOL.md",
+  "protocol_commit": "4849fb5",
+  "operator": "computer-use agent on the maintainer's Mac; not blind to the expectations",
+  "route": "File > Open, Original; All Markup; Reviewing pane open; AutoSave off",
+  "saved": false,
+  "input_sha256_before_and_after_match_protocol": true,
+  "inputs": {
+    "1-docx-cli-bullets.docx": "77c9a7eb61d3f917fac6def2499357756def474b68dfbbc2c703260a6599026d",
+    "2-docx-cli-attribution.docx": "57d2addcbb051a2318992822e5afd22c474bf86cdcd8b01aeafd8a52a0239675",
+    "3-docx-cli-wrong-span.docx": "f26664cf789bbb38bff104473147a402168d5e0f8edc56a0208db432f59d4593",
+    "4-docx-mcp-reply.docx": "f909351d2d871656b650fb1e06826f0b695e8bebeb935d01368c031b39450f73",
+    "5-docxengine-reply.docx": "01869cba76c924b920ce9cffce626f0e88b3ba690bd404e98dd5fad5d97bf6b4",
+    "6-control-anchored-reply.docx": "4f51e6bedbf246e7a056e4380371335aaf88c738abe659e2f2e8b5aa08d0eb8e",
+    "7-docxengine-malformed-comments.docx": "152e91012280e770b8abb9fdbb9c04a5a6ef2b63fe5af326b657fb9737c93590"
+  },
+  "environment_dialogs": {
+    "what": "Visual Basic run-time error 53 from an installed Adobe PDF add-in",
+    "per_open": 2,
+    "choice": "End"
+  },
+  "screenshots": [
+    "1-bullets-all-markup.jpg",
+    "2-attribution-all-markup.jpg",
+    "3-wrong-span-all-markup.jpg",
+    "4-thread-focused.jpg",
+    "5-reply-all-markup.jpg",
+    "6-control-reply-all-markup.jpg",
+    "7-recovered-all-markup.jpg",
+    "7-show-repairs.jpg",
+    "7-unreadable-warning.jpg"
+  ],
+  "observations": [
+    {
+      "file": "1-docx-cli-bullets.docx",
+      "result": "CONFIRMED",
+      "literal_marker": "&#8226;",
+      "affected_bullets": 2,
+      "reviewing_pane_revisions_comments": [
+        5,
+        2
+      ]
+    },
+    {
+      "file": "2-docx-cli-attribution.docx",
+      "result": "CONFIRMED",
+      "new_text_author": "A. Counsel",
+      "new_text": "professional liability insurance",
+      "deletion_author": "Benchmark Editor",
+      "reviewing_pane_revisions_comments": [
+        6,
+        2
+      ]
+    },
+    {
+      "file": "3-docx-cli-wrong-span.docx",
+      "result": "CONFIRMED",
+      "deleted_text": " The Client may",
+      "deletion_author": "Benchmark Editor",
+      "new_text": "disputed sum",
+      "new_text_author": "Reviewer A",
+      "old_tail_remains": "disputed amount.",
+      "reviewing_pane_revisions_comments": [
+        16,
+        3
+      ]
+    },
+    {
+      "file": "4-docx-mcp-reply.docx",
+      "result": "CONFIRMED",
+      "requested_reply_visible": false,
+      "comment_count": 4,
+      "reviewing_pane_revisions_comments": [
+        16,
+        4
+      ]
+    },
+    {
+      "file": "5-docxengine-reply.docx",
+      "result": "CONFIRMED",
+      "requested_reply_visible": false,
+      "comment_count": 4,
+      "reviewing_pane_revisions_comments": [
+        16,
+        4
+      ]
+    },
+    {
+      "file": "6-control-anchored-reply.docx",
+      "result": "PASS",
+      "requested_reply_visible": true,
+      "reply_author": "Benchmark Editor",
+      "comment_count": 5,
+      "reviewing_pane_revisions_comments": [
+        17,
+        5
+      ]
+    },
+    {
+      "file": "7-docxengine-malformed-comments.docx",
+      "result": "CONFIRMED",
+      "unreadable_prompt": true,
+      "recovery_choice": "Yes",
+      "show_repairs": [
+        "Comments 1"
+      ],
+      "recovered_window": "Document1",
+      "comments_after_recovery": {
+        "count": 3,
+        "original_texts_preserved": 2,
+        "empty_anonymous": 1
+      },
+      "close_choice": "DontSaveButton (Delete)",
+      "reviewing_pane_revisions_comments": [
+        6,
+        3
+      ]
+    }
+  ]
+}
