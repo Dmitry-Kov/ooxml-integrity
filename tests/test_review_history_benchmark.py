@@ -250,6 +250,12 @@ def test_repeats_agree_except_python_docx_comment_timestamps():
                value == {"comment_date": (0, 0, 1)} for key, value in differ.items()), differ
 
 
+def test_adeu_repeats_differ_only_in_the_dates_it_stamps():
+    for one in sorted((bench.CAPTURES / "adeu-1").glob("*.docx")):
+        two = bench.CAPTURES / "adeu-2" / one.name
+        assert oracle.summary(oracle.compare(one, two, ignore_dates=True)) == {}, one.name
+
+
 def test_adeu_operations_map_every_declaration():
     from research.review_history_adapters import adeu_operations
     plain = [t for t in DECLARED["tasks"] if t["mode"] == "plain"]

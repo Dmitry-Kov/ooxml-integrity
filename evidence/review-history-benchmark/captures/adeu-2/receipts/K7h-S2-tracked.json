@@ -1,0 +1,7 @@
+{
+  "task": "K7h-S2-tracked",
+  "status": "rejected",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Consulting Services\", \"new_text\": \"Consultancy Services\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"Batch validation failed:\\n- Edit 1 Failed: Ambiguous match. Target text appears 2 times. First 2 occurrences:\\n    1. \\\"[Consulting Services] Agreement - Draft {++4++}{--3--}{>>[Chg:17 insert...\\\"\\n    2. \\\"...g:18 delete] Reviewer A (pairs with Chg:17)<<}  # [Consulting Services] Agreement  This agreement is made between Alder S...\\\"\\n  To resolve, re-send this edit using ONE of these strategies:\\n    1. RECOMMENDED: Provide more surrounding context in your target_text to uniquely identify a single location (keep the default \\\"match_mode\\\": \\\"strict\\\").\\n    2. Set \\\"match_mode\\\": \\\"all\\\" to modify ALL 2 occurrences \\u2014 only after verifying from the occurrence list above that EVERY occurrence should change.\\n    3. Set \\\"match_mode\\\": \\\"first\\\" to modify only the FIRST occurrence \\u2014 only after verifying the first occurrence above is the one you intend to change.\"}",
+  "seconds": 0.597,
+  "finished_at": "2026-10-01T08:00:45+00:00"
+}

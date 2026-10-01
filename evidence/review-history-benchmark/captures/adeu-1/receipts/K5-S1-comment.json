@@ -1,0 +1,9 @@
+{
+  "task": "K5-S1-comment",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"reply\", \"target_id\": \"Com:2\", \"text\": \"Checked against the definitions schedule.\"}, {\"type\": \"modify\", \"target_text\": \"30 days\", \"new_text\": \"30 days\", \"match_mode\": \"strict\", \"regex\": false, \"comment\": \"Confirm the payment term with finance.\"}], \"adeu\": \"{\\\"actions_applied\\\": 1, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.609,
+  "finished_at": "2026-10-01T08:00:31+00:00",
+  "output": "K5-S1-comment.docx",
+  "output_sha256": "e3d197e3a077e07786e3bc47f727fa3fd4298b5c20ebf916a6aaabdf18531da9"
+}

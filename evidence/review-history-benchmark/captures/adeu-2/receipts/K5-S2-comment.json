@@ -1,0 +1,9 @@
+{
+  "task": "K5-S2-comment",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"reply\", \"target_id\": \"Com:2\", \"text\": \"Schedule 1 now defines it.\"}, {\"type\": \"modify\", \"target_text\": \"sixty days\", \"new_text\": \"sixty days\", \"match_mode\": \"strict\", \"regex\": false, \"comment\": \"Check the notice period with the client.\"}], \"adeu\": \"{\\\"actions_applied\\\": 1, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.601,
+  "finished_at": "2026-10-01T08:00:43+00:00",
+  "output": "K5-S2-comment.docx",
+  "output_sha256": "c14dd5023e6e068421bf974114fa597bc87dba0f32db6cf64a63f6d73dedd94b"
+}

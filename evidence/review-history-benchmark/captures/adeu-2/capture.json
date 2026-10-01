@@ -1,0 +1,252 @@
+{
+  "adapter": "adeu",
+  "repeat": 2,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-10-01T08:00:46+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "ok",
+      "note": "{\"operations\": [], \"adeu\": \"{}\"}",
+      "seconds": 0.584,
+      "finished_at": "2026-10-01T08:00:36+00:00",
+      "output": "K0-S1-save.docx",
+      "output_sha256": "3db684d89321161f1278a9a63b14aaf674e05909e6e1ca9ea7189e75152dc71f"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "ok",
+      "note": "{\"operations\": [], \"adeu\": \"{}\"}",
+      "seconds": 0.604,
+      "finished_at": "2026-10-01T08:00:37+00:00",
+      "output": "K0-S2-save.docx",
+      "output_sha256": "7dd82592581bc2b75c0f5664b3a7f6ea1729fe1ac274ad38ebb6f86668d126f4"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Effective Date\", \"new_text\": \"Commencement Date\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.594,
+      "finished_at": "2026-10-01T08:00:37+00:00",
+      "output": "K1-S1-tracked.docx",
+      "output_sha256": "51d578aaa008216562865ef7c6af2ddcf71398956ec1a28b4d1db0f33cbd83d8"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:37+00:00"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Completion Date\", \"new_text\": \"Expiry Date\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.612,
+      "finished_at": "2026-10-01T08:00:38+00:00",
+      "output": "K1-S2-tracked.docx",
+      "output_sha256": "2315436e4845f172d3d56826b6c82ae4a7062c95042d1a2d4802c74954156458"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:38+00:00"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"EUR 12,000\", \"new_text\": \"EUR 12,500\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.597,
+      "finished_at": "2026-10-01T08:00:38+00:00",
+      "output": "K2-S1-tracked.docx",
+      "output_sha256": "8ea1b244873249b65e2122766c84badfaac7475585f22c7fa87048069f2a5d66"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:38+00:00"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"EUR 12,000\", \"new_text\": \"EUR 12,500\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.596,
+      "finished_at": "2026-10-01T08:00:39+00:00",
+      "output": "K2-S2-tracked.docx",
+      "output_sha256": "7898b0a07bc4b90e9fa0b44dd3eaa61dd474bbe258020acd74e8f87debabce51"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:39+00:00"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Historic spend\", \"new_text\": \"Annual spend\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.587,
+      "finished_at": "2026-10-01T08:00:40+00:00",
+      "output": "K3-S1-tracked.docx",
+      "output_sha256": "a888ea4696fe2f25dd175ff83abba366bda60aee2dcb07e19956b64890435389"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:40+00:00"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"ten business days\", \"new_text\": \"fifteen business days\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.624,
+      "finished_at": "2026-10-01T08:00:40+00:00",
+      "output": "K3-S2-tracked.docx",
+      "output_sha256": "cdb7211d9c6fdd2aeaf86f691c25437369b409891004e3dea84de4da996aa179"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:40+00:00"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"professional indemnity insurance\", \"new_text\": \"professional liability insurance\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.602,
+      "finished_at": "2026-10-01T08:00:41+00:00",
+      "output": "K4-S1-tracked.docx",
+      "output_sha256": "183baa85d98ba34eed191d48de86c6a7748cb3f1f4c21d6e7a9e5b283b326b31"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:41+00:00"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"disputed amount\", \"new_text\": \"disputed sum\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.626,
+      "finished_at": "2026-10-01T08:00:41+00:00",
+      "output": "K4-S2-tracked.docx",
+      "output_sha256": "fe6c72e9a898e0472f9a724beee502950c622ccaffd9c3f30c23a972c0f939bc"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:41+00:00"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"reply\", \"target_id\": \"Com:2\", \"text\": \"Checked against the definitions schedule.\"}, {\"type\": \"modify\", \"target_text\": \"30 days\", \"new_text\": \"30 days\", \"match_mode\": \"strict\", \"regex\": false, \"comment\": \"Confirm the payment term with finance.\"}], \"adeu\": \"{\\\"actions_applied\\\": 1, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.624,
+      "finished_at": "2026-10-01T08:00:42+00:00",
+      "output": "K5-S1-comment.docx",
+      "output_sha256": "8a40d4ce2d765d94d4dc065898a996092106199439016bd8cd369b33e40a3d08"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"reply\", \"target_id\": \"Com:2\", \"text\": \"Schedule 1 now defines it.\"}, {\"type\": \"modify\", \"target_text\": \"sixty days\", \"new_text\": \"sixty days\", \"match_mode\": \"strict\", \"regex\": false, \"comment\": \"Check the notice period with the client.\"}], \"adeu\": \"{\\\"actions_applied\\\": 1, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.601,
+      "finished_at": "2026-10-01T08:00:43+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "c14dd5023e6e068421bf974114fa597bc87dba0f32db6cf64a63f6d73dedd94b"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"accept\", \"target_id\": \"Chg:101\"}, {\"type\": \"reject\", \"target_id\": \"Chg:102\"}], \"adeu\": \"{\\\"actions_applied\\\": 2, \\\"edits_applied\\\": 0}\"}",
+      "seconds": 0.607,
+      "finished_at": "2026-10-01T08:00:43+00:00",
+      "output": "K6-S1-resolve.docx",
+      "output_sha256": "af6e4cc1ca6aec4e48dde0fcc554e67e21497dce448178270532dba4c3dc08b3"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"accept\", \"target_id\": \"Chg:10\"}, {\"type\": \"reject\", \"target_id\": \"Chg:13\"}], \"adeu\": \"{\\\"actions_applied\\\": 2, \\\"edits_applied\\\": 0}\"}",
+      "seconds": 0.597,
+      "finished_at": "2026-10-01T08:00:44+00:00",
+      "output": "K6-S2-resolve.docx",
+      "output_sha256": "8fd03d4099c05351ad8994c14eecef7d2337ee443c722e90c54dd9f3d5585685"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Draft 7\", \"new_text\": \"Draft 8\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.603,
+      "finished_at": "2026-10-01T08:00:44+00:00",
+      "output": "K7h-S1-tracked.docx",
+      "output_sha256": "6cec515daa984bd00682356b9e67264c28db1398c2c51a5604e3a3006c53c167"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:44+00:00"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "rejected",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Consulting Services\", \"new_text\": \"Consultancy Services\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"Batch validation failed:\\n- Edit 1 Failed: Ambiguous match. Target text appears 2 times. First 2 occurrences:\\n    1. \\\"[Consulting Services] Agreement - Draft {++4++}{--3--}{>>[Chg:17 insert...\\\"\\n    2. \\\"...g:18 delete] Reviewer A (pairs with Chg:17)<<}  # [Consulting Services] Agreement  This agreement is made between Alder S...\\\"\\n  To resolve, re-send this edit using ONE of these strategies:\\n    1. RECOMMENDED: Provide more surrounding context in your target_text to uniquely identify a single location (keep the default \\\"match_mode\\\": \\\"strict\\\").\\n    2. Set \\\"match_mode\\\": \\\"all\\\" to modify ALL 2 occurrences \\u2014 only after verifying from the occurrence list above that EVERY occurrence should change.\\n    3. Set \\\"match_mode\\\": \\\"first\\\" to modify only the FIRST occurrence \\u2014 only after verifying the first occurrence above is the one you intend to change.\"}",
+      "seconds": 0.597,
+      "finished_at": "2026-10-01T08:00:45+00:00"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:45+00:00"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"section 17.3.1\", \"new_text\": \"section 17.3.2\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.599,
+      "finished_at": "2026-10-01T08:00:46+00:00",
+      "output": "K7n-S1-tracked.docx",
+      "output_sha256": "e751abdc830a167579990e56116d64bc86f0b7da0ac64b5bd1a0b528c43cfba0"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:46+00:00"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "ok",
+      "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"England and Wales\", \"new_text\": \"Scotland\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+      "seconds": 0.603,
+      "finished_at": "2026-10-01T08:00:46+00:00",
+      "output": "K7n-S2-tracked.docx",
+      "output_sha256": "91731dffe314c320d2abac11bdd2c70960bd031467e1cf2f60574e744ec0f38c"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "unsupported",
+      "note": "adeu writes only tracked changes",
+      "seconds": 0.0,
+      "finished_at": "2026-10-01T08:00:46+00:00"
+    }
+  ]
+}

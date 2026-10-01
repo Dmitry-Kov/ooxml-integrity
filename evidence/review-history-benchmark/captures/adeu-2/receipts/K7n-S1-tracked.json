@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"section 17.3.1\", \"new_text\": \"section 17.3.2\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.599,
+  "finished_at": "2026-10-01T08:00:46+00:00",
+  "output": "K7n-S1-tracked.docx",
+  "output_sha256": "e751abdc830a167579990e56116d64bc86f0b7da0ac64b5bd1a0b528c43cfba0"
+}
