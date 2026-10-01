@@ -266,3 +266,18 @@ def test_adeu_operations_map_every_declaration():
     reply, comment = adeu_operations(TASK["K5-S2-comment"])
     assert reply["type"] == "reply" and reply["target_id"].startswith("Com:")
     assert comment["target_text"] == comment["new_text"] == "sixty days"
+
+
+def test_container_tool_specs_resolve_on_every_declaration():
+    from research import review_history_adapters as adapters
+    assert adapters._tracking_on(TASK["K1-S1-plain"]) is False
+    assert adapters._tracking_on(TASK["K1-S2-plain"]) is True
+    for source in ("S1", "S2"):
+        assert adapters._cell(TASK[f"K2-{source}-plain"]) == {"table": 0, "row": 1, "col": 2}
+        assert adapters._cell(TASK[f"K1-{source}-plain"]) is None
+    assert adapters._w_ids(TASK["K6-S1-resolve"]) == {"accept": ["101"], "reject": ["102"]}
+    assert set(adapters._w_ids(TASK["K5-S2-comment"])) == {"reply_to"}
+    assert adapters._w_ids(TASK["K7n-S1-plain"]) == {"footnote": "1"}
+    for task in DECLARED["tasks"]:
+        for name, (_, _, _, extra) in adapters.CONTAINER_TOOLS.items():
+            json.dumps(extra(task))  # every spec is computable and serialisable

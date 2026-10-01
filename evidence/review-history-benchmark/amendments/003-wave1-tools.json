@@ -1,0 +1,106 @@
+{
+  "amended_at": "2026-10-01T08:17:57+00:00",
+  "number": 3,
+  "reason": "Adds the remaining wave-1 tools under the frozen protocol, before their first capture.",
+  "approved": "Dmitry, 2026-10-01 ('давай запускаем все')",
+  "isolation": "Each attempt runs in its own container with the same flags as adeu (amendment 2). A runner inside the container drives only the tool's public interface and prints one JSON status line; the host adapter copies the output out.",
+  "adapters": {
+    "docx-cli": "deterministic, container",
+    "office-word-mcp": "deterministic, container",
+    "docx-mcp": "deterministic, container",
+    "docxengine": "deterministic, container"
+  },
+  "tools": {
+    "docx-cli": {
+      "package": "npm bun-docx 0.26.0",
+      "repository": "kklimuk/docx-cli tag v0.26.0 (74672e4)",
+      "license": "MIT (package also ships LGPL-3.0 and NOTICES for bundled components)",
+      "tarball_sha256": "a65a9a171b291fecc4ef8f45fcb9c764a891ef92d7c81b473ce99e58b51ad705",
+      "base_image": "oven/bun@sha256:e10577f0db68676a7024391c6e5cb4b879ebd17188ab750cf10024a6d700e5c4",
+      "image": "ooxml-bench-docx-cli:0.26.0",
+      "image_id": "sha256:183286a1cdc362aa996f53a81caaa0c6e163ac0e45a93a6132814aa22d03d01a",
+      "mapping": "replace [--track] in the body; plain on a document with tracking on: track-changes off, replace, track-changes on; K7h: headers set --text with the whole new header text [--track] (the tool applies a header-text replacement directly); K7n: footnotes edit --at fnN [--track] (body edits are applied directly); K5: comments list, reply --at cN, add --anchor; K6: track-changes list --json then apply --accept/--reject tcN; K0 unsupported (no save command). DOCX_AUTHOR and DOCX_CLI_NOW are set to the editor and the declared date."
+    },
+    "office-word-mcp": {
+      "package": "PyPI office-word-mcp-server 1.1.11 (GongRzhe, archived)",
+      "license": "MIT",
+      "wheel_sha256": "ba0244686b682aaa984f4c640f1df36c6153f9a3d31cd3df56d069681e91aca5",
+      "base_image": "python@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+      "lock": "research/review_history_tools/office-word-mcp.lock",
+      "image": "ooxml-bench-office-word-mcp:1.1.11",
+      "image_id": "sha256:da0edaeea03e413113acd21a4235cc489a3f5e03ab65e9414fa08b4d85ae7bae",
+      "mapping": "plain replacements with search_and_replace; K2 with format_table_cell_text(text_content=the new cell text), the case found on 2026-09-23; tracked replacements, K0, K5 (comment tools only read) and K6 unsupported."
+    },
+    "docx-mcp": {
+      "package": "PyPI docx-mcp-server 0.7.4 (SecurityRonin)",
+      "license": "MIT",
+      "wheel_sha256": "b23b726c2b161815e4d1bd4c6a040cfed53107b2b7f4f336c91c6de798a856ce",
+      "base_image": "python@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+      "lock": "research/review_history_tools/docx-mcp.lock",
+      "image": "ooxml-bench-docx-mcp:0.7.4",
+      "image_id": "sha256:f1e7e06070081db711737533e6a50adc823aa38801520e1a7184b79b62cd0438",
+      "mapping": "DocxDocument open/save(backup=False); body replacements with replace_text (tracked flag) on the paraId its own search_text returns; K7h with edit_header_footer; K7n plain with update_footnote (tracked unsupported: no tracked mode); K5 with reply_to_comment and add_comment (whole paragraph); K6 with accept_change/reject_change. Comment, footnote and revision w:id values are read from the source XML."
+    },
+    "docxengine": {
+      "package": "PyPI docxengine 1.0.0 (ruwadgroup)",
+      "license": "Apache-2.0",
+      "wheel_sha256": "abad42400c82cd55d4c94189d5e218a3ac009efc65a045db1d32154cd528eeed",
+      "base_image": "python@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+      "lock": "research/review_history_tools/docxengine.lock",
+      "image": "ooxml-bench-docxengine:1.0.0",
+      "image_id": "sha256:ddb31ca6ff14a527157fc33e8c9b1bd9678fc86a0fe025ca0b596d909483dd95",
+      "mapping": "JSON-lines CLI: docx_open, docx_replace (track_changes per mode; it searches the main body), docx_comment list/reply/add (add anchors a whole paragraph found with docx_search), docx_revision list/accept/reject, docx_save. DOCXENGINE_AUTHOR and DOCXENGINE_FIXED_DATE are set to the editor and date."
+    }
+  },
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "checker release",
+    "existing captures"
+  ],
+  "scripts": {
+    "research/review_history_adapters.py": {
+      "before": "057a8ddf8c73ed697b9a5507f1f3ba7a72733603604d8276a64f786a2b05127a",
+      "after": "8cc351305bb53e98d83a00531b236b4fd5ceb72b0ead4f0971fcaa56122c8c82"
+    },
+    "research/review_history_runners/docx_cli.mjs": {
+      "before": null,
+      "after": "19cc3990b62db00d5ccd091593d89b99cc5776ff150cefb412ba7ebb1a4561d4"
+    },
+    "research/review_history_runners/office_word_mcp.py": {
+      "before": null,
+      "after": "8fb9a680d4b4fae0a3383750a21d3569a6c23e8140d0344cc1c47efd0c04dd72"
+    },
+    "research/review_history_runners/docx_mcp.py": {
+      "before": null,
+      "after": "14ef1cf873b872385b550a7bd08187d65051d11aa26eee75d9b8fd8426c30e46"
+    },
+    "research/review_history_runners/docxengine.py": {
+      "before": null,
+      "after": "fb255b14c583ce8a6cbd24ef0b3dd4869fdfcbc27ea3fbb1a4201da524d9088d"
+    },
+    "research/review_history_tools/docx-cli.Dockerfile": {
+      "before": null,
+      "after": "29954b24a6f2f5ce2d569462bf81985bc93ccc9e925991392cfb6e6cf5d277fc"
+    },
+    "research/review_history_tools/python-tool.Dockerfile": {
+      "before": null,
+      "after": "6e634daeec702c35537fa178db61a2062a05573dfc7294fd7e634780ff0bae71"
+    },
+    "research/review_history_tools/office-word-mcp.lock": {
+      "before": null,
+      "after": "4dca529118153f6765a7556e0ddf8a5cc3eb7f5ef70b5954726872d696e988db"
+    },
+    "research/review_history_tools/docx-mcp.lock": {
+      "before": null,
+      "after": "76e218aabf3376595453a6056c00bce9dbb51f587e7e4e4ca1bef925dd75377e"
+    },
+    "research/review_history_tools/docxengine.lock": {
+      "before": null,
+      "after": "7c5193a2be478e6a205eebc7828cfa7e4e0f84684bdca4137eae6b32679f3937"
+    }
+  }
+}
