@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S2-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"England and Wales\", \"new_text\": \"Scotland\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.603,
+  "finished_at": "2026-10-01T08:00:46+00:00",
+  "output": "K7n-S2-tracked.docx",
+  "output_sha256": "91731dffe314c320d2abac11bdd2c70960bd031467e1cf2f60574e744ec0f38c"
+}

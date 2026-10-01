@@ -446,8 +446,9 @@ def pinned() -> dict:
         amendment = json.loads(path.read_text(encoding="utf-8"))
         for group in ("scripts", "sources"):
             for name, change in amendment.get(group, {}).items():
-                assert record[group][name] == change["before"], (path.name, name)
+                assert record[group].get(name) == change["before"], (path.name, name)
                 record[group][name] = change["after"]
+        record["adapters"].update(amendment.get("adapters", {}))
     return record
 
 
@@ -473,6 +474,7 @@ def verify() -> list[str]:
 def capture(adapter: str, repeat: int) -> dict:
     import time
     assert not verify(), "protocol drift"
+    assert adapter in pinned()["adapters"], f"{adapter} is not declared"
     protocol_sha = _sha(PROTOCOL)
     declared = json.loads(TASKS.read_text(encoding="utf-8"))
     perform = _adapters()[adapter]

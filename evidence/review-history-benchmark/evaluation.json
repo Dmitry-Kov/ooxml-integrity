@@ -1,8 +1,19 @@
 {
- "evaluated_at": "2026-09-30T09:43:22+00:00",
+ "evaluated_at": "2026-10-01T08:01:19+00:00",
  "checker": "ooxml-integrity 0.4.6",
  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
  "summary": {
+  "adeu": {
+   "ok": 34,
+   "completed": 30,
+   "preserved": 30,
+   "passed": 30,
+   "clean": 26,
+   "unsupported": 24,
+   "false_alarm": 4,
+   "detected": 4,
+   "rejected": 2
+  },
   "python-docx-runs": {
    "ok": 28,
    "completed": 20,
@@ -32,6 +43,1928 @@
   }
  },
  "results": [
+  {
+   "task": "K0-S1-save",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K0-S2-save",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K1-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K1-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K1-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K1-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K2-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K2-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K2-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K2-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K3-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K3-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K3-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K3-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K4-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "REV001"
+    ],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K4-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K4-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "REV001"
+    ],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K4-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K5-S1-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {
+     "changed": [
+      [
+       [
+        "[Content_Types].xml",
+        "5bfee21048f46433"
+       ],
+       [
+        "[Content_Types].xml",
+        "a8afcefb6b500e1a"
+       ]
+      ],
+      [
+       [
+        "word/_rels/document.xml.rels",
+        "5e87ef0184a6f6c5"
+       ],
+       [
+        "word/_rels/document.xml.rels",
+        "f3071430a3884ef3"
+       ]
+      ],
+      [
+       [
+        "word/styles.xml",
+        "6d41324b8ddb99fe"
+       ],
+       [
+        "word/styles.xml",
+        "73a9b3d4e23de0ec"
+       ]
+      ]
+     ]
+    },
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K5-S2-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 3 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 3,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 6 -> 8 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 6,
+       "after": 8
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K6-S1-resolve",
+   "status": "ok",
+   "completed": false,
+   "unresolved": [],
+   "paragraphs_not_found": 1,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "document",
+        "ins",
+        "A. Counsel",
+        [
+         "2026-08-14T16:21:00Z",
+         null
+        ],
+        [],
+        "EUR 44,500 ",
+        "The parties agree the fee is EUR 40,000 per annum."
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "changed": [
+       [
+        [
+         "document",
+         "The parties agree the fee is EUR 40,000 per annum.",
+         "The parties agree the fee is EUR 44,500 per annum."
+        ],
+        [
+         "document",
+         "The parties agree the fee is EUR 40,000 per annum.",
+         "The parties agree the fee is EUR 40,000 per annum."
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {
+     "revision": true,
+     "paragraph_current": false
+    }
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K6-S2-resolve",
+   "status": "ok",
+   "completed": false,
+   "unresolved": [],
+   "paragraphs_not_found": 1,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "document",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:25:00Z",
+         "2026-09-29T09:25:00Z"
+        ],
+        [],
+        "thirty",
+        "Fees are payable within thirty days of receipt of a valid invoice."
+       ]
+      ],
+      "changed": [
+       [
+        [
+         "document",
+         "ins",
+         "Reviewer A",
+         [
+          "2026-09-29T14:25:00Z",
+          "2026-09-29T09:25:00Z"
+         ],
+         [],
+         " The Client may withhold any disputed amount.",
+         "Fees are payable within thirty days of receipt of a valid invoice."
+        ],
+        [
+         "document",
+         "ins",
+         "Reviewer A",
+         [
+          "2026-09-29T14:25:00Z",
+          "2026-09-29T09:25:00Z"
+         ],
+         [],
+         " The Client may withhold any disputed amount.",
+         "Fees are payable within forty-five days of receipt of a valid invoice."
+        ]
+       ]
+      ]
+     },
+     "paragraph": {
+      "added": [
+       [
+        "document",
+        "Fees are payable within forty-five days of receipt of a valid invoice."
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "document",
+        "Fees are payable within forty-five days of receipt of a valid invoice.",
+        "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount."
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {
+     "revision": true,
+     "paragraph": false,
+     "paragraph_current": false
+    }
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7h-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7h-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7h-S2-tracked",
+   "status": "rejected",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7h-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7n-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7n-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7n-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K7n-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 1
+  },
+  {
+   "task": "K0-S1-save",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K0-S2-save",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K1-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K1-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K1-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K1-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K2-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K2-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K2-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K2-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K3-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K3-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K3-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K3-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K4-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "REV001"
+    ],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K4-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K4-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "REV001",
+      "severity": "error",
+      "message": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "REV001"
+    ],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K4-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K5-S1-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {
+     "changed": [
+      [
+       [
+        "[Content_Types].xml",
+        "5bfee21048f46433"
+       ],
+       [
+        "[Content_Types].xml",
+        "a8afcefb6b500e1a"
+       ]
+      ],
+      [
+       [
+        "word/_rels/document.xml.rels",
+        "5e87ef0184a6f6c5"
+       ],
+       [
+        "word/_rels/document.xml.rels",
+        "f3071430a3884ef3"
+       ]
+      ],
+      [
+       [
+        "word/styles.xml",
+        "6d41324b8ddb99fe"
+       ],
+       [
+        "word/styles.xml",
+        "73a9b3d4e23de0ec"
+       ]
+      ]
+     ]
+    },
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K5-S2-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 3 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 3,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 6 -> 8 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 6,
+       "after": 8
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K6-S1-resolve",
+   "status": "ok",
+   "completed": false,
+   "unresolved": [],
+   "paragraphs_not_found": 1,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "document",
+        "ins",
+        "A. Counsel",
+        [
+         "2026-08-14T16:21:00Z",
+         null
+        ],
+        [],
+        "EUR 44,500 ",
+        "The parties agree the fee is EUR 40,000 per annum."
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "changed": [
+       [
+        [
+         "document",
+         "The parties agree the fee is EUR 40,000 per annum.",
+         "The parties agree the fee is EUR 44,500 per annum."
+        ],
+        [
+         "document",
+         "The parties agree the fee is EUR 40,000 per annum.",
+         "The parties agree the fee is EUR 40,000 per annum."
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {
+     "revision": true,
+     "paragraph_current": false
+    }
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K6-S2-resolve",
+   "status": "ok",
+   "completed": false,
+   "unresolved": [],
+   "paragraphs_not_found": 1,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "document",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:25:00Z",
+         "2026-09-29T09:25:00Z"
+        ],
+        [],
+        "thirty",
+        "Fees are payable within thirty days of receipt of a valid invoice."
+       ]
+      ],
+      "changed": [
+       [
+        [
+         "document",
+         "ins",
+         "Reviewer A",
+         [
+          "2026-09-29T14:25:00Z",
+          "2026-09-29T09:25:00Z"
+         ],
+         [],
+         " The Client may withhold any disputed amount.",
+         "Fees are payable within thirty days of receipt of a valid invoice."
+        ],
+        [
+         "document",
+         "ins",
+         "Reviewer A",
+         [
+          "2026-09-29T14:25:00Z",
+          "2026-09-29T09:25:00Z"
+         ],
+         [],
+         " The Client may withhold any disputed amount.",
+         "Fees are payable within forty-five days of receipt of a valid invoice."
+        ]
+       ]
+      ]
+     },
+     "paragraph": {
+      "added": [
+       [
+        "document",
+        "Fees are payable within forty-five days of receipt of a valid invoice."
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "document",
+        "Fees are payable within forty-five days of receipt of a valid invoice.",
+        "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount."
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {
+     "revision": true,
+     "paragraph": false,
+     "paragraph_current": false
+    }
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7h-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7h-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7h-S2-tracked",
+   "status": "rejected",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7h-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7n-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7n-S1-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7n-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.4.6",
+    "findings": [],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "adapter": "adeu",
+   "repeat": 2
+  },
+  {
+   "task": "K7n-S2-plain",
+   "status": "unsupported",
+   "adapter": "adeu",
+   "repeat": 2
+  },
   {
    "task": "K0-S1-save",
    "status": "ok",

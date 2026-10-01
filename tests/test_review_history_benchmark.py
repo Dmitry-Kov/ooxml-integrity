@@ -177,8 +177,9 @@ def test_adapter_statuses(tmp_path, kind, mode, story, status):
     from research.review_history_adapters import ADAPTERS
     task = {"kind": kind, "mode": mode, "source_path": str(_tiny(tmp_path)),
             "call": {"story": story, "old": "beta", "new": "delta"}}
-    for perform in ADAPTERS.values():
-        assert perform(task, EDITOR, tmp_path / "out.docx")[0] == status
+    for name, perform in ADAPTERS.items():
+        if name.startswith("python-docx"):
+            assert perform(task, EDITOR, tmp_path / "out.docx")[0] == status
 
 
 @pytest.mark.parametrize(("adapter", "old", "text", "bold"), [
@@ -247,3 +248,21 @@ def test_repeats_agree_except_python_docx_comment_timestamps():
     # add_comment stamps the current time; the two repeats can fall in different seconds.
     assert all(key[1].startswith("K5-") and key[0].startswith("python-docx") and
                value == {"comment_date": (0, 0, 1)} for key, value in differ.items()), differ
+
+
+def test_adeu_repeats_differ_only_in_the_dates_it_stamps():
+    for one in sorted((bench.CAPTURES / "adeu-1").glob("*.docx")):
+        two = bench.CAPTURES / "adeu-2" / one.name
+        assert oracle.summary(oracle.compare(one, two, ignore_dates=True)) == {}, one.name
+
+
+def test_adeu_operations_map_every_declaration():
+    from research.review_history_adapters import adeu_operations
+    plain = [t for t in DECLARED["tasks"] if t["mode"] == "plain"]
+    assert all(adeu_operations(t) is None for t in plain) and len(plain) == 12
+    assert adeu_operations(TASK["K0-S2-save"]) == []
+    assert adeu_operations(TASK["K6-S1-resolve"]) == [
+        {"type": "accept", "target_id": "Chg:101"}, {"type": "reject", "target_id": "Chg:102"}]
+    reply, comment = adeu_operations(TASK["K5-S2-comment"])
+    assert reply["type"] == "reply" and reply["target_id"].startswith("Com:")
+    assert comment["target_text"] == comment["new_text"] == "sixty days"

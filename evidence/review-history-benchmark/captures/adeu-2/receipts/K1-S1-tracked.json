@@ -1,0 +1,9 @@
+{
+  "task": "K1-S1-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Effective Date\", \"new_text\": \"Commencement Date\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.594,
+  "finished_at": "2026-10-01T08:00:37+00:00",
+  "output": "K1-S1-tracked.docx",
+  "output_sha256": "51d578aaa008216562865ef7c6af2ddcf71398956ec1a28b4d1db0f33cbd83d8"
+}

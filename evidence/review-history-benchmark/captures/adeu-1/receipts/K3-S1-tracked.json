@@ -1,0 +1,9 @@
+{
+  "task": "K3-S1-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Historic spend\", \"new_text\": \"Annual spend\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.613,
+  "finished_at": "2026-10-01T08:00:29+00:00",
+  "output": "K3-S1-tracked.docx",
+  "output_sha256": "31b239b6d730131bf246f31a4ba2ec34c2784a6e8664e2467d36b26bd724290a"
+}

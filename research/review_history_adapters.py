@@ -105,3 +105,91 @@ ADAPTERS = {
     "python-docx-setter": python_docx("setter"),
     "python-docx-runs": python_docx("runs"),
 }
+
+
+# --- adeu, in its own container ---------------------------------------------------
+
+ADEU_IMAGE = "ooxml-bench-adeu:3.0.6"
+SANDBOX = ["docker", "run", "--rm", "--network", "none", "--user", "65534:65534",
+           "--cap-drop", "ALL", "--security-opt", "no-new-privileges", "-e", "HOME=/tmp"]
+
+
+def _revision_id(source: Path, kind: str, author: str, text: str) -> str:
+    """The w:id adeu addresses as Chg:N, found by kind, author and text."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from research import review_history_oracle as oracle
+    pkg = oracle.Package(source)
+    hits = [e.get(oracle.W + "id") for _, _, root in oracle.stories(pkg)
+            for e in root.iter(oracle.W + kind)
+            if e.get(oracle.W + "author") == author and oracle.payload(e) == text]
+    assert len(hits) == 1, (kind, author, text, hits)
+    return hits[0]
+
+
+def _comment_id(source: Path, text: str) -> str:
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from research import review_history_oracle as oracle
+    pkg = oracle.Package(source)
+    root = pkg.xml(pkg.first("comments"))
+    hits = [c.get(oracle.W + "id") for c in root.iter(oracle.W + "comment")
+            if oracle.text(c, "current").strip() == text]
+    assert len(hits) == 1, (text, hits)
+    return hits[0]
+
+
+def adeu_operations(task: dict) -> list[dict] | None:
+    """adeu's operations for a declared task; None when adeu has no such operation."""
+    kind, mode, call = task["kind"], task["mode"], task.get("call")
+    source = ROOT / task["source_path"]
+    if kind == "save":
+        return []
+    if kind == "replace":
+        if mode == "plain":
+            return None  # adeu's contract: every write is a tracked change
+        return [{"type": "modify", "target_text": call["old"], "new_text": call["new"],
+                 "match_mode": "strict", "regex": False}]
+    if kind == "comment":
+        phrase = call["anchor"]["text"]
+        return [{"type": "reply", "target_id": f"Com:{_comment_id(source, call['reply_to'])}",
+                 "text": call["reply"]},
+                {"type": "modify", "target_text": phrase, "new_text": phrase,
+                 "match_mode": "strict", "regex": False, "comment": call["comment"]}]
+    return [{"type": action, "target_id": f"Chg:{_revision_id(source, k, a, t)}"}
+            for action in ("accept", "reject") for k, a, t in call[action]]
+
+
+def adeu(task: dict, editor: dict, output: Path) -> tuple[str, str]:
+    import json
+    import shutil
+    import subprocess
+    import tempfile
+
+    operations = adeu_operations(task)
+    if operations is None:
+        return "unsupported", "adeu writes only tracked changes"
+    work = Path(tempfile.mkdtemp(prefix="adeu-", dir=ROOT / "tmp"))
+    try:
+        (work / "in").mkdir()
+        (work / "out").mkdir()
+        (work / "out").chmod(0o777)
+        shutil.copyfile(ROOT / task["source_path"], work / "in" / "source.docx")
+        (work / "in" / "operations.json").write_text(json.dumps(
+            {"author": editor["author"], "operations": operations}), encoding="utf-8")
+        shutil.copyfile(ROOT / "research" / "review_history_adeu.py", work / "in" / "runner.py")
+        result = subprocess.run(SANDBOX + [
+            "-v", f"{work / 'in'}:/in:ro", "-v", f"{work / 'out'}:/out", ADEU_IMAGE,
+            "/src/.venv/bin/python", "/in/runner.py", "/in/operations.json",
+            "/in/source.docx", "/out/output.docx"], capture_output=True, text=True, timeout=300)
+        if result.returncode != 0:
+            return "error", (result.stderr or result.stdout).strip()[-2000:]
+        report = json.loads(result.stdout.strip().splitlines()[-1])
+        if report["status"] == "ok":
+            shutil.copyfile(work / "out" / "output.docx", output)
+        return report["status"], json.dumps({"operations": operations, "adeu": report["note"]})
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
+ADAPTERS["adeu"] = adeu

@@ -22,8 +22,10 @@
   reported all 14; the `Run.text` path preserved all 28. On correct edits 0.4.6
   raises false alarms for requested accept/reject (`FID001`), untracked header
   and note edits (`FID007`/`FID005`) and a tracked header edit next to a
-  pending revision (corrected above). The benchmark itself changes no checker
-  behaviour.
+  pending revision (corrected above). adeu 3.0.6 completes and preserves every
+  tracked replacement it ran; it resolves both halves of a same-author
+  replacement as one unit by design, so the K6 tasks, which name one half, are
+  not completed as declared. The benchmark itself changes no checker behaviour.
 
 ## 0.4.6 — 2026-09-30
 

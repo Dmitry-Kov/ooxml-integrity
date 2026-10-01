@@ -1,0 +1,11 @@
+{
+  "started_at": "2026-10-01T08:00:35+00:00",
+  "adapter": "adeu",
+  "repeat": 2,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "environment": {
+    "python": "3.12.8",
+    "python-docx": "1.2.0",
+    "lxml": "6.1.3"
+  }
+}
