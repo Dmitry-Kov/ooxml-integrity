@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- `TXT002` (WARN): text or a list label that still reads like `&#8226;` after
+  XML decoding. In wave 1 of the review-history benchmark docx-cli wrote S1's
+  bullet labels as `&amp;#8226;`, and Word for Mac shows the literal `&#8226;`
+  in place of each bullet; 0.4.6 reported nothing. Scanned: text in the main
+  document, headers, footers and notes, and `w:lvlText` in `numbering.xml`.
+  Only references to punctuation and symbol characters count, because a
+  document about XML can quote one on purpose.
+- `FID011` (WARN): with a source, text added inside another author's pending
+  insertion without a tracked insertion of its own, so Word shows the new words
+  as that author's. docx-cli's tracked replacement inside A. Counsel's insertion
+  left `professional liability insurance` as A. Counsel's insertion. Insertions
+  are grouped by author and date, and the old text must survive intact and in
+  order. A same-author continuation with the same date cannot be told apart,
+  hence a warning. `docx.fidelity.insertion-attribution` coverage counts the
+  insertions compared and says why the others were skipped.
+  Both warnings can fail `--fail-on warn` gates; the default error gate is
+  unaffected. [Scope and limits](docs/review-edit-warnings.md).
+
 - `FID004`-`FID007` also accept a tracked edit to a comment, note or
   header/footer that already had pending revisions. In the review-history
   benchmark a correct tracked edit to S2's header, next to Reviewer A's pending

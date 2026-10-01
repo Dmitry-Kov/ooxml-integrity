@@ -38,6 +38,7 @@ from .comments import (
     story_parts,
 )
 from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
+from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -830,10 +831,23 @@ class Inspector:
                           'run has edge whitespace without xml:space="preserve" - '
                           f"it will vanish: {txt[:40]!r}", where)
 
+    def check_literal_entities(self) -> None:
+        for part, node, text in entity_surfaces(self.parts, self.trees, self.main):
+            tokens = entity_spellings(text)
+            if tokens:
+                examples = ', '.join(repr(token) for token in tokens[:4])
+                self._add(
+                    'TXT002', WARN,
+                    f'literal numeric punctuation/symbol spelling after XML '
+                    f'decoding: {examples}; possible double escaping '
+                    '(a deliberate literal example is also possible)',
+                    self._xpath(node), part,
+                )
+
     CHECKS = (
         check_content_types, check_relationships, check_styles, check_numbering,
         check_footnotes, check_comments, check_revisions, check_tables,
-        check_sdt, check_whitespace,
+        check_sdt, check_whitespace, check_literal_entities,
     )
 
     # ------------------------------------------------------------------- run

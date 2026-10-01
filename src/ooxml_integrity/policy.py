@@ -316,6 +316,13 @@ def fingerprint(file: str, f: Finding) -> str:
             digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
             stable = (f"tag={f.extra.get('tag', '')}:body-sha256={digest}"
                       f":lost={f.extra.get('lost', '')}")
+    elif f.code == 'FID011':
+        identity = [f.extra.get(key, '') for key in (
+            'author', 'date', 'source_text_sha256', 'additional_text',
+        )]
+        digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
+                                          separators=(',', ':')).encode('utf-8')).hexdigest()
+        stable = f'insertion-growth-sha256={digest}'
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key
