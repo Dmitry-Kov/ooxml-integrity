@@ -1,0 +1,22 @@
+{
+  "amended_at": "2026-10-01T08:21:08+00:00",
+  "number": 4,
+  "reason": "The first evaluation of the amendment-3 captures stopped on docxengine's K5 output for S1: its word/comments.xml uses the w14 prefix without declaring it, so no XML parser accepts the part and the oracle could not read the package.",
+  "rule": "An output with any XML or relationship part that is not well-formed is a damaged package: the task is not completed and preservation fails with the category 'package', listing each part and the parser's message. The checker axis runs unchanged; the category maps to XML*/PKG* rules.",
+  "found_by": "evaluate-all on the captures of 2026-10-01, before any result was reported",
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "adapters",
+    "captures",
+    "checker release"
+  ],
+  "scripts": {
+    "research/review_history_benchmark.py": {
+      "before": "9db8cf38308a717914f109740ea7d9a41fea97f0b1906719148d0ebeb7aa7e06",
+      "after": "23d1912bfda8643b2f519fb14cdac508999c628712f0c294f3dac0ba60a58bd9"
+    }
+  }
+}

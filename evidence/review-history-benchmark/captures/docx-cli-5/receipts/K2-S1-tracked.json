@@ -1,0 +1,9 @@
+{
+  "task": "K2-S1-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.276,
+  "finished_at": "2026-10-01T08:26:15+00:00",
+  "output": "K2-S1-tracked.docx",
+  "output_sha256": "59955a13262214e8fa81cf12364f80ce83127258a7d36ac45fdfb886fc758214"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K0-S1-save",
+  "status": "ok",
+  "note": "[{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_save\", \"error\": null, \"message\": null}]",
+  "seconds": 0.185,
+  "finished_at": "2026-10-01T08:19:45+00:00",
+  "output": "K0-S1-save.docx",
+  "output_sha256": "aa270839de4cdb9c6522a47bf724bcc199f83719d378ce3d97651a1ba6acdb3c"
+}

@@ -1,0 +1,26 @@
+{
+  "amended_at": "2026-10-01T08:26:13+00:00",
+  "number": 6,
+  "reason": "Amendment 5 made the docx-cli runner pass the note text with its leading space, but docx-cli's footnotes edit writes its own space after the note mark, so its outputs got two. The text without the space, as in repeats 1-2, was right for docx-cli; docx-mcp's update_footnote writes the text verbatim and keeps the amendment-5 behaviour.",
+  "rule": "The docx-cli runner passes the note text without the leading space and keeps amendment 5's tracking switch for direct edits in every story. Repeats 3-4 of docx-cli are superseded and kept; docx-cli is captured again as repeats 5 and 6.",
+  "superseded_captures": [
+    "docx-cli-3",
+    "docx-cli-4"
+  ],
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator",
+    "images",
+    "checker release",
+    "other captures"
+  ],
+  "scripts": {
+    "research/review_history_runners/docx_cli.mjs": {
+      "before": "359c1f5254ed4d956814d36417babeaf79b9d452ed759a59e4255d8db0af13d3",
+      "after": "6ed99d10a686f72b02c02f6062e4a5b30fb0632d67edd5a159376457d18dcf0e"
+    }
+  }
+}

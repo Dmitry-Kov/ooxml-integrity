@@ -238,22 +238,35 @@ def test_frozen_captures_reevaluate_identically(recorded):
     assert keep(again) == keep(recorded)
 
 
-def test_repeats_agree_except_python_docx_comment_timestamps():
-    differ = {}
-    for adapter in ("reference", "python-docx-setter", "python-docx-runs"):
-        for one in sorted((bench.CAPTURES / f"{adapter}-1").glob("*.docx")):
-            summary = oracle.summary(oracle.compare(one, bench.CAPTURES / f"{adapter}-2" / one.name))
-            if summary:
-                differ[(adapter, one.stem)] = summary
-    # add_comment stamps the current time; the two repeats can fall in different seconds.
-    assert all(key[1].startswith("K5-") and key[0].startswith("python-docx") and
-               value == {"comment_date": (0, 0, 1)} for key, value in differ.items()), differ
+def _current_repeats():
+    """adapter -> the two capture folders the evaluation uses."""
+    superseded = set(bench.pinned().get("superseded", []))
+    found = {}
+    for folder in sorted(bench.CAPTURES.iterdir()):
+        if folder.is_dir() and folder.name not in superseded:
+            adapter, _, repeat = folder.name.rpartition("-")
+            found.setdefault(adapter, []).append(folder)
+    return found
 
 
-def test_adeu_repeats_differ_only_in_the_dates_it_stamps():
-    for one in sorted((bench.CAPTURES / "adeu-1").glob("*.docx")):
-        two = bench.CAPTURES / "adeu-2" / one.name
+#: Tools that stamp the save time on what they add.
+STAMPS_DATES = {"adeu", "docx-mcp", "python-docx-runs", "python-docx-setter"}
+
+
+@pytest.mark.parametrize("adapter", sorted(_current_repeats()))
+def test_repeats_agree_except_the_dates_a_tool_stamps(adapter):
+    first, second = _current_repeats()[adapter]
+    for one in sorted(first.glob("*.docx")):
+        two = second / one.name
+        broken = bench.unparseable(one)
+        if broken:  # the same malformed part, byte for byte
+            assert bench.unparseable(two).keys() == broken.keys()
+            for part in broken:
+                assert zipfile.ZipFile(one).read(part) == zipfile.ZipFile(two).read(part)
+            continue
         assert oracle.summary(oracle.compare(one, two, ignore_dates=True)) == {}, one.name
+        if adapter not in STAMPS_DATES:
+            assert oracle.summary(oracle.compare(one, two)) == {}, one.name
 
 
 def test_adeu_operations_map_every_declaration():
@@ -281,3 +294,18 @@ def test_container_tool_specs_resolve_on_every_declaration():
     for task in DECLARED["tasks"]:
         for name, (_, _, _, extra) in adapters.CONTAINER_TOOLS.items():
             json.dumps(extra(task))  # every spec is computable and serialisable
+
+
+def test_an_output_with_malformed_xml_is_damaged_not_a_crash(tmp_path):
+    output = _reference(tmp_path, "K5-S1-comment")
+    with zipfile.ZipFile(output) as z:
+        parts = {n: z.read(n) for n in z.namelist()}
+    parts["word/comments.xml"] = parts["word/comments.xml"].replace(
+        b"<w:comments ", b"<w:comments xmlns:x='urn:x' ", 1).replace(b"<w:p", b"<w:p q:a='1'", 1)
+    with zipfile.ZipFile(output, "w") as z:
+        for name, data in parts.items():
+            z.writestr(name, data)
+    result = bench.evaluate(TASK["K5-S1-comment"], output, "ok", EDITOR)
+    assert result["completed"] is False
+    assert list(result["preservation"]["violations"]) == ["package"]
+    assert list(result["preservation"]["violations"]["package"]["unparseable"]) == ["word/comments.xml"]

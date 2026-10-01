@@ -1,0 +1,9 @@
+{
+  "task": "K1-S1-plain",
+  "status": "ok",
+  "note": "Replaced 1 occurrence(s) of 'Effective Date' with 'Commencement Date'.",
+  "seconds": 0.235,
+  "finished_at": "2026-10-01T08:19:21+00:00",
+  "output": "K1-S1-plain.docx",
+  "output_sha256": "e6b35dc55f47c185d199d0f7d397b74eab62611ab158cc96988113acd1d6192c"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-tracked",
+  "status": "ok",
+  "note": "{\"result\": {\"del_id\": 15, \"ins_id\": 16, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.186,
+  "finished_at": "2026-10-01T08:24:41+00:00",
+  "output": "K1-S2-tracked.docx",
+  "output_sha256": "21bf8cd2fc5062f3fffa288567fb2ce6655bd7727a41b46995f832a39f91e41b"
+}

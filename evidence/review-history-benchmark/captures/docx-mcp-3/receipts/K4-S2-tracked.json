@@ -1,0 +1,7 @@
+{
+  "task": "K4-S2-tracked",
+  "status": "rejected",
+  "note": "ValueError: Cannot delete text inside an existing w:ins; accept or reject the insertion first",
+  "seconds": 0.168,
+  "finished_at": "2026-10-01T08:24:37+00:00"
+}

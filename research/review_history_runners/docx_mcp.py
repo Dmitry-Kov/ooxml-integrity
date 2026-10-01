@@ -40,8 +40,9 @@ def main(spec_path, source, output):
             result = doc.edit_header_footer("header", call["old"], call["new"], author=author,
                                             tracked=tracked)
         else:
+            # The new text exactly as declared, including the leading space.
             result = doc.update_footnote(int(ids["footnote"]),
-                                         call["paragraph_current"].replace(call["old"], call["new"]).strip())
+                                         call["paragraph_current"].replace(call["old"], call["new"]))
     elif kind == "comment":
         result = [doc.reply_to_comment(int(ids["reply_to"]), call["reply"], author=author),
                   doc.add_comment(_para(doc, call["anchor"]["text"]), call["comment"], author=author)]

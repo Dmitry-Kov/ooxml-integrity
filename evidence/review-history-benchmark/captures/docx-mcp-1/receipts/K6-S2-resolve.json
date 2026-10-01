@@ -1,0 +1,9 @@
+{
+  "task": "K6-S2-resolve",
+  "status": "ok",
+  "note": "{\"result\": [{\"change_id\": 10, \"action\": \"accepted\", \"type\": \"insertion\"}, {\"change_id\": 13, \"action\": \"rejected\", \"type\": \"deletion\"}], \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.177,
+  "finished_at": "2026-10-01T08:19:38+00:00",
+  "output": "K6-S2-resolve.docx",
+  "output_sha256": "b073cbb100a7ca0608b704333e47f8b1dbd1576d325004650375fcd2871433fe"
+}

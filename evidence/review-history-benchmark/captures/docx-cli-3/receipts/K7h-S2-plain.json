@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Consultancy Services Agreement - Draft 4\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.538,
+  "finished_at": "2026-10-01T08:24:22+00:00",
+  "output": "K7h-S2-plain.docx",
+  "output_sha256": "71be9db4774a2153a0278448ffcadfe3a7d12ce21ec6fab0f75b44a327820fea"
+}

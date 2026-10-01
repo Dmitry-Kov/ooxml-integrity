@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \" ECMA-376 Part 1, 5th edition, section 17.3.2.\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.37,
+  "finished_at": "2026-10-01T08:24:22+00:00",
+  "output": "K7n-S1-plain.docx",
+  "output_sha256": "27f70dde4d14c007257c5cfc22d62d0524424b31078124bc1b6d809ffa17c96c"
+}

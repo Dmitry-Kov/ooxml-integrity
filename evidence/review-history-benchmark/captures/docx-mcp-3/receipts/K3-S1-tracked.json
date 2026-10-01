@@ -1,0 +1,7 @@
+{
+  "task": "K3-S1-tracked",
+  "status": "rejected",
+  "note": "ValueError: Paragraph '' not found",
+  "seconds": 0.179,
+  "finished_at": "2026-10-01T08:24:36+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S2-plain",
+  "status": "ok",
+  "note": "{\"result\": {\"footnote_id\": 1, \"text\": \" Business days exclude public holidays in Scotland.\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.176,
+  "finished_at": "2026-10-01T08:24:45+00:00",
+  "output": "K7n-S2-plain.docx",
+  "output_sha256": "cf4a3794624ef1a68fd55e9766b39db14b509260951305a5d31f99c66f393a8e"
+}

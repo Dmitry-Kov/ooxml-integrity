@@ -1,0 +1,7 @@
+{
+  "task": "K7n-S1-plain",
+  "status": "rejected",
+  "note": "docx_replace: not_found: Text not found: section 17.3.1.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: section 17.3.1.\"}]",
+  "seconds": 0.195,
+  "finished_at": "2026-10-01T08:19:57+00:00"
+}

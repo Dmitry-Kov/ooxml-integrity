@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-plain",
+  "status": "ok",
+  "note": "{\"result\": {\"footnote_id\": 1, \"text\": \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.171,
+  "finished_at": "2026-10-01T08:19:45+00:00",
+  "output": "K7n-S1-plain.docx",
+  "output_sha256": "147532eefbb3413c6cd70bfc05346b367e36b25a219bcd5d0fdb7d53b97c23a9"
+}

@@ -1,0 +1,7 @@
+{
+  "task": "K7h-S1-plain",
+  "status": "rejected",
+  "note": "docx_replace: not_found: Text not found: Draft 7.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: Draft 7.\"}]",
+  "seconds": 0.189,
+  "finished_at": "2026-10-01T08:19:50+00:00"
+}

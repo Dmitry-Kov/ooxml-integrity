@@ -1,0 +1,36 @@
+{
+  "amended_at": "2026-10-01T08:24:13+00:00",
+  "number": 5,
+  "reason": "Two adapter errors found while checking the amendment-3 results, before any result was reported. (1) The docx-cli and docx-mcp runners stripped the new footnote text, dropping the space Word keeps after the footnote mark, so K7n outputs could not match the declared text. (2) The docx-cli runner switched the document's tracking off for a direct edit only in the body, so its direct footnote edit on S2 was recorded as a tracked change.",
+  "rule": "Runners pass the declared new text unchanged. For a direct edit in a document that tracks changes, the docx-cli runner switches tracking off for that edit and back on, for every story. The captures made with the faulty runners are kept, marked superseded and left out of the evaluation; the corrected adapters are captured again as repeats 3 and 4.",
+  "superseded_captures": [
+    "docx-cli-1",
+    "docx-cli-2",
+    "docx-mcp-1",
+    "docx-mcp-2"
+  ],
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "images",
+    "checker release",
+    "other captures"
+  ],
+  "scripts": {
+    "research/review_history_runners/docx_cli.mjs": {
+      "before": "19cc3990b62db00d5ccd091593d89b99cc5776ff150cefb412ba7ebb1a4561d4",
+      "after": "359c1f5254ed4d956814d36417babeaf79b9d452ed759a59e4255d8db0af13d3"
+    },
+    "research/review_history_runners/docx_mcp.py": {
+      "before": "14ef1cf873b872385b550a7bd08187d65051d11aa26eee75d9b8fd8426c30e46",
+      "after": "7a3db83e112241afe7037cd26cf994a6041858db8bcefe669f8d7a48a2e49598"
+    },
+    "research/review_history_benchmark.py": {
+      "before": "23d1912bfda8643b2f519fb14cdac508999c628712f0c294f3dac0ba60a58bd9",
+      "after": "c9adf61dce4c9f202dc0785584fafb831bfeeb9f2aecdd399da42e0bfe2b8c85"
+    }
+  }
+}

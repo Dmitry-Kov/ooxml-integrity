@@ -1,0 +1,7 @@
+{
+  "task": "K2-S1-tracked",
+  "status": "rejected",
+  "note": "docx_replace: not_found: Text not found: EUR 12,000.; steps: [{\"tool\": \"docx_open\", \"error\": null, \"message\": null}, {\"tool\": \"docx_replace\", \"error\": \"not_found\", \"message\": \"Text not found: EUR 12,000.\"}]",
+  "seconds": 0.192,
+  "finished_at": "2026-10-01T08:19:46+00:00"
+}

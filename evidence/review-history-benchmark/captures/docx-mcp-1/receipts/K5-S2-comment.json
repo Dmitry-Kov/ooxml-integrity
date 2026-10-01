@@ -1,0 +1,9 @@
+{
+  "task": "K5-S2-comment",
+  "status": "ok",
+  "note": "{\"result\": [{\"comment_id\": 15, \"parent_id\": 2, \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:19:38Z\"}, {\"comment_id\": 16, \"para_id\": \"39B5B596\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:19:38Z\"}], \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.179,
+  "finished_at": "2026-10-01T08:19:38+00:00",
+  "output": "K5-S2-comment.docx",
+  "output_sha256": "9961d5cb1eaeed1ce9c2f8f2dd8a5babcd392bde1c7756daf3a1808d05fd0735"
+}

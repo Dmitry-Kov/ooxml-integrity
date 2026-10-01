@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S1-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Reference Agreement - Draft 8\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.253,
+  "finished_at": "2026-10-01T08:24:31+00:00",
+  "output": "K7h-S1-tracked.docx",
+  "output_sha256": "352ec781546847c68e0d7103da1aa7798de09241547c5fe322da70ea1fb150d5"
+}

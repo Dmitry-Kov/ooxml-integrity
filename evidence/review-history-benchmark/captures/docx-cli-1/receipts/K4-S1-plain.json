@@ -1,0 +1,9 @@
+{
+  "task": "K4-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"professional indemnity insurance\", \"professional liability insurance\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.262,
+  "finished_at": "2026-10-01T08:19:05+00:00",
+  "output": "K4-S1-plain.docx",
+  "output_sha256": "a9131220e43a590cdb99c16e7cbfb55a3849344ea56112e4e784369b32a2fe42"
+}

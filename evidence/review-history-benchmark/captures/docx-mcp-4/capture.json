@@ -1,0 +1,254 @@
+{
+  "adapter": "docx-mcp",
+  "repeat": 4,
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "finished_at": "2026-10-01T08:24:45+00:00",
+  "attempts": [
+    {
+      "task": "K0-S1-save",
+      "status": "ok",
+      "note": "{\"result\": null, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.185,
+      "finished_at": "2026-10-01T08:24:40+00:00",
+      "output": "K0-S1-save.docx",
+      "output_sha256": "da81ffa2a9c67fc4fb546a6d1e809ae2abe4d5cd29988b40b70ab414f13041f0"
+    },
+    {
+      "task": "K0-S2-save",
+      "status": "ok",
+      "note": "{\"result\": null, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.168,
+      "finished_at": "2026-10-01T08:24:40+00:00",
+      "output": "K0-S2-save.docx",
+      "output_sha256": "f2fac6d5316249b6d70bda7d2e5e8abcc4f90f6de698b7448abfcb30f0a0a7c5"
+    },
+    {
+      "task": "K1-S1-tracked",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.172,
+      "finished_at": "2026-10-01T08:24:40+00:00"
+    },
+    {
+      "task": "K1-S1-plain",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.161,
+      "finished_at": "2026-10-01T08:24:40+00:00"
+    },
+    {
+      "task": "K1-S2-tracked",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": 15, \"ins_id\": 16, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.186,
+      "finished_at": "2026-10-01T08:24:41+00:00",
+      "output": "K1-S2-tracked.docx",
+      "output_sha256": "21bf8cd2fc5062f3fffa288567fb2ce6655bd7727a41b46995f832a39f91e41b"
+    },
+    {
+      "task": "K1-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": null, \"ins_id\": null, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.164,
+      "finished_at": "2026-10-01T08:24:41+00:00",
+      "output": "K1-S2-plain.docx",
+      "output_sha256": "37b3c59018c43a6af3d21535d9b49d1fc53f2cf582a9babc6577330e817d6297"
+    },
+    {
+      "task": "K2-S1-tracked",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.173,
+      "finished_at": "2026-10-01T08:24:41+00:00"
+    },
+    {
+      "task": "K2-S1-plain",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.188,
+      "finished_at": "2026-10-01T08:24:41+00:00"
+    },
+    {
+      "task": "K2-S2-tracked",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": 15, \"ins_id\": 16, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.188,
+      "finished_at": "2026-10-01T08:24:41+00:00",
+      "output": "K2-S2-tracked.docx",
+      "output_sha256": "f69cf0620f3177f0ffdd4ad6bafc9c0b1324e8a03ea52b3028de25f01fd0405d"
+    },
+    {
+      "task": "K2-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": null, \"ins_id\": null, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:41Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.221,
+      "finished_at": "2026-10-01T08:24:42+00:00",
+      "output": "K2-S2-plain.docx",
+      "output_sha256": "d2bc7b96e7320a9f8fd631b545fbc6f51c72e2b35da55e50ee69ff42a5d73f96"
+    },
+    {
+      "task": "K3-S1-tracked",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.167,
+      "finished_at": "2026-10-01T08:24:42+00:00"
+    },
+    {
+      "task": "K3-S1-plain",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.199,
+      "finished_at": "2026-10-01T08:24:42+00:00"
+    },
+    {
+      "task": "K3-S2-tracked",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": 15, \"ins_id\": 16, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:42Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.181,
+      "finished_at": "2026-10-01T08:24:42+00:00",
+      "output": "K3-S2-tracked.docx",
+      "output_sha256": "2a249fcf25781d7f292cb57c73158bd085bd0e2c17bf5159dd1b485d342849d1"
+    },
+    {
+      "task": "K3-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": null, \"ins_id\": null, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:42Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.181,
+      "finished_at": "2026-10-01T08:24:42+00:00",
+      "output": "K3-S2-plain.docx",
+      "output_sha256": "4f39ee571735c0982fd4106eed24a5bf76e7c481b4a8bbcbe8c782faa94b5f69"
+    },
+    {
+      "task": "K4-S1-tracked",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.155,
+      "finished_at": "2026-10-01T08:24:42+00:00"
+    },
+    {
+      "task": "K4-S1-plain",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.172,
+      "finished_at": "2026-10-01T08:24:43+00:00"
+    },
+    {
+      "task": "K4-S2-tracked",
+      "status": "rejected",
+      "note": "ValueError: Cannot delete text inside an existing w:ins; accept or reject the insertion first",
+      "seconds": 0.169,
+      "finished_at": "2026-10-01T08:24:43+00:00"
+    },
+    {
+      "task": "K4-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"del_id\": null, \"ins_id\": null, \"type\": \"replacement\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:43Z\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.167,
+      "finished_at": "2026-10-01T08:24:43+00:00",
+      "output": "K4-S2-plain.docx",
+      "output_sha256": "18e8b5b2bcc5b1cdb5d184633ec90316105f1d04aba9ff07ebe0b20284c7605e"
+    },
+    {
+      "task": "K5-S1-comment",
+      "status": "rejected",
+      "note": "ValueError: Paragraph '' not found",
+      "seconds": 0.179,
+      "finished_at": "2026-10-01T08:24:43+00:00"
+    },
+    {
+      "task": "K5-S2-comment",
+      "status": "ok",
+      "note": "{\"result\": [{\"comment_id\": 15, \"parent_id\": 2, \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:43Z\"}, {\"comment_id\": 16, \"para_id\": \"39B5B596\", \"author\": \"Benchmark Editor\", \"date\": \"2026-10-01T08:24:43Z\"}], \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.17,
+      "finished_at": "2026-10-01T08:24:43+00:00",
+      "output": "K5-S2-comment.docx",
+      "output_sha256": "f797872a792b6dd4d040e354e3271caa0b46689743cf56841abe331f479ca9c6"
+    },
+    {
+      "task": "K6-S1-resolve",
+      "status": "ok",
+      "note": "{\"result\": [{\"change_id\": 101, \"action\": \"accepted\", \"type\": \"insertion\"}, {\"change_id\": 102, \"action\": \"rejected\", \"type\": \"deletion\"}], \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.193,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K6-S1-resolve.docx",
+      "output_sha256": "473f11e06939914afb0b1a354d26ee3b2eac583fe4af2da7ddcaea44ce554ebc"
+    },
+    {
+      "task": "K6-S2-resolve",
+      "status": "ok",
+      "note": "{\"result\": [{\"change_id\": 10, \"action\": \"accepted\", \"type\": \"insertion\"}, {\"change_id\": 13, \"action\": \"rejected\", \"type\": \"deletion\"}], \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.206,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K6-S2-resolve.docx",
+      "output_sha256": "3e1deda2456f6cfc5d108cc4d13fe142577e8e4c5be4bf5ac0218660fefd8062"
+    },
+    {
+      "task": "K7h-S1-tracked",
+      "status": "ok",
+      "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.168,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K7h-S1-tracked.docx",
+      "output_sha256": "1820637745efa8f6970ab0045697bdfbd69d9ad20b062ff97b7a929f8515aacd"
+    },
+    {
+      "task": "K7h-S1-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.165,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K7h-S1-plain.docx",
+      "output_sha256": "09a8790d8f37fa5d2b1a47562bdc2e81fd6fdeb15bfd5433759fb8b569fc20e6"
+    },
+    {
+      "task": "K7h-S2-tracked",
+      "status": "ok",
+      "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.202,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K7h-S2-tracked.docx",
+      "output_sha256": "e2ae51fb0cb3432db303269520e1094636f3c33a65ccb2ba0110004f888a00f5"
+    },
+    {
+      "task": "K7h-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.17,
+      "finished_at": "2026-10-01T08:24:44+00:00",
+      "output": "K7h-S2-plain.docx",
+      "output_sha256": "bdc8a9ee6179ebdda7439125c8fe255aac5a46dcfd60355b991b7c8d88ef242c"
+    },
+    {
+      "task": "K7n-S1-tracked",
+      "status": "unsupported",
+      "note": "update_footnote has no tracked mode",
+      "seconds": 0.182,
+      "finished_at": "2026-10-01T08:24:45+00:00"
+    },
+    {
+      "task": "K7n-S1-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"footnote_id\": 1, \"text\": \" ECMA-376 Part 1, 5th edition, section 17.3.2.\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.179,
+      "finished_at": "2026-10-01T08:24:45+00:00",
+      "output": "K7n-S1-plain.docx",
+      "output_sha256": "373190c706957250a9b631a274d2abb2e7d82b39cf8103c4ef0474f93642df69"
+    },
+    {
+      "task": "K7n-S2-tracked",
+      "status": "unsupported",
+      "note": "update_footnote has no tracked mode",
+      "seconds": 0.16,
+      "finished_at": "2026-10-01T08:24:45+00:00"
+    },
+    {
+      "task": "K7n-S2-plain",
+      "status": "ok",
+      "note": "{\"result\": {\"footnote_id\": 1, \"text\": \" Business days exclude public holidays in Scotland.\"}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+      "seconds": 0.176,
+      "finished_at": "2026-10-01T08:24:45+00:00",
+      "output": "K7n-S2-plain.docx",
+      "output_sha256": "cf4a3794624ef1a68fd55e9766b39db14b509260951305a5d31f99c66f393a8e"
+    }
+  ]
+}

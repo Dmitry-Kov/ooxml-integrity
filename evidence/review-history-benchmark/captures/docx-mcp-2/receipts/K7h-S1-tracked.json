@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S1-tracked",
+  "status": "ok",
+  "note": "{\"result\": {\"location\": \"header\", \"changes\": 1}, \"repairs\": {\"orphan_footnotes_removed\": 0, \"orphan_endnotes_removed\": 0, \"paraids_deduplicated\": 0, \"broken_rels_removed\": 0}, \"warnings\": []}",
+  "seconds": 0.209,
+  "finished_at": "2026-10-01T08:19:44+00:00",
+  "output": "K7h-S1-tracked.docx",
+  "output_sha256": "70db2ba9ce30828bbc0ca94c696a8dc57a542a8d0ff69540d6bcea1b974d4475"
+}

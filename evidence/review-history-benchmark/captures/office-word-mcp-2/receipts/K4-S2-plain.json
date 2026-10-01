@@ -1,0 +1,9 @@
+{
+  "task": "K4-S2-plain",
+  "status": "ok",
+  "note": "No occurrences of 'disputed amount' found.",
+  "seconds": 0.237,
+  "finished_at": "2026-10-01T08:19:31+00:00",
+  "output": "K4-S2-plain.docx",
+  "output_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8"
+}

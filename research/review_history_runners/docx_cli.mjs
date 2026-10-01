@@ -35,26 +35,31 @@ try {
   const tracked = task.mode === "tracked";
   const author = ["--author", editor.author];
   if (task.kind === "replace") {
+    // The new text as declared.
     const fullNew = call.paragraph_current.replace(call.old, call.new);
+    const track = tracked ? ["--track", ...author] : [];
+    let edit;
     if (call.story === "document") {
-      if (tracked) docx("replace", outputPath, call.old, call.new, "--track", ...author);
-      else if (spec.tracking_on) {
-        docx("track-changes", "off", outputPath);
-        docx("replace", outputPath, call.old, call.new);
-        docx("track-changes", "on", outputPath);
-      } else docx("replace", outputPath, call.old, call.new);
+      edit = () => docx("replace", outputPath, call.old, call.new, ...track);
     } else if (call.story.startsWith("header")) {
-      docx("headers", "set", outputPath, "--text", fullNew, ...(tracked ? ["--track", ...author] : []));
+      edit = () => docx("headers", "set", outputPath, "--text", fullNew, ...track);
     } else if (call.story === "footnotes") {
       const notes = JSON.parse(docx("footnotes", "list", outputPath));
       const note = notes.find((n) => n.text.trim() === call.paragraph_current.trim());
       if (!note) throw Object.assign(new Error("footnote not found in footnotes list"), { refused: true });
-      docx("footnotes", "edit", outputPath, "--at", note.id, "--text", fullNew.trim(),
-           ...(tracked ? ["--track", ...author] : []));
+      // footnotes edit writes its own space after the note mark: pass the text without it.
+      edit = () => docx("footnotes", "edit", outputPath, "--at", note.id, "--text", fullNew.trim(), ...track);
     } else {
       finish("unsupported", `no docx-cli command edits ${call.story}`);
       process.exit(0);
     }
+    // A direct edit in a document that tracks changes: switch tracking off
+    // for that edit and back on, as a user of the CLI would.
+    if (!tracked && spec.tracking_on) {
+      docx("track-changes", "off", outputPath);
+      edit();
+      docx("track-changes", "on", outputPath);
+    } else edit();
   } else if (task.kind === "comment") {
     const comments = JSON.parse(docx("comments", "list", outputPath));
     const parent = comments.find((c) => c.text.trim() === call.reply_to);

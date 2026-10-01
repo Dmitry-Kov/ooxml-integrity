@@ -1,0 +1,9 @@
+{
+  "task": "K3-S1-plain",
+  "status": "ok",
+  "note": "Replaced 1 occurrence(s) of 'Historic spend' with 'Annual spend'.",
+  "seconds": 0.223,
+  "finished_at": "2026-10-01T08:19:30+00:00",
+  "output": "K3-S1-plain.docx",
+  "output_sha256": "5878262d3a21ecdc12f9786ec7ea1843d56f46afa67f9af6490f6623770ba07f"
+}

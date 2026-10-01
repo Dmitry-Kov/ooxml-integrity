@@ -1,0 +1,9 @@
+{
+  "task": "K5-S2-comment",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"comments\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"reply\", \"/out/output.docx\", \"--at\", \"c2\", \"--text\", \"Schedule 1 now defines it.\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"comments\", \"add\", \"/out/output.docx\", \"--anchor\", \"sixty days\", \"--text\", \"Check the notice period with the client.\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.529,
+  "finished_at": "2026-10-01T08:26:31+00:00",
+  "output": "K5-S2-comment.docx",
+  "output_sha256": "067d8018464001c5679f819337b1afc68eaf6e8d23baefc06f871f4953cf1043"
+}
