@@ -26,6 +26,8 @@ from .comments import (
     story_parts,
 )
 from .revision_text import inventory as revision_inventory, assess as assess_revision_text
+from .revision_growth import inventory as pending_inventory, assess as assess_insertion_growth
+from .literal_entities import surfaces as entity_surfaces
 from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
 from .fonts import resolve_face
 from .pptx_layout import Deck, layout_shape, read_deck
@@ -288,6 +290,21 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         _element_surface(document, "t", "docx.text-whitespace", "text run",
                          gap=gap),
     ))
+    entity_count = sum(1 for _ in entity_surfaces(parts, trees, main))
+    entity_parts = set(stories) | {'word/numbering.xml'}
+    entity_failed = sorted(entity_parts.intersection(parts).difference(trees))
+    items.append(_item(
+        'docx.literal-entities',
+        CoverageStatus.SKIPPED if document is None or entity_failed else (
+            CoverageStatus.CHECKED if entity_count else CoverageStatus.NOT_PRESENT),
+        (gap if document is None else
+         f'{entity_failed[0]} could not be parsed for literal entity spellings'
+         if entity_failed else
+         f'evaluated {entity_count} Word text/numbering values for literal numeric '
+         'punctuation/symbol spellings; deliberate examples and split-node '
+         'spellings cannot be classified'),
+        entity_count,
+    ))
 
     story_names = [
         name for name in parts
@@ -371,6 +388,36 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     else:
         text_surface = _item('docx.fidelity.revision-text', fidelity_status, fidelity_reason)
     items.append(text_surface)
+    if fidelity_status is CoverageStatus.CHECKED:
+        try:
+            if document is None:
+                raise ValueError('edited main document could not be parsed')
+            source_document = main_document(source_parts, main_part(source_parts))
+            growth = assess_insertion_growth(
+                pending_inventory(source_document), pending_inventory(document),
+            )
+            if not growth.source_count:
+                growth_status = CoverageStatus.NOT_PRESENT
+                growth_reason = 'no source main-story insertions to compare'
+            elif growth.skipped:
+                growth_status = (CoverageStatus.ESTIMATED if growth.compared
+                                 else CoverageStatus.SKIPPED)
+                growth_reason = (f'assessed {growth.compared} source insertion(s); '
+                                 + '; '.join(dict.fromkeys(growth.skipped)))
+            else:
+                growth_status = CoverageStatus.CHECKED
+                growth_reason = (f'assessed {growth.compared} source insertion(s) '
+                                 'for preserved text plus surplus under old '
+                                 'author/date contexts; identity and edit intent '
+                                 'are not established')
+            growth_surface = _item('docx.fidelity.insertion-attribution', growth_status,
+                                   growth_reason, growth.compared)
+        except (KeyError, ValueError, etree.XMLSyntaxError) as e:
+            growth_surface = _item('docx.fidelity.insertion-attribution', CoverageStatus.SKIPPED,
+                                   f'insertion attribution comparison unavailable: {e}')
+    else:
+        growth_surface = _item('docx.fidelity.insertion-attribution', fidelity_status, fidelity_reason)
+    items.append(growth_surface)
     if fidelity_status is CoverageStatus.CHECKED:
         try:
             if not source_parts:

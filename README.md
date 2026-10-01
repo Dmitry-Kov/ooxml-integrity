@@ -213,12 +213,14 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `TBL001-002` | `tblGrid` present; cells per row vs grid columns, accounting for `gridSpan` |
 | `SDT001-002` | content-control integrity |
 | `TXT001` | XML edge whitespace in runs without effective `xml:space="preserve"` |
+| `TXT002` | WARN: literal numeric punctuation/symbol spellings after XML decoding, suggesting double escaping; [scope and intent ambiguity](docs/review-edit-warnings.md) |
 | `FID000` | requested source comparison could not run |
 | `FID001-003` | losses and additions relative to the source, by construct count; drop in text volume |
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids; 0.4.6: a tracked edit is not a loss |
 | `FID007-008` | header/footer story missing or changed untracked (0.4.6); tracked constructs lost from headers/footers |
 | `FID009` | 0.4.2: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
 | `FID010` | 0.4.2: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
+| `FID011` | WARN: preserved source insertion text plus additional characters under its old author/date context without a distinct new insertion context; [scope and intent ambiguity](docs/review-edit-warnings.md) |
 
 `.pptx`:
 

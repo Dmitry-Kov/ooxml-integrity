@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from ooxml_integrity import ERROR, Finding
+from ooxml_integrity import ERROR, WARN, Finding
 from ooxml_integrity.policy import (
     BASELINE_VERSION,
     ConfigError,
@@ -133,6 +133,27 @@ def test_story_construct_fingerprint_is_stable_across_counts():
 def test_make_baseline_writes_version_two():
     baseline = make_baseline({"edited.docx": [_count_loss("ins")]})
     assert baseline["version"] == BASELINE_VERSION == 2
+
+
+@pytest.mark.parametrize('key,new_value', [
+    ('author', 'Another confidential author'), ('date', '2026-10-02T10:00:00Z'),
+    ('source_text_sha256', hashlib.sha256(b'another source').hexdigest()),
+    ('additional_text', 'another confidential addition'),
+])
+def test_insertion_growth_acknowledgement_does_not_hide_a_different_warning(key, new_value):
+    extra = {'author': 'Private reviewer', 'date': '2026-10-01T10:00:00Z',
+             'source_text_sha256': hashlib.sha256(b'private source').hexdigest(),
+             'additional_text': 'private new text', 'additional_characters': 16}
+    old = Finding('FID011', WARN, 'old wording', part='word/document.xml', extra=extra)
+    new = Finding('FID011', WARN, 'new wording', part=old.part,
+                  extra={**extra, key: new_value})
+    baseline = make_baseline({'edited.docx': [old]})
+    kept, dropped = apply_baseline('edited.docx', [new], dict(baseline['findings']))
+    assert kept == [new] and dropped == []
+    encoded = json.dumps(baseline)
+    assert extra['author'] not in encoded and extra['additional_text'] not in encoded
+    same = Finding('FID011', ERROR, 'changed wording/severity', part=old.part, extra=extra)
+    assert fingerprint('edited.docx', old) == fingerprint('edited.docx', same)
 
 
 def test_version_one_baseline_is_rejected_with_regeneration_instruction(tmp_path):

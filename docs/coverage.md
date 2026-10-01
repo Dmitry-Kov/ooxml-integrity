@@ -76,11 +76,20 @@ DOCX reports:
 - `docx.styles`, `docx.numbering`, `docx.footnotes`, `docx.comments`,
   `docx.revisions`, `docx.tables`, `docx.content-controls`, and
   `docx.text-whitespace`;
+- `docx.literal-entities` for the scoped numeric punctuation/symbol spelling
+  heuristic; [limitations](review-edit-warnings.md);
 - `docx.header-footer-semantics`, `docx.media-content`, and
   `docx.strict-wordprocessingml`;
 - `docx.fidelity.main-story`, `docx.fidelity.revision-text`,
+  `docx.fidelity.insertion-attribution`,
   `docx.fidelity.note-revisions`, `docx.fidelity.note-bodies`, and
   `docx.fidelity.headers-footers`.
+
+`docx.fidelity.insertion-attribution` counts source insertion wrappers assessed
+for preserved text plus surplus under old author/effective-date contexts. Mixed
+assessed/skipped groups are `estimated`; unsupported content and removed,
+altered or reordered source groups are skipped. This is a narrow WARN witness,
+not a general attribution or edit-intent guarantee. [Profile and gaps](review-edit-warnings.md).
 
 The 0.4.3 [paragraph-mark/content ID correction](paragraph-revision-ids.md)
 does not change `docx.revisions` coverage counts or schema v1: both revision

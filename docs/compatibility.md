@@ -33,6 +33,12 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased `TXT002` and `FID011` are new WARN findings for suspected double
+escaping and insertion-context growth respectively. They can affect warning
+gates and configured severity overrides, but not the default error-only gate
+by themselves. Two coverage identifiers are additive under schema v1. Intent
+ambiguity and skipped comparison groups are explicit; [profiles and limits](review-edit-warnings.md).
+
 The 0.4.5 parser-limit correction changes messages only: `XML001` names
 the 256-element nesting limit of the safe parser, and `PKG006` says that an
 unparseable main part was not checked rather than missing. Codes, severities,

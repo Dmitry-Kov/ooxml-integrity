@@ -30,6 +30,9 @@ from .comments import (
     relationships_part,
 )
 from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
+from .revision_growth import (
+    PendingInsertions, inventory as pending_inventory, assess as assess_insertion_growth,
+)
 from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -568,6 +571,7 @@ class _Snapshot:
     revision_text: dict[str, tuple | None]
     body_locations: dict[str, str]
     inline_revision_text: RevisionText
+    pending_insertions: PendingInsertions
     note_revisions: NoteRevisions
     main: str
 
@@ -628,6 +632,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
         revision_inventory(doc),
+        pending_inventory(doc),
         note_revision_inventory(parts),
         main,
     )
@@ -764,6 +769,12 @@ def compare(source: str | Path, edited: str | Path, *,
     out.extend(_story_losses(source_snapshot, edited_snapshot))
     out.extend(assess_revision_text(
         source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
+        part=source_snapshot.main,
+    ).findings)
+    # A narrow growth witness, not proof of which editor performed the change.
+    out.extend(assess_insertion_growth(
+        source_snapshot.pending_insertions,
+        edited_snapshot.pending_insertions,
         part=source_snapshot.main,
     ).findings)
     out.extend(assess_note_revisions(
