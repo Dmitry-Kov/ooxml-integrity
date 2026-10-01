@@ -1,0 +1,48 @@
+{
+  "amended_at": "2026-10-01T07:58:14+00:00",
+  "number": 2,
+  "reason": "Adds adeu to wave 1 under the frozen protocol, before its first capture.",
+  "rule": "adeu 3.0.6 runs each attempt in its own container (--network none, user 65534, all capabilities dropped, no-new-privileges, source read-only). The host adapter maps a task to adeu's documented operations: ModifyText for tracked replacements, ReplyComment and a comment-only ModifyText (target equal to new text) for K5, AcceptChange/RejectChange for K6 with Chg:N and Com:N taken from the source XML by author and text. adeu writes only tracked changes, so plain replacements are unsupported. adeu stamps new revisions with the current time; the evaluator does not score the editor's dates. capture refuses an adapter that is not declared.",
+  "adapters": {
+    "adeu": "deterministic, container"
+  },
+  "tool": {
+    "adeu": "3.0.6",
+    "tag": "v3.0.6",
+    "commit": "df9e00ccae1421baa9591ffd4a2cdceae9cdcd4a",
+    "uv_lock_sha256": "b5541348c008f7192cfc2544de551f85eda86ef0db11c5c96cf8d010847dda4e",
+    "base_image": "python@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+    "uv": "0.12.20",
+    "image": "ooxml-bench-adeu:3.0.6",
+    "image_id": "sha256:af3259bf41d11f61f918838a48c199babc5ad2fbd88f2f904fb82916e94148c6",
+    "license": "MIT",
+    "approved": "Dmitry, 2026-10-01 ('пока дальше едем', after the adeu proposal)"
+  },
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "checker release",
+    "existing captures"
+  ],
+  "scripts": {
+    "research/review_history_benchmark.py": {
+      "before": "80755c7a9748a5919410c900e56e759a25e30f3b788240f38d7d9cd01fc07ed2",
+      "after": "9db8cf38308a717914f109740ea7d9a41fea97f0b1906719148d0ebeb7aa7e06"
+    },
+    "research/review_history_adapters.py": {
+      "before": "a80d0eec6a640cf978ca7ac1b76186a7595e17465122c54c9ee159c66174cdcb",
+      "after": "057a8ddf8c73ed697b9a5507f1f3ba7a72733603604d8276a64f786a2b05127a"
+    },
+    "research/review_history_adeu.py": {
+      "before": null,
+      "after": "4856a7b5aa76f258238653badfb3605f67ba290ff82775421d220b31e119763f"
+    },
+    "research/review_history_tools/adeu.Dockerfile": {
+      "before": null,
+      "after": "091cff6245b5ecf3f99ee8c6add25e9885d38851d3d9ef744c8b4b3e838ca47c"
+    }
+  }
+}
