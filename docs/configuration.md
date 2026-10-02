@@ -67,6 +67,49 @@ regenerating: [0.4.0 migration instructions](releases/0.4.0.md#breaking-change-b
 `--show-suppressed` prints what was hidden and why. A full worked config is in
 [`docs/example-config.toml`](example-config.toml).
 
+## Changes the edit was asked to make
+
+Some edits remove what `compare()` protects, on purpose: accepting or rejecting
+a named revision lowers the revision count (`FID001`), rewriting a header
+without tracking changes that story (`FID007`), editing a note's text untracked
+changes its body (`FID005`). Declare such a change as an expectation instead of
+switching the rule off. A matching finding is listed as expected and does not
+fail the run; an expectation that nothing matches is an `EXP001` error, because
+the requested change did not happen, or not the way it was declared. A baseline
+or a severity override only ever hides; an expectation also checks.
+
+```toml
+[[expect]]
+code = "FID001"
+path = "out/accepted/*.docx"
+reason = "the pipeline accepts Counsel's pending insertion"
+match = { tag = "ins", before = 2, after = 1 }
+
+[[expect]]
+code = "FID007"
+reason = "the release step rewrites the draft number in the header"
+match = { story_kind = "header", variant = "default" }
+```
+
+`match` names values the finding must carry: `part`, `where`, or any key of its
+`extra` in the JSON report (`tag`, `before`, `after` for `FID001`;
+`story_kind`, `variant`, `body` for `FID007`; `body` for `FID004`-`FID006`).
+Values compare as text. `path` is a glob as for `ignore`, `reason` is required,
+and `required = false` allows a finding without requiring it, for a change the
+checker may or may not report, such as `FID009` for a direct edit inside an
+insertion that holds another author's nested deletion. On the command line,
+`--expect FID001:tag=ins,before=2,after=1` declares one for every file checked;
+values there cannot contain commas. The JSON report lists matched findings under
+`expected` with the reason, SARIF marks them suppressed with it, and a baseline
+never records or absorbs `EXP001`. In Python, `expect(findings, expectations)`
+returns the kept findings, with any `EXP001`, and the expected ones.
+
+An expectation states which change is allowed, not what the result must look
+like: `FID007` for a header accepts any change to that header's text. Combined
+with the other checks it still caught, in the
+[review-history benchmark](../evidence/review-history-benchmark/expectations/README.md),
+tools that edited the document title instead of the requested header.
+
 ## Findings in the pull request, not in a log
 
 ```yaml

@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Expected changes: `--expect CODE:key=value,...`, `[[expect]]` in the config
+  and `expect()` in Python declare a finding the edit was asked to cause, such as
+  `FID001` for accepting a named revision or `FID007` for an untracked header
+  rewrite. A matching finding is listed as expected and does not fail the run;
+  an expectation that matches nothing is a new `EXP001` error, because the
+  requested change did not happen. Re-reading the review-history benchmark with
+  expectations derived from each task's declaration: of 537 correct outputs,
+  130 were flagged and 12 still are (all true reports outside the oracle's
+  scope: unanchored replies, a repeated revision id, an undefined style); of 69
+  damaged outputs, 59 were caught and 63 are - the 4 added are tools that edited
+  the document title instead of the requested header. [Expected changes](docs/configuration.md#changes-the-edit-was-asked-to-make),
+  [analysis](evidence/review-history-benchmark/expectations/README.md).
+
 ## 0.4.7 — 2026-10-02
 
 [Upgrade notes and verified publication](docs/releases/0.4.7.md). Published
