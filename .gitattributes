@@ -16,3 +16,6 @@
 # Preserve upstream font notices byte-for-byte, including their whitespace.
 demo/fonts/*-OFL.txt -whitespace
 demo/fonts/Liberation-AUTHORS.txt -whitespace
+
+# What the wave-2 agents left behind is kept byte for byte: receipts hash it.
+evidence/review-history-benchmark/captures/*/agent/** -text

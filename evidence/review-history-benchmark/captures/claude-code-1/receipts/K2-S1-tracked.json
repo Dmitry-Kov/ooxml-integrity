@@ -1,0 +1,9 @@
+{
+  "task": "K2-S1-tracked",
+  "status": "ok",
+  "note": "{\"agent\": \"claude-code\", \"image\": \"ooxml-bench-agent-claude:2.1.287\", \"image_id\": \"sha256:c46f9bfa7aa3332371a900412b91e747070e087b074ab03d694c26638ec9d336\", \"status\": \"ok\", \"exit_code\": 0, \"seconds\": 19.1, \"timeout_seconds\": 3600, \"input_unchanged\": true, \"transcript\": \"K2-S1-tracked.jsonl.gz\", \"transcript_sha256\": \"d305a95bf201dc6deca0a0c772cd7a497ff91869a3b0b1277cd15b688cd8e192\", \"stderr_tail\": \"\", \"files\": {}, \"other_files\": [], \"egress\": [{\"kind\": \"connect\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"api.anthropic.com\", \"sent\": 251709, \"received\": 19450, \"at\": \"2026-10-02T06:57:03Z\"}, {\"kind\": \"connect\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"api.anthropic.com\", \"sent\": 1981, \"received\": 5246, \"at\": \"2026-10-02T06:57:04Z\"}, {\"kind\": \"connect\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"api.anthropic.com\", \"sent\": 1986, \"received\": 5223, \"at\": \"2026-10-02T06:57:04Z\"}, {\"kind\": \"connect\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"api.anthropic.com\", \"sent\": 197110, \"received\": 20210, \"at\": \"2026-10-02T06:57:22Z\"}]}",
+  "seconds": 19.217,
+  "finished_at": "2026-10-02T06:57:22+00:00",
+  "output": "K2-S1-tracked.docx",
+  "output_sha256": "e8df354a44175feb555b348236cbcc13818afe8b839ad3ce24d29018854682b5"
+}

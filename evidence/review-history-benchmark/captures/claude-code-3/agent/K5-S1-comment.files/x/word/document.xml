@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<w:body>
+
+<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:t>Master Services Agreement</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ClauseBody"/></w:pPr>
+<w:r><w:t xml:space="preserve">This agreement governs the provision of services described in Schedule A. The </w:t></w:r>
+<w:commentRangeStart w:id="2"/>
+<w:r><w:rPr><w:rStyle w:val="DefinedTerm"/></w:rPr><w:t>Effective Date</w:t></w:r>
+<w:commentRangeEnd w:id="2"/>
+<w:r><w:commentReference w:id="2"/></w:r>
+<w:r><w:t xml:space="preserve"> is the date of last signature.</w:t></w:r>
+<w:r><w:rPr><w:rStyle w:val="FootnoteReference"/></w:rPr><w:footnoteReference w:id="1"/></w:r>
+</w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr><w:r><w:t>1. Scope of Services</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr></w:pPr>
+<w:r><w:t>The Supplier shall deliver the services with reasonable skill and care.</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="1"/><w:numId w:val="1"/></w:numPr></w:pPr>
+<w:r><w:t xml:space="preserve">Service levels are set out in </w:t></w:r>
+<w:hyperlink r:id="rId8"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>the published specification</w:t></w:r></w:hyperlink>
+<w:r><w:t>.</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr></w:pPr>
+<w:ins w:id="101" w:author="A. Counsel" w:date="2026-08-14T16:20:00Z">
+<w:r><w:t>The Supplier shall maintain professional indemnity insurance.</w:t></w:r></w:ins></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ClauseBody"/></w:pPr>
+<w:r><w:t xml:space="preserve">The parties agree the fee is </w:t></w:r>
+<w:del w:id="102" w:author="A. Counsel" w:date="2026-08-14T16:21:00Z">
+<w:r><w:delText xml:space="preserve">EUR 40,000 </w:delText></w:r></w:del>
+<w:ins w:id="103" w:author="A. Counsel" w:date="2026-08-14T16:21:00Z">
+<w:r><w:t xml:space="preserve">EUR 44,500 </w:t></w:r></w:ins>
+<w:r><w:t>per annum.</w:t></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr><w:r><w:t>2. Commercial Terms</w:t></w:r></w:p>
+
+<w:sdt><w:sdtPr><w:alias w:val="Contract Reference"/><w:tag w:val="contract_ref"/>
+<w:id w:val="770011"/><w:text/></w:sdtPr>
+<w:sdtContent><w:p><w:pPr><w:pStyle w:val="ClauseBody"/></w:pPr>
+<w:r><w:t>Contract reference: MSA-2026-0417</w:t></w:r></w:p></w:sdtContent></w:sdt>
+
+<w:tbl>
+<w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="0" w:type="auto"/></w:tblPr>
+<w:tblGrid><w:gridCol w:w="3000"/><w:gridCol w:w="3000"/><w:gridCol w:w="3000"/></w:tblGrid>
+<w:tr><w:trPr><w:tblHeader/></w:trPr>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>Milestone</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>Date</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>Fee</w:t></w:r></w:p></w:tc></w:tr>
+<w:tr>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>Discovery</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>2026-09-15</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p>
+<w:commentRangeStart w:id="1"/><w:r><w:t>EUR 12,000</w:t></w:r><w:commentRangeEnd w:id="1"/>
+<w:r><w:commentReference w:id="1"/></w:r></w:p></w:tc></w:tr>
+<w:tr>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>Delivery</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>2026-12-01</w:t></w:r></w:p></w:tc>
+<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>EUR 32,500</w:t></w:r></w:p></w:tc></w:tr>
+</w:tbl>
+
+<w:p><w:pPr><w:pStyle w:val="ClauseBody"/></w:pPr>
+<w:r><w:t xml:space="preserve">Historic spend is shown below.</w:t></w:r>
+<w:r><w:rPr><w:rStyle w:val="FootnoteReference"/></w:rPr><w:footnoteReference w:id="2"/></w:r></w:p>
+
+<w:p><w:r><w:drawing>
+<wp:inline distT="0" distB="0" distL="0" distR="0">
+<wp:extent cx="3810000" cy="2286000"/><wp:docPr id="1" name="Picture 1" descr="Historic spend by quarter"/>
+<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic><pic:nvPicPr><pic:cNvPr id="1" name="chart.png"/><pic:cNvPicPr/></pic:nvPicPr>
+<pic:blipFill><a:blip r:embed="rId7"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>
+<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="3810000" cy="2286000"/></a:xfrm>
+<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic>
+</a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>
+
+<w:p><w:pPr><w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="2"/></w:numPr></w:pPr>
+<w:r><w:t>Invoices are payable within 30 days.</w:t></w:r></w:p>
+<w:p><w:pPr><w:pStyle w:val="ListParagraph"/><w:numPr><w:ilvl w:val="0"/><w:numId w:val="2"/></w:numPr></w:pPr>
+<w:r><w:t>Late payment attracts statutory interest.</w:t></w:r></w:p>
+
+<w:sectPr>
+<w:headerReference w:type="default" r:id="rId5"/>
+<w:footerReference w:type="default" r:id="rId6"/>
+<w:pgSz w:w="11906" w:h="16838"/>
+<w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708"/>
+</w:sectPr>
+</w:body></w:document>

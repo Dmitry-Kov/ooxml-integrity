@@ -1,0 +1,20 @@
+{
+  "amended_at": "2026-10-02T08:15:51+00:00",
+  "number": 10,
+  "reason": "OpenCode with the local Qwen3.8 27B takes about 7 minutes per editing attempt on the host (Apple M3 Max, 48 GB), with the GPU fully loaded; five repeats would be 15-20 hours of that.",
+  "approved": "Dmitry, 2026-10-02, while the OpenCode pilot was 15 of 30 attempts in and before any of its outputs was evaluated.",
+  "rule": "opencode-qwen is captured once (repeat 1, the pilot) instead of five times. Its results are reported per attempt, without claims about repeatability. More repeats need a new amendment. Claude Code and Codex keep the protocol's five repeats.",
+  "adapters": {
+    "opencode-qwen": "agent, container (one repeat, amendment 010)"
+  },
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "agent harness",
+    "checker release",
+    "existing receipts and captures"
+  ]
+}

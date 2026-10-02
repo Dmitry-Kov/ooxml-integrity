@@ -239,11 +239,14 @@ def test_frozen_captures_reevaluate_identically(recorded):
 
 
 def _current_repeats():
-    """adapter -> the two capture folders the evaluation uses."""
-    superseded = set(bench.pinned().get("superseded", []))
+    """adapter -> the two capture folders the evaluation uses, for every tool
+    declared deterministic (an agent's repeats are separate model sessions)."""
+    record = bench.pinned()
+    superseded = set(record.get("superseded", []))
     found = {}
     for folder in sorted(bench.CAPTURES.iterdir()):
-        if folder.is_dir() and folder.name not in superseded:
+        kind = record["adapters"].get(folder.name.rpartition("-")[0], "")
+        if folder.is_dir() and folder.name not in superseded and not kind.startswith("agent"):
             adapter, _, repeat = folder.name.rpartition("-")
             found.setdefault(adapter, []).append(folder)
     return found
@@ -309,3 +312,37 @@ def test_an_output_with_malformed_xml_is_damaged_not_a_crash(tmp_path):
     assert result["completed"] is False
     assert list(result["preservation"]["violations"]) == ["package"]
     assert list(result["preservation"]["violations"]["package"]["unparseable"]) == ["word/comments.xml"]
+
+
+def test_an_interrupted_capture_resumes_without_rerunning_finished_attempts(tmp_path, monkeypatch):
+    import research.review_history_benchmark as bench
+    monkeypatch.setattr(bench, "CAPTURES", tmp_path)
+    monkeypatch.setattr(bench, "verify", lambda: [])
+    monkeypatch.setattr(bench, "pinned", lambda: {"adapters": {"fake": "test"}})
+    calls, stopped = [], []
+
+    class Stopped(BaseException):
+        """The runner itself is killed mid-attempt, not the tool failing."""
+
+    def fake(task, editor, output):
+        calls.append(task["id"])
+        if task["id"] == "K1-S1-plain" and not stopped:
+            stopped.append(True)
+            raise Stopped
+        output.write_bytes(b"PK")
+        return "ok", ""
+    monkeypatch.setattr(bench, "_adapters", lambda: {"fake": fake})
+    with pytest.raises(Stopped):
+        bench.capture("fake", 1)
+    folder = tmp_path / "fake-1"
+    first = sorted(p.stem for p in (folder / "receipts").glob("*.json"))
+    assert first and "K1-S1-plain" not in first and not (folder / "capture.json").exists()
+    (folder / "agent").mkdir()
+    (folder / "agent" / "K1-S1-plain.jsonl.gz").write_bytes(b"partial")
+    calls.clear()
+    summary = bench.capture("fake", 1, resume=True)
+    assert calls[0] == "K1-S1-plain" and not set(calls) & set(first)
+    assert len(summary["attempts"]) == 30 and summary["resumed"] == ["resumed-1.json"]
+    assert not (folder / "agent" / "K1-S1-plain.jsonl.gz").exists()
+    with pytest.raises(AssertionError):
+        bench.capture("fake", 1, resume=True)

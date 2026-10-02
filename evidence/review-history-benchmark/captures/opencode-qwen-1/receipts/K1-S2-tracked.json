@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-tracked",
+  "status": "ok",
+  "note": "{\"agent\": \"opencode-qwen\", \"image\": \"ooxml-bench-agent-opencode:1.18.34\", \"image_id\": \"sha256:f4bea522134d32616fbabf9da8594d360185bafcf68ac2e1610c3132541527d7\", \"status\": \"ok\", \"exit_code\": 0, \"seconds\": 406.5, \"timeout_seconds\": 3600, \"input_unchanged\": true, \"transcript\": \"K1-S2-tracked.jsonl.gz\", \"transcript_sha256\": \"b7f9815209c64d123a47963461b4e4904776ac47c673e8a4f40d211c15d1c8f6\", \"stderr_tail\": \"\", \"files\": {\".work/doc_lines.txt\": \"690c7f9714116f474811bc8d23001c142685e748dceff385dd5b618ef284e60d\", \".work/document.xml\": \"5665b87db7d4f6d519b8b2f6bc4c942411d59f081b1936e419e3431dd2d26e9f\"}, \"other_files\": [], \"egress\": [{\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.5\", \"host\": \"host.docker.internal:11434\", \"sent\": 271126, \"received\": 318511, \"at\": \"2026-10-02T07:04:35Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.5\", \"host\": \"host.docker.internal:11434\", \"sent\": 30347, \"received\": 26280, \"at\": \"2026-10-02T07:04:35Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.5\", \"host\": \"host.docker.internal:11434\", \"sent\": 30346, \"received\": 45456, \"at\": \"2026-10-02T07:09:36Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.5\", \"host\": \"host.docker.internal:11434\", \"sent\": 990735, \"received\": 1596191, \"at\": \"2026-10-02T07:11:21Z\"}]}",
+  "seconds": 406.72,
+  "finished_at": "2026-10-02T07:11:22+00:00",
+  "output": "K1-S2-tracked.docx",
+  "output_sha256": "92b99241cbbf564b4592606524e16ccd75f81fd473c03d42bc5740362d49e89c"
+}

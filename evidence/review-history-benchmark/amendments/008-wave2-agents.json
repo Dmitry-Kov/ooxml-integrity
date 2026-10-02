@@ -1,0 +1,187 @@
+{
+  "amended_at": "2026-10-02T06:54:35+00:00",
+  "number": 8,
+  "reason": "Declares wave 2: three coding agents under the frozen protocol, before their first capture.",
+  "approved": "Dmitry, 2026-10-02: Claude Code headless, Codex CLI and OpenCode with local qwen3.8; a pilot first, then the protocol's five repeats; Claude on the subscription with Opus 5.5, Codex through a ChatGPT login.",
+  "adapters": {
+    "claude-code": "agent, container",
+    "codex": "agent, container",
+    "opencode-qwen": "agent, container"
+  },
+  "rule": {
+    "prompt": "You are working in the current directory, which contains the Word document input.docx. {prompt} Write the result to output.docx in the current directory and leave input.docx unchanged. Python 3 with python-docx and lxml is installed; nothing else can be installed and there is no internet access.",
+    "prompt_note": "{prompt} is the task's declared prompt, verbatim. The agent is not told the editor's date, so revision and comment dates are the ones the agent writes.",
+    "attempt": "A fresh directory holding only the task's source as input.docx, and a fresh HOME with only the agent's configuration (Codex: also its login). One agent session per attempt, no retries, no human input.",
+    "status": "timeout after timeout_seconds; ok when output.docx is a ZIP package; otherwise rejected when the agent exited 0 and error when it did not. A changed input.docx is recorded (input_unchanged) and the output is still evaluated.",
+    "timeout_seconds": 3600,
+    "repeats": "five per agent, as the protocol declares. Repeat 1 is the pilot: if the harness has to change after it, an amendment marks the pilot captures superseded and repeat 1 is captured again; otherwise the pilot counts. Repeats 2-5 follow the pilot's review.",
+    "evaluation": "unchanged: the same oracle, evaluator and checker release (0.4.6 wheel) as wave 1.",
+    "kept": "per attempt, beside the capture: the agent's stdout event stream (gzip), its exit code, stderr tail, the egress log lines for its address, and text files it left in the directory (scripts, at most 256 KiB each). Credentials never enter the record; transcripts were checked for token patterns."
+  },
+  "isolation": {
+    "network": "Agents run on the internal Docker network ooxml-bench-agents, which has no route out. The egress container (research/review_history_agents_egress.py, standard library only, python:3.12-slim by digest, user 65534, no capabilities) is on that network and the default bridge: HTTP CONNECT on port 3128 only to the allowed hosts on port 443, and a TCP relay on port 11434 to the host's Ollama, reached as ollama.internal because Ollama accepts only local host names. Every connection is logged.",
+    "allowed_hosts": [
+      "api.anthropic.com",
+      "chatgpt.com",
+      "auth.openai.com"
+    ],
+    "container": [
+      "--cap-drop",
+      "ALL",
+      "--security-opt",
+      "no-new-privileges",
+      "--user",
+      "65534:65534",
+      "--memory",
+      "4g",
+      "--pids-limit",
+      "512",
+      "--network",
+      "ooxml-bench-agents"
+    ],
+    "web_tools": "none: Claude Code runs with --disallowedTools WebSearch,WebFetch; Codex without --search (its web search is off by default); OpenCode with webfetch denied.",
+    "observed_in_smoke_tests": "Codex also tried ab.chatgpt.com and *.oaiusercontent.com; both are denied and logged, and the run completed."
+  },
+  "environment": {
+    "base_image": "python:3.12-slim@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+    "python_packages": "python-docx 1.2.0, lxml 6.1.3, typing-extensions 4.16.0 from research/review_history_tools/agents/python.lock (hashes of office-word-mcp.lock)",
+    "dockerfile": "research/review_history_tools/agents/agents.Dockerfile, one target per agent"
+  },
+  "agents": {
+    "claude-code": {
+      "package": "npm @anthropic-ai/claude-code 2.1.287, native build @anthropic-ai/claude-code-linux-arm64 2.1.287",
+      "license": "SEE LICENSE IN README.md (proprietary, not open source)",
+      "tarball_sha256": "33ae16d93e1e82b9de10684b540650a9ffbb654eb317e4bfc1ff0f932816f1bc",
+      "image": "ooxml-bench-agent-claude:2.1.287",
+      "image_id": "sha256:c46f9bfa7aa3332371a900412b91e747070e087b074ab03d694c26638ec9d336",
+      "model": "claude-opus-5-5",
+      "command": [
+        "claude",
+        "-p",
+        "{wrapped prompt}",
+        "--model",
+        "claude-opus-5-5",
+        "--output-format",
+        "stream-json",
+        "--verbose",
+        "--dangerously-skip-permissions",
+        "--disallowedTools",
+        "WebSearch,WebFetch"
+      ],
+      "auth": "subscription OAuth token from `claude setup-token` (CLAUDE_CODE_OAUTH_TOKEN, local ignored file)",
+      "env": [
+        "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1",
+        "DISABLE_AUTOUPDATER=1",
+        "HTTPS_PROXY=http://egress:3128"
+      ]
+    },
+    "codex": {
+      "package": "npm @openai/codex 0.160.0, native build @openai/codex@0.160.0-linux-arm64",
+      "license": "Apache-2.0",
+      "tarball_sha256": "9286a7e01d500ab224c9e5b4b223b7adf5dd901fba23efd6a438316426798b17",
+      "image": "ooxml-bench-agent-codex:0.160.0",
+      "image_id": "sha256:53aa9e4db22bc8599092945d00224c2266450b3dbcafb6f3f86cc9f617c62e14",
+      "model": "gpt-6.1-sol (Codex 0.160.0's default with a ChatGPT login on 2026-10-02, pinned)",
+      "command": [
+        "codex",
+        "exec",
+        "--json",
+        "--skip-git-repo-check",
+        "--dangerously-bypass-approvals-and-sandbox",
+        "-C",
+        "/work",
+        "-m",
+        "gpt-6.1-sol",
+        "{wrapped prompt}"
+      ],
+      "auth": "ChatGPT device-code login made for these containers only; auth.json copied into each attempt's CODEX_HOME and copied back when Codex refreshes it",
+      "env": [
+        "CODEX_HOME=/home/agent/.codex",
+        "HTTPS_PROXY=http://egress:3128"
+      ]
+    },
+    "opencode-qwen": {
+      "package": "npm opencode-ai 1.18.34, native build opencode-linux-arm64 1.18.34",
+      "license": "MIT",
+      "tarball_sha256": "6f212b830b26bf72012f1665559ddb5fd7e928294971d3d1c99a0f9097a3d311",
+      "image": "ooxml-bench-agent-opencode:1.18.34",
+      "image_id": "sha256:f4bea522134d32616fbabf9da8594d360185bafcf68ac2e1610c3132541527d7",
+      "model": "Ollama 0.34.4 on the host (Apple M3 Max, 48 GB), qwen3.8-64k:latest, digest c69cc4be857da78a56d0fe9791751c7f3f656989da5c2eca9e866aefe9b226fd (Qwen3.8 27B, nvfp4, 64k context)",
+      "command": [
+        "opencode",
+        "run",
+        "--pure",
+        "--format",
+        "json",
+        "--auto",
+        "-m",
+        "ollama/qwen3.8-64k",
+        "{wrapped prompt}"
+      ],
+      "config": {
+        "$schema": "https://opencode.ai/config.json",
+        "model": "ollama/qwen3.8-64k",
+        "share": "disabled",
+        "autoupdate": false,
+        "permission": {
+          "edit": "allow",
+          "bash": "allow",
+          "webfetch": "deny"
+        },
+        "provider": {
+          "ollama": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "Ollama",
+            "options": {
+              "baseURL": "http://ollama.internal:11434/v1"
+            },
+            "models": {
+              "qwen3.8-64k": {
+                "name": "qwen3.8-64k",
+                "tool_call": true,
+                "reasoning": true,
+                "limit": {
+                  "context": 65536,
+                  "output": 16384
+                }
+              }
+            }
+          }
+        }
+      },
+      "auth": "none (local model)"
+    }
+  },
+  "smoke_tests": "Before this declaration each agent replaced a phrase inside another author's insertion in tmp/repros/insertion.docx, a repro file outside the benchmark: OpenCode 153 s, Codex 37 s, Claude Code 16 s, all correct. No benchmark source was given to an agent before this amendment.",
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "checker release",
+    "existing captures"
+  ],
+  "scripts": {
+    "research/review_history_adapters.py": {
+      "before": "8cc351305bb53e98d83a00531b236b4fd5ceb72b0ead4f0971fcaa56122c8c82",
+      "after": "aa4720a734ea880bea376615dfa635bae41d8332e7da69c9e58d923008979606"
+    },
+    "research/review_history_agents.py": {
+      "before": null,
+      "after": "50e4742d58b0dbc3fc7af40b038cecc28c12046a3708f36217613356a07d1d68"
+    },
+    "research/review_history_agents_egress.py": {
+      "before": null,
+      "after": "6f2fcf68e7a80945553011ee8fa57759f8a81730115d14f39a384a9623e3e31d"
+    },
+    "research/review_history_tools/agents/agents.Dockerfile": {
+      "before": null,
+      "after": "283fa1b0fa79cb0e393388c4db8bf4d4a71fc0e705222f4ce081b679f54c807d"
+    },
+    "research/review_history_tools/agents/python.lock": {
+      "before": null,
+      "after": "35e2def60a674a9cb64e674c3e5753d2708a555650ebdea3cda8fb9d05f70220"
+    }
+  }
+}
