@@ -70,7 +70,7 @@ regenerating: [0.4.0 migration instructions](releases/0.4.0.md#breaking-change-b
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.4.6
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.7
   id: docs
   continue-on-error: true
   with:
