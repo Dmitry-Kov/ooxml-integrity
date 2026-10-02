@@ -502,7 +502,11 @@ def verify() -> list[str]:
     return problems
 
 
-def capture(adapter: str, repeat: int) -> dict:
+def capture(adapter: str, repeat: int, resume: bool = False) -> dict:
+    """Run every task once. `resume` continues a capture whose runner was
+    interrupted (no capture.json): tasks with a receipt are finished attempts
+    and are kept; the rest, including one interrupted mid-run, run afresh."""
+    import shutil
     import time
     assert not verify(), "protocol drift"
     assert adapter in pinned()["adapters"], f"{adapter} is not declared"
@@ -510,12 +514,29 @@ def capture(adapter: str, repeat: int) -> dict:
     declared = json.loads(TASKS.read_text(encoding="utf-8"))
     perform = _adapters()[adapter]
     folder = CAPTURES / f"{adapter}-{repeat}"
-    _write_new(folder / "started.json", {"started_at": _now(), "adapter": adapter, "repeat": repeat,
-                                         "protocol_sha256": protocol_sha,
-                                         "environment": _tool_versions()})
+    resumed = []
+    if resume:
+        assert (folder / "started.json").exists() and not (folder / "capture.json").exists()
+        resumed = sorted(folder.glob("resumed-*.json"))
+        _write_new(folder / f"resumed-{len(resumed) + 1}.json",
+                   {"resumed_at": _now(), "protocol_sha256": protocol_sha,
+                    "kept": sorted(p.stem for p in (folder / "receipts").glob("*.json"))})
+        resumed = sorted(p.name for p in folder.glob("resumed-*.json"))
+    else:
+        _write_new(folder / "started.json", {"started_at": _now(), "adapter": adapter,
+                                             "repeat": repeat, "protocol_sha256": protocol_sha,
+                                             "environment": _tool_versions()})
     attempts = []
     for task in declared["tasks"]:
         output = folder / f"{task['id']}.docx"
+        finished = folder / "receipts" / f"{task['id']}.json"
+        if resume and finished.exists():
+            attempts.append(json.loads(finished.read_text(encoding="utf-8")))
+            continue
+        # Leftovers of an attempt interrupted before its receipt are not results.
+        output.unlink(missing_ok=True)
+        for leftover in (folder / "agent").glob(f"{task['id']}.*"):
+            shutil.rmtree(leftover) if leftover.is_dir() else leftover.unlink()
         began = time.monotonic()
         try:
             status, note = perform(task, declared["editor"], output)
@@ -531,6 +552,8 @@ def capture(adapter: str, repeat: int) -> dict:
         attempts.append(receipt)
     summary = {"adapter": adapter, "repeat": repeat, "protocol_sha256": protocol_sha,
                "finished_at": _now(), "attempts": attempts}
+    if resumed:
+        summary["resumed"] = resumed
     _write_new(folder / "capture.json", summary)
     return summary
 
@@ -581,6 +604,8 @@ def main(argv=None) -> int:
     run = sub.add_parser("capture")
     run.add_argument("adapter")
     run.add_argument("repeat", type=int)
+    run.add_argument("--resume", action="store_true",
+                     help="continue a capture whose runner was interrupted")
     every = sub.add_parser("evaluate-all")
     every.add_argument("--checker", required=True, help="Python with ooxml-integrity 0.4.6")
     args = parser.parse_args(argv)
@@ -592,7 +617,7 @@ def main(argv=None) -> int:
         print("\n".join(problems) or "protocol, sources, scripts and captures match")
         return 1 if problems else 0
     if args.command == "capture":
-        summary = capture(args.adapter, args.repeat)
+        summary = capture(args.adapter, args.repeat, resume=args.resume)
         counts = {}
         for attempt in summary["attempts"]:
             counts[attempt["status"]] = counts.get(attempt["status"], 0) + 1

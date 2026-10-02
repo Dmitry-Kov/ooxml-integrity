@@ -1,0 +1,27 @@
+{
+  "amended_at": "2026-10-02T07:28:15+00:00",
+  "number": 9,
+  "reason": "The runner of three wave-2 captures was stopped from outside: the coding session that launched it ends background commands after about 30 minutes. Neither the agents nor the 3600 s attempt timeout stopped anything.",
+  "rule": "`capture ADAPTER REPEAT --resume` continues a capture that has started.json but no capture.json. Every task with a receipt is a finished attempt and is kept as it is. The attempt that was running when the runner stopped has no receipt; its container is removed, any leftover output or transcript of it is deleted, and it runs again from the source like any other attempt. Each resumption is recorded in resumed-N.json (time and the receipts kept) and listed in capture.json. Captures are now run from a terminal without that limit.",
+  "affected": {
+    "opencode-qwen-1": "runner stopped at 12:25 (UTC+5) after 8 receipts; K2-S2-tracked was in flight",
+    "claude-code-2, codex-2 and any later repeat started before the relaunch": "runners stopped deliberately before the relaunch, to resume under the same rule; the receipts kept are listed in each resumed-N.json"
+  },
+  "unchanged": [
+    "PROTOCOL.md",
+    "tasks.json",
+    "sources",
+    "oracle",
+    "evaluator scoring",
+    "adapters",
+    "agent harness",
+    "checker release",
+    "existing receipts and captures"
+  ],
+  "scripts": {
+    "research/review_history_benchmark.py": {
+      "before": "8e1625525651d08972d6e8189bccb82faac5a6da9df6807199656d6efa985ff9",
+      "after": "7be12683813a7fae3c16af2e6c85a715bdc9c97733c7f74caff73bc0a93ef7fa"
+    }
+  }
+}
