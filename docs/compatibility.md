@@ -39,6 +39,12 @@ gates and configured severity overrides, but not the default error-only gate
 by themselves. Two coverage identifiers are additive under schema v1. Intent
 ambiguity and skipped comparison groups are explicit; [profiles and limits](review-edit-warnings.md).
 
+Unreleased `INT001` is an ERROR rather than a WARN. It means a check raised
+and did not complete, which previously passed the default gate. Such runs
+change exit 0 to 1, and coverage reports that check's items as `skipped`. The
+message names the exception type, and the finding gains `extra.check` and
+`extra.exception`. The code and baseline v2 format are unchanged.
+
 The 0.4.5 parser-limit correction changes messages only: `XML001` names
 the 256-element nesting limit of the safe parser, and `PKG006` says that an
 unparseable main part was not checked rather than missing. Codes, severities,
@@ -270,6 +276,12 @@ default-named file alone does not activate it. It is written before policy
 filtering but applied to findings retained by policy. A matching baseline can
 therefore continue suppressing a finding whose severity has changed. Compare
 an upgrade without suppressions as well as with the project's normal policy.
+
+In the unreleased checkout a baseline never records or absorbs `INT001`: a
+baselined defect is still checked on every run, but a baselined crash would
+stop that check on that file. `--write-baseline` reports the left-out
+findings on stderr. Accepting a known crash takes a config `ignore` with a
+reason or a severity override.
 
 Current releases read/write v2 and reject v1 rather than applying its weaker
 fidelity identities. Review the raw findings first, then follow the

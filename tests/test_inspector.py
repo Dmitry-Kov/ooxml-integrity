@@ -165,7 +165,7 @@ class TestReferentialIntegrity:
 
 
 def test_a_broken_check_does_not_hide_the_others(monkeypatch, base_docx):
-    """One raising check must degrade to a warning, not lose the whole run."""
+    """One raising check must be reported, not lose the whole run."""
     def boom(self):
         raise RuntimeError("synthetic")
 

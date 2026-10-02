@@ -22,8 +22,8 @@ from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
 from .policy import (
-    ConfigError, DEFAULT_BASELINE, Policy, apply_baseline, make_baseline,
-    read_baseline,
+    ConfigError, DEFAULT_BASELINE, NOT_BASELINED, Policy, apply_baseline,
+    make_baseline, read_baseline,
 )
 from .pptx_checks import check_pptx
 from .sarif import build as build_sarif
@@ -284,6 +284,11 @@ def main(argv: list[str] | None = None) -> int:
         total = sum(doc["findings"].values())
         print(f"wrote {args.write_baseline}: {total} finding(s) from "
               f"{len(raw)} file(s) recorded as accepted")
+        crashed = sum(f.code in NOT_BASELINED for fs in raw.values() for f in fs)
+        if crashed:
+            print(f"ooxml-integrity: warning: {crashed} INT001 finding(s) not "
+                  "recorded: a check that did not complete cannot be "
+                  "baselined", file=sys.stderr)
         return EXIT_OK
 
     coverage_requested = args.coverage or args.coverage_details

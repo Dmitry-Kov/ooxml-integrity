@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- `INT001` (a check raised) is an ERROR instead of a WARN. A check that crashed
+  used to pass the default error gate with exit 0, and `--coverage` still
+  reported its surface as `checked`; a deliberately raising styles check
+  reproduced both. The finding now names the check and the exception type
+  (`extra.check`, `extra.exception`), that check's coverage items are `skipped`,
+  and the other checks still run. A baseline never records or absorbs
+  `INT001`: `--write-baseline` leaves it out and says so on stderr, and an
+  existing baseline entry does not hide it. A known crash can still be turned
+  off with a config `ignore` and its reason, or a severity override. None of
+  the 1,050 DOCX/PPTX files committed to this repository produces `INT001`;
+  runs that do change exit 0 to 1.
+
 - `TXT002` (WARN): text or a list label that still reads like `&#8226;` after
   XML decoding. In wave 1 of the review-history benchmark docx-cli wrote S1's
   bullet labels as `&amp;#8226;`, and Word for Mac shows the literal `&#8226;`

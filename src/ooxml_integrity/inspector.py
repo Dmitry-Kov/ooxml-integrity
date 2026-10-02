@@ -23,7 +23,7 @@ from .archive import (
     PackageIssue,
     read_package,
 )
-from .finding import ERROR, INFO, WARN, Finding
+from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .comments import (
     ASCII_LOWER,
     DOCUMENT,
@@ -858,7 +858,7 @@ class Inspector:
             try:
                 c(self)
             except Exception as e:  # a broken check must not hide the others
-                self._add("INT001", WARN, f"check {c.__name__} raised: {e}")
+                self.findings.append(check_failed(c.__name__, e))
         return self.findings
 
 

@@ -77,6 +77,21 @@ class Finding:
         return f"{head}\n          -> {where}" if where else head
 
 
+def check_failed(name: str, error: Exception) -> Finding:
+    """INT001: a check raised, so whatever it covers was not checked.
+
+    An error, not a warning: a checker that passes the default gate after one
+    of its checks crashed has certified a document nobody looked at. The other
+    checks still run. `extra` names the check so coverage can mark its surface
+    skipped.
+    """
+    return Finding(
+        "INT001", Severity.ERROR,
+        f"check {name} did NOT complete: {type(error).__name__}: {error}",
+        extra={"check": name, "exception": type(error).__name__},
+    )
+
+
 def summarize(findings: list[Finding]) -> dict[str, int]:
     """Counts by severity, always with all three keys present."""
     out = {m.value: 0 for m in Severity}
