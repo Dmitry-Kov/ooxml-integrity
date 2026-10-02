@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-plain",
+  "status": "ok",
+  "note": "{\"agent\": \"opencode-qwen\", \"image\": \"ooxml-bench-agent-opencode:1.18.34\", \"image_id\": \"sha256:f4bea522134d32616fbabf9da8594d360185bafcf68ac2e1610c3132541527d7\", \"status\": \"ok\", \"exit_code\": 0, \"seconds\": 75.2, \"timeout_seconds\": 3600, \"input_unchanged\": true, \"transcript\": \"K7n-S1-plain.jsonl.gz\", \"transcript_sha256\": \"4c8bf1f5b77473dc2b6ee663a5dc310eb52ff715e7e56cfc92e34855e1c7acb7\", \"stderr_tail\": \"\", \"files\": {}, \"other_files\": [], \"egress\": [{\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"host.docker.internal:11434\", \"sent\": 644481, \"received\": 1694196, \"at\": \"2026-10-02T09:14:19Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"host.docker.internal:11434\", \"sent\": 30260, \"received\": 17348, \"at\": \"2026-10-02T09:15:35Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.3\", \"host\": \"host.docker.internal:11434\", \"sent\": 185280, \"received\": 378662, \"at\": \"2026-10-02T09:15:35Z\"}]}",
+  "seconds": 75.41,
+  "finished_at": "2026-10-02T09:15:35+00:00",
+  "output": "K7n-S1-plain.docx",
+  "output_sha256": "456473d1e30783fd76f378eb93dee7e7f194d5a04e6a3695182d08ce4b52d01a"
+}

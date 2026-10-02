@@ -91,3 +91,21 @@ def test_no_agent_gets_a_web_tool():
     assert claude[claude.index('--disallowedTools') + 1] == 'WebSearch,WebFetch'
     assert '--search' not in agents.AGENTS['codex']['command']('PROMPT')
     assert agents.OPENCODE_CONFIG['permission']['webfetch'] == 'deny'
+
+
+def test_kept_agent_records_match_their_receipts():
+    import hashlib
+    captures = ROOT / 'evidence/review-history-benchmark/captures'
+    checked = 0
+    for receipt in sorted(captures.glob('*/receipts/*.json')):
+        record = json.loads(receipt.read_text())
+        if not record['note'].startswith('{"agent"'):
+            continue
+        note = json.loads(record['note'])
+        agent = receipt.parent.parent / 'agent'
+        sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+        assert sha(agent / note['transcript']) == note['transcript_sha256'], receipt
+        for name, digest in note['files'].items():
+            assert sha(agent / f"{record['task']}.files" / name) == digest, (receipt, name)
+        checked += 1
+    assert checked == 0 or checked >= 30

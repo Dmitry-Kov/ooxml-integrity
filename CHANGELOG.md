@@ -49,6 +49,13 @@
   and Office-Word-MCP-Server and docxengine edit the document title instead of
   the requested header; it reports docxengine's malformed `comments.xml`. The
   benchmark itself changes no checker behaviour.
+  Wave 2 gave the same tasks, as prompts, to three coding agents in sealed
+  containers: Claude Code (Opus 5.5) and Codex (gpt-6.1-sol) completed and
+  preserved all 150 attempts each; OpenCode with a local Qwen3.8 27B completed
+  29 of 30, and on the 30th accepted another author's pending insertion while
+  editing it (0.4.6: `FID001`). Codex and OpenCode leave comment replies with no
+  anchor in the document, which Word for Mac does not display (`CMT005`); the
+  frozen completion rule does not require one.
 
 ## 0.4.6 — 2026-09-30
 

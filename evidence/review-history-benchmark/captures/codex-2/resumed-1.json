@@ -1,0 +1,12 @@
+{
+  "resumed_at": "2026-10-02T07:29:02+00:00",
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "kept": [
+    "K0-S1-save",
+    "K0-S2-save",
+    "K1-S1-plain",
+    "K1-S1-tracked",
+    "K1-S2-plain",
+    "K1-S2-tracked"
+  ]
+}

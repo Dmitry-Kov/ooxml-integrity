@@ -1,4 +1,4 @@
-# Review-history benchmark — wave 1
+# Review-history benchmark — waves 1 and 2
 
 When a tool makes an ordinary edit to a DOCX that already carries comments,
 other authors' pending revisions and notes, what survives, and does
@@ -6,8 +6,10 @@ other authors' pending revisions and notes, what survives, and does
 [30 task declarations](tasks.json) were frozen in [protocol.json](protocol.json)
 before the first capture. Two sources: S1 is `corpus/base.docx`; S2 is a review
 record [written by Word for Mac](sources/README.md). Wave 1 ran seven tools and
-a reference control on 2026-09-30 and 2026-10-01, two captures each. Counts are
-attempts on two documents, not independent documents.
+a reference control on 2026-09-30 and 2026-10-01, two captures each. Wave 2
+gave the same tasks, as prompts, to three coding agents in sealed containers on
+2026-10-02: five captures each for Claude Code and Codex, one for OpenCode with
+a local model. Counts are attempts on two documents, not independent documents.
 
 ## Results
 
@@ -21,6 +23,9 @@ attempts on two documents, not independent documents.
 | Office-Word-MCP-Server 1.1.11 | 24 | 36 | 0 | 12 | 18 | 4 of 6 |
 | docx-mcp 0.7.4 | 36 | 4 | 20 | 34 | 36 | none damaged |
 | docxengine 1.0.0 | 40 | 0 | 20 | 32 | 34 | 2 of 6 |
+| Claude Code 2.1.287, `claude-opus-5-5` | 150 | 0 | 0 | 150 | 150 | none damaged |
+| Codex 0.160.0, `gpt-6.1-sol` | 150 | 0 | 0 | 150 | 150 | none damaged (see K5 below) |
+| OpenCode 1.18.34, Qwen3.8 27B on the host, one capture | 30 | 0 | 0 | 29 | 29 | 1 of 1 |
 
 *Unsupported* is an operation the tool has no interface for; *rejected* is the
 tool refusing with its own message. *Completed* and *Preserved* count the
@@ -84,6 +89,39 @@ writes `w14:paraId` without declaring the namespace, so `comments.xml` is not
 well-formed although its own pre-save validation passed (detected: `XML001`,
 `CMT004`, `CMT006`). Like docx-mcp, its K5 reply has no document anchor.
 
+## What the agents did
+
+Each agent got the task's prompt verbatim inside a fixed wrapper, a directory
+holding only the source as `input.docx`, and Python with python-docx and lxml.
+Nothing could be installed, web tools were off, and the only network route led
+to its model ([amendment 8](amendments/008-wave2-agents.json)). No agent was
+told the editor's date.
+
+**Claude Code** (Opus 5.5) completed and preserved all 150 attempts, like the
+reference control, and drew the same checker findings as the control. It read
+the package with python-docx and made the edits in the XML; inside another
+author's insertion, next to a third author's nested deletion, it split the
+insertion the way Word records it. Median 17 s per attempt.
+
+**Codex** (gpt-6.1-sol) also completed and preserved all 150. But in all five
+captures its reply to the S1 comment has no anchor in the document, and in one
+capture its S2 reply has none either. The reply is in `comments.xml` and is
+threaded through `commentsExtended`, which is all the frozen K5 criterion asks,
+so it counts as completed. Word for Mac does not display such a reply
+([word check](word-check/README.md)), and the checker's `CMT005` says so.
+Median 50 s per attempt.
+
+**OpenCode** with Qwen3.8 27B on the host completed and preserved 29 of 30. On
+K4-S1 plain it made the requested edit but removed A. Counsel's insertion
+wrapper, so Counsel's pending sentence now reads as accepted text (detected:
+`FID001`). Its two K5 replies, like Codex's, have no document anchor
+(`CMT005`). About 5 minutes per editing attempt, so it was captured once
+([amendment 10](amendments/010-opencode-one-repeat.json)).
+
+Wall time: Claude Code 49 minutes for 150 attempts, Codex 126 minutes for 150,
+OpenCode 140 minutes for 30. Claude Code's own accounting priced its 150 at
+about USD 12.5 at API rates; they ran on a subscription.
+
 ## Checker false alarms on correct edits
 
 The reference control (60 of 60 pass) shows what the frozen rule counts as a
@@ -96,13 +134,14 @@ outside this benchmark's scope: `STY001` on S1, where python-docx's new comment
 references a `CommentReference` style S1 does not define (docx-cli does the
 same, on outputs already damaged), `REV001` for
 adeu's repeated revision id, and `CMT005` for replies with no document anchor
-(docx-mcp, docxengine), which Word for Mac indeed does not display
-([word check](word-check/README.md)).
+(docx-mcp, docxengine, Codex, OpenCode), which Word for Mac indeed does not
+display ([word check](word-check/README.md)); Codex's new S1 comment also
+references `CommentReference` in two captures (`STY001`).
 
 ## Amendments
 
-Seven amendments, each before the captures it affects and before any result was
-reported; protocol text, tasks, sources and the oracle never changed.
+Ten amendments, each before the captures it affects; protocol text, tasks,
+sources, the oracle and the scoring never changed.
 [1](amendments/001-incomplete-edits.json): an unchanged target paragraph is an
 incomplete task, not damage. [2](amendments/002-adeu.json) and
 [3](amendments/003-wave1-tools.json): declare adeu and the four other tools,
@@ -113,6 +152,13 @@ handled wrongly for each tool's API, and docx-cli's tracking switched off only
 for body edits; the affected captures are kept, marked superseded and left out
 of the evaluation. [7](amendments/007-relative-checker-paths.json): the checker
 runs with repository-relative paths, so no local directory enters its messages.
+[8](amendments/008-wave2-agents.json): declares wave 2 - the agents, their
+images, models, prompt wrapper, network and the pilot rule; the pilot needed no
+change, so it counts as the first capture. [9](amendments/009-resume-interrupted-captures.json):
+the coding session that launched three captures stopped their runners after
+about 30 minutes; `capture --resume` keeps every finished attempt and reruns
+the one that was in flight. [10](amendments/010-opencode-one-repeat.json):
+OpenCode is captured once, decided before any of its outputs was evaluated.
 
 ## Method
 
@@ -126,16 +172,22 @@ seeded mutations and no-op controls, and the evaluator on the reference control
 and nine negative controls; the amendments added three more controls. Every
 third-party tool ran in its own container per attempt: base image by digest,
 dependencies from a hashed lock or a SHA-256-checked bundle, no network, user
-65534, all capabilities dropped. Repeats agree fact for fact except the dates
-adeu, docx-mcp and python-docx stamp.
+65534, all capabilities dropped. Agents ran the same way on an internal network
+whose only exit is a logged [egress container](../../research/review_history_agents_egress.py);
+each attempt keeps its transcript, the scripts the agent left, its exit code
+and its egress log under `captures/<agent>-N/agent/`. The deterministic tools'
+repeats agree fact for fact except the dates adeu, docx-mcp and python-docx
+stamp; an agent's repeats are separate sessions.
 
 ## Limits
 
 Two sources and one version of each tool. Formatting, layout and rendering are
 not compared. Only one output per damage class was opened in Word, in one
 build of Word for Mac ([word check](word-check/README.md)). The structured call names the old text only, so a tool that searches the
-whole document can refuse a target that is unique only within its story. Agents
-are wave 2.
+whole document can refuse a target that is unique only within its story. Each
+agent ran one model version through one harness and one prompt wrapper; the
+model behind the same name can change. The frozen K5 criterion does not require
+a reply to be anchored in the document.
 
 ```sh
 python research/review_history_benchmark.py verify

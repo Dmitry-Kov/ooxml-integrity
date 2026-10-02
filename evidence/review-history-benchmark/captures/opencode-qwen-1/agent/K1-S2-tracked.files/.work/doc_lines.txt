@@ -1,0 +1,417 @@
+0 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+1 <w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:oel="http://schemas.microsoft.com/office/2019/extlst" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash" xmlns:w16sdtfl="http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh w16sdtfl w16du wp14">
+2 <w:body>
+3 <w:p w14:paraId="3B9D923D" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+4 <w:pPr>
+5 <w:pStyle w:val="Heading1"/>
+6 </w:pPr>
+7 <w:r>
+8 <w:t>Consulting Services Agreement</w:t>
+9 </w:r>
+10 </w:p>
+11 <w:p w14:paraId="27000813" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+12 <w:r>
+13 <w:t>This agreement is made between Alder Street Analytics Ltd (the Client) and Kestrel Point Consulting LLP (the Consultant).</w:t>
+14 </w:r>
+15 <w:r>
+16 <w:rPr>
+17 <w:rStyle w:val="EndnoteReference"/>
+18 </w:rPr>
+19 <w:endnoteReference w:id="1"/>
+20 </w:r>
+21 </w:p>
+22 <w:sdt>
+23 <w:sdtPr>
+24 <w:alias w:val="Contract Reference"/>
+25 <w:tag w:val="contract_ref"/>
+26 <w:id w:val="918204"/>
+27 <w:text/>
+28 </w:sdtPr>
+29 <w:sdtContent>
+30 <w:p w14:paraId="4742998B" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+31 <w:r>
+32 <w:t>Contract reference: CSA-2026-0918</w:t>
+33 </w:r>
+34 </w:p>
+35 </w:sdtContent>
+36 </w:sdt>
+37 <w:p w14:paraId="61093EC3" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+38 <w:pPr>
+39 <w:pStyle w:val="Heading2"/>
+40 </w:pPr>
+41 <w:r>
+42 <w:t>1. Term</w:t>
+43 </w:r>
+44 </w:p>
+45 <w:p w14:paraId="3AB9B3CE" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+46 <w:r>
+47 <w:t xml:space="preserve">The Consultant shall provide the Services from the Effective Date until the </w:t>
+48 </w:r>
+49 <w:commentRangeStart w:id="2"/>
+50 <w:commentRangeStart w:id="3"/>
+51 <w:r>
+52 <w:t>Completion Date</w:t>
+53 </w:r>
+54 <w:commentRangeEnd w:id="2"/>
+55 <w:r w:rsidR="001B7773">
+56 <w:rPr>
+57 <w:rStyle w:val="CommentReference"/>
+58 <w:sz w:val="22"/>
+59 <w:szCs w:val="20"/>
+60 </w:rPr>
+61 <w:commentReference w:id="2"/>
+62 </w:r>
+63 <w:commentRangeEnd w:id="3"/>
+64 <w:r w:rsidR="00FF4098">
+65 <w:rPr>
+66 <w:rStyle w:val="CommentReference"/>
+67 <w:sz w:val="22"/>
+68 <w:szCs w:val="20"/>
+69 </w:rPr>
+70 <w:commentReference w:id="3"/>
+71 </w:r>
+72 <w:r>
+73 <w:t>.</w:t>
+74 </w:r>
+75 </w:p>
+76 <w:p w14:paraId="0133AE12" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+77 <w:pPr>
+78 <w:pStyle w:val="Heading2"/>
+79 </w:pPr>
+80 <w:r>
+81 <w:t>2. Consultant Obligations</w:t>
+82 </w:r>
+83 </w:p>
+84 <w:p w14:paraId="36A99FE9" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+85 <w:r>
+86 <w:t>The Consultant shall:</w:t>
+87 </w:r>
+88 </w:p>
+89 <w:p w14:paraId="3A4B23C5" w14:textId="77777777" w:rsidR="001B7773" w:rsidRDefault="001B7773" w:rsidP="001B7773">
+90 <w:pPr>
+91 <w:pStyle w:val="ListParagraph"/>
+92 <w:numPr>
+93 <w:ilvl w:val="0"/>
+94 <w:numId w:val="1"/>
+95 </w:numPr>
+96 <w:rPr>
+97 <w:moveTo w:id="4" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w16du:dateUtc="2026-09-29T09:26:00Z"/>
+98 </w:rPr>
+99 </w:pPr>
+100 <w:moveToRangeStart w:id="5" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w:name="move241584387"/>
+101 <w:moveTo w:id="6" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w16du:dateUtc="2026-09-29T09:26:00Z">
+102 <w:r>
+103 <w:t>Comply with the Client's information security policy.</w:t>
+104 </w:r>
+105 </w:moveTo>
+106 </w:p>
+107 <w:moveToRangeEnd w:id="5"/>
+108 <w:p w14:paraId="24689067" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+109 <w:pPr>
+110 <w:pStyle w:val="ListParagraph"/>
+111 <w:numPr>
+112 <w:ilvl w:val="0"/>
+113 <w:numId w:val="1"/>
+114 </w:numPr>
+115 </w:pPr>
+116 <w:r>
+117 <w:t>Attend a monthly steering meeting with the Client.</w:t>
+118 </w:r>
+119 </w:p>
+120 <w:p w14:paraId="5A788DCB" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+121 <w:pPr>
+122 <w:pStyle w:val="ListParagraph"/>
+123 <w:numPr>
+124 <w:ilvl w:val="0"/>
+125 <w:numId w:val="1"/>
+126 </w:numPr>
+127 </w:pPr>
+128 <w:r>
+129 <w:t>Maintain professional indemnity insurance of at least EUR 1,000,000.</w:t>
+130 </w:r>
+131 </w:p>
+132 <w:p w14:paraId="5DE47E6F" w14:textId="319B9FB8" w:rsidR="00977895" w:rsidDel="001B7773" w:rsidRDefault="00000000">
+133 <w:pPr>
+134 <w:pStyle w:val="ListParagraph"/>
+135 <w:numPr>
+136 <w:ilvl w:val="0"/>
+137 <w:numId w:val="1"/>
+138 </w:numPr>
+139 <w:rPr>
+140 <w:moveFrom w:id="7" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w16du:dateUtc="2026-09-29T09:26:00Z"/>
+141 </w:rPr>
+142 </w:pPr>
+143 <w:moveFromRangeStart w:id="8" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w:name="move241584387"/>
+144 <w:moveFrom w:id="9" w:author="Reviewer A" w:date="2026-09-29T14:26:00Z" w16du:dateUtc="2026-09-29T09:26:00Z">
+145 <w:r w:rsidDel="001B7773">
+146 <w:t>Comply with the Client's information security policy.</w:t>
+147 </w:r>
+148 </w:moveFrom>
+149 </w:p>
+150 <w:moveFromRangeEnd w:id="8"/>
+151 <w:p w14:paraId="21D3526D" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+152 <w:pPr>
+153 <w:pStyle w:val="Heading2"/>
+154 </w:pPr>
+155 <w:r>
+156 <w:t>3. Reporting</w:t>
+157 </w:r>
+158 </w:p>
+159 <w:p w14:paraId="430DDADE" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+160 <w:r>
+161 <w:t>The Consultant shall deliver a monthly progress report within ten business days after the end of each month.</w:t>
+162 </w:r>
+163 <w:r>
+164 <w:rPr>
+165 <w:rStyle w:val="FootnoteReference"/>
+166 </w:rPr>
+167 <w:footnoteReference w:id="1"/>
+168 </w:r>
+169 </w:p>
+170 <w:p w14:paraId="05924421" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+171 <w:pPr>
+172 <w:pStyle w:val="Heading2"/>
+173 </w:pPr>
+174 <w:r>
+175 <w:t>4. Fees</w:t>
+176 </w:r>
+177 </w:p>
+178 <w:p w14:paraId="574C526B" w14:textId="7BA3CF84" w:rsidR="00977895" w:rsidRDefault="00000000">
+179 <w:r>
+180 <w:t xml:space="preserve">Fees are payable within </w:t>
+181 </w:r>
+182 <w:ins w:id="10" w:author="Reviewer A" w:date="2026-09-29T14:25:00Z" w16du:dateUtc="2026-09-29T09:25:00Z">
+183 <w:r w:rsidR="001B7773" w:rsidRPr="001B7773">
+184 <w:t>forty-five</w:t>
+185 </w:r>
+186 </w:ins>
+187 <w:del w:id="11" w:author="Reviewer A" w:date="2026-09-29T14:25:00Z" w16du:dateUtc="2026-09-29T09:25:00Z">
+188 <w:r w:rsidDel="001B7773">
+189 <w:delText>thirty</w:delText>
+190 </w:r>
+191 </w:del>
+192 <w:r>
+193 <w:t xml:space="preserve"> days of receipt of a valid invoice.</w:t>
+194 </w:r>
+195 <w:ins w:id="12" w:author="Reviewer A" w:date="2026-09-29T14:25:00Z" w16du:dateUtc="2026-09-29T09:25:00Z">
+196 <w:r w:rsidR="001B7773" w:rsidRPr="001B7773">
+197 <w:t xml:space="preserve"> The Client may withhold </w:t>
+198 </w:r>
+199 <w:del w:id="13" w:author="Reviewer B" w:date="2026-09-29T14:28:00Z" w16du:dateUtc="2026-09-29T09:28:00Z">
+200 <w:r w:rsidR="001B7773" w:rsidRPr="001B7773" w:rsidDel="00FF4098">
+201 <w:delText xml:space="preserve">any </w:delText>
+202 </w:r>
+203 </w:del>
+204 <w:r w:rsidR="001B7773" w:rsidRPr="001B7773">
+205 <w:t>disputed amount.</w:t>
+206 </w:r>
+207 </w:ins>
+208 </w:p>
+209 <w:tbl>
+210 <w:tblPr>
+211 <w:tblStyle w:val="TableGrid"/>
+212 <w:tblW w:w="0" w:type="auto"/>
+213 <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/>
+214 </w:tblPr>
+215 <w:tblGrid>
+216 <w:gridCol w:w="3005"/>
+217 <w:gridCol w:w="3005"/>
+218 <w:gridCol w:w="3006"/>
+219 </w:tblGrid>
+220 <w:tr w:rsidR="00977895" w14:paraId="40F9252A" w14:textId="77777777">
+221 <w:trPr>
+222 <w:tblHeader/>
+223 </w:trPr>
+224 <w:tc>
+225 <w:tcPr>
+226 <w:tcW w:w="3009" w:type="dxa"/>
+227 </w:tcPr>
+228 <w:p w14:paraId="2602C810" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+229 <w:r>
+230 <w:rPr>
+231 <w:b/>
+232 </w:rPr>
+233 <w:t>Milestone</w:t>
+234 </w:r>
+235 </w:p>
+236 </w:tc>
+237 <w:tc>
+238 <w:tcPr>
+239 <w:tcW w:w="3009" w:type="dxa"/>
+240 </w:tcPr>
+241 <w:p w14:paraId="53C1C496" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+242 <w:r>
+243 <w:rPr>
+244 <w:b/>
+245 </w:rPr>
+246 <w:t>Due date</w:t>
+247 </w:r>
+248 </w:p>
+249 </w:tc>
+250 <w:tc>
+251 <w:tcPr>
+252 <w:tcW w:w="3009" w:type="dxa"/>
+253 </w:tcPr>
+254 <w:p w14:paraId="4B9F7FDD" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+255 <w:r>
+256 <w:rPr>
+257 <w:b/>
+258 </w:rPr>
+259 <w:t>Fee</w:t>
+260 </w:r>
+261 </w:p>
+262 </w:tc>
+263 </w:tr>
+264 <w:tr w:rsidR="00977895" w14:paraId="51CE0F44" w14:textId="77777777">
+265 <w:tc>
+266 <w:tcPr>
+267 <w:tcW w:w="3009" w:type="dxa"/>
+268 </w:tcPr>
+269 <w:p w14:paraId="31139AF8" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+270 <w:r>
+271 <w:t>Discovery</w:t>
+272 </w:r>
+273 </w:p>
+274 </w:tc>
+275 <w:tc>
+276 <w:tcPr>
+277 <w:tcW w:w="3009" w:type="dxa"/>
+278 </w:tcPr>
+279 <w:p w14:paraId="582CE659" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+280 <w:r>
+281 <w:t>15 October 2026</w:t>
+282 </w:r>
+283 </w:p>
+284 </w:tc>
+285 <w:tc>
+286 <w:tcPr>
+287 <w:tcW w:w="3009" w:type="dxa"/>
+288 </w:tcPr>
+289 <w:p w14:paraId="4D8DBE65" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+290 <w:commentRangeStart w:id="14"/>
+291 <w:r>
+292 <w:t>EUR 12,000</w:t>
+293 </w:r>
+294 <w:commentRangeEnd w:id="14"/>
+295 <w:r w:rsidR="001B7773">
+296 <w:rPr>
+297 <w:rStyle w:val="CommentReference"/>
+298 <w:sz w:val="22"/>
+299 <w:szCs w:val="20"/>
+300 </w:rPr>
+301 <w:commentReference w:id="14"/>
+302 </w:r>
+303 </w:p>
+304 </w:tc>
+305 </w:tr>
+306 <w:tr w:rsidR="00977895" w14:paraId="08581C76" w14:textId="77777777">
+307 <w:tc>
+308 <w:tcPr>
+309 <w:tcW w:w="3009" w:type="dxa"/>
+310 </w:tcPr>
+311 <w:p w14:paraId="692C9717" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+312 <w:r>
+313 <w:t>Final report</w:t>
+314 </w:r>
+315 </w:p>
+316 </w:tc>
+317 <w:tc>
+318 <w:tcPr>
+319 <w:tcW w:w="3009" w:type="dxa"/>
+320 </w:tcPr>
+321 <w:p w14:paraId="6EAD4311" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+322 <w:r>
+323 <w:t>18 December 2026</w:t>
+324 </w:r>
+325 </w:p>
+326 </w:tc>
+327 <w:tc>
+328 <w:tcPr>
+329 <w:tcW w:w="3009" w:type="dxa"/>
+330 </w:tcPr>
+331 <w:p w14:paraId="07F2CABB" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+332 <w:r>
+333 <w:t>EUR 30,500</w:t>
+334 </w:r>
+335 </w:p>
+336 </w:tc>
+337 </w:tr>
+338 </w:tbl>
+339 <w:p w14:paraId="37489B02" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+340 <w:pPr>
+341 <w:pStyle w:val="Heading2"/>
+342 </w:pPr>
+343 <w:r>
+344 <w:t>5. Liability</w:t>
+345 </w:r>
+346 </w:p>
+347 <w:p w14:paraId="776F61C8" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+348 <w:r>
+349 <w:t xml:space="preserve">Neither party limits its liability for fraud or </w:t>
+350 </w:r>
+351 <w:r w:rsidRPr="00FF4098">
+352 <w:rPr>
+353 <w:b/>
+354 <w:bCs/>
+355 <w:rPrChange w:id="15" w:author="Reviewer B" w:date="2026-09-29T14:28:00Z" w16du:dateUtc="2026-09-29T09:28:00Z">
+356 <w:rPr/>
+357 </w:rPrChange>
+358 </w:rPr>
+359 <w:t>gross negligence</w:t>
+360 </w:r>
+361 <w:r>
+362 <w:t>.</w:t>
+363 </w:r>
+364 </w:p>
+365 <w:p w14:paraId="07072F7E" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+366 <w:pPr>
+367 <w:pStyle w:val="Heading2"/>
+368 </w:pPr>
+369 <w:r>
+370 <w:t>6. Termination</w:t>
+371 </w:r>
+372 </w:p>
+373 <w:p w14:paraId="39B5B596" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000" w:rsidP="00FF4098">
+374 <w:pPr>
+375 <w:jc w:val="both"/>
+376 <w:pPrChange w:id="16" w:author="Reviewer B" w:date="2026-09-29T14:28:00Z" w16du:dateUtc="2026-09-29T09:28:00Z">
+377 <w:pPr/>
+378 </w:pPrChange>
+379 </w:pPr>
+380 <w:r>
+381 <w:t>Either party may terminate this agreement on sixty days' written notice.</w:t>
+382 </w:r>
+383 </w:p>
+384 <w:p w14:paraId="0B0419E8" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+385 <w:pPr>
+386 <w:pStyle w:val="Heading2"/>
+387 </w:pPr>
+388 <w:r>
+389 <w:t>7. Notices</w:t>
+390 </w:r>
+391 </w:p>
+392 <w:p w14:paraId="376287AA" w14:textId="77777777" w:rsidR="00977895" w:rsidRDefault="00000000">
+393 <w:r>
+394 <w:t xml:space="preserve">Notices must be sent to the addresses listed on the </w:t>
+395 </w:r>
+396 <w:hyperlink r:id="rId11">
+397 <w:r w:rsidR="00977895">
+398 <w:rPr>
+399 <w:rStyle w:val="Hyperlink"/>
+400 </w:rPr>
+401 <w:t>Client contact page</w:t>
+402 </w:r>
+403 </w:hyperlink>
+404 <w:r>
+405 <w:t>.</w:t>
+406 </w:r>
+407 </w:p>
+408 <w:sectPr w:rsidR="00977895">
+409 <w:headerReference w:type="default" r:id="rId12"/>
+410 <w:footerReference w:type="default" r:id="rId13"/>
+411 <w:pgSz w:w="11906" w:h="16838"/>
+412 <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
+413 <w:cols w:space="720"/>
+414 </w:sectPr>
+415 </w:body>
+416 </w:document>

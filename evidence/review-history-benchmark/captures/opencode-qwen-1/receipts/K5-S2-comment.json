@@ -1,0 +1,9 @@
+{
+  "task": "K5-S2-comment",
+  "status": "ok",
+  "note": "{\"agent\": \"opencode-qwen\", \"image\": \"ooxml-bench-agent-opencode:1.18.34\", \"image_id\": \"sha256:f4bea522134d32616fbabf9da8594d360185bafcf68ac2e1610c3132541527d7\", \"status\": \"ok\", \"exit_code\": 0, \"seconds\": 615.2, \"timeout_seconds\": 3600, \"input_unchanged\": true, \"transcript\": \"K5-S2-comment.jsonl.gz\", \"transcript_sha256\": \"6245e0e275b92251cfcf5a7b7d0cb1744762b146c8b304d85ad81746c810a54a\", \"stderr_tail\": \"\", \"files\": {}, \"other_files\": [], \"egress\": [{\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.4\", \"host\": \"host.docker.internal:11434\", \"sent\": 1098290, \"received\": 3204966, \"at\": \"2026-10-02T08:32:57Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.4\", \"host\": \"host.docker.internal:11434\", \"sent\": 30433, \"received\": 38019, \"at\": \"2026-10-02T08:37:59Z\"}, {\"kind\": \"ollama\", \"allowed\": true, \"client\": \"172.21.0.4\", \"host\": \"host.docker.internal:11434\", \"sent\": 1474148, \"received\": 2927078, \"at\": \"2026-10-02T08:43:12Z\"}]}",
+  "seconds": 615.417,
+  "finished_at": "2026-10-02T08:43:13+00:00",
+  "output": "K5-S2-comment.docx",
+  "output_sha256": "1895f2035f04d1822bab42a8037c4248748f50991f9c8c9d48a91e78fda58d20"
+}
