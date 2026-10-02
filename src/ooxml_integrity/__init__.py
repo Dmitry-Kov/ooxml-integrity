@@ -27,7 +27,7 @@ from .inspector import Inspector, check, check_many
 from .policy import Policy
 from .pptx_checks import check_pptx
 
-__version__ = "0.4.6"
+__version__ = "0.4.7"
 
 __all__ = [
     "check",

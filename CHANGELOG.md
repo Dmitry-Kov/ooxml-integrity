@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.7 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.7.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `INT001` (a check raised) is an ERROR instead of a WARN. A check that crashed
   used to pass the default error gate with exit 0, and `--coverage` still

@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.6
+    python research/release_smoke.py --version 0.4.7
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -214,6 +214,45 @@ def main():
             report = json.loads(cli("check", path, "--against", source, "--no-config",
                                     "--json", code=code).stdout)
             assert [(f["code"], f["severity"]) for f in report["files"][0]["findings"]] == expected
+
+        # 0.4.7: a tracked header edit next to a pending revision is not a loss.
+        bench = root / "evidence/review-history-benchmark"
+        report = json.loads(cli("check", bench / "captures/reference-1/K7h-S2-tracked.docx",
+                                "--against", s2 / "word-review.docx", "--no-config",
+                                "--json").stdout)
+        assert "FID007" not in {f["code"] for f in report["files"][0]["findings"]}
+        # 0.4.7 TXT002: a list label holding an escaped reference warns.
+        assert base["word/numbering.xml"].count(b'w:val="&#8226;"') == 1
+        escaped = base["word/numbering.xml"].replace(b'w:val="&#8226;"', b'w:val="&amp;#8226;"')
+        assert found(variant("escaped-bullet.docx", {**base, "word/numbering.xml": escaped})) == [
+            ("TXT002", "warn")]
+        # 0.4.7 FID011: words added inside another author's pending insertion warn.
+        pending = b"<w:t>The Supplier shall maintain professional indemnity insurance.</w:t>"
+        assert base["word/document.xml"].count(pending) == 1
+        grown = base["word/document.xml"].replace(
+            pending, b"<w:t>The Supplier shall maintain professional indemnity insurance and cyber cover.</w:t>")
+        report = json.loads(cli("check", variant("grown-insertion.docx",
+                                                 {**base, "word/document.xml": grown}),
+                                "--against", source, "--no-config", "--json", "--coverage",
+                                code=1).stdout)["files"][0]
+        assert [(f["code"], f["severity"]) for f in report["findings"]] == [
+            ("FID009", "error"), ("FID011", "warn")]
+        coverage = {item["id"]: item for item in report["coverage"]["items"]}
+        assert coverage["docx.fidelity.insertion-attribution"]["status"] == "checked"
+        # 0.4.7 INT001: a check that raises is an error that names the check.
+        from ooxml_integrity.inspector import Inspector, check as inspect
+
+        def check_styles(self):
+            raise RuntimeError("synthetic")
+        saved = Inspector.CHECKS
+        Inspector.CHECKS = tuple(check_styles if c.__name__ == "check_styles" else c
+                                 for c in saved)
+        try:
+            crashed = [f for f in inspect(source) if f.code == "INT001"]
+        finally:
+            Inspector.CHECKS = saved
+        assert len(crashed) == 1 and crashed[0].severity.value == "error"
+        assert crashed[0].extra["check"] == "check_styles"
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -253,6 +292,7 @@ def main():
           "renamed main part, unreferenced malformed part, Strict and comment-story controls, "
           "STY002 next/basedOn, XML001 depth limit, FID003 tracked-deletion controls, "
           "FID006/FID007 tracked note and header edits, "
+          "0.4.7 FID007 next to a pending revision, TXT002, FID011 and INT001, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
