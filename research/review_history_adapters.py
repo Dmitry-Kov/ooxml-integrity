@@ -296,3 +296,10 @@ def container_tool(name: str):
 
 for _name in CONTAINER_TOOLS:
     ADAPTERS[_name] = container_tool(_name)
+
+
+# --- coding agents, wave 2 (research/review_history_agents.py) -----------------------
+
+from research.review_history_agents import AGENT_ADAPTERS  # noqa: E402
+
+ADAPTERS.update(AGENT_ADAPTERS)
