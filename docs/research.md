@@ -421,6 +421,15 @@ are identical; only the serialized snapshot differs. Reported as
 [#139](https://github.com/dealfluence/adeu/issues/139) with a self-contained
 reproduction script and fixed in 3.0.4.
 
+The checker then became part of adeu's own tests:
+[#156](https://github.com/dealfluence/adeu/pull/156), merged 2026-09-29, runs
+`check()` and `compare()` on the output of every shared cross-platform scenario
+that writes a document and fails on error-level findings. Without declared
+expectations, the two accept/reject scenarios fail on the revisions they remove
+on purpose, so the test lists the requested `FID001` count changes for each.
+Before the PR, a run on adeu 3.0.6 with 0.4.4 reported a false `FID003` on
+scenario 01; 0.4.5 corrected it.
+
 The four inputs shipped in the second PR came from `runs/t1_bare`,
 `runs/t5_rewrite_pres`, `runs/t2_bare` and `runs/t2_pres`, with the revision author
 renamed from `Claude` to `Agent` in the three that needed it. Of those four,

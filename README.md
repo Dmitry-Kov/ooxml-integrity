@@ -86,6 +86,12 @@ accept/reject). Preparing them surfaced a Python/TypeScript namespace-serializat
 mismatch in adeu's own consistency suite
 ([#139](https://github.com/dealfluence/adeu/issues/139), fixed in 3.0.4).
 
+In use upstream: since [adeu #156](https://github.com/dealfluence/adeu/pull/156)
+(merged 2026-09-29), adeu's test suite installs `ooxml-integrity==0.4.5`. For
+each shared cross-platform scenario it applies the edits, runs `check()` on the
+output and `compare()` against the input, and fails on error-level findings.
+The two accept/reject scenarios declare the revision-count changes they request.
+
 ## Two questions
 
 A document can lose all its styles, footnotes and revisions and still be
