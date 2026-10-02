@@ -33,6 +33,13 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased expectations (`--expect`, `[[expect]]`, `expect()`) add `EXP001`, an
+ERROR raised only when a declared expectation matches no finding; without
+expectations nothing changes. The JSON report gains a per-file `expected` list
+only when expectations are declared, SARIF lists expected findings as suppressed
+with their reason, and a baseline never records or absorbs `EXP001`. Config
+files with an `expect` key are rejected by earlier versions as an unknown key.
+
 0.4.7 adds `TXT002` and `FID011`, new WARN findings for suspected double
 escaping and insertion-context growth respectively. They can affect warning
 gates and configured severity overrides, but not the default error-only gate

@@ -5,7 +5,8 @@ module answers the question a person hits ten minutes after adding the check to
 a real repository: *how do I turn off the one rule that does not apply to us,
 without turning off the tool?*
 
-Three mechanisms, in order of how blunt they are.
+Three mechanisms, in order of how blunt they are, plus a fourth for changes
+that were asked for.
 
 **Severity overrides.** A rule can be lowered, raised, or set to `off`. Use it
 when a rule is systematically wrong for a project - the usual case is `PPT006`
@@ -19,6 +20,11 @@ lives in someone's memory is a suppression nobody can review later.
 fails only on what is *new*. This is what lets an existing project adopt the
 tool at all: nobody fixes two hundred findings before they can gate the next
 commit.
+
+**Expectations** (`expect.py`). A change the edit was asked to make - accepting
+a named revision, rewriting a header - declared with a reason. A matching
+finding is reported as expected; an expectation that matches nothing fails the
+run (`EXP001`), so unlike a baseline it can never only hide.
 
 The three are deliberately separate. An override says "this rule is wrong for
 us", an ignore says "this rule is wrong here", and a baseline says "we know, not
@@ -40,6 +46,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
 from .archive import ArchiveLimits
+from .expect import Expectation
 from .finding import Finding, Severity
 
 #: File names looked for, in order, when no config is given explicitly. The
@@ -138,6 +145,7 @@ class Policy:
     ignores: list[Ignore] = field(default_factory=list)
     source: str = ""
     archive: ArchiveLimits = field(default_factory=ArchiveLimits)
+    expectations: list[Expectation] = field(default_factory=list)
 
     # ------------------------------------------------------------------ load
     @classmethod
@@ -187,12 +195,12 @@ class Policy:
 
     @classmethod
     def _from_dict(cls, data: dict[str, Any], source: str = "") -> "Policy":
-        expected = {"fail-on", "fail_on", "severity", "ignore", "archive"}
+        expected = {"fail-on", "fail_on", "severity", "ignore", "archive", "expect"}
         unknown = set(data) - expected
         if unknown:
             raise ConfigError(
                 f"unknown key(s) in config: {', '.join(sorted(unknown))}. "
-                "Expected: fail-on, severity, ignore, archive"
+                "Expected: fail-on, severity, ignore, archive, expect"
             )
         raw = data.get("fail-on", data.get("fail_on", "error"))
         try:
@@ -226,6 +234,32 @@ class Policy:
                                   path=str(entry.get("path", "**")),
                                   reason=reason))
 
+        expectations = []
+        for i, entry in enumerate(data.get("expect") or []):
+            if not isinstance(entry, dict) or "code" not in entry:
+                raise ConfigError(f"expect[{i}] needs at least a 'code' key")
+            extra_keys = set(entry) - {"code", "reason", "path", "match", "required"}
+            if extra_keys:
+                raise ConfigError(
+                    f"expect[{i}] has unknown key(s): {', '.join(sorted(extra_keys))}. "
+                    "Expected: code, reason, path, match, required")
+            if not isinstance(entry.get("required", True), bool):
+                raise ConfigError(f"expect[{i}].required must be true or false")
+            reason = str(entry.get("reason", "")).strip()
+            if not reason:
+                raise ConfigError(
+                    f"expect[{i}] ({entry['code']}) has no 'reason'. An expected "
+                    "change without a written reason cannot be reviewed later, "
+                    "so it is not accepted."
+                )
+            match = entry.get("match", {})
+            if not isinstance(match, dict) or any(
+                    isinstance(v, (dict, list)) for v in match.values()):
+                raise ConfigError(f"expect[{i}].match must be a table of single values")
+            expectations.append(Expectation(str(entry["code"]), match, reason=reason,
+                                            path=str(entry.get("path", "**")),
+                                            required=entry.get("required", True)))
+
         archive_data = data.get("archive", {})
         if not isinstance(archive_data, dict):
             raise ConfigError("archive must be a TOML table")
@@ -250,6 +284,7 @@ class Policy:
             severity=sev,
             ignores=ignores,
             archive=archive,
+            expectations=expectations,
             source=source,
         )
 
@@ -330,8 +365,9 @@ def fingerprint(file: str, f: Finding) -> str:
 
 #: Codes a baseline never records or absorbs. A baselined defect is still
 #: checked on every run; a baselined crash would mean the check silently stops
-#: running on that file. Turning one off takes a config entry with a reason.
-NOT_BASELINED = frozenset({"INT001"})
+#: running on that file, and a baselined EXP001 would accept that a requested
+#: change never happened. Turning one off takes a config entry with a reason.
+NOT_BASELINED = frozenset({"INT001", "EXP001"})
 
 
 def make_baseline(results: dict[str, list[Finding]]) -> dict[str, Any]:

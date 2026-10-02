@@ -18,6 +18,7 @@ from . import __version__
 from .archive import ArchiveLimits
 from .coverage import CoverageReport, CoverageStatus, coverage_for
 from .doctor import build_report as build_doctor_report
+from .expect import Expectation, expect
 from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
@@ -208,6 +209,11 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--write-baseline", metavar="PATH", nargs="?",
                    const=DEFAULT_BASELINE, default=None,
                    help="record the current findings as accepted and exit 0")
+    c.add_argument("--expect", metavar="CODE[:KEY=VALUE,...]", action="append", default=[],
+                   help="a finding the edit was asked to cause, e.g. "
+                        "FID001:tag=ins,before=2,after=0; it is reported as "
+                        "expected, and an expectation nothing matches fails the "
+                        "run (EXP001). Repeatable; text values go in the config")
     c.add_argument("--sarif", metavar="PATH", default=None,
                    help="write a SARIF 2.1.0 report for code-scanning upload")
     c.add_argument("--show-suppressed", action="store_true",
@@ -251,6 +257,12 @@ def main(argv: list[str] | None = None) -> int:
                      else policy.fail_on)
     except ValueError as e:
         print(f"ooxml-integrity: {e}", file=sys.stderr)
+        return EXIT_USAGE
+
+    try:
+        expectations = policy.expectations + [Expectation.parse(x) for x in args.expect]
+    except ValueError as e:
+        print(f"ooxml-integrity: --expect: {e}", file=sys.stderr)
         return EXIT_USAGE
 
     if args.against is not None and not args.against.exists():
@@ -309,8 +321,11 @@ def main(argv: list[str] | None = None) -> int:
 
     results: dict[Path, list[Finding]] = {}
     hidden: dict[Path, list[tuple[Finding, str]]] = {}
+    matched: dict[Path, list[tuple[Finding, str]]] = {}
     for path, findings in raw.items():
         kept, dropped = policy.apply(str(path), findings)
+        if expectations:
+            kept, matched[path] = expect(kept, expectations, str(path))
         if allowance is not None:
             kept, base_dropped = apply_baseline(str(path), kept, allowance)
             dropped = dropped + base_dropped
@@ -319,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
-                          {str(p): d for p, d in hidden.items()})
+                          {str(p): d + matched.get(p, []) for p, d in hidden.items()})
         with open(args.sarif, "w", encoding="utf-8") as fh:
             json.dump(doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
@@ -337,6 +352,11 @@ def main(argv: list[str] | None = None) -> int:
                     for x, why in hidden.get(p, [])
                 ],
             }
+            if expectations:
+                item["expected"] = [
+                    {**x.as_dict(), "expected_because": why}
+                    for x, why in matched.get(p, [])
+                ]
             if coverage_requested:
                 item["coverage"] = coverage[p].as_dict()
             files.append(item)
@@ -361,6 +381,8 @@ def main(argv: list[str] | None = None) -> int:
                 _print_coverage(
                     coverage[p], details=args.coverage_details, out=sys.stdout,
                 )
+            for x, why in matched.get(p, []):
+                print(f"  [expected] {why}")
             if args.show_suppressed and hidden.get(p):
                 for x, why in hidden[p]:
                     print(f"  [hidden] {x.code}  {why}")

@@ -138,6 +138,17 @@ adeu's repeated revision id, and `CMT005` for replies with no document anchor
 display ([word check](word-check/README.md)); Codex's new S1 comment also
 references `CommentReference` in two captures (`STY001`).
 
+## Declared expectations (later analysis)
+
+Most checker findings on correct edits are the requested changes themselves.
+[Re-reading the captures](expectations/README.md) with expectations derived
+from each task's declaration (`FID001` for K6, `FID007` and `FID005` for plain
+header and note edits) leaves 12 of 537 correct outputs flagged instead of 130,
+all of them true reports outside the oracle's scope, keeps every caught damaged
+output caught, and catches four more: edits made to the document title instead
+of the requested header. That analysis uses a later checker and is not part of
+the frozen evaluation.
+
 ## Amendments
 
 Ten amendments, each before the captures it affects; protocol text, tasks,

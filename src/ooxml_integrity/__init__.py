@@ -9,7 +9,8 @@ Two questions, both needed:
 
 `Policy` carries a project's config - severity overrides, path-scoped ignores,
 `fail-on` - and is what makes the checks deployable in someone else's
-repository rather than only in this one.
+repository rather than only in this one. `expect()` sorts out the findings an
+edit was asked to cause, such as accepting a named revision.
 
 None of them needs a model, a renderer, or the network.
 
@@ -21,6 +22,7 @@ None of them needs a model, a renderer, or the network.
 """
 from .archive import ArchiveLimits
 from .coverage import CoverageItem, CoverageReport, CoverageStatus, coverage_for
+from .expect import Expectation, expect
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
@@ -44,6 +46,8 @@ __all__ = [
     "worst",
     "TRACKED",
     "Policy",
+    "Expectation",
+    "expect",
     "ArchiveLimits",
     "CoverageItem",
     "CoverageReport",
