@@ -221,6 +221,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID009` | 0.4.2: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
 | `FID010` | 0.4.2: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
 | `FID011` | WARN: preserved source insertion text plus additional characters under its old author/date context without a distinct new insertion context; [scope and intent ambiguity](docs/review-edit-warnings.md) |
+| `INT001` | a check raised and did not complete: error; other checks still run, and coverage reports that check's surface as `skipped` |
 
 `.pptx`:
 
@@ -235,6 +236,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `PPT005` | shrink-to-fit requested but no `fontScale` stored — result depends on the renderer |
 | `PPT006` | two text-bearing shapes overlap |
 | `PPT007` | declared font unavailable; measurements for those shapes are estimates |
+| `INT001` | a check raised and did not complete: error; other checks still run, and coverage reports that check's surface as `skipped` |
 
 Use `--coverage` to see the scope of a result. It distinguishes
 `checked`, `not-present`, `estimated`, `skipped` and

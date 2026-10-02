@@ -53,6 +53,11 @@ still new. Fingerprints exclude the message text because messages contain
 measurements such as `needs 118pt in a 48pt box`. A small change in those
 measurements should not invalidate the baseline entry.
 
+A check that raised (`INT001`) is never recorded or absorbed: a baseline keeps
+a known defect visible to every later run, but a recorded crash would mean the
+check silently stops running on that file. To accept one, add an `ignore` with
+the reason, ideally a link to the bug report.
+
 The baseline format is versioned. If a newer checker refuses an older baseline,
 regenerate it with the same check command and `--write-baseline`; legacy formats
 are not accepted when their fingerprints could hide a different new finding.

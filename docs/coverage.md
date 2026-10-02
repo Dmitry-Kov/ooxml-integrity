@@ -34,7 +34,9 @@ The five statuses are:
 
 Coverage describes confidence and leaves the check exit code unchanged. A
 failed requested comparison and unavailable machine-wide PPTX font measurement
-already produce error findings (`FID000` and `PPT000`). Skipped or unsupported
+already produce error findings (`FID000` and `PPT000`). So does a check that
+raised (`INT001`), and coverage reports that check's items as `skipped`
+whatever the inventory found. Skipped or unsupported
 informational surfaces appear in coverage without independently failing the
 check, so exit codes retain their existing CI meaning.
 

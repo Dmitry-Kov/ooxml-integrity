@@ -328,10 +328,18 @@ def fingerprint(file: str, f: Finding) -> str:
     return f"{key}::{stable}" if stable else key
 
 
+#: Codes a baseline never records or absorbs. A baselined defect is still
+#: checked on every run; a baselined crash would mean the check silently stops
+#: running on that file. Turning one off takes a config entry with a reason.
+NOT_BASELINED = frozenset({"INT001"})
+
+
 def make_baseline(results: dict[str, list[Finding]]) -> dict[str, Any]:
     counts: dict[str, int] = {}
     for file, findings in results.items():
         for f in findings:
+            if f.code in NOT_BASELINED:
+                continue
             key = fingerprint(file, f)
             counts[key] = counts.get(key, 0) + 1
     return {
@@ -379,7 +387,7 @@ def apply_baseline(file: str, findings: list[Finding], allowance: dict[str, int]
     dropped: list[tuple[Finding, str]] = []
     for f in findings:
         key = fingerprint(file, f)
-        if allowance.get(key, 0) > 0:
+        if f.code not in NOT_BASELINED and allowance.get(key, 0) > 0:
             allowance[key] -= 1
             dropped.append((f, "in baseline"))
         else:

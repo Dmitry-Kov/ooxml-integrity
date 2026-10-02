@@ -85,6 +85,44 @@ def _item(identifier: str, status: CoverageStatus, reason: str,
     return CoverageItem(identifier, status, reason, count)
 
 
+#: Coverage items each check function evaluates. The inventory below counts
+#: what is present, not what a check got through, so a check that raised
+#: (`INT001`) would otherwise leave its surface reported as `checked`.
+CHECK_SURFACES: dict[str, tuple[str, ...]] = {
+    "check_content_types": ("package.content-types",),
+    "check_relationships": ("package.relationships",),
+    "check_styles": ("docx.styles",),
+    "check_numbering": ("docx.numbering",),
+    "check_footnotes": ("docx.footnotes",),
+    "check_comments": ("docx.comments",),
+    "check_revisions": ("docx.revisions",),
+    "check_tables": ("docx.tables",),
+    "check_sdt": ("docx.content-controls",),
+    "check_whitespace": ("docx.text-whitespace",),
+    "check_literal_entities": ("docx.literal-entities",),
+    "check_measurable": ("pptx.font-metrics", "pptx.text-overflow"),
+    "check_text_overflow": ("pptx.text-overflow",),
+    "check_offcanvas": ("pptx.off-slide-geometry",),
+    "check_overlap": ("pptx.text-shape-overlap",),
+    "check_font_availability": ("pptx.font-metrics",),
+}
+
+
+def _report(items: list[CoverageItem],
+            findings: list[Finding]) -> CoverageReport:
+    """Mark the surfaces of checks that raised as skipped."""
+    failed: dict[str, str] = {}
+    for finding in findings:
+        if finding.code == "INT001":
+            for identifier in CHECK_SURFACES.get(finding.extra.get("check", ""), ()):
+                failed.setdefault(identifier, f"{finding.message} (INT001)")
+    return CoverageReport(tuple(
+        _item(item.id, CoverageStatus.SKIPPED, failed[item.id], item.count)
+        if item.id in failed else item
+        for item in items
+    ))
+
+
 def _unreadable(reason: str) -> CoverageReport:
     return CoverageReport((
         _item(
@@ -487,7 +525,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             _item("docx.fidelity.headers-footers", fidelity_status, fidelity_reason),
         ))
 
-    return CoverageReport(tuple(items))
+    return _report(items, findings)
 
 
 def _font_coverage(deck: Deck, findings: list[Finding]) -> CoverageItem:
@@ -691,7 +729,7 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
         ("PPTX source comparison is not implemented" if source is not None
          else "source comparison was not requested"),
     ))
-    return CoverageReport(tuple(items))
+    return _report(items, findings)
 
 
 def coverage_for(path: str | Path, findings: list[Finding], *,

@@ -21,7 +21,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue
-from .finding import ERROR, INFO, WARN, Finding
+from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .fonts import EMU_PER_POINT, measurement_available
 from .pptx_layout import Deck, Shape, layout_shape, read_deck
 
@@ -258,5 +258,5 @@ def check_pptx(path: str | Path, *,
         try:
             out.extend(fn(deck))
         except Exception as e:
-            out.append(Finding("INT001", WARN, f"check {fn.__name__} raised: {e}"))
+            out.append(check_failed(fn.__name__, e))
     return out
