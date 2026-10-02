@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Six document tools and three coding agents made 30 ordinary edits to two reviewed contracts. What survived, what broke in Word, and what a checker can see.">
+  <meta property="og:title" content="What survives when a tool edits a reviewed Word document">
+  <meta property="og:description" content="Six document tools and three coding agents, 30 edits to reviewed contracts, an independent oracle and a native Word for Mac check.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dmitry-kov.github.io/ooxml-integrity/benchmark/">
+  <title>What survives when a tool edits a reviewed Word document — ooxml-integrity</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    :root { --s-done: #2a78d6; --s-undone: #eda100; --s-damaged: #e34948; --grid: #e1e0d9; }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 32px 0 0; }
+    .kpi { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+    .kpi .label { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+    .kpi .value { font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 0; }
+    .kpi .foot { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+    .chart { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px 12px; margin: 0; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 10px; font-size: 14px; color: var(--ink); padding: 0; list-style: none; }
+    .legend li { display: flex; align-items: center; gap: 8px; }
+    .legend .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .bar-group { font-weight: 600; color: var(--muted); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; margin: 14px 0 4px; }
+    .bar-group:first-child { margin-top: 4px; }
+    .bar-row { display: grid; grid-template-columns: 270px minmax(0, 1fr) 64px; align-items: center; gap: 4px 12px; padding: 5px 0; }
+    .bar-label { font-size: 14px; text-align: right; }
+    .bar { display: flex; gap: 2px; height: 18px; }
+    .seg { display: block; min-width: 2px; }
+    .seg:last-child { border-radius: 0 4px 4px 0; }
+    .bar-n { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    details.data { margin: 14px 0 0; }
+    details.data summary { cursor: pointer; color: var(--green); font-size: 14px; }
+    .scroll { overflow-x: auto; }
+    table.results { border-collapse: collapse; width: 100%; font-size: 14px; margin: 12px 0 0; }
+    table.results th, table.results td { border-bottom: 1px solid var(--line); padding: 7px 10px; text-align: right; font-variant-numeric: tabular-nums; }
+    table.results th:first-child { text-align: left; font-weight: 500; }
+    table.results thead th { font-weight: 600; font-size: 13px; color: var(--muted); vertical-align: bottom; }
+    table.results tr.grp-row th { text-align: left; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding-top: 16px; }
+    .note { color: var(--muted); font-size: 12.5px; margin-left: 6px; }
+    .findings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .finding { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; }
+    .finding h3 { margin: 0 0 6px; }
+    .finding p { margin: 0; font-size: 15px; }
+    .finding .who { color: var(--muted); font-size: 13.5px; margin: 8px 0 0; }
+    .prose { max-width: 760px; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .prose p, .prose li { font-size: 16px; }
+    footer { border-top: 1px solid var(--line); margin: 64px 0 0; padding: 20px 0 40px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 820px) {
+      main { padding: 0 16px; }
+      .kpis, .findings { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: minmax(0, 1fr) 56px; }
+      .bar-label { grid-column: 1 / -1; text-align: left; }
+      nav { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand"><span class="mark" aria-hidden="true">[✓]</span> ooxml-integrity</div>
+      <nav aria-label="Links">
+        <a href="../">Demo</a>
+        <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/review-history-benchmark/README.md">Evidence</a>
+        <a href="https://github.com/Dmitry-Kov/ooxml-integrity">GitHub</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">What survives when a tool edits a reviewed Word document</h1>
+      <p class="lede">Two contract drafts with a live review history: comments and replies, other reviewers' pending tracked changes, footnotes and a header. Thirty ordinary requests: replace a phrase, reply to a comment, accept one revision, fix a footnote. Six document tools, python-docx on two code paths, and three coding agents ran them; an oracle that knows nothing about the checker compared every output with its source, and one output per kind of damage was opened in Word for Mac.</p>
+      <div class="kpis">
+        <div class="kpi"><p class="label">Claude Code, done and preserved</p><p class="value">150 of 150</p><p class="foot">attempts, five captures</p></div>
+        <div class="kpi"><p class="label">Codex, done and preserved</p><p class="value">150 of 150</p><p class="foot">but some replies Word does not show</p></div>
+        <div class="kpi"><p class="label">docx-cli outputs damaged</p><p class="value">38 of 56</p><p class="foot">attempts that ran</p></div>
+        <div class="kpi"><p class="label">Correct edits the checker flags</p><p class="value">130 → 12</p><p class="foot">of 537, once the requested change is declared (next release)</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="results">
+      <div class="section-head">
+        <h2 id="results">What each tool did</h2>
+        <p>Share of the attempts that ran. <em>Done</em> means the requested text is in place and recorded as asked, tracked or not. <em>Preserved</em> means nothing else changed: comments, anchors, threads, other authors' revisions with their author and date, notes, lists, tables. Operations a tool has no interface for are left out; the table has them.</p>
+      </div>
+      <figure class="chart">
+        <figcaption class="visually-hidden">Outcome of each attempt that ran, per tool</figcaption>
+        <ul class="legend">
+          <li><span class="sw" style="background: var(--s-done)"></span>Done and preserved</li>
+          <li><span class="sw" style="background: var(--s-undone)"></span>Preserved, not done as asked</li>
+          <li><span class="sw" style="background: var(--s-damaged)"></span>Damaged</li>
+        </ul>
+        <div class="bars"><div class="bar-group" role="presentation">Control</div><div class="bar-row"><div class="bar-label">Reference control</div><div class="bar" role="img" aria-label="Reference control: 60 done and preserved of 60"><span class="seg" style="flex-grow: 60; background: var(--s-done)" title="Reference control: 60 of 60 done and preserved (100%)"></span></div><div class="bar-n">n = 60</div></div><div class="bar-group" role="presentation">Document tools</div><div class="bar-row"><div class="bar-label">python-docx 1.2, Run.text =</div><div class="bar" role="img" aria-label="python-docx 1.2, Run.text =: 20 done and preserved, 8 preserved, not done as asked of 28"><span class="seg" style="flex-grow: 20; background: var(--s-done)" title="python-docx 1.2, Run.text =: 20 of 28 done and preserved (71%)"></span><span class="seg" style="flex-grow: 8; background: var(--s-undone)" title="python-docx 1.2, Run.text =: 8 of 28 preserved, not done as asked (29%)"></span></div><div class="bar-n">n = 28</div></div><div class="bar-row"><div class="bar-label">python-docx 1.2, Paragraph.text =</div><div class="bar" role="img" aria-label="python-docx 1.2, Paragraph.text =: 6 done and preserved, 8 preserved, not done as asked, 14 damaged of 28"><span class="seg" style="flex-grow: 6; background: var(--s-done)" title="python-docx 1.2, Paragraph.text =: 6 of 28 done and preserved (21%)"></span><span class="seg" style="flex-grow: 8; background: var(--s-undone)" title="python-docx 1.2, Paragraph.text =: 8 of 28 preserved, not done as asked (29%)"></span><span class="seg" style="flex-grow: 14; background: var(--s-damaged)" title="python-docx 1.2, Paragraph.text =: 14 of 28 damaged (50%)"></span></div><div class="bar-n">n = 28</div></div><div class="bar-row"><div class="bar-label">adeu 3.0.6</div><div class="bar" role="img" aria-label="adeu 3.0.6: 30 done and preserved, 4 damaged of 34"><span class="seg" style="flex-grow: 30; background: var(--s-done)" title="adeu 3.0.6: 30 of 34 done and preserved (88%)"></span><span class="seg" style="flex-grow: 4; background: var(--s-damaged)" title="adeu 3.0.6: 4 of 34 damaged (12%)"></span></div><div class="bar-n">n = 34</div></div><div class="bar-row"><div class="bar-label">docx-cli 0.26.0</div><div class="bar" role="img" aria-label="docx-cli 0.26.0: 18 done and preserved, 38 damaged of 56"><span class="seg" style="flex-grow: 18; background: var(--s-done)" title="docx-cli 0.26.0: 18 of 56 done and preserved (32%)"></span><span class="seg" style="flex-grow: 38; background: var(--s-damaged)" title="docx-cli 0.26.0: 38 of 56 damaged (68%)"></span></div><div class="bar-n">n = 56</div></div><div class="bar-row"><div class="bar-label">Office-Word-MCP-Server 1.1.11</div><div class="bar" role="img" aria-label="Office-Word-MCP-Server 1.1.11: 8 done and preserved, 10 preserved, not done as asked, 6 damaged of 24"><span class="seg" style="flex-grow: 8; background: var(--s-done)" title="Office-Word-MCP-Server 1.1.11: 8 of 24 done and preserved (33%)"></span><span class="seg" style="flex-grow: 10; background: var(--s-undone)" title="Office-Word-MCP-Server 1.1.11: 10 of 24 preserved, not done as asked (42%)"></span><span class="seg" style="flex-grow: 6; background: var(--s-damaged)" title="Office-Word-MCP-Server 1.1.11: 6 of 24 damaged (25%)"></span></div><div class="bar-n">n = 24</div></div><div class="bar-row"><div class="bar-label">docx-mcp 0.7.4</div><div class="bar" role="img" aria-label="docx-mcp 0.7.4: 34 done and preserved, 2 preserved, not done as asked of 36"><span class="seg" style="flex-grow: 34; background: var(--s-done)" title="docx-mcp 0.7.4: 34 of 36 done and preserved (94%)"></span><span class="seg" style="flex-grow: 2; background: var(--s-undone)" title="docx-mcp 0.7.4: 2 of 36 preserved, not done as asked (6%)"></span></div><div class="bar-n">n = 36</div></div><div class="bar-row"><div class="bar-label">docxengine 1.0.0</div><div class="bar" role="img" aria-label="docxengine 1.0.0: 32 done and preserved, 2 preserved, not done as asked, 6 damaged of 40"><span class="seg" style="flex-grow: 32; background: var(--s-done)" title="docxengine 1.0.0: 32 of 40 done and preserved (80%)"></span><span class="seg" style="flex-grow: 2; background: var(--s-undone)" title="docxengine 1.0.0: 2 of 40 preserved, not done as asked (5%)"></span><span class="seg" style="flex-grow: 6; background: var(--s-damaged)" title="docxengine 1.0.0: 6 of 40 damaged (15%)"></span></div><div class="bar-n">n = 40</div></div><div class="bar-group" role="presentation">Coding agents</div><div class="bar-row"><div class="bar-label">Claude Code 2.1, Opus 5.5</div><div class="bar" role="img" aria-label="Claude Code 2.1, Opus 5.5: 150 done and preserved of 150"><span class="seg" style="flex-grow: 150; background: var(--s-done)" title="Claude Code 2.1, Opus 5.5: 150 of 150 done and preserved (100%)"></span></div><div class="bar-n">n = 150</div></div><div class="bar-row"><div class="bar-label">Codex 0.160, gpt-6.1-sol</div><div class="bar" role="img" aria-label="Codex 0.160, gpt-6.1-sol: 150 done and preserved of 150"><span class="seg" style="flex-grow: 150; background: var(--s-done)" title="Codex 0.160, gpt-6.1-sol: 150 of 150 done and preserved (100%)"></span></div><div class="bar-n">n = 150</div></div><div class="bar-row"><div class="bar-label">OpenCode, Qwen3.8 27B (local)</div><div class="bar" role="img" aria-label="OpenCode, Qwen3.8 27B (local): 29 done and preserved, 1 damaged of 30"><span class="seg" style="flex-grow: 29; background: var(--s-done)" title="OpenCode, Qwen3.8 27B (local): 29 of 30 done and preserved (97%)"></span><span class="seg" style="flex-grow: 1; background: var(--s-damaged)" title="OpenCode, Qwen3.8 27B (local): 1 of 30 damaged (3%)"></span></div><div class="bar-n">n = 30</div></div></div>
+        <details class="data">
+          <summary>Table with every count</summary>
+          <div class="scroll"><table class="results"><thead><tr><th>Tool</th><th>Ran</th><th>Unsupported</th><th>Rejected</th><th>Done and preserved</th><th>Preserved, not done</th><th>Damaged</th><th>Damaged and reported by 0.4.6</th></tr></thead><tbody><tr class="grp-row"><th colspan="8">Control</th></tr><tr><th>Reference control <span class="note">edits the XML the way Word records it</span></th><td>60</td><td>0</td><td>0</td><td>60</td><td>0</td><td>0</td><td>–</td></tr><tr class="grp-row"><th colspan="8">Document tools</th></tr><tr><th>python-docx 1.2, Run.text = <span class="note">the careful path</span></th><td>28</td><td>32</td><td>0</td><td>20</td><td>8</td><td>0</td><td>–</td></tr><tr><th>python-docx 1.2, Paragraph.text = <span class="note">the tutorial and MCP-wrapper path</span></th><td>28</td><td>32</td><td>0</td><td>6</td><td>8</td><td>14</td><td>14 of 14</td></tr><tr><th>adeu 3.0.6 <span class="note">tracked changes only</span></th><td>34</td><td>24</td><td>2</td><td>30</td><td>0</td><td>4</td><td>4 of 4</td></tr><tr><th>docx-cli 0.26.0</th><td>56</td><td>4</td><td>0</td><td>18</td><td>0</td><td>38</td><td>16 of 38</td></tr><tr><th>Office-Word-MCP-Server 1.1.11 <span class="note">archived</span></th><td>24</td><td>36</td><td>0</td><td>8</td><td>10</td><td>6</td><td>4 of 6</td></tr><tr><th>docx-mcp 0.7.4</th><td>36</td><td>4</td><td>20</td><td>34</td><td>2</td><td>0</td><td>–</td></tr><tr><th>docxengine 1.0.0</th><td>40</td><td>0</td><td>20</td><td>32</td><td>2</td><td>6</td><td>2 of 6</td></tr><tr class="grp-row"><th colspan="8">Coding agents</th></tr><tr><th>Claude Code 2.1, Opus 5.5 <span class="note">five captures</span></th><td>150</td><td>0</td><td>0</td><td>150</td><td>0</td><td>0</td><td>–</td></tr><tr><th>Codex 0.160, gpt-6.1-sol <span class="note">five captures</span></th><td>150</td><td>0</td><td>0</td><td>150</td><td>0</td><td>0</td><td>–</td></tr><tr><th>OpenCode, Qwen3.8 27B (local) <span class="note">one capture</span></th><td>30</td><td>0</td><td>0</td><td>29</td><td>0</td><td>1</td><td>1 of 1</td></tr></tbody></table></div>
+        </details>
+      </figure>
+    </section>
+
+    <section aria-labelledby="broke">
+      <div class="section-head">
+        <h2 id="broke">What broke, as Word shows it</h2>
+        <p>Each class below was found by the oracle and then opened in Word for Mac 16.113.2. Where a tool's maintainers can fix it, an issue is filed.</p>
+      </div>
+      <div class="findings">
+        <div class="finding"><h3>Bullets turn into <code>&amp;#8226;</code></h3><p>Any write escapes the list's existing bullet reference a second time; Word prints the literal text instead of a bullet.</p><p class="who">docx-cli, every output of the first document · <a href="https://github.com/kklimuk/docx-cli/issues/12">issue</a></p></div>
+        <div class="finding"><h3>New words credited to another reviewer</h3><p>A tracked replacement inside another author's pending insertion leaves the new words without a wrapper of their own, so Word shows them as that author's; next to a nested deletion it also deletes the wrong words.</p><p class="who">docx-cli · <a href="https://github.com/kklimuk/docx-cli/issues/13">issue</a></p></div>
+        <div class="finding"><h3>Replies nobody can see</h3><p>The reply is in the comments part and linked to its thread, but has no anchor in the document. Word shows the reply neither in the margin nor in the Reviewing pane.</p><p class="who">docx-mcp, docxengine, and the agents Codex and OpenCode · issues for <a href="https://github.com/SecurityRonin/docx-mcp/issues/21">docx-mcp</a> and <a href="https://github.com/ruwadgroup/docxengine/issues/2">docxengine</a></p></div>
+        <div class="finding"><h3>A comments part Word has to repair</h3><p>A new comment uses a namespace prefix the part never declares. Word reports unreadable content; after repair the new comment is empty and has no author.</p><p class="who">docxengine, on a classic comments part · <a href="https://github.com/ruwadgroup/docxengine/issues/1">issue</a></p></div>
+        <div class="finding"><h3>The title edited instead of the header</h3><p>Asked to change the header, the tool replaced the same words in the document title, which it could reach, and left the header alone.</p><p class="who">Office-Word-MCP-Server, docxengine</p></div>
+        <div class="finding"><h3>Comment anchors and footnote references gone</h3><p>Setting a paragraph's or cell's text rebuilds its runs and drops the comment range and the footnote reference inside it; the note stays in its part and disappears from the page.</p><p class="who">python-docx <code>Paragraph.text =</code> / <code>_Cell.text =</code>: 14 of 28 outputs</p></div>
+        <div class="finding"><h3>Another reviewer's change accepted silently</h3><p>Editing inside a pending insertion, the agent removed the insertion's wrapper, so the other reviewer's proposed sentence now reads as agreed text.</p><p class="who">OpenCode with a local Qwen3.8 27B, 1 of 30</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="checker">
+      <div class="section-head">
+        <h2 id="checker">What a checker can see</h2>
+      </div>
+      <div class="prose">
+        <p><a href="https://github.com/Dmitry-Kov/ooxml-integrity">ooxml-integrity</a> 0.4.6, the published version the protocol froze, compares an edited file with its source. It reported every comment anchor and footnote reference python-docx lost and the malformed comments part, and missed what it did not model: the escaped bullets, the misattributed words, the title edited instead of the header. 0.4.7 adds warnings for the first two.</p>
+        <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. The next release, already on the main branch, lets a caller <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from 130 to 12 of 537, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from 59 to 63 of 69: the title edited instead of the header now shows. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/review-history-benchmark/expectations/README.md">Analysis</a>.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="method">
+      <div class="section-head">
+        <h2 id="method">How it was run</h2>
+      </div>
+      <div class="prose">
+        <ul>
+          <li>The <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/review-history-benchmark/PROTOCOL.md">protocol</a> and its 30 task declarations were frozen, with their hashes, before the first capture; later changes are dated amendments, made before the captures they affect.</li>
+          <li>The first source is a synthetic contract; the second is a review record written by Word for Mac: two reviewers' comments, a threaded reply and tracked changes, including a deletion inside another reviewer's insertion.</li>
+          <li>Each third-party document tool ran in its own container with no network, python-docx in the development environment. Each agent ran in a container whose only route out led to its model, with web tools off and no retries. Document tools were captured twice, agents five times, OpenCode once.</li>
+          <li>The oracle reads both files into review facts and never imports the checker; a reference control that edits the XML the way Word does passes all 60 attempts.</li>
+          <li>All captures, transcripts, receipts and the evaluation are in the <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/review-history-benchmark/README.md">evidence folder</a>.</li>
+        </ul>
+        <p>Limits: two documents, one version of each tool and model, and counts of attempts rather than independent documents. Only one output per kind of damage was opened, in one build of Word for Mac.</p>
+      </div>
+    </section>
+
+    <footer>
+      ooxml-integrity is MIT-licensed research software. <a href="../">Try the checker in your browser</a> · <a href="https://github.com/Dmitry-Kov/ooxml-integrity">source</a> · <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/review-history-benchmark/README.md">benchmark evidence</a>.
+    </footer>
+  </main>
+</body>
+</html>
