@@ -14,6 +14,9 @@
   damaged outputs, 59 were caught and 63 are - the 4 added are tools that edited
   the document title instead of the requested header. [Expected changes](docs/configuration.md#changes-the-edit-was-asked-to-make),
   [analysis](evidence/review-history-benchmark/expectations/README.md).
+- Research: a [results page](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
+  for the review-history benchmark, deployed with the demo and generated from the
+  committed evaluation by `research/build_benchmark_page.py`.
 
 ## 0.4.7 — 2026-10-02
 

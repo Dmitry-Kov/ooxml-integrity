@@ -65,6 +65,9 @@ Across the eight real agent runs, the checker reported no false positives.
 
 The [research notes](docs/research.md)
 describe the experiments, saved outputs, renderer measurements and limitations.
+A later [review-history benchmark](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
+gave 30 ordinary edits of two reviewed contracts to six document tools and three
+coding agents, and opened each kind of damage in Word for Mac.
 
 ## Applied to other projects
 

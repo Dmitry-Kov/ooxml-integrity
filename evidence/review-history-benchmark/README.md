@@ -9,7 +9,10 @@ record [written by Word for Mac](sources/README.md). Wave 1 ran seven tools and
 a reference control on 2026-09-30 and 2026-10-01, two captures each. Wave 2
 gave the same tasks, as prompts, to three coding agents in sealed containers on
 2026-10-02: five captures each for Claude Code and Codex, one for OpenCode with
-a local model. Counts are attempts on two documents, not independent documents.
+a local model. Counts are attempts on two documents, not independent documents. A
+[results page](https://dmitry-kov.github.io/ooxml-integrity/benchmark/) summarises
+both waves for readers outside this repository; it is generated from these files
+by `research/build_benchmark_page.py`.
 
 ## Results
 
