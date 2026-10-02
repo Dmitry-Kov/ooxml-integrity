@@ -11,7 +11,7 @@ records 30 additional pairs without changing the original beta corpus. It
 separates actual adeu/Word Online edits and Windows saves, seeded defects and accept/reject
 characterization, and retains two preservation false negatives explicitly.
 
-The separate unreleased [revision-text correction](../evidence/docx-revision-text/README.md)
+The separate 0.4.2 [revision-text correction](../evidence/docx-revision-text/README.md)
 rechecks those saved pairs with FID009: the seeded substitution is now detected,
 giving 8/9 seeded detections. The subsequent [FID010 note-presence correction](../evidence/docx-note-revisions/README.md)
 detects the recorded footnote-wrapper removal, giving 9/9 on that same seeded

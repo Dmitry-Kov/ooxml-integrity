@@ -1,10 +1,12 @@
 # Support matrix
 
-This page describes [0.4.6](releases/0.4.6.md), including its changes from `0.4.5`.
+This page describes [0.4.7](releases/0.4.7.md), including its changes from `0.4.6`.
 The browser footer identifies its installed version.
-Version 0.4.6 accepts tracked edits in comment, note and header/footer text; the
-unreleased checkout also accepts them where such an item already had pending
-revisions; see [DOCX fidelity against a source](#docx-fidelity-against-a-source). Version 0.4.5
+Version 0.4.7 adds `TXT002` (literal character references in text and list
+labels) and `FID011` (text added under another author's pending insertion), makes
+`INT001` an ERROR, and accepts tracked comment, note and header/footer edits next
+to pending revisions; version 0.4.6 accepts them where the item had none; see
+[DOCX fidelity against a source](#docx-fidelity-against-a-source). Version 0.4.5
 reports undefined `w:next` and `w:link` style references as `STY002` INFO, names
 the parser limit in `XML001` for a part nested deeper than 256 elements, and
 counts text kept as new tracked deletions toward `FID003`.
@@ -160,7 +162,7 @@ is. An item that already had pending revisions keeps the exact current-text
 match, so rejecting or accepting one of them still counts as a change. Each
 edited item accounts for at most one source item.
 
-In the unreleased checkout, an item with pending revisions also matches an
+In 0.4.7, an item with pending revisions also matches an
 edited item whose characters, deleted or not, with every revision the source
 item did not have rejected, are the source item's characters under the same
 revisions (kind, author, date) and paragraph marks. A tracked edit next to a

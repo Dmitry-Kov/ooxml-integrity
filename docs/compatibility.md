@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.4.6 release notes](releases/0.4.6.md) before changing a version pin.
+[0.4.7 release notes](releases/0.4.7.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,13 +33,13 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-Unreleased `TXT002` and `FID011` are new WARN findings for suspected double
+0.4.7 adds `TXT002` and `FID011`, new WARN findings for suspected double
 escaping and insertion-context growth respectively. They can affect warning
 gates and configured severity overrides, but not the default error-only gate
 by themselves. Two coverage identifiers are additive under schema v1. Intent
 ambiguity and skipped comparison groups are explicit; [profiles and limits](review-edit-warnings.md).
 
-Unreleased `INT001` is an ERROR rather than a WARN. It means a check raised
+In 0.4.7 `INT001` is an ERROR rather than a WARN. It means a check raised
 and did not complete, which previously passed the default gate. Such runs
 change exit 0 to 1, and coverage reports that check's items as `skipped`. The
 message names the exception type, and the finding gains `extra.check` and
@@ -68,7 +68,7 @@ revision and it had no pending insertion, deletion or move in the source. Such
 pairs can change exit 1 to 0; untracked edits are reported as before. Codes,
 severities, messages and baseline v2 identities are unchanged.
 
-The unreleased correction extends this to items that already had pending
+The 0.4.7 correction extends this to items that already had pending
 revisions, when every pending revision keeps its characters, kind, author and
 date. Such pairs can change exit 1 to 0; accepting, rejecting or re-dating a
 pending revision is reported as before. Codes, severities, messages and
@@ -211,11 +211,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in 0.4.6 | Meaning |
+| Output | Version in 0.4.7 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.4.6"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.4.7"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.4.6"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.4.7"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
@@ -277,7 +277,7 @@ filtering but applied to findings retained by policy. A matching baseline can
 therefore continue suppressing a finding whose severity has changed. Compare
 an upgrade without suppressions as well as with the project's normal policy.
 
-In the unreleased checkout a baseline never records or absorbs `INT001`: a
+Since 0.4.7 a baseline never records or absorbs `INT001`: a
 baselined defect is still checked on every run, but a baselined crash would
 stop that check on that file. `--write-baseline` reports the left-out
 findings on stderr. Accepting a known crash takes a config `ignore` with a
