@@ -214,7 +214,7 @@ TEMPLATE = """<!doctype html>
         <div class="kpi"><p class="label">Claude Code, done and preserved</p><p class="value">{claude}</p><p class="foot">attempts, five captures</p></div>
         <div class="kpi"><p class="label">Codex, done and preserved</p><p class="value">{codex}</p><p class="foot">but some replies Word does not show</p></div>
         <div class="kpi"><p class="label">docx-cli outputs damaged</p><p class="value">{cli_damaged}</p><p class="foot">attempts that ran</p></div>
-        <div class="kpi"><p class="label">Correct edits the checker flags</p><p class="value">{flagged}</p><p class="foot">of {correct}, once the requested change is declared (next release)</p></div>
+        <div class="kpi"><p class="label">Correct edits the checker flags</p><p class="value">{flagged}</p><p class="foot">of {correct}, once the requested change is declared (0.4.8)</p></div>
       </div>
     </section>
 
@@ -260,7 +260,7 @@ TEMPLATE = """<!doctype html>
       </div>
       <div class="prose">
         <p><a href="{repo}">ooxml-integrity</a> 0.4.6, the published version the protocol froze, compares an edited file with its source. It reported every comment anchor and footnote reference python-docx lost and the malformed comments part, and missed what it did not model: the escaped bullets, the misattributed words, the title edited instead of the header. 0.4.7 adds warnings for the first two.</p>
-        <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. The next release, already on the main branch, lets a caller <a href="{repo}/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from {flagged_without} to {flagged_with} of {correct}, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from {caught_without} to {caught_with} of {damaged}: the title edited instead of the header now shows. <a href="{blob}/expectations/README.md">Analysis</a>.</p>
+        <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. 0.4.8 lets a caller <a href="{repo}/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from {flagged_without} to {flagged_with} of {correct}, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from {caught_without} to {caught_with} of {damaged}: the title edited instead of the header now shows. <a href="{blob}/expectations/README.md">Analysis</a>.</p>
       </div>
     </section>
 

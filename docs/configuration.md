@@ -113,7 +113,7 @@ tools that edited the document title instead of the requested header.
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.4.7
+- uses: Dmitry-Kov/ooxml-integrity@v0.4.8
   id: docs
   continue-on-error: true
   with:
