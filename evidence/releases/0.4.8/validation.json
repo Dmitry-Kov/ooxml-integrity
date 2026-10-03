@@ -1,0 +1,259 @@
+{
+  "scope": "Local candidate packaging verification; no fresh editor/model runs. Later CI/release archives are rebuilt from the completed commit.",
+  "version": "0.4.8",
+  "base_head": "366b4711558a808bbbda23729f199c255c5271ef",
+  "merged_changes": [
+    "#51",
+    "#52"
+  ],
+  "python": "3.12.8",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "tools": {
+    "build": "1.6.1",
+    "twine": "7.0.0",
+    "lxml": "6.1.3",
+    "pytest": "9.1.1",
+    "fonttools": "4.66.0",
+    "python-docx": "1.2.0"
+  },
+  "local_archive_sha256": {
+    "ooxml_integrity-0.4.8-py3-none-any.whl": "4fea2a4eda3154ce1b75849dd3558d5f25b74d766c7691f3b3eda93979affaa9",
+    "ooxml_integrity-0.4.8.tar.gz": "84fa00fffb8c358785d52008f8bb3cb89420359eecc4d0b416934044ea4b7813"
+  },
+  "commands": {
+    "pytest": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 78.9,
+      "stdout_sha256": "c53dd81bf1e8aa689d019aeade1665454829048a39190f32fd3ec2fc95e8a645",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pytest-py314": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv314/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 78.2,
+      "stdout_sha256": "3b545b2dca4013d50642c2acb056eb9ad29c1ac14ccba68f190938df614ae620",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "corpus": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/build_docx_evidence.py",
+        "evaluate",
+        "--output",
+        "$REPO/tmp/release-0.4.8/docx-beta.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 4.0,
+      "stdout_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "revisions": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/review_revision_text.py",
+        "--evidence-dir",
+        "evidence/docx-paragraph-revision-ids",
+        "--saved-outputs",
+        "--output",
+        "$REPO/tmp/release-0.4.8/revisions-current.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.7,
+      "stdout_sha256": "0d71230f11779e0e115b811d9cc70c78ae0fe690dc1546fcdb6ba92ed1d28848",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frozen": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/replay_frozen_docx.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.4,
+      "stdout_sha256": "9925a5b705bd712080102f6c3d39518852809000b4588abdc99344044353e064",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "comment-stories": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/comment_story_evidence.py",
+        "evaluate"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.1,
+      "stdout_sha256": "10891d01a63aad614d5270ca35a3337ea99f3a69e70bbdf3d31a51d6474b6796",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "deck": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/assert_deck.py",
+        "corpus/deck.pptx"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.4,
+      "stdout_sha256": "906daebb2c9557a16571dee6e689be934da23a591b83d8a45fac9e65d7f48f1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": {
+      "command": [
+        "$REPO/.venv/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "$REPO/tmp/release-0.4.8/dist"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.3,
+      "stdout_sha256": "16ff6f8701adc12248030ffcd365a9c33c0dfb5df27fcfe3b4772dee74a3eab1",
+      "stderr_sha256": "032cd0356e11e98504e9a9c02c250183cd24f4b2a03147519156964b676d8233"
+    },
+    "twine": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "twine",
+        "check",
+        "--strict",
+        "$REPO/tmp/release-0.4.8/dist/ooxml_integrity-0.4.8-py3-none-any.whl",
+        "$REPO/tmp/release-0.4.8/dist/ooxml_integrity-0.4.8.tar.gz"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.5,
+      "stdout_sha256": "c1ec9ade041def5c61feaeb366636a80a7f5789f36f8aff24cfd64308e18d87c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wheel-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.8/wheel-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.8"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 4.1,
+      "stdout_sha256": "cf61c4955488c4fa64507251d33ccabd91cea0bbba03487403ef86233fe086b9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sdist-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.4.8/sdist-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.4.8"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.9,
+      "stdout_sha256": "cf61c4955488c4fa64507251d33ccabd91cea0bbba03487403ef86233fe086b9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-wheel": {
+      "command": [
+        "/opt/homebrew/bin/npm",
+        "test",
+        "--prefix",
+        "tests/browser"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 107.8,
+      "stdout_sha256": "178f0a80fbb165a082c7eb492347462aa3ae3c5106860cef42f63ee5a78e3e84",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "pytest_summary": "2172 passed, 7 skipped in 78.65s",
+  "pytest_py314_summary": "2172 passed, 7 skipped in 77.84s",
+  "preserved_historical_files": 3944,
+  "browser": {
+    "stats": {
+      "startTime": "2026-10-03T05:55:06.209Z",
+      "duration": 107398.777,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "metadata": {
+      "commit": "366b4711558a808bbbda23729f199c255c5271ef",
+      "changedTrackedFiles": [
+        ".github/workflows/release.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/compatibility.md",
+        "docs/support-matrix.md",
+        "pyproject.toml",
+        "research/release_smoke.py",
+        "src/ooxml_integrity/__init__.py"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.4.8",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.4.8",
+        "wheel": "ooxml_integrity-0.4.8-py3-none-any.whl",
+        "sha256": "4fea2a4eda3154ce1b75849dd3558d5f25b74d766c7691f3b3eda93979affaa9"
+      },
+      "pageSha256": {
+        "index.html": "a8b38cf97055f6f7c2aabc65c7e0cd015586694de5497996408ad3ea1dbe57c2",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "c60978ab274c45a3fdaca0bf3d631339ead988aee3f5c7e31a18275a5582b4a7",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    }
+  },
+  "browser_first_attempt": {
+    "stats": {
+      "startTime": "2026-10-03T05:50:44.240Z",
+      "duration": 224127.88999999998,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "exit_code": 1,
+    "cause": "one scenario's Pyodide startup could not fetch the Python standard library from the CDN (TypeError: Failed to fetch; No module named 'encodings'); the other six passed against the same wheel. Its receipts are kept as browser-wheel-attempt1.*"
+  }
+}

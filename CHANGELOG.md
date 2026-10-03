@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.8 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.8.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - Expected changes: `--expect CODE:key=value,...`, `[[expect]]` in the config
   and `expect()` in Python declare a finding the edit was asked to cause, such as

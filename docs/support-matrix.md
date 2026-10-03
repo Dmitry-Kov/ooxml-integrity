@@ -1,8 +1,10 @@
 # Support matrix
 
-This page describes [0.4.7](releases/0.4.7.md), including its changes from `0.4.6`.
+This page describes [0.4.8](releases/0.4.8.md), including its changes from `0.4.7`.
 The browser footer identifies its installed version.
-Version 0.4.7 adds `TXT002` (literal character references in text and list
+Version 0.4.8 lets a caller declare the findings an edit was asked to cause
+(`--expect`, `[[expect]]`, `expect()`); an expectation nothing matches is an
+`EXP001` error. No check's scope changes. Version 0.4.7 adds `TXT002` (literal character references in text and list
 labels) and `FID011` (text added under another author's pending insertion), makes
 `INT001` an ERROR, and accepts tracked comment, note and header/footer edits next
 to pending revisions; version 0.4.6 accepts them where the item had none; see
