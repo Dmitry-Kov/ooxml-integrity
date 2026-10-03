@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.7
+    python research/release_smoke.py --version 0.4.8
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -253,6 +253,31 @@ def main():
             Inspector.CHECKS = saved
         assert len(crashed) == 1 and crashed[0].severity.value == "error"
         assert crashed[0].extra["check"] == "check_styles"
+
+        # 0.4.8: a requested accept/reject passes only when declared; a wrong
+        # declaration fails with EXP001.
+        resolved = bench / "captures/reference-1/K6-S2-resolve.docx"
+        review = s2 / "word-review.docx"
+        ins, dele = "FID001:tag=ins,before=2,after=1", "FID001:tag=del,before=2,after=1"
+        cli("check", resolved, "--against", review, "--no-config", code=1)
+        report = json.loads(cli("check", resolved, "--against", review, "--no-config", "--json",
+                                "--expect", ins, "--expect", dele).stdout)["files"][0]
+        assert len(report["expected"]) == 2 and not [
+            f for f in report["findings"] if f["severity"] == "error"]
+        report = json.loads(cli("check", resolved, "--against", review, "--no-config", "--json",
+                                "--expect", "FID001:tag=ins,before=2,after=0", "--expect", dele,
+                                code=1).stdout)["files"][0]
+        assert "EXP001" in {f["code"] for f in report["findings"]}
+        declared = work / "expect.toml"
+        declared.write_text('[[expect]]\ncode = "FID001"\nreason = "accepted on purpose"\n'
+                            'match = { tag = "ins", before = 2, after = 1 }\n'
+                            '[[expect]]\ncode = "FID001"\nreason = "rejected on purpose"\n'
+                            'match = { tag = "del", before = 2, after = 1 }\n', encoding="utf-8")
+        cli("check", resolved, "--against", review, "--config", declared)
+        from ooxml_integrity import Expectation, compare as fidelity, expect
+        kept, matched = expect(fidelity(review, resolved),
+                               [Expectation.parse(ins), Expectation.parse(dele)])
+        assert len(matched) == 2 and not [f for f in kept if f.severity.value == "error"]
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -293,6 +318,7 @@ def main():
           "STY002 next/basedOn, XML001 depth limit, FID003 tracked-deletion controls, "
           "FID006/FID007 tracked note and header edits, "
           "0.4.7 FID007 next to a pending revision, TXT002, FID011 and INT001, "
+          "0.4.8 expectations from the CLI, config and API with EXP001, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
