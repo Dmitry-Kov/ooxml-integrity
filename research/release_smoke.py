@@ -190,7 +190,10 @@ def main():
                                     "--json", code=code).stdout)
             return [(f["code"], f["message"]) for f in report["files"][0]["findings"]]
 
-        assert compared(short) == [] and compared(tracked) == []
+        assert compared(short) == []
+        # A tracked edit loses nothing; FID012 lists the tracked changes it added.
+        assert [c for c in compared(tracked) if c[0] != "FID012"] == []
+        assert {c[0] for c in compared(tracked)} == {"FID012"}
         assert compared(untracked, code=1) == [
             ("FID003", "text volume fell from 28 to 26 characters (7% of content lost)")]
 
@@ -198,22 +201,25 @@ def main():
         s2 = root / "evidence/review-history-benchmark/sources"
         report = json.loads(cli("check", s2 / "word-review.docx", "--against",
                                 s2 / "review-base.docx", "--no-config", "--json").stdout)
-        assert {f["code"] for f in report["files"][0]["findings"]} == {"FID002"}
+        assert {f["code"] for f in report["files"][0]["findings"]} == {"FID002", "FID012"}
         header_run = b"<w:r><w:t>Reference Agreement - Draft 7</w:t></w:r>"
         assert base["word/header1.xml"].count(header_run) == 1
         for name, run, code, expected in (
             ("header-tracked.docx",
              b'<w:r><w:t xml:space="preserve">Reference Agreement - Draft </w:t></w:r>'
              + f'<w:del w:id="901" {rev}><w:r><w:delText>7</w:delText></w:r></w:del>'
-               f'<w:ins w:id="902" {rev}><w:r><w:t>8</w:t></w:r></w:ins>'.encode(), 0, []),
+               f'<w:ins w:id="902" {rev}><w:r><w:t>8</w:t></w:r></w:ins>'.encode(), 0,
+             [("FID012", "info", "header/default: 1 new tracked insertion by Editor"),
+              ("FID012", "info", "header/default: 1 new tracked deletion by Editor")]),
             ("header-untracked.docx", b"<w:r><w:t>Reference Agreement - Draft 8</w:t></w:r>",
-             1, [("FID007", "error")]),
+             1, [("FID007", "error", None)]),
         ):
             header = base["word/header1.xml"].replace(header_run, run)
             path = variant(name, {**base, "word/header1.xml": header})
             report = json.loads(cli("check", path, "--against", source, "--no-config",
                                     "--json", code=code).stdout)
-            assert [(f["code"], f["severity"]) for f in report["files"][0]["findings"]] == expected
+            assert [(f["code"], f["severity"], f["message"] if f["code"] == "FID012" else None)
+                    for f in report["files"][0]["findings"]] == expected
 
         # 0.4.7: a tracked header edit next to a pending revision is not a loss.
         bench = root / "evidence/review-history-benchmark"
@@ -319,6 +325,7 @@ def main():
           "FID006/FID007 tracked note and header edits, "
           "0.4.7 FID007 next to a pending revision, TXT002, FID011 and INT001, "
           "0.4.8 expectations from the CLI, config and API with EXP001, "
+          "FID012 tracked additions per story, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
