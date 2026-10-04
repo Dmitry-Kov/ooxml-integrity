@@ -98,7 +98,7 @@ class TestCountIncrease:
             pytest.skip("agent run output missing")
         findings = compare(base_docx, careful)
         assert findings, "expected at least the FID002 informational notes"
-        assert all(f.code == "FID002" for f in findings)
+        assert {f.code for f in findings} <= {"FID002", "FID012"}
         assert all(f.severity is Severity.INFO for f in findings)
 
     def test_duplicate_revision_id_is_still_an_error(self, tmp_docx, tmp_path):

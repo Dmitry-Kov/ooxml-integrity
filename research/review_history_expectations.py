@@ -15,7 +15,10 @@ Expectations per task:
 - K7n plain: FID005 for the edited footnote's source text (required).
 - K4 plain: FID009 for the edited insertion's text, allowed but not required,
   because FID009 does not read insertions that hold nested deletions.
-Every other task declares none.
+Every other task declares none. A third reading adds, for every tracked
+replacement, the unreleased FID012 with the editor as author in the task's
+story (required): a correct tracked edit loses nothing, so only this says
+whether it landed where it was asked to.
 
     python research/review_history_expectations.py [--output PATH]
 """
@@ -50,6 +53,17 @@ def _document(source: Path):
 
 def _norm(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
+
+
+def tracked_expectations(task: dict, editor: dict) -> list[Expectation]:
+    """FID012 for a tracked replacement: new revisions by the editor in its story."""
+    if task["kind"] != "replace" or task["mode"] != "tracked":
+        return []
+    story = task["call"]["story"]
+    if story.startswith(("header/", "footer/")):
+        story = "/".join(story.split("/")[:2])
+    return [Expectation("FID012", {"story": story, "author": editor["author"]},
+                        reason=f"{task['id']} requests a tracked edit in {story}")]
 
 
 def expectations_for(task: dict) -> list[Expectation]:
@@ -112,6 +126,9 @@ def main(argv=None) -> int:
     tasks = {t["id"]: t for t in declared["tasks"]}
     plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
                   for e in expectations_for(t)] for tid, t in tasks.items()}
+    tracked_plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
+                          for e in tracked_expectations(t, declared["editor"])]
+                    for tid, t in tasks.items() if tracked_expectations(t, declared["editor"])}
     evaluation = json.loads(bench.EVALUATION.read_text(encoding="utf-8"))
     rows = []
     table = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
@@ -122,30 +139,35 @@ def main(argv=None) -> int:
         source = ROOT / task["source_path"]
         output = bench.CAPTURES / f"{record['adapter']}-{record['repeat']}" / f"{record['task']}.docx"
         if bench.unparseable(output):
-            before = after = {"codes": ["XML001"], "expected": []}
+            before = after = tracked = {"codes": ["XML001"], "expected": []}
         else:
             before = actionable(source, output, [])
             after = actionable(source, output, expectations_for(task))
+            tracked = actionable(source, output, expectations_for(task)
+                                 + tracked_expectations(task, declared["editor"]))
         row = {"adapter": record["adapter"], "repeat": record["repeat"], "task": record["task"],
                "completed": bool(record.get("completed")),
                "preserved": record["preservation"]["preserved"],
                "without": {**before, "outcome": outcome(record, before["codes"])},
-               "with": {**after, "outcome": outcome(record, after["codes"])}}
+               "with": {**after, "outcome": outcome(record, after["codes"])},
+               "with_tracked": {**tracked, "outcome": outcome(record, tracked["codes"])}}
         rows.append(row)
-        for mode in ("without", "with"):
+        for mode in ("without", "with", "with_tracked"):
             table[record["adapter"]][mode][row[mode]["outcome"]] += 1
     result = {
         "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
         "checker": f"ooxml-integrity {__version__} from this checkout",
         "oracle": "verdicts read from evaluation.json",
         "expectations": plan,
+        "tracked_expectations": tracked_plan,
         "summary": {a: {m: dict(c) for m, c in modes.items()} for a, modes in sorted(table.items())},
         "results": rows,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     for adapter, modes in result["summary"].items():
-        print(adapter, "| without:", modes["without"], "| with:", modes["with"])
+        print(adapter, "| without:", modes["without"], "| with:", modes["with"],
+              "| with tracked:", modes["with_tracked"])
     return 0
 
 

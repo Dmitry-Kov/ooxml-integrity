@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- `FID012` (INFO): the tracked changes an edit added, per story (the body, each
+  header/footer slot, footnotes, endnotes), kind and author. A revision is new
+  when its story had none of the same kind, author and date in the source, so
+  splitting an existing one adds nothing. A correct tracked edit loses nothing,
+  so until now nothing distinguished it from the same tracked edit made in the
+  wrong place: in the review-history benchmark docxengine edited the document
+  title instead of the requested header, with tracked changes, and passed. An
+  expectation on `FID012` for `header/default` now fails it with `EXP001`.
+  The saved-output gate declares the 80 `FID012` findings it now sees on stored
+  editor outputs; every recorded finding still matches.
+
 ## 0.4.8 — 2026-10-03
 
 [Upgrade notes and verified publication](docs/releases/0.4.8.md). Published

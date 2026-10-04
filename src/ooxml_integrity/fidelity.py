@@ -101,6 +101,11 @@ _REVISION_TAGS = {W + "ins", W + "del"}
 _TEXT_REVISIONS = (W + "ins", W + "del", W + "moveFrom", W + "moveTo")
 _INSERTED = {W + "ins", W + "moveTo"}
 _DATE_UTC = "{http://schemas.microsoft.com/office/word/2023/wordml/word16du}dateUtc"
+#: Revision kinds FID012 reports when an edit adds them, with their labels.
+_ADDED_REVISIONS = (("ins", "insertion"), ("del", "deletion"),
+                    ("moveFrom", "move-from"), ("moveTo", "move-to"))
+#: FID012 lists stories in this order: body, headers, footers, notes.
+_STORY_ORDER = ("document", "header", "footer", "footnotes", "endnotes")
 _REVISION_ATTRIBUTES = {W + "id", W + "author", W + "date", _DATE_UTC}
 
 
@@ -404,6 +409,8 @@ class _StoryFacts:
     texts: list[_Text]
     constructs: collections.Counter
     parts: dict[tuple[str, str, str], str]
+    #: "kind/variant" -> revision contexts of the parts in those slots
+    revisions: dict[str, collections.Counter]
 
 
 def _relationship_part(target: str, base: str, names: set[str],
@@ -528,6 +535,16 @@ def _story_text(root, *, original: bool = False) -> str:
     return _norm("\n".join(paragraphs))
 
 
+def _revision_contexts(root) -> collections.Counter:
+    """(kind, author, effective date) -> number of revision elements."""
+    out: collections.Counter = collections.Counter()
+    for tag, _ in _ADDED_REVISIONS:
+        for node in root.iter(W + tag):
+            out[(tag, node.get(W + "author") or "",
+                 node.get(_DATE_UTC, node.get(W + "date")) or "")] += 1
+    return out
+
+
 def _story_facts(parts: dict[str, bytes], document, *,
                  references: list[tuple[str, str, str]],
                  ) -> _StoryFacts:
@@ -535,6 +552,8 @@ def _story_facts(parts: dict[str, bytes], document, *,
     constructs: collections.Counter = collections.Counter()
     locations: dict[tuple[str, str, str], str] = {}
     trees: dict[str, object] = {}
+    revisions: dict[str, collections.Counter] = {}
+    counted: set[tuple[str, str]] = set()
     for kind, variant, part in references:
         if part not in trees:
             root = parse_xml(parts[part])
@@ -550,7 +569,11 @@ def _story_facts(parts: dict[str, bytes], document, *,
         locations.setdefault(identity, part)
         for tag, _, _ in TRACKED:
             constructs[(kind, variant, tag)] += len(list(root.iter(W + tag)))
-    return _StoryFacts(texts, constructs, locations)
+        story = f"{kind}/{variant}"
+        if (story, part) not in counted:  # one part can fill several sections' slots
+            counted.add((story, part))
+            revisions.setdefault(story, collections.Counter()).update(_revision_contexts(root))
+    return _StoryFacts(texts, constructs, locations, revisions)
 
 
 def story_reference_count(parts: dict[str, bytes]) -> int:
@@ -574,6 +597,8 @@ class _Snapshot:
     pending_insertions: PendingInsertions
     note_revisions: NoteRevisions
     main: str
+    #: story -> revision contexts: "document", "header/default", "footnotes", ...
+    revisions: dict[str, collections.Counter]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -626,16 +651,50 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         authors.update(
             ((part, body), author) for body, author in body_authors.items()
         )
+    stories = _story_facts(parts, doc, references=story_references)
+    revisions = {"document": _revision_contexts(doc), **stories.revisions}
+    for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
+        if part in parts:
+            revisions[story] = _revision_contexts(parse_xml(parts[part]))
     return _Snapshot(
         counts, bodies, authors, text_length, deleted_length,
-        _story_facts(parts, doc, references=story_references),
+        stories,
         {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
         revision_inventory(doc),
         pending_inventory(doc),
         note_revision_inventory(parts),
         main,
+        revisions,
     )
+
+
+def _revision_additions(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
+    """FID012: tracked changes the edit added, per story, kind and author.
+
+    A revision is new when its story had no revision of the same kind, author
+    and effective date in the source, so splitting or joining an existing
+    revision is not an addition. An edit stamped with an existing revision's
+    author and date cannot be told apart; FID011 covers the insertion case.
+    """
+    labels = dict(_ADDED_REVISIONS)
+    out = []
+    for story in sorted(edited.revisions, key=lambda s: (_STORY_ORDER.index(s.split("/")[0]), s)):
+        known = source.revisions.get(story, collections.Counter())
+        added: collections.Counter = collections.Counter()
+        for (tag, author, date), n in edited.revisions[story].items():
+            if (tag, author, date) not in known:
+                added[(tag, author)] += n
+        for (tag, author), n in sorted(added.items(), key=lambda x: (
+                [t for t, _ in _ADDED_REVISIONS].index(x[0][0]), x[0][1])):
+            who = f"by {author}" if author else "with no author"
+            out.append(Finding(
+                "FID012", INFO,
+                f"{story}: {n} new tracked {labels[tag]}{'' if n == 1 else 's'} {who}",
+                where=story,
+                extra={"story": story, "tag": tag, "author": author, "count": n},
+            ))
+    return out
 
 
 def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
@@ -740,6 +799,8 @@ def compare(source: str | Path, edited: str | Path, *,
                 "(count increase alone does not establish a defect)",
                 extra={"tag": tag, "before": a, "after": b},
             ))
+
+    out.extend(_revision_additions(source_snapshot, edited_snapshot))
 
     for part, tag, code, label in BODY_PARTS:
         # A source item whose current text is empty has nothing to lose here.

@@ -93,7 +93,8 @@ match = { story_kind = "header", variant = "default" }
 
 `match` names values the finding must carry: `part`, `where`, or any key of its
 `extra` in the JSON report (`tag`, `before`, `after` for `FID001`;
-`story_kind`, `variant`, `body` for `FID007`; `body` for `FID004`-`FID006`).
+`story_kind`, `variant`, `body` for `FID007`; `body` for `FID004`-`FID006`;
+`story`, `tag`, `author` for `FID012`).
 Values compare as text. `path` is a glob as for `ignore`, `reason` is required,
 and `required = false` allows a finding without requiring it, for a change the
 checker may or may not report, such as `FID009` for a direct edit inside an
@@ -109,6 +110,20 @@ like: `FID007` for a header accepts any change to that header's text. Combined
 with the other checks it still caught, in the
 [review-history benchmark](../evidence/review-history-benchmark/expectations/README.md),
 tools that edited the document title instead of the requested header.
+
+A correct tracked edit loses nothing, so it draws no error to expect. To check
+that it landed where it was asked to, expect `FID012`, the INFO finding that
+lists the tracked changes an edit added, per story (`document`, a header or
+footer slot such as `header/default`, `footnotes`, `endnotes`), kind and author:
+
+```toml
+[[expect]]
+code = "FID012"
+reason = "the pipeline revises the header as Benchmark Editor, tracked"
+match = { story = "header/default", author = "Benchmark Editor" }
+```
+
+A tracked edit made anywhere else leaves this unmatched and fails with `EXP001`.
 
 ## Findings in the pull request, not in a log
 

@@ -32,5 +32,12 @@
       "old": " - a known cause of Word's \"unreadable content\" warning",
       "new": " - outside the verified paragraph-mark/content pair; review for an ID collision"
     }
+  ],
+  "saved_output_added_findings": [
+    {
+      "code": "FID012",
+      "severity": "info",
+      "reason": "FID012 lists the tracked changes an edit added, per story, kind and author; it adds information without changing any recorded finding"
+    }
   ]
 }
