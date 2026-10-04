@@ -76,6 +76,8 @@ def expectations() -> dict:
         "damaged": total[("without", "detected")] + total[("without", "missed")],
         "caught_without": total[("without", "detected")],
         "caught_with": total[("with", "detected")],
+        "caught_tracked": total[("with_tracked", "detected")],
+        "flagged_tracked": total[("with_tracked", "false alarm")],
     }
 
 
@@ -132,6 +134,7 @@ def page() -> str:
         flagged=f"{x['flagged_without']} → {x['flagged_with']}", correct=x["correct"],
         flagged_without=x["flagged_without"], flagged_with=x["flagged_with"],
         caught_without=x["caught_without"], caught_with=x["caught_with"], damaged=x["damaged"],
+        caught_tracked=x["caught_tracked"], flagged_tracked=x["flagged_tracked"],
         setter=f"{counts['python-docx-setter']['damaged']} of {counts['python-docx-setter']['ok']}",
     )
 
@@ -260,7 +263,8 @@ TEMPLATE = """<!doctype html>
       </div>
       <div class="prose">
         <p><a href="{repo}">ooxml-integrity</a> 0.4.6, the published version the protocol froze, compares an edited file with its source. It reported every comment anchor and footnote reference python-docx lost and the malformed comments part, and missed what it did not model: the escaped bullets, the misattributed words, the title edited instead of the header. 0.4.7 adds warnings for the first two.</p>
-        <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. 0.4.8 lets a caller <a href="{repo}/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from {flagged_without} to {flagged_with} of {correct}, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from {caught_without} to {caught_with} of {damaged}: the title edited instead of the header now shows. <a href="{blob}/expectations/README.md">Analysis</a>.</p>
+        <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. 0.4.8 lets a caller <a href="{repo}/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from {flagged_without} to {flagged_with} of {correct}, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from {caught_without} to {caught_with} of {damaged}: the title edited instead of the header now shows.</p>
+        <p>A correct tracked edit loses nothing, so it draws no error to expect. 0.4.9 lists the tracked changes an edit added, per part of the document and author (<code>FID012</code>), and an expectation can require one in the header. Expecting that for every tracked task as well, caught damaged outputs rise to {caught_tracked} of {damaged} and flagged correct outputs stay at {flagged_tracked}: a tool that made its tracked edit in the document title instead of the header now fails too. <a href="{blob}/expectations/README.md">Analysis</a>.</p>
       </div>
     </section>
 

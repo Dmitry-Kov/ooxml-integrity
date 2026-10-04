@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.4.8 from this checkout",
+ "checker": "ooxml-integrity 0.4.9 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],

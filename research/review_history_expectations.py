@@ -16,7 +16,7 @@ Expectations per task:
 - K4 plain: FID009 for the edited insertion's text, allowed but not required,
   because FID009 does not read insertions that hold nested deletions.
 Every other task declares none. A third reading adds, for every tracked
-replacement, the unreleased FID012 with the editor as author in the task's
+replacement, 0.4.9's FID012 with the editor as author in the task's
 story (required): a correct tracked edit loses nothing, so only this says
 whether it landed where it was asked to.
 
