@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.8
+    python research/release_smoke.py --version 0.4.9
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -284,6 +284,19 @@ def main():
         kept, matched = expect(fidelity(review, resolved),
                                [Expectation.parse(ins), Expectation.parse(dele)])
         assert len(matched) == 2 and not [f for f in kept if f.severity.value == "error"]
+
+        # 0.4.9: FID012 says where a tracked edit landed; expecting it in the
+        # header fails an edit made in the body with EXP001.
+        header_tracked = work / "header-tracked.docx"
+        in_header = "FID012:story=header/default,author=Editor"
+        cli("check", header_tracked, "--against", source, "--no-config", "--expect", in_header)
+        body_tracked = minimal("body-tracked.docx",
+                               f'<w:ins w:id="903" {rev}><w:r><w:t>added</w:t></w:r></w:ins>')
+        report = json.loads(cli("check", body_tracked, "--against", short, "--no-config", "--json",
+                                "--expect", in_header, code=1).stdout)["files"][0]
+        assert "EXP001" in {f["code"] for f in report["findings"]}
+        assert any(f["code"] == "FID012" and f["extra"]["story"] == "document"
+                   for f in report["findings"])
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -325,7 +338,7 @@ def main():
           "FID006/FID007 tracked note and header edits, "
           "0.4.7 FID007 next to a pending revision, TXT002, FID011 and INT001, "
           "0.4.8 expectations from the CLI, config and API with EXP001, "
-          "FID012 tracked additions per story, "
+          "0.4.9 FID012 tracked additions per story and its expectation, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
