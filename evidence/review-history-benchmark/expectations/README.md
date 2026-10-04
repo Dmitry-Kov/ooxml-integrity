@@ -57,7 +57,7 @@ protocol's rule; `EXP001` counts.
 
 ## Third reading: tracked edits in the right place
 
-The unreleased `FID012` lists, as INFO, the tracked changes an edit added, per
+0.4.9's `FID012` lists, as INFO, the tracked changes an edit added, per
 story, kind and author. The third reading keeps the expectations above and
 adds, for every tracked replacement, `FID012` with the editor as author in the
 task's story (`document`, `header/default` or `footnotes`), required.

@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.4.9 — release candidate
+## 0.4.9 — 2026-10-04
 
-[Upgrade notes and validation](docs/releases/0.4.9.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.4.9.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `FID012` (INFO): the tracked changes an edit added, per story (the body, each
   header/footer slot, footnotes, endnotes), kind and author. A revision is new
