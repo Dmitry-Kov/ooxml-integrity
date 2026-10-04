@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.4.9 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.4.9.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `FID012` (INFO): the tracked changes an edit added, per story (the body, each
   header/footer slot, footnotes, endnotes), kind and author. A revision is new
@@ -12,6 +15,11 @@
   expectation on `FID012` for `header/default` now fails it with `EXP001`.
   The saved-output gate declares the 80 `FID012` findings it now sees on stored
   editor outputs; every recorded finding still matches.
+- Support matrix: two limits measured on the public corpora. Styles,
+  numbering, notes and comments parts are still read under their conventional
+  names; none of 1,851 readable DOCX files names them otherwise. Constructs
+  inside notes are not compared with the source; three or four of 582 files
+  with footnotes hold any, and none holds a comment anchor.
 
 ## 0.4.8 — 2026-10-03
 
