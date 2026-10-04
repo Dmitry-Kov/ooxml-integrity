@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.4.7 from this checkout",
+ "checker": "ooxml-integrity 0.4.8 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],
@@ -124,6 +124,128 @@
    }
   ]
  },
+ "tracked_expectations": {
+  "K1-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K1-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K2-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K2-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K3-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K3-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K4-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K4-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "document",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K7h-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "header/default",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K7h-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "header/default",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K7n-S1-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "footnotes",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ],
+  "K7n-S2-tracked": [
+   {
+    "code": "FID012",
+    "match": {
+     "story": "footnotes",
+     "author": "Benchmark Editor"
+    },
+    "required": true
+   }
+  ]
+ },
  "summary": {
   "adeu": {
    "without": {
@@ -132,6 +254,11 @@
     "detected": 4
    },
    "with": {
+    "clean": 26,
+    "false alarm": 4,
+    "detected": 4
+   },
+   "with_tracked": {
     "clean": 26,
     "false alarm": 4,
     "detected": 4
@@ -144,6 +271,9 @@
    },
    "with": {
     "clean": 150
+   },
+   "with_tracked": {
+    "clean": 150
    }
   },
   "codex": {
@@ -152,6 +282,10 @@
     "false alarm": 41
    },
    "with": {
+    "clean": 144,
+    "false alarm": 6
+   },
+   "with_tracked": {
     "clean": 144,
     "false alarm": 6
    }
@@ -167,6 +301,11 @@
     "detected": 34,
     "clean": 18,
     "missed": 4
+   },
+   "with_tracked": {
+    "detected": 34,
+    "clean": 18,
+    "missed": 4
    }
   },
   "docx-mcp": {
@@ -176,6 +315,10 @@
     "false alarm": 12
    },
    "with": {
+    "clean": 34,
+    "incomplete, flagged": 2
+   },
+   "with_tracked": {
     "clean": 34,
     "incomplete, flagged": 2
    }
@@ -193,6 +336,11 @@
     "detected": 4,
     "incomplete, flagged": 2,
     "missed": 2
+   },
+   "with_tracked": {
+    "clean": 32,
+    "detected": 6,
+    "incomplete, flagged": 2
    }
   },
   "office-word-mcp": {
@@ -203,6 +351,12 @@
     "missed": 2
    },
    "with": {
+    "clean": 8,
+    "detected": 6,
+    "incomplete, clean": 4,
+    "incomplete, flagged": 6
+   },
+   "with_tracked": {
     "clean": 8,
     "detected": 6,
     "incomplete, clean": 4,
@@ -219,6 +373,11 @@
     "clean": 27,
     "detected": 1,
     "false alarm": 2
+   },
+   "with_tracked": {
+    "clean": 27,
+    "detected": 1,
+    "false alarm": 2
    }
   },
   "python-docx-runs": {
@@ -229,6 +388,11 @@
     "false alarm": 4
    },
    "with": {
+    "clean": 20,
+    "incomplete, clean": 6,
+    "incomplete, flagged": 2
+   },
+   "with_tracked": {
     "clean": 20,
     "incomplete, clean": 6,
     "incomplete, flagged": 2
@@ -247,6 +411,12 @@
     "detected": 14,
     "incomplete, clean": 6,
     "incomplete, flagged": 2
+   },
+   "with_tracked": {
+    "clean": 6,
+    "detected": 14,
+    "incomplete, clean": 6,
+    "incomplete, flagged": 2
    }
   },
   "reference": {
@@ -255,6 +425,9 @@
     "false alarm": 14
    },
    "with": {
+    "clean": 60
+   },
+   "with_tracked": {
     "clean": 60
    }
   }
@@ -275,6 +448,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -289,6 +467,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -309,6 +492,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -325,6 +515,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -343,6 +540,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -359,6 +563,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -377,6 +588,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -393,6 +611,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -415,6 +640,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -436,6 +670,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -450,6 +693,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -470,6 +718,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -486,6 +739,16 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001",
      "FID001"
@@ -518,6 +781,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -534,6 +807,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -552,6 +832,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -569,6 +856,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -583,6 +877,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -603,6 +902,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -619,6 +923,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -637,6 +948,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -653,6 +971,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -671,6 +996,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -688,6 +1020,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -704,6 +1043,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -726,6 +1072,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -747,6 +1102,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -761,6 +1125,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -781,6 +1150,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -797,6 +1171,16 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001",
      "FID001"
@@ -829,6 +1213,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -846,6 +1240,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -863,6 +1264,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -880,6 +1288,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -894,6 +1309,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -914,6 +1334,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -931,6 +1356,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -945,6 +1377,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -965,6 +1402,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -979,6 +1423,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -999,6 +1448,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1013,6 +1469,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1033,6 +1494,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1047,6 +1515,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1067,6 +1540,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1081,6 +1561,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1101,6 +1586,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1115,6 +1607,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1134,6 +1631,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1156,6 +1660,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1173,6 +1684,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1187,6 +1705,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1207,6 +1730,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1221,6 +1749,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1240,6 +1773,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -1266,6 +1806,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1282,6 +1829,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1304,6 +1858,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1320,6 +1881,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1342,6 +1910,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1358,6 +1933,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1380,6 +1962,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1396,6 +1985,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1418,6 +2014,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1432,6 +2035,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1452,6 +2060,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1469,6 +2082,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1483,6 +2103,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1503,6 +2128,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1517,6 +2149,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1537,6 +2174,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1551,6 +2195,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1571,6 +2220,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1585,6 +2241,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1605,6 +2266,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1619,6 +2287,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1639,6 +2312,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1653,6 +2333,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1672,6 +2357,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1694,6 +2386,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1711,6 +2410,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1725,6 +2431,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1745,6 +2456,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1759,6 +2475,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1778,6 +2499,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -1804,6 +2532,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1820,6 +2555,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1842,6 +2584,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1858,6 +2607,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1880,6 +2636,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1896,6 +2659,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1918,6 +2688,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1934,6 +2711,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -1956,6 +2740,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1970,6 +2761,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1990,6 +2786,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2007,6 +2808,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2021,6 +2829,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2041,6 +2854,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2055,6 +2875,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2075,6 +2900,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2089,6 +2921,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2109,6 +2946,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2123,6 +2967,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2143,6 +2992,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2157,6 +3013,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2177,6 +3038,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2191,6 +3059,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2210,6 +3083,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2232,6 +3112,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2249,6 +3136,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2263,6 +3157,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2283,6 +3182,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2297,6 +3201,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2316,6 +3225,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -2342,6 +3258,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2358,6 +3281,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2380,6 +3310,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2396,6 +3333,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2418,6 +3362,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2434,6 +3385,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2456,6 +3414,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2472,6 +3437,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2494,6 +3466,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2508,6 +3487,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2528,6 +3512,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2545,6 +3534,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2559,6 +3555,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2579,6 +3580,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2593,6 +3601,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2613,6 +3626,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2627,6 +3647,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2647,6 +3672,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2661,6 +3693,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2681,6 +3718,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2695,6 +3739,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2715,6 +3764,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2729,6 +3785,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2748,6 +3809,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2770,6 +3838,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2787,6 +3862,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2801,6 +3883,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2821,6 +3908,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2835,6 +3927,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2854,6 +3951,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -2880,6 +3984,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2896,6 +4007,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2918,6 +4036,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2934,6 +4059,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2956,6 +4088,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2972,6 +4111,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -2994,6 +4140,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3010,6 +4163,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3032,6 +4192,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3046,6 +4213,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3066,6 +4238,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3083,6 +4260,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3097,6 +4281,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3117,6 +4306,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3131,6 +4327,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3151,6 +4352,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3165,6 +4373,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3185,6 +4398,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3199,6 +4419,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3219,6 +4444,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3233,6 +4465,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3253,6 +4490,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3267,6 +4511,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3286,6 +4535,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3308,6 +4564,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3325,6 +4588,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3339,6 +4609,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3359,6 +4634,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3373,6 +4653,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3392,6 +4677,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -3418,6 +4710,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3434,6 +4733,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3456,6 +4762,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3472,6 +4785,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3494,6 +4814,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3510,6 +4837,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3532,6 +4866,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3549,6 +4890,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3570,6 +4918,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3584,6 +4939,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3604,6 +4964,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3621,6 +4986,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3635,6 +5007,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3655,6 +5032,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3669,6 +5053,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3689,6 +5078,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3703,6 +5099,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3723,6 +5124,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3737,6 +5145,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3757,6 +5170,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3771,6 +5191,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3791,6 +5216,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3805,6 +5237,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3824,6 +5261,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3846,6 +5290,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3862,6 +5313,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -3880,43 +5338,8 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K5-S1-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "CMT005",
-     "STY001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
    },
-   "with": {
-    "codes": [
-     "CMT005",
-     "STY001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K5-S2-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3925,1598 +5348,6 @@
   {
    "adapter": "codex",
    "repeat": 1,
-   "task": "K6-S1-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K6-S2-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7h-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7h-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7h-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7h-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7n-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7n-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7n-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 1,
-   "task": "K7n-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K0-S1-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K0-S2-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K1-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K1-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K1-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K1-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K2-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K2-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K2-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K2-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K3-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K3-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K3-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K3-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K4-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K4-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID009"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID009"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K4-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K4-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K5-S1-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K5-S2-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K6-S1-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K6-S2-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7h-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7h-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7h-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7h-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7n-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7n-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7n-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 2,
-   "task": "K7n-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K0-S1-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K0-S2-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K1-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K1-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K1-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K1-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K2-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K2-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K2-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K2-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K3-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K3-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K3-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K3-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K4-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K4-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID009"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID009"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K4-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K4-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K5-S1-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K5-S2-comment",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [
-     "CMT005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K6-S1-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K6-S2-resolve",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID001"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID001"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7h-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7h-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7h-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7h-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID007"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID007"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7n-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7n-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7n-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 3,
-   "task": "K7n-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID005"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID005"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K0-S1-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K0-S2-save",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K1-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K1-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K1-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K1-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K2-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K2-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K2-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K2-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K3-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K3-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K3-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K3-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K4-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K4-S1-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [
-     "FID009"
-    ],
-    "expected": [],
-    "outcome": "false alarm"
-   },
-   "with": {
-    "codes": [],
-    "expected": [
-     "FID009"
-    ],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K4-S2-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
-   "task": "K4-S2-plain",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "codex",
-   "repeat": 4,
    "task": "K5-S1-comment",
    "completed": true,
    "preserved": true,
@@ -5535,6 +5366,2219 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K5-S2-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K6-S1-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K6-S2-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7h-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7h-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7h-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7h-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7n-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7n-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7n-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 1,
+   "task": "K7n-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K0-S1-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K0-S2-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K1-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K1-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K1-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K1-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K2-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K2-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K2-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K2-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K3-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K3-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K3-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K3-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K4-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K4-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID009"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K4-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K4-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K5-S1-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K5-S2-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K6-S1-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K6-S2-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7h-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7h-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7h-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7h-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7n-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7n-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7n-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 2,
+   "task": "K7n-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K0-S1-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K0-S2-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K1-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K1-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K1-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K1-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K2-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K2-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K2-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K2-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K3-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K3-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K3-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K3-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K4-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K4-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID009"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K4-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K4-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K5-S1-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K5-S2-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K6-S1-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K6-S2-resolve",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7h-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7h-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7h-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7h-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID007"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7n-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7n-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7n-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 3,
+   "task": "K7n-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K0-S1-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K0-S2-save",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K1-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K1-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K1-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K1-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K2-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K2-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K2-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K2-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K3-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K3-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K3-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K3-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K4-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K4-S1-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "FID009"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K4-S2-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K4-S2-plain",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "codex",
+   "repeat": 4,
+   "task": "K5-S1-comment",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [
+     "CMT005",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with": {
+    "codes": [
+     "CMT005",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -5549,6 +7593,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5568,6 +7617,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -5594,6 +7650,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5610,6 +7673,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -5632,6 +7702,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5648,6 +7725,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -5670,6 +7754,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5686,6 +7777,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -5708,6 +7806,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5724,6 +7829,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -5746,6 +7858,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5760,6 +7879,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5780,6 +7904,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -5797,6 +7926,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5811,6 +7947,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5831,6 +7972,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5845,6 +7993,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5865,6 +8018,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5879,6 +8039,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5899,6 +8064,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5913,6 +8085,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5933,6 +8110,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5947,6 +8131,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5967,6 +8156,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5981,6 +8177,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6000,6 +8201,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -6022,6 +8230,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6039,6 +8254,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6053,6 +8275,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6077,6 +8304,13 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -6091,6 +8325,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6110,6 +8349,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -6136,6 +8382,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6152,6 +8405,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -6174,6 +8434,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6190,6 +8457,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -6212,6 +8486,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6228,6 +8509,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -6250,6 +8538,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6267,6 +8562,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6283,6 +8585,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID005"
@@ -6309,6 +8618,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6325,6 +8643,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6347,6 +8672,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6361,6 +8693,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6385,6 +8722,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6401,6 +8747,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6423,6 +8776,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6437,6 +8797,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6461,6 +8826,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6477,6 +8851,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6499,6 +8880,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6513,6 +8901,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6538,6 +8931,16 @@
      "TXT002"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID011",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "detected"
    }
   },
@@ -6563,6 +8966,15 @@
      "FID009"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6584,6 +8996,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID011"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6598,6 +9019,11 @@
     "outcome": "missed"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "missed"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "missed"
@@ -6624,6 +9050,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -6638,6 +9072,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6658,6 +9097,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6686,6 +9134,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6709,6 +9164,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -6726,6 +9190,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6756,6 +9229,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "FID008"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -6773,6 +9255,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "FID008"
     ],
@@ -6801,6 +9292,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6825,6 +9325,15 @@
      "FID005"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6842,6 +9351,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "missed"
    }
   },
   {
@@ -6858,6 +9374,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID005"
@@ -6884,6 +9407,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6900,6 +9432,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6922,6 +9461,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6936,6 +9482,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6960,6 +9511,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -6976,6 +9536,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -6998,6 +9565,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7012,6 +9586,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7036,6 +9615,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -7052,6 +9640,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -7074,6 +9669,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7088,6 +9690,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7113,6 +9720,16 @@
      "TXT002"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID011",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "detected"
    }
   },
@@ -7138,6 +9755,15 @@
      "FID009"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -7159,6 +9785,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID011"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -7173,6 +9808,11 @@
     "outcome": "missed"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "missed"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "missed"
@@ -7199,6 +9839,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -7213,6 +9861,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7233,6 +9886,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -7261,6 +9923,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7284,6 +9953,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -7301,6 +9979,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "TXT002"
     ],
@@ -7331,6 +10018,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "FID008"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -7348,6 +10044,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "FID008"
     ],
@@ -7375,6 +10080,15 @@
      "TXT002"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "detected"
    }
   },
@@ -7400,6 +10114,15 @@
      "FID005"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -7417,6 +10140,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "missed"
    }
   },
   {
@@ -7438,6 +10168,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7452,6 +10189,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7472,6 +10214,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7489,6 +10236,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7503,6 +10257,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7523,6 +10282,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7537,6 +10303,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7557,6 +10328,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7571,6 +10349,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7591,6 +10374,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7607,6 +10395,13 @@
     "outcome": "incomplete, flagged"
    },
    "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005"
     ],
@@ -7633,6 +10428,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7649,6 +10451,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -7671,6 +10480,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7687,6 +10503,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -7709,6 +10532,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7725,6 +10555,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -7751,6 +10588,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7767,6 +10611,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID005"
@@ -7789,6 +10640,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7803,6 +10659,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7823,6 +10684,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7837,6 +10705,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7857,6 +10730,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7871,6 +10751,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7891,6 +10776,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7905,6 +10797,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7925,6 +10822,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7941,6 +10843,13 @@
     "outcome": "incomplete, flagged"
    },
    "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005"
     ],
@@ -7967,6 +10876,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7983,6 +10899,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -8005,6 +10928,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8021,6 +10951,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -8043,6 +10980,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8059,6 +11003,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -8085,6 +11036,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8106,6 +11064,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8120,6 +11085,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8140,6 +11110,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -8157,6 +11132,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8171,6 +11153,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8191,6 +11178,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8205,6 +11199,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8225,6 +11224,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8239,6 +11245,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8259,6 +11270,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8273,6 +11291,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8292,6 +11315,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -8314,6 +11344,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8331,6 +11368,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8345,6 +11389,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8364,6 +11413,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "XML001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "XML001"
     ],
@@ -8390,6 +11446,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -8406,6 +11469,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -8432,6 +11502,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8449,6 +11526,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -8463,6 +11547,13 @@
     "outcome": "missed"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -8485,6 +11576,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -8499,6 +11595,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8519,6 +11620,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8533,6 +11641,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8553,6 +11666,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8567,6 +11687,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8587,6 +11712,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8601,6 +11733,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8621,6 +11758,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8635,6 +11779,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8654,6 +11803,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -8676,6 +11832,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8693,6 +11856,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8707,6 +11877,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8726,6 +11901,13 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "XML001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "XML001"
     ],
@@ -8752,6 +11934,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -8768,6 +11957,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -8794,6 +11990,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8811,6 +12014,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -8825,6 +12035,13 @@
     "outcome": "missed"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -8847,6 +12064,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -8861,6 +12083,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8887,6 +12114,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -8910,6 +12145,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -8924,6 +12167,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8944,6 +12192,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -8958,6 +12211,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -8978,6 +12236,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -8992,6 +12255,13 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -9016,6 +12286,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9030,6 +12307,13 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -9054,6 +12338,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -9071,6 +12362,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9085,6 +12381,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9111,6 +12412,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9134,6 +12443,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9148,6 +12465,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9168,6 +12490,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9182,6 +12509,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -9202,6 +12534,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -9216,6 +12553,13 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -9240,6 +12584,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9254,6 +12605,13 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
     "codes": [
      "EXP001"
     ],
@@ -9278,6 +12636,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -9292,6 +12657,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9312,6 +12682,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9329,6 +12704,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9343,6 +12725,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9363,6 +12750,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9377,6 +12771,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9397,6 +12796,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9411,6 +12817,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9431,6 +12842,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9445,6 +12863,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9465,6 +12888,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9479,6 +12909,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9499,6 +12934,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9513,6 +12955,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9532,6 +12979,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -9554,6 +13008,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9571,6 +13032,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9585,6 +13053,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9604,6 +13077,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005"
     ],
@@ -9630,6 +13110,13 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -9646,6 +13133,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -9672,6 +13166,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9688,6 +13189,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -9710,6 +13218,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9727,6 +13242,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9743,6 +13265,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -9765,6 +13294,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9781,6 +13317,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID005"
@@ -9803,6 +13346,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9824,6 +13374,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9838,6 +13395,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9858,6 +13420,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9872,6 +13439,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9892,6 +13464,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9906,6 +13483,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9926,6 +13508,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9940,6 +13527,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9960,6 +13552,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -9977,6 +13574,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -9991,6 +13593,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10015,6 +13622,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -10029,6 +13643,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10048,6 +13667,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -10074,6 +13700,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10088,6 +13721,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10108,6 +13746,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10122,6 +13765,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10142,6 +13790,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10156,6 +13809,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10176,6 +13834,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10190,6 +13853,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10210,6 +13878,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10227,6 +13900,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -10241,6 +13919,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10265,6 +13948,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -10279,6 +13969,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10298,6 +13993,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -10324,6 +14026,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10341,6 +14050,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10355,6 +14069,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10376,6 +14095,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "CMT005",
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005",
      "FID001",
@@ -10406,6 +14134,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10423,6 +14159,14 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005",
      "FID001"
@@ -10452,6 +14196,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10469,6 +14221,14 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "FID001",
      "FTN002"
@@ -10498,6 +14258,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10515,6 +14283,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -10529,6 +14302,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10553,6 +14331,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -10567,6 +14352,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10586,6 +14376,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -10615,6 +14412,15 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10632,6 +14438,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10646,6 +14457,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10667,6 +14483,15 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "CMT005",
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005",
      "FID001",
@@ -10697,6 +14522,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10714,6 +14547,14 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "CMT005",
      "FID001"
@@ -10743,6 +14584,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10760,6 +14609,14 @@
     "outcome": "detected"
    },
    "with": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_tracked": {
     "codes": [
      "FID001",
      "FTN002"
@@ -10789,6 +14646,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -10806,6 +14671,11 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
    }
   },
   {
@@ -10820,6 +14690,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10844,6 +14719,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_tracked": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -10858,6 +14740,11 @@
     "outcome": "incomplete, clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -10877,6 +14764,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID007"
@@ -10906,6 +14800,15 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_tracked": {
+    "codes": [
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10920,6 +14823,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10940,6 +14848,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10957,6 +14870,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10971,6 +14891,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10991,6 +14916,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11005,6 +14937,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11025,6 +14962,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11039,6 +14983,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11059,6 +15008,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11073,6 +15029,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11093,6 +15054,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11107,6 +15075,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11127,6 +15100,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11141,6 +15121,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11160,6 +15145,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11182,6 +15174,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11199,6 +15198,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11213,6 +15219,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11233,6 +15244,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -11247,6 +15263,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11266,6 +15287,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -11292,6 +15320,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11308,6 +15343,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11330,6 +15372,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11346,6 +15395,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11368,6 +15424,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11384,6 +15447,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11406,6 +15476,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11422,6 +15499,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11444,6 +15528,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11458,6 +15549,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11478,6 +15574,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -11495,6 +15596,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11509,6 +15617,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11529,6 +15642,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11543,6 +15663,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11563,6 +15688,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11577,6 +15709,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11597,6 +15734,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11611,6 +15755,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11631,6 +15780,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11645,6 +15801,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11665,6 +15826,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11679,6 +15847,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11698,6 +15871,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11720,6 +15900,13 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID009"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11737,6 +15924,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11751,6 +15945,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11771,6 +15970,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -11785,6 +15989,11 @@
     "outcome": "clean"
    },
    "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11804,6 +16013,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID001"
@@ -11830,6 +16046,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11846,6 +16069,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11868,6 +16098,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11884,6 +16121,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11906,6 +16150,13 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11922,6 +16173,13 @@
    "with": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
     "outcome": "clean"
    }
   },
@@ -11944,6 +16202,13 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11961,6 +16226,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11977,6 +16249,13 @@
     "outcome": "false alarm"
    },
    "with": {
+    "codes": [],
+    "expected": [
+     "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_tracked": {
     "codes": [],
     "expected": [
      "FID005"

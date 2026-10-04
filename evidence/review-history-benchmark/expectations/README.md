@@ -48,12 +48,32 @@ protocol's rule; `EXP001` counts.
   more are caught: Office-Word-MCP-Server and docxengine edited the document
   title instead of the requested header on S2, so the expected `FID007` did not
   occur (`EXP001`). Still missed: docx-cli's plain K4 and tracked K7n on S2,
-  and docxengine's tracked K7h on S2. A tracked task declares no expectation,
-  because a correct tracked edit draws no finding, so a tracked edit in the
-  wrong place stays invisible.
+  and docxengine's tracked K7h on S2. A tracked task declares no expectation
+  in this reading, because a correct tracked edit draws no error; see the
+  third reading below.
 - **Incomplete outputs.** Office-Word-MCP-Server returns `ok` for header and
   note tasks it cannot perform; six of those are now flagged, because the
   requested change is missing.
+
+## Third reading: tracked edits in the right place
+
+The unreleased `FID012` lists, as INFO, the tracked changes an edit added, per
+story, kind and author. The third reading keeps the expectations above and
+adds, for every tracked replacement, `FID012` with the editor as author in the
+task's story (`document`, `header/default` or `footnotes`), required.
+
+| | Without | With 0.4.8 expectations | Also expecting `FID012` |
+| --- | ---: | ---: | ---: |
+| Correct outputs flagged (of 537) | 130 | 12 | 12 |
+| Damaged outputs caught (of 69) | 59 | 63 | 65 |
+
+The two added catches are docxengine's tracked edit of the document title
+instead of the requested header on S2, in both captures: its new revisions are
+in `document`, so the expected `FID012` for `header/default` does not occur. No
+correct output gains an `EXP001`. Still missed: docx-cli's plain K4 and tracked
+K7n on S2, which change the right story in the wrong way.
+
+## Limits
 
 An expectation states which change is allowed, not what the result must look
 like: `FID007` for a header accepts any change to that header's text. Only one

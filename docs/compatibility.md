@@ -33,6 +33,12 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased `FID012` is a new INFO finding of `compare()`: one per story, kind
+and author of tracked changes an edit added. It never fails the default gate;
+a `--fail-on info` gate that compares a tracked edit already failed on
+`FID002` for body edits and now also fails on header, footer and note edits.
+Its baseline v2 identity hashes the story, kind and author, not the count.
+
 0.4.8 expectations (`--expect`, `[[expect]]`, `expect()`) add `EXP001`, an
 ERROR raised only when a declared expectation matches no finding; without
 expectations nothing changes. The JSON report gains a per-file `expected` list

@@ -358,6 +358,13 @@ def fingerprint(file: str, f: Finding) -> str:
         digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
                                           separators=(',', ':')).encode('utf-8')).hexdigest()
         stable = f'insertion-growth-sha256={digest}'
+    elif f.code == "FID012":
+        # Story, kind and author; the count stays out so one more revision by
+        # the same author is the same finding, and no name enters the baseline.
+        identity = [f.extra.get(key, "") for key in ("story", "tag", "author")]
+        digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
+                                          separators=(",", ":")).encode("utf-8")).hexdigest()
+        stable = f"revision-addition-sha256={digest}"
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key

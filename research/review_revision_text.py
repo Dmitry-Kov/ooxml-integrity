@@ -94,6 +94,11 @@ def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
             raise ValueError('Saved output inventory drift')
         diagnostic_changes = []
         replacements = declaration.get('saved_output_message_suffixes', [])
+        # Findings of a declared new code and severity may be added; the rest
+        # of each recorded list must still match exactly.
+        additions = {(a['code'], a['severity'])
+                     for a in declaration.get('saved_output_added_findings', [])}
+        added = {}
         for case in saved['cases']:
             for key in ('source_sha256', 'output_sha256'):
                 if case[key] != old[case['id']][key]:
@@ -109,9 +114,13 @@ def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
                                                + replacement['new'])
                         break
                 expected.append(adjusted)
-            if case['after'] != expected:
+            after = [f for f in case['after'] if (f['code'], f['severity']) not in additions]
+            for f in case['after']:
+                if (f['code'], f['severity']) in additions:
+                    added[f['code']] = added.get(f['code'], 0) + 1
+            if after != expected:
                 raise ValueError(f'Saved output drift: {case["id"]}: after')
-            if case['after'] != old[case['id']]['after']:
+            if after != old[case['id']]['after']:
                 diagnostic_changes.append(case['id'])
         if saved['not_evaluated'] != prior['not_evaluated']:
             raise ValueError('Unavailable output inventory drift')
@@ -123,6 +132,7 @@ def review(*, baseline=False, saved_outputs=False, evidence_dir=BASE):
             'review_script_sha256': b.digest(review_fid001_fix.__file__),
             'historical_receipts_sha256': saved['historical_receipts_sha256'],
             'output_pairs': saved['output_pairs'], 'changed_pairs': diagnostic_changes,
+            'declared_added_findings': dict(sorted(added.items())),
             'not_evaluated_no_output': len(saved['not_evaluated']),
         }
         if replacements:

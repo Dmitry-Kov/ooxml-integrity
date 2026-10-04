@@ -14,6 +14,16 @@ def test_current_saved_outputs_match_declared_diagnostics():
     assert result["saved_outputs"]["output_pairs"] == 168
     assert len(result["saved_outputs"]["changed_pairs"]) == 40
     assert result["saved_outputs"]["not_evaluated_no_output"] == 45
+    assert result["saved_outputs"]["declared_added_findings"] == {"FID012": 80}
+
+
+def test_only_declared_added_findings_are_tolerated(monkeypatch):
+    result = deepcopy(gate.review_fid001_fix.review())
+    case = next(c for c in result["cases"] if any(f["code"] == "FID012" for f in c["after"]))
+    next(f for f in case["after"] if f["code"] == "FID012")["severity"] = "warn"
+    monkeypatch.setattr(gate.review_fid001_fix, "review", lambda: result)
+    with pytest.raises(ValueError, match="Saved output drift"):
+        gate.review(saved_outputs=True, evidence_dir=EVIDENCE)
 
 
 @pytest.mark.parametrize("field,value", [

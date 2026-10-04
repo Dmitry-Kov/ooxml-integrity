@@ -230,6 +230,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID009` | 0.4.2: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
 | `FID010` | 0.4.2: fewer notes retain insertion/deletion markup in equally populated footnote/endnote text groups; [limits](evidence/docx-note-revisions/README.md) |
 | `FID011` | WARN: preserved source insertion text plus additional characters under its old author/date context without a distinct new insertion context; [scope and intent ambiguity](docs/review-edit-warnings.md) |
+| `FID012` | unreleased, INFO: the tracked changes an edit added, per story (body, header/footer slot, notes), kind and author, so an [expectation](docs/configuration.md#changes-the-edit-was-asked-to-make) can require a tracked edit in the right place |
 | `INT001` | a check raised and did not complete: error; other checks still run, and coverage reports that check's surface as `skipped` |
 | `EXP001` | 0.4.8: a declared expectation (`--expect` or `[[expect]]`) matched no finding, so the requested change did not happen; [expected changes](docs/configuration.md#changes-the-edit-was-asked-to-make) |
 
