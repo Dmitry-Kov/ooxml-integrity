@@ -29,7 +29,7 @@ from .inspector import Inspector, check, check_many
 from .policy import Policy
 from .pptx_checks import check_pptx
 
-__version__ = "0.4.9"
+__version__ = "0.5.0"
 
 __all__ = [
     "check",

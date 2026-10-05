@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.5.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `ooxml-integrity anonymize SOURCE [EDITED] -o DIR`: copies of a document or
   a pair with the content replaced and the structure kept, so a defect can be
@@ -12,6 +15,9 @@
   for words of the original text; the report says whether every finding was
   reproduced and holds no text itself. `.docx` only. [Details](docs/anonymize.md),
   [measurement](evidence/anonymize/README.md).
+- The GitHub Action sets up Python with `actions/setup-python` v7 instead of
+  v5. It runs on Node 24: a self-hosted runner needs runner v2.327.1 or later;
+  GitHub-hosted runners already have it.
 
 ## 0.4.9 — 2026-10-04
 
