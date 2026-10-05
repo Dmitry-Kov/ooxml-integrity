@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.4.9
+    python research/release_smoke.py --version 0.5.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -297,6 +297,21 @@ def main():
         assert "EXP001" in {f["code"] for f in report["findings"]}
         assert any(f["code"] == "FID012" and f["extra"]["story"] == "document"
                    for f in report["findings"])
+        # 0.5.0: anonymize writes copies of a pair whose findings come back and
+        # which hold none of its text; it keeps existing copies and refuses a deck.
+        shared = work / "shared"
+        anonymized = json.loads(cli("anonymize", source, edited, "-o", shared, "--json").stdout)
+        assert anonymized["findings"]["reproduced"] and anonymized["leaks"] == []
+        assert anonymized["outputs"] == ["source.docx", "edited.docx"]
+        copy = json.loads(cli("check", shared / "edited.docx", "--against", shared / "source.docx",
+                              "--no-config", "--json", code=1).stdout)["files"][0]
+        assert {"CMT005", "FID001"} <= {f["code"] for f in copy["findings"]}
+        with ZipFile(shared / "edited.docx") as package:
+            text = package.read("word/document.xml").decode("utf-8")
+            people = package.read("word/comments.xml").decode("utf-8")
+        assert "Supplier" not in text and "Services" not in text and "Reviewer" not in people
+        cli("anonymize", source, edited, "-o", shared, code=2)
+        cli("anonymize", root / "corpus/deck.pptx", "-o", work / "deck", code=2)
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -339,6 +354,7 @@ def main():
           "0.4.7 FID007 next to a pending revision, TXT002, FID011 and INT001, "
           "0.4.8 expectations from the CLI, config and API with EXP001, "
           "0.4.9 FID012 tracked additions per story and its expectation, "
+          "0.5.0 anonymize of a pair with its findings reproduced, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
