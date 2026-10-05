@@ -54,7 +54,6 @@ from pptx.util import Emu, Pt
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from ooxml_integrity.fonts import EMU_PER_POINT  # noqa: E402
 from ooxml_integrity.pptx_layout import (  # noqa: E402
     DRAWINGML_LINE_SPACING, layout_shape, read_deck,
 )

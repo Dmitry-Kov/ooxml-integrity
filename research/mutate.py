@@ -9,7 +9,7 @@ These hand-written mutations are controlled regression cases. The separate
 agent-run observations are recorded in ../runs/README.md; they do not measure
 the frequency of these defect classes.
 """
-import re, os, shutil, zipfile, io
+import re, zipfile
 
 W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 
@@ -139,7 +139,6 @@ def m_markdown_roundtrip(src, dst):
     A pattern practitioners describe openly as a way to "route around OOXML"
     (OOXML runs roughly 12x markdown in tokens).
     """
-    import docx
     from docx import Document
     src_doc = Document(src)
     md_lines = []

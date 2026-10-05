@@ -59,3 +59,12 @@ testpaths = ["tests"]
 addopts = "-q --strict-markers"
 markers = ["needs_docx: requires python-docx (dev extra)",
            "frozen_checker: historical DOCX receipts replay with the archived checker"]
+
+[tool.ruff.lint]
+# Pyflakes and syntax errors: undefined names, unused imports and variables,
+# f-strings without placeholders. Layout and style are left to review.
+select = ["E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# Hash-pinned by the frozen review-history protocol; a changed byte is drift.
+"research/review_history_oracle.py" = ["F401"]

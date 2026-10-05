@@ -43,6 +43,14 @@ python -m ooxml_integrity doctor --json
 python -m pytest
 ```
 
+CI also runs pyflakes through ruff (the rule selection is in `pyproject.toml`,
+the pinned version in the [CI workflow](.github/workflows/ci.yml)):
+
+```sh
+python -m pip install ruff==0.16.10
+ruff check .
+```
+
 PPTX tests need usable fonts. The [CI workflow](.github/workflows/ci.yml) installs
 Carlito, Caladea and Liberation on Linux/macOS and checks the resolved families;
 Windows runners have Office-compatible system fonts. Use that workflow's font

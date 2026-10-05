@@ -373,7 +373,6 @@ def _style_suffix(bold: bool, italic: bool) -> str:
 def resolve_face(family: str, bold: bool = False, italic: bool = False) -> ResolvedFace:
     """Find a font file for a declared family, and say how good the match is."""
     requested = (family or "").strip() or "Calibri"
-    suffix = _style_suffix(bold, italic)
     key = requested.lower()
 
     metric_ok = {s.lower() for s in METRIC_SUBSTITUTES.get(key, ())}

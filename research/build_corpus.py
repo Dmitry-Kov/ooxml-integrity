@@ -14,7 +14,7 @@
   - таблица с явным w:tblGrid
   - колонтитулы
 """
-import os, zipfile, shutil, struct, zlib
+import os, zipfile, struct, zlib
 
 #: Fixed timestamp so the package is byte-reproducible.
 #: A corpus you cannot rebuild identically is not a fixture.

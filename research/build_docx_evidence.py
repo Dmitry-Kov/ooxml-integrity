@@ -17,7 +17,6 @@ import argparse
 import collections
 import hashlib
 import json
-import os
 import re
 import shutil
 import subprocess
