@@ -245,12 +245,12 @@ for f in compare("original.docx", "edited.docx"):
         <h2 id="limits-title">What it does not do</h2>
       </div>
       <ul>
-        <li>The DOCX corpus has 50 synthetic sources and 220 labelled pairs across five producers: 120 clean controls and 100 seeded defects. It records 111 error-level true positives, zero false positives and zero false negatives. The 100 % precision/recall applies to that corpus; 14 rules are measured and 30 are unmeasured. Customer-document accuracy is unknown. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/docx-beta/RESULTS.md">Corpus results and denominators</a>.</li>
-        <li>Eight agent runs is a small sample, on one document, on one day.</li>
+        <li>The DOCX corpus has 50 synthetic sources and 220 labelled pairs across five producers: 120 clean controls and 100 seeded defects. It records 111 error-level true positives, zero false positives and zero false negatives. The 100 % precision/recall applies to that corpus and the 14 rules it labels; the other rules are not measured there. Customer-document accuracy is unknown. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/evidence/docx-beta/RESULTS.md">Corpus results and denominators</a>.</li>
+        <li>The <a href="benchmark/">review-history benchmark</a> used two contracts written for it, one version of each tool and agent, and one build of Word for Mac to confirm each kind of damage. It compares review content, not formatting or layout.</li>
         <li>PPTX evidence covers specific PowerPoint for Mac editing-view and export cases. Windows and Slide Show mode remain untested. GPOS kerning and complex shaping are not implemented. Groups, tables, SmartArt and charts are outside the model; rotated-shape geometry is only partly checked. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/support-matrix.md#pptx-layout">PPTX support limits</a>.</li>
         <li>Full schema validation, malware scanning and visual comparison are outside this checker. With coverage enabled, reports distinguish checked, estimated, skipped and unsupported content. No findings does not establish that the entire file is correct.</li>
       </ul>
-      <p class="ask">The next step is a public benchmark of docx editing tools and agent harnesses on a real corpus. If your agents edit Office files that a person then reviews, I would like to hear what breaks for you. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/issues">Open an issue</a></p>
+      <p class="ask">The next question is how the checker does on real reviewed documents and the edits real pipelines make to them. If your agents edit Office files that a person then reviews, I would like to hear what breaks for you. <a href="https://github.com/Dmitry-Kov/ooxml-integrity/issues">Open an issue</a></p>
     </section>
 
     <footer>
