@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- `ooxml-integrity anonymize SOURCE [EDITED] -o DIR`: copies of a document or
+  a pair with the content replaced and the structure kept, so a defect can be
+  shared. Each word becomes a random word of the same length and character
+  classes, the same in both files; authors become `Author 1`, ...; dates move
+  by one offset; properties, external addresses, custom names and custom XML
+  are replaced; pictures become 1x1 placeholders and embedded objects empty.
+  The checks then run on the originals and the copies, and a leak scan looks
+  for words of the original text; the report says whether every finding was
+  reproduced and holds no text itself. `.docx` only. [Details](docs/anonymize.md),
+  [measurement](evidence/anonymize/README.md).
+
 ## 0.4.9 — 2026-10-04
 
 [Upgrade notes and verified publication](docs/releases/0.4.9.md). Published

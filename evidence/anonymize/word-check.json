@@ -1,0 +1,93 @@
+{
+ "application": "Microsoft Word for Mac 16.113.3 (16.113.26092714)",
+ "checked_on": "2026-10-05",
+ "method": "each anonymized copy opened alone; a copy passes when Word shows the document without an error or an offer to repair it",
+ "note": "the mail merge main document asks for its data source, which is not on this machine for the original either",
+ "files": [
+  {
+   "original": "evidence/review-history-benchmark/sources/word-review.docx",
+   "contains": "Word for Mac review record: comments with replies, tracked changes, moves, formatting changes, footnote, header revision",
+   "word": "opened"
+  },
+  {
+   "original": "evidence/review-history-benchmark/captures/reference-1/K7h-S2-tracked.docx",
+   "contains": "Word for Mac review record: comments with replies, tracked changes, moves, formatting changes, footnote, header revision",
+   "word": "opened"
+  },
+  {
+   "original": "corpus/base.docx",
+   "contains": "reference contract and the fast agent's output with the orphaned comment",
+   "word": "opened"
+  },
+  {
+   "original": "runs/t4_fast_fee/agreement.docx",
+   "contains": "reference contract and the fast agent's output with the orphaned comment",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/docx4j/docx4j-core-tests/src/test/resources/LegacyForms.docx",
+   "contains": "legacy form fields and ActiveX controls",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/libreoffice/sw/qa/extras/ooxmlexport/data/fdo73227.docx",
+   "contains": "SmartArt with VML fallback",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/chartex.docx",
+   "contains": "Office 2016 charts (chartex) and classic charts with embedded workbooks",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/52449.docx",
+   "contains": "building blocks, content control data binding, mail merge settings",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/58067.docx",
+   "contains": "document thumbnail",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/60316.docx",
+   "contains": "VML text boxes",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/61745.docx",
+   "contains": "classic chart with embedded workbook",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/Bug51170.docx",
+   "contains": "picture in a header",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/WordWithAttachments.docx",
+   "contains": "embedded OLE objects",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/apache-poi/test-data/document/bug59058.docx",
+   "contains": "HYPERLINK and other fields",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/docx4j/docx4j-core-tests/src/test/resources/2010/2010-sample1.docx",
+   "contains": "equations",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/libreoffice/sw/qa/extras/ooxmlexport/data/TextFrameRotation.docx",
+   "contains": "SharePoint custom XML properties",
+   "word": "opened"
+  },
+  {
+   "original": "ooxml-corpora/libreoffice/sw/qa/extras/ooxmlimport/data/n820504.docx",
+   "contains": "web add-in parts",
+   "word": "opened"
+  }
+ ]
+}

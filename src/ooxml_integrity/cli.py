@@ -228,7 +228,56 @@ def build_parser() -> argparse.ArgumentParser:
     d = sub.add_parser("doctor", help="report parser, runtime and font capability")
     d.add_argument("--json", action="store_true",
                    help="machine-readable capability report on stdout")
+
+    a = sub.add_parser(
+        "anonymize",
+        help="replace the text of a .docx, or of a source and its edited copy, "
+             "so a defect can be shared; then check the findings are reproduced",
+        description="Replace every word, author, date, property, picture and "
+                    "embedded object, keep the structure, then run the checks "
+                    "on the originals and the results and compare.",
+    )
+    a.add_argument("files", nargs="+", type=Path, metavar="DOCX",
+                   help="one document, or the source followed by the edited copy")
+    a.add_argument("-o", "--output-dir", type=Path, required=True, metavar="DIR",
+                   help="writes document.docx, or source.docx and edited.docx")
+    a.add_argument("--force", action="store_true",
+                   help="overwrite those files if they already exist")
+    a.add_argument("--json", action="store_true",
+                   help="machine-readable report on stdout")
     return p
+
+
+def _run_anonymize(args) -> int:
+    from .anonymize import anonymize, output_names
+    from .archive import PackageIssue
+
+    files = args.files
+    if len(files) > 2:
+        print("ooxml-integrity: anonymize takes one document, or a source and "
+              "its edited copy", file=sys.stderr)
+        return EXIT_USAGE
+    for path in files:
+        if not path.is_file():
+            print(f"ooxml-integrity: file not found: {path}", file=sys.stderr)
+            return EXIT_USAGE
+    names = output_names(len(files))
+    taken = [n for n in names if (args.output_dir / n).exists()]
+    if taken and not args.force:
+        print(f"ooxml-integrity: {args.output_dir} already holds "
+              f"{', '.join(taken)}; use --force to overwrite", file=sys.stderr)
+        return EXIT_USAGE
+    try:
+        report = anonymize(files, args.output_dir)
+    except (ValueError, PackageIssue) as e:
+        print(f"ooxml-integrity: cannot anonymize: {e}", file=sys.stderr)
+        return EXIT_USAGE
+    if args.json:
+        json.dump(report.as_dict(), sys.stdout, indent=2, ensure_ascii=True)
+        sys.stdout.write("\n")
+    else:
+        print(report.render(args.output_dir))
+    return EXIT_OK if report.reproduced and not report.leaks else EXIT_FINDINGS
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -242,6 +291,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "doctor":
         return _run_doctor(json_output=args.json)
+    if args.command == "anonymize":
+        return _run_anonymize(args)
 
     try:
         policy = Policy() if args.no_config else Policy.load(args.config)

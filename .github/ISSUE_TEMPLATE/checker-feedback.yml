@@ -6,6 +6,7 @@ body:
     attributes:
       value: |
         Reports here are public. A description is enough; attaching a document is optional.
+        To attach a confidential document or pair, run `ooxml-integrity anonymize` on it first and open the copies before posting.
         Review any report excerpts before posting: they can contain filenames or document text.
         The browser demo does not send files or findings to this form.
   - type: dropdown
