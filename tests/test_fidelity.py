@@ -1,7 +1,6 @@
 """Fidelity: what was lost relative to the source, and at what severity."""
 from __future__ import annotations
 
-import pytest
 from conftest import read_part, repack
 
 from ooxml_integrity import Severity, compare

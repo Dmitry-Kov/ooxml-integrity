@@ -11,7 +11,7 @@ import pytest
 from ooxml_integrity import check, compare
 from ooxml_integrity.coverage import docx_coverage
 from research.adeu_pilot_probe import (
-    COMMENTS, DOC, REL, RELS, SPACE, W, read_parts, renamed_comments,
+    COMMENTS, DOC, REL, RELS, W, read_parts, renamed_comments,
     text_document, whitespace_findings, write_parts,
 )
 

@@ -33,7 +33,7 @@ def _drop_part(src, dst, part):
 
 def _header_with_image_ref(header: str, rid: str) -> str:
     header = header.replace(
-        f'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"',
+        'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"',
         f'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
         f'xmlns:r="{R}" xmlns:a="{A}"',
         1,
@@ -146,7 +146,7 @@ def test_external_header_relationship_is_not_treated_as_a_package_part(
         tmp_docx, tmp_path):
     rid = "rIdHeaderLink"
     header = read_part(tmp_docx, HEADER).replace(
-        f'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"',
+        'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"',
         f'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
         f'xmlns:r="{R}"',
         1,

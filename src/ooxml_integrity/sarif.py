@@ -20,7 +20,7 @@ in the result's properties so nothing is lost.
 from __future__ import annotations
 
 import os
-from typing import Any, Iterable
+from typing import Any
 
 from . import __version__
 from .finding import Finding, Severity

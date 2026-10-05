@@ -20,7 +20,6 @@ import argparse
 import os
 import sys
 
-from ooxml_integrity import check_pptx
 from ooxml_integrity.fonts import measurement_available, resolve_face
 from ooxml_integrity.pptx_layout import layout_shape, read_deck
 

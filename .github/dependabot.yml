@@ -1,0 +1,16 @@
+# Workflow and Action pins are full commit SHAs. Once a month Dependabot opens
+# one pull request that moves them all to current releases, so CI and the
+# browser checks run on the whole update together.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+    ignore:
+      # The release workflow runs the published Action at the version being
+      # released; the release pin update moves that reference.
+      - dependency-name: Dmitry-Kov/ooxml-integrity

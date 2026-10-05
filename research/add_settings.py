@@ -15,11 +15,10 @@ Guarantees, asserted at the end of every run:
 
 Usage:  python3 add_settings.py runs/*/agreement.docx
 """
-import sys, zipfile, shutil, re, os
+import sys, zipfile, re, os
 
 #: Fixed timestamp so the package is byte-reproducible.
 ZIP_EPOCH = (2026, 1, 1, 0, 0, 0)
-from lxml import etree
 
 CT = 'http://schemas.openxmlformats.org/package/2006/content-types'
 REL = 'http://schemas.openxmlformats.org/package/2006/relationships'

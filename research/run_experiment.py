@@ -3,8 +3,7 @@
 Run: each mutator -> inspector -> "did it survive LibreOffice" check.
 Plus an accumulation scenario: 20 edit cycles, as in DELEGATE-52.
 """
-import os, sys, shutil, subprocess, json, zipfile
-from collections import Counter
+import os, shutil, subprocess, zipfile
 from ooxml_integrity import check as inspect, summarize, ERROR, WARN
 from mutate import MUTATORS, m_pythondocx_settext, m_llm_copy_clause, m_llm_raw_xml_value
 
@@ -17,8 +16,8 @@ def lo_converts(path):
     d = '/tmp/loconv'
     shutil.rmtree(d, ignore_errors=True)
     os.makedirs(d, exist_ok=True)
-    r = subprocess.run(['soffice', '--headless', '--convert-to', 'pdf', '--outdir', d, path],
-                       capture_output=True, timeout=180)
+    subprocess.run(['soffice', '--headless', '--convert-to', 'pdf', '--outdir', d, path],
+                   capture_output=True, timeout=180)
     pdf = os.path.join(d, os.path.basename(path).replace('.docx', '.pdf'))
     return os.path.exists(pdf) and os.path.getsize(pdf) > 1000
 

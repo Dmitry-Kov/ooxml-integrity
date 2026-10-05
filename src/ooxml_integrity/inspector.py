@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import posixpath
 import zipfile
-from collections import Counter
 from pathlib import Path
 from typing import Iterable
 from urllib.parse import unquote, urlsplit
