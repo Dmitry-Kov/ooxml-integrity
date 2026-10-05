@@ -232,6 +232,11 @@ These versions identify different things:
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
+`anonymize --json`, unreleased, has no schema version yet; its fields can change
+until a release documents them. Its replacement words are random in every run,
+so two runs on the same files write different copies; its exit codes are those
+above.
+
 CLI JSON always has `version`, `fail_on`, `config`, `baseline`, and `files`.
 `config` and `baseline` are null when unused. Each file has `path`, `summary`,
 `worst`, `findings`, and `suppressed`. Summary contains all three severity keys

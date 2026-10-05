@@ -337,6 +337,16 @@ about a useful finding, false alarm, missed defect or setup problem. Include
 the generator and checker versions, finding code and expected/actual behavior.
 GitHub reports are public; attaching a document is optional.
 
+To attach a confidential pair, anonymize it first. The copies keep the
+structure and lose the text, authors, dates, properties and pictures, and the
+command checks that every finding is still there:
+
+```bash
+ooxml-integrity anonymize original.docx edited.docx -o share/
+```
+
+[What it replaces, what a reader can still learn, and how it was measured](docs/anonymize.md).
+
 ## Contributing and compatibility
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for reproducible reports, development

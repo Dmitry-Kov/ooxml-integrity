@@ -108,7 +108,8 @@ separately. A suppressed finding is not a confirmed fix.
 [Open the feedback form](https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml)
 with your generator/version, checker version, finding codes, intended edit,
 expected/actual behavior and how you verified it. GitHub issues are public.
-A text description is enough; a document attachment is optional. To discuss a
+A text description is enough; a document attachment is optional. To attach a
+confidential pair, [anonymize it](anonymize.md) first. To discuss a
 pilot, describe the workflow and say you would like to try a session. Scheduling
 and any private exchange can be agreed separately in that conversation.
 
