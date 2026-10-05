@@ -65,14 +65,42 @@ Across the eight real agent runs, the checker reported no false positives.
 
 The [research notes](docs/research.md)
 describe the experiments, saved outputs, renderer measurements and limitations.
-A later [review-history benchmark](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
-gave 30 ordinary edits of two reviewed contracts to six document tools and three
-coding agents, and opened each kind of damage in Word for Mac.
+
+## Tools and agents on a reviewed document
+
+Eight runs could only suggest a pattern. The
+[review-history benchmark](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
+gave 30 ordinary requests (replace a phrase, reply to a comment, accept one
+revision, fix a footnote) on two contracts with a live review history to six
+document tools, python-docx on two code paths, and three coding agents in
+sealed containers. An oracle that never imports the checker compared each
+output with its source, and one output per kind of damage was opened in Word
+for Mac.
+
+- Claude Code (Opus 5.5) and Codex (gpt-6.1-sol) completed and preserved all
+  150 attempts each, five captures apiece. In every capture Codex's reply to
+  the first contract's comment had no anchor in the document, and Word for Mac
+  does not show such a reply.
+  OpenCode with a local Qwen3.8 27B once removed another reviewer's insertion
+  wrapper, so that reviewer's pending sentence read as accepted text.
+- Assigning `Paragraph.text` or `_Cell.text` in python-docx damaged 14 of 28
+  outputs. docx-cli damaged 38 of 56: bullets turned into the literal text
+  `&#8226;`, and new words were credited to another reviewer. Two tools edited
+  the document title instead of the requested header.
+- Of 69 damaged outputs, the frozen checker (0.4.6) reported 41, and it flagged
+  145 of 537 correct outputs, mostly for the requested change itself. 0.4.9,
+  with each task's requested change [declared as expected](docs/configuration.md#changes-the-edit-was-asked-to-make),
+  reports 65 and flags 12, each a true report outside the benchmark's scope,
+  such as a reply Word does not show.
+
+Counts are attempts on two documents, not independent documents. The
+[evidence](evidence/review-history-benchmark/README.md) has the frozen
+protocol, its amendments and every capture.
 
 ## Applied to other projects
 
-The method was run against four third-party tools that edit or validate DOCX.
-Each finding was filed with a self-contained reproduction; two are fixed upstream, and a third has a proposed fix in an open pull request.
+Findings from the corpus and the benchmark were filed upstream, each with a
+self-contained reproduction. adeu fixed two; the others are open.
 
 | Project | Finding | Status |
 |---|---|---|
@@ -80,7 +108,11 @@ Each finding was filed with a self-contained reproduction; two are fixed upstrea
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1604) | `paragraph.text` setter detaches comment anchors created through 1.2's comment API and existing footnote references | open; [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) restores the comment anchors, footnotes and revisions remain |
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1609) | `add_comment()` references the `CommentReference` style without defining it | open |
 | [anthropics/skills](https://github.com/anthropics/skills/issues/1733) | the docx skill's `validate.py` passes a file whose comment is present in `comments.xml` but anchored to nothing — it checks marker → comment, not the reverse | open; [PR #1734](https://github.com/anthropics/skills/pull/1734) awaits maintainer review |
-| [docx-mcp](https://github.com/sontanon/docx-mcp/issues/4) | offer of labelled pairs; question about the policy of rejecting inputs that already carry revisions | open |
+| [sontanon/docx-mcp](https://github.com/sontanon/docx-mcp/issues/4) | offer of labelled pairs; question about the policy of rejecting inputs that already carry revisions | open |
+| [docx-cli](https://github.com/kklimuk/docx-cli/issues/12) | any write turns numeric character references such as `&#8226;` into literal text; Word shows `&#8226;` instead of a bullet | open |
+| [docx-cli](https://github.com/kklimuk/docx-cli/issues/13) | `replace --track` inside another author's pending insertion credits the new text to that author, and misses the target next to a nested deletion | open |
+| [docxengine](https://github.com/ruwadgroup/docxengine/issues/1) | a new comment writes `w14:paraId` into a comments part that does not declare `w14`; Word reports unreadable content | open |
+| [docxengine](https://github.com/ruwadgroup/docxengine/issues/2), [SecurityRonin/docx-mcp](https://github.com/SecurityRonin/docx-mcp/issues/21) | a reply has no anchor in the document, and Word does not display it | open |
 
 Fixture contributions merged upstream: [adeu #138](https://github.com/dealfluence/adeu/pull/138)
 (comment projection across LibreOffice, Word for Mac and Word for Windows) and
@@ -93,7 +125,9 @@ In use upstream: since [adeu #156](https://github.com/dealfluence/adeu/pull/156)
 (merged 2026-09-29), adeu's test suite installs `ooxml-integrity==0.4.5`. For
 each shared cross-platform scenario it applies the edits, runs `check()` on the
 output and `compare()` against the input, and fails on error-level findings.
-The two accept/reject scenarios declare the revision-count changes they request.
+The two accept/reject scenarios declare the revision-count changes they request;
+[adeu #161](https://github.com/dealfluence/adeu/pull/161) (open) moves the pin
+to 0.4.8 and declares them with `expect()`.
 
 ## Two questions
 
@@ -264,8 +298,8 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
   `python-docx`): 120 clean controls and 100 seeded-defect pairs. The
   [recorded result](evidence/docx-beta/RESULTS.md) has 111 error-level true
   positives, zero false positives and zero false negatives. The 100% precision
-  and recall apply to that corpus; 14 rules are measured and 30 are unmeasured.
-  Accuracy on customer documents has not been measured.
+  and recall apply to that corpus and the 14 rules it labels; the other rules
+  are not measured there. Accuracy on customer documents has not been measured.
 - A separate [existing-revision tranche](evidence/docx-revisions/README.md)
   has 30 pairs: 15 controls preserving review content through adeu, Word Online
   and Word for Windows, nine seeded defects (historical checker revision: seven detected,
@@ -274,7 +308,9 @@ See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4
   preservation metrics. Producer groups are reported separately. The three
   Windows saves preserve revisions but change table widths; unchanged layout
   and broader Office review operations remain unmeasured.
-- Eight real agent runs is a small sample, on one document, on one day.
+- The review-history benchmark used two contracts written for it, one version
+  of each tool and agent, and one build of Word for Mac to confirm each kind of
+  damage. It compares review content, not formatting or layout.
 - PPTX evidence comes from PowerPoint for Mac editing-view checks and native
   exports of the later regression decks. Windows and Slide Show mode are
   untested. GPOS kerning and shaping are not applied, so complex scripts and
@@ -288,10 +324,11 @@ The full list, with the numbers behind each, is in
 
 ## Where this is going
 
-The eight agent runs showed that different editing approaches can preserve or
-lose review information on the same document. I would like to compare more
-DOCX editing tools and agent setups on a shared corpus, with enough real
-documents to make the results useful outside this experiment.
+The benchmark showed that tools and agents given the same request can
+preserve or lose review information on the same document, and that a checker
+told which change was requested separates the two. Its documents were written
+for it. The next question is how the checker does on real reviewed documents
+and the edits real pipelines make to them.
 
 If your workflow includes automated DOCX edits followed by human review,
 try a [30-minute pilot](docs/pilot.md) with one local before/after pair.
@@ -321,7 +358,8 @@ demo/                  browser checker, landing page, bundled fonts and examples
 corpus/                reference .docx and .pptx, byte-reproducible
 evidence/docx-beta/    50 producer sources and 220 labelled DOCX pairs
 evidence/docx-revisions/  30 pairs with existing revisions and explicit known misses
-runs/                  eight real agent outputs, used as fixtures
+evidence/review-history-benchmark/  frozen protocol, tool and agent captures, evaluation
+runs/                  the first eight agent outputs, used as fixtures
 action.yml             the GitHub Action
 ```
 

@@ -580,12 +580,15 @@ summarised in the README.
   through a local LibreOffice render. Neither that review nor the structural
   scores establish general visual fidelity; systematic ONLYOFFICE DOCX
   behaviour remains untested.
-- **There is no measured comparison with neighbouring tools.** The prior-work
-  notes describe documented capabilities. I have not run `OfficeCLI`,
-  `docx-mcp` or the other listed tools on this corpus, so these notes cannot
-  establish their detection rates or rank their reliability.
+- **Neighbouring tools were compared as editors, not as checkers.** The
+  [review-history benchmark](../evidence/review-history-benchmark/README.md)
+  ran six document tools and three coding agents on 30 review-history tasks
+  and scored what each output preserved. It did not run `OfficeCLI` or the
+  validators listed under prior work, so their detection rates are unmeasured.
 - **Eight agent runs is a small sample**, on one document, with one task family,
-  on one day. The careful/fast split is suggestive, not established.
+  on one day. The careful/fast split was suggestive; the review-history
+  benchmark later gave the same 30 tasks to three coding agents, 330 attempts
+  on two documents written for it.
 - **PowerPoint evidence is limited to the recorded Mac builds.** The original
   21-shape check used editing-view screenshots. The later long-token, font
   collection, slide-order and theme studies added native exports for their
@@ -605,7 +608,8 @@ summarised in the README.
 - **The mutators are controlled regression evidence, not behavioural
   prevalence evidence.** They prove how labelled defects score on fixed
   producer bytes; they do not estimate how often an agent introduces those
-  defects. The eight agent runs are still the only behavioural sample.
+  defects. The behavioural samples are the eight agent runs and the
+  review-history benchmark; neither uses customer documents.
 
 ---
 
