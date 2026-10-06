@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.5.0 — release candidate
+## 0.5.0 — 2026-10-06
 
-[Upgrade notes and validation](docs/releases/0.5.0.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.5.0.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `ooxml-integrity anonymize SOURCE [EDITED] -o DIR`: copies of a document or
   a pair with the content replaced and the structure kept, so a defect can be
