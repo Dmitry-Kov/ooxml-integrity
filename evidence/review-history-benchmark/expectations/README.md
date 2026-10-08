@@ -82,8 +82,9 @@ not change than words that did, at least four. docx-cli's tracked note edit
 (K7n) deletes the whole note text and inserts it again with one phrase
 changed; on S2 nothing else is wrong with it, and `FID013` is its only
 finding, in both captures. Without `FID013` the damaged outputs caught are 59,
-63 and 65. No correct output has one; among all 1,051 pairs compared in this
-repository it fires on these four docx-cli notes only, and a real agent's
+63 and 65. No correct output has one; among the 1,051 pairs `compare()` reads in this
+repository (of 1,062; eleven have a missing header part or an unreadable
+comments part) it fires on these four docx-cli notes only, and a real agent's
 sentence rewrite that keeps its first four words (`runs/t5_rewrite_bare`) is
 not reported, because nine of its words change.
 

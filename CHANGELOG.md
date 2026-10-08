@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- `anonymize` replaces a firm's own schema names: the namespace URIs and the
+  element and attribute names of custom XML data and SharePoint columns, the
+  same way in the data, its properties and the data binding paths, which
+  still resolve. Before, a bank's template kept `http://schemas.<bank>/...`
+  and names such as `ClientName`. Field instructions keep their field type and
+  switches and lose their arguments; a made-up field type made LibreOffice
+  refuse one copy. Numbering formats lose their words and keep `%1`. The leak
+  scan also reads part names and custom names. Every finding of the 1,062
+  labelled pairs and 1,848 public documents is still reproduced, with no leak
+  report; 75 public documents use custom namespaces.
+  [SECURITY.md](SECURITY.md#anonymized-copies) says what the copies keep and
+  how to report a leak.
+
 ## 0.5.1 — 2026-10-08
 
 [Upgrade notes and verified publication](docs/releases/0.5.1.md). Published

@@ -1,6 +1,6 @@
 {
  "scope": "anonymize() on every labelled pair in this repository and every DOCX of the public corpora; the checker and the anonymizer from this checkout",
- "checker": "ooxml-integrity 0.5.0",
+ "checker": "ooxml-integrity 0.5.1",
  "summary": {
   "producer corpus": {
    "items": 220,
@@ -12488,7 +12488,7 @@
     "document": 0
    },
    "leaks": 0,
-   "collisions": 9
+   "collisions": 10
   },
   {
    "group": "public corpora",
