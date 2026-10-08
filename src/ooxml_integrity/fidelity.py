@@ -30,6 +30,7 @@ from .comments import (
     relationships_part,
 )
 from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
+from .replacements import Replacement, assess as assess_replacements, replacements as replacement_inventory
 from .revision_growth import (
     PendingInsertions, inventory as pending_inventory, assess as assess_insertion_growth,
 )
@@ -411,6 +412,8 @@ class _StoryFacts:
     parts: dict[tuple[str, str, str], str]
     #: "kind/variant" -> revision contexts of the parts in those slots
     revisions: dict[str, collections.Counter]
+    #: "kind/variant" -> adjacent tracked replacements in those parts
+    replacements: dict[str, list[Replacement]]
 
 
 def _relationship_part(target: str, base: str, names: set[str],
@@ -553,6 +556,7 @@ def _story_facts(parts: dict[str, bytes], document, *,
     locations: dict[tuple[str, str, str], str] = {}
     trees: dict[str, object] = {}
     revisions: dict[str, collections.Counter] = {}
+    replacements: dict[str, list[Replacement]] = {}
     counted: set[tuple[str, str]] = set()
     for kind, variant, part in references:
         if part not in trees:
@@ -573,7 +577,8 @@ def _story_facts(parts: dict[str, bytes], document, *,
         if (story, part) not in counted:  # one part can fill several sections' slots
             counted.add((story, part))
             revisions.setdefault(story, collections.Counter()).update(_revision_contexts(root))
-    return _StoryFacts(texts, constructs, locations, revisions)
+            replacements.setdefault(story, []).extend(replacement_inventory(root))
+    return _StoryFacts(texts, constructs, locations, revisions, replacements)
 
 
 def story_reference_count(parts: dict[str, bytes]) -> int:
@@ -599,6 +604,8 @@ class _Snapshot:
     main: str
     #: story -> revision contexts: "document", "header/default", "footnotes", ...
     revisions: dict[str, collections.Counter]
+    #: story -> adjacent tracked replacements, keyed like `revisions`
+    replacements: dict[str, list[Replacement]]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -653,9 +660,12 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         )
     stories = _story_facts(parts, doc, references=story_references)
     revisions = {"document": _revision_contexts(doc), **stories.revisions}
+    replacements = {"document": replacement_inventory(doc), **stories.replacements}
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
-            revisions[story] = _revision_contexts(parse_xml(parts[part]))
+            notes = parse_xml(parts[part])
+            revisions[story] = _revision_contexts(notes)
+            replacements[story] = replacement_inventory(notes)
     return _Snapshot(
         counts, bodies, authors, text_length, deleted_length,
         stories,
@@ -666,6 +676,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         note_revision_inventory(parts),
         main,
         revisions,
+        replacements,
     )
 
 
@@ -694,6 +705,15 @@ def _revision_additions(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
                 where=story,
                 extra={"story": story, "tag": tag, "author": author, "count": n},
             ))
+    return out
+
+
+def _wide_replacements(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
+    """FID013: tracked replacements the edit added that re-insert unchanged words."""
+    out = []
+    for story in sorted(edited.replacements, key=lambda s: (_STORY_ORDER.index(s.split("/")[0]), s)):
+        known = source.revisions.get(story, collections.Counter())
+        out.extend(assess_replacements(story, edited.replacements[story], known))
     return out
 
 
@@ -801,6 +821,7 @@ def compare(source: str | Path, edited: str | Path, *,
             ))
 
     out.extend(_revision_additions(source_snapshot, edited_snapshot))
+    out.extend(_wide_replacements(source_snapshot, edited_snapshot))
 
     for part, tag, code, label in BODY_PARTS:
         # A source item whose current text is empty has nothing to lose here.

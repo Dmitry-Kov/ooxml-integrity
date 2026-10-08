@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased `FID013` is a new WARN finding of `compare()`: a tracked
+replacement the edit added that deletes and inserts again more unchanged words
+than it changes, at least four. It does not fail the default gate. A
+`--fail-on warn` gate comparing the output of a tool that rewrites whole
+sentences or notes as tracked replacements now fails; declare it with an
+expectation or turn it off with a reason. Its baseline v2 identity hashes the
+story, author and both texts.
+
 0.4.9 adds `FID012`, an INFO finding of `compare()`: one per story, kind
 and author of tracked changes an edit added. It never fails the default gate;
 a `--fail-on info` gate that compares a tracked edit already failed on
