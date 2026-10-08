@@ -38,6 +38,9 @@ arguments are wrong. Existing copies are not overwritten without `--force`;
 | dates of revisions and comments, document dates | moved by one random offset, so order and the gaps between dates survive |
 | document properties: title, subject, keywords, company, manager, custom properties | words replaced |
 | hyperlink and other external addresses, template paths | the scheme (`https://`, `file:`) kept, the rest replaced |
+| a firm's own schemas: the namespace URIs, element and attribute names of custom XML data and SharePoint columns, and the data binding paths that point into them | replaced the same way everywhere, so the bindings still resolve |
+| field instructions | the arguments replaced; the field type (`HYPERLINK`, `MERGEFIELD`) and switches (`\h`, `\* MERGEFORMAT`) kept, since LibreOffice does not open a document with a made-up field type |
+| numbering formats (`Article %1.`) | the words replaced, the level placeholders kept |
 | names: custom styles and every reference to them, bookmarks, content control titles and tags, form fields, document variables, building blocks, shape names and alternative text, theme names, mail merge source and query | words replaced, the same way at every use |
 | custom XML data, sensitivity labels, any part in a namespace this tool does not know | every text and attribute value replaced |
 | pictures and thumbnails | a 1x1 picture of the same format |
@@ -52,11 +55,20 @@ replaced on its own.
 
 ## What is kept
 
-The structure: every element, attribute, id and relationship, the paragraph
-and revision ids, the order of everything. Built-in style names, font names
-and embedded fonts, numbering formats, the page setup, language tags, cell
-references in chart formulas (their sheet names are replaced) and the ids
-Word generates for shapes.
+- The structure: every element, attribute, id and relationship, and the order
+  of everything.
+- Part names. Word names its parts generically (`word/media/image1.png`); a
+  tool that names a part after its content keeps that name, and the leak scan
+  reports a part name that holds a word of the text.
+- Names the format and Office define: built-in style names, element names in
+  Office's own namespaces (SharePoint's `properties`), field types and
+  switches, language tags, the ids Word generates for shapes.
+- Font names and embedded fonts, the page setup, picture sizes, cell
+  references in chart formulas (their sheet names are replaced).
+- Paragraph and revision ids (`w14:paraId`, `w:rsid*`). Two copies of
+  documents edited in the same Word session can share them.
+- The document statistics Word stores (pages, words, characters) and the
+  identity provider recorded for a reviewer (`AD`, `Windows Live`).
 
 ## What a reader can still learn
 
@@ -78,7 +90,8 @@ them.
   text and are left out). A difference is listed as lost or gained.
 - **Leak scan.** The copies are searched for words of the original text.
   Element text is replaced everywhere, so any word of four or more letters
-  found there is reported. Attribute values in the Office namespaces are
+  found there, in a part name or in a name of a firm's own schema is
+  reported. Attribute values in the Office namespaces are
   mostly names the format defines (`left`, `auto`, `Normal`) that a text may
   use too; there two consecutive words of the text are reported. The report
   names the file, part and element or attribute, never the words.

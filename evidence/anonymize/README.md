@@ -66,6 +66,29 @@ placeholder text). Earlier rounds of the same search found the places now
 replaced: VML shape ids that repeat a drawing's name, document properties,
 hyperlinks on VML shapes.
 
+## A firm's own schemas and field types
+
+A security review after 0.5.1 found what the hand search above could not:
+it read attribute values, and a firm's template carries its identity in names.
+A synthetic bank template kept its custom XML namespace
+(`http://schemas.<bank>/contracts`), the element names of its data
+(`Contract`, `ClientName`) and the data binding path pointing into them, while
+their values were replaced; the leak scan saw nothing, since none of those
+names occurs in the text. Custom namespace URIs and the element and attribute
+names in them are now replaced, the same way in the data, in its properties
+part and in the binding paths, so the bindings still resolve; names in Office's
+own namespaces, such as SharePoint's `properties`, are kept. The leak scan now
+also reads part names and names in custom namespaces. 75 public documents use
+custom namespaces (opendope.org data, SharePoint columns and others); all their
+findings are still reproduced, and LibreOffice converts 72 of the 73 copies,
+the one it does not being a document it does not convert in the original
+either.
+
+The same check found a copy LibreOffice does not open at all: the
+`BIBLIOGRAPHY` field type of `tdf124384.docx` had been replaced with a made-up
+word. Field instructions now keep their field type and switches and lose their
+arguments, and numbering formats keep their `%1` placeholders.
+
 ## Limits
 
 These are the repository's own and public test documents. They cover many

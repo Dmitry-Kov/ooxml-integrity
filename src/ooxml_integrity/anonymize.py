@@ -126,6 +126,20 @@ KNOWN_NAMESPACES = frozenset(ns.strip("{}") for ns in (
     "{http://schemas.microsoft.com/office/webextensions/webextension/2010/11}",
     "{http://schemas.microsoft.com/office/webextensions/taskpanes/2010/11}",
 ))
+#: Namespaces the format and Office define. Any other namespace is someone's
+#: own schema (a firm's contract data, a SharePoint library's columns): its
+#: URI, and the names of the elements and attributes in it, can say whose the
+#: document is, so they are replaced, the same way wherever they occur.
+STANDARD_NAMESPACE = re.compile(
+    r"^(?:https?://schemas\.openxmlformats\.org/|https?://schemas\.microsoft\.com/"
+    r"|urn:schemas-microsoft-com:|https?://www\.w3\.org/|https?://purl\.org/"
+    r"|https?://purl\.oclc\.org/|https?://ns\.adobe\.com/)", re.I)
+#: Attributes whose value is a namespace URI, and data binding attributes.
+URI_ATTRS = frozenset(("{http://schemas.openxmlformats.org/officeDocument/2006/customXml}uri",
+                       W + "uri", W + "manifestLocation", W + "schemaLocation"))
+DATA_BINDINGS = frozenset((W + "dataBinding", W15 + "dataBinding"))
+PREFIX_MAPPING = re.compile(r"""xmlns:([\w.-]+)\s*=\s*['"]([^'"]*)['"]""")
+XPATH_STEP = re.compile(r"([/@])(?:([A-Za-z_][\w.-]*):)?([A-Za-z_][\w.-]*)(?!\s*\()")
 #: Never replaced, in any part: relationship ids, markup compatibility, xml:*.
 RESERVED_NAMESPACES = (
     "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}",
@@ -336,6 +350,10 @@ def placeholder(name: str) -> bytes | None:
     return None
 
 
+def custom_namespace(uri: str | None) -> bool:
+    return bool(uri) and not STANDARD_NAMESPACE.match(uri)
+
+
 def _word_char(char: str) -> bool:
     return unicodedata.category(char)[0] in "LNM"
 
@@ -370,6 +388,8 @@ class Mapper:
         self.custom_styles: set[str] = set()
         #: the source's inserted text per insertion context: (text, replacement)
         self.inserted: dict[tuple, list[tuple[str, str]]] = collections.defaultdict(list)
+        #: custom namespace URI -> replacement, the same in every part and file
+        self._namespaces: dict[str, str] = {}
         self.reading_source = True
 
     def _draw(self, token: str) -> str:
@@ -406,12 +426,13 @@ class Mapper:
         self.vocabulary.add(token)
         return out
 
-    def text(self, text: str) -> str:
-        """Replace every word of `text`, keeping everything between words."""
+    def text(self, text: str, keep: re.Pattern | None = None) -> str:
+        """Replace every word of `text`, keeping everything between words and
+        whatever `keep` matches."""
         if not text:
             return text
         protected = [False] * len(text)
-        for match in PROTECTED.finditer(text):
+        for match in [*PROTECTED.finditer(text), *(keep.finditer(text) if keep else ())]:
             for i in range(match.start(), match.end()):
                 protected[i] = True
         out, start, previous = [], None, None
@@ -433,6 +454,27 @@ class Mapper:
     def formula(self, value: str) -> str:
         """A chart formula: sheet names replaced, cell references kept."""
         return SHEET_NAME.sub(lambda m: m.group(1) + self.text(m.group(2)) + m.group(1), value)
+
+    def namespace(self, uri: str) -> str:
+        """A custom namespace URI: its words replaced, a known scheme kept."""
+        if uri not in self._namespaces:
+            self._namespaces[uri] = self.target(uri)
+        return self._namespaces[uri]
+
+    def name(self, local: str) -> str:
+        """An element or attribute name of a custom schema: still a valid name."""
+        return self.text(local)
+
+    def xpath(self, value: str, prefixes: dict[str, str]) -> str:
+        """A data binding XPath: steps in custom namespaces renamed the way
+        their elements and attributes are; steps in standard ones kept."""
+        def step(match):
+            axis, prefix, local = match.groups()
+            uri = prefixes.get(prefix) if prefix else None
+            if prefix and not custom_namespace(uri):
+                return match.group(0)
+            return f"{axis}{prefix + ':' if prefix else ''}{self.name(local)}"
+        return XPATH_STEP.sub(step, value)
 
     def target(self, value: str) -> str:
         """An external target: keep a known scheme, replace the rest."""
@@ -499,6 +541,10 @@ class Mapper:
         return "".join(out)
 
     @property
+    def namespaces(self) -> dict[str, str]:
+        return dict(self._namespaces)
+
+    @property
     def replacements(self) -> set[str]:
         """Every replacement word; one that is also a word of the text is chance."""
         return set(self._taken)
@@ -539,7 +585,8 @@ def _lane(node, known: set | None) -> tuple[str, tuple | None]:
 def _stream(mapper: Mapper, pieces: list) -> None:
     """Replace the words of one paragraph.
 
-    `pieces` holds (setter, text, lane, context) in document order and None
+    `pieces` holds (setter, text, lane, context, is an instruction) in
+    document order and None
     for a visible boundary. Between boundaries, the base text is read as one
     text, across any insertion inside it, so a word that a new tracked
     change splits or replaces in part is the same word as in the source. A
@@ -552,9 +599,9 @@ def _stream(mapper: Mapper, pieces: list) -> None:
         if run[0][2] == "known":
             joined = mapper.known_insertion(run[0][3], text)
         else:
-            joined = mapper.text(text)
+            joined = mapper.text(text, keep=FIELD_CODE if all(p[4] for p in run) else None)
         at = 0
-        for setter, text, _, _ in run:
+        for setter, text, *_ in run:
             setter(joined[at:at + len(text)])
             at += len(text)
 
@@ -622,7 +669,8 @@ def _anonymize_tree(root, mapper: Mapper, part: str, known: set | None) -> set:
             if key not in streams:
                 order.append(key)
             if node.tag in TEXT_TAGS:
-                streams[key].append((_setter(node), node.text or "", *_lane(node, known)))
+                streams[key].append((_setter(node), node.text or "", *_lane(node, known),
+                                     node.tag in INSTRUCTION_TAGS))
                 done.add(node)
             else:
                 streams[key].append(None)
@@ -633,6 +681,7 @@ def _anonymize_tree(root, mapper: Mapper, part: str, known: set | None) -> set:
             if node.text:
                 node.text = mapper.text(node.text)
             continue
+        _rename_custom(node, mapper, unknown)
         if node.tag in DATE_TEXT and node.text:
             node.text = mapper.date(node.text)
             done.add(node)
@@ -680,8 +729,51 @@ def custom_styles(parts: dict[str, bytes]) -> set[str]:
     return out
 
 
+def _rename_custom(node, mapper: Mapper, unknown: bool) -> None:
+    """Rename an element of a custom schema, and its own attributes.
+
+    The namespace URIs themselves are replaced after serialization, in every
+    part at once. An element without a namespace is custom only in a part
+    whose root is not in a known namespace.
+    """
+    name = etree.QName(node)
+    if custom_namespace(name.namespace) or (name.namespace is None and unknown):
+        node.tag = etree.QName(name.namespace, mapper.name(name.localname)).text
+        renamed = []
+        for attr in list(node.attrib):
+            qname = etree.QName(attr)
+            if custom_namespace(qname.namespace) or qname.namespace is None:
+                renamed.append((attr, etree.QName(qname.namespace, mapper.name(qname.localname)).text))
+        for old, new in renamed:
+            value = node.attrib.pop(old)
+            node.set(new, value)
+    else:
+        for attr in list(node.attrib):
+            qname = etree.QName(attr)
+            if custom_namespace(qname.namespace):
+                value = node.attrib.pop(attr)
+                node.set(etree.QName(qname.namespace, mapper.name(qname.localname)).text, value)
+
+
+#: Field instructions keep their syntax, which is a closed set of names, and
+#: lose their arguments: the field type that opens them (HYPERLINK, REF,
+#: MERGEFIELD), switches (\h, \* MERGEFORMAT) and URL schemes. LibreOffice
+#: does not open a document whose field type is a made-up word.
+FIELD_CODE = re.compile(
+    r"^\s*[A-Z][A-Z0-9]*\b|\\[*@#!]?[A-Za-z]*|\b(?:MERGEFORMAT|CHARFORMAT|MERGEFORMATINET)\b"
+    r"|\b(?:https?|mailto|ftp|file):")
+INSTRUCTION_TAGS = frozenset((W + "instrText", W + "delInstrText"))
+#: Level text keeps its level placeholders: "%1" names the first level.
+LEVEL_PLACEHOLDER = re.compile(r"%\d")
+
+
 def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
     on = TEXT_ATTRS_ON.get(node.tag, ())
+    if node.tag in DATA_BINDINGS and node.get(W + "xpath"):
+        prefixes = dict(PREFIX_MAPPING.findall(node.get(W + "prefixMappings") or ""))
+        node.set(W + "xpath", mapper.xpath(node.get(W + "xpath"), prefixes))
+    if node.tag == W + "lvlText" and node.get(W + "val"):
+        node.set(W + "val", mapper.text(node.get(W + "val"), keep=LEVEL_PLACEHOLDER))
     parent = node.getparent()
     if node.tag == W + "style" and node.get(W + "styleId") in mapper.custom_styles:
         node.set(W + "styleId", mapper.text(node.get(W + "styleId")))
@@ -709,9 +801,13 @@ def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
             node.set(name, mapper.text(value))
         elif name in HREF_ATTRS:
             node.set(name, mapper.target(value))
+        elif name in URI_ATTRS or (node.tag == W + "attachedSchema" and name == W + "val"):
+            if custom_namespace(value):
+                node.set(name, mapper.namespace(value))
         elif (name in TEXT_ATTRS or name in on or (named and name == W + "val")
               or (CNVPR.search(node.tag) and name in ("name", "descr", "title"))):
-            node.set(name, mapper.target(value) if name == W + "instr" else mapper.text(value))
+            node.set(name, mapper.text(value, keep=FIELD_CODE) if name == W + "instr"
+                     else mapper.text(value))
         elif unknown and not name.startswith(RESERVED_NAMESPACES):
             node.set(name, mapper.text(value))
 
@@ -811,6 +907,38 @@ class FileResult:
     contexts: set = field(default_factory=set, repr=False)
 
 
+def custom_namespaces(parts: dict[str, bytes], defaults: dict, overrides: dict) -> set[str]:
+    """Every custom namespace URI the package declares, uses or names."""
+    found = set()
+    for name, blob in parts.items():
+        if not _is_xml(name, defaults, overrides):
+            continue
+        try:
+            root = fromstring(blob)
+        except (etree.XMLSyntaxError, UnsafeXML):
+            found.update(m.group(2) for m in re.finditer(
+                r"""xmlns(?::[\w.-]+)?\s*=\s*(['"])([^'"]*)\1""", blob.decode("utf-8", "replace")))
+            continue
+        for node in root.iter():
+            if not isinstance(node.tag, str):
+                continue
+            found.update(node.nsmap.values())
+            found.update(etree.QName(a).namespace for a in node.attrib)
+            for attr, value in node.attrib.items():
+                if attr in URI_ATTRS or (node.tag == W + "attachedSchema" and attr == W + "val"):
+                    found.add(value)
+                elif node.tag in DATA_BINDINGS and attr == W + "prefixMappings":
+                    found.update(uri for _, uri in PREFIX_MAPPING.findall(value))
+    return {uri for uri in found if custom_namespace(uri)}
+
+
+def _replace_namespaces(data: bytes, mapper: Mapper) -> bytes:
+    for uri, new in mapper.namespaces.items():
+        for quote in ('"', "'"):
+            data = data.replace(f"{quote}{uri}{quote}".encode(), f"{quote}{new}{quote}".encode())
+    return data
+
+
 def _anonymize_package(source: Path, output: Path, mapper: Mapper,
                        limits: ArchiveLimits, known: set | None = None) -> FileResult:
     parts = read_package(source, limits)
@@ -825,6 +953,8 @@ def _anonymize_package(source: Path, output: Path, mapper: Mapper,
         # would miss authors and break relationship ids, and the checker
         # does not read Strict either (PKG009)
         raise ValueError(f"{source}: Strict Open XML is not supported")
+    for uri in sorted(custom_namespaces(parts, defaults, overrides)):
+        mapper.namespace(uri)
     result = FileResult(output)
     with zipfile.ZipFile(source) as archive:
         infos = archive.infolist()
@@ -843,6 +973,7 @@ def _anonymize_package(source: Path, output: Path, mapper: Mapper,
                 else:
                     result.contexts |= _anonymize_tree(root, mapper, name, known)
                     data = _serialize(root, data)
+                data = _replace_namespaces(data, mapper)
             elif FONT_PARTS.search(name):
                 result.fonts.append(name)
             else:
@@ -938,6 +1069,24 @@ def _located(tag: str, attr: str | None) -> bool:
             or local in STRUCTURE_ELEMENTS)
 
 
+#: Words of conventional part names, which a document's text can contain too.
+PART_NAME_WORDS = frozenset((
+    "word", "document", "styles", "stylewitheffects", "styleswitheffects", "settings",
+    "websettings", "fonttable", "numbering", "footnotes", "endnotes", "comments",
+    "commentsextended", "commentsids", "commentsextensible", "people", "header", "footer",
+    "theme", "media", "image", "embeddings", "oleobject", "microsoft", "excel", "worksheet",
+    "chart", "charts", "colors", "style", "diagrams", "data", "layout", "quickstyle",
+    "drawing", "customxml", "item", "itemprops", "docprops", "core", "custom", "thumbnail",
+    "rels", "glossary", "fonts", "font", "activex", "vbaproject", "vbadata",
+    "printersettings", "webextensions", "webextension", "taskpanes", "ink", "intelligence",
+    "content", "types", "jpeg", "tiff", "odttf", "xlsx", "docx", "pptx", "package",
+    "afchunk", "control", "label", "labelinfo", "docmetadata", "xmlsignatures", "origin",
+    "sigs", "signature", "printer", "bibliography", "sources",
+    # names Word gives embedded objects: Microsoft_Office_Excel_Worksheet1.xlsx
+    "office", "powerpoint", "presentation", "visio", "slide", "binary", "macro", "enabled",
+))
+
+
 def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[str, str]],
               replacements: set[str] = frozenset(),
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> tuple[list[dict], int]:
@@ -971,6 +1120,11 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
         parts = read_package(path, limits)
         defaults, overrides = _content_types(parts)
         for name, data in parts.items():
+            # part names are kept; one that holds a word of the text is reported
+            found = sum(1 for token in _tokens(name)
+                        if token in words and token.lower() not in PART_NAME_WORDS)
+            if found:
+                hits[(index, name, "(part name)")] += found
             if not data or not _is_xml(name, defaults, overrides):
                 continue
             try:
@@ -987,7 +1141,16 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                 if not isinstance(node.tag, str):
                     continue
                 label = etree.QName(node).localname
-                found = single(node.text) + single(node.tail)
+                if custom_namespace(etree.QName(node).namespace):
+                    named = single(label) + sum(single(etree.QName(a).localname)
+                                                for a in node.attrib)
+                    if named:
+                        hits[(index, name, f"{label} (custom name)")] += named
+                text = node.text
+                if node.tag in INSTRUCTION_TAGS and text:
+                    # field types and switches are kept on purpose
+                    text = FIELD_CODE.sub(" ", text)
+                found = single(text) + single(node.tail)
                 if found and _located(node.tag, None):
                     structural += found
                 elif found:

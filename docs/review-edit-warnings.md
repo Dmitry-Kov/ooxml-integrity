@@ -134,5 +134,6 @@ The profile is deliberately narrow:
 
 Among the 1,051 labelled pairs this repository compares (producer corpus,
 existing revisions, saved editor outputs, agent runs and the review-history
-benchmark), FID013 fires on the four docx-cli note edits only; no correct
+benchmark; of its 1,062 labelled pairs, nine have a missing header part and
+two a comments part no parser reads, so `compare()` does not run on them), FID013 fires on the four docx-cli note edits only; no correct
 benchmark output has one ([analysis](../evidence/review-history-benchmark/expectations/README.md#tracked-replacements-wider-than-the-change)).

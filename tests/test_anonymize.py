@@ -7,6 +7,7 @@ text. Each test below names one of those properties.
 from __future__ import annotations
 
 import io
+import re
 import json
 from datetime import datetime
 import random
@@ -372,3 +373,81 @@ def test_cli_usage_errors(tmp_path):
     missing = run_cli("anonymize", str(tmp_path / "nope.docx"), "-o", str(tmp_path))
     assert three.returncode == deck.returncode == missing.returncode == 2
     assert "not a WordprocessingML" in deck.stderr
+
+
+# --- names a firm's own schemas carry -------------------------------------------------
+
+BANK = "http://schemas.acme-bank.example/contracts/2026"
+SHAREPOINT = "http://schemas.microsoft.com/office/2006/metadata/properties"
+COLUMNS = "4f1b2c3d-1111-2222-3333-acmeacmeacme"
+
+
+def bank_template(tmp_path):
+    body = (f'<w:sdt><w:sdtPr><w:dataBinding w:prefixMappings="xmlns:ns0=\'{BANK}\'" '
+            'w:xpath="/ns0:Contract[1]/ns0:AcmeClientName[1]" w:storeItemID="{1}"/></w:sdtPr>'
+            '<w:sdtContent><w:p><w:r><w:t>John Smith</w:t></w:r></w:p></w:sdtContent></w:sdt>'
+            f'<w:sdt><w:sdtPr><w:dataBinding w:prefixMappings="xmlns:ns0=\'{SHAREPOINT}\' '
+            f'xmlns:ns1=\'{COLUMNS}\'" w:xpath="/ns0:properties[1]/documentManagement[1]/'
+            'ns1:AcmeDealCode[1]" w:storeItemID="{2}"/></w:sdtPr><w:sdtContent><w:p><w:r>'
+            '<w:t>X-1</w:t></w:r></w:p></w:sdtContent></w:sdt>')
+    return package(tmp_path / "bank.docx", body, parts={
+        "customXml/item1.xml": f'<Contract xmlns="{BANK}"><AcmeClientName>John Smith'
+                               '</AcmeClientName><Loan currency="UZS">150000000</Loan></Contract>',
+        "customXml/itemProps1.xml":
+            '<ds:datastoreItem ds:itemID="{1}" xmlns:ds="http://schemas.openxmlformats.org/'
+            f'officeDocument/2006/customXml"><ds:schemaRefs><ds:schemaRef ds:uri="{BANK}"/>'
+            '</ds:schemaRefs></ds:datastoreItem>',
+        "customXml/item2.xml": f'<p:properties xmlns:p="{SHAREPOINT}"><documentManagement>'
+                               f'<AcmeDealCode xmlns="{COLUMNS}">X-1</AcmeDealCode>'
+                               '</documentManagement></p:properties>'})
+
+
+def test_a_firms_schema_names_and_namespace_are_replaced_and_bindings_follow(tmp_path):
+    out = run(tmp_path, bank_template(tmp_path)).outputs[0]
+    package_bytes = b"".join(zipfile.ZipFile(out).read(n) for n in zipfile.ZipFile(out).namelist())
+    for secret in (b"acme", b"Acme", b"Contract", b"John", b"UZS", b"currency"):
+        assert secret not in package_bytes
+    item = fromstring(zipfile.ZipFile(out).read("customXml/item1.xml"))
+    namespace = item.tag[1:].split("}")[0]
+    assert namespace.startswith("http://") and namespace in read_part(out, "customXml/itemProps1.xml")
+    document = read_part(out, "word/document.xml")
+    assert f"xmlns:ns0='{namespace}'" in document
+    xpath = re.search(r'w:xpath="([^"]*)"', document).group(1)  # the firm's binding comes first
+    root_name, child_name = item.tag.split("}")[1], item[0].tag.split("}")[1]
+    assert xpath == f"/ns0:{root_name}[1]/ns0:{child_name}[1]"
+    # Office's own names stay: the binding into SharePoint properties still resolves
+    columns = read_part(out, "customXml/item2.xml")
+    assert f'xmlns:p="{SHAREPOINT}"' in columns and "p:properties" in columns
+    assert "/ns0:properties[1]/" in document
+
+
+def test_field_instructions_keep_their_syntax_and_lose_their_arguments(tmp_path):
+    body = ('<w:p><w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space='
+            '"preserve"> HYPERLINK "https://deals.acme.example/x" \\h </w:instrText></w:r>'
+            '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>'
+            '<w:p><w:fldSimple w:instr=" MERGEFIELD AcmeClient \\* MERGEFORMAT "/></w:p>')
+    document = read_part(run(tmp_path, package(tmp_path / "a.docx", body)).outputs[0],
+                         "word/document.xml")
+    assert ' HYPERLINK "https://' in document and '" \\h </w:instrText>' in document
+    assert 'w:instr=" MERGEFIELD ' in document and "\\* MERGEFORMAT" in document
+    assert "acme" not in document.lower()
+
+
+def test_numbering_level_text_keeps_its_placeholders(tmp_path):
+    numbering = (f'<w:numbering {NS}><w:abstractNum w:abstractNumId="0"><w:lvl w:ilvl="0">'
+                 '<w:lvlText w:val="Acme Article %1."/></w:lvl></w:abstractNum></w:numbering>')
+    out = run(tmp_path, package(tmp_path / "a.docx", "<w:p/>",
+                                parts={"word/numbering.xml": numbering})).outputs[0]
+    value = re.search(r'w:lvlText w:val="([^"]*)"', read_part(out, "word/numbering.xml")).group(1)
+    assert value.endswith(" %1.") and "Acme" not in value and "Article" not in value
+
+
+def test_the_leak_scan_reads_part_names_and_custom_names(tmp_path):
+    copied = package(tmp_path / "a.docx", "<w:p/>", parts={
+        "word/media/Acme_logo.png": b"x",
+        "word/embeddings/Microsoft_Office_Excel_Worksheet1.xlsx": b"",
+        "customXml/item1.xml": f'<Holdings xmlns="{BANK}"/>'})
+    leaks, _ = leak_scan([copied], {"Acme", "Holdings", "Office", "Excel", "Worksheet"}, set())
+    assert {(x["part"], x["where"]) for x in leaks} == {
+        ("word/media/Acme_logo.png", "(part name)"),
+        ("customXml/item1.xml", "Holdings (custom name)")}

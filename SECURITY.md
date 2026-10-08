@@ -53,3 +53,20 @@ selected files in its worker. Its input and time limits are described in the
 snippets can reveal document information; review them before sharing or
 uploading CI artifacts. Coverage and [known limitations](docs/support-matrix.md)
 define what was assessed, rather than a security certification.
+
+## Anonymized copies
+
+`ooxml-integrity anonymize` writes copies of a document or pair for sharing a
+defect. It replaces the words, people, dates, properties, pictures, embedded
+objects, a firm's own schema names and namespaces, and the other places
+listed in [what is replaced](docs/anonymize.md#what-is-replaced). It does not
+make a document anonymous in every sense: the shape of the text (word lengths,
+capitals and digits, which words repeat), the package structure and the items
+under [what is kept](docs/anonymize.md#what-is-kept) remain, and a reader who
+knows the original can recognise it from its shape. The leak scan looks for
+words of the original text; it cannot judge what the shape reveals. Open the
+copies before sharing them.
+
+A word, name or value of the original that survives in a copy is a security
+defect of the anonymizer. Report it privately, as above, with a synthetic
+document that shows it, never with the confidential original.
