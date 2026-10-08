@@ -1,6 +1,6 @@
-# Suspected escaping and insertion attribution
+# Suspected escaping, insertion attribution and wide replacements
 
-These two warnings ask for review of a concrete XML observation. They do not
+These warnings ask for review of a concrete XML observation. They do not
 infer the editor's intent, automatically repair a document, or establish that a
 document is corrupt. They are new checker behavior; the frozen 0.4.6 benchmark
 receipts and their original metrics remain unchanged.
@@ -93,3 +93,46 @@ entries, rule codes and historical evidence remain unchanged.
 FID011 baseline identities hash author/date, the source-text digest and the
 additional text, so acknowledging one warning does not hide a different
 insertion context or addition and does not write that content into a baseline.
+
+## FID013: a tracked replacement wider than the change
+
+Unreleased. `compare(source, edited)` reads, in the main document, each
+effective header/footer slot and the conventional footnote and endnote parts,
+every paragraph's deleted and inserted text in document order. A deletion and
+an insertion by one author that touch, with no other text between them, are a
+tracked replacement. Only replacements the edit added are read: neither
+revision's kind, author and effective date occurs in the same story of the
+source, the rule `FID012` uses.
+
+Words are separated by whitespace, as a reader sees them. The unchanged words
+are those the deleted and inserted text share at their start and at their
+end: words the replacement could have left out. FID013 reports WARN when they
+are at least four and outnumber the words that change on the longer side, with
+the story, author, both counts and both texts. In the review-history benchmark
+docx-cli edits a footnote by deleting its whole text and inserting it again
+with one phrase changed: six unchanged words around one to three changed ones.
+A reviewer sees those six words struck through and added again under the
+editor's name, and the change is hard to find; accepting still gives the right
+text, so no other rule reports it.
+
+The profile is deliberately narrow:
+
+- A replaced phrase that keeps a word or two of itself (`ten business days`
+  becoming `fifteen business days`) is below the threshold, and so is a
+  rewritten sentence that keeps its first words but changes most of the rest:
+  a real agent's rewrite in `runs/t5_rewrite_bare` keeps four words and
+  changes nine. Words shared in the middle of the two texts do not count,
+  since a rewrite can reuse `the` and `of` by chance.
+- A replacement split by unchanged text between its deletion and insertion is
+  two replacements, each judged alone. Moves, deletions and insertions by
+  different authors, and revisions reusing a source context are not read.
+- A person who selects a sentence and types it again with one word changed
+  produces the same markup; the rule cannot tell who made the edit. WARN asks
+  the caller to look. A pipeline that deliberately replaces whole sentences can
+  declare it with an [expectation](configuration.md#changes-the-edit-was-asked-to-make)
+  or turn the rule off with a reason.
+
+Among the 1,051 labelled pairs this repository compares (producer corpus,
+existing revisions, saved editor outputs, agent runs and the review-history
+benchmark), FID013 fires on the four docx-cli note edits only; no correct
+benchmark output has one ([analysis](../evidence/review-history-benchmark/expectations/README.md#tracked-replacements-wider-than-the-change)).

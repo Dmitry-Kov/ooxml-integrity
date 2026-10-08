@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.4.9 from this checkout",
+ "checker": "ooxml-integrity 0.5.0 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],
@@ -292,20 +292,20 @@
   },
   "docx-cli": {
    "without": {
-    "detected": 34,
+    "detected": 36,
     "clean": 14,
-    "missed": 4,
+    "missed": 2,
     "false alarm": 4
    },
    "with": {
-    "detected": 34,
+    "detected": 36,
     "clean": 18,
-    "missed": 4
+    "missed": 2
    },
    "with_tracked": {
-    "detected": 34,
+    "detected": 36,
     "clean": 18,
-    "missed": 4
+    "missed": 2
    }
   },
   "docx-mcp": {
@@ -9281,6 +9281,7 @@
    "preserved": false,
    "without": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [],
@@ -9288,6 +9289,7 @@
    },
    "with": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [],
@@ -9295,6 +9297,7 @@
    },
    "with_tracked": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [
@@ -9343,21 +9346,27 @@
    "completed": true,
    "preserved": false,
    "without": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [],
-    "outcome": "missed"
+    "outcome": "detected"
    },
    "with": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [],
-    "outcome": "missed"
+    "outcome": "detected"
    },
    "with_tracked": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [
      "FID012"
     ],
-    "outcome": "missed"
+    "outcome": "detected"
    }
   },
   {
@@ -10070,6 +10079,7 @@
    "preserved": false,
    "without": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [],
@@ -10077,6 +10087,7 @@
    },
    "with": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [],
@@ -10084,6 +10095,7 @@
    },
    "with_tracked": {
     "codes": [
+     "FID013",
      "TXT002"
     ],
     "expected": [
@@ -10132,21 +10144,27 @@
    "completed": true,
    "preserved": false,
    "without": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [],
-    "outcome": "missed"
+    "outcome": "detected"
    },
    "with": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [],
-    "outcome": "missed"
+    "outcome": "detected"
    },
    "with_tracked": {
-    "codes": [],
+    "codes": [
+     "FID013"
+    ],
     "expected": [
      "FID012"
     ],
-    "outcome": "missed"
+    "outcome": "detected"
    }
   },
   {

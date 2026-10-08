@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- `FID013` (WARN): a tracked replacement the edit added that deletes and
+  inserts again more unchanged words than it changes, at least four, counting
+  the words the two texts share at their start and end. A reviewer sees the
+  unchanged words struck through and added again under the editor's name; no
+  other rule reported it, since nothing is lost. In the review-history
+  benchmark docx-cli edits a footnote this way: the damaged outputs caught
+  rise to 61 of 69 without expectations and to 67 with them. It fires on no
+  correct output and on no other of the 1,051 labelled pairs compared; a real
+  agent's sentence rewrite that keeps its first four words is not reported.
+  [Scope](docs/review-edit-warnings.md#fid013-a-tracked-replacement-wider-than-the-change).
+
 ## 0.5.0 — 2026-10-06
 
 [Upgrade notes and verified publication](docs/releases/0.5.0.md). Published

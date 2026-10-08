@@ -27,14 +27,14 @@ Every other task declares none. [results.json](results.json) has every attempt.
 | python-docx `Run.text =` | 20 | 4 | 0 | 0 | | | 8 | 2 | 2 |
 | python-docx setters | 6 | 2 | 0 | 14 | 14 | 14 | 8 | 2 | 2 |
 | adeu 3.0.6 | 30 | 4 | 4 | 4 | 4 | 4 | 0 | | |
-| docx-cli 0.26.0 | 18 | 4 | 0 | 38 | 34 | 34 | 0 | | |
+| docx-cli 0.26.0 | 18 | 4 | 0 | 38 | 36 | 36 | 0 | | |
 | Office-Word-MCP-Server 1.1.11 | 8 | 0 | 0 | 6 | 4 | 6 | 10 | 0 | 6 |
 | docx-mcp 0.7.4 | 34 | 12 | 0 | 0 | | | 2 | 2 | 2 |
 | docxengine 1.0.0 | 32 | 6 | 0 | 6 | 2 | 4 | 2 | 2 | 2 |
 | Claude Code, Opus 5.5 | 150 | 35 | 0 | 0 | | | 0 | | |
 | Codex, gpt-6.1-sol | 150 | 41 | 6 | 0 | | | 0 | | |
 | OpenCode, Qwen3.8 27B | 29 | 8 | 2 | 1 | 1 | 1 | 0 | | |
-| **All** | **537** | **130** | **12** | **69** | **59** | **63** | **30** | **8** | **14** |
+| **All** | **537** | **130** | **12** | **69** | **61** | **65** | **30** | **8** | **14** |
 
 *Flagged* and *caught* mean a new ERROR or WARN on that output, the frozen
 protocol's rule; `EXP001` counts.
@@ -47,10 +47,9 @@ protocol's rule; `EXP001` counts.
 - **Damaged outputs.** None that was caught is missed with expectations. Four
   more are caught: Office-Word-MCP-Server and docxengine edited the document
   title instead of the requested header on S2, so the expected `FID007` did not
-  occur (`EXP001`). Still missed: docx-cli's plain K4 and tracked K7n on S2,
-  and docxengine's tracked K7h on S2. A tracked task declares no expectation
-  in this reading, because a correct tracked edit draws no error; see the
-  third reading below.
+  occur (`EXP001`). Still missed: docx-cli's plain K4 on S2 and docxengine's
+  tracked K7h on S2. A tracked task declares no expectation in this reading,
+  because a correct tracked edit draws no error; see the third reading below.
 - **Incomplete outputs.** Office-Word-MCP-Server returns `ok` for header and
   note tasks it cannot perform; six of those are now flagged, because the
   requested change is missing.
@@ -65,13 +64,28 @@ task's story (`document`, `header/default` or `footnotes`), required.
 | | Without | With 0.4.8 expectations | Also expecting `FID012` |
 | --- | ---: | ---: | ---: |
 | Correct outputs flagged (of 537) | 130 | 12 | 12 |
-| Damaged outputs caught (of 69) | 59 | 63 | 65 |
+| Damaged outputs caught (of 69) | 61 | 65 | 67 |
 
 The two added catches are docxengine's tracked edit of the document title
 instead of the requested header on S2, in both captures: its new revisions are
 in `document`, so the expected `FID012` for `header/default` does not occur. No
-correct output gains an `EXP001`. Still missed: docx-cli's plain K4 and tracked
-K7n on S2, which change the right story in the wrong way.
+correct output gains an `EXP001`. Still missed: docx-cli's plain K4 on S2, in
+both captures. Asked to edit text inside Reviewer A's pending insertion, it
+rewrites the wrong span of it, next to Reviewer B's nested deletion, and
+`FID009` does not read an insertion that holds a nested deletion.
+
+## Tracked replacements wider than the change
+
+Every column above counts the unreleased `FID013` (WARN): a tracked
+replacement the edit added that deletes and inserts again more words that did
+not change than words that did, at least four. docx-cli's tracked note edit
+(K7n) deletes the whole note text and inserts it again with one phrase
+changed; on S2 nothing else is wrong with it, and `FID013` is its only
+finding, in both captures. Without `FID013` the damaged outputs caught are 59,
+63 and 65. No correct output has one; among all 1,051 pairs compared in this
+repository it fires on these four docx-cli notes only, and a real agent's
+sentence rewrite that keeps its first four words (`runs/t5_rewrite_bare`) is
+not reported, because nine of its words change.
 
 ## Limits
 

@@ -62,13 +62,27 @@ def tally() -> dict:
     return out
 
 
+#: Rule codes no published version has yet. The page describes published
+#: versions, so the analysis is recounted without them until a release ships
+#: them; the analysis itself reads this checkout.
+UNRELEASED = frozenset({"FID013"})
+
+
+def _outcome(row: dict, codes: list) -> str:
+    if not row["preserved"]:
+        return "detected" if codes else "missed"
+    if not row["completed"]:
+        return "incomplete, flagged" if codes else "incomplete, clean"
+    return "false alarm" if codes else "clean"
+
+
 def expectations() -> dict:
     data = json.loads((EVIDENCE / "expectations/results.json").read_text(encoding="utf-8"))
     total = collections.Counter()
-    for modes in data["summary"].values():
-        for mode, counts in modes.items():
-            for outcome, n in counts.items():
-                total[(mode, outcome)] += n
+    for row in data["results"]:
+        for mode in ("without", "with", "with_tracked"):
+            codes = [c for c in row[mode]["codes"] if c not in UNRELEASED]
+            total[(mode, _outcome(row, codes))] += 1
     return {
         "correct": total[("without", "clean")] + total[("without", "false alarm")],
         "flagged_without": total[("without", "false alarm")],
