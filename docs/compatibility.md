@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.5.1 release notes](releases/0.5.1.md) before changing a version pin.
+[0.5.2 release notes](releases/0.5.2.md) before changing a version pin.
 
 ## What a release can change
 
@@ -232,11 +232,11 @@ JSON, SARIF and coverage output. That exit does not mean the document passed.
 
 These versions identify different things:
 
-| Output | Version in 0.5.1 | Meaning |
+| Output | Version in 0.5.2 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.5.1"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.5.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.5.1"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.5.2"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

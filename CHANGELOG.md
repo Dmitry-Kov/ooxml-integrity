@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.5.2 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.5.2.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `anonymize` replaces a firm's own schema names: the namespace URIs and the
   element and attribute names of custom XML data and SharePoint columns, the

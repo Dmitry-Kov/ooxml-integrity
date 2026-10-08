@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.5.1
+    python research/release_smoke.py --version 0.5.2
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -328,6 +328,37 @@ def main():
         phrase = json.loads(cli("check", tracked, "--against", short, "--no-config",
                                 "--json").stdout)["files"][0]
         assert "FID013" not in {f["code"] for f in phrase["findings"]}
+
+        # 0.5.2: anonymize replaces a firm's own schema: its namespace, its
+        # element names and the binding path into them, consistently.
+        firm = "http://schemas.acme-bank.example/contracts"
+        main = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"
+        template = variant("bank.docx", {
+            "[Content_Types].xml": (
+                '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+                '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+                f'<Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="{main}"/></Types>'),
+            "_rels/.rels": (
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'),
+            "word/document.xml": (
+                '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:sdt><w:sdtPr>'
+                f'<w:dataBinding w:prefixMappings="xmlns:ns0=\'{firm}\'" w:xpath="/ns0:Contract[1]/ns0:AcmeClient[1]" w:storeItemID="{{1}}"/>'
+                '</w:sdtPr><w:sdtContent><w:p><w:r><w:t>John Smith</w:t></w:r></w:p></w:sdtContent></w:sdt></w:body></w:document>'),
+            "customXml/item1.xml": f'<Contract xmlns="{firm}"><AcmeClient>John Smith</AcmeClient></Contract>',
+        })
+        shared_firm = work / "shared-firm"
+        report = json.loads(cli("anonymize", template, "-o", shared_firm, "--json").stdout)
+        assert report["findings"]["reproduced"] and report["leaks"] == []
+        with ZipFile(shared_firm / "document.docx") as package:
+            data = b"".join(package.read(n) for n in package.namelist())
+            item = package.read("customXml/item1.xml").decode("utf-8")
+            document = package.read("word/document.xml").decode("utf-8")
+        assert b"acme" not in data and b"Contract" not in data and b"John" not in data
+        namespace = item.split('xmlns="', 1)[1].split('"', 1)[0]
+        outer, inner = item.split("<", 2)[1].split(" ")[0], item.split("<", 3)[2].split(">")[0]
+        assert f"xmlns:ns0='{namespace}'" in document
+        assert f'w:xpath="/ns0:{outer}[1]/ns0:{inner}[1]"' in document
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -372,6 +403,7 @@ def main():
           "0.4.9 FID012 tracked additions per story and its expectation, "
           "0.5.0 anonymize of a pair with its findings reproduced, "
           "0.5.1 FID013 on a sentence replaced to change one word, not on a phrase, "
+          "0.5.2 anonymize of a firm's schema with its binding kept, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
