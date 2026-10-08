@@ -76,7 +76,7 @@ rewrites the wrong span of it, next to Reviewer B's nested deletion, and
 
 ## Tracked replacements wider than the change
 
-Every column above counts the unreleased `FID013` (WARN): a tracked
+Every column above counts 0.5.1's `FID013` (WARN): a tracked
 replacement the edit added that deletes and inserts again more words that did
 not change than words that did, at least four. docx-cli's tracked note edit
 (K7n) deletes the whole note text and inserts it again with one phrase

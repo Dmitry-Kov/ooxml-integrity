@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.5.1 — release candidate
+## 0.5.1 — 2026-10-08
 
-[Upgrade notes and validation](docs/releases/0.5.1.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.5.1.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `FID013` (WARN): a tracked replacement the edit added that deletes and
   inserts again more unchanged words than it changes, at least four, counting
