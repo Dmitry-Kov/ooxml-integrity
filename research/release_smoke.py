@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.5.0
+    python research/release_smoke.py --version 0.5.1
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -312,6 +312,22 @@ def main():
         assert "Supplier" not in text and "Services" not in text and "Reviewer" not in people
         cli("anonymize", source, edited, "-o", shared, code=2)
         cli("anonymize", root / "corpus/deck.pptx", "-o", work / "deck", code=2)
+
+        # 0.5.1: FID013 reports a tracked replacement that deletes and inserts
+        # again more unchanged words than it changes; a replaced phrase is not.
+        sentence = "This is an initial document for the review."
+        wide_source = minimal("wide-source.docx", f"<w:r><w:t>{sentence}</w:t></w:r>")
+        wide = minimal("wide.docx", (
+            f'<w:del w:id="904" {rev}><w:r><w:delText>{sentence}</w:delText></w:r></w:del>'
+            f'<w:ins w:id="905" {rev}><w:r><w:t>{sentence.replace("initial", "final")}</w:t></w:r></w:ins>'))
+        report = json.loads(cli("check", wide, "--against", wide_source, "--no-config",
+                                "--json").stdout)["files"][0]
+        widened = [f for f in report["findings"] if f["code"] == "FID013"]
+        assert len(widened) == 1 and widened[0]["severity"] == "warn", widened
+        assert (widened[0]["extra"]["unchanged_words"], widened[0]["extra"]["changed_words"]) == (7, 1)
+        phrase = json.loads(cli("check", tracked, "--against", short, "--no-config",
+                                "--json").stdout)["files"][0]
+        assert "FID013" not in {f["code"] for f in phrase["findings"]}
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -355,6 +371,7 @@ def main():
           "0.4.8 expectations from the CLI, config and API with EXP001, "
           "0.4.9 FID012 tracked additions per story and its expectation, "
           "0.5.0 anonymize of a pair with its findings reproduced, "
+          "0.5.1 FID013 on a sentence replaced to change one word, not on a phrase, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

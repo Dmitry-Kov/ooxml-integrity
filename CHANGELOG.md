@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.5.1 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.5.1.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `FID013` (WARN): a tracked replacement the edit added that deletes and
   inserts again more unchanged words than it changes, at least four, counting

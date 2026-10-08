@@ -96,7 +96,7 @@ insertion context or addition and does not write that content into a baseline.
 
 ## FID013: a tracked replacement wider than the change
 
-Unreleased. `compare(source, edited)` reads, in the main document, each
+0.5.1. `compare(source, edited)` reads, in the main document, each
 effective header/footer slot and the conventional footnote and endnote parts,
 every paragraph's deleted and inserted text in document order. A deletion and
 an insertion by one author that touch, with no other text between them, are a
