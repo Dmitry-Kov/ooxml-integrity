@@ -15,10 +15,10 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
-The demo pins published `0.4.9` and reports its installed version in the footer.
+The demo pins published `0.5.0` and reports its installed version in the footer.
 [Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
-Version `0.4.9` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.4.9/).
-The [upgrade notes](docs/releases/0.4.9.md) describe changed findings and compatibility.
+Version `0.5.0` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.5.0/).
+The [upgrade notes](docs/releases/0.5.0.md) describe changed findings and compatibility.
 
 ```bash
 pip install ooxml-integrity
@@ -122,12 +122,12 @@ mismatch in adeu's own consistency suite
 ([#139](https://github.com/dealfluence/adeu/issues/139), fixed in 3.0.4).
 
 In use upstream: since [adeu #156](https://github.com/dealfluence/adeu/pull/156)
-(merged 2026-09-29), adeu's test suite installs `ooxml-integrity==0.4.5`. For
-each shared cross-platform scenario it applies the edits, runs `check()` on the
-output and `compare()` against the input, and fails on error-level findings.
-The two accept/reject scenarios declare the revision-count changes they request;
-[adeu #161](https://github.com/dealfluence/adeu/pull/161) (open) moves the pin
-to 0.4.8 and declares them with `expect()`.
+(merged 2026-09-29), adeu's test suite installs `ooxml-integrity`, pinned to
+0.4.8 since [adeu #161](https://github.com/dealfluence/adeu/pull/161) (merged
+2026-10-05). For each shared cross-platform scenario it applies the edits, runs
+`check()` on the output and `compare()` against the input, and fails on
+error-level findings. The two accept/reject scenarios declare the revision-count
+changes they request as expectations with `expect()`.
 
 ## Two questions
 
@@ -197,7 +197,7 @@ notes record the cases and their remaining limits.
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.4.9
+- uses: Dmitry-Kov/ooxml-integrity@v0.5.0
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -209,7 +209,7 @@ the source and edited files are still available for comparison.
 
 The action writes a summary to the job page and can produce JSON and SARIF
 reports. SARIF findings can appear as code-scanning annotations in a pull
-request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.9/docs/configuration.md)
+request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.5.0/docs/configuration.md)
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
@@ -236,7 +236,7 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe [0.4.9](docs/releases/0.4.9.md). Version `0.4.0` treated undefined character styles
+These tables describe [0.5.0](docs/releases/0.5.0.md). Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 `.docx`:
@@ -288,8 +288,8 @@ Use `--coverage` to see the scope of a result. It distinguishes
 `unsupported` surfaces per file, and a result with a gap says
 `no findings in checked surfaces`, not `clean`. `ooxml-integrity doctor`
 reports which measurements are available on the current machine.
-See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.9/docs/support-matrix.md) and
-[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.4.9/docs/coverage.md).
+See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.5.0/docs/support-matrix.md) and
+[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.5.0/docs/coverage.md).
 
 ## Limitations
 
