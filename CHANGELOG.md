@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.5.3 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.5.3.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - The source distribution's tests pass. Its include list matched `demo/README.md`
   and `runs/README.md` as well as the top-level README, so an unpacked sdist had
@@ -13,6 +16,10 @@
   page announced the one before it.
 - [`--expect`](docs/configuration.md) documents the `extra` keys and values of
   every fidelity finding.
+- The [results page](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
+  states what 0.4.8 and 0.4.9 did from the expectations analysis run with those
+  published wheels, no longer from this checkout's run without later rules.
+  Every attempt gives the same codes, so its numbers stay.
 
 ## 0.5.2 — 2026-10-09
 

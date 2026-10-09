@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.5.2
+    python research/release_smoke.py --version 0.5.3
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
