@@ -92,9 +92,21 @@ match = { story_kind = "header", variant = "default" }
 ```
 
 `match` names values the finding must carry: `part`, `where`, or any key of its
-`extra` in the JSON report (`tag`, `before`, `after` for `FID001`;
-`story_kind`, `variant`, `body` for `FID007`; `body` for `FID004`-`FID006`;
-`story`, `tag`, `author` for `FID012`).
+`extra`, which `check --json` prints for every finding. The fidelity findings an
+expectation usually names carry these:
+
+| code | `extra` keys | values |
+| --- | --- | --- |
+| `FID001`, `FID002` | `tag`, `before`, `after` | `tag` is the counted element: `commentReference`, `footnoteReference`, `ins`, `del`, `sdt`, `drawing`, `tbl`, `hyperlink`, `pStyle`, `rStyle`, `numPr`, `tblHeader`; the counts are numbers |
+| `FID003` | `before`, `after`, `tracked_deleted` | main-document text lengths in characters; `tracked_deleted`, when present, the text the edit kept as new tracked deletions |
+| `FID004`-`FID006` | `body`, `author`, `lost`, `in_source` | `body` is the comment, footnote or endnote text, whitespace-normalised |
+| `FID007` | `story_kind`, `variant`, `body`, `lost`, `in_source` | `header` or `footer`; `default`, `first` or `even` |
+| `FID008` | `story_kind`, `variant`, `tag`, `before`, `after` | as `FID007`, with a `tag` as for `FID001` |
+| `FID009`, `FID010` | `tag`, `body`, `lost`, `in_source` | `tag` is `ins` or `del`; `body` the revision text |
+| `FID011` | `author`, `date`, `source_text_sha256`, `additional_text`, `additional_characters` | the earlier insertion's author and date, the text added under them |
+| `FID012` | `story`, `tag`, `author`, `count` | `story` is `document`, `header/default` (and the other slots), `footnotes` or `endnotes`; `tag` is `ins`, `del`, `moveFrom` or `moveTo` |
+| `FID013` | `story`, `author`, `unchanged_words`, `changed_words`, `deleted`, `inserted` | `story` as for `FID012` |
+
 Values compare as text. `path` is a glob as for `ignore`, `reason` is required,
 and `required = false` allows a finding without requiring it, for a change the
 checker may or may not report, such as `FID009` for a direct edit inside an

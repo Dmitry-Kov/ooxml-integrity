@@ -8,7 +8,8 @@ import zipfile
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-pytestmark = pytest.mark.skipif(not (ROOT / "demo").is_dir(), reason="demo is not shipped in the sdist")
+pytestmark = pytest.mark.skipif(not (ROOT / "demo/worker.js").is_file(),
+                                reason="demo is not shipped in the sdist")
 
 
 @pytest.fixture

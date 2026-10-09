@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- The source distribution's tests pass. Its include list matched `demo/README.md`
+  and `runs/README.md` as well as the top-level README, so an unpacked sdist had
+  those directories with nothing else in them, and the tests that skip without
+  the demo ran and failed; the agent run fixtures were missing. The list is
+  anchored at the root, `runs/`, `action.yml` and `.github/` are shipped, the
+  demo is not, and CI runs the suite from the built sdist.
+- The README's opening no longer names a version. It named the release the
+  demo pinned, which changes only after publication, so each release's PyPI
+  page announced the one before it.
+- [`--expect`](docs/configuration.md) documents the `extra` keys and values of
+  every fidelity finding.
+
 ## 0.5.2 — 2026-10-09
 
 [Upgrade notes and verified publication](docs/releases/0.5.2.md). Published

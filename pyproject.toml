@@ -51,8 +51,12 @@ ooxml-integrity = "ooxml_integrity.cli:main"
 packages = ["src/ooxml_integrity"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/", "tests/", "research/", "corpus/", "evidence/", "docs/",
-           "CHANGELOG.md", "README.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md"]
+# Anchored at the root: an unanchored "README.md" also matches demo/README.md
+# and runs/README.md, and an empty demo/ made the tests that skip without the
+# demo run and fail. runs/ holds test fixtures; the demo itself is not shipped.
+include = ["/src/", "/tests/", "/research/", "/corpus/", "/evidence/", "/docs/", "/runs/",
+           "/action.yml", "/.github/", "/CHANGELOG.md", "/README.md", "/LICENSE",
+           "/SECURITY.md", "/CONTRIBUTING.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

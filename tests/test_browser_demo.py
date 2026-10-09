@@ -13,7 +13,8 @@ from ooxml_integrity import fonts
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "demo"
-pytestmark = pytest.mark.skipif(not DEMO.is_dir(), reason="static demo is not shipped in the PyPI sdist")
+pytestmark = pytest.mark.skipif(not (DEMO / "bridge.py").is_file(),
+                                reason="static demo is not shipped in the PyPI sdist")
 
 
 @pytest.fixture
