@@ -175,3 +175,15 @@ def test_the_benchmark_expectation_analysis_reproduces(tmp_path):
     for mode in ('with', 'with_tracked'):
         moves = {(r['without']['outcome'], r[mode]['outcome']) for r in again['results']}
         assert ('detected', 'missed') not in moves and ('clean', 'false alarm') not in moves
+
+
+def test_the_published_runs_read_the_same_attempts_and_expectations():
+    from research import build_benchmark_page as page
+    checkout = json.loads((BENCH / 'expectations/results.json').read_text())
+    attempts = [(r['adapter'], r['repeat'], r['task']) for r in checkout['results']]
+    for version, path in page.PUBLISHED.items():
+        run = json.loads(path.read_text())
+        assert run['checker'] == f'ooxml-integrity {version} installed'
+        assert [(r['adapter'], r['repeat'], r['task']) for r in run['results']] == attempts
+        assert run['expectations'] == checkout['expectations']
+        assert run['tracked_expectations'] in ({}, checkout['tracked_expectations'])

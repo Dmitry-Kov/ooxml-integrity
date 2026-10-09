@@ -20,7 +20,13 @@ replacement, 0.4.9's FID012 with the editor as author in the task's
 story (required): a correct tracked edit loses nothing, so only this says
 whether it landed where it was asked to.
 
+With --installed the checker is the ooxml_integrity installed in the running
+interpreter, such as a published wheel in a fresh environment, instead of this
+checkout's src/. --no-tracked leaves out the third reading, for a version
+without FID012.
+
     python research/review_history_expectations.py [--output PATH]
+    python research/review_history_expectations.py --installed [--no-tracked] --output PATH
 """
 from __future__ import annotations
 
@@ -35,7 +41,10 @@ from pathlib import Path
 from lxml import etree
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+#: Read before the import below decides which checker is used.
+INSTALLED = "--installed" in sys.argv[1:]
+if not INSTALLED:
+    sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
 from ooxml_integrity import Expectation, check, compare, expect, __version__  # noqa: E402
@@ -121,14 +130,22 @@ def outcome(record: dict, codes: list[str]) -> str:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--installed", action="store_true",
+                        help="use the installed ooxml_integrity, not this checkout's src/")
+    parser.add_argument("--no-tracked", action="store_true",
+                        help="leave out the FID012 reading, for a version without FID012")
     args = parser.parse_args(argv)
+    if args.installed != INSTALLED:
+        parser.error("--installed must be on the command line, before the checker is imported")
+    readings = ("without", "with") if args.no_tracked else ("without", "with", "with_tracked")
     declared = json.loads(bench.TASKS.read_text(encoding="utf-8"))
     tasks = {t["id"]: t for t in declared["tasks"]}
     plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
                   for e in expectations_for(t)] for tid, t in tasks.items()}
     tracked_plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
                           for e in tracked_expectations(t, declared["editor"])]
-                    for tid, t in tasks.items() if tracked_expectations(t, declared["editor"])}
+                    for tid, t in tasks.items()
+                    if not args.no_tracked and tracked_expectations(t, declared["editor"])}
     evaluation = json.loads(bench.EVALUATION.read_text(encoding="utf-8"))
     rows = []
     table = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
@@ -138,25 +155,23 @@ def main(argv=None) -> int:
         task = tasks[record["task"]]
         source = ROOT / task["source_path"]
         output = bench.CAPTURES / f"{record['adapter']}-{record['repeat']}" / f"{record['task']}.docx"
-        if bench.unparseable(output):
-            before = after = tracked = {"codes": ["XML001"], "expected": []}
-        else:
-            before = actionable(source, output, [])
-            after = actionable(source, output, expectations_for(task))
-            tracked = actionable(source, output, expectations_for(task)
-                                 + tracked_expectations(task, declared["editor"]))
+        plans = {"without": [], "with": expectations_for(task),
+                 "with_tracked": expectations_for(task)
+                 + tracked_expectations(task, declared["editor"])}
         row = {"adapter": record["adapter"], "repeat": record["repeat"], "task": record["task"],
                "completed": bool(record.get("completed")),
-               "preserved": record["preservation"]["preserved"],
-               "without": {**before, "outcome": outcome(record, before["codes"])},
-               "with": {**after, "outcome": outcome(record, after["codes"])},
-               "with_tracked": {**tracked, "outcome": outcome(record, tracked["codes"])}}
-        rows.append(row)
-        for mode in ("without", "with", "with_tracked"):
+               "preserved": record["preservation"]["preserved"]}
+        broken = bench.unparseable(output)
+        for mode in readings:
+            got = ({"codes": ["XML001"], "expected": []} if broken
+                   else actionable(source, output, plans[mode]))
+            row[mode] = {**got, "outcome": outcome(record, got["codes"])}
             table[record["adapter"]][mode][row[mode]["outcome"]] += 1
+        rows.append(row)
     result = {
         "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
-        "checker": f"ooxml-integrity {__version__} from this checkout",
+        "checker": f"ooxml-integrity {__version__} "
+                   + ("installed" if INSTALLED else "from this checkout"),
         "oracle": "verdicts read from evaluation.json",
         "expectations": plan,
         "tracked_expectations": tracked_plan,
@@ -166,8 +181,7 @@ def main(argv=None) -> int:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     for adapter, modes in result["summary"].items():
-        print(adapter, "| without:", modes["without"], "| with:", modes["with"],
-              "| with tracked:", modes["with_tracked"])
+        print(adapter, *(f"| {m}: {modes[m]}" for m in readings))
     return 0
 
 
