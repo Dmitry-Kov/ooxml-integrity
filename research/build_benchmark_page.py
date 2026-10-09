@@ -5,8 +5,10 @@
     python research/build_benchmark_page.py --check  # fails if the page is out of date
 
 Every number on the page is read from the committed evidence: the frozen
-evaluation (evaluation.json) and the later expectations analysis
-(expectations/results.json). The page is static HTML with an inline SVG chart
+evaluation (evaluation.json) and the later expectations analysis, run with the
+published 0.4.8 and 0.4.9 wheels for what the page says those versions did
+(expectations/results-0.4.8.json, results-0.4.9.json) and with this checkout
+for the latest (expectations/results.json). The page is static HTML with an inline SVG chart
 and a table holding the same numbers; Pages deploys it with the demo.
 """
 from __future__ import annotations
@@ -63,13 +65,11 @@ def tally() -> dict:
 
 
 #: Rule codes no published version has yet. The page describes published
-#: versions, so the analysis is recounted without them until a release ships
-#: them; the analysis itself reads this checkout.
+#: versions, so this checkout's analysis is recounted without them until a
+#: release ships them.
 UNRELEASED: frozenset = frozenset()
-#: Rules later than 0.4.9: the paragraphs about 0.4.8's expectations and
-#: 0.4.9's FID012 are counted without them, so each states what that
-#: version did; the 0.5.1 paragraph adds them.
-AFTER_049 = frozenset({"FID013"})
+#: The analysis run with a published wheel, for the paragraph about that version.
+PUBLISHED = {v: EVIDENCE / f"expectations/results-{v}.json" for v in ("0.4.8", "0.4.9")}
 
 
 def _outcome(row: dict, codes: list) -> str:
@@ -80,11 +80,17 @@ def _outcome(row: dict, codes: list) -> str:
     return "false alarm" if codes else "clean"
 
 
-def expectations(excluded: frozenset = UNRELEASED) -> dict:
-    data = json.loads((EVIDENCE / "expectations/results.json").read_text(encoding="utf-8"))
+def expectations(version: str | None = None, excluded: frozenset = UNRELEASED) -> dict:
+    """Counts of one run of the analysis: this checkout's, or a published wheel's."""
+    path = PUBLISHED[version] if version else EVIDENCE / "expectations/results.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if version and data["checker"] != f"ooxml-integrity {version} installed":
+        raise SystemExit(f"{path.name} was not run with the published {version}: {data['checker']}")
     total = collections.Counter()
     for row in data["results"]:
         for mode in ("without", "with", "with_tracked"):
+            if mode not in row:
+                continue
             codes = [c for c in row[mode]["codes"] if c not in excluded]
             total[(mode, _outcome(row, codes))] += 1
     return {
@@ -142,8 +148,9 @@ def table(counts: dict) -> str:
 
 def page() -> str:
     counts = tally()
-    x = expectations(UNRELEASED | AFTER_049)
-    latest = expectations(UNRELEASED)
+    x = expectations("0.4.8")
+    tracked = expectations("0.4.9")
+    latest = expectations()
     cli = counts["docx-cli"]
     return TEMPLATE.format(
         chart=chart(counts), table=table(counts), blob=BLOB, repo=REPO,
@@ -153,7 +160,7 @@ def page() -> str:
         flagged=f"{x['flagged_without']} → {x['flagged_with']}", correct=x["correct"],
         flagged_without=x["flagged_without"], flagged_with=x["flagged_with"],
         caught_without=x["caught_without"], caught_with=x["caught_with"], damaged=x["damaged"],
-        caught_tracked=x["caught_tracked"], flagged_tracked=x["flagged_tracked"],
+        caught_tracked=tracked["caught_tracked"], flagged_tracked=tracked["flagged_tracked"],
         caught_latest=latest["caught_tracked"], flagged_latest=latest["flagged_tracked"],
         setter=f"{counts['python-docx-setter']['damaged']} of {counts['python-docx-setter']['ok']}",
     )
@@ -284,7 +291,7 @@ TEMPLATE = """<!doctype html>
       <div class="prose">
         <p><a href="{repo}">ooxml-integrity</a> 0.4.6, the published version the protocol froze, compares an edited file with its source. It reported every comment anchor and footnote reference python-docx lost and the malformed comments part, and missed what it did not model: the escaped bullets, the misattributed words, the title edited instead of the header. 0.4.7 adds warnings for the first two.</p>
         <p>Most of its findings on correct edits were the requested change itself: accepting a revision lowers the revision count, an untracked header edit changes the header. 0.4.8 lets a caller <a href="{repo}/blob/main/docs/configuration.md#changes-the-edit-was-asked-to-make">declare such a change</a>: a matching finding is then expected, and an expectation nothing matches is an error, because the requested change did not happen. With expectations taken from each task's declaration, flagged correct outputs fell from {flagged_without} to {flagged_with} of {correct}, each of those left a true report outside the oracle's scope, and caught damaged outputs rose from {caught_without} to {caught_with} of {damaged}: the title edited instead of the header now shows.</p>
-        <p>A correct tracked edit loses nothing, so it draws no error to expect. 0.4.9 lists the tracked changes an edit added, per part of the document and author (<code>FID012</code>), and an expectation can require one in the header. Expecting that for every tracked task as well, caught damaged outputs rise to {caught_tracked} of {damaged} and flagged correct outputs stay at {flagged_tracked}: a tool that made its tracked edit in the document title instead of the header now fails too. <a href="{blob}/expectations/README.md">Analysis</a>.</p>
+        <p>A correct tracked edit loses nothing, so it draws no error to expect. 0.4.9 lists the tracked changes an edit added, per part of the document and author (<code>FID012</code>), and an expectation can require one in the header. Expecting that for every tracked task as well, caught damaged outputs rise to {caught_tracked} of {damaged} and flagged correct outputs stay at {flagged_tracked}: a tool that made its tracked edit in the document title instead of the header now fails too. <a href="{blob}/expectations/README.md">Analysis</a>, run with the published 0.4.8 and 0.4.9.</p>
         <p>0.5.1 also reports a tracked replacement that deletes and inserts again more unchanged words than it changes (<code>FID013</code>): docx-cli edits a footnote by striking its whole text and inserting it again with one phrase changed, which nothing reported before because nothing is lost. With it, caught damaged outputs reach {caught_latest} of {damaged}, and flagged correct outputs stay at {flagged_latest}. The two left are one tool's untracked edit of the wrong words inside another reviewer's pending insertion, in both captures.</p>
       </div>
     </section>

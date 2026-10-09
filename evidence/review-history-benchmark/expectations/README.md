@@ -4,7 +4,8 @@ A later analysis of the frozen captures, not part of the [frozen evaluation](../
 It asks how many of the checker's findings on correct edits are only the
 changes the task asked for, and whether declaring those changes costs any
 detection. The checker is this checkout's, run once as is and once with
-expectations; the oracle's verdicts (completed, preserved) are read from
+expectations, and the readings credited to 0.4.8 and 0.4.9 were also run with
+those [published wheels](#published-versions); the oracle's verdicts (completed, preserved) are read from
 [evaluation.json](../evaluation.json), not recomputed. Status `ok` attempts of
 both waves are included; superseded captures are not.
 
@@ -88,6 +89,27 @@ comments part) it fires on these four docx-cli notes only, and a real agent's
 sentence rewrite that keeps its first four words (`runs/t5_rewrite_bare`) is
 not reported, because nine of its words change.
 
+## Published versions
+
+What the [results page](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
+says 0.4.8 and 0.4.9 did was run with those versions as published: each wheel
+installed from PyPI into a fresh environment, its sha256 the one in its release
+notes ([0.4.8](../../../docs/releases/0.4.8.md) `4fea2a4e…`,
+[0.4.9](../../../docs/releases/0.4.9.md) `f63b535e…`), reading the same
+captures and expectations with `--installed`. 0.4.8 has no `FID012`, so its
+run leaves out the third reading.
+
+| | Without | With 0.4.8 expectations | Also expecting `FID012` |
+| --- | ---: | ---: | ---: |
+| 0.4.8: correct outputs flagged (of 537) | 130 | 12 | |
+| 0.4.8: damaged outputs caught (of 69) | 59 | 63 | |
+| 0.4.9: correct outputs flagged (of 537) | 130 | 12 | 12 |
+| 0.4.9: damaged outputs caught (of 69) | 59 | 63 | 65 |
+
+Every attempt has, in every reading, the same new codes as this checkout's run
+without `FID013`. [results-0.4.8.json](results-0.4.8.json) and
+[results-0.4.9.json](results-0.4.9.json) have every attempt.
+
 ## Limits
 
 An expectation states which change is allowed, not what the result must look
@@ -97,4 +119,12 @@ independent documents.
 
 ```sh
 python research/review_history_expectations.py
+```
+
+A published version, here 0.4.9 (for 0.4.8 add `--no-tracked`):
+
+```sh
+python -m venv /tmp/ooxml-integrity-0.4.9
+/tmp/ooxml-integrity-0.4.9/bin/python -m pip install --no-cache-dir ooxml-integrity==0.4.9
+/tmp/ooxml-integrity-0.4.9/bin/python research/review_history_expectations.py --installed --output evidence/review-history-benchmark/expectations/results-0.4.9.json
 ```
