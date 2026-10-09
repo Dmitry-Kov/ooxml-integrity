@@ -167,6 +167,21 @@ jobs:
           print(f"SARIF ok: {len(run['results'])} result(s), rules {sorted(codes)}")
           PYEOF
 
+      # The sdist is what a packager tests. Its include list once matched
+      # nested READMEs, which made demo/ and runs/ exist empty and turned the
+      # tests that skip without them into failures; run the suite from it.
+      - name: The sdist carries a passing test suite
+        if: runner.os == 'Linux' && matrix.python == '3.12'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet build
+          python -m build --sdist --outdir "$RUNNER_TEMP/sdist" > /dev/null
+          mkdir "$RUNNER_TEMP/sdist-src"
+          tar -xzf "$RUNNER_TEMP"/sdist/*.tar.gz -C "$RUNNER_TEMP/sdist-src" --strip-components=1
+          cd "$RUNNER_TEMP/sdist-src"
+          PYTHONPATH="$PWD/src" python -m pytest -q -p no:cacheprovider
+
       # Only the two fixtures were rebuilt, so only they are checked. Diffing
       # the whole tree also catches line-ending noise from checkout on Windows,
       # which has nothing to do with reproducibility.

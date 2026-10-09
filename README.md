@@ -15,10 +15,11 @@ your machine.
 
 The [browser demo](https://dmitry-kov.github.io/ooxml-integrity/) runs without
 installation. Files stay in your tab; Python downloads once at startup.
-The demo pins published `0.5.2` and reports its installed version in the footer.
-[Real browser checks](tests/browser/README.md) gate changes before Pages deployment.
-Version `0.5.2` is [available on PyPI](https://pypi.org/project/ooxml-integrity/0.5.2/).
-The [upgrade notes](docs/releases/0.5.2.md) describe changed findings and compatibility.
+The demo pins a published release, updated after each one, and reports its
+version in the footer. [Real browser checks](tests/browser/README.md) gate changes before Pages
+deployment. Releases are published on [PyPI](https://pypi.org/project/ooxml-integrity/);
+each one's [upgrade notes](docs/releases/) describe changed findings and
+compatibility.
 
 ```bash
 pip install ooxml-integrity
@@ -58,7 +59,9 @@ removes comment anchors, footnote references, run formatting and tracked-change
 markup stored there. The file can still open normally after those losses.
 
 In a separate test with six deliberately introduced defect cases, the checker
-found all six. XML parsing, a namespace/root-element check and successful
+found all six: five by checking the edited file alone, and a Markdown round trip,
+which leaves the file internally consistent, only by comparing it with its source
+(`--against`). XML parsing, a namespace/root-element check and successful
 LibreOffice PDF conversion did not distinguish those cases from the controls.
 The experiment did not run a full XSD validator or a systematic visual review.
 Across the eight real agent runs, the checker reported no false positives.
