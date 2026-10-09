@@ -1,6 +1,34 @@
 # Browser validation
 
-## Published 0.5.2 pin — 2026-10-05 (Asia/Tashkent)
+## Published 0.5.3 pin — 2026-10-09 (Asia/Tashkent)
+
+Version 0.5.3 was published before this pin update. The [publication receipt](../evidence/releases/0.5.3/publication.json)
+records green source CI on `ebe727972e02eb206b70ce2ae163517b4c08f5ef`, all release jobs,
+matching GitHub/PyPI hashes and the fresh no-cache public installation smoke.
+The public wheel SHA-256 is `2221cc642a9451ab0722173d2d3fbb378c2d5ee3a369834b769f1565e18ce248`.
+
+Both local browser modes passed all 7 scenarios with zero skips/retries:
+public PyPI installation and a newly built checkout wheel in an isolated preview.
+The public mode requested its wheel from files.pythonhosted.org; the preview
+used only its declared local wheel, whose hash differs from the published one
+because the wheel metadata carries the updated README. The observed footer was
+**ooxml-integrity 0.5.3 · Pyodide 314.0.6**. Chromium
+153.0.8010.12, Playwright 1.63.0 and Node v24.3.0 were used.
+[Browser receipt](../evidence/releases/0.5.3/demo-pin.json) includes actual runtime/Doctor
+versions, downloads, page-file hashes and separate scenario results for both modes.
+
+These checks cover the existing synthetic examples, JSON/coverage/Doctor,
+upload handling, responsive viewports, runtime/font failures, voluntary feedback,
+delayed startup and the actual 60-second worker deadline/recovery. No user
+document was uploaded and no feedback issue was submitted. This is Chromium
+verification, not physical mobile devices, other browsers or Office rendering.
+
+This record describes the branch tested locally. The pin PR must pass its
+checks before merge; Pages then repeats both modes before deployment. Only the
+public demo directory is deployed. The immutable release tag and archives remain
+unchanged.
+
+## Published 0.5.2 pin — 2026-10-09 (Asia/Tashkent)
 
 Version 0.5.2 was published before this pin update. The [publication receipt](../evidence/releases/0.5.2/publication.json)
 records green source CI on `fd65852b54f8f29768228e05d3a372b0467a12de`, all release jobs,
@@ -28,7 +56,7 @@ checks before merge; Pages then repeats both modes before deployment. Only the
 public demo directory is deployed. The immutable release tag and archives remain
 unchanged.
 
-## Published 0.5.1 pin — 2026-10-05 (Asia/Tashkent)
+## Published 0.5.1 pin — 2026-10-08 (Asia/Tashkent)
 
 Version 0.5.1 was published before this pin update. The [publication receipt](../evidence/releases/0.5.1/publication.json)
 records green source CI on `f1daf5090848b8b0b5251e9eb2822c547e4a952a`, all release jobs,
@@ -56,7 +84,7 @@ checks before merge; Pages then repeats both modes before deployment. Only the
 public demo directory is deployed. The immutable release tag and archives remain
 unchanged.
 
-## Published 0.5.0 pin — 2026-10-05 (Asia/Tashkent)
+## Published 0.5.0 pin — 2026-10-06 (Asia/Tashkent)
 
 Version 0.5.0 was published before this pin update. The [publication receipt](../evidence/releases/0.5.0/publication.json)
 records green source CI on `0bed3ac2965d70d261cd0121b0ba058c6186e861`, all release jobs,
