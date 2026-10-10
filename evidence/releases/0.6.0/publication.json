@@ -1,0 +1,237 @@
+{
+  "verified_utc": "2026-10-10T12:56:38.170003+00:00",
+  "version": "0.6.0",
+  "tag_object": "26d9a616a252973d6824b5797ad7bf454f98b57b",
+  "tag_commit": "b101e4bc06409842418a89d8045c9f0002cead87",
+  "release": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/Dmitry-Kov/ooxml-integrity/releases/assets/627979629",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-10-10T12:55:48Z",
+        "digest": "sha256:7bfde5583054d38ad3d26baa2d0f853a5f97bafa56e928f53c2085f1f065e4ce",
+        "downloadCount": 0,
+        "id": "RA_kwDOUKGohs4lbjVt",
+        "label": "",
+        "name": "ooxml_integrity-0.6.0-py3-none-any.whl",
+        "size": 129965,
+        "state": "uploaded",
+        "updatedAt": "2026-10-10T12:55:49Z",
+        "url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/download/v0.6.0/ooxml_integrity-0.6.0-py3-none-any.whl"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Dmitry-Kov/ooxml-integrity/releases/assets/627979631",
+        "contentType": "application/x-gtar",
+        "createdAt": "2026-10-10T12:55:48Z",
+        "digest": "sha256:9f207dd22684ad5523c22f9e2eb5fbf64812190d4afa91bb241721c7006ba554",
+        "downloadCount": 0,
+        "id": "RA_kwDOUKGohs4lbjVv",
+        "label": "",
+        "name": "ooxml_integrity-0.6.0.tar.gz",
+        "size": 17875312,
+        "state": "uploaded",
+        "updatedAt": "2026-10-10T12:55:49Z",
+        "url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/download/v0.6.0/ooxml_integrity-0.6.0.tar.gz"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Dmitry-Kov/ooxml-integrity/releases/assets/627979626",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-10-10T12:55:48Z",
+        "digest": "sha256:2cdd4f5c8593ce9d352a81c64ff9bc59108d518d05be25f6f3e068d9aaf27091",
+        "downloadCount": 0,
+        "id": "RA_kwDOUKGohs4lbjVq",
+        "label": "",
+        "name": "SHA256SUMS",
+        "size": 210,
+        "state": "uploaded",
+        "updatedAt": "2026-10-10T12:55:49Z",
+        "url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/download/v0.6.0/SHA256SUMS"
+      }
+    ],
+    "isDraft": false,
+    "isPrerelease": false,
+    "publishedAt": "2026-10-10T12:55:49Z",
+    "tagName": "v0.6.0",
+    "targetCommitish": "main",
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity/releases/tag/v0.6.0"
+  },
+  "sha256": {
+    "ooxml_integrity-0.6.0-py3-none-any.whl": "7bfde5583054d38ad3d26baa2d0f853a5f97bafa56e928f53c2085f1f065e4ce",
+    "ooxml_integrity-0.6.0.tar.gz": "9f207dd22684ad5523c22f9e2eb5fbf64812190d4afa91bb241721c7006ba554"
+  },
+  "pypi_urls": [
+    {
+      "filename": "ooxml_integrity-0.6.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/65/dc/f203f838c6c296dafacefac2143b4c851fdfd142c4e57ea13eaa73718c3c/ooxml_integrity-0.6.0-py3-none-any.whl",
+      "size": 129965,
+      "upload_time_iso_8601": "2026-10-10T12:55:32.291210Z",
+      "digests": {
+        "blake2b_256": "65dcf203f838c6c296dafacefac2143b4c851fdfd142c4e57ea13eaa73718c3c",
+        "md5": "6d926b3a4fb17eee8dc17a42f9cec1ec",
+        "sha256": "7bfde5583054d38ad3d26baa2d0f853a5f97bafa56e928f53c2085f1f065e4ce"
+      }
+    },
+    {
+      "filename": "ooxml_integrity-0.6.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/8c/dd/394ae98f01d4f462da6dc6b750bcb2ba3eeadd180fc1607cc7497b5173d2/ooxml_integrity-0.6.0.tar.gz",
+      "size": 17875312,
+      "upload_time_iso_8601": "2026-10-10T12:55:34.335234Z",
+      "digests": {
+        "blake2b_256": "8cdd394ae98f01d4f462da6dc6b750bcb2ba3eeadd180fc1607cc7497b5173d2",
+        "md5": "1e398bae43dbcd6ecf9365b784fdcb45",
+        "sha256": "9f207dd22684ad5523c22f9e2eb5fbf64812190d4afa91bb241721c7006ba554"
+      }
+    }
+  ],
+  "hash_agreement": "GitHub Release assets = SHA256SUMS = PyPI metadata",
+  "local_candidate_matches": {
+    "ooxml_integrity-0.6.0-py3-none-any.whl": true,
+    "ooxml_integrity-0.6.0.tar.gz": false
+  },
+  "source_ci": {
+    "conclusion": "success",
+    "databaseId": 38048942159,
+    "event": "push",
+    "headSha": "b101e4bc06409842418a89d8045c9f0002cead87",
+    "jobs": [
+      {
+        "name": "ruff (pyflakes)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:35:30Z",
+        "databaseId": 114203993981
+      },
+      {
+        "name": "the action checks its own fixtures",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:35:41Z",
+        "databaseId": 114203994097
+      },
+      {
+        "name": "tests (py3.14 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:37:36Z",
+        "databaseId": 114203994102
+      },
+      {
+        "name": "tests (py3.9 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:39:14Z",
+        "databaseId": 114203994144
+      },
+      {
+        "name": "tests (py3.12 / macos-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:32Z",
+        "completedAt": "2026-10-10T11:38:55Z",
+        "databaseId": 114203994156
+      },
+      {
+        "name": "tests (py3.10 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:26Z",
+        "completedAt": "2026-10-10T11:37:37Z",
+        "databaseId": 114203994159
+      },
+      {
+        "name": "tests (py3.12 / windows-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:40:18Z",
+        "databaseId": 114203994166
+      },
+      {
+        "name": "tests (py3.13 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:39:11Z",
+        "databaseId": 114203994183
+      },
+      {
+        "name": "tests (py3.11 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:26Z",
+        "completedAt": "2026-10-10T11:39:08Z",
+        "databaseId": 114203994193
+      },
+      {
+        "name": "tests (py3.12 / ubuntu-latest)",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T11:35:25Z",
+        "completedAt": "2026-10-10T11:40:40Z",
+        "databaseId": 114203994194
+      }
+    ],
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/38048942159",
+    "workflowName": "CI"
+  },
+  "release_run": {
+    "conclusion": "success",
+    "databaseId": 38053525044,
+    "event": "push",
+    "headSha": "b101e4bc06409842418a89d8045c9f0002cead87",
+    "jobs": [
+      {
+        "name": "Verify release prerequisites",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T12:51:52Z",
+        "completedAt": "2026-10-10T12:51:58Z",
+        "databaseId": 114217272173
+      },
+      {
+        "name": "Verify the published Action ref",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T12:52:01Z",
+        "completedAt": "2026-10-10T12:52:26Z",
+        "databaseId": 114217300856
+      },
+      {
+        "name": "build / Wheel, sdist and Pyodide",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T12:52:01Z",
+        "completedAt": "2026-10-10T12:55:05Z",
+        "databaseId": 114217300970
+      },
+      {
+        "name": "Publish to PyPI",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T12:55:10Z",
+        "completedAt": "2026-10-10T12:55:39Z",
+        "databaseId": 114217853165
+      },
+      {
+        "name": "Create GitHub Release",
+        "conclusion": "success",
+        "startedAt": "2026-10-10T12:55:41Z",
+        "completedAt": "2026-10-10T12:55:51Z",
+        "databaseId": 114217951682
+      }
+    ],
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity/actions/runs/38053525044",
+    "workflowName": "Release"
+  },
+  "public_install": {
+    "download_info": {
+      "url": "https://files.pythonhosted.org/packages/65/dc/f203f838c6c296dafacefac2143b4c851fdfd142c4e57ea13eaa73718c3c/ooxml_integrity-0.6.0-py3-none-any.whl",
+      "archive_info": {
+        "hash": "sha256=7bfde5583054d38ad3d26baa2d0f853a5f97bafa56e928f53c2085f1f065e4ce",
+        "hashes": {
+          "sha256": "7bfde5583054d38ad3d26baa2d0f853a5f97bafa56e928f53c2085f1f065e4ce"
+        }
+      }
+    },
+    "version": "0.6.0",
+    "no_cache": true,
+    "smoke_exit_code": 0,
+    "smoke_stdout_sha256": "e41143273b06f9ab7a6f57ee45e2282b2871cdb7f118787a3a8390c0e29d5f74",
+    "python": "3.12.8"
+  },
+  "public_install_first_attempt": {
+    "exit_code": 1,
+    "started_utc": "2026-10-10T12:56:56.506981+00:00",
+    "cause": "pip's simple index did not list the version yet although the JSON API did; the retry ran once the simple index listed the wheel"
+  }
+}

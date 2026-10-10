@@ -338,7 +338,7 @@ automatically just to make an upgrade pass.
    the CI run to finish before adopting the upgrade.
 
 For a published package, pin explicitly, for example
-`python -m pip install "ooxml-integrity==0.5.3"`. With the GitHub Action, pin
+`python -m pip install "ooxml-integrity==0.6.0"`. With the GitHub Action, pin
 the Action ref and, when using PyPI, set the `version` input explicitly as in
 the [pilot guide](pilot.md#try-it-after-generation-in-ci). The optional `source`
 input takes precedence over `version`; with neither override the Action

@@ -140,7 +140,7 @@ A tracked edit made anywhere else leaves this unmatched and fails with `EXP001`.
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.5.3
+- uses: Dmitry-Kov/ooxml-integrity@v0.6.0
   id: docs
   continue-on-error: true
   with:
