@@ -189,10 +189,18 @@ jobs:
 
       # Only the two fixtures were rebuilt, so only they are checked. Diffing
       # the whole tree also catches line-ending noise from checkout on Windows,
-      # which has nothing to do with reproducibility.
+      # which has nothing to do with reproducibility. The fixtures were deflated
+      # by zlib; CPython 3.14 for Windows uses zlib-ng, which writes other bytes
+      # for the same data, so that leg says so and stops, as the byte-for-byte
+      # rebuild tests do (tests/conftest.py).
       - name: The rebuilt fixtures are byte-identical to the committed ones
         shell: bash
         run: |
+          zlib=$(python -c "import zlib; print(zlib.ZLIB_RUNTIME_VERSION)")
+          if [[ "$zlib" == *zlib-ng* ]]; then
+            echo "zlib $zlib deflates into other bytes; the other legs check byte identity"
+            exit 0
+          fi
           if ! git diff --quiet -- corpus/base.docx corpus/deck.pptx; then
             echo "::error::rebuilding a fixture changed it - the build is not reproducible"
             git diff --stat -- corpus/base.docx corpus/deck.pptx

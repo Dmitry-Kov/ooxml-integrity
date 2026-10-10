@@ -52,8 +52,8 @@
 - The package ships `py.typed`, so type checkers read its annotations.
 - CI also runs on Windows with Python 3.9 and 3.14. CPython 3.14 for Windows
   deflates with zlib-ng, which writes other bytes than the zlib the fixtures
-  were built with, so the three tests that rebuild fixtures byte for byte skip
-  there and nowhere else. Dependabot also proposes the browser tests'
+  were built with, so the three tests that rebuild fixtures byte for byte and
+  CI's byte-identity check of the rebuilt fixtures skip there and nowhere else. Dependabot also proposes the browser tests'
   Playwright update and runtime dependency ranges a new release falls outside.
 
 ## 0.6.0 — 2026-10-10
