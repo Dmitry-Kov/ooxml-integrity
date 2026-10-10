@@ -19,6 +19,7 @@ DOCX_COVERAGE_IDS = (
     "package.xml",
     "package.content-types",
     "package.relationships",
+    "package.related-content-types",
     "docx.styles",
     "docx.numbering",
     "docx.footnotes",

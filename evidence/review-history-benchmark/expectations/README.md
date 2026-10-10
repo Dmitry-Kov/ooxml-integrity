@@ -44,7 +44,8 @@ protocol's rule; `EXP001` counts.
   oracle's scope: replies with no anchor in the document (`CMT005`, Codex and
   OpenCode), which Word for Mac does not display ([word check](../word-check/README.md));
   adeu's repeated revision id (`REV001`); an undefined `CommentReference` style
-  (`STY001`, Codex). No correct output gained an `EXP001`.
+  (`STY001`, Codex). Codex's five S1 outputs also carry the unreleased `PKG010`;
+  see [below](#content-types-word-refuses). No correct output gained an `EXP001`.
 - **Damaged outputs.** None that was caught is missed with expectations. Four
   more are caught: Office-Word-MCP-Server and docxengine edited the document
   title instead of the requested header on S2, so the expected `FID007` did not
@@ -89,6 +90,20 @@ comments part) it fires on these four docx-cli notes only, and a real agent's
 sentence rewrite that keeps its first four words (`runs/t5_rewrite_bare`) is
 not reported, because nine of its words change.
 
+## Content types Word refuses
+
+The unreleased `PKG010` (ERROR) reports a part the main document relates whose
+declared content type is not the one its relationship type requires. It fires
+on Codex's five K5-S1 outputs, which declare `commentsExtended` as
+`application/vnd.ms-word.commentsExtended+xml`. Word for Mac refuses them as
+unreadable and opens them with only that type corrected
+([Word check](../word-check-content-type/README.md)). The oracle does not read
+content types and counts all five as correct. They were already flagged for
+their unanchored reply (`CMT005`), so no count above changes. `PKG010` fires on
+no other attempt, and on no other file in the repository or the public corpora
+([run](../../docx-content-types/README.md)). The results page describes
+published versions and leaves it out until a release ships it.
+
 ## Published versions
 
 What the [results page](https://dmitry-kov.github.io/ooxml-integrity/benchmark/)
@@ -107,7 +122,7 @@ run leaves out the third reading.
 | 0.4.9: damaged outputs caught (of 69) | 59 | 63 | 65 |
 
 Every attempt has, in every reading, the same new codes as this checkout's run
-without `FID013`. [results-0.4.8.json](results-0.4.8.json) and
+without `FID013` and `PKG010`. [results-0.4.8.json](results-0.4.8.json) and
 [results-0.4.9.json](results-0.4.9.json) have every attempt.
 
 ## Limits

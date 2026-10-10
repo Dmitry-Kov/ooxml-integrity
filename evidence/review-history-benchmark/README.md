@@ -112,6 +112,11 @@ capture its S2 reply has none either. The reply is in `comments.xml` and is
 threaded through `commentsExtended`, which is all the frozen K5 criterion asks,
 so it counts as completed. Word for Mac does not display such a reply
 ([word check](word-check/README.md)), and the checker's `CMT005` says so.
+Found later, post hoc: Word for Mac refuses all five S1 captures as unreadable,
+because Codex declared their `commentsExtended` part with a content type Word
+does not accept; with only that type corrected, Word opens them
+([content-type check](word-check-content-type/README.md)). The oracle does not
+read content types, and the unreleased `PKG010` reports this.
 Median 50 s per attempt.
 
 **OpenCode** with Qwen3.8 27B on the host completed and preserved 29 of 30. On
@@ -201,7 +206,8 @@ build of Word for Mac ([word check](word-check/README.md)). The structured call 
 whole document can refuse a target that is unique only within its story. Each
 agent ran one model version through one harness and one prompt wrapper; the
 model behind the same name can change. The frozen K5 criterion does not require
-a reply to be anchored in the document.
+a reply to be anchored in the document, and the oracle does not compare
+content types.
 
 ```sh
 python research/review_history_benchmark.py verify

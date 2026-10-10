@@ -33,6 +33,15 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased `PKG010` is a new ERROR finding of `check()`: a part the main
+document relates whose declared content type is not the one its relationship
+type requires. A document that passed the default gate can now exit 1; among
+3,283 files in this repository and the public corpora that happens only to the
+five Codex outputs Word for Mac refuses. Projects that accept such files can
+lower or turn off the rule with a reason in their [configuration](configuration.md).
+Coverage gains the identifier `package.related-content-types`, additive under
+schema v1. Its baseline v2 identity is the general one: file, code and part.
+
 0.5.1 adds `FID013`, a WARN finding of `compare()`: a tracked
 replacement the edit added that deletes and inserts again more unchanged words
 than it changes, at least four. It does not fail the default gate. A

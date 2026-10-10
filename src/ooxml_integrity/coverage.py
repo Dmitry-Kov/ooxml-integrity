@@ -25,6 +25,7 @@ from .comments import (
     main_part,
     story_parts,
 )
+from .content_types import related as related_content_types
 from .revision_text import inventory as revision_inventory, assess as assess_revision_text
 from .revision_growth import inventory as pending_inventory, assess as assess_insertion_growth
 from .literal_entities import surfaces as entity_surfaces
@@ -90,6 +91,7 @@ def _item(identifier: str, status: CoverageStatus, reason: str,
 #: (`INT001`) would otherwise leave its surface reported as `checked`.
 CHECK_SURFACES: dict[str, tuple[str, ...]] = {
     "check_content_types": ("package.content-types",),
+    "check_related_content_types": ("package.related-content-types",),
     "check_relationships": ("package.relationships",),
     "check_styles": ("docx.styles",),
     "check_numbering": ("docx.numbering",),
@@ -225,6 +227,19 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         (f"evaluated {len(rel_names)} relationship parts" if relationships_ok
          else "the root or another relationship part was missing or malformed"),
         len(rel_names),
+    ))
+
+    related = related_content_types(parts, trees, main)
+    items.append(_item(
+        "package.related-content-types",
+        CoverageStatus.SKIPPED if related.skipped else
+        CoverageStatus.UNSUPPORTED if related.unsupported else
+        CoverageStatus.CHECKED if related.pairs else CoverageStatus.NOT_PRESENT,
+        related.skipped or related.unsupported or (
+            f"compared {len(related.pairs)} parts the main document relates with "
+            "the content type their relationship type requires" if related.pairs
+            else "the main document relates no part whose type PKG010 reads"),
+        len(related.pairs),
     ))
 
     document = trees.get(main)

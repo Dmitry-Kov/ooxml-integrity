@@ -41,6 +41,11 @@ producer of 1,522 of the DOCX files.
 | ERROR findings | 498 | 203 | 203 |
 | WARN findings | 421 | 244 | 171 |
 
+The unreleased `PKG010` (a related part declared with another content type
+than its relationship type requires) reports none of the 1,903 public DOCX,
+DOCM, DOTX and DOTM files; every other finding on them is unchanged
+([content-type run](../evidence/docx-content-types/README.md)).
+
 ### What changed
 
 | Rule | 0.4.3 | now | Cause |

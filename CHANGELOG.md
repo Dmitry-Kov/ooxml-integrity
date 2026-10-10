@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased
+
+- `PKG010` (ERROR): a part the main document relates is declared with another
+  content type than its relationship type requires, such as a `commentsExtended`
+  part declared `application/vnd.ms-word.commentsExtended+xml`. Codex wrote
+  this in all five of its K5-S1 outputs in the review-history benchmark. Word
+  for Mac refuses those files as unreadable and opens them with only that type
+  corrected ([Word check](evidence/review-history-benchmark/word-check-content-type/README.md)).
+  No earlier rule reported it, and the frozen oracle counts them as correct.
+  Fifteen relationship types are read, from a document main part only;
+  templates, macro-enabled documents and Strict are not. Across 3,283 files in
+  this repository and the public corpora it fires on these five only; every
+  other finding is unchanged ([run](evidence/docx-content-types/README.md)).
+  The new coverage item `package.related-content-types` says when the main part
+  was not read.
+
 ## 0.6.0 — 2026-10-10
 
 [Upgrade notes and verified publication](docs/releases/0.6.0.md). Published
