@@ -1,6 +1,6 @@
 """Repair what is uniquely repairable in a .docx, and prove it.
 
-`fix(IN, OUT)` writes a repaired copy. It has exactly two repairs:
+`fix(IN, OUT)` writes a repaired copy. It has exactly three repairs:
 
     anchor-replies      CMT005 on a reply whose parent comment is anchored:
                         write the reply's range markers at the parent's range,
@@ -8,8 +8,10 @@
     renumber-revisions  REV001: keep the first element of a repeated revision
                         id and give every later one a fresh id above every
                         w:id in the package.
+    content-type        PKG010 on a part declared by an Override: give that
+                        Override the content type the relationship type names.
 
-Neither restores or invents content: a top-level comment whose anchor is gone,
+None restores or invents content: a top-level comment whose anchor is gone,
 a lost style or a lost revision has no unique repair, and the agreed position
 is that fix does not guess. Each repair runs only when its precondition holds
 and otherwise refuses with the reason. Every finding not repaired is listed
@@ -46,6 +48,8 @@ from .comments import (
     _existing, _relationships, _resolve, comment_part, comment_tree,
     office_documents, relationships_part, story_parts,
 )
+from .content_types import CT, media_type, part_key
+from .content_types import related as related_content_types
 from .fidelity import TRACKED, compare
 from .finding import INFO, Finding
 from .inspector import _paragraph_revision_pair, check
@@ -61,8 +65,11 @@ COMMENTS_EXTENDED = "http://schemas.microsoft.com/office/2011/relationships/comm
 
 ANCHOR_REPLIES = "anchor-replies"
 RENUMBER_REVISIONS = "renumber-revisions"
+CONTENT_TYPE = "content-type"
 #: The finding each repair answers.
-REPAIRS = {ANCHOR_REPLIES: "CMT005", RENUMBER_REVISIONS: "REV001"}
+REPAIRS = {ANCHOR_REPLIES: "CMT005", RENUMBER_REVISIONS: "REV001",
+           CONTENT_TYPE: "PKG010"}
+CONTENT_TYPES = "[Content_Types].xml"
 
 EXIT_REPAIRED, EXIT_NOTHING, EXIT_REFUSED, EXIT_UNVERIFIED = 0, 1, 2, 3
 
@@ -252,23 +259,33 @@ class _Part:
             previous = el
         self._edits.append((offset, offset, len(self._edits), data))
 
-    def set_attribute(self, el, local: str, value: str) -> tuple[str, str]:
-        """Change the w:`local` attribute of an input element; returns old and new text."""
+    def set_attribute(self, el, local: str, value: str,
+                      namespace: Optional[str] = W_NS) -> tuple[str, str]:
+        """Change an attribute of an input element; returns old and new text.
+
+        The attribute is `local` in `namespace`, or unprefixed when
+        `namespace` is None.
+        """
         s, head, _ = self.span(el)
         hits = []
         for m in _ATTRIBUTE.finditer(self.data, s, head):
             prefix, _, name = m.group(1).decode("utf-8").rpartition(":")
-            if name == local and prefix and el.nsmap.get(prefix) == W_NS:
+            if name == local and (el.nsmap.get(prefix) == namespace if prefix
+                                  else namespace is None):
                 hits.append(m)
         if len(hits) != 1:
-            raise _Refused(f"{self.name}: the w:{local} attribute could not be located")
+            label = f"w:{local}" if namespace == W_NS else local
+            raise _Refused(f"{self.name}: the {label} attribute could not be located")
         m = hits[0]
-        quote = m.group(2)[:1]
+        # Only the value between the quotes changes; the name, the spacing
+        # around "=" and the quotes keep their bytes.
+        start, end = m.start(2) + 1, m.end(2) - 1
+        new_value = _quote(value)[1:-1].encode("utf-8")
         old = m.group(0).strip().decode("utf-8")
-        new_bytes = m.group(1) + b"=" + quote + _quote(value)[1:-1].encode("utf-8") + quote
-        el.set(W + local, value)
-        self._edits.append((m.start(1), m.end(2), len(self._edits), new_bytes))
-        return old, new_bytes.decode("utf-8")
+        new = (self.data[m.start(1):start] + new_value + self.data[end:m.end(2)])
+        el.set(f"{{{namespace}}}{local}" if namespace else local, value)
+        self._edits.append((start, end, len(self._edits), new_value))
+        return old, new.decode("utf-8")
 
     def result(self) -> bytes:
         out, position = [], 0
@@ -364,7 +381,7 @@ class FixReport:
     """What fix did to one file, and why. `status` decides the exit code:
 
     repaired             OUT written; every repair re-checked          0
-    nothing-to-repair    no CMT005/REV001, or every one refused        1
+    nothing-to-repair    no CMT005/REV001/PKG010, or every one refused 1
     input-refused        a package fix does not rewrite                2
     verification-failed  a repair could not be proved; nothing written 3
     """
@@ -458,14 +475,17 @@ def _reason(f: Finding) -> str:
         "CMT001": "no unique repair: where the range ended is not in the file",
         "CMT002": "no unique repair: where the range started is not in the file",
     }.get(f.code, f"fix has no repair for {f.code}; it repairs only CMT005 on "
-                  "replies (anchor-replies) and REV001 (renumber-revisions)")
+                  "replies (anchor-replies), REV001 (renumber-revisions) and "
+                  "PKG010 on an Override (content-type)")
 
 
 class _Package:
     """The input's parts, and the XML parts a repair edits."""
 
-    def __init__(self, parts: dict[str, bytes]):
+    def __init__(self, parts: dict[str, bytes], methods: dict[str, int]):
         self.parts = parts
+        #: each ZIP member's compression method
+        self.methods = methods
         found = office_documents(parts)
         self.main = found[0]
         self.stories = story_parts(parts, self.main)
@@ -503,7 +523,17 @@ def _qname(el) -> str:
 
 
 def _path(el) -> str:
-    return el.getroottree().getpath(el)
+    if el.prefix is not None:
+        return el.getroottree().getpath(el)
+    # lxml writes a default-namespace step as "*"; name it, as for w: steps.
+    steps = []
+    while el is not None:
+        parent = el.getparent()
+        same = [] if parent is None else [s for s in parent if s.tag == el.tag]
+        name = etree.QName(el).localname
+        steps.append(f"{name}[{same.index(el) + 1}]" if len(same) > 1 else name)
+        el = parent
+    return "/" + "/".join(reversed(steps))
 
 
 # ----------------------------------------------------------------- anchor-replies
@@ -809,9 +839,90 @@ def _renumber_revisions(pkg: _Package, targets: list[tuple[str, Finding]]
     return repaired, refused
 
 
+# ------------------------------------------------------------------- content-type
+#: (relationship type, declared type) that Word for Mac 16.113.4 refused and
+#: opened once only the content type was corrected
+#: (evidence/review-history-benchmark/word-check-content-type).
+_WORD_OBSERVED = {(COMMENTS_EXTENDED, "application/vnd.ms-word.commentsextended+xml")}
+
+
+def _content_type(pkg: _Package, targets: list[tuple[str, Finding]]
+                  ) -> tuple[list[Repaired], dict[int, str]]:
+    """Give a related part's Override the content type its relationship requires.
+
+    The relationship type names the content type (content_types.RELATED), so
+    the value is unique. An Override declares it for one part only; a Default
+    declares it for every part with that extension, so it is not changed.
+    """
+    method = pkg.methods.get(CONTENT_TYPES)
+    if method not in (0, 8):
+        return [], {i: f"{CONTENT_TYPES} uses compression method {method}, which "
+                       "fix does not write" for i in range(len(targets))}
+    part = pkg.part(CONTENT_TYPES)
+    rels = relationships_part(pkg.main)
+    trees = {CONTENT_TYPES: part.tree, pkg.main: parse_xml(pkg.parts[pkg.main])}
+    if rels in pkg.parts:
+        trees[rels] = parse_xml(pkg.parts[rels])
+    found = related_content_types(pkg.parts, trees, pkg.main)
+    overrides = part.tree.findall(CT + "Override")
+
+    repaired: list[Repaired] = []
+    refused: dict[int, str] = {}
+    for index, (name, finding) in enumerate(targets):
+        try:
+            pairs = [p for p in found.pairs if p.part == name]
+            if not any(p.mismatch for p in pairs):
+                raise _Refused(f"no relationship from {pkg.main} requires another "
+                               f"content type for {name}")
+            kinds = sorted({p.relationship_type.rsplit("/", 1)[-1] for p in pairs})
+            if len({media_type(p.expected) for p in pairs}) > 1:
+                raise _Refused(f"{name} is the target of {' and '.join(kinds)} "
+                               "relationships, which require different content "
+                               "types; which one applies is not unique")
+            mine = [o for o in overrides if part_key(o.get("PartName")) == part_key(name)]
+            if not mine:
+                ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
+                raise _Refused(f"{name} has no Override in {CONTENT_TYPES}: the "
+                               f'Default for the extension "{ext}" declares it, '
+                               f"and changing that Default would retype every "
+                               f"other part with that extension")
+            if len(mine) > 1:
+                raise _Refused(f"{len(mine)} Overrides in {CONTENT_TYPES} name "
+                               f"{name}; which one applies is not unique")
+            override = mine[0]
+            declared = override.get("ContentType") or ""
+            expected = pairs[0].expected
+            old, new = part.set_attribute(override, "ContentType", expected,
+                                          namespace=None)
+        except _Refused as e:
+            refused[index] = str(e)
+            continue
+        ids = ", ".join(sorted({p.relationship for p in pairs}))
+        detail = (f"{name} is the target of the {' and '.join(kinds)} relationship "
+                  f"{ids} in {rels}, whose type requires {expected}; its Override "
+                  f"declared {declared}, and only that value changes")
+        if (pairs[0].relationship_type, media_type(declared)) in _WORD_OBSERVED:
+            detail += ("; Word for Mac 16.113.4 refused files with this declaration "
+                       "as unreadable and opened them with only this value corrected")
+        else:
+            detail += "; Word was not observed with this declaration"
+        change = Change(CONTENT_TYPES, _qname(override), "", part.line(override),
+                        old, new, override)
+        repaired.append(Repaired(CONTENT_TYPE, finding, detail, [change]))
+    return repaired, refused
+
+
 # -------------------------------------------------------------------- the command
-_CMT005 = re.compile(r"comment id=(.*?) is orphaned")
-_REV001 = re.compile(r"revision id (.*) used \d+ times")
+_PATTERNS = {ANCHOR_REPLIES: re.compile(r"comment id=(.*?) is orphaned"),
+             RENUMBER_REVISIONS: re.compile(r"revision id (.*) used \d+ times")}
+
+
+def _target(repair: str, f: Finding) -> Optional[str]:
+    """What a finding names for its repair: a comment id, a revision id or a part."""
+    if repair == CONTENT_TYPE:
+        return f.part
+    m = _PATTERNS[repair].search(f.message)
+    return m.group(1) if m else None
 
 
 _LABELS = {tag: label for tag, label, _ in TRACKED}
@@ -990,30 +1101,31 @@ def fix(path: str | Path, output: str | Path, *, against: str | Path | None = No
             report.reason = f"the source could not be compared with the input: {e}"
             return report
 
-    comments = [(i, f) for i, f in enumerate(findings) if f.code == "CMT005"]
-    revisions = [(i, f) for i, f in enumerate(findings) if f.code == "REV001"]
+    targeted = any(f.code in REPAIRS.values() for f in findings)
     reasons: dict[int, tuple[str, str]] = {}
     repaired: list[Repaired] = []
     added: collections.Counter = collections.Counter()
     try:
-        pkg = _Package(parts)
-        for repair, found, pattern in (
-                (ANCHOR_REPLIES, comments, _CMT005),
-                (RENUMBER_REVISIONS, revisions, _REV001)):
+        pkg = _Package(parts, {e.name: e.method for e in entries})
+        for repair, code in REPAIRS.items():
             targets, kept = [], []
-            for i, f in found:
-                m = pattern.search(f.message)
-                if m is None:
-                    reasons[i] = (repair, "the finding's message does not name its target")
+            for i, f in enumerate(findings):
+                if f.code != code:
+                    continue
+                target = _target(repair, f)
+                if target is None:
+                    reasons[i] = (repair, "the finding does not name its target")
                 else:
-                    targets.append((m.group(1), f))
+                    targets.append((target, f))
                     kept.append(i)
             if not targets:
                 continue
             if repair == ANCHOR_REPLIES:
                 done, refused, added = _anchor_replies(pkg, targets)
-            else:
+            elif repair == RENUMBER_REVISIONS:
                 done, refused = _renumber_revisions(pkg, targets)
+            else:
+                done, refused = _content_type(pkg, targets)
             repaired += done
             for n, why in refused.items():
                 reasons[kept[n]] = (repair, why)
@@ -1026,9 +1138,10 @@ def fix(path: str | Path, output: str | Path, *, against: str | Path | None = No
                                 for f in before_against or []]
         report.repaired = repaired
         if not repaired:
-            report.reason = ("every CMT005/REV001 finding was refused"
-                             if comments or revisions else
-                             "no CMT005 or REV001 finding; fix has nothing it can repair")
+            report.reason = ("every CMT005/REV001/PKG010 finding was refused"
+                             if targeted else
+                             "no CMT005, REV001 or PKG010 finding; fix has nothing "
+                             "it can repair")
             return report
         edited = pkg.edited()
         for r in repaired:

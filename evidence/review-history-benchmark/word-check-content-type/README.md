@@ -36,7 +36,9 @@ d6 shows the cause. The reply is not shown there because Codex left it without a
 anchor in the document (`CMT005`, as in the frozen evaluation). d7 anchors it the
 way the prototype `fix` does, and Word then shows it in its parent's thread
 ([screenshot](screens/d6-d7-thread.png): d6 left, d7 right). The checker reports
-nothing on d6 except that `CMT005`, and nothing at all on d7.
+nothing on d6 except that `CMT005`, and nothing at all on d7. `ooxml-integrity
+fix` now writes d7 byte for byte from codex-2's capture itself, with its
+content-type and anchor-replies repairs ([record](../../fix-repairs/README.md)).
 
 [observations.json](observations.json) records, for each file, the SHA-256,
 Word's prompts with the choice made, the comments and revisions Word's object

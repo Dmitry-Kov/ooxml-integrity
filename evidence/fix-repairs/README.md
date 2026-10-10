@@ -1,19 +1,20 @@
 # `fix` on every DOCX in the repository
 
-[`ooxml-integrity fix`](../../docs/fix.md) makes two repairs: anchor-replies
-(`CMT005` on a reply whose parent comment is anchored) and renumber-revisions
-(`REV001`). This record runs it on every DOCX in the repository that has one of
-the two findings, and records what it repaired, what it refused and why, and
-what the re-check found.
+[`ooxml-integrity fix`](../../docs/fix.md) makes three repairs: anchor-replies
+(`CMT005` on a reply whose parent comment is anchored), renumber-revisions
+(`REV001`) and content-type (`PKG010` on a part declared by an `Override`). This
+record runs it on every DOCX in the repository that has one of the three
+findings, and records what it repaired, what it refused and why, and what the
+re-check found.
 
 ## Construction
 
 `python research/fix_evidence.py evaluate --output evidence/fix-repairs/results.json`
 checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,380
 paths, 849 distinct files by content. The 51 distinct files (58 paths) that have
-`CMT005` or `REV001` go to `fix()`. Each runs against its source when the
-repository records one, which all but the two Word-check variants of a Codex
-capture have:
+`CMT005`, `REV001` or `PKG010` go to `fix()`; the five with `PKG010` also have
+`CMT005`. Each runs against its source when the repository records one, which
+all but the two Word-check variants of a Codex capture have:
 
 - the review-history benchmark's tasks;
 - the protocols of the two earlier benchmarks;
@@ -40,29 +41,36 @@ part; everything else does not.
 
 ## Results
 
-| Documents | files (paths) | repaired | anchor-replies | renumber-revisions | refused |
-|---|---:|---:|---:|---:|---:|
-| review-history benchmark captures | 25 (30) | 17 | 13 | 4 | 9 comments in 8 files |
-| docx-benchmark-boundaries, adeu split captures | 10 (11) | 10 | | 10 | |
-| docx-revisions, seeded `duplicate-id` | 1 | 1 | | 1 | |
-| docx-beta, seeded orphan comments | 9 | | | | 9 |
-| comment stories, lost anchors | 2 | | | | 2 |
-| agent runs, `t4_fast_*` | 2 (3) | | | | 2 |
-| `PKG010` Word check, variants of a Codex K5-S1 capture | 2 | 1 | 1 | | 1 |
-| **All** | **51 (58)** | **29** | **14** | **15** | **23 comments in 22 files** |
+| Documents | files (paths) | repaired | anchor-replies | renumber-revisions | content-type | refused |
+|---|---:|---:|---:|---:|---:|---:|
+| review-history benchmark captures | 25 (30) | 17 | 13 | 4 | 5 | 9 comments in 8 files |
+| docx-benchmark-boundaries, adeu split captures | 10 (11) | 10 | | 10 | | |
+| docx-revisions, seeded `duplicate-id` | 1 | 1 | | 1 | | |
+| docx-beta, seeded orphan comments | 9 | | | | | 9 |
+| comment stories, lost anchors | 2 | | | | | 2 |
+| agent runs, `t4_fast_*` | 2 (3) | | | | | 2 |
+| `PKG010` Word check, variants of a Codex K5-S1 capture | 2 | 1 | 1 | | | 1 |
+| **All** | **51 (58)** | **29** | **14** | **15** | **5** | **23 comments in 22 files** |
 
 - **Every repair passed the re-check:**
   - the targeted finding is gone, and `check()` reports nothing new;
-  - only `word/document.xml` changed, and every other ZIP member was copied as
-    stored;
+  - only `word/document.xml` changed, and `[Content_Types].xml` where
+    content-type applied; every other ZIP member was copied as stored;
   - `compare(source, output)` gains nothing that `compare(source, input)`
     lacked, beyond the declared count increases.
 - **`compare(input, output)` reports exactly what each repair adds:**
-  - renumber-revisions: nothing.
+  - renumber-revisions and content-type: nothing.
   - anchor-replies: `FID002` INFO comment anchors +1. On the 7 S2 outputs it
     also reports character style references +1, because the reply's
     reference run copies the parent's `CommentReference` style, as Word's
     own reply runs do.
+- **content-type and anchor-replies together** on the five Codex `K5-S1`
+  captures:
+  - in `[Content_Types].xml`, only the `commentsExtended` `Override`'s value
+    changes, from `application/vnd.ms-word.commentsExtended+xml` to the
+    `wordprocessingml` type;
+  - the re-check removes `PKG010` and the `CMT005` and adds nothing.
+    Against `corpus/base.docx` the copy gains nothing.
 - **Every refusal names a precondition that does not hold:**
   - 22 top-level comments are "not a reply". Nothing links them to a parent,
     and their anchor position is lost.
@@ -71,7 +79,8 @@ part; everything else does not.
 - **Deterministic:** a second run wrote the same bytes for all 51 files.
 - **Oracle:** for all 17 repaired review-history captures, the verdict is the
   same before and after:
-  - Codex, OpenCode, adeu: completed and preserved.
+  - Codex (with its content type corrected), OpenCode, adeu: completed and
+    preserved.
   - docx-mcp and docxengine `K5-S2`: preserved but still incomplete. Their
     new comment on "sixty days" stays unanchored; fix does not complete an
     edit.
@@ -96,19 +105,25 @@ repository, which keeps only what it can reproduce.
 - They opened the survey prototype's repaired copies of 18 files. 17 of the 18
   are files in this repository.
 
-**`fix` writes those 17 copies byte for byte:**
+**`fix` writes 12 of those 17 copies byte for byte:**
 
 - For each, the SHA-256 that the Word record gives for the repaired copy equals
   `output_sha256` in `results.json`.
+- The other five are the Codex `K5-S1` outputs. The prototype only anchored
+  their reply, and Word refused those copies. `fix` now also corrects their
+  content type, so it writes other bytes.
 - The 18th is LibreOffice's public test file `tdf157011_ins_del_empty_cols.docx`.
   `fix` writes it with the same member contents. Its container differs because
   `fix` keeps the stored bytes of members it did not change, and the prototype
   recompressed them.
 
-One more file Word opened comes out of `fix` byte for byte: the `PKG010`
-check's variant d6, a Codex K5-S1 output with only its content type corrected,
-becomes d7, the copy Word opened with the reply in its parent's thread
-([content-type Word check](../review-history-benchmark/word-check-content-type/README.md)).
+**For codex-2, `fix` writes the copy Word opened.** Its output is d7 of the
+[content-type Word check](../review-history-benchmark/word-check-content-type/README.md),
+byte for byte. Word opened d7 with the reply in its parent's thread. `fix` also
+writes d7 from that check's variant d6, a capture with only its content type
+corrected. For the other four Codex captures, the `[Content_Types].xml` and the
+comment markers `fix` writes are d7's. Their outputs were not opened in Word or
+LibreOffice. They differ from d7 only where Codex's own edits differ.
 
 | | original | repaired |
 |---|---:|---:|
@@ -121,12 +136,13 @@ becomes d7, the copy Word opened with the reply in its parent's thread
 | LibreOffice keeps the reply when it re-saves | 0/12 | 12/12, threaded in 11 |
 
 Notes on the table:
-- **Codex `K5-S1`, the five copies Word does not open.** Word refuses them
-  before and after the repair. The cause is not the repair: Codex declared
-  `commentsExtended.xml` with the content type
+- **Codex `K5-S1`, the five copies Word does not open.** These are the
+  prototype's copies with the reply anchored and nothing else. Word refuses
+  them before and after that repair. The cause is not the repair: Codex
+  declared `commentsExtended.xml` with the content type
   `application/vnd.ms-word.commentsExtended+xml`. Correcting only that string
-  makes Word open the repaired copy with the reply threaded. A checker rule for
-  that mismatch is separate work; `fix` repairs only what `check` reports.
+  makes Word open the repaired copy with the reply threaded. `PKG010` now
+  reports it and content-type repairs it (above).
 - **The one LibreOffice reply that is not threaded** is OpenCode's `K5-S1`.
   Its `commentsExtended` root is `commentList`, not `w15:commentsEx`; Word
   threads it, and fix's change list names the non-standard root.
