@@ -3,11 +3,18 @@
 ## Unreleased
 
 - `ooxml-integrity fix IN -o OUT`: a repaired copy of a `.docx`, with only the
-  two [repairs](docs/fix.md) whose result is unique.
+  three [repairs](docs/fix.md) whose result is unique.
   - **anchor-replies** (`CMT005`): a reply whose parent comment is anchored
     gets its parent's range, in the order Word writes a thread.
   - **renumber-revisions** (`REV001`): every repeated revision id after the
     first gets a fresh id.
+  - **content-type** (`PKG010`): a related part's `Override` in
+    `[Content_Types].xml` gets the content type its relationship type
+    requires; only that value changes. A part typed only by a `Default` is
+    refused, because changing the `Default` would retype other parts. On the
+    five Codex K5-S1 outputs, which Word for Mac refused, it runs with
+    anchor-replies; from codex-2 `fix` writes the copy Word opened, byte for
+    byte.
   - **Never content.** Lost content is never restored or invented. Every
     finding not repaired is listed with the reason.
   - **Never in place.** The copy is written to a temporary file, checked again
@@ -19,11 +26,12 @@
     nothing could be repaired; `2` usage error or a package fix does not
     rewrite; `3` the re-check failed.
   - **JSON:** `--json` has no schema version yet.
-  - **Evidence:** on the repository's 51 DOCX with either finding, 29 were
-    repaired and 22 refused with their reasons
-    ([evidence](evidence/fix-repairs/README.md)). The 17 of those copies that
-    Word for Mac 16.113.4 and LibreOffice 25.8.4.2 opened in the fixability
-    survey are the bytes `fix` writes.
+  - **Evidence:** on the repository's 51 DOCX with one of the three
+    findings, 29 were repaired and 22 refused with their reasons
+    ([evidence](evidence/fix-repairs/README.md)). Of the 17 repository copies
+    that Word for Mac 16.113.4 and LibreOffice 25.8.4.2 were given in the
+    fixability survey, `fix` writes 12 byte for byte. The other five are the
+    Codex K5-S1 copies Word refused, which lacked the content-type repair.
 
 - `PKG010` (ERROR): a part the main document relates is declared with another
   content type than its relationship type requires, such as a `commentsExtended`

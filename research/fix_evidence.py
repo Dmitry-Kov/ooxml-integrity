@@ -1,13 +1,13 @@
 """Run `ooxml-integrity fix` on every DOCX in the repository that it targets.
 
 Every .docx under corpus/, runs/, demo/ and evidence/ is checked once per
-distinct content. A file with CMT005 or REV001 is given to fix(), against its
-source when the repository records one: the review-history tasks, the two
-earlier benchmarks' protocols, the agent runs, and the docx-beta,
-docx-revisions and comment-story manifests. The record
-keeps, per file, what was repaired or refused and why, the re-check, which ZIP
-members changed, the output hash, whether a second run wrote the same bytes,
-and for benchmark captures the oracle's verdict before and after.
+distinct content. A file with CMT005, REV001 or PKG010 is given to fix(),
+against its source when the repository records one: the review-history tasks,
+the two earlier benchmarks' protocols, the agent runs, and the docx-beta,
+docx-revisions and comment-story manifests. The record keeps, per file, what
+was repaired or refused and why, the re-check, which ZIP members changed, the
+output hash, whether a second run wrote the same bytes, and for benchmark
+captures the oracle's verdict before and after.
 
     python research/fix_evidence.py evaluate [--output evidence/fix-repairs/results.json]
 

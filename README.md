@@ -155,11 +155,12 @@ Exit codes are `0` for no findings at or above `--fail-on` (default `error`),
 `1` when such findings exist, and `2` for a usage error. Use `--json` for
 machine-readable output and `--quiet` to print only findings that fail the run.
 
-## Two repairs, and no more
+## Three repairs, and no more
 
 Most findings cannot be repaired from the file: putting back a lost comment,
-style or tracked change means guessing what was there. `fix` makes only the two
-repairs whose result is unique, and checks the copy again before writing it.
+style or tracked change means guessing what was there. `fix` makes only the
+three repairs whose result is unique, and checks the copy again before writing
+it.
 
 ```bash
 ooxml-integrity fix edited.docx -o repaired.docx
@@ -170,13 +171,16 @@ ooxml-integrity fix edited.docx -o repaired.docx
   the reply appears in its thread only after the repair.
 - **renumber-revisions** (`REV001`): every repeated revision id after the first
   gets a fresh id.
+- **content-type** (`PKG010`): a related part's `Override` in
+  `[Content_Types].xml` gets the content type its relationship type requires.
+  Word for Mac refused all five Codex outputs that `fix` repairs this way, and
+  opened the copy `fix` writes from one of them, with the reply in its thread.
 
 Every other finding is listed as not repaired, with the reason. The input is
-never changed. In the copy, only the repaired bytes of one part differ, and
-every other ZIP member is copied as stored. Exit `0` means a verified copy was
-written; `1`, nothing to repair; `2`, a usage error or a package `fix` does not
-rewrite; `3`, a failed re-check. [What it repairs, refuses and
-guarantees](docs/fix.md).
+never changed. In the copy, only the repaired bytes differ, and every other ZIP
+member is copied as stored. Exit `0` means a verified copy was written; `1`,
+nothing to repair; `2`, a usage error or a package `fix` does not rewrite; `3`,
+a failed re-check. [What it repairs, refuses and guarantees](docs/fix.md).
 
 ## Decks: does the text fit the box?
 
