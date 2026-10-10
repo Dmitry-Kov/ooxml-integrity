@@ -1,0 +1,486 @@
+{
+  "scope": "Post-publication demo pin; synthetic public inputs only; local browser results precede pin PR merge and Pages deployment.",
+  "base_commit": "ebe727972e02eb206b70ce2ae163517b4c08f5ef",
+  "published_version": "0.5.3",
+  "published_wheel_sha256": "2221cc642a9451ab0722173d2d3fbb378c2d5ee3a369834b769f1565e18ce248",
+  "node": "v24.3.0",
+  "playwright": "1.63.0",
+  "public_pypi": {
+    "stats": {
+      "startTime": "2026-10-09T17:36:49.854Z",
+      "duration": 242028.57200000001,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "scenarios": [
+      {
+        "title": "real package: examples, JSON, coverage, Doctor and narrow layout",
+        "status": "passed",
+        "duration_ms": 25541,
+        "retry": 0
+      },
+      {
+        "title": "uploads: same names, remove/reselect, corrupt input and recovery",
+        "status": "passed",
+        "duration_ms": 38359,
+        "retry": 0
+      },
+      {
+        "title": "unavailable runtime: visible startup error, disabled checks, reload recovery",
+        "status": "passed",
+        "duration_ms": 14237,
+        "retry": 0
+      },
+      {
+        "title": "unavailable font: visible startup error, disabled checks, reload recovery",
+        "status": "passed",
+        "duration_ms": 42860,
+        "retry": 0
+      },
+      {
+        "title": "feedback is voluntary and sends no selected document or report data",
+        "status": "passed",
+        "duration_ms": 18471,
+        "retry": 0
+      },
+      {
+        "title": "delayed runtime download: progress remains visible and then a real check succeeds",
+        "status": "passed",
+        "duration_ms": 19279,
+        "retry": 0
+      },
+      {
+        "title": "60-second deadline terminates a busy Python worker; reload restores checks",
+        "status": "passed",
+        "duration_ms": 82656,
+        "retry": 0
+      }
+    ],
+    "metadata": {
+      "commit": "ebe727972e02eb206b70ce2ae163517b4c08f5ef",
+      "changedTrackedFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "SECURITY.md",
+        "demo/README.md",
+        "demo/index.html",
+        "demo/worker.js",
+        "docs/compatibility.md",
+        "docs/configuration.md",
+        "docs/pilot.md",
+        "docs/releases/0.5.3.md"
+      ],
+      "mode": "release",
+      "checkerVersion": "0.5.3",
+      "pyodideVersion": "314.0.6",
+      "preview": null,
+      "pageSha256": {
+        "index.html": "c803ee13598da95f3efdf7f9ac34f50324e9c3ae3ed551c15c3fc841d0f65b0a",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "aa8e7009282d43229593ae1c06204bcf6e1302c9d5432250f3cfb6c5810320d8",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    },
+    "environment": {
+      "commit": "ebe727972e02eb206b70ce2ae163517b4c08f5ef",
+      "changedTrackedFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "SECURITY.md",
+        "demo/README.md",
+        "demo/index.html",
+        "demo/worker.js",
+        "docs/compatibility.md",
+        "docs/configuration.md",
+        "docs/pilot.md",
+        "docs/releases/0.5.3.md"
+      ],
+      "mode": "release",
+      "checkerVersion": "0.5.3",
+      "pyodideVersion": "314.0.6",
+      "preview": null,
+      "pageSha256": {
+        "index.html": "c803ee13598da95f3efdf7f9ac34f50324e9c3ae3ed551c15c3fc841d0f65b0a",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "aa8e7009282d43229593ae1c06204bcf6e1302c9d5432250f3cfb6c5810320d8",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "browser": "153.0.8010.12",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "footer": "ooxml-integrity 0.5.3 \u00b7 Pyodide 314.0.6"
+    },
+    "doctor": {
+      "schema_version": 1,
+      "version": "0.5.3",
+      "status": "ready",
+      "runtime": {
+        "python": "3.14.2",
+        "implementation": "CPython",
+        "platform": "Emscripten-5.0.3-wasm32-32bit",
+        "lxml": "6.0.2.0",
+        "libxml2": "2.9.10",
+        "fonttools": "4.62.1"
+      },
+      "fonts": {
+        "probes": [
+          {
+            "requested": "Calibri",
+            "resolved_family": "Carlito",
+            "path": "/usr/share/fonts/Carlito-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          },
+          {
+            "requested": "Arial",
+            "resolved_family": "Liberation Sans",
+            "path": "/usr/share/fonts/LiberationSans-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          },
+          {
+            "requested": "Times New Roman",
+            "resolved_family": "Liberation Serif",
+            "path": "/usr/share/fonts/LiberationSerif-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          }
+        ],
+        "failures": []
+      },
+      "capabilities": [
+        {
+          "id": "xml.safe-parser",
+          "status": "available",
+          "confidence": "exact",
+          "detail": "DTD loading, entity expansion, network access, recovery and huge-tree mode are disabled"
+        },
+        {
+          "id": "archive.resource-limits",
+          "status": "available",
+          "confidence": "exact",
+          "detail": "4096 entries; 268435456 archive bytes; 16777216 central directory bytes; 536870912 total expanded bytes; 134217728 bytes per expanded entry; 1000:1 compression ratio"
+        },
+        {
+          "id": "pptx.font-metrics",
+          "status": "available",
+          "confidence": "metric",
+          "detail": "3/3 representative font families are usable; fontconfig not installed"
+        }
+      ],
+      "unavailable_checks": [
+        {
+          "id": "docx.header-footer-semantics",
+          "reason": "header/footer Word semantics and layout are not inspected"
+        },
+        {
+          "id": "docx.media-content",
+          "reason": "embedded media bytes and visual rendering are not inspected"
+        },
+        {
+          "id": "docx.strict-wordprocessingml",
+          "reason": "Strict WordprocessingML namespaces are outside current rules"
+        },
+        {
+          "id": "pptx.fidelity.source",
+          "reason": "PPTX source comparison is not implemented"
+        },
+        {
+          "id": "pptx.package-integrity",
+          "reason": "the complete PPTX OPC relationship graph is not validated"
+        },
+        {
+          "id": "pptx.grouped-shapes",
+          "reason": "group transforms are not composed"
+        },
+        {
+          "id": "pptx.tables",
+          "reason": "PowerPoint table text and geometry are not modelled"
+        },
+        {
+          "id": "pptx.smartart",
+          "reason": "SmartArt ownership and generated layout are not modelled"
+        },
+        {
+          "id": "pptx.charts",
+          "reason": "chart text and generated geometry are not modelled"
+        },
+        {
+          "id": "pptx.fields",
+          "reason": "DrawingML field values are not resolved"
+        },
+        {
+          "id": "pptx.rotated-bounds",
+          "reason": "rotation is not applied to collision or slide-edge bounds"
+        },
+        {
+          "id": "pptx.vertical-text",
+          "reason": "vertical text layout is not measured"
+        },
+        {
+          "id": "pptx.master-layout-objects",
+          "reason": "master-only and layout-only visible objects are not checked"
+        }
+      ]
+    },
+    "package_downloads": [
+      {
+        "url": "https://files.pythonhosted.org/packages/81/23/9ea545bbc1730bdee93905be677cc4b6f5d7e0296b20589b5581dcaa82c8/ooxml_integrity-0.5.3-py3-none-any.whl",
+        "method": "GET"
+      }
+    ]
+  },
+  "checkout_wheel": {
+    "stats": {
+      "startTime": "2026-10-09T17:40:55.454Z",
+      "duration": 209018.949,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "scenarios": [
+      {
+        "title": "real package: examples, JSON, coverage, Doctor and narrow layout",
+        "status": "passed",
+        "duration_ms": 27594,
+        "retry": 0
+      },
+      {
+        "title": "uploads: same names, remove/reselect, corrupt input and recovery",
+        "status": "passed",
+        "duration_ms": 14130,
+        "retry": 0
+      },
+      {
+        "title": "unavailable runtime: visible startup error, disabled checks, reload recovery",
+        "status": "passed",
+        "duration_ms": 18323,
+        "retry": 0
+      },
+      {
+        "title": "unavailable font: visible startup error, disabled checks, reload recovery",
+        "status": "passed",
+        "duration_ms": 14128,
+        "retry": 0
+      },
+      {
+        "title": "feedback is voluntary and sends no selected document or report data",
+        "status": "passed",
+        "duration_ms": 17538,
+        "retry": 0
+      },
+      {
+        "title": "delayed runtime download: progress remains visible and then a real check succeeds",
+        "status": "passed",
+        "duration_ms": 38478,
+        "retry": 0
+      },
+      {
+        "title": "60-second deadline terminates a busy Python worker; reload restores checks",
+        "status": "passed",
+        "duration_ms": 78209,
+        "retry": 0
+      }
+    ],
+    "metadata": {
+      "commit": "ebe727972e02eb206b70ce2ae163517b4c08f5ef",
+      "changedTrackedFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "SECURITY.md",
+        "demo/README.md",
+        "demo/index.html",
+        "demo/worker.js",
+        "docs/compatibility.md",
+        "docs/configuration.md",
+        "docs/pilot.md",
+        "docs/releases/0.5.3.md"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.5.3",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.5.3",
+        "wheel": "ooxml_integrity-0.5.3-py3-none-any.whl",
+        "sha256": "5b36439149b69a73cbe19ca178d6f525dcbbe9742615f793f0c5b93f0b109952"
+      },
+      "pageSha256": {
+        "index.html": "c803ee13598da95f3efdf7f9ac34f50324e9c3ae3ed551c15c3fc841d0f65b0a",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "cd3b0ecabf70b0be9601d568b7fd8d61c465d278a6a06941178c253e9d76eb39",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    },
+    "environment": {
+      "commit": "ebe727972e02eb206b70ce2ae163517b4c08f5ef",
+      "changedTrackedFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "SECURITY.md",
+        "demo/README.md",
+        "demo/index.html",
+        "demo/worker.js",
+        "docs/compatibility.md",
+        "docs/configuration.md",
+        "docs/pilot.md",
+        "docs/releases/0.5.3.md"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.5.3",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.5.3",
+        "wheel": "ooxml_integrity-0.5.3-py3-none-any.whl",
+        "sha256": "5b36439149b69a73cbe19ca178d6f525dcbbe9742615f793f0c5b93f0b109952"
+      },
+      "pageSha256": {
+        "index.html": "c803ee13598da95f3efdf7f9ac34f50324e9c3ae3ed551c15c3fc841d0f65b0a",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "cd3b0ecabf70b0be9601d568b7fd8d61c465d278a6a06941178c253e9d76eb39",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "browser": "153.0.8010.12",
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "footer": "ooxml-integrity 0.5.3 \u00b7 Pyodide 314.0.6"
+    },
+    "doctor": {
+      "schema_version": 1,
+      "version": "0.5.3",
+      "status": "ready",
+      "runtime": {
+        "python": "3.14.2",
+        "implementation": "CPython",
+        "platform": "Emscripten-5.0.3-wasm32-32bit",
+        "lxml": "6.0.2.0",
+        "libxml2": "2.9.10",
+        "fonttools": "4.62.1"
+      },
+      "fonts": {
+        "probes": [
+          {
+            "requested": "Calibri",
+            "resolved_family": "Carlito",
+            "path": "/usr/share/fonts/Carlito-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          },
+          {
+            "requested": "Arial",
+            "resolved_family": "Liberation Sans",
+            "path": "/usr/share/fonts/LiberationSans-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          },
+          {
+            "requested": "Times New Roman",
+            "resolved_family": "Liberation Serif",
+            "path": "/usr/share/fonts/LiberationSerif-Regular.ttf",
+            "face_index": 0,
+            "confidence": "metric"
+          }
+        ],
+        "failures": []
+      },
+      "capabilities": [
+        {
+          "id": "xml.safe-parser",
+          "status": "available",
+          "confidence": "exact",
+          "detail": "DTD loading, entity expansion, network access, recovery and huge-tree mode are disabled"
+        },
+        {
+          "id": "archive.resource-limits",
+          "status": "available",
+          "confidence": "exact",
+          "detail": "4096 entries; 268435456 archive bytes; 16777216 central directory bytes; 536870912 total expanded bytes; 134217728 bytes per expanded entry; 1000:1 compression ratio"
+        },
+        {
+          "id": "pptx.font-metrics",
+          "status": "available",
+          "confidence": "metric",
+          "detail": "3/3 representative font families are usable; fontconfig not installed"
+        }
+      ],
+      "unavailable_checks": [
+        {
+          "id": "docx.header-footer-semantics",
+          "reason": "header/footer Word semantics and layout are not inspected"
+        },
+        {
+          "id": "docx.media-content",
+          "reason": "embedded media bytes and visual rendering are not inspected"
+        },
+        {
+          "id": "docx.strict-wordprocessingml",
+          "reason": "Strict WordprocessingML namespaces are outside current rules"
+        },
+        {
+          "id": "pptx.fidelity.source",
+          "reason": "PPTX source comparison is not implemented"
+        },
+        {
+          "id": "pptx.package-integrity",
+          "reason": "the complete PPTX OPC relationship graph is not validated"
+        },
+        {
+          "id": "pptx.grouped-shapes",
+          "reason": "group transforms are not composed"
+        },
+        {
+          "id": "pptx.tables",
+          "reason": "PowerPoint table text and geometry are not modelled"
+        },
+        {
+          "id": "pptx.smartart",
+          "reason": "SmartArt ownership and generated layout are not modelled"
+        },
+        {
+          "id": "pptx.charts",
+          "reason": "chart text and generated geometry are not modelled"
+        },
+        {
+          "id": "pptx.fields",
+          "reason": "DrawingML field values are not resolved"
+        },
+        {
+          "id": "pptx.rotated-bounds",
+          "reason": "rotation is not applied to collision or slide-edge bounds"
+        },
+        {
+          "id": "pptx.vertical-text",
+          "reason": "vertical text layout is not measured"
+        },
+        {
+          "id": "pptx.master-layout-objects",
+          "reason": "master-only and layout-only visible objects are not checked"
+        }
+      ]
+    },
+    "package_downloads": [
+      {
+        "url": "http://127.0.0.1:8766/_wheels/ooxml_integrity-0.5.3-py3-none-any.whl",
+        "method": "GET"
+      }
+    ]
+  }
+}

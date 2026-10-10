@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.5.3 — release candidate
+## 0.5.3 — 2026-10-09
 
-[Upgrade notes and validation](docs/releases/0.5.3.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.5.3.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - The source distribution's tests pass. Its include list matched `demo/README.md`
   and `runs/README.md` as well as the top-level README, so an unpacked sdist had
