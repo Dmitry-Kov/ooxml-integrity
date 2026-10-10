@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.5.3
+    python research/release_smoke.py --version 0.6.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -359,6 +359,37 @@ def main():
         outer, inner = item.split("<", 2)[1].split(" ")[0], item.split("<", 3)[2].split(">")[0]
         assert f"xmlns:ns0='{namespace}'" in document
         assert f'w:xpath="/ns0:{outer}[1]/ns0:{inner}[1]"' in document
+
+        # 0.6.0: the installed `ooxml-integrity mcp` serves check and compare
+        # over stdio. A compare call returns the CLI's own report for the same
+        # pair, and a URL is refused without being fetched.
+        def rpc(rid, method, params):
+            return json.dumps({"jsonrpc": "2.0", "id": rid, "method": method, "params": params})
+        session = "\n".join([
+            rpc(0, "initialize", {"protocolVersion": "2025-06-18", "capabilities": {},
+                                  "clientInfo": {"name": "release-smoke", "version": args.version}}),
+            json.dumps({"jsonrpc": "2.0", "method": "notifications/initialized"}),
+            rpc(1, "tools/list", {}),
+            rpc(2, "tools/call", {"name": "compare",
+                                  "arguments": {"source": str(source), "edited": str(edited)}}),
+            rpc(3, "tools/call", {"name": "check",
+                                  "arguments": {"path": "https://example.com/contract.docx"}}),
+        ]) + "\n"
+        served = subprocess.run([str(console), "mcp", "--no-config"], input=session,
+                                capture_output=True, text=True, cwd=root, timeout=300)
+        assert served.returncode == 0, served.stderr
+        replies = {r["id"]: r for r in map(json.loads, served.stdout.splitlines())}
+        assert replies[0]["result"]["serverInfo"]["version"] == args.version
+        assert {t["name"] for t in replies[1]["result"]["tools"]} == {"check", "compare"}
+        expected = json.loads(cli("check", edited, "--against", source, "--no-config",
+                                  "--json", "--coverage", code=1).stdout)
+        compared = replies[2]["result"]
+        assert compared["isError"] is False
+        assert compared["structuredContent"]["report"] == expected
+        assert compared["structuredContent"]["exit_code"] == 1
+        refused = replies[3]["result"]
+        assert refused["isError"] is True and "URL" in refused["content"][0]["text"], refused
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -404,6 +435,7 @@ def main():
           "0.5.0 anonymize of a pair with its findings reproduced, "
           "0.5.1 FID013 on a sentence replaced to change one word, not on a phrase, "
           "0.5.2 anonymize of a firm's schema with its binding kept, "
+          "0.6.0 mcp over stdio: compare equal to the CLI report, a URL refused, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

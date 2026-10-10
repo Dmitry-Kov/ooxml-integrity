@@ -1,8 +1,8 @@
 # Support matrix
 
-This page describes [0.5.3](releases/0.5.3.md), including its changes from `0.5.2`.
+This page describes [0.6.0](releases/0.6.0.md), including its changes from `0.5.3`.
 The browser footer identifies its installed version.
-Version 0.5.3 changes no check; its source distribution's test suite passes. Version 0.5.2 changes no check; its [`anonymize`](anonymize.md) also replaces a firm's own schema names. Version 0.5.1 adds `FID013`, a WARN finding for a tracked replacement that re-inserts more unchanged words than it changes. Version 0.5.0 adds the [`anonymize`](anonymize.md) command and changes no check. Version 0.4.9 adds `FID012`, an INFO finding listing the tracked changes an edit
+Version 0.6.0 adds [`ooxml-integrity mcp`](mcp.md), a local MCP server that serves `check` and `compare` to an agent, and changes no check. Version 0.5.3 changes no check; its source distribution's test suite passes. Version 0.5.2 changes no check; its [`anonymize`](anonymize.md) also replaces a firm's own schema names. Version 0.5.1 adds `FID013`, a WARN finding for a tracked replacement that re-inserts more unchanged words than it changes. Version 0.5.0 adds the [`anonymize`](anonymize.md) command and changes no check. Version 0.4.9 adds `FID012`, an INFO finding listing the tracked changes an edit
 added per story, kind and author, so an expectation can require a tracked edit
 in the right place. Version 0.4.8 lets a caller declare the findings an edit was asked to cause
 (`--expect`, `[[expect]]`, `expect()`); an expectation nothing matches is an
