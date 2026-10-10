@@ -1,0 +1,2473 @@
+{
+ "checker": "0.6.0",
+ "python": "3.12.8",
+ "lxml": "6.1.3.0",
+ "zlib": "1.2.12",
+ "scanned": {
+  "roots": [
+   "corpus",
+   "runs",
+   "demo",
+   "evidence"
+  ],
+  "distinct_docx": 849,
+  "paths": 1380
+ },
+ "summary": {
+  "files nothing-to-repair": 22,
+  "files repaired": 29,
+  "refused anchor-replies": 23,
+  "repaired anchor-replies": 14,
+  "repaired renumber-revisions": 15
+ },
+ "files": [
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-1/basic-split.docx",
+    "evidence/docx-word-id-followup/inputs/adeu-shared-id.docx"
+   ],
+   "sha256": "325440cd850aaafb2b9ead03c35a253d9fd695f1fec26f9cef91449b81ac2bf7",
+   "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 104 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 104 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 106; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"104\"",
+       "new": "w:id=\"106\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "56989a26d09a87dc759194c254d155d8166140e5cfa63e1493de58c6ab8d206c",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-1/nested-split.docx"
+   ],
+   "sha256": "2070cf05fc25eb210c61187a984e6591d7912de031749e9a3bb96ec39883dcd3",
+   "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 203 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 203 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 205; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"203\"",
+       "new": "w:id=\"205\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "bff04e2fa4298af88764ae1eac9f6b2084055aebc70ecdb15b1d88b5465c2987",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-1/notes-split.docx"
+   ],
+   "sha256": "3c733c1f1a74926d4e9fa6055627a937d432ca9c2fca803d209603f147077e8a",
+   "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 402 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 402 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 404; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"402\"",
+       "new": "w:id=\"404\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "4c477f0a22fe07e35c0011ec71eec108781b3960e058bac8750f0d97e565f484",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-1/stories-split.docx"
+   ],
+   "sha256": "5f565b49a7d9c31be9bd7c9770c7edd744dc623faee6527d4c754ea2885a177c",
+   "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 503 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 503 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 505; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"503\"",
+       "new": "w:id=\"505\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "c45a22c4c653042a7ed7f96f187390cab2afe74a30019103c4306e03359571cf",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-1/table-split.docx"
+   ],
+   "sha256": "31272155a129126f3107a956f6cba2d71a00aa4ebdee324631b2a41d534223bf",
+   "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 303 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 303 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 305; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"303\"",
+       "new": "w:id=\"305\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "6b3c611535086e2dffa3faf523a9760330f8e36dc6eca3a87a3b2659ea90df96",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-2/basic-split.docx"
+   ],
+   "sha256": "d4d4903ec0bd83519100c4e13cbd5aec5f59c3839905b5ca1199a4df70d8455b",
+   "source": "evidence/docx-benchmark-boundaries/sources/basic.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 104 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 104 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 106; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"104\"",
+       "new": "w:id=\"106\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "6a588e57cc67dad85da20358be1e0d58ec3160cad95fe8723c4009b69c5a6f84",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-2/nested-split.docx"
+   ],
+   "sha256": "4da29539535863fa63a8df3ade66de486fa166626488c5a96e16c58e92a878d4",
+   "source": "evidence/docx-benchmark-boundaries/sources/nested.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 203 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 203 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 205; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"203\"",
+       "new": "w:id=\"205\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "c2dd7380c39218494764c6b1d7211bf3deae19208c8845df3c94a26ccfaa640e",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-2/notes-split.docx"
+   ],
+   "sha256": "ccd9a0ced6aeeb51d2ed2c6e4deb13c2b1ae1febba0b49662461523fb45ad7da",
+   "source": "evidence/docx-benchmark-boundaries/sources/notes.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 402 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 402 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 404; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"402\"",
+       "new": "w:id=\"404\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "10ecae3ec2b4cc691cf79464cd31d743f5fe0673e4e7393a31403cbd23231c97",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-2/stories-split.docx"
+   ],
+   "sha256": "cc8d4e759b062a8d2fba69e4c6fa2438156c4471788c016cad74d374c0da5feb",
+   "source": "evidence/docx-benchmark-boundaries/sources/stories.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 503 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 503 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 505; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"503\"",
+       "new": "w:id=\"505\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "83d10cacd651280a89d0b79f290babd41a9543a67e688f615e74bb9403c9a688",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-benchmark-boundaries/captures/adeu-2/table-split.docx"
+   ],
+   "sha256": "ce67aa51d69627606d54a2bba690acaa3a8e2684aa6c987d513e86dbebbef15f",
+   "source": "evidence/docx-benchmark-boundaries/sources/table.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 303 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 303 was used by 2 elements; the first, w:del by Evidence Editor at line 2, keeps it and w:del by Evidence Editor at line 2 gets 305; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[3]/w:del[2]",
+       "old": "w:id=\"303\"",
+       "new": "w:id=\"305\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "423e8dce49ea0a2a6f7d335645022dcd708aa0601d1fd091bcbf2aea4ee52718",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/contract-01--orphan-comment.docx"
+   ],
+   "sha256": "6827df5135a5993d90404496125303fb69ad0db8e260bfa71afbad4d8aa2de88",
+   "source": "evidence/docx-beta/sources/contract-01.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/contract-02--orphan-comment.docx"
+   ],
+   "sha256": "d88acc9793e7f217547cc3622c257f55d5f1fe3216803fe8946914b6de2ae27d",
+   "source": "evidence/docx-beta/sources/contract-02.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/contract-03--orphan-comment.docx"
+   ],
+   "sha256": "bdf8948b088f18ae6e54759ad0f52f96b5772287b555b5bfa23d155931d2504a",
+   "source": "evidence/docx-beta/sources/contract-03.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/contract-04--orphan-comment.docx"
+   ],
+   "sha256": "d8626f776d3a6b6ee112a1beed0137b9e75b43aa3b38ed950a19c21f805cc9ae",
+   "source": "evidence/docx-beta/sources/contract-04.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/contract-05--orphan-comment.docx"
+   ],
+   "sha256": "d358276906190d26a411c0361110c248c1392eb6abf8844f1236e3567039a841",
+   "source": "evidence/docx-beta/sources/contract-05.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/online-contract-01--orphan-comment.docx"
+   ],
+   "sha256": "34ebc2b1a50f531549ea1c1e53bffdd9fb25ff12e484549fd5d2b38980d33150",
+   "source": "evidence/docx-beta/sources/online-contract-01.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: the package has no commentsExtended part, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/online-contract-02--orphan-comment.docx"
+   ],
+   "sha256": "f74327a845e7062966a07e113741a9892ee1f333fa23c90f4744314fbc8bc064",
+   "source": "evidence/docx-beta/sources/online-contract-02.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: the package has no commentsExtended part, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/windows-contract-01--orphan-comment.docx"
+   ],
+   "sha256": "3e766225bc97e4dde4c3685b2bdf0db67b88b69b774ee84e280842e27f9b9c27",
+   "source": "evidence/docx-beta/sources/windows-contract-01.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-beta/outputs/windows-contract-02--orphan-comment.docx"
+   ],
+   "sha256": "ad29cd952f5732ae0c197194657b763ab8d7e2afe6e3e3063ad8eae187691c6a",
+   "source": "evidence/docx-beta/sources/windows-contract-02.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=0 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 0 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-comment-stories/outputs/footnote-anchor-lost-anchor.docx"
+   ],
+   "sha256": "30251f442d68ed368dad45d4d2318785a3bee33c66be40d3bdfcb5140881bfa9",
+   "source": "evidence/docx-comment-stories/sources/footnote-anchor.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-comment-stories/outputs/header-anchor-lost-anchor.docx"
+   ],
+   "sha256": "0a7f2bd4671fdbd3ccb67bbd78d14613f5e249d51a9daaf8dbce5601a9cbe4eb",
+   "source": "evidence/docx-comment-stories/sources/header-anchor.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-revisions/outputs/duplicate-id.docx"
+   ],
+   "sha256": "f879520276a04a4659cd7fc91a9e2a1eddd29c67bf3e6f518e020edb0434e34d",
+   "source": "evidence/docx-revisions/sources/basic.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 101 was used by 2 elements; the first, w:ins by Reviewer A at line 2, keeps it and w:del by Reviewer B at line 2 gets 104; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:del",
+       "where": "/w:document/w:body/w:p[4]/w:del",
+       "old": "w:id=\"101\"",
+       "new": "w:id=\"104\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "REL003 info",
+    "REL003 info"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "a542906235c7d0e9f80fb7cadf214682b82c4c4ebbdef76ffdc75fd0bf4271fe",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/adeu-1/K4-S1-tracked.docx"
+   ],
+   "sha256": "9ae24f934fdb7e0d9294a98fd0338e41f7c173e4370ed6934418eebd6de2439a",
+   "source": "corpus/base.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 101 was used by 2 elements; the first, w:ins by A. Counsel at line 2, keeps it and w:ins by A. Counsel at line 2 gets 106; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:ins",
+       "where": "/w:document/w:body/w:p[6]/w:ins[3]",
+       "old": "w:id=\"101\"",
+       "new": "w:id=\"106\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "84ce42dfebcd9fc9b793e1e4ad3cb748ab0e0f7236bb8307541047d109e7372b",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/adeu-1/K4-S2-tracked.docx"
+   ],
+   "sha256": "e3260958a52f2684ae261a015c3065028c5a39603c2db44c364a54cc266462ea",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 12 was used by 2 elements; the first, w:ins by Reviewer A at line 2, keeps it and w:ins by Reviewer A at line 2 gets 21; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:ins",
+       "where": "/w:document/w:body/w:p[14]/w:ins[4]",
+       "old": "w:id=\"12\"",
+       "new": "w:id=\"21\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "e2c5d1e4e4f8efcc8c4653f19b04a117d15de73a2d60605723a73d7d58f174e4",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/adeu-2/K4-S1-tracked.docx"
+   ],
+   "sha256": "183baa85d98ba34eed191d48de86c6a7748cb3f1f4c21d6e7a9e5b283b326b31",
+   "source": "corpus/base.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 101 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 101 was used by 2 elements; the first, w:ins by A. Counsel at line 2, keeps it and w:ins by A. Counsel at line 2 gets 106; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:ins",
+       "where": "/w:document/w:body/w:p[6]/w:ins[3]",
+       "old": "w:id=\"101\"",
+       "new": "w:id=\"106\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 13
+    }
+   },
+   "output_sha256": "f1ccf22ff23bb7b25ecab62a7826d294bbb3ae68b28f3d07bb6710b26ec918a0",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/adeu-2/K4-S2-tracked.docx"
+   ],
+   "sha256": "fe6c72e9a898e0472f9a724beee502950c622ccaffd9c3f30c23a972c0f939bc",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "REV001": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "renumber-revisions",
+     "finding": "revision id 12 used 2 times - outside the verified paragraph-mark/content pair; review for an ID collision",
+     "detail": "revision id 12 was used by 2 elements; the first, w:ins by Reviewer A at line 2, keeps it and w:ins by Reviewer A at line 2 gets 21; nothing in the package refers to a revision by its id",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:ins",
+       "where": "/w:document/w:body/w:p[14]/w:ins[4]",
+       "old": "w:id=\"12\"",
+       "new": "w:id=\"21\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "REV001"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "cc390eff1afe65184fe7285412815dbb837008dc1b0132b2aa3b99a560677cfb",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-1/K5-S1-comment.docx"
+   ],
+   "sha256": "486966298c2b252f847f0c094d7a6a12be3ae7c1701b0f4344f111f2f4994838",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "PKG010 error",
+    "STY001 warn"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "32b694d6a7d971b55e28e9ed891047d39a5708ab9a97b86f0e17764aa154abf2",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx"
+   ],
+   "sha256": "e03f4cc2cef4e8baa42050528427f889de629f037480fa0bccc35fdca5423096",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "PKG010 error"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "2b7611830e2e6126e7f6feeac5473b42cf66df164b466fba117f9b39a083243b",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-3/K5-S1-comment.docx"
+   ],
+   "sha256": "d331ea03253147c07da1a49b06ca784c1ea65a7b31089a065fd27e4cc49623a4",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "PKG010 error"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "00597ef5c5aa4f82e02e4778ef9ebff05df8ef3c1ab8142b70dcb8a62cff4319",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-3/K5-S2-comment.docx"
+   ],
+   "sha256": "17493a820911dca5e170e853d5eebaa7c6d855381852d963dfcfbb9b718eda03",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "9608c64960266d3d2773ef85a8fe49574749506d8e9adea3dd4f44e3e145d6da",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-4/K5-S1-comment.docx"
+   ],
+   "sha256": "29f0e33e840b43d9f63881c7fe6e4734da0350082817213cb2eff35be5396575",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "PKG010 error",
+    "STY001 warn"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "55da57a188537d364547be513fd17783e4ed873eb0957f98dce879623d85a91b",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/codex-5/K5-S1-comment.docx"
+   ],
+   "sha256": "b7fefc7a142cd8301e6a0cecb96a0ed26b254f96b7df33a80dc83730bf0c447a",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [
+    "PKG010 error"
+   ],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "a4329a652e1f4724494187e0569198a10ce722a45a2aa1f0d0939b464207d1f5",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/docx-mcp-1/K5-S2-comment.docx"
+   ],
+   "sha256": "9961d5cb1eaeed1ce9c2f8f2dd8a5babcd392bde1c7756daf3a1808d05fd0735",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "344f93b99a9f8618bea1fe48ba0712123022ee8292e2871b29b051e9986a6fe7",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": false,
+    "before": {
+     "completed": false,
+     "preserved": true
+    },
+    "after": {
+     "completed": false,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/docx-mcp-2/K5-S2-comment.docx"
+   ],
+   "sha256": "2a18646c517fc5eeb35eeb6f7b677021904033027cf3d6d317c33b521904be4b",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "d74176538cee82bda5e778126c8db9aa839642b05415c37fb96ae0168f6ba489",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": false,
+    "before": {
+     "completed": false,
+     "preserved": true
+    },
+    "after": {
+     "completed": false,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/docx-mcp-3/K5-S2-comment.docx"
+   ],
+   "sha256": "f909351d2d871656b650fb1e06826f0b695e8bebeb935d01368c031b39450f73",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "7826ff3275bc2d77ee68e1a174dcb2f55806e383f5c4c714a0b810c241f0feb2",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": false,
+     "preserved": true
+    },
+    "after": {
+     "completed": false,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/docx-mcp-4/K5-S2-comment.docx"
+   ],
+   "sha256": "f797872a792b6dd4d040e354e3271caa0b46689743cf56841abe331f479ca9c6",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "400a310f8f4426c2bca720e32f7760526e724b2f59dd7cfb9b07a7fb532d08ad",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": false,
+     "preserved": true
+    },
+    "after": {
+     "completed": false,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/docxengine-1/K5-S2-comment.docx",
+    "evidence/review-history-benchmark/captures/docxengine-2/K5-S2-comment.docx"
+   ],
+   "sha256": "01869cba76c924b920ce9cffce626f0e88b3ba690bd404e98dd5fad5d97bf6b4",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "98208febaba0126bfad0e6d6b0204b739f775847a42d1b08a97374d79a07704d",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": false,
+     "preserved": true
+    },
+    "after": {
+     "completed": false,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/office-word-mcp-1/K2-S1-plain.docx"
+   ],
+   "sha256": "dbedbdfdf9b0600ef95a56c8d37c059a135a0739d8933dab453b5d9210d50eca",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/office-word-mcp-1/K2-S2-plain.docx"
+   ],
+   "sha256": "7257e8036da85bc9a24596ad320881997001cd914f92df1854b57ed8cfed00db",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=14 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 14 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/office-word-mcp-2/K2-S1-plain.docx"
+   ],
+   "sha256": "d3518c556b030585f633e9e814b00b49cf4076a770cd0712fe23bd2cee4c1853",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/office-word-mcp-2/K2-S2-plain.docx"
+   ],
+   "sha256": "ab0f19c4686dd8b71b5c502aeda1a811f360e1f922e93d39086416022e5f1cde",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=14 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 14 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/opencode-qwen-1/K5-S1-comment.docx"
+   ],
+   "sha256": "09e63af78b49655555f8e04d92c1e447966630a36f98b9af33cb9e1a8787e6aa",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible. The thread link comes from word/commentsExtended.xml, whose root is commentList, not w15:commentsEx: Word 16.113.4 threads the reply, LibreOffice shows it as a separate comment on the same range",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "2827096a8d79f1417dc63264cd19d18fdc2bdddadeb33aedb7a41d251cf68f0d",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/opencode-qwen-1/K5-S2-comment.docx"
+   ],
+   "sha256": "1895f2035f04d1822bab42a8037c4248748f50991f9c8c9d48a91e78fda58d20",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=15 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 15 by Benchmark Editor (\"Schedule 1 now defines it.\") anchored at the range of comment 2 by Reviewer A, after reply 3, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeStart[3]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[4]/w:commentRangeEnd[3]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"15\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[4]/w:r[5]",
+       "old": null,
+       "new": "<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/><w:sz w:val=\"22\"/><w:szCs w:val=\"20\"/></w:rPr><w:commentReference w:id=\"15\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+     "FID002 info character style references: 7 -> 8 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": [],
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "9c5d66cdf8374ca611fe4aee39aa7484cb5474c3eb3efeec569aea010b0f3883",
+   "deterministic": true,
+   "oracle": {
+    "scored_attempt": true,
+    "before": {
+     "completed": true,
+     "preserved": true
+    },
+    "after": {
+     "completed": true,
+     "preserved": true
+    }
+   }
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/python-docx-setter-1/K1-S1-plain.docx",
+    "evidence/review-history-benchmark/captures/python-docx-setter-2/K1-S1-plain.docx"
+   ],
+   "sha256": "51b3153d3a78f492218e3989cb8cf1345591f07bf34ba3fd2fca5a69700e8358",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=2 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 2 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [
+    "FTN002 error"
+   ],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/python-docx-setter-1/K1-S2-plain.docx",
+    "evidence/review-history-benchmark/captures/python-docx-setter-2/K1-S2-plain.docx"
+   ],
+   "sha256": "957e5242d4841669c0c0c2d9c0ee35652db64b89b1d9a398a58eb0497e5a8933",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 2
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=2 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 2 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    },
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 3 replies to comment 2, which is not anchored once with a start, an end and a reference in one story; the thread's range is lost"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/python-docx-setter-1/K2-S1-plain.docx",
+    "evidence/review-history-benchmark/captures/python-docx-setter-2/K2-S1-plain.docx"
+   ],
+   "sha256": "c1e15af45532fb6c03a8f81fcf417762c6b9839056d2074128e137f8cb692602",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/captures/python-docx-setter-1/K2-S2-plain.docx",
+    "evidence/review-history-benchmark/captures/python-docx-setter-2/K2-S2-plain.docx"
+   ],
+   "sha256": "2c347b5499b014705557c35ae1496c7413ed7943e913b3afa27118b814faa8c9",
+   "source": "evidence/review-history-benchmark/sources/word-review.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=14 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 14 is not a reply: commentsExtended gives it no parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/word-check-content-type/variants/d4-codex-2-K5-S1-no-commentsExtended.docx"
+   ],
+   "sha256": "efa83fb6dbe32d8ce4c16c1a45e53355ba802c219798259bf19628ddb5d78acb",
+   "source": null,
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 3 is not a reply: the package has no commentsExtended part, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/review-history-benchmark/word-check-content-type/variants/d6-codex-2-K5-S1-ct-fixed.docx"
+   ],
+   "sha256": "4fc299788252cffbc5fcb194c2708bc72f2a692a55e772e0e56565a22cede49d",
+   "source": null,
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=3 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "detail": "reply 3 by Benchmark Editor (\"Checked against the definitions schedule.\") anchored at the range of comment 2 by A. Counsel, in word/document.xml, in the order Word writes a thread; Word does not show a reply without an anchor, so the reply becomes visible",
+     "changes": [
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeStart",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeStart[2]",
+       "old": null,
+       "new": "<w:commentRangeStart w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:commentRangeEnd",
+       "where": "/w:document/w:body/w:p[2]/w:commentRangeEnd[2]",
+       "old": null,
+       "new": "<w:commentRangeEnd w:id=\"3\"/>"
+      },
+      {
+       "part": "word/document.xml",
+       "element": "w:r",
+       "where": "/w:document/w:body/w:p[2]/w:r[4]",
+       "old": null,
+       "new": "<w:r><w:commentReference w:id=\"3\"/></w:r>"
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "CMT005"
+    ],
+    "added": [],
+    "compare_input_output": [
+     "FID002 info comment anchors: 3 -> 4 - added during editing (count increase alone does not establish a defect)"
+    ],
+    "against_added": null,
+    "zip": {
+     "changed": [
+      "word/document.xml"
+     ],
+     "copied": 14
+    }
+   },
+   "output_sha256": "1c019aa50423443f1c12fc93193b0f399792c582293bec6805fe719cdec80780",
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "runs/t4_fast_fee/agreement.docx",
+    "demo/examples/agreement.docx"
+   ],
+   "sha256": "cec72f9cb04dd218631e878a7ff9f3c0ad34ef8d6184b3309163df7043ec752f",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "runs/t4_fast_table/agreement.docx"
+   ],
+   "sha256": "64849c822fee3e583fe6eeacfc85c2ad29ccf0d1cc9218ab32206e8597143d55",
+   "source": "corpus/base.docx",
+   "findings": {
+    "CMT005": 1
+   },
+   "status": "nothing-to-repair",
+   "exit": 1,
+   "reason": "every CMT005/REV001 finding was refused",
+   "repaired": [],
+   "refused": [
+    {
+     "repair": "anchor-replies",
+     "finding": "comment id=1 is orphaned - present in comments.xml but anchored to nothing - the reviewer's note is invisible in Word",
+     "reason": "comment 1 is not a reply: its last paragraph has no w14:paraId, so nothing links it to a parent; a top-level comment's anchor position is lost and fix does not guess it"
+    }
+   ],
+   "other_findings": [],
+   "verification": null,
+   "output_sha256": null,
+   "deterministic": true
+  }
+ ]
+}

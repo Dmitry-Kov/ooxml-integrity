@@ -237,6 +237,12 @@ findings and exits `0` even when they include errors. It returns before normal
 JSON, SARIF and coverage output. That exit does not mean the document passed.
 `doctor` has its own [capability exit semantics](coverage.md#doctor).
 
+`fix`, new and unreleased, keeps `0` for success and `2` for usage errors and
+adds `3`. `0` means a repaired copy was verified and written. `1` means nothing
+was written, because no finding could be repaired. `2` also covers a package
+`fix` does not rewrite (unreadable, Strict, malformed). `3` means a repair
+failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
+
 ## Machine-readable formats
 
 These versions identify different things:
@@ -253,6 +259,12 @@ These versions identify different things:
 until a release documents them. Its replacement words are random in every run,
 so two runs on the same files write different copies; its exit codes are those
 above.
+
+`fix --json`, new and unreleased, has no schema version yet: its fields can
+change until a release documents them. It names the checker `version`, and the
+input and output by path and SHA-256. Its changes, refusals and re-check are
+described in [fix](fix.md#json-report). Given the same input and the same zlib,
+it writes the same output bytes.
 
 The [MCP server](mcp.md) (`ooxml-integrity mcp`), new in 0.6.0, has no
 contract of its own yet: its tool names, arguments and the shape of a result

@@ -155,6 +155,29 @@ Exit codes are `0` for no findings at or above `--fail-on` (default `error`),
 `1` when such findings exist, and `2` for a usage error. Use `--json` for
 machine-readable output and `--quiet` to print only findings that fail the run.
 
+## Two repairs, and no more
+
+Most findings cannot be repaired from the file: putting back a lost comment,
+style or tracked change means guessing what was there. `fix` makes only the two
+repairs whose result is unique, and checks the copy again before writing it.
+
+```bash
+ooxml-integrity fix edited.docx -o repaired.docx
+```
+
+- **anchor-replies** (`CMT005`): a reply whose parent comment is anchored is
+  given its parent's range, in the order Word writes a thread. In Word for Mac,
+  the reply appears in its thread only after the repair.
+- **renumber-revisions** (`REV001`): every repeated revision id after the first
+  gets a fresh id.
+
+Every other finding is listed as not repaired, with the reason. The input is
+never changed. In the copy, only the repaired bytes of one part differ, and
+every other ZIP member is copied as stored. Exit `0` means a verified copy was
+written; `1`, nothing to repair; `2`, a usage error or a package `fix` does not
+rewrite; `3`, a failed re-check. [What it repairs, refuses and
+guarantees](docs/fix.md).
+
 ## Decks: does the text fit the box?
 
 ```bash

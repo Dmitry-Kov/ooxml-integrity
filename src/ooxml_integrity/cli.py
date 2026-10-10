@@ -5,6 +5,15 @@ Exit codes are the contract with CI:
     0   nothing at or above the --fail-on threshold
     1   findings at or above the threshold
     2   usage error, or a file that could not be read at all
+
+`fix` keeps 0 and 2 and adds 3, so that 0 always means a verified copy was
+written (docs/fix.md):
+
+    0   repaired and re-checked; OUT written
+    1   nothing written: no finding fix repairs, or every one refused
+    2   usage error, or a package fix does not rewrite (unreadable, Strict,
+        malformed); nothing written
+    3   a repair could not be proved by the re-check; nothing written
 """
 from __future__ import annotations
 
@@ -325,7 +334,52 @@ def build_parser() -> argparse.ArgumentParser:
                    help="overwrite those files if they already exist")
     a.add_argument("--json", action="store_true",
                    help="machine-readable report on stdout")
+
+    f = sub.add_parser(
+        "fix",
+        help="write a repaired copy of a .docx: anchor orphaned replies "
+             "(CMT005), renumber repeated revision ids (REV001)",
+        description="Write a repaired copy of a .docx, never in place. Two "
+                    "repairs, each only when its result is unique: "
+                    "anchor-replies gives an orphaned reply its parent "
+                    "comment's range, as Word writes a thread; "
+                    "renumber-revisions gives every repeated revision id after "
+                    "the first a fresh id. Lost content is never restored or "
+                    "invented. The copy is checked again before it is written. "
+                    "See docs/fix.md.",
+        epilog="exit codes: 0 repaired and re-checked, OUT written; 1 nothing "
+               "to repair or every repair refused; 2 usage error or a package "
+               "fix does not rewrite; 3 the re-check failed. Nothing is "
+               "written unless the exit code is 0",
+    )
+    f.add_argument("file", type=Path, metavar="IN", help="the .docx to repair")
+    f.add_argument("-o", "--output", type=Path, required=True, metavar="OUT",
+                   help="where to write the repaired copy; must not be IN")
+    f.add_argument("--against", metavar="SOURCE", type=Path, default=None,
+                   help="also prove the copy loses nothing relative to SOURCE "
+                        "that IN did not")
+    f.add_argument("--force", action="store_true",
+                   help="replace OUT if it already exists (never IN)")
+    f.add_argument("--json", action="store_true",
+                   help="machine-readable report on stdout")
     return p
+
+
+def _run_fix(args) -> int:
+    from .fix import FixUsageError, fix
+
+    try:
+        report = fix(args.file, args.output, against=args.against,
+                     force=args.force)
+    except FixUsageError as e:
+        print(f"ooxml-integrity: {e}", file=sys.stderr)
+        return EXIT_USAGE
+    if args.json:
+        json.dump(report.as_dict(), sys.stdout, indent=2, ensure_ascii=True)
+        sys.stdout.write("\n")
+    else:
+        print(report.render())
+    return report.exit_code
 
 
 def _run_anonymize(args) -> int:
@@ -391,6 +445,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_anonymize(args)
     if args.command == "mcp":
         return _run_mcp(args)
+    if args.command == "fix":
+        return _run_fix(args)
 
     try:
         policy = Policy() if args.no_config else Policy.load(args.config)
