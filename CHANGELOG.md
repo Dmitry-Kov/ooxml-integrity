@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- `ooxml-integrity mcp`: a local [MCP server](docs/mcp.md) on stdin and
+  stdout, so an agent can check a document it edited before returning it. Two
+  tools: `check(path)`, which is `check PATH --json --coverage`, and
+  `compare(source, edited)`, which adds `--against SOURCE` and takes the
+  changes the edit was asked to make as `expect` entries. Each returns the
+  CLI's JSON report and a one-line verdict that says `clean` only when
+  coverage has no estimated, skipped or unsupported item. Only local files
+  are read; URLs and network paths are rejected. The config is the CLI's, set
+  when the server starts; a call cannot turn a rule off. No new dependency:
+  the protocol subset is implemented in the package. The guide has the
+  configuration for Claude Code, Codex and OpenCode.
+
 ## 0.5.3 — 2026-10-09
 
 [Upgrade notes and verified publication](docs/releases/0.5.3.md). Published

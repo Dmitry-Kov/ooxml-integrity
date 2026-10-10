@@ -216,6 +216,19 @@ request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
+## From an agent
+
+```bash
+claude mcp add ooxml-integrity -- ooxml-integrity mcp
+```
+
+An agent can run the same checks on a document it has just edited, before it
+returns the file. `ooxml-integrity mcp` is a local MCP server with two tools,
+`check` and `compare`; it talks over stdin and stdout and opens no socket. A
+call returns the report of `check --json --coverage` and a one-line verdict.
+The [MCP guide](docs/mcp.md) has the configuration for Claude Code, Codex and
+OpenCode.
+
 ## From Python
 
 ```python
@@ -364,7 +377,7 @@ use the private channel in [SECURITY.md](SECURITY.md).
 
 ```
 src/ooxml_integrity/   inspector, fidelity, fonts, pptx layout and checks,
-                       coverage, doctor, policy, sarif, cli
+                       coverage, doctor, policy, sarif, cli, MCP server
 tests/                 labelled-corpus, story-fidelity and false-positive regressions
 research/              corpus builders, mutators, calibration, renderer comparison
 docs/                  research notes, configuration, support matrix, validation records
