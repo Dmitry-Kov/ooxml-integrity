@@ -10,11 +10,21 @@ import os
 import subprocess
 import sys
 import zipfile
+import zlib
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+
+#: The committed ZIP fixtures were deflated by zlib. Windows builds of CPython
+#: 3.14 use zlib-ng, which deflates the same data into other bytes, so a test
+#: that rebuilds fixtures byte for byte cannot pass there. Any other zlib still
+#: runs it, so a difference elsewhere fails instead of being skipped.
+needs_zlib_bytes = pytest.mark.skipif(
+    "zlib-ng" in zlib.ZLIB_RUNTIME_VERSION,
+    reason=f"zlib {zlib.ZLIB_RUNTIME_VERSION} deflates into other bytes than the "
+           "zlib the fixtures were built with")
 
 
 @pytest.fixture(scope="session")
