@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- `ooxml-integrity fix IN -o OUT`: a repaired copy of a `.docx`, with only the
+  two [repairs](docs/fix.md) whose result is unique.
+  - **anchor-replies** (`CMT005`): a reply whose parent comment is anchored
+    gets its parent's range, in the order Word writes a thread.
+  - **renumber-revisions** (`REV001`): every repeated revision id after the
+    first gets a fresh id.
+  - **Never content.** Lost content is never restored or invented. Every
+    finding not repaired is listed with the reason.
+  - **Never in place.** The copy is written to a temporary file, checked again
+    with `check` and `compare` (and against `--against SOURCE`), and only then
+    renamed.
+  - **Byte-preserving.** Only the repaired bytes of a part change, and every
+    other ZIP member is copied as stored.
+  - **Exit codes:** `0` repaired and verified; `1` nothing written, because
+    nothing could be repaired; `2` usage error or a package fix does not
+    rewrite; `3` the re-check failed.
+  - **JSON:** `--json` has no schema version yet.
+  - **Evidence:** on the repository's 51 DOCX with either finding, 29 were
+    repaired and 22 refused with their reasons
+    ([evidence](evidence/fix-repairs/README.md)). The 17 of those copies that
+    Word for Mac 16.113.4 and LibreOffice 25.8.4.2 opened in the fixability
+    survey are the bytes `fix` writes.
+
 - `PKG010` (ERROR): a part the main document relates is declared with another
   content type than its relationship type requires, such as a `commentsExtended`
   part declared `application/vnd.ms-word.commentsExtended+xml`. Codex wrote
