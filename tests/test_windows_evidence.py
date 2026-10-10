@@ -7,6 +7,7 @@ import json
 import shutil
 
 import pytest
+from conftest import needs_zlib_bytes
 from lxml import etree
 
 from research import build_docx_evidence as corpus
@@ -152,6 +153,7 @@ def test_batch_paths_cannot_escape_staging(tmp_path):
 
 
 @pytest.mark.frozen_checker
+@needs_zlib_bytes
 def test_rebuild_preserves_real_word_pairs_and_every_committed_docx(tmp_path):
     copied = tmp_path / "evidence"
     shutil.copytree(ROOT, copied)

@@ -19,9 +19,14 @@ jobs:
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
         include:
-          # the tool reads files Word wrote, so check it runs where Word lives
+          # the tool reads files Word wrote, so check it runs where Word lives,
+          # on the oldest and newest Python it supports as well
+          - os: windows-latest
+            python: "3.9"
           - os: windows-latest
             python: "3.12"
+          - os: windows-latest
+            python: "3.14"
           - os: macos-latest
             python: "3.12"
     steps:

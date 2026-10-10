@@ -39,6 +39,23 @@
   The new coverage item `package.related-content-types` says when the main part
   was not read.
 
+- `ooxml-integrity mcp` reads its config once, when it starts, instead of on
+  every call. The client starts the server before the agent edits anything, so
+  a config the agent writes or edits afterwards, such as an `[[ignore]]` for
+  the finding it caused, is no longer applied; the verdict says the config
+  changed since the server started. The verdict names the findings a config
+  suppressed and the file (`1 finding(s) suppressed by config
+  .ooxml-integrity.toml: CMT005`), where it gave only a count. The
+  [guide](docs/mcp.md) says how to run a check the agent cannot influence
+  (`--config` outside the repository, or `--no-config`) and that a path is not
+  confined to the project.
+- The package ships `py.typed`, so type checkers read its annotations.
+- CI also runs on Windows with Python 3.9 and 3.14. CPython 3.14 for Windows
+  deflates with zlib-ng, which writes other bytes than the zlib the fixtures
+  were built with, so the three tests that rebuild fixtures byte for byte skip
+  there and nowhere else. Dependabot also proposes the browser tests'
+  Playwright update and runtime dependency ranges a new release falls outside.
+
 ## 0.6.0 — 2026-10-10
 
 [Upgrade notes and verified publication](docs/releases/0.6.0.md). Published

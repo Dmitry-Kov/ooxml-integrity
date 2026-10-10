@@ -94,10 +94,22 @@ Server options go after `mcp` in the client's arguments, for example
 
 Without `--config` the server looks for a config the way `check` does,
 upwards from its working directory: `.ooxml-integrity.toml`, or a
-`[tool.ooxml-integrity]` table in `pyproject.toml`. Each call reads it again,
-so edits apply without a restart. A call cannot change it: the agent can
-declare a change it was asked to make (see [expectations](#changes-the-edit-was-asked-to-make)),
-but it cannot turn a rule off or lower the threshold.
+`[tool.ooxml-integrity]` table in `pyproject.toml`.
+
+The server reads the config once, when it starts. The client starts it before
+the agent edits anything, so a config the agent writes or edits later, an
+`[[ignore]]` entry for instance, is not applied: the verdict says
+`config changed since the server started` and the run uses the copy read at
+start. Restart the server to apply a change you made. A call cannot change
+the config either: the agent can declare a change it was asked to make (see
+[expectations](#changes-the-edit-was-asked-to-make)), but it cannot turn a
+rule off or lower the threshold.
+
+The config in the repository is still the agent's to edit before a server
+starts, for example in a later session. For a check the agent cannot
+influence, give the server a config outside the repository it edits with
+`--config`, or none with `--no-config`. Whatever config is used, the verdict
+names every finding it suppressed and the file that suppressed it.
 
 ## Tools
 
@@ -119,7 +131,9 @@ client chooses; absolute paths avoid the question. `~` is expanded. The path
 must name a regular file. A URL (`https://...`, `file:...`, any `scheme:`) or
 a network path (`//host/share/...`, `\\host\share\...`) is rejected without
 any attempt to read it, and so is a directory or a missing file. The server
-never downloads, writes or deletes anything.
+never downloads, writes or deletes anything. A path is not confined to the
+project: like the agent's own file tools, the server can read any file the
+user who runs it can read.
 
 ## Results
 
@@ -156,8 +170,10 @@ item, the same rule `check --coverage` follows. Otherwise a file with no
 findings has `no findings in checked surfaces`. The `not fully checked` counts
 show what the report's `coverage` block explains item by item. A `.docx`
 checked without its original always has the six `docx.fidelity.*` items
-skipped, so `check` alone does not call it clean. The verdict also counts
-findings accepted as expected and findings suppressed by the config.
+skipped, so `check` alone does not call it clean. The verdict also names the
+findings accepted as expected and the findings the config suppressed, with
+the config file (`1 finding(s) suppressed by config .ooxml-integrity.toml:
+CMT005`), and says when the config on disk changed after the server started.
 
 ## Changes the edit was asked to make
 
