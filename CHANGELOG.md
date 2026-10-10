@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.6.0 — release candidate
+## 0.6.0 — 2026-10-10
 
-[Upgrade notes and validation](docs/releases/0.6.0.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.6.0.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `ooxml-integrity mcp`: a local [MCP server](docs/mcp.md) on stdin and
   stdout, so an agent can check a document it edited before returning it. Two
