@@ -1,6 +1,6 @@
 {
  "scope": "anonymize() on every labelled pair in this repository and every DOCX of the public corpora; the checker and the anonymizer from this checkout",
- "checker": "ooxml-integrity 0.5.1",
+ "checker": "ooxml-integrity 0.6.0",
  "summary": {
   "producer corpus": {
    "items": 220,
@@ -6973,7 +6973,7 @@
    "reproduced": true,
    "findings": {
     "source": 0,
-    "edited": 4
+    "edited": 5
    },
    "leaks": 0,
    "collisions": 0
@@ -7303,7 +7303,7 @@
    "reproduced": true,
    "findings": {
     "source": 0,
-    "edited": 2
+    "edited": 3
    },
    "leaks": 0,
    "collisions": 0
@@ -7633,7 +7633,7 @@
    "reproduced": true,
    "findings": {
     "source": 0,
-    "edited": 2
+    "edited": 3
    },
    "leaks": 0,
    "collisions": 0
@@ -7963,7 +7963,7 @@
    "reproduced": true,
    "findings": {
     "source": 0,
-    "edited": 4
+    "edited": 5
    },
    "leaks": 0,
    "collisions": 0
@@ -8293,7 +8293,7 @@
    "reproduced": true,
    "findings": {
     "source": 0,
-    "edited": 2
+    "edited": 3
    },
    "leaks": 0,
    "collisions": 0

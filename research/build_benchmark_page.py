@@ -67,7 +67,7 @@ def tally() -> dict:
 #: Rule codes no published version has yet. The page describes published
 #: versions, so this checkout's analysis is recounted without them until a
 #: release ships them.
-UNRELEASED: frozenset = frozenset()
+UNRELEASED: frozenset = frozenset({"PKG010"})
 #: The analysis run with a published wheel, for the paragraph about that version.
 PUBLISHED = {v: EVIDENCE / f"expectations/results-{v}.json" for v in ("0.4.8", "0.4.9")}
 

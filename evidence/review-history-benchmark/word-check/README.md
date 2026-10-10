@@ -56,3 +56,7 @@ that opens without a prompt may still be normalised. The pane's revision and
 comment counts (file 1: 5 / 2; 2: 6 / 2; 3: 16 / 3; 4 and 5: 16 / 4; 6: 17 / 5;
 7 after recovery: 6 / 3) describe what Word displays, including the empty
 recovered comment. Word for Windows and Word on the web were not checked.
+
+A later check in Word for Mac 16.113.4 found that Word refuses Codex's five
+K5-S1 outputs over the content type of their `commentsExtended` part: see
+[content-type check](../word-check-content-type/README.md).

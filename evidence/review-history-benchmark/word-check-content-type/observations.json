@@ -1,0 +1,375 @@
+{
+ "application": "Microsoft Word for Mac 16.113.4 (16.113.26100421)",
+ "word": {
+  "version": "16.113.4",
+  "build": "26100421"
+ },
+ "macos": {
+  "version": "27.0.1",
+  "build": "26A434"
+ },
+ "checked_on": "2026-10-10",
+ "timezone": "Asia/Tashkent",
+ "operator": "computer-use agent driving Word through AppleScript and System Events on the maintainer's Mac, with the maintainer's permission; not blind to the expectations",
+ "route": "open -a \"Microsoft Word\" FILE; default view (Print Layout, markup with balloons); no repair mode chosen in advance; no preference changed; nothing saved; close active document saving no",
+ "prompts_policy": "unreadable-content prompt answered No; the error that follows dismissed with OK",
+ "environment_dialogs": {
+  "what": "Visual Basic run-time error 53 from Adobe PDFMaker (MacPDFM.framework not found)",
+  "choice": "End (Return)",
+  "attributed_to_file": false
+ },
+ "object_model": "AppleScript: Word comments (author, comment text, scope text) and revisions (type, author, text object); accept/reject (revision k) followed by undo",
+ "thread_evidence": "AppleScript exposes no reply link; whether a reply is shown in its parent's thread is read from the window screenshot: Word draws a threaded reply indented inside the parent's balloon (as in the Word-saved S2 source), and a separate comment as its own balloon",
+ "record": "Excerpt of the fixability survey's Word check of 2026-10-10 (git-ignored tmp/fixability/word-check.json). Its protocol was written before the first file was opened and declared the anchor-replies and renumber-revisions pairs. The refusals of the Codex K5-S1 files were observed under that protocol; the single-change variants were made and opened afterwards, post hoc, to find the cause.",
+ "codex_k5_s1": [
+  {
+   "capture": "evidence/review-history-benchmark/captures/codex-1/K5-S1-comment.docx",
+   "sha256": "486966298c2b252f847f0c094d7a6a12be3ae7c1701b0f4344f111f2f4994838",
+   "opened": false,
+   "prompts": [
+    {
+     "text": "Microsoft Word Word found unreadable content in 05-codex-1-K5-S1-comment-K5-S1-comment--orig.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+     "choice": "No"
+    },
+    {
+     "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(05-codex-1-K5-S1-comment-K5-S1-commen...) [OK]",
+     "choice": "OK"
+    }
+   ],
+   "anchor_replies_copy": {
+    "sha256": "32b694d6a7d971b55e28e9ed891047d39a5708ab9a97b86f0e17764aa154abf2",
+    "stored": false,
+    "opened": false,
+    "prompts": [
+     {
+      "text": "Microsoft Word Word found unreadable content in 05-codex-1-K5-S1-comment-K5-S1-comment--fixed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+      "choice": "No"
+     },
+     {
+      "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(05-codex-1-K5-S1-comment-K5-S1-commen...) [OK]",
+      "choice": "OK"
+     }
+    ]
+   }
+  },
+  {
+   "capture": "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx",
+   "sha256": "e03f4cc2cef4e8baa42050528427f889de629f037480fa0bccc35fdca5423096",
+   "opened": false,
+   "prompts": [
+    {
+     "text": "Microsoft Word Word found unreadable content in 06-codex-2-K5-S1-comment-K5-S1-comment--orig.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+     "choice": "No"
+    },
+    {
+     "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(06-codex-2-K5-S1-comment-K5-S1-commen...) [OK]",
+     "choice": "OK"
+    }
+   ],
+   "anchor_replies_copy": {
+    "sha256": "2b7611830e2e6126e7f6feeac5473b42cf66df164b466fba117f9b39a083243b",
+    "stored": false,
+    "opened": false,
+    "prompts": [
+     {
+      "text": "Microsoft Word Word found unreadable content in 06-codex-2-K5-S1-comment-K5-S1-comment--fixed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+      "choice": "No"
+     },
+     {
+      "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(06-codex-2-K5-S1-comment-K5-S1-commen...) [OK]",
+      "choice": "OK"
+     }
+    ]
+   }
+  },
+  {
+   "capture": "evidence/review-history-benchmark/captures/codex-3/K5-S1-comment.docx",
+   "sha256": "d331ea03253147c07da1a49b06ca784c1ea65a7b31089a065fd27e4cc49623a4",
+   "opened": false,
+   "prompts": [
+    {
+     "text": "Microsoft Word Word found unreadable content in 07-codex-3-K5-S1-comment-K5-S1-comment--orig.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+     "choice": "No"
+    },
+    {
+     "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(07-codex-3-K5-S1-comment-K5-S1-commen...) [OK]",
+     "choice": "OK"
+    }
+   ],
+   "anchor_replies_copy": {
+    "sha256": "00597ef5c5aa4f82e02e4778ef9ebff05df8ef3c1ab8142b70dcb8a62cff4319",
+    "stored": false,
+    "opened": false,
+    "prompts": [
+     {
+      "text": "Microsoft Word Word found unreadable content in 07-codex-3-K5-S1-comment-K5-S1-comment--fixed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+      "choice": "No"
+     },
+     {
+      "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(07-codex-3-K5-S1-comment-K5-S1-commen...) [OK]",
+      "choice": "OK"
+     }
+    ]
+   }
+  },
+  {
+   "capture": "evidence/review-history-benchmark/captures/codex-4/K5-S1-comment.docx",
+   "sha256": "29f0e33e840b43d9f63881c7fe6e4734da0350082817213cb2eff35be5396575",
+   "opened": false,
+   "prompts": [
+    {
+     "text": "Microsoft Word Word found unreadable content in 09-codex-4-K5-S1-comment-K5-S1-comment--orig.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+     "choice": "No"
+    },
+    {
+     "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(09-codex-4-K5-S1-comment-K5-S1-commen...) [OK]",
+     "choice": "OK"
+    }
+   ],
+   "anchor_replies_copy": {
+    "sha256": "55da57a188537d364547be513fd17783e4ed873eb0957f98dce879623d85a91b",
+    "stored": false,
+    "opened": false,
+    "prompts": [
+     {
+      "text": "Microsoft Word Word found unreadable content in 09-codex-4-K5-S1-comment-K5-S1-comment--fixed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+      "choice": "No"
+     },
+     {
+      "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(09-codex-4-K5-S1-comment-K5-S1-commen...) [OK]",
+      "choice": "OK"
+     }
+    ]
+   }
+  },
+  {
+   "capture": "evidence/review-history-benchmark/captures/codex-5/K5-S1-comment.docx",
+   "sha256": "b7fefc7a142cd8301e6a0cecb96a0ed26b254f96b7df33a80dc83730bf0c447a",
+   "opened": false,
+   "prompts": [
+    {
+     "text": "Microsoft Word Word found unreadable content in 10-codex-5-K5-S1-comment-K5-S1-comment--orig.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+     "choice": "No"
+    },
+    {
+     "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(10-codex-5-K5-S1-comment-K5-S1-commen...) [OK]",
+     "choice": "OK"
+    }
+   ],
+   "anchor_replies_copy": {
+    "sha256": "a4329a652e1f4724494187e0569198a10ce722a45a2aa1f0d0939b464207d1f5",
+    "stored": false,
+    "opened": false,
+    "prompts": [
+     {
+      "text": "Microsoft Word Word found unreadable content in 10-codex-5-K5-S1-comment-K5-S1-comment--fixed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes. [Yes] [No]",
+      "choice": "No"
+     },
+     {
+      "text": "Microsoft Word Word experienced an error trying to open the file.\nTry these suggestions.\n* Check the file permissions for the document or drive.\n* Make sure there is sufficient free memory and disk space.\n* Open the file with the Text Recovery converter.\n(10-codex-5-K5-S1-comment-K5-S1-commen...) [OK]",
+      "choice": "OK"
+     }
+    ]
+   }
+  }
+ ],
+ "control": {
+  "file": "corpus/base.docx",
+  "sha256": "d5cfac16b4fbbe4ab5064e4a6c4d5bf240cae7f15a6455a952f7251591831afd",
+  "opened": true,
+  "prompts": [],
+  "comments": [
+   {
+    "index": 1,
+    "author": "A. Counsel",
+    "text": "Defined term must match the definitions schedule.",
+    "anchor": "Effective Date"
+   },
+   {
+    "index": 2,
+    "author": "M. Reviewer",
+    "text": "Confirm this figure against the source table before circulation.",
+    "anchor": "EUR 12,000"
+   }
+  ]
+ },
+ "variants": [
+  {
+   "label": "d4",
+   "file": "variants/d4-codex-2-K5-S1-no-commentsExtended.docx",
+   "sha256": "efa83fb6dbe32d8ce4c16c1a45e53355ba802c219798259bf19628ddb5d78acb",
+   "from": "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx",
+   "changes": [
+    "[Content_Types].xml: the Override for /word/commentsExtended.xml removed",
+    "word/_rels/document.xml.rels: the commentsExtended relationship rId10 removed",
+    "word/commentsExtended.xml removed"
+   ],
+   "other_zip_entries": "byte for byte, with the same order, names, compression and timestamps",
+   "opened": true,
+   "prompts": [],
+   "comments": [
+    {
+     "index": 1,
+     "author": "A. Counsel",
+     "text": "Defined term must match the definitions schedule.",
+     "anchor": "Effective Date"
+    },
+    {
+     "index": 2,
+     "author": "M. Reviewer",
+     "text": "Confirm this figure against the source table before circulation.",
+     "anchor": "EUR 12,000"
+    },
+    {
+     "index": 3,
+     "author": "Benchmark Editor",
+     "text": "Confirm the payment term with finance.",
+     "anchor": "30 days"
+    }
+   ],
+   "revisions": [
+    {
+     "index": 1,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "The Supplier shall maintain professional indemnity insurance."
+    },
+    {
+     "index": 2,
+     "type": "revision delete",
+     "author": "A. Counsel",
+     "text": "EUR 40,000 "
+    },
+    {
+     "index": 3,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "EUR 44,500 "
+    }
+   ]
+  },
+  {
+   "label": "d6",
+   "file": "variants/d6-codex-2-K5-S1-ct-fixed.docx",
+   "sha256": "4fc299788252cffbc5fcb194c2708bc72f2a692a55e772e0e56565a22cede49d",
+   "from": "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx",
+   "changes": [
+    "[Content_Types].xml: the Override for /word/commentsExtended.xml changed from application/vnd.ms-word.commentsExtended+xml to application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml"
+   ],
+   "other_zip_entries": "byte for byte, with the same order, names, compression and timestamps",
+   "opened": true,
+   "prompts": [],
+   "comments": [
+    {
+     "index": 1,
+     "author": "A. Counsel",
+     "text": "Defined term must match the definitions schedule.",
+     "anchor": "Effective Date"
+    },
+    {
+     "index": 2,
+     "author": "M. Reviewer",
+     "text": "Confirm this figure against the source table before circulation.",
+     "anchor": "EUR 12,000"
+    },
+    {
+     "index": 3,
+     "author": "Benchmark Editor",
+     "text": "Confirm the payment term with finance.",
+     "anchor": "30 days"
+    }
+   ],
+   "revisions": [
+    {
+     "index": 1,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "The Supplier shall maintain professional indemnity insurance."
+    },
+    {
+     "index": 2,
+     "type": "revision delete",
+     "author": "A. Counsel",
+     "text": "EUR 40,000 "
+    },
+    {
+     "index": 3,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "EUR 44,500 "
+    }
+   ],
+   "shown": {
+    "reply_shown": false,
+    "margin": "codex-2 K5-S1 original with only the commentsExtended content type corrected: opens; the reply is not shown",
+    "screenshot": "screens/d6-d7-thread.png (left)"
+   }
+  },
+  {
+   "label": "d7",
+   "file": "variants/d7-codex-2-K5-S1-anchored-ct-fixed.docx",
+   "sha256": "1c019aa50423443f1c12fc93193b0f399792c582293bec6805fe719cdec80780",
+   "from": "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx",
+   "changes": [
+    "[Content_Types].xml: as d6",
+    "word/document.xml: the reply (comment 3) anchored at its parent's range: commentRangeStart w:id=3 after commentRangeStart w:id=2, then commentRangeEnd w:id=3 and a commentReference run for 3 after the parent's reference run"
+   ],
+   "other_zip_entries": "byte for byte, with the same order, names, compression and timestamps",
+   "opened": true,
+   "prompts": [],
+   "comments": [
+    {
+     "index": 1,
+     "author": "A. Counsel",
+     "text": "Defined term must match the definitions schedule.",
+     "anchor": "Effective Date"
+    },
+    {
+     "index": 2,
+     "author": "Benchmark Editor",
+     "text": "Checked against the definitions schedule.",
+     "anchor": "Effective Date"
+    },
+    {
+     "index": 3,
+     "author": "M. Reviewer",
+     "text": "Confirm this figure against the source table before circulation.",
+     "anchor": "EUR 12,000"
+    },
+    {
+     "index": 4,
+     "author": "Benchmark Editor",
+     "text": "Confirm the payment term with finance.",
+     "anchor": "30 days"
+    }
+   ],
+   "revisions": [
+    {
+     "index": 1,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "The Supplier shall maintain professional indemnity insurance."
+    },
+    {
+     "index": 2,
+     "type": "revision delete",
+     "author": "A. Counsel",
+     "text": "EUR 40,000 "
+    },
+    {
+     "index": 3,
+     "type": "revision insert",
+     "author": "A. Counsel",
+     "text": "EUR 44,500 "
+    }
+   ],
+   "shown": {
+    "reply_shown": true,
+    "in_parent_thread": true,
+    "at_parent_text": "Effective Date",
+    "margin": "codex-2 K5-S1 repaired copy with only the content type corrected: opens; the reply indented in A. Counsel's balloon",
+    "screenshot": "screens/d6-d7-thread.png (right)"
+   }
+  }
+ ]
+}

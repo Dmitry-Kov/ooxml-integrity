@@ -75,6 +75,11 @@ DOCX reports:
 
 - `package.read`, `package.xml`, `package.content-types`, and
   `package.relationships`;
+- `package.related-content-types` for the unreleased `PKG010`: the parts the
+  main document relates through fifteen relationship types, compared with the
+  content type each requires. A template or macro-enabled main part is
+  `unsupported`; a Strict or unreadable one, or unreadable content types or
+  relationships, is `skipped`;
 - `docx.styles`, `docx.numbering`, `docx.footnotes`, `docx.comments`,
   `docx.revisions`, `docx.tables`, `docx.content-controls`, and
   `docx.text-whitespace`;

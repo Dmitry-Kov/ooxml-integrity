@@ -36,6 +36,7 @@ from .comments import (
     relationships_part,
     story_parts,
 )
+from .content_types import related as related_content_types
 from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
 from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
@@ -285,6 +286,32 @@ class Inspector:
             self._add("PKG005", ERROR,
                       f"part not covered by content types: {name} - Word asks "
                       "to recover the document", part=name)
+
+    def check_related_content_types(self) -> None:
+        """PKG010: a part the main document relates, declared with another type.
+
+        Only relationship types whose part Word writes with one content type,
+        and only from a plain document main part: templates, macro-enabled
+        documents and Strict are not checked. A missing part (REL002) or one
+        without a content type (PKG005) is left to those rules.
+        """
+        reported: set[str] = set()
+        for pair in related_content_types(self.parts, self.trees, self.main).pairs:
+            if not pair.mismatch or pair.part in reported:
+                continue
+            reported.add(pair.part)
+            kind = pair.relationship_type.rsplit("/", 1)[-1]
+            self.findings.append(Finding(
+                "PKG010", ERROR,
+                f"{pair.part} is declared as {pair.declared[0]}, but its {kind} "
+                f"relationship requires {pair.expected} - Word can refuse the "
+                "document as unreadable",
+                part=pair.part,
+                extra={"relationship": pair.relationship,
+                       "relationship_type": pair.relationship_type,
+                       "declared": pair.declared[0], "expected": pair.expected,
+                       "relationships_part": relationships_part(self.main)},
+            ))
 
     def _rels_for(self, part: str) -> tuple[dict[str, tuple], str]:
         d, _, base = part.rpartition("/")
@@ -844,7 +871,8 @@ class Inspector:
                 )
 
     CHECKS = (
-        check_content_types, check_relationships, check_styles, check_numbering,
+        check_content_types, check_related_content_types, check_relationships,
+        check_styles, check_numbering,
         check_footnotes, check_comments, check_revisions, check_tables,
         check_sdt, check_whitespace, check_literal_entities,
     )

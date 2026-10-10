@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.5.0 from this checkout",
+ "checker": "ooxml-integrity 0.6.0 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],
@@ -5354,6 +5354,7 @@
    "without": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -5362,6 +5363,7 @@
    "with": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -5370,6 +5372,7 @@
    "with_tracked": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -6088,21 +6091,24 @@
    "preserved": true,
    "without": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with_tracked": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
@@ -6820,21 +6826,24 @@
    "preserved": true,
    "without": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with_tracked": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
@@ -7559,6 +7568,7 @@
    "without": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -7567,6 +7577,7 @@
    "with": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -7575,6 +7586,7 @@
    "with_tracked": {
     "codes": [
      "CMT005",
+     "PKG010",
      "STY001"
     ],
     "expected": [],
@@ -8293,21 +8305,24 @@
    "preserved": true,
    "without": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
    },
    "with_tracked": {
     "codes": [
-     "CMT005"
+     "CMT005",
+     "PKG010"
     ],
     "expected": [],
     "outcome": "false alarm"
