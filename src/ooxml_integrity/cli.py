@@ -93,23 +93,91 @@ def _run_one(path: Path, source: Path | None,
     return findings
 
 
+def _apply_policy(path: Path, findings: list[Finding], policy: Policy,
+                  expectations: list[Expectation],
+                  allowance: dict[str, int] | None,
+                  ) -> tuple[list[Finding], list[tuple[Finding, str]],
+                             list[tuple[Finding, str]]]:
+    """Config, then expectations, then the baseline. Returns (kept, hidden
+    with why, expected with why)."""
+    kept, dropped = policy.apply(str(path), findings)
+    matched: list[tuple[Finding, str]] = []
+    if expectations:
+        kept, matched = expect(kept, expectations, str(path))
+    if allowance is not None:
+        kept, base_dropped = apply_baseline(str(path), kept, allowance)
+        dropped = dropped + base_dropped
+    return kept, dropped, matched
+
+
+def _fails(findings: list[Finding], threshold: Severity) -> bool:
+    return any(f.severity >= threshold for f in findings)
+
+
+def _json_file(path: Path | str, findings: list[Finding],
+               hidden: list[tuple[Finding, str]],
+               matched: list[tuple[Finding, str]], *, expectations: bool,
+               coverage: CoverageReport | None) -> dict:
+    """One file's entry in the `--json` report."""
+    item = {
+        "path": str(path),
+        "summary": summarize(findings),
+        "worst": (w.value if (w := worst(findings)) else None),
+        "findings": [x.as_dict() for x in findings],
+        "suppressed": [
+            {**x.as_dict(), "suppressed_because": why} for x, why in hidden
+        ],
+    }
+    if expectations:
+        item["expected"] = [
+            {**x.as_dict(), "expected_because": why} for x, why in matched
+        ]
+    if coverage is not None:
+        item["coverage"] = coverage.as_dict()
+    return item
+
+
+def _json_payload(files: list[dict], threshold: Severity, policy: Policy,
+                  baseline: str | None) -> dict:
+    return {
+        "version": __version__,
+        "fail_on": threshold.value,
+        "config": policy.source or None,
+        "baseline": baseline,
+        "files": files,
+    }
+
+
+#: Coverage statuses that mean part of the file was not fully assessed. A file
+#: with any of them and no findings is "no findings in checked surfaces", never
+#: "clean".
+GAP_STATUSES = (
+    CoverageStatus.ESTIMATED,
+    CoverageStatus.SKIPPED,
+    CoverageStatus.UNSUPPORTED,
+)
+
+
+def _head(path: Path | str, findings: list[Finding]) -> str:
+    counts = summarize(findings)
+    return (f"{path}: "
+            f"{counts['error']} error(s), {counts['warn']} warning(s), "
+            f"{counts['info']} info")
+
+
+def _has_gaps(coverage: CoverageReport | None) -> bool:
+    return coverage is not None and any(
+        item.status in GAP_STATUSES for item in coverage.items
+    )
+
+
 def _print_human(path: Path, findings: list[Finding], threshold: Severity,
                  quiet: bool, out,
                  coverage: CoverageReport | None = None) -> None:
     shown = [f for f in findings if f.severity >= threshold] if quiet else findings
-    counts = summarize(findings)
-    head = (f"{path}: "
-            f"{counts['error']} error(s), {counts['warn']} warning(s), "
-            f"{counts['info']} info")
+    head = _head(path, findings)
     if not shown and not findings:
-        qualified = coverage is not None and any(
-            item.status in (
-                CoverageStatus.ESTIMATED,
-                CoverageStatus.SKIPPED,
-                CoverageStatus.UNSUPPORTED,
-            )
-            for item in coverage.items
-        )
+        qualified = _has_gaps(coverage)
         suffix = ("no findings in checked surfaces" if qualified else "clean")
         print(f"{head}  - {suffix}", file=out)
         return
@@ -127,12 +195,7 @@ def _print_coverage(report: CoverageReport, *, details: bool, out) -> None:
     print(f"  coverage: {summary}", file=out)
     visible = (
         report.items if details else tuple(
-            item for item in report.items
-            if item.status in (
-                CoverageStatus.ESTIMATED,
-                CoverageStatus.SKIPPED,
-                CoverageStatus.UNSUPPORTED,
-            )
+            item for item in report.items if item.status in GAP_STATUSES
         )
     )
     for item in visible:
@@ -229,6 +292,23 @@ def build_parser() -> argparse.ArgumentParser:
     d.add_argument("--json", action="store_true",
                    help="machine-readable capability report on stdout")
 
+    m = sub.add_parser(
+        "mcp",
+        help="serve check and compare as tools for AI agents (MCP over stdio)",
+        description="A local Model Context Protocol server on stdin and "
+                    "stdout, for an agent to check a document it edited. It "
+                    "opens no socket and reads only the files a call names. "
+                    "See docs/mcp.md.",
+    )
+    m.add_argument("--config", metavar="PATH", default=None,
+                   help="config file; by default found as for check, from the "
+                        "server's working directory")
+    m.add_argument("--no-config", action="store_true",
+                   help="ignore any config file that would otherwise be found")
+    m.add_argument("--fail-on", default=None, metavar="SEVERITY",
+                   help="minimum severity a verdict fails on; by default the "
+                        "config's, else error")
+
     a = sub.add_parser(
         "anonymize",
         help="replace the text of a .docx, or of a source and its edited copy, "
@@ -280,6 +360,22 @@ def _run_anonymize(args) -> int:
     return EXIT_OK if report.reproduced and not report.leaks else EXIT_FINDINGS
 
 
+def _run_mcp(args) -> int:
+    from .mcp_server import serve
+
+    # Settle what the server starts with before the client connects: a typo
+    # in --fail-on or a missing config file is a usage error, not a tool
+    # error on every call.
+    try:
+        fail_on = Severity.parse(args.fail_on) if args.fail_on else None
+        if not args.no_config:
+            Policy.load(args.config)
+    except (ValueError, ConfigError) as e:
+        print(f"ooxml-integrity: {e}", file=sys.stderr)
+        return EXIT_USAGE
+    return serve(config=args.config, no_config=args.no_config, fail_on=fail_on)
+
+
 def main(argv: list[str] | None = None) -> int:
     # Redirected Windows streams can use a legacy encoding. Keep that encoding
     # but escape unencodable diagnostic characters instead of truncating output.
@@ -293,6 +389,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_doctor(json_output=args.json)
     if args.command == "anonymize":
         return _run_anonymize(args)
+    if args.command == "mcp":
+        return _run_mcp(args)
 
     try:
         policy = Policy() if args.no_config else Policy.load(args.config)
@@ -374,14 +472,9 @@ def main(argv: list[str] | None = None) -> int:
     hidden: dict[Path, list[tuple[Finding, str]]] = {}
     matched: dict[Path, list[tuple[Finding, str]]] = {}
     for path, findings in raw.items():
-        kept, dropped = policy.apply(str(path), findings)
-        if expectations:
-            kept, matched[path] = expect(kept, expectations, str(path))
-        if allowance is not None:
-            kept, base_dropped = apply_baseline(str(path), kept, allowance)
-            dropped = dropped + base_dropped
-        results[path] = kept
-        hidden[path] = dropped
+        results[path], hidden[path], matched[path] = _apply_policy(
+            path, findings, policy, expectations, allowance,
+        )
 
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
@@ -391,33 +484,15 @@ def main(argv: list[str] | None = None) -> int:
             fh.write("\n")
 
     if args.json:
-        files = []
-        for p, f in results.items():
-            item = {
-                "path": str(p),
-                "summary": summarize(f),
-                "worst": (w.value if (w := worst(f)) else None),
-                "findings": [x.as_dict() for x in f],
-                "suppressed": [
-                    {**x.as_dict(), "suppressed_because": why}
-                    for x, why in hidden.get(p, [])
-                ],
-            }
-            if expectations:
-                item["expected"] = [
-                    {**x.as_dict(), "expected_because": why}
-                    for x, why in matched.get(p, [])
-                ]
-            if coverage_requested:
-                item["coverage"] = coverage[p].as_dict()
-            files.append(item)
-        payload = {
-            "version": __version__,
-            "fail_on": threshold.value,
-            "config": policy.source or None,
-            "baseline": args.baseline,
-            "files": files,
-        }
+        files = [
+            _json_file(
+                p, f, hidden.get(p, []), matched.get(p, []),
+                expectations=bool(expectations),
+                coverage=coverage[p] if coverage_requested else None,
+            )
+            for p, f in results.items()
+        ]
+        payload = _json_payload(files, threshold, policy, args.baseline)
         json.dump(payload, sys.stdout, indent=2, ensure_ascii=True)
         sys.stdout.write("\n")
     else:
@@ -448,7 +523,7 @@ def main(argv: list[str] | None = None) -> int:
                   + ". Re-run with --show-suppressed to see them.")
 
     failed = any(
-        f.severity >= threshold for findings in results.values() for f in findings
+        _fails(findings, threshold) for findings in results.values()
     )
     return EXIT_FINDINGS if failed else EXIT_OK
 
