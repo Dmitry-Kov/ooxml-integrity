@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import zlib
 
+import pytest
 from conftest import ROOT
 
 from research import fix_evidence
@@ -23,6 +24,8 @@ def _stable(record: dict) -> dict:
     return out
 
 
+@pytest.mark.skipif(not (ROOT / "demo/examples").is_dir(),
+                    reason="the record covers demo/, which the sdist does not ship")
 def test_fix_evidence_is_reproduced():
     committed = json.loads(RESULTS.read_text(encoding="utf-8"))
     current = fix_evidence.evaluate()
