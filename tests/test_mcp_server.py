@@ -9,6 +9,7 @@ import io
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 from conftest import ROOT, run_cli
@@ -18,6 +19,8 @@ from ooxml_integrity.coverage import CoverageItem, CoverageReport, CoverageStatu
 from ooxml_integrity.mcp_server import PROTOCOL_VERSIONS, serve, verdict
 from ooxml_integrity.finding import Severity
 
+# Paths as a caller passes them. A report names a file as the CLI does, with
+# the platform's separators, so assertions on report text use Path(...).
 FAST = "runs/t4_fast_fee/agreement.docx"
 CAREFUL = "runs/t2_pres/agreement.docx"
 BASE = "corpus/base.docx"
@@ -162,7 +165,7 @@ def test_compare_is_check_against_with_json_and_coverage(runs_dir, base_docx):
     assert json.loads(report_text) == expected
     assert verdict_text == structured["verdict"]
     assert verdict_text.startswith(
-        f"{FAST}: 2 error(s), 0 warning(s), 1 info - fails at fail-on error: "
+        f"{Path(FAST)}: 2 error(s), 0 warning(s), 1 info - fails at fail-on error: "
         "CMT005, FID001")
     assert "not fully checked: 2 unsupported" in verdict_text
     assert "clean" not in verdict_text
@@ -182,7 +185,7 @@ def test_self_check_never_says_clean(base_docx):
     # findings is described the way `check --coverage` describes it.
     text = tool("check", {"path": BASE})["content"][0]["text"]
     assert text == (
-        f"{BASE}: 0 error(s), 0 warning(s), 0 info - no findings in checked "
+        f"{Path(BASE)}: 0 error(s), 0 warning(s), 0 info - no findings in checked "
         "surfaces; not fully checked: 6 skipped, 2 unsupported (see coverage)")
 
 
@@ -240,7 +243,7 @@ def test_fail_on_flag_reaches_the_verdict(runs_dir, base_docx):
 def test_structured_content_needs_2025_06_18(base_docx):
     old = tool("check", {"path": BASE}, version="2025-03-26")
     assert "structuredContent" not in old
-    assert json.loads(old["content"][1]["text"])["files"][0]["path"] == BASE
+    assert json.loads(old["content"][1]["text"])["files"][0]["path"] == str(Path(BASE))
 
 
 def test_config_is_found_from_the_server_working_directory(tmp_path, runs_dir,
