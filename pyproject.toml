@@ -27,6 +27,7 @@ classifiers = [
     "Topic :: Office/Business :: Office Suites",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Text Processing :: Markup :: XML",
+    "Typing :: Typed",
 ]
 dependencies = [
     "lxml>=4.9",

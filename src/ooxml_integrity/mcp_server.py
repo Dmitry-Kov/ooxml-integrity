@@ -4,7 +4,8 @@
 JSON-RPC 2.0, one message per line. A tool server needs four methods of it -
 `initialize`, `ping`, `tools/list` and `tools/call` - and those are small
 enough to implement here, so the server adds no dependency and opens no
-socket. It reads only the files a call names, on this machine.
+socket. It reads only the files a call names, on this machine; like the
+agent's own file tools, it is not confined to the project directory.
 
 Two tools, each one run of the CLI:
 
@@ -20,10 +21,12 @@ nothing was found and coverage has no estimated, skipped or unsupported
 surface; otherwise `no findings in checked surfaces`.
 
 The project config is found the way the CLI finds it, from the server's working
-directory, or set with `--config` / `--no-config` when the server starts. A
-call cannot change it: an agent can declare the change it was asked to make
-(`expect`), which is reported and fails when it did not happen, but it cannot
-switch a rule off.
+directory, or set with `--config` / `--no-config`, and it is read once, when the
+server starts: the client starts it before the agent edits anything, so a
+config the agent writes or edits afterwards cannot switch a rule off. A changed
+config is named in the verdict, and so is every finding a config suppresses. A
+call cannot change it either: an agent can declare the change it was asked to
+make (`expect`), which is reported and fails when it did not happen.
 """
 from __future__ import annotations
 
@@ -214,10 +217,21 @@ def _codes(findings: list[Finding]) -> str:
                      for code, n in counts.items())
 
 
+def _shown(path: str) -> str:
+    """A config path as short as it can be said: relative when it is below the
+    working directory."""
+    try:
+        relative = os.path.relpath(path)
+    except ValueError:  # another drive on Windows
+        return path
+    return path if relative.startswith("..") else relative
+
+
 def verdict(path: Path | str, findings: list[Finding], threshold: Severity,
             coverage: CoverageReport | None,
             expected: Sequence[tuple[Finding, str]] = (),
-            hidden: Sequence[tuple[Finding, str]] = ()) -> str:
+            hidden: Sequence[tuple[Finding, str]] = (),
+            config: str = "", note: str = "") -> str:
     """One line: the CLI's summary head, then what it means at `threshold`."""
     line = cli._head(path, findings)
     failing = [f for f in findings if f.severity >= threshold]
@@ -233,7 +247,11 @@ def verdict(path: Path | str, findings: list[Finding], threshold: Severity,
         line += (f"; {len(expected)} finding(s) accepted as expected: "
                  f"{_codes([f for f, _ in expected])}")
     if hidden:
-        line += f"; {len(hidden)} finding(s) suppressed by config"
+        line += (f"; {len(hidden)} finding(s) suppressed by config"
+                 + (f" {_shown(config)}" if config else "")
+                 + f": {_codes([f for f, _ in hidden])}")
+    if note:
+        line += f"; {note}"
     if gaps:
         counts = coverage.summary()
         line += "; not fully checked: " + ", ".join(
@@ -250,6 +268,23 @@ class Server:
         self.no_config = no_config
         self.fail_on = fail_on
         self.protocol: str | None = None
+        # Read once, before the agent edits anything; see the module docstring.
+        self.policy, self.config_error = self._load_policy()
+
+    def _load_policy(self) -> tuple[Policy | None, str | None]:
+        if self.no_config:
+            return Policy(), None
+        try:
+            return Policy.load(self.config), None
+        except ConfigError as e:
+            return None, str(e)
+
+    def _config_note(self) -> str:
+        """Say so when the config on disk is not the one read at start."""
+        if self.no_config or self._load_policy() == (self.policy, self.config_error):
+            return ""
+        return ("config changed since the server started; the one read at "
+                "start was used")
 
     # ------------------------------------------------------------ tools
     def run(self, edited_arg: Any, source_arg: Any = None,
@@ -258,11 +293,10 @@ class Server:
         edited = local_path(edited_arg, edited_name)
         source = (local_path(source_arg, "source")
                   if source_arg is not None else None)
-        try:
-            policy = (Policy() if self.no_config
-                      else Policy.load(self.config))
-        except ConfigError as e:
-            raise ToolError(f"config: {e}") from None
+        if self.config_error:
+            raise ToolError(f"config: {self.config_error} (read when the server "
+                            "started; restart it after fixing the file)")
+        policy = self.policy
         threshold = self.fail_on or policy.fail_on
         expectations = policy.expectations + _expectations(expect_arg)
 
@@ -280,7 +314,8 @@ class Server:
         failed = cli._fails(kept, threshold)
         return {
             "verdict": verdict(edited, kept, threshold, coverage,
-                               matched, hidden),
+                               matched, hidden, policy.source,
+                               self._config_note()),
             "exit_code": cli.EXIT_FINDINGS if failed else cli.EXIT_OK,
             "report": report,
         }
