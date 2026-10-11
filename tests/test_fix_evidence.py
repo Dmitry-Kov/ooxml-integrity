@@ -1,7 +1,9 @@
 """The committed record of `fix` on the repository's DOCX is what fix does now.
 
 Output hashes depend on the zlib that compresses the edited part, and the
-runtime versions on the machine, so those are left out of the comparison.
+runtime versions on the machine, so those are left out of the comparison. So is
+the checker version the record names: a release raises it without changing
+what fix does, and the record stays the one the change committed.
 """
 from __future__ import annotations
 
@@ -18,7 +20,7 @@ RESULTS = ROOT / "evidence" / "fix-repairs" / "results.json"
 
 def _stable(record: dict) -> dict:
     out = {k: v for k, v in record.items()
-           if k not in ("python", "lxml", "zlib")}
+           if k not in ("checker", "python", "lxml", "zlib")}
     out["files"] = [{k: v for k, v in f.items() if k != "output_sha256"}
                     for f in record["files"]]
     return out

@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.7.0 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.7.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `ooxml-integrity fix IN -o OUT`: a repaired copy of a `.docx`, with only the
   three [repairs](docs/fix.md) whose result is unique.

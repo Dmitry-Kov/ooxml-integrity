@@ -75,7 +75,7 @@ DOCX reports:
 
 - `package.read`, `package.xml`, `package.content-types`, and
   `package.relationships`;
-- `package.related-content-types` for the unreleased `PKG010`: the parts the
+- `package.related-content-types` for `PKG010` (0.7.0): the parts the
   main document relates through fifteen relationship types, compared with the
   content type each requires. A template or macro-enabled main part is
   `unsupported`; a Strict or unreadable one, or unreadable content types or

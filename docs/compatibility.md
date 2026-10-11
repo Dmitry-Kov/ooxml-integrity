@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.6.0 release notes](releases/0.6.0.md) before changing a version pin.
+[0.7.0 release notes](releases/0.7.0.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-Unreleased `PKG010` is a new ERROR finding of `check()`: a part the main
+0.7.0 adds `PKG010`, an ERROR finding of `check()`: a part the main
 document relates whose declared content type is not the one its relationship
 type requires. A document that passed the default gate can now exit 1; among
 3,283 files in this repository and the public corpora that happens only to the
@@ -237,7 +237,7 @@ findings and exits `0` even when they include errors. It returns before normal
 JSON, SARIF and coverage output. That exit does not mean the document passed.
 `doctor` has its own [capability exit semantics](coverage.md#doctor).
 
-`fix`, new and unreleased, keeps `0` for success and `2` for usage errors and
+`fix`, new in 0.7.0, keeps `0` for success and `2` for usage errors and
 adds `3`. `0` means a repaired copy was verified and written. `1` means nothing
 was written, because no finding could be repaired. `2` also covers a package
 `fix` does not rewrite (unreadable, Strict, malformed). `3` means a repair
@@ -247,11 +247,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.6.0 | Meaning |
+| Output | Version in 0.7.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.6.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.7.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.6.0"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.7.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
@@ -260,7 +260,7 @@ until a release documents them. Its replacement words are random in every run,
 so two runs on the same files write different copies; its exit codes are those
 above.
 
-`fix --json`, new and unreleased, has no schema version yet: its fields can
+`fix --json`, new in 0.7.0, has no schema version yet: its fields can
 change until a release documents them. It names the checker `version`, and the
 input and output by path and SHA-256. Its changes, refusals and re-check are
 described in [fix](fix.md#json-report). Given the same input and the same zlib,
@@ -270,7 +270,8 @@ The [MCP server](mcp.md) (`ooxml-integrity mcp`), new in 0.6.0, has no
 contract of its own yet: its tool names, arguments and the shape of a result
 around the report can change until a release documents them. The report inside
 a result is the `check --json --coverage` report described below, and keeps
-that contract.
+that contract. Since 0.7.0 the server reads its config once, when it starts,
+not on every call; restart it to apply a config you changed.
 
 CLI JSON always has `version`, `fail_on`, `config`, `baseline`, and `files`.
 `config` and `baseline` are null when unused. Each file has `path`, `summary`,
