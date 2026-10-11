@@ -1,0 +1,9 @@
+{
+  "task": "K4-S2-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"disputed amount\", \"new_text\": \"disputed sum\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.604,
+  "finished_at": "2026-10-11T09:47:38+00:00",
+  "output": "K4-S2-tracked.docx",
+  "output_sha256": "a50a6393f4d698f6271bf610a9b97377e23dfb89eed54bab7d408358d0a3cd6d"
+}

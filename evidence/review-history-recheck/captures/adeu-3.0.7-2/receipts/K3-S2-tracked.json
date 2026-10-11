@@ -1,0 +1,9 @@
+{
+  "task": "K3-S2-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"ten business days\", \"new_text\": \"fifteen business days\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.606,
+  "finished_at": "2026-10-11T09:47:48+00:00",
+  "output": "K3-S2-tracked.docx",
+  "output_sha256": "97f60dc7ff2b83401061b4d6132138146f24df7c76b3aac623ca3e986312609e"
+}

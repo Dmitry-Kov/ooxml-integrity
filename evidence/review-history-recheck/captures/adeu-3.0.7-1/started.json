@@ -1,0 +1,19 @@
+{
+  "started_at": "2026-10-11T09:47:32+00:00",
+  "tool": "adeu",
+  "version": "3.0.7",
+  "repeat": 1,
+  "image": "ooxml-bench-adeu:3.0.7",
+  "image_id": "sha256:b4c16f8928b77bf5586366c3e9356f570339e13419d1e1273035a57e04788489",
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "tasks_sha256": "766afd889e31595ecbdc84365e0617ed646c9c1662f3d7a40b40cabd566cb2bd",
+  "scripts": {
+    "research/review_history_adapters.py": "aa4720a734ea880bea376615dfa635bae41d8332e7da69c9e58d923008979606",
+    "research/review_history_adeu.py": "4856a7b5aa76f258238653badfb3605f67ba290ff82775421d220b31e119763f"
+  },
+  "environment": {
+    "python": "3.12.8",
+    "python-docx": "1.2.0",
+    "lxml": "6.1.3"
+  }
+}

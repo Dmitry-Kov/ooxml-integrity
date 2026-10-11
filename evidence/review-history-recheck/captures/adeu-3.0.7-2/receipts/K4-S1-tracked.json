@@ -1,0 +1,9 @@
+{
+  "task": "K4-S1-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"professional indemnity insurance\", \"new_text\": \"professional liability insurance\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.622,
+  "finished_at": "2026-10-11T09:47:49+00:00",
+  "output": "K4-S1-tracked.docx",
+  "output_sha256": "771d2c49f837a2d6e9ed98942d7ff6f5c46b134ebff3d6ee63d77facfbe3db3f"
+}

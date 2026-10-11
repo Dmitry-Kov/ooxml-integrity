@@ -1,0 +1,9 @@
+{
+  "task": "K0-S1-save",
+  "status": "ok",
+  "note": "{\"operations\": [], \"adeu\": \"{}\"}",
+  "seconds": 0.602,
+  "finished_at": "2026-10-11T09:47:44+00:00",
+  "output": "K0-S1-save.docx",
+  "output_sha256": "5f4a711cd4897d7df3101a50c9d3c62ccdc9a19eb3ece68b0b3a1221eb9d31d2"
+}

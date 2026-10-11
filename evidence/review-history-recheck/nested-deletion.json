@@ -1,0 +1,43 @@
+{
+ "tool": "docx-cli",
+ "version": "0.27.0",
+ "image_id": "sha256:0ad0358c783d62844585e0e5f59a4d6ffb7e14378630c7088dfa1a5d39b730c3",
+ "ran_at": "2026-10-11T09:53:45+00:00",
+ "source_paragraph": "<w:p><w:r><w:t xml:space=\"preserve\">Fees are due. </w:t></w:r><w:ins w:id=\"1\" w:author=\"Reviewer A\" w:date=\"2026-09-01T00:00:00Z\"><w:r><w:t xml:space=\"preserve\">The Client may withhold </w:t></w:r><w:del w:id=\"2\" w:author=\"Reviewer B\" w:date=\"2026-09-02T00:00:00Z\"><w:r><w:delText xml:space=\"preserve\">any </w:delText></w:r></w:del><w:r><w:t>disputed amount.</w:t></w:r></w:ins></w:p>",
+ "expected_current": "Fees are due. The Client may withhold disputed sum.",
+ "runs": {
+  "plain": {
+   "command": [
+    "docx",
+    "replace",
+    "/out/plain.docx",
+    "disputed amount",
+    "disputed sum"
+   ],
+   "exit": 0,
+   "stdout": "replace 1 occurrence replaced",
+   "stderr": "",
+   "paragraph": "<w:p><w:r><w:t xml:space=\"preserve\">Fees are due. </w:t></w:r><w:ins w:id=\"1\" w:author=\"Reviewer A\" w:date=\"2026-09-01T00:00:00Z\"><w:r><w:t xml:space=\"preserve\">disputed sum</w:t></w:r><w:r><w:t xml:space=\"preserve\">withhold </w:t></w:r><w:del w:id=\"2\" w:author=\"Reviewer B\" w:date=\"2026-09-02T00:00:00Z\"><w:r><w:delText xml:space=\"preserve\">any </w:delText></w:r></w:del><w:r><w:t>disputed amount.</w:t></w:r></w:ins></w:p>",
+   "current": "Fees are due. disputed sumwithhold disputed amount.",
+   "original": "Fees are due. "
+  },
+  "tracked": {
+   "command": [
+    "docx",
+    "replace",
+    "/out/tracked.docx",
+    "disputed amount",
+    "disputed sum",
+    "--track",
+    "--author",
+    "Editor"
+   ],
+   "exit": 0,
+   "stdout": "replace 1 occurrence replaced",
+   "stderr": "",
+   "paragraph": "<w:p><w:r><w:t xml:space=\"preserve\">Fees are due. </w:t></w:r><w:ins w:id=\"1\" w:author=\"Reviewer A\" w:date=\"2026-09-01T00:00:00Z\"><w:r><w:t xml:space=\"preserve\">The Client may withhold </w:t></w:r><w:del w:id=\"2\" w:author=\"Reviewer B\" w:date=\"2026-09-02T00:00:00Z\"><w:r><w:delText xml:space=\"preserve\">any </w:delText></w:r></w:del><w:del w:id=\"3\" w:author=\"Editor\" w:date=\"2026-10-01T00:00:00Z\"><w:r><w:delText xml:space=\"preserve\">disputed amount</w:delText></w:r></w:del></w:ins><w:ins w:id=\"4\" w:author=\"Editor\" w:date=\"2026-10-01T00:00:00Z\"><w:r><w:t xml:space=\"preserve\">disputed sum</w:t></w:r></w:ins><w:ins w:id=\"5\" w:author=\"Reviewer A\" w:date=\"2026-09-01T00:00:00Z\"><w:r><w:t xml:space=\"preserve\">.</w:t></w:r></w:ins></w:p>",
+   "current": "Fees are due. The Client may withhold disputed sum.",
+   "original": "Fees are due. "
+  }
+ }
+}

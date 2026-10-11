@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Reference Agreement - Draft 8\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.277,
+  "finished_at": "2026-10-11T09:47:18+00:00",
+  "output": "K7h-S1-plain.docx",
+  "output_sha256": "fb0a9722127b371308d4a3b7959e7397ac827240c6d490e906853afde8d84d41"
+}

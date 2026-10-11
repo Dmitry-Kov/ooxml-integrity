@@ -1,0 +1,9 @@
+{
+  "task": "K6-S1-resolve",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"accept\", \"target_id\": \"Chg:101\"}, {\"type\": \"reject\", \"target_id\": \"Chg:102\"}], \"adeu\": \"{\\\"actions_applied\\\": 2, \\\"edits_applied\\\": 0}\"}",
+  "seconds": 0.598,
+  "finished_at": "2026-10-11T09:47:51+00:00",
+  "output": "K6-S1-resolve.docx",
+  "output_sha256": "d73ae77928a4432953006d1729a61c4aba14b10f4590921573c3919c276ce654"
+}

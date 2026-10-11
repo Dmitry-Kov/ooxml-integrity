@@ -1,0 +1,749 @@
+{
+ "docx-cli": {
+  "tool": "docx-cli",
+  "version": "0.26.0",
+  "image_id": "sha256:183286a1cdc362aa996f53a81caaa0c6e163ac0e45a93a6132814aa22d03d01a",
+  "ran_at": "2026-10-11T09:46:51+00:00",
+  "attempts": 30,
+  "same_status_and_facts": 30,
+  "byte_identical": 26,
+  "ok": 28,
+  "rows": [
+   {
+    "task": "K0-S1-save",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K0-S2-save",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K1-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K1-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K1-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K1-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K2-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K2-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K2-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K2-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K3-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K3-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K3-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K3-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K4-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K4-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K4-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K4-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K5-S1-comment",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K5-S2-comment",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K6-S1-resolve",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K6-S2-resolve",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7h-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7h-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7h-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7h-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7n-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7n-S1-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7n-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   },
+   {
+    "task": "K7n-S2-plain",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ],
+    "facts_equal_ignoring_dates": [
+     "docx-cli-5",
+     "docx-cli-6"
+    ]
+   }
+  ]
+ },
+ "adeu": {
+  "tool": "adeu",
+  "version": "3.0.6",
+  "image_id": "sha256:af3259bf41d11f61f918838a48c199babc5ad2fbd88f2f904fb82916e94148c6",
+  "ran_at": "2026-10-11T09:47:06+00:00",
+  "attempts": 30,
+  "same_status_and_facts": 30,
+  "byte_identical": 0,
+  "ok": 17,
+  "rows": [
+   {
+    "task": "K0-S1-save",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K0-S2-save",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K1-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K1-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K1-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K1-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K2-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K2-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K2-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K2-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K3-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K3-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K3-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K3-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K4-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K4-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K4-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K4-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K5-S1-comment",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K5-S2-comment",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K6-S1-resolve",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K6-S2-resolve",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K7h-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K7h-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K7h-S2-tracked",
+    "status": "rejected",
+    "frozen_status": [
+     "rejected"
+    ]
+   },
+   {
+    "task": "K7h-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K7n-S1-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K7n-S1-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   },
+   {
+    "task": "K7n-S2-tracked",
+    "status": "ok",
+    "frozen_status": [
+     "ok"
+    ],
+    "byte_identical_to": [],
+    "facts_equal_ignoring_dates": [
+     "adeu-1",
+     "adeu-2"
+    ]
+   },
+   {
+    "task": "K7n-S2-plain",
+    "status": "unsupported",
+    "frozen_status": [
+     "unsupported"
+    ]
+   }
+  ]
+ }
+}
