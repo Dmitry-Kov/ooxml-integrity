@@ -159,7 +159,7 @@ the wrong words inside another reviewer's pending insertion and lost nothing.
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.7.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.8.0
   id: docs
   continue-on-error: true
   with:

@@ -116,7 +116,7 @@ Found later, post hoc: Word for Mac refuses all five S1 captures as unreadable,
 because Codex declared their `commentsExtended` part with a content type Word
 does not accept; with only that type corrected, Word opens them
 ([content-type check](word-check-content-type/README.md)). The oracle does not
-read content types, and the unreleased `PKG010` reports this.
+read content types, and 0.7.0's `PKG010` reports this.
 Median 50 s per attempt.
 
 **OpenCode** with Qwen3.8 27B on the host completed and preserved 29 of 30. On

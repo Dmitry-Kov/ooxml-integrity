@@ -132,7 +132,7 @@ Unchanged in 0.27.0:
 
 - **A direct edit next to the nested deletion (K4-S2 plain) still edits the
   wrong span**. Neither the 0.4.6 checker nor any loss rule of the current
-  one reports it; the unreleased `FID014` does when the caller expects the
+  one reports it; 0.8.0's `FID014` does when the caller expects the
   text the edit was asked to produce, as the
   [fourth reading](../review-history-benchmark/expectations/README.md#fourth-reading-the-text-the-edit-was-asked-to-produce)
   of the frozen captures shows. The output is byte for byte 0.26.0's: ` The Client may` becomes

@@ -1,6 +1,6 @@
 # Content types of related parts (PKG010)
 
-**The unreleased `PKG010` ERROR fires on exactly five of 3,283 WordprocessingML
+**`PKG010` (ERROR, released in 0.7.0) fires on exactly five of 3,283 WordprocessingML
 files (2,714 distinct): Codex's K5-S1 outputs in the review-history benchmark.
 Every other finding on every file is identical to `origin/main` (0.6.0,
 `b101e4b`).** Word for Mac refuses those five files; with only the content type
