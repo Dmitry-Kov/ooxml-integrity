@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.7.0
+    python research/release_smoke.py --version 0.8.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -194,7 +194,7 @@ def main():
 
         assert compared(short) == []
         # A tracked edit loses nothing; FID012 lists the tracked changes it
-        # added and FID014 the paragraph it changed.
+        # added and, since 0.8.0, FID014 the paragraph it changed.
         changed = ("FID014", "document: paragraph 1 changed: "
                    "'This is an initial document.' -> 'This is an final contract.'")
         assert [c for c in compared(tracked) if c[0] != "FID012"] == [changed]
@@ -455,6 +455,7 @@ def main():
           "0.5.2 anonymize of a firm's schema with its binding kept, "
           "0.6.0 mcp over stdio: compare equal to the CLI report, a URL refused, "
           "0.7.0 PKG010 on a Codex output and fix repairing it to a clean copy, "
+          "0.8.0 FID014 for the paragraph a tracked and an untracked edit change, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

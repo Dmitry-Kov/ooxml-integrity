@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.7.0 release notes](releases/0.7.0.md) before changing a version pin.
+[0.8.0 release notes](releases/0.8.0.md) before changing a version pin.
 
 ## What a release can change
 
@@ -42,7 +42,7 @@ lower or turn off the rule with a reason in their [configuration](configuration.
 Coverage gains the identifier `package.related-content-types`, additive under
 schema v1. Its baseline v2 identity is the general one: file, code and part.
 
-Unreleased `FID014` is an INFO finding of `compare()`: one per paragraph
+0.8.0 adds `FID014`, an INFO finding of `compare()`: one per paragraph
 whose text the edit changed, added or removed, with the text before and after.
 It never fails the default gate; a `--fail-on info` gate that compares an edit
 now fails on the paragraphs it changed, as it already did on `FID002` and
@@ -254,11 +254,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.7.0 | Meaning |
+| Output | Version in 0.8.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.7.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.8.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.7.0"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.8.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

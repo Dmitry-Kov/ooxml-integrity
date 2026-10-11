@@ -1,0 +1,341 @@
+{
+  "scope": "Local candidate packaging verification; no fresh editor/model runs. Later CI/release archives are rebuilt from the completed commit.",
+  "version": "0.8.0",
+  "base_head": "e8cdf00b63fa052b30de2846fc2a80c60e6d27e5",
+  "merged_changes": [
+    "#85",
+    "#86",
+    "#87"
+  ],
+  "python": "3.12.8",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "tools": {
+    "build": "1.6.1",
+    "twine": "7.0.0",
+    "lxml": "6.1.3",
+    "pytest": "9.1.1",
+    "fonttools": "4.66.0",
+    "python-docx": "1.2.0"
+  },
+  "local_archive_sha256": {
+    "ooxml_integrity-0.8.0-py3-none-any.whl": "d5b34470d89edb83e32ce8179b8a9c18252e05def9fc15b36ce9895c461c20aa",
+    "ooxml_integrity-0.8.0.tar.gz": "b28807f5396de5066fdda9c92fb666b47d2b80c01db83f087dfcae30bb7e6cb9"
+  },
+  "commands": {
+    "pytest": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 118.7,
+      "stdout_sha256": "9d41531bd87a90f8df559ad4fa8ecd02e0a5287a5daa3aad1549cb7d5ccfc500",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pytest-py314": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv314/bin/python",
+        "-m",
+        "pytest",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 117.3,
+      "stdout_sha256": "9b9a23e9af725dffc9a069f0e7878cfa336fe24b74ba9b0c597981bf032b0762",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "corpus": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/build_docx_evidence.py",
+        "evaluate",
+        "--output",
+        "$REPO/tmp/release-0.8.0/docx-beta.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 4.5,
+      "stdout_sha256": "0ae850ba1b9417910a77530e05c21c43971ccdfc6e9202da9ea512cd1bbd62e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "revisions": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/review_revision_text.py",
+        "--evidence-dir",
+        "evidence/docx-paragraph-revision-ids",
+        "--saved-outputs",
+        "--output",
+        "$REPO/tmp/release-0.8.0/revisions-current.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.9,
+      "stdout_sha256": "0d71230f11779e0e115b811d9cc70c78ae0fe690dc1546fcdb6ba92ed1d28848",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frozen": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/replay_frozen_docx.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.6,
+      "stdout_sha256": "ccc70db936902d97a3bace162b02d44c96eb754a4c86568a506d841b82cabf5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "comment-stories": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/comment_story_evidence.py",
+        "evaluate"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.2,
+      "stdout_sha256": "10891d01a63aad614d5270ca35a3337ea99f3a69e70bbdf3d31a51d6474b6796",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "deck": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/assert_deck.py",
+        "corpus/deck.pptx"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.4,
+      "stdout_sha256": "906daebb2c9557a16571dee6e689be934da23a591b83d8a45fac9e65d7f48f1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "anonymize": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "research/anonymize_eval.py",
+        "--output",
+        "$REPO/tmp/release-0.8.0/anonymize-results.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 195.3,
+      "stdout_sha256": "c873f27256792377175d3e6fe44b6e05df7dd003f0c545351024660693471c3d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": {
+      "command": [
+        "$REPO/.venv/bin/python",
+        "-m",
+        "build",
+        "--outdir",
+        "$REPO/tmp/release-0.8.0/dist"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 7.6,
+      "stdout_sha256": "065942582581703a7dfd3e3e4ef1b97e85391c9da05951ec4259358f63995379",
+      "stderr_sha256": "032cd0356e11e98504e9a9c02c250183cd24f4b2a03147519156964b676d8233"
+    },
+    "twine": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "twine",
+        "check",
+        "--strict",
+        "$REPO/tmp/release-0.8.0/dist/ooxml_integrity-0.8.0-py3-none-any.whl",
+        "$REPO/tmp/release-0.8.0/dist/ooxml_integrity-0.8.0.tar.gz"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.5,
+      "stdout_sha256": "7421d8d7a46bb34e6f500b28682bb2f5817c74074f6fb97d165f96dd21c73ded",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wheel-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.8.0/wheel-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.8.0"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 5.6,
+      "stdout_sha256": "414081cf43684780cc4349eb72689e6e21a175633eb04b1169d0412a6fc00bf0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sdist-smoke": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/tmp/release-0.8.0/sdist-env/bin/python",
+        "research/release_smoke.py",
+        "--version",
+        "0.8.0"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 5.3,
+      "stdout_sha256": "414081cf43684780cc4349eb72689e6e21a175633eb04b1169d0412a6fc00bf0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sdist-pytest": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "$REPO/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-p",
+        "no:cacheprovider",
+        "-o",
+        "addopts=--strict-markers",
+        "-ra"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 110.9,
+      "stdout_sha256": "3c780ef2d86de8aee53b9cb0dca1cfa475485bf90ba9968ec0b8a43a649c38b8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-wheel": {
+      "command": [
+        "/opt/homebrew/bin/npm",
+        "test",
+        "--prefix",
+        "tests/browser"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 348.1,
+      "stdout_sha256": "95b5cfbde37b25c522d4af527c44715ad4c05f8552267e9826288bc8ff3f012c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "pytest_summary": "2588 passed, 7 skipped in 118.42s",
+  "pytest_py314_summary": "2588 passed, 7 skipped in 116.95s",
+  "sdist_pytest_summary": "2560 passed, 35 skipped in 110.63s",
+  "preserved_historical_files": 4238,
+  "browser": {
+    "stats": {
+      "startTime": "2026-10-11T15:05:11.070Z",
+      "duration": 347449.869,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "metadata": {
+      "commit": "e8cdf00b63fa052b30de2846fc2a80c60e6d27e5",
+      "changedTrackedFiles": [
+        ".github/workflows/release.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/compatibility.md",
+        "docs/configuration.md",
+        "docs/support-matrix.md",
+        "pyproject.toml",
+        "research/release_smoke.py",
+        "src/ooxml_integrity/__init__.py"
+      ],
+      "mode": "wheel",
+      "checkerVersion": "0.8.0",
+      "pyodideVersion": "314.0.6",
+      "preview": {
+        "kind": "local-wheel-preview",
+        "version": "0.8.0",
+        "wheel": "ooxml_integrity-0.8.0-py3-none-any.whl",
+        "sha256": "d5b34470d89edb83e32ce8179b8a9c18252e05def9fc15b36ce9895c461c20aa"
+      },
+      "pageSha256": {
+        "index.html": "26a31e35fe5173961789d5764eba2c23195f44199c0bc3ac1174cc2cba27b0bc",
+        "style.css": "c39ff1c782ab0185d890ec814d0f174345d50c8fb7a7daff0fb5d44372eeb2c9",
+        "app.js": "3061d0c0ad44c00d6a6edae99d58706d572db20be8714c70e8e1300ff92e7899",
+        "worker.js": "19446fe08eb8f8ce0ee039c4bd681a6a6a42fb59acfa4b80e953f2878c060460",
+        "bridge.py": "e72404cc180029f93939a0e4b63895a09f33b77bf806caa55887654666c0c6d6",
+        "fonts/SHA256SUMS": "84088761aa8d03b51ff2a4ba7cc8cedc5cc1310ae09865945c026007c6601955"
+      },
+      "actualWorkers": 1
+    }
+  },
+  "anonymize_summary": {
+    "producer corpus": {
+      "items": 220,
+      "anonymized": 220,
+      "reproduced": 220,
+      "with findings": 160,
+      "with leak reports": 0,
+      "with raw-text parts": 0,
+      "with shared replacements": 0
+    },
+    "existing revisions": {
+      "items": 30,
+      "anonymized": 30,
+      "reproduced": 30,
+      "with findings": 30,
+      "with leak reports": 0,
+      "with raw-text parts": 0,
+      "with shared replacements": 0
+    },
+    "saved editor outputs": {
+      "items": 168,
+      "anonymized": 168,
+      "reproduced": 168,
+      "with findings": 168,
+      "with leak reports": 0,
+      "with raw-text parts": 0,
+      "with shared replacements": 0
+    },
+    "agent runs": {
+      "items": 8,
+      "anonymized": 8,
+      "reproduced": 8,
+      "with findings": 8,
+      "with leak reports": 0,
+      "with raw-text parts": 0,
+      "with shared replacements": 0
+    },
+    "review-history benchmark": {
+      "items": 636,
+      "anonymized": 636,
+      "reproduced": 636,
+      "with findings": 572,
+      "with leak reports": 0,
+      "with raw-text parts": 2,
+      "with shared replacements": 0
+    },
+    "public corpora": {
+      "items": 1887,
+      "anonymized": 1848,
+      "reproduced": 1848,
+      "with findings": 275,
+      "with leak reports": 0,
+      "with raw-text parts": 15,
+      "with shared replacements": 6,
+      "unreadable": 39
+    }
+  }
+}

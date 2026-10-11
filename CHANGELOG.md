@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.8.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - `FID014` (INFO): a paragraph whose text the edit changed, added or removed,
   with its text before and after, read with tracked changes accepted and
