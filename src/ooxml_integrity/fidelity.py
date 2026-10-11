@@ -31,6 +31,7 @@ from .comments import (
 )
 from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
 from .replacements import Replacement, assess as assess_replacements, replacements as replacement_inventory
+from .paragraphs import ParagraphText, assess as assess_paragraphs, paragraph_views
 from .revision_growth import (
     PendingInsertions, inventory as pending_inventory, assess as assess_insertion_growth,
 )
@@ -414,6 +415,8 @@ class _StoryFacts:
     revisions: dict[str, collections.Counter]
     #: "kind/variant" -> adjacent tracked replacements in those parts
     replacements: dict[str, list[Replacement]]
+    #: "kind/variant" -> paragraph texts of those parts, in reading order
+    paragraphs: dict[str, list[ParagraphText]]
 
 
 def _relationship_part(target: str, base: str, names: set[str],
@@ -557,6 +560,8 @@ def _story_facts(parts: dict[str, bytes], document, *,
     trees: dict[str, object] = {}
     revisions: dict[str, collections.Counter] = {}
     replacements: dict[str, list[Replacement]] = {}
+    paragraphs: dict[str, list[list[ParagraphText]]] = {}
+    views: dict[str, list[ParagraphText]] = {}
     counted: set[tuple[str, str]] = set()
     for kind, variant, part in references:
         if part not in trees:
@@ -578,7 +583,20 @@ def _story_facts(parts: dict[str, bytes], document, *,
             counted.add((story, part))
             revisions.setdefault(story, collections.Counter()).update(_revision_contexts(root))
             replacements.setdefault(story, []).extend(replacement_inventory(root))
-    return _StoryFacts(texts, constructs, locations, revisions, replacements)
+        # Each distinct text a slot shows, once, in the order a reader meets
+        # it: a part shared by two sections, two parts with the same text and
+        # one more section showing it all read the same.
+        if part not in views:
+            views[part] = paragraph_views(root)
+        shown = paragraphs.setdefault(story, [])
+        if not _shown_already(shown, views[part]):
+            shown.append(views[part])
+    flat = {story: [p for slot in slots for p in slot] for story, slots in paragraphs.items()}
+    return _StoryFacts(texts, constructs, locations, revisions, replacements, flat)
+
+
+def _shown_already(shown: list[list[ParagraphText]], slot: list[ParagraphText]) -> bool:
+    return any(slot == earlier for earlier in shown)
 
 
 def story_reference_count(parts: dict[str, bytes]) -> int:
@@ -606,6 +624,8 @@ class _Snapshot:
     revisions: dict[str, collections.Counter]
     #: story -> adjacent tracked replacements, keyed like `revisions`
     replacements: dict[str, list[Replacement]]
+    #: story -> paragraph texts in reading order, keyed like `revisions`
+    paragraphs: dict[str, list[ParagraphText]]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -661,11 +681,13 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     stories = _story_facts(parts, doc, references=story_references)
     revisions = {"document": _revision_contexts(doc), **stories.revisions}
     replacements = {"document": replacement_inventory(doc), **stories.replacements}
+    paragraphs = {"document": paragraph_views(doc), **stories.paragraphs}
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
             notes = parse_xml(parts[part])
             revisions[story] = _revision_contexts(notes)
             replacements[story] = replacement_inventory(notes)
+            paragraphs[story] = paragraph_views(notes)
     return _Snapshot(
         counts, bodies, authors, text_length, deleted_length,
         stories,
@@ -677,6 +699,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         main,
         revisions,
         replacements,
+        paragraphs,
     )
 
 
@@ -714,6 +737,16 @@ def _wide_replacements(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
     for story in sorted(edited.replacements, key=lambda s: (_STORY_ORDER.index(s.split("/")[0]), s)):
         known = source.revisions.get(story, collections.Counter())
         out.extend(assess_replacements(story, edited.replacements[story], known))
+    return out
+
+
+def _paragraph_changes(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
+    """FID014: paragraphs whose text differs, per story, in reading order."""
+    out = []
+    stories = set(source.paragraphs) | set(edited.paragraphs)
+    for story in sorted(stories, key=lambda s: (_STORY_ORDER.index(s.split("/")[0]), s)):
+        out.extend(assess_paragraphs(story, source.paragraphs.get(story, []),
+                                     edited.paragraphs.get(story, [])))
     return out
 
 
@@ -822,6 +855,7 @@ def compare(source: str | Path, edited: str | Path, *,
 
     out.extend(_revision_additions(source_snapshot, edited_snapshot))
     out.extend(_wide_replacements(source_snapshot, edited_snapshot))
+    out.extend(_paragraph_changes(source_snapshot, edited_snapshot))
 
     for part, tag, code, label in BODY_PARTS:
         # A source item whose current text is empty has nothing to lose here.

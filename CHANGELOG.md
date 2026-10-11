@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+- `FID014` (INFO): a paragraph whose text the edit changed, added or removed,
+  with its text before and after, read with tracked changes accepted and
+  rejected, whitespace normalised; empty paragraphs are left out and a header
+  or footer story is read as the distinct texts its slots show. An
+  expectation can now require the text an edit was asked to produce
+  ([configuration](docs/configuration.md#changes-the-edit-was-asked-to-make)).
+  In the review-history benchmark, expecting each replacement's text catches
+  the two damaged outputs nothing reported, docx-cli's plain edit of the
+  wrong span inside another reviewer's pending insertion: 69 of 69 damaged
+  outputs, with flagged correct outputs still 12 of 537, and 12 more outputs
+  of tools that reported success without making the edit
+  ([analysis](evidence/review-history-benchmark/expectations/README.md#fourth-reading-the-text-the-edit-was-asked-to-produce)).
+  The saved-output gate declares it as an addition, like `FID012`, and the
+  anonymize measurement still reproduces every finding on every copy.
+- README: the Codex issue on the content type and the unanchored reply.
 - Post-release [recheck](evidence/review-history-recheck/README.md) of two
   benchmark tools, kept outside the frozen evaluation: docx-cli 0.27.0
   damages 12 of 56 outputs (0.26.0: 38). Its fixes for the two issues reported

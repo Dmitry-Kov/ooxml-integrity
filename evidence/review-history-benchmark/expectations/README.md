@@ -76,6 +76,30 @@ both captures. Asked to edit text inside Reviewer A's pending insertion, it
 rewrites the wrong span of it, next to Reviewer B's nested deletion, and
 `FID009` does not read an insertion that holds a nested deletion.
 
+## Fourth reading: the text the edit was asked to produce
+
+The unreleased `FID014` lists, as INFO, every paragraph whose text the edit
+changed, with its text before and after, tracked changes accepted and
+rejected, whitespace normalised. The fourth reading keeps the third and adds,
+for every replacement, `FID014` in the task's story with the paragraph the
+task declares, accepted and rejected (required): the text the oracle looks for
+to call the task completed, declared the way a caller who asked for the edit
+knows it.
+
+| | Without | With 0.4.8 expectations | Also expecting `FID012` | Also expecting the text (`FID014`) |
+| --- | ---: | ---: | ---: | ---: |
+| Correct outputs flagged (of 537) | 130 | 12 | 12 | 12 |
+| Damaged outputs caught (of 69) | 61 | 65 | 67 | 69 |
+| Incomplete outputs flagged (of 30) | 8 | 14 | 14 | 26 |
+
+The two added catches are docx-cli's plain K4 on S2, in both captures: the
+paragraph reads "…of a valid invoice.disputed sum withhold disputed amount."
+instead of "…of a valid invoice. The Client may withhold disputed sum.", so the
+expected `FID014` does not occur. No correct output gains an `EXP001`. The
+twelve incomplete outputs now flagged are K4 replacements inside a pending
+insertion that both python-docx adapters and Office-Word-MCP-Server reported
+as done without making: no paragraph changed.
+
 ## Tracked replacements wider than the change
 
 Every column above counts 0.5.1's `FID013` (WARN): a tracked
@@ -92,7 +116,7 @@ not reported, because nine of its words change.
 
 ## Content types Word refuses
 
-The unreleased `PKG010` (ERROR) reports a part the main document relates whose
+0.7.0's `PKG010` (ERROR) reports a part the main document relates whose
 declared content type is not the one its relationship type requires. It fires
 on Codex's five K5-S1 outputs, which declare `commentsExtended` as
 `application/vnd.ms-word.commentsExtended+xml`. Word for Mac refuses them as
@@ -101,8 +125,7 @@ unreadable and opens them with only that type corrected
 content types and counts all five as correct. They were already flagged for
 their unanchored reply (`CMT005`), so no count above changes. `PKG010` fires on
 no other attempt, and on no other file in the repository or the public corpora
-([run](../../docx-content-types/README.md)). The results page describes
-published versions and leaves it out until a release ships it.
+([run](../../docx-content-types/README.md)).
 
 ## Published versions
 

@@ -116,6 +116,7 @@ self-contained reproduction. adeu fixed two and docx-cli two; the others are ope
 | [docx-cli](https://github.com/kklimuk/docx-cli/issues/13) | `replace --track` inside another author's pending insertion credits the new text to that author, and misses the target next to a nested deletion | fixed in 0.27.0 (PRs #19, #20); in the [recheck](evidence/review-history-recheck/README.md) both tracked K4 edits are preserved, while an untracked `replace` next to the nested deletion still edits the wrong span |
 | [docxengine](https://github.com/ruwadgroup/docxengine/issues/1) | a new comment writes `w14:paraId` into a comments part that does not declare `w14`; Word reports unreadable content | open |
 | [docxengine](https://github.com/ruwadgroup/docxengine/issues/2), [SecurityRonin/docx-mcp](https://github.com/SecurityRonin/docx-mcp/issues/21) | a reply has no anchor in the document, and Word does not display it | open |
+| [Codex](https://github.com/openai/codex/issues/53077) | replying to a comment, the code the model generated declares `commentsExtended` with a content type Word refuses (`PKG010`), and anchors the reply nowhere (`CMT005`) | open |
 
 Fixture contributions merged upstream: [adeu #138](https://github.com/dealfluence/adeu/pull/138)
 (comment projection across LibreOffice, Word for Mac and Word for Windows) and
@@ -310,6 +311,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID011` | WARN: preserved source insertion text plus additional characters under its old author/date context without a distinct new insertion context; [scope and intent ambiguity](docs/review-edit-warnings.md) |
 | `FID012` | 0.4.9, INFO: the tracked changes an edit added, per story (body, header/footer slot, notes), kind and author, so an [expectation](docs/configuration.md#changes-the-edit-was-asked-to-make) can require a tracked edit in the right place |
 | `FID013` | 0.5.1, WARN: a tracked replacement the edit added deletes and inserts again more unchanged words than it changes (at least four), so a reviewer sees unchanged text struck through and added again; [scope](docs/review-edit-warnings.md#fid013-a-tracked-replacement-wider-than-the-change) |
+| `FID014` | unreleased, INFO: a paragraph whose text the edit changed, with its text before and after, tracked changes accepted and rejected, so an [expectation](docs/configuration.md#changes-the-edit-was-asked-to-make) can require the text the edit was asked to produce |
 | `INT001` | a check raised and did not complete: error; other checks still run, and coverage reports that check's surface as `skipped` |
 | `EXP001` | 0.4.8: a declared expectation (`--expect` or `[[expect]]`) matched no finding, so the requested change did not happen; [expected changes](docs/configuration.md#changes-the-edit-was-asked-to-make) |
 

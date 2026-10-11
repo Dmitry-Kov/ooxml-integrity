@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.6.0 from this checkout",
+ "checker": "ooxml-integrity 0.7.0 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],
@@ -246,6 +246,272 @@
    }
   ]
  },
+ "text_expectations": {
+  "K1-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+     "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+    },
+    "required": true
+   }
+  ],
+  "K1-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+     "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+    },
+    "required": true
+   }
+  ],
+  "K1-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+     "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+    },
+    "required": true
+   }
+  ],
+  "K1-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+     "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+    },
+    "required": true
+   }
+  ],
+  "K2-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "EUR 12,500",
+     "after_original": "EUR 12,000"
+    },
+    "required": true
+   }
+  ],
+  "K2-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "EUR 12,500",
+     "after_original": "EUR 12,500"
+    },
+    "required": true
+   }
+  ],
+  "K2-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "EUR 12,500",
+     "after_original": "EUR 12,000"
+    },
+    "required": true
+   }
+  ],
+  "K2-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "EUR 12,500",
+     "after_original": "EUR 12,500"
+    },
+    "required": true
+   }
+  ],
+  "K3-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "Annual spend is shown below.",
+     "after_original": "Historic spend is shown below."
+    },
+    "required": true
+   }
+  ],
+  "K3-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "Annual spend is shown below.",
+     "after_original": "Annual spend is shown below."
+    },
+    "required": true
+   }
+  ],
+  "K3-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+     "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+    },
+    "required": true
+   }
+  ],
+  "K3-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+     "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+    },
+    "required": true
+   }
+  ],
+  "K4-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Supplier shall maintain professional liability insurance.",
+     "after_original": ""
+    },
+    "required": true
+   }
+  ],
+  "K4-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "The Supplier shall maintain professional liability insurance.",
+     "after_original": ""
+    },
+    "required": true
+   }
+  ],
+  "K4-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+     "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+    },
+    "required": true
+   }
+  ],
+  "K4-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "document",
+     "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+     "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+    },
+    "required": true
+   }
+  ],
+  "K7h-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "header/default",
+     "after": "Reference Agreement - Draft 8",
+     "after_original": "Reference Agreement - Draft 7"
+    },
+    "required": true
+   }
+  ],
+  "K7h-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "header/default",
+     "after": "Reference Agreement - Draft 8",
+     "after_original": "Reference Agreement - Draft 8"
+    },
+    "required": true
+   }
+  ],
+  "K7h-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "header/default",
+     "after": "Consultancy Services Agreement - Draft 4",
+     "after_original": "Consulting Services Agreement - Draft 3"
+    },
+    "required": true
+   }
+  ],
+  "K7h-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "header/default",
+     "after": "Consultancy Services Agreement - Draft 4",
+     "after_original": "Consultancy Services Agreement - Draft 3"
+    },
+    "required": true
+   }
+  ],
+  "K7n-S1-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "footnotes",
+     "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+     "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+    },
+    "required": true
+   }
+  ],
+  "K7n-S1-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "footnotes",
+     "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+     "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+    },
+    "required": true
+   }
+  ],
+  "K7n-S2-tracked": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "footnotes",
+     "after": "Business days exclude public holidays in Scotland.",
+     "after_original": "Business days exclude public holidays in England and Wales."
+    },
+    "required": true
+   }
+  ],
+  "K7n-S2-plain": [
+   {
+    "code": "FID014",
+    "match": {
+     "story": "footnotes",
+     "after": "Business days exclude public holidays in Scotland.",
+     "after_original": "Business days exclude public holidays in Scotland."
+    },
+    "required": true
+   }
+  ]
+ },
  "summary": {
   "adeu": {
    "without": {
@@ -262,6 +528,11 @@
     "clean": 26,
     "false alarm": 4,
     "detected": 4
+   },
+   "with_text": {
+    "clean": 26,
+    "false alarm": 4,
+    "detected": 4
    }
   },
   "claude-code": {
@@ -273,6 +544,9 @@
     "clean": 150
    },
    "with_tracked": {
+    "clean": 150
+   },
+   "with_text": {
     "clean": 150
    }
   },
@@ -286,6 +560,10 @@
     "false alarm": 6
    },
    "with_tracked": {
+    "clean": 144,
+    "false alarm": 6
+   },
+   "with_text": {
     "clean": 144,
     "false alarm": 6
    }
@@ -306,6 +584,10 @@
     "detected": 36,
     "clean": 18,
     "missed": 2
+   },
+   "with_text": {
+    "detected": 38,
+    "clean": 18
    }
   },
   "docx-mcp": {
@@ -319,6 +601,10 @@
     "incomplete, flagged": 2
    },
    "with_tracked": {
+    "clean": 34,
+    "incomplete, flagged": 2
+   },
+   "with_text": {
     "clean": 34,
     "incomplete, flagged": 2
    }
@@ -338,6 +624,11 @@
     "missed": 2
    },
    "with_tracked": {
+    "clean": 32,
+    "detected": 6,
+    "incomplete, flagged": 2
+   },
+   "with_text": {
     "clean": 32,
     "detected": 6,
     "incomplete, flagged": 2
@@ -361,6 +652,11 @@
     "detected": 6,
     "incomplete, clean": 4,
     "incomplete, flagged": 6
+   },
+   "with_text": {
+    "clean": 8,
+    "detected": 6,
+    "incomplete, flagged": 10
    }
   },
   "opencode-qwen": {
@@ -375,6 +671,11 @@
     "false alarm": 2
    },
    "with_tracked": {
+    "clean": 27,
+    "detected": 1,
+    "false alarm": 2
+   },
+   "with_text": {
     "clean": 27,
     "detected": 1,
     "false alarm": 2
@@ -396,6 +697,11 @@
     "clean": 20,
     "incomplete, clean": 6,
     "incomplete, flagged": 2
+   },
+   "with_text": {
+    "clean": 20,
+    "incomplete, flagged": 6,
+    "incomplete, clean": 2
    }
   },
   "python-docx-setter": {
@@ -417,6 +723,12 @@
     "detected": 14,
     "incomplete, clean": 6,
     "incomplete, flagged": 2
+   },
+   "with_text": {
+    "clean": 6,
+    "detected": 14,
+    "incomplete, flagged": 6,
+    "incomplete, clean": 2
    }
   },
   "reference": {
@@ -428,6 +740,9 @@
     "clean": 60
    },
    "with_tracked": {
+    "clean": 60
+   },
+   "with_text": {
     "clean": 60
    }
   }
@@ -453,6 +768,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -472,6 +792,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -499,6 +824,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -521,6 +854,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -547,6 +888,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -569,6 +918,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -595,6 +952,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -617,6 +982,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -649,6 +1022,16 @@
      "FID012"
     ],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -679,6 +1062,16 @@
      "FID012"
     ],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -701,6 +1094,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -720,6 +1118,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -757,6 +1160,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -791,6 +1204,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -813,6 +1236,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -839,6 +1270,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -863,6 +1302,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -885,6 +1332,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -904,6 +1356,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -931,6 +1388,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -953,6 +1418,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -979,6 +1452,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1001,6 +1482,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1027,6 +1516,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1049,6 +1546,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1081,6 +1586,16 @@
      "FID012"
     ],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -1111,6 +1626,16 @@
      "FID012"
     ],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "REV001"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "false alarm"
    }
   },
   {
@@ -1133,6 +1658,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1152,6 +1682,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1189,6 +1724,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -1223,6 +1768,16 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -1247,28 +1802,12 @@
      "FID012"
     ],
     "outcome": "clean"
-   }
-  },
-  {
-   "adapter": "adeu",
-   "repeat": 2,
-   "task": "K7n-S1-tracked",
-   "completed": true,
-   "preserved": true,
-   "without": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
    },
-   "with": {
-    "codes": [],
-    "expected": [],
-    "outcome": "clean"
-   },
-   "with_tracked": {
+   "with_text": {
     "codes": [],
     "expected": [
-     "FID012"
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1276,6 +1815,38 @@
   {
    "adapter": "adeu",
    "repeat": 2,
+   "task": "K7n-S1-tracked",
+   "completed": true,
+   "preserved": true,
+   "without": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
+   }
+  },
+  {
+   "adapter": "adeu",
+   "repeat": 2,
    "task": "K7n-S2-tracked",
    "completed": true,
    "preserved": true,
@@ -1293,6 +1864,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1317,6 +1896,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1336,6 +1920,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1363,6 +1952,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1384,6 +1981,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1409,6 +2013,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1430,6 +2042,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1455,6 +2074,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1476,6 +2103,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1501,6 +2135,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1522,6 +2164,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1547,6 +2196,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1568,6 +2225,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1593,6 +2257,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1614,6 +2286,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1637,6 +2316,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1667,6 +2354,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1691,6 +2386,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1712,6 +2415,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -1735,6 +2445,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -1754,6 +2469,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -1780,6 +2500,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -1813,6 +2540,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1835,6 +2569,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1865,6 +2607,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1887,6 +2637,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1917,6 +2675,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1939,6 +2705,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -1969,6 +2743,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -1991,6 +2773,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2021,6 +2811,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2043,6 +2841,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2062,6 +2865,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2089,6 +2897,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2110,6 +2926,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2135,6 +2958,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2156,6 +2987,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2181,6 +3019,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2202,6 +3048,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2227,6 +3080,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2248,6 +3109,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2273,6 +3141,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2294,6 +3170,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2319,6 +3202,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2340,6 +3231,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2363,6 +3261,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2393,6 +3299,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2417,6 +3331,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2438,6 +3360,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2461,6 +3390,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2480,6 +3414,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2506,6 +3445,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -2539,6 +3485,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2561,6 +3514,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2591,6 +3552,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2613,6 +3582,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2643,6 +3620,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2665,6 +3650,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2695,6 +3688,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2717,6 +3718,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -2747,6 +3756,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2769,6 +3786,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -2788,6 +3810,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -2815,6 +3842,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2836,6 +3871,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2861,6 +3903,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2882,6 +3932,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2907,6 +3964,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2928,6 +3993,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2953,6 +4025,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -2974,6 +4054,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -2999,6 +4086,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3020,6 +4115,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3045,6 +4147,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3066,6 +4176,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3089,6 +4206,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3119,6 +4244,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3143,6 +4276,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3164,6 +4305,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3187,6 +4335,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3206,6 +4359,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3232,6 +4390,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -3265,6 +4430,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3287,6 +4459,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3317,6 +4497,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3339,6 +4527,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3369,6 +4565,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3391,6 +4595,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3421,6 +4633,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3443,6 +4663,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3473,6 +4701,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3495,6 +4731,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3514,6 +4755,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3541,6 +4787,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3562,6 +4816,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3587,6 +4848,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3608,6 +4877,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3633,6 +4909,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3654,6 +4938,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3679,6 +4970,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3700,6 +4999,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3725,6 +5031,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3746,6 +5060,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3771,6 +5092,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3792,6 +5121,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3815,6 +5151,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -3845,6 +5189,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3869,6 +5221,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -3890,6 +5250,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -3913,6 +5280,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -3932,6 +5304,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -3958,6 +5335,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -3991,6 +5375,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4013,6 +5404,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4043,6 +5442,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4065,6 +5472,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4095,6 +5510,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4117,6 +5540,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4147,6 +5578,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4169,6 +5608,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4199,6 +5646,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4221,6 +5676,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -4240,6 +5700,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -4267,6 +5732,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4288,6 +5761,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4313,6 +5793,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4334,6 +5822,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4359,6 +5854,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4380,6 +5883,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4405,6 +5915,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4426,6 +5944,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4451,6 +5976,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4472,6 +6005,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4497,6 +6037,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4518,6 +6066,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4541,6 +6096,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4571,6 +6134,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4595,6 +6166,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4616,6 +6195,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -4639,6 +6225,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -4658,6 +6249,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -4684,6 +6280,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -4717,6 +6320,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4739,6 +6349,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4769,6 +6387,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4791,6 +6417,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4821,6 +6455,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4843,6 +6485,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4873,6 +6523,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4895,6 +6553,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -4925,6 +6591,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -4947,6 +6621,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -4966,6 +6645,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -4993,6 +6677,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5014,6 +6706,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5039,6 +6738,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5060,6 +6767,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5085,6 +6799,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5106,6 +6828,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5131,6 +6860,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5152,6 +6889,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5177,6 +6921,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5198,6 +6950,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5223,6 +6982,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5244,6 +7011,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5267,6 +7041,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -5297,6 +7079,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5321,6 +7111,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5342,6 +7140,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5377,6 +7182,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "PKG010",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -5396,6 +7210,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5422,6 +7241,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -5455,6 +7281,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5477,6 +7310,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -5507,6 +7348,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5529,6 +7378,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -5559,6 +7416,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5581,6 +7446,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -5611,6 +7484,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5633,6 +7514,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -5663,6 +7552,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5685,6 +7582,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -5704,6 +7606,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -5731,6 +7638,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5752,6 +7667,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5777,6 +7699,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5798,6 +7728,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5823,6 +7760,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5844,6 +7789,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5869,6 +7821,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5890,6 +7850,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5915,6 +7882,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5936,6 +7911,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -5961,6 +7943,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -5982,6 +7972,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6005,6 +8002,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6035,6 +8040,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6059,6 +8072,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6080,6 +8101,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6112,6 +8140,14 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "PKG010"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -6131,6 +8167,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6157,6 +8198,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -6190,6 +8238,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6212,6 +8267,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6242,6 +8305,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6264,6 +8335,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6294,6 +8373,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6316,6 +8403,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6346,6 +8441,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6368,6 +8471,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6398,6 +8509,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6420,6 +8539,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -6439,6 +8563,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -6466,6 +8595,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6487,6 +8624,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6512,6 +8656,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6533,6 +8685,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6558,6 +8717,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6579,6 +8746,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6604,6 +8778,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6625,6 +8807,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6650,6 +8839,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6671,6 +8868,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6696,6 +8900,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6717,6 +8929,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6740,6 +8959,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6770,6 +8997,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6794,6 +9029,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6815,6 +9058,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -6841,6 +9091,14 @@
     "outcome": "false alarm"
    },
    "with_tracked": {
+    "codes": [
+     "CMT005",
+     "PKG010"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_text": {
     "codes": [
      "CMT005",
      "PKG010"
@@ -6875,6 +9133,13 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -6898,6 +9163,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -6931,6 +9203,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -6953,6 +9232,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -6983,6 +9270,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7005,6 +9300,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7035,6 +9338,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7057,6 +9368,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7087,6 +9406,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7109,6 +9436,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7139,6 +9474,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7161,6 +9504,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7180,6 +9528,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7207,6 +9560,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7228,6 +9589,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7253,6 +9621,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7274,6 +9650,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7299,6 +9682,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7320,6 +9711,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7345,6 +9743,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7366,6 +9772,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7391,6 +9804,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7412,6 +9833,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7437,6 +9865,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7458,6 +9894,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7481,6 +9924,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7511,6 +9962,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7535,6 +9994,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7556,6 +10023,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7591,6 +10065,15 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "PKG010",
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -7610,6 +10093,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7636,6 +10124,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -7669,6 +10164,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7691,6 +10193,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7721,6 +10231,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7743,6 +10261,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7773,6 +10299,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7795,6 +10329,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7825,6 +10367,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7847,6 +10397,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -7877,6 +10435,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7899,6 +10465,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -7918,6 +10489,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -7945,6 +10521,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -7966,6 +10550,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -7991,6 +10582,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8012,6 +10611,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8037,6 +10643,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8058,6 +10672,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8083,6 +10704,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8104,6 +10733,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8129,6 +10765,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8150,6 +10794,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8175,6 +10826,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8196,6 +10855,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8219,6 +10885,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8249,6 +10923,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8273,6 +10955,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8294,6 +10984,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8326,6 +11023,14 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "PKG010"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -8345,6 +11050,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -8371,6 +11081,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -8404,6 +11121,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8426,6 +11150,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8456,6 +11188,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8478,6 +11218,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8508,6 +11256,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8530,6 +11286,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8560,6 +11324,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8582,6 +11354,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8610,6 +11390,14 @@
     "codes": [],
     "expected": [
      "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -8642,6 +11430,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8670,6 +11468,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8694,6 +11501,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8715,6 +11530,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8746,6 +11568,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8774,6 +11606,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8798,6 +11639,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8819,6 +11668,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8850,6 +11706,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8878,6 +11744,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -8902,6 +11777,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -8923,6 +11806,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -8955,6 +11845,17 @@
     ],
     "expected": [
      "FID012"
+    ],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID011",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "detected"
    }
@@ -8990,6 +11891,16 @@
      "FID009"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9020,6 +11931,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID011"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9042,6 +11963,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9073,6 +12001,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "STY001",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9092,6 +12028,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9128,6 +12069,15 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9151,6 +12101,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -9181,6 +12138,15 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001",
      "FID007",
@@ -9221,6 +12187,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9246,6 +12222,15 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "FID008"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001",
      "FID007",
@@ -9286,6 +12271,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9317,6 +12312,17 @@
     ],
     "expected": [
      "FID012"
+    ],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID013",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "detected"
    }
@@ -9352,6 +12358,16 @@
      "FID005"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9382,6 +12398,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID013"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9408,6 +12434,14 @@
     "codes": [],
     "expected": [
      "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -9440,6 +12474,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9468,6 +12512,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9492,6 +12545,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9513,6 +12574,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -9544,6 +12612,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9572,6 +12650,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9596,6 +12683,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9617,6 +12712,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -9648,6 +12750,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9676,6 +12788,15 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9700,6 +12821,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -9721,6 +12850,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -9753,6 +12889,17 @@
     ],
     "expected": [
      "FID012"
+    ],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID011",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "detected"
    }
@@ -9788,6 +12935,16 @@
      "FID009"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9818,6 +12975,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID011"
+    ],
+    "expected": [
+     "FID012"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9840,6 +13007,13 @@
     "codes": [],
     "expected": [],
     "outcome": "missed"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9871,6 +13045,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "STY001",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -9890,6 +13072,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -9926,6 +13113,15 @@
      "FID001"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -9949,6 +13145,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -9979,6 +13182,15 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "TXT002"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001",
      "FID007",
@@ -10019,6 +13231,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10044,6 +13266,15 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001",
+     "FID007",
+     "FID008"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001",
      "FID007",
@@ -10084,6 +13315,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10115,6 +13356,17 @@
     ],
     "expected": [
      "FID012"
+    ],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID013",
+     "TXT002"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "detected"
    }
@@ -10150,6 +13402,16 @@
      "FID005"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "TXT002"
+    ],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10180,6 +13442,16 @@
      "FID012"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID013"
+    ],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -10208,6 +13480,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10230,6 +13510,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10249,6 +13534,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10276,6 +13566,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10297,6 +13595,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10322,6 +13627,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10343,6 +13656,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10368,6 +13688,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10390,6 +13718,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10411,6 +13746,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10435,6 +13777,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "CMT005"
     ],
@@ -10468,6 +13817,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10496,6 +13852,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10518,6 +13881,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -10548,6 +13919,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10570,6 +13949,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -10600,6 +13987,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10626,6 +14021,14 @@
     "codes": [],
     "expected": [
      "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -10656,6 +14059,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10678,6 +14089,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -10697,6 +14113,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -10724,6 +14145,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10745,6 +14174,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10770,6 +14206,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10791,6 +14235,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10816,6 +14267,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10838,6 +14297,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10859,6 +14325,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -10883,6 +14356,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "CMT005"
     ],
@@ -10916,6 +14396,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10944,6 +14431,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -10966,6 +14460,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -10996,6 +14498,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11018,6 +14528,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -11046,6 +14564,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -11076,6 +14602,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11104,6 +14638,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11126,6 +14668,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -11145,6 +14692,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11172,6 +14724,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11193,6 +14753,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11218,6 +14785,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11239,6 +14814,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11264,6 +14846,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11285,6 +14875,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11310,6 +14907,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11331,6 +14936,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11354,6 +14966,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -11384,6 +15004,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11408,6 +15036,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11429,6 +15065,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11453,6 +15096,13 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "XML001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "XML001"
     ],
@@ -11486,6 +15136,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -11509,6 +15166,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -11542,6 +15206,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11561,6 +15232,13 @@
     "outcome": "missed"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -11592,6 +15270,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -11614,6 +15299,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -11633,6 +15323,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -11660,6 +15355,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11681,6 +15384,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11706,6 +15416,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11727,6 +15445,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11752,6 +15477,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11773,6 +15506,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11798,6 +15538,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11819,6 +15567,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11842,6 +15597,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -11872,6 +15635,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11896,6 +15667,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -11917,6 +15696,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -11941,6 +15727,13 @@
     "outcome": "detected"
    },
    "with_tracked": {
+    "codes": [
+     "XML001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "XML001"
     ],
@@ -11974,6 +15767,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -11997,6 +15797,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -12030,6 +15837,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12049,6 +15863,13 @@
     "outcome": "missed"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -12080,6 +15901,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -12102,6 +15930,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12123,6 +15958,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12155,6 +15997,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -12186,6 +16038,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -12207,6 +16069,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12230,6 +16099,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12252,6 +16128,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12274,6 +16157,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12295,6 +16185,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -12326,6 +16223,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -12347,6 +16251,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -12378,6 +16289,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12400,6 +16318,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12421,6 +16346,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12453,6 +16385,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -12484,6 +16426,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -12505,6 +16457,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12528,6 +16487,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12550,6 +16516,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12572,6 +16545,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12593,6 +16573,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -12624,6 +16611,13 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -12645,6 +16639,13 @@
     "outcome": "incomplete, flagged"
    },
    "with_tracked": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
+   },
+   "with_text": {
     "codes": [
      "EXP001"
     ],
@@ -12676,6 +16677,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -12698,6 +16706,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -12717,6 +16730,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -12744,6 +16762,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12765,6 +16791,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12790,6 +16823,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12811,6 +16852,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12836,6 +16884,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12857,6 +16913,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12882,6 +16945,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12903,6 +16974,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12928,6 +17006,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12949,6 +17035,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -12974,6 +17067,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -12995,6 +17096,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13018,6 +17126,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13048,6 +17164,14 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID001"
+    ],
+    "expected": [],
+    "outcome": "detected"
    }
   },
   {
@@ -13072,6 +17196,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13093,6 +17225,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13117,6 +17256,13 @@
     "outcome": "false alarm"
    },
    "with_tracked": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
+   },
+   "with_text": {
     "codes": [
      "CMT005"
     ],
@@ -13150,6 +17296,13 @@
     ],
     "expected": [],
     "outcome": "false alarm"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005"
+    ],
+    "expected": [],
+    "outcome": "false alarm"
    }
   },
   {
@@ -13173,6 +17326,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -13206,6 +17366,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13228,6 +17395,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13258,6 +17433,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13280,6 +17463,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13308,6 +17499,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13334,6 +17533,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13362,6 +17569,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13384,6 +17599,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13414,6 +17637,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13433,6 +17664,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -13458,6 +17694,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -13479,6 +17720,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13502,6 +17750,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13523,6 +17778,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13546,6 +17808,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13567,6 +17836,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13590,6 +17866,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13612,6 +17895,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -13634,6 +17924,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -13662,6 +17959,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -13681,6 +17985,11 @@
     "outcome": "incomplete, clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -13710,6 +18019,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -13740,6 +18057,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13759,6 +18084,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -13784,6 +18114,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -13805,6 +18140,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13828,6 +18170,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13849,6 +18198,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13872,6 +18228,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13893,6 +18256,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -13916,6 +18286,13 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -13938,6 +18315,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -13960,6 +18344,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -13988,6 +18379,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14007,6 +18405,11 @@
     "outcome": "incomplete, clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -14036,6 +18439,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -14066,6 +18477,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -14088,6 +18507,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -14107,6 +18531,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -14144,6 +18573,17 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14174,6 +18614,16 @@
      "FID001"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "detected"
    }
   },
@@ -14206,6 +18656,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14236,6 +18696,16 @@
      "FID001"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "detected"
    }
   },
@@ -14268,6 +18738,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14299,6 +18779,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14321,6 +18811,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14343,6 +18840,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14371,6 +18875,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14390,6 +18901,11 @@
     "outcome": "incomplete, clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -14419,6 +18935,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -14454,6 +18978,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14476,6 +19010,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -14495,6 +19034,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -14532,6 +19076,17 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14562,6 +19117,16 @@
      "FID001"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "detected"
    }
   },
@@ -14594,6 +19159,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14624,6 +19199,16 @@
      "FID001"
     ],
     "expected": [],
+    "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "CMT005",
+     "FID001"
+    ],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "detected"
    }
   },
@@ -14656,6 +19241,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14687,6 +19282,16 @@
     ],
     "expected": [],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "FID001",
+     "FTN002"
+    ],
+    "expected": [
+     "FID014"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14709,6 +19314,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14731,6 +19343,13 @@
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14759,6 +19378,13 @@
     ],
     "expected": [],
     "outcome": "incomplete, flagged"
+   },
+   "with_text": {
+    "codes": [
+     "STY001"
+    ],
+    "expected": [],
+    "outcome": "incomplete, flagged"
    }
   },
   {
@@ -14778,6 +19404,11 @@
     "outcome": "incomplete, clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "incomplete, clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "incomplete, clean"
@@ -14807,6 +19438,14 @@
     "codes": [],
     "expected": [
      "FID007"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -14842,6 +19481,16 @@
      "FID007"
     ],
     "outcome": "detected"
+   },
+   "with_text": {
+    "codes": [
+     "EXP001",
+     "FID008"
+    ],
+    "expected": [
+     "FID007"
+    ],
+    "outcome": "detected"
    }
   },
   {
@@ -14864,6 +19513,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -14883,6 +19537,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -14910,6 +19569,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -14931,6 +19598,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -14956,6 +19630,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -14977,6 +19659,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15002,6 +19691,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15023,6 +19720,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15048,6 +19752,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15069,6 +19781,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15094,6 +19813,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15115,6 +19842,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15140,6 +19874,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15161,6 +19903,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15184,6 +19933,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15214,6 +19971,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15238,6 +20003,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15259,6 +20032,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15282,6 +20062,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -15301,6 +20086,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -15327,6 +20117,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -15360,6 +20157,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15382,6 +20186,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15412,6 +20224,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15434,6 +20254,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15464,6 +20292,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15486,6 +20322,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15516,6 +20360,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15538,6 +20390,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15568,6 +20428,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15590,6 +20458,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -15609,6 +20482,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -15636,6 +20514,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15657,6 +20543,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15682,6 +20575,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15703,6 +20604,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15728,6 +20636,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15749,6 +20665,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15774,6 +20697,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15795,6 +20726,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15820,6 +20758,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15841,6 +20787,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15866,6 +20819,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15887,6 +20848,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -15910,6 +20878,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -15940,6 +20916,14 @@
      "FID009"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID009",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15964,6 +20948,14 @@
      "FID012"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -15985,6 +20977,13 @@
    "with_tracked": {
     "codes": [],
     "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID014"
+    ],
     "outcome": "clean"
    }
   },
@@ -16008,6 +21007,11 @@
     "codes": [],
     "expected": [],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
    }
   },
   {
@@ -16027,6 +21031,11 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [],
     "outcome": "clean"
@@ -16053,6 +21062,13 @@
     "outcome": "clean"
    },
    "with_tracked": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
     "codes": [],
     "expected": [
      "FID001"
@@ -16086,6 +21102,13 @@
      "FID001"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID001"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -16108,6 +21131,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -16138,6 +21169,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -16160,6 +21199,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -16190,6 +21237,14 @@
      "FID007"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID007",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -16212,6 +21267,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -16242,6 +21305,14 @@
      "FID005"
     ],
     "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
+    ],
+    "outcome": "clean"
    }
   },
   {
@@ -16264,6 +21335,14 @@
     "codes": [],
     "expected": [
      "FID012"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID012",
+     "FID014"
     ],
     "outcome": "clean"
    }
@@ -16292,6 +21371,14 @@
     "codes": [],
     "expected": [
      "FID005"
+    ],
+    "outcome": "clean"
+   },
+   "with_text": {
+    "codes": [],
+    "expected": [
+     "FID005",
+     "FID014"
     ],
     "outcome": "clean"
    }

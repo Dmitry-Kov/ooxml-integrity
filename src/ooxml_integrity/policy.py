@@ -372,6 +372,15 @@ def fingerprint(file: str, f: Finding) -> str:
         digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
                                           separators=(",", ":")).encode("utf-8")).hexdigest()
         stable = f"wide-replacement-sha256={digest}"
+    elif f.code == "FID014":
+        # Story, kind of change and both texts in both views, hashed: the same
+        # paragraph change is the same finding wherever the paragraph moved,
+        # and no document text enters the baseline.
+        identity = [f.extra.get(key, "") for key in (
+            "story", "change", "before", "after", "before_original", "after_original")]
+        digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
+                                          separators=(",", ":")).encode("utf-8")).hexdigest()
+        stable = f"paragraph-change-sha256={digest}"
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key

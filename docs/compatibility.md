@@ -42,6 +42,13 @@ lower or turn off the rule with a reason in their [configuration](configuration.
 Coverage gains the identifier `package.related-content-types`, additive under
 schema v1. Its baseline v2 identity is the general one: file, code and part.
 
+Unreleased `FID014` is an INFO finding of `compare()`: one per paragraph
+whose text the edit changed, added or removed, with the text before and after.
+It never fails the default gate; a `--fail-on info` gate that compares an edit
+now fails on the paragraphs it changed, as it already did on `FID002` and
+`FID012`. Its baseline v2 identity hashes the story, the kind of change and
+the texts in both views, so no document text enters the baseline.
+
 0.5.1 adds `FID013`, a WARN finding of `compare()`: a tracked
 replacement the edit added that deletes and inserts again more unchanged words
 than it changes, at least four. It does not fail the default gate. A

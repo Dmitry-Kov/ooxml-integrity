@@ -312,7 +312,11 @@ def test_adding_a_section_and_story_does_not_create_a_false_loss(
         },
     )
 
-    assert compare(base_docx, edited) == []
+    # Nothing is lost; the new first-page header is reported as text added.
+    findings = compare(base_docx, edited)
+    assert [(f.code, f.severity, f.extra["story"], f.extra["change"], f.extra["after"])
+            for f in findings] == [
+        ("FID014", Severity.INFO, "header/first", "added", "New first page")]
 
 
 def test_story_text_is_whitespace_normalised(base_docx, tmp_path):
