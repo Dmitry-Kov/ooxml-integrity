@@ -338,15 +338,17 @@ def build_parser() -> argparse.ArgumentParser:
     f = sub.add_parser(
         "fix",
         help="write a repaired copy of a .docx: anchor orphaned replies "
-             "(CMT005), renumber repeated revision ids (REV001)",
-        description="Write a repaired copy of a .docx, never in place. Two "
+             "(CMT005), renumber repeated revision ids (REV001), correct a "
+             "related part's content type (PKG010)",
+        description="Write a repaired copy of a .docx, never in place. Three "
                     "repairs, each only when its result is unique: "
                     "anchor-replies gives an orphaned reply its parent "
                     "comment's range, as Word writes a thread; "
                     "renumber-revisions gives every repeated revision id after "
-                    "the first a fresh id. Lost content is never restored or "
-                    "invented. The copy is checked again before it is written. "
-                    "See docs/fix.md.",
+                    "the first a fresh id; content-type gives a related part's "
+                    "Override the content type its relationship type requires. "
+                    "Lost content is never restored or invented. The copy is "
+                    "checked again before it is written. See docs/fix.md.",
         epilog="exit codes: 0 repaired and re-checked, OUT written; 1 nothing "
                "to repair or every repair refused; 2 usage error or a package "
                "fix does not rewrite; 3 the re-check failed. Nothing is "

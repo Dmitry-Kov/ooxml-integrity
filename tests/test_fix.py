@@ -1,7 +1,7 @@
-"""`fix`: two unique repairs, refusals with reasons, and the guarantees.
+"""`fix`: three unique repairs, refusals with reasons, and the guarantees.
 
 The inputs are the benchmark captures and agent runs that actually have the
-two findings; variants change one thing in one of them. Word for Mac 16.113.4
+three findings; variants change one thing in one of them. Word for Mac 16.113.4
 opened the copies these repairs write (docs/fix.md); here the suite proves the
 rest: what changes, what does not, and what is refused.
 """
@@ -11,6 +11,7 @@ import difflib
 import json
 import os
 import zipfile
+import zlib
 from pathlib import Path
 
 import pytest
@@ -25,6 +26,10 @@ from ooxml_integrity.repack import read_entries
 CAPTURES = ROOT / "evidence" / "review-history-benchmark" / "captures"
 SOURCES = ROOT / "evidence" / "review-history-benchmark" / "sources"
 CODEX_S1 = CAPTURES / "codex-1" / "K5-S1-comment.docx"
+CODEX_S1_ALL = [CAPTURES / f"codex-{n}" / "K5-S1-comment.docx" for n in range(1, 6)]
+WORD_CHECK = ROOT / "evidence" / "review-history-benchmark" / "word-check-content-type"
+D6 = WORD_CHECK / "variants" / "d6-codex-2-K5-S1-ct-fixed.docx"
+D7 = WORD_CHECK / "variants" / "d7-codex-2-K5-S1-anchored-ct-fixed.docx"
 CODEX_S2 = CAPTURES / "codex-3" / "K5-S2-comment.docx"
 OPENCODE_S1 = CAPTURES / "opencode-qwen-1" / "K5-S1-comment.docx"
 OPENCODE_S2 = CAPTURES / "opencode-qwen-1" / "K5-S2-comment.docx"
@@ -57,9 +62,10 @@ def _changed(a, b):
 
 
 # ------------------------------------------------------------- anchor-replies
-@pytest.mark.parametrize("capture", [CODEX_S1, CODEX_S2, OPENCODE_S1, OPENCODE_S2,
+# The five Codex S1 captures also have PKG010; they are under content-type.
+@pytest.mark.parametrize("capture", [CODEX_S2, OPENCODE_S1, OPENCODE_S2,
                                      DOCX_MCP, DOCXENGINE],
-                         ids=["codex-S1", "codex-S2", "opencode-S1", "opencode-S2",
+                         ids=["codex-S2", "opencode-S1", "opencode-S2",
                               "docx-mcp", "docxengine"])
 def test_anchor_replies_on_real_captures(capture, tmp_path):
     out = tmp_path / "fixed.docx"
@@ -246,6 +252,202 @@ def test_renumbering_keeps_text_authors_and_dates(tmp_path):
     assert revisions(ADEU_S1) == revisions(out)
 
 
+# ---------------------------------------------------------------- content-type
+TYPES = "[Content_Types].xml"
+WRONG = 'ContentType="application/vnd.ms-word.commentsExtended+xml"'
+RIGHT = ('ContentType="application/vnd.openxmlformats-officedocument.'
+         'wordprocessingml.commentsExtended+xml"')
+EXTENDED = '<Override PartName="/word/commentsExtended.xml" '
+
+
+def _markers(path):
+    import re
+    return re.findall(r'<w:comment(?:RangeStart|RangeEnd|Reference) w:id="\d+"/>',
+                      read_part(path, "word/document.xml"))
+
+
+def _stored(path):
+    """Each member's local header, compressed bytes and descriptor, as stored."""
+    out = {}
+    with open(path, "rb") as fh:
+        for e in read_entries(path):
+            fh.seek(e.offset)
+            out[e.name] = fh.read(e.length)
+    return out
+
+
+def _types_variant(src, dst, edit):
+    return repack(src, dst, {TYPES: edit(read_part(src, TYPES)).encode()})
+
+
+@pytest.mark.parametrize("capture", CODEX_S1_ALL, ids=lambda p: p.parent.name)
+def test_content_type_and_anchor_replies_compose_on_codex_s1(capture, tmp_path):
+    """Word for Mac refused all five; d7, which it opened, has these two repairs."""
+    out = tmp_path / "fixed.docx"
+    report = fix(capture, out, against=BASE)
+    assert report.status == "repaired" and report.exit_code == EXIT_REPAIRED
+    assert [r.repair for r in report.repaired] == ["anchor-replies", "content-type"]
+    before = _codes(capture)
+    assert {"CMT005", "PKG010"} <= set(before)
+    before.remove("CMT005")
+    before.remove("PKG010")
+    assert _codes(out) == before  # Codex's STY001 in codex-1 and -4 stays
+    v = report.verification
+    assert v.passed and v.check_added == [] and v.against_added == []
+    assert sorted(f.code for f in v.check_removed) == ["CMT005", "PKG010"]
+    assert v.changed_parts == _changed(capture, out) == [TYPES, "word/document.xml"]
+    # The content type and the comment markers are d7's.
+    assert read_part(out, TYPES) == read_part(D7, TYPES)
+    assert _markers(out) == _markers(D7)
+    (change,) = report.repaired[1].changes
+    assert (change.part, change.element, change.where, change.line, change.old,
+            change.new) == (TYPES, "Override", "/Types/Override[11]", 16, WRONG, RIGHT)
+    assert "Word for Mac 16.113.4 refused" in report.repaired[1].detail
+
+
+def test_only_the_content_type_value_changes(tmp_path):
+    """The rest of [Content_Types].xml, and every member no repair edits, keep
+    their bytes."""
+    for capture in CODEX_S1_ALL:
+        out = tmp_path / f"{capture.parent.name}.docx"
+        fix(capture, out)
+        with zipfile.ZipFile(capture) as za, zipfile.ZipFile(out) as zb:
+            old, new = za.read(TYPES), zb.read(TYPES)
+            for x, y in zip(za.infolist(), zb.infolist()):
+                assert (x.filename, x.date_time, x.compress_type, x.external_attr) == (
+                    y.filename, y.date_time, y.compress_type, y.external_attr)
+        assert old.count(WRONG.encode()) == 1
+        assert new == old.replace(WRONG.encode(), RIGHT.encode())
+        a, b = _stored(capture), _stored(out)
+        assert list(a) == list(b)
+        assert [n for n in a if a[n] != b[n]] == [TYPES, "word/document.xml"]
+
+
+def _deflates_like(path, names):
+    """Whether this zlib compresses the named members to the bytes `path` stores."""
+    entries = {e.name: e for e in read_entries(path)}
+    with zipfile.ZipFile(path) as z, open(path, "rb") as fh:
+        for name in names:
+            e = entries[name]
+            fh.seek(e.offset + len(e.header))
+            packer = zlib.compressobj(zlib.Z_DEFAULT_COMPRESSION, zlib.DEFLATED, -15)
+            if packer.compress(z.read(name)) + packer.flush() != fh.read(e.compressed):
+                return False
+    return True
+
+
+@pytest.mark.parametrize("given", [CAPTURES / "codex-2" / "K5-S1-comment.docx", D6],
+                         ids=["capture", "d6"])
+def test_fix_writes_the_copy_word_opened(given, tmp_path):
+    """Word opened d7 and showed the reply in its parent's thread. fix writes it
+    from codex-2's capture, which Word refused, and from d6, which has only the
+    content type corrected. The edited members' bytes depend on zlib."""
+    out = tmp_path / "fixed.docx"
+    assert fix(given, out).status == "repaired"
+    assert _members(out) == _members(D7)
+    edited = [TYPES, "word/document.xml"]
+    a, b = _stored(out), _stored(D7)
+    assert list(a) == list(b)
+    assert [n for n in a if a[n] != b[n] and n not in edited] == []
+    if _deflates_like(D7, edited):
+        assert out.read_bytes() == D7.read_bytes()
+
+
+def test_the_other_codex_outputs_differ_from_d7_only_where_codex_did(tmp_path):
+    def edits(a, b):
+        return [(op, a[i:j], b[k:m]) for op, i, j, k, m in difflib.SequenceMatcher(
+            None, a, b, autojunk=False).get_opcodes() if op != "equal"]
+    codex2, d7 = _members(CAPTURES / "codex-2" / "K5-S1-comment.docx"), _members(D7)
+    for capture in CODEX_S1_ALL:
+        out = tmp_path / f"{capture.parent.name}.docx"
+        fix(capture, out)
+        given, written = _members(capture), _members(out)
+        for name in d7:
+            assert edits(d7[name], written[name]) == edits(codex2[name], given[name]), (
+                capture.parent.name, name)
+
+
+def test_a_part_typed_by_a_default_is_refused(tmp_path):
+    """Without its Override, commentsExtended.xml is application/xml through the
+    Default for "xml", which also types every other .xml part."""
+    import re
+    variant = _types_variant(D7, tmp_path / "default.docx",
+                             lambda t: re.sub(EXTENDED + r"[^>]*/>", "", t))
+    assert [f.extra["declared"] for f in check(variant) if f.code == "PKG010"] == [
+        "application/xml"]
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert report.status == "nothing-to-repair" and report.exit_code == EXIT_NOTHING
+    assert report.reason == "every CMT005/REV001/PKG010 finding was refused"
+    (refused,) = [n for n in report.not_repaired if n.repair]
+    assert refused.repair == "content-type" and refused.finding.code == "PKG010"
+    assert 'the Default for the extension "xml"' in refused.reason
+    assert "would retype every other part" in refused.reason
+    assert not out.exists()
+
+
+def test_a_refused_content_type_does_not_stop_another_repair(tmp_path):
+    capture = CAPTURES / "codex-2" / "K5-S1-comment.docx"
+    variant = _types_variant(capture, tmp_path / "default.docx",
+                             lambda t: t.replace(EXTENDED + WRONG + "/>", ""))
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert report.status == "repaired"
+    assert [r.repair for r in report.repaired] == ["anchor-replies"]
+    assert [n.repair for n in report.not_repaired if n.repair] == ["content-type"]
+    assert _codes(out) == ["PKG010"] and _changed(variant, out) == ["word/document.xml"]
+
+
+def test_two_overrides_for_the_part_are_refused(tmp_path):
+    capture = CAPTURES / "codex-2" / "K5-S1-comment.docx"
+    override = EXTENDED + WRONG + "/>"
+    variant = _types_variant(capture, tmp_path / "twice.docx",
+                             lambda t: t.replace(override, override * 2))
+    report = fix(variant, tmp_path / "fixed.docx")
+    (refused,) = [n for n in report.not_repaired if n.repair]
+    assert refused.finding.code == "PKG010"
+    assert "2 Overrides in [Content_Types].xml name word/commentsExtended.xml" in (
+        refused.reason)
+
+
+def test_a_content_types_part_fix_cannot_compress_is_refused(tmp_path):
+    capture = CAPTURES / "codex-2" / "K5-S1-comment.docx"
+    variant = tmp_path / "bzip2.docx"
+    with zipfile.ZipFile(capture) as zin, zipfile.ZipFile(variant, "w") as zout:
+        for info in zin.infolist():
+            zout.writestr(info.filename, zin.read(info),
+                          zipfile.ZIP_BZIP2 if info.filename == TYPES
+                          else zipfile.ZIP_DEFLATED)
+    report = fix(variant, tmp_path / "fixed.docx")
+    (refused,) = [n for n in report.not_repaired if n.repair]
+    assert refused.reason == ("[Content_Types].xml uses compression method 12, "
+                              "which fix does not write")
+
+
+def test_another_relationship_type_is_repaired_and_word_is_not_claimed(tmp_path):
+    """Any of the fifteen relationship types PKG010 reads; the attribute keeps
+    its quotes. Word was observed only with commentsExtended."""
+    styles = '<Override PartName="/word/styles.xml" ContentType="'
+    expected = "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"
+    assert styles + expected + '"/>' in read_part(BASE, TYPES)
+    variant = _types_variant(BASE, tmp_path / "styles.docx", lambda t: t.replace(
+        styles + expected + '"/>',
+        "<Override PartName='/word/styles.xml' ContentType = 'application/xml'/>"))
+    assert _codes(variant) == ["PKG010"]
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out, against=BASE)
+    assert report.status == "repaired"
+    (repaired,) = report.repaired
+    (change,) = repaired.changes
+    assert (change.old, change.new) == ("ContentType = 'application/xml'",
+                                        f"ContentType = '{expected}'")
+    assert "Word was not observed with this declaration" in repaired.detail
+    assert _codes(out) == [] and compare(variant, out) == []
+    assert _changed(variant, out) == [TYPES]
+    assert read_part(out, TYPES) == read_part(variant, TYPES).replace(
+        "'application/xml'", f"'{expected}'")
+
+
 # ------------------------------------------------------------------ refusals
 def test_top_level_orphan_is_refused_with_its_reason(tmp_path):
     out = tmp_path / "fixed.docx"
@@ -268,7 +470,7 @@ def test_reply_whose_parent_lost_its_anchor_is_refused(tmp_path):
 def test_every_finding_not_repaired_is_listed_with_why(tmp_path):
     report = fix(CODEX_S1, tmp_path / "fixed.docx", against=BASE)
     listed = [(n.finding.code, n.origin) for n in report.not_repaired]
-    remaining = [f.code for f in check(CODEX_S1) if f.code != "CMT005"]
+    remaining = [f.code for f in check(CODEX_S1) if f.code not in ("CMT005", "PKG010")]
     assert sorted(c for c, o in listed if o == "check") == sorted(remaining)
     assert ("STY001", "check") in listed
     assert sorted(c for c, o in listed if o == "against") == sorted(
@@ -280,7 +482,7 @@ def test_nothing_to_repair_writes_nothing(tmp_path):
     out = tmp_path / "fixed.docx"
     report = fix(BASE, out)
     assert report.status == "nothing-to-repair" and not out.exists()
-    assert "no CMT005 or REV001" in report.reason
+    assert "no CMT005, REV001 or PKG010" in report.reason
 
 
 def test_strict_package_is_refused(tmp_path):

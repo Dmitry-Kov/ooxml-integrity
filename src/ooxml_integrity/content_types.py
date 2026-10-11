@@ -42,6 +42,12 @@ RELATED = {
 }
 
 
+def part_key(name: str | None) -> str:
+    """A part name or Override PartName as compared: unescaped, without the
+    leading slash, ASCII-case-insensitively."""
+    return unquote((name or "").lstrip("/")).translate(ASCII_LOWER)
+
+
 def media_type(value: str | None) -> str:
     """A content type without parameters, compared ASCII-case-insensitively."""
     return (value or "").split(";", 1)[0].strip().translate(ASCII_LOWER)
@@ -95,15 +101,14 @@ def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
     exact = {o.get("PartName") for o in types.findall(CT + "Override")}
     overrides: dict[str, list[str]] = {}
     for o in types.findall(CT + "Override"):
-        key = unquote((o.get("PartName") or "").lstrip("/")).translate(ASCII_LOWER)
-        overrides.setdefault(key, []).append(o.get("ContentType") or "")
+        overrides.setdefault(part_key(o.get("PartName")), []).append(
+            o.get("ContentType") or "")
 
     def declared(name: str) -> tuple[str, ...]:
         ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
         if "/" + name not in exact and ext not in defaults:
             return ()
-        return tuple(overrides.get(unquote(name).translate(ASCII_LOWER))
-                     or [defaults[ext]])
+        return tuple(overrides.get(part_key(name)) or [defaults[ext]])
 
     main_types = declared(main)
     if [media_type(t) for t in main_types] != [media_type(WORD_MAIN)]:

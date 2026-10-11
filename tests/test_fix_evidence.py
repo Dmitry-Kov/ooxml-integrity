@@ -41,7 +41,11 @@ def test_every_repair_was_proved_and_every_refusal_has_a_reason():
         assert f["deterministic"], f["paths"]
         if f["status"] == "repaired":
             assert f["verification"]["passed"], f["paths"]
-            assert f["verification"]["zip"]["changed"] == ["word/document.xml"]
+            # content-type edits [Content_Types].xml; the other two, the main part.
+            repairs = {r["repair"] for r in f["repaired"]}
+            expected = (["[Content_Types].xml"] if "content-type" in repairs else []) + (
+                ["word/document.xml"] if repairs - {"content-type"} else [])
+            assert f["verification"]["zip"]["changed"] == expected, f["paths"]
             # Checked against the source wherever the repository records one.
             expected = [] if f["source"] else None
             assert f["verification"]["against_added"] == expected, f["paths"]
