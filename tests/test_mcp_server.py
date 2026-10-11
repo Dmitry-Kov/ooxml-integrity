@@ -16,7 +16,7 @@ from conftest import ROOT, run_cli
 
 from ooxml_integrity import __version__, cli
 from ooxml_integrity.coverage import CoverageItem, CoverageReport, CoverageStatus
-from ooxml_integrity.mcp_server import PROTOCOL_VERSIONS, serve, verdict
+from ooxml_integrity.mcp_server import PROTOCOL_VERSIONS, Server, serve, verdict
 from ooxml_integrity.finding import Severity
 
 # Paths as a caller passes them. A report names a file as the CLI does, with
@@ -256,7 +256,43 @@ def test_config_is_found_from_the_server_working_directory(tmp_path, runs_dir,
     report = result["structuredContent"]["report"]
     assert report["config"].endswith(".ooxml-integrity.toml")
     assert [f["code"] for f in report["files"][0]["suppressed"]] == ["CMT005"]
-    assert "1 finding(s) suppressed by config" in result["content"][0]["text"]
+    # the verdict names what was suppressed and by which file
+    assert ("1 finding(s) suppressed by config .ooxml-integrity.toml: CMT005"
+            in result["content"][0]["text"])
+
+
+IGNORE_CMT005 = '[[ignore]]\ncode = "CMT005"\nreason = "not relevant"\n'
+
+
+def test_a_config_written_after_start_cannot_silence_a_finding(
+        tmp_path, monkeypatch, runs_dir, base_docx):
+    # The client starts the server before the agent edits anything; an agent
+    # that then writes a config cannot switch the rule off.
+    monkeypatch.chdir(tmp_path)
+    server = Server()
+    (tmp_path / ".ooxml-integrity.toml").write_text(IGNORE_CMT005)
+    result = server.run(str(ROOT / FAST), str(ROOT / BASE))
+    assert "CMT005" in {f["code"] for f in result["report"]["files"][0]["findings"]}
+    assert result["exit_code"] == cli.EXIT_FINDINGS
+    assert result["verdict"].endswith(
+        "config changed since the server started; the one read at start was used"
+        "; not fully checked: 2 unsupported (see coverage)")
+
+
+def test_the_config_read_at_start_is_kept_when_the_file_changes(
+        tmp_path, monkeypatch, runs_dir, base_docx):
+    monkeypatch.chdir(tmp_path)
+    config = tmp_path / ".ooxml-integrity.toml"
+    config.write_text(IGNORE_CMT005)
+    server = Server()
+    first = server.run(str(ROOT / FAST), str(ROOT / BASE))
+    assert "config changed" not in first["verdict"]
+    config.write_text(IGNORE_CMT005.replace("CMT005", "FID001"))
+    second = server.run(str(ROOT / FAST), str(ROOT / BASE))
+    assert [f["code"] for f in second["report"]["files"][0]["suppressed"]] == ["CMT005"]
+    assert "config changed since the server started" in second["verdict"]
+    config.write_text(IGNORE_CMT005 + "\n# a comment changes nothing\n")
+    assert "config changed" not in server.run(str(ROOT / FAST), str(ROOT / BASE))["verdict"]
 
 
 # ------------------------------------------------------------------ expect

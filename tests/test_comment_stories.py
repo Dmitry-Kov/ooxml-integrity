@@ -10,7 +10,7 @@ import json
 import sys
 import zipfile
 
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, needs_zlib_bytes, read_part, repack
 
 from ooxml_integrity import check
 from ooxml_integrity.comments import story_parts
@@ -39,6 +39,7 @@ def test_labelled_pairs_match_their_labels():
     assert totals == {"pairs": 4, "tp": 3, "fp": 0, "fn": 0, "label_mismatches": 0}
 
 
+@needs_zlib_bytes
 def test_labelled_pairs_rebuild_byte_identically(tmp_path):
     manifest = evidence.build(tmp_path)
     assert manifest == json.loads(evidence.MANIFEST.read_text())

@@ -13,7 +13,7 @@ import zipfile
 
 import pytest
 
-from conftest import ROOT
+from conftest import ROOT, needs_zlib_bytes
 
 from ooxml_integrity import check
 
@@ -144,6 +144,7 @@ def _failed(path):
     return sorted(k for k, ok in s2.audit(path)["requirements"].items() if not ok)
 
 
+@needs_zlib_bytes
 def test_base_rebuilds_byte_identically(tmp_path):
     assert s2.build(tmp_path).read_bytes() == BASE.read_bytes()
 

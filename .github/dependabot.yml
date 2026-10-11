@@ -1,8 +1,25 @@
 # Workflow and Action pins are full commit SHAs. Once a month Dependabot opens
 # one pull request that moves them all to current releases, so CI and the
-# browser checks run on the whole update together.
+# browser checks run on the whole update together. The same holds for the
+# browser tests' Playwright pin, and for the package's runtime dependencies,
+# whose ranges change only when a new release falls outside them.
 version: 2
 updates:
+  - package-ecosystem: npm
+    directory: /tests/browser
+    schedule:
+      interval: monthly
+    groups:
+      browser-tests:
+        patterns: ["*"]
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
+    versioning-strategy: increase-if-necessary
+    groups:
+      python:
+        patterns: ["*"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

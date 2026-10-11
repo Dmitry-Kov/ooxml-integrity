@@ -38,6 +38,8 @@ def main():
     assert source_hashes(installed.parent) == source_hashes(root / "src/ooxml_integrity"), (
         "installed Python sources differ from this release checkout"
     )
+    # Type checkers read the package's annotations only with the PEP 561 marker.
+    assert (installed.parent / "py.typed").is_file(), "py.typed is not installed"
     source = root / "corpus/base.docx"
     edited = root / "runs/t4_fast_fee/agreement.docx"
 
