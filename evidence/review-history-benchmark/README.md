@@ -157,6 +157,16 @@ output caught, and catches four more: edits made to the document title instead
 of the requested header. That analysis uses a later checker and is not part of
 the frozen evaluation.
 
+## Post-release recheck (later evidence)
+
+docx-cli 0.27.0 and adeu 3.0.7 ran the same tasks after their releases,
+outside the frozen evaluation ([recheck](../review-history-recheck/README.md)).
+docx-cli's fixes for the two issues reported from this benchmark removed the
+literal bullets and the tracked edit credited to another author: 12 of its 56
+outputs are damaged instead of 38. The untracked edit next to the nested
+deletion (K4 on S2) and the whole-note tracked edit (K7n) are unchanged.
+adeu 3.0.7's outputs have the same facts as 3.0.6's.
+
 ## Amendments
 
 Ten amendments, each before the captures it affects; protocol text, tasks,

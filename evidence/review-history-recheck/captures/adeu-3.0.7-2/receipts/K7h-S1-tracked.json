@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S1-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Draft 7\", \"new_text\": \"Draft 8\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.602,
+  "finished_at": "2026-10-11T09:47:52+00:00",
+  "output": "K7h-S1-tracked.docx",
+  "output_sha256": "0b9c65de34a7121b5a51b521ddbbf91127752e8207c2cb8754aa453ea68b113f"
+}

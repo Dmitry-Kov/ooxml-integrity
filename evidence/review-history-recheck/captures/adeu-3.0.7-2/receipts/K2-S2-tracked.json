@@ -1,0 +1,9 @@
+{
+  "task": "K2-S2-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"EUR 12,000\", \"new_text\": \"EUR 12,500\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.597,
+  "finished_at": "2026-10-11T09:47:47+00:00",
+  "output": "K2-S2-tracked.docx",
+  "output_sha256": "c93acc4ce767b8104faf9e7d83c25a24048ff890c4074890ff27e154c7e5fc5e"
+}

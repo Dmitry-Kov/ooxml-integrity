@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Post-release [recheck](evidence/review-history-recheck/README.md) of two
+  benchmark tools, kept outside the frozen evaluation: docx-cli 0.27.0
+  damages 12 of 56 outputs (0.26.0: 38). Its fixes for the two issues reported
+  from the benchmark removed the literal `&#8226;` bullets and the tracked edit
+  credited to another author inside that author's insertion; an untracked edit
+  next to a nested deletion still changes the wrong words, and a tracked note
+  edit still rewrites the whole note. adeu 3.0.7's outputs have 3.0.6's facts.
+  The [fix record](evidence/fix-repairs/README.md) covers the new captures:
+  `fix` renumbers the repeated revision id in adeu 3.0.7's four `K4` outputs
+  (55 files, 33 repaired), with the oracle's verdict unchanged.
 - The record of the Word for Mac check behind `fix`'s evidence is published
   ([word-check](evidence/fix-repairs/word-check/README.md)): the protocol
   written before the first file was opened, Word's prompts, comments and

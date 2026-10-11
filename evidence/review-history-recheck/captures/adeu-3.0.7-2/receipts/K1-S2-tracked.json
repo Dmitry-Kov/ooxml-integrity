@@ -1,0 +1,9 @@
+{
+  "task": "K1-S2-tracked",
+  "status": "ok",
+  "note": "{\"operations\": [{\"type\": \"modify\", \"target_text\": \"Completion Date\", \"new_text\": \"Expiry Date\", \"match_mode\": \"strict\", \"regex\": false}], \"adeu\": \"{\\\"actions_applied\\\": 0, \\\"edits_applied\\\": 1}\"}",
+  "seconds": 0.612,
+  "finished_at": "2026-10-11T09:47:45+00:00",
+  "output": "K1-S2-tracked.docx",
+  "output_sha256": "d9f62e6263bd6db7fbbe2a28cf2a7def896b7aee0f8381607e9358dd6a18d791"
+}

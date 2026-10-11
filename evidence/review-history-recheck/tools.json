@@ -1,0 +1,74 @@
+{
+  "purpose": "Post-release recheck of two tools of the frozen review-history benchmark at their new releases. Not part of the frozen evaluation: no protocol, task, source, oracle, adapter, runner, capture or amendment of evidence/review-history-benchmark changes, and verify() must pass before every capture.",
+  "recorded_at": "2026-10-11",
+  "run": {
+    "flags": "docker run --rm --network none --user 65534:65534 --cap-drop ALL --security-opt no-new-privileges -e HOME=/tmp, source read-only and an output folder mounted (the frozen adapters' SANDBOX)",
+    "adapters": "research/review_history_adapters.py and the runners it copies into the container (research/review_history_runners/docx_cli.mjs, research/review_history_adeu.py), unchanged and still pinned by the frozen protocol; research/review_history_recheck.py only points them at the image named here",
+    "repeats": 2,
+    "network": "only while building the image (base image pull, uv and the locked wheels for adeu); none for any attempt"
+  },
+  "tools": {
+    "docx-cli": {
+      "version": "0.27.0",
+      "released": "2026-10-11",
+      "release": "https://github.com/kklimuk/docx-cli/releases/tag/v0.27.0",
+      "commit": "11bc59927b6d45483ea9853eeb04939dc46d04bf",
+      "package": "npm bun-docx 0.27.0",
+      "tarball": "https://registry.npmjs.org/bun-docx/-/bun-docx-0.27.0.tgz",
+      "tarball_sha256": "4003b973d640317d0e7796bad6ecc8a675bdf4de6f310e7dec55fa07cbe39bd2",
+      "tarball_integrity": "sha512-sDVzehzlxlfBke7j+q778J65vYR3nsEco71q3CqXfkDh/mqP37FOc1HP1JZJZw6Bhmr91QpKSyuo6IXJ68Gtmg==",
+      "upstream_changes": {
+        "#14": "decode numeric character references instead of re-escaping them (issue #12, reported from this benchmark)",
+        "#18": "warn when a whole-paragraph edit resolves other authors' revisions",
+        "#19": "hide a revision nested inside a hidden one in the accepted/baseline views (issue #13)",
+        "#20": "a tracked span inside another author's insertion splits it Word-style (issue #13, reported from this benchmark)"
+      },
+      "dockerfile": "research/review_history_tools/docx-cli-0.27.0.Dockerfile",
+      "base_image": "oven/bun@sha256:e10577f0db68676a7024391c6e5cb4b879ebd17188ab750cf10024a6d700e5c4",
+      "image": "ooxml-bench-docx-cli:0.27.0",
+      "image_id": "sha256:0ad0358c783d62844585e0e5f59a4d6ffb7e14378630c7088dfa1a5d39b730c3",
+      "build": [
+        "mkdir -p tmp/recheck/docx-cli-build && curl -sSfL -o tmp/recheck/docx-cli-build/bun-docx-0.27.0.tgz https://registry.npmjs.org/bun-docx/-/bun-docx-0.27.0.tgz",
+        "docker build -f research/review_history_tools/docx-cli-0.27.0.Dockerfile -t ooxml-bench-docx-cli:0.27.0 tmp/recheck/docx-cli-build"
+      ],
+      "reports": "docx 0.27.0 (bun /opt/docx/package/dist/index.js --version)",
+      "previous": {
+        "version": "0.26.0",
+        "image": "ooxml-bench-docx-cli:0.26.0",
+        "image_id": "sha256:183286a1cdc362aa996f53a81caaa0c6e163ac0e45a93a6132814aa22d03d01a",
+        "captures": ["docx-cli-5", "docx-cli-6"]
+      }
+    },
+    "adeu": {
+      "version": "3.0.7",
+      "released": "2026-10-05",
+      "release": "https://github.com/dealfluence/adeu/releases/tag/v3.0.7",
+      "commit": "096baa88b8ea6980ad305abaae8e31b49c3c3918",
+      "package": "adeu 3.0.7, built from the tag's python/ directory with its uv.lock (PyPI wheel adeu-3.0.7-py3-none-any.whl, sha256 adafe6e4076bf70fedadc397043ff1ceaea12238792c993abc2635b6b459f8bd, is the same release)",
+      "uv_lock_sha256": "9d5a0427912fc25f0eb2cd54e9f228a76ad526f306c188a427aec4957e8cbfef",
+      "upstream_changes": {
+        "#157": "preserve tab elements across run splits",
+        "#158": "restore the paragraph break when rejecting a paragraph-mark deletion",
+        "#159": "date comments from the engine timestamp",
+        "#156, #161": "tests: shared scenario outputs checked with ooxml-integrity"
+      },
+      "dockerfile": "research/review_history_tools/adeu-3.0.7.Dockerfile",
+      "base_image": "python@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f",
+      "uv": "0.12.20",
+      "image": "ooxml-bench-adeu:3.0.7",
+      "image_id": "sha256:b4c16f8928b77bf5586366c3e9356f570339e13419d1e1273035a57e04788489",
+      "build": [
+        "git clone --filter=blob:none --no-checkout https://github.com/dealfluence/adeu.git tmp/recheck/adeu-repo",
+        "mkdir -p tmp/recheck/adeu-build && git -C tmp/recheck/adeu-repo archive --prefix=adeu-src/ v3.0.7:python | tar -x -C tmp/recheck/adeu-build",
+        "docker build -f research/review_history_tools/adeu-3.0.7.Dockerfile -t ooxml-bench-adeu:3.0.7 tmp/recheck/adeu-build"
+      ],
+      "reports": "adeu 3.0.7, python-docx 1.2.0, lxml 6.1.1 (importlib.metadata inside the image)",
+      "previous": {
+        "version": "3.0.6",
+        "image": "ooxml-bench-adeu:3.0.6",
+        "image_id": "sha256:af3259bf41d11f61f918838a48c199babc5ad2fbd88f2f904fb82916e94148c6",
+        "captures": ["adeu-1", "adeu-2"]
+      }
+    }
+  }
+}

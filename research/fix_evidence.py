@@ -7,7 +7,8 @@ the two earlier benchmarks' protocols, the agent runs, and the docx-beta,
 docx-revisions and comment-story manifests. The record keeps, per file, what
 was repaired or refused and why, the re-check, which ZIP members changed, the
 output hash, whether a second run wrote the same bytes, and for benchmark
-captures the oracle's verdict before and after.
+captures (frozen, or from the post-release recheck) the oracle's verdict
+before and after.
 
     python research/fix_evidence.py evaluate [--output evidence/fix-repairs/results.json]
 
@@ -38,6 +39,8 @@ from ooxml_integrity.fix import REPAIRS, fix  # noqa: E402
 from research import review_history_benchmark as bench  # noqa: E402
 
 EVIDENCE = ROOT / "evidence" / "fix-repairs"
+#: Review-history captures of later tool releases, outside the frozen evaluation.
+RECHECK = ROOT / "evidence" / "review-history-recheck" / "captures"
 RESULTS = EVIDENCE / "results.json"
 SCANNED = ("corpus", "runs", "demo", "evidence")
 TARGETS = set(REPAIRS.values())
@@ -55,7 +58,7 @@ def sources() -> dict[str, str]:
     """Output path -> source path, for every pair the repository records."""
     out: dict[str, str] = {}
     tasks = {t["id"]: t for t in json.loads(bench.TASKS.read_text())["tasks"]}
-    for capture in sorted(bench.CAPTURES.glob("*/*.docx")):
+    for capture in sorted([*bench.CAPTURES.glob("*/*.docx"), *RECHECK.glob("*/*.docx")]):
         if capture.stem in tasks:
             out[_rel(capture)] = tasks[capture.stem]["source_path"]
     for name in ("docx-benchmark", "docx-benchmark-boundaries"):
@@ -85,10 +88,10 @@ def _benchmark_task(path: str):
     """(task, editor, counted) for a review-history capture, else None.
 
     `counted` says whether evaluation.json scores the attempt; captures an
-    amendment superseded stay in the repository but are not scored.
+    amendment superseded, and the recheck's, stay in the repository but are
+    not scored.
     """
-    prefix = _rel(bench.CAPTURES) + "/"
-    if not path.startswith(prefix):
+    if not path.startswith((_rel(bench.CAPTURES) + "/", _rel(RECHECK) + "/")):
         return None
     declared = json.loads(bench.TASKS.read_text())
     tasks = {t["id"]: t for t in declared["tasks"]}

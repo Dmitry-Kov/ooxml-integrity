@@ -10,13 +10,14 @@ re-check found.
 ## Construction
 
 `python research/fix_evidence.py evaluate --output evidence/fix-repairs/results.json`
-checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,380
-paths, 849 distinct files by content. The 51 distinct files (58 paths) that have
+checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,470
+paths, 900 distinct files by content. The 55 distinct files (62 paths) that have
 `CMT005`, `REV001` or `PKG010` go to `fix()`; the five with `PKG010` also have
 `CMT005`. Each runs against its source when the repository records one, which
 all but the two Word-check variants of a Codex capture have:
 
-- the review-history benchmark's tasks;
+- the review-history benchmark's tasks, for its frozen captures and for the
+  [post-release recheck](../review-history-recheck/README.md);
 - the protocols of the two earlier benchmarks;
 - the agent runs (`corpus/base.docx`);
 - the docx-beta, docx-revisions and comment-story manifests.
@@ -35,8 +36,9 @@ benchmark's oracle evaluates the input and the copy.
 - the output hash, the determinism result and, for benchmark captures, the
   oracle's verdicts.
 
-The hashes come from checker 0.6.0 (this change), Python 3.12.8, lxml 6.1.3 and
-zlib 1.2.12. The output hash depends on the zlib that compresses the edited
+The record was last regenerated with checker 0.7.0, Python 3.12.8, lxml 6.1.3
+and zlib 1.2.12, when the recheck's captures were added; no earlier file's
+entry changed. The output hash depends on the zlib that compresses the edited
 part; everything else does not.
 
 ## Results
@@ -44,13 +46,14 @@ part; everything else does not.
 | Documents | files (paths) | repaired | anchor-replies | renumber-revisions | content-type | refused |
 |---|---:|---:|---:|---:|---:|---:|
 | review-history benchmark captures | 25 (30) | 17 | 13 | 4 | 5 | 9 comments in 8 files |
+| review-history recheck, adeu 3.0.7 `K4` | 4 | 4 | | 4 | | |
 | docx-benchmark-boundaries, adeu split captures | 10 (11) | 10 | | 10 | | |
 | docx-revisions, seeded `duplicate-id` | 1 | 1 | | 1 | | |
 | docx-beta, seeded orphan comments | 9 | | | | | 9 |
 | comment stories, lost anchors | 2 | | | | | 2 |
 | agent runs, `t4_fast_*` | 2 (3) | | | | | 2 |
 | `PKG010` Word check, variants of a Codex K5-S1 capture | 2 | 1 | 1 | | | 1 |
-| **All** | **51 (58)** | **29** | **14** | **15** | **5** | **23 comments in 22 files** |
+| **All** | **55 (62)** | **33** | **14** | **19** | **5** | **23 comments in 22 files** |
 
 - **Every repair passed the re-check:**
   - the targeted finding is gone, and `check()` reports nothing new;
@@ -76,20 +79,22 @@ part; everything else does not.
     and their anchor position is lost.
   - python-docx-setter's `K1-S2` reply (both repeats are one file) "replies to
     comment 2, which is not anchored".
-- **Deterministic:** a second run wrote the same bytes for all 51 files.
-- **Oracle:** for all 17 repaired review-history captures, the verdict is the
+- **Deterministic:** a second run wrote the same bytes for all 55 files.
+- **Oracle:** for all 21 repaired review-history captures, the verdict is the
   same before and after:
-  - Codex (with its content type corrected), OpenCode, adeu: completed and
-    preserved.
+  - Codex (with its content type corrected), OpenCode, adeu 3.0.6 and 3.0.7:
+    completed and preserved.
   - docx-mcp and docxengine `K5-S2`: preserved but still incomplete. Their
     new comment on "sixty days" stays unanchored; fix does not complete an
     edit.
-  - Two of the 17, docx-mcp-1 and -2, were superseded by
+  - Two of the frozen captures, docx-mcp-1 and -2, were superseded by
     [amendment 005](../review-history-benchmark/amendments/005-runner-fixes.json)
-    and are not scored, but are still in the repository.
+    and are not scored, but are still in the repository. The four recheck
+    captures are outside the frozen evaluation too.
 - **Beyond the fixability survey:** the 10 adeu captures of the boundaries
   benchmark (`*-split`) were not part of the survey. adeu splits an insertion
-  around its edit there too, and they are repaired the same way.
+  around its edit there too, and they are repaired the same way, as are
+  adeu 3.0.7's four `K4` captures in the recheck.
   `evidence/docx-word-id-followup/inputs/adeu-shared-id.docx` has the same
   bytes as one of them.
 

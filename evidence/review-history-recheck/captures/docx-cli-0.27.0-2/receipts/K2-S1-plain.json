@@ -1,0 +1,9 @@
+{
+  "task": "K2-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"EUR 12,000\", \"EUR 12,500\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.259,
+  "finished_at": "2026-10-11T09:47:23+00:00",
+  "output": "K2-S1-plain.docx",
+  "output_sha256": "d3a2515e654621a01e2d26cd0c3b1eb377f9443796d00020cb955f941f6cae43"
+}
