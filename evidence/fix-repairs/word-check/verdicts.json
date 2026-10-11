@@ -1,0 +1,159 @@
+{
+ "08-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "08-thread.png (left)"
+ },
+ "08-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "08-thread.png (right)"
+ },
+ "11-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "11-thread.png (left)"
+ },
+ "11-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "11-thread.png (right)"
+ },
+ "12-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "12-thread.png (left)"
+ },
+ "12-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "12-thread.png (right)"
+ },
+ "13-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "13-thread.png (left)"
+ },
+ "13-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "13-thread.png (right)"
+ },
+ "14-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "14-thread.png (left)"
+ },
+ "14-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "14-thread.png (right)"
+ },
+ "16-orig": {
+  "reply_shown": false,
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented); the reply 'Schedule 1 now defines it.' is not shown",
+  "screenshot": "16-thread.png (left)"
+ },
+ "16-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Completion Date",
+  "margin": "thread on 'Completion Date': Reviewer A, Reviewer B (indented), then Benchmark Editor 'Schedule 1 now defines it.' indented in the same balloon",
+  "screenshot": "16-thread.png (right)"
+ },
+ "15-orig": {
+  "reply_shown": false,
+  "margin": "A. Counsel's comment on 'Effective Date' alone; the reply 'Checked against the definitions schedule.' is not shown",
+  "screenshot": "15-thread.png (left)"
+ },
+ "15-fixed": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Effective Date",
+  "margin": "Benchmark Editor 'Checked against the definitions schedule.' indented in A. Counsel's balloon (commentsExtended root is commentList, not w15:commentsEx)",
+  "screenshot": "15-thread.png (right)"
+ },
+ "05-orig": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "05-fixed": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "06-orig": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "06-fixed": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "07-orig": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "07-fixed": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "09-orig": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "09-fixed": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "10-orig": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "10-fixed": {
+  "reply_shown": null,
+  "margin": "not opened: Word reports unreadable content; after No, 'Word experienced an error trying to open the file'"
+ },
+ "c1": {
+  "margin": "S1 source: A. Counsel on 'Effective Date', A. Counsel's deletion, M. Reviewer on 'EUR 12,000'"
+ },
+ "c2": {
+  "reply_shown": true,
+  "in_parent_thread": false,
+  "margin": "reference control (S1): the reply is a separate balloon with its own bar under A. Counsel's, not indented; its markers interleave (reply end before the parent's reference run)",
+  "screenshot": "c2-thread.png"
+ },
+ "c3": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "margin": "Claude Code (S1): the reply indented in A. Counsel's balloon; markers in Word's order",
+  "screenshot": "c3-thread.png"
+ },
+ "c4": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "margin": "Word-saved S2 source: Reviewer B's reply indented in Reviewer A's balloon on 'Completion Date'",
+  "screenshot": "c4-word-review-S2-source.png"
+ },
+ "d6": {
+  "reply_shown": false,
+  "margin": "codex-2 K5-S1 original with only the commentsExtended content type corrected: opens; the reply is not shown",
+  "screenshot": "d6-d7-thread.png (left)"
+ },
+ "d7": {
+  "reply_shown": true,
+  "in_parent_thread": true,
+  "at_parent_text": "Effective Date",
+  "margin": "codex-2 K5-S1 repaired copy with only the content type corrected: opens; the reply indented in A. Counsel's balloon",
+  "screenshot": "d6-d7-thread.png (right)"
+ }
+}

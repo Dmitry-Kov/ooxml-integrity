@@ -1,0 +1,14 @@
+{
+ "application": "Microsoft Word for Mac 16.113.4 (16.113.26100421)",
+ "word": {"version": "16.113.4", "build": "26100421"},
+ "macos": {"version": "27.0.1", "build": "26A434"},
+ "checked_on": "2026-10-10",
+ "timezone": "Asia/Tashkent",
+ "protocol": "word-check/PROTOCOL.md (written before the first file was opened)",
+ "operator": "Claude Code session driving Word through AppleScript and System Events on the maintainer's Mac, with the maintainer's permission; not blind to the expectations",
+ "route": "open -a \"Microsoft Word\" FILE; default view (Print Layout, markup with balloons); no repair mode chosen in advance; no preference changed; nothing saved; close active document saving no",
+ "prompts_policy": "unreadable-content prompt answered No; the error that follows dismissed with OK",
+ "environment_dialogs": {"what": "Visual Basic run-time error 53 from Adobe PDFMaker (MacPDFM.framework not found)", "choice": "End (Return)", "attributed_to_file": false},
+ "object_model": "AppleScript: Word comments (author, comment text, scope text) and revisions (type, author, text object); accept/reject (revision k) followed by undo",
+ "thread_evidence": "AppleScript exposes no reply link; whether a reply is shown in its parent's thread is read from the window screenshot: Word draws a threaded reply indented inside the parent's balloon (as in the Word-saved S2 source), and a separate comment as its own balloon"
+}
