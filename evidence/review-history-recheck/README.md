@@ -170,7 +170,8 @@ rejecting a paragraph-mark deletion, [#158](https://github.com/dealfluence/adeu/
 comment dates, [#159](https://github.com/dealfluence/adeu/issues/159)) change
 no fact these tasks record. Inside another author's insertion (K4) it still
 keeps one `w:id` on both halves of the split insertion (`101` on S1, `12` on
-S2), reported as `REV001`; K6 still resolves a same-author replacement pair
+S2), reported as `REV001`, which `ooxml-integrity fix` renumbers
+([fix record](../fix-repairs/README.md)); K6 still resolves a same-author replacement pair
 as one unit, by design; K7h on S2 is still refused as ambiguous.
 
 ## Reproduce

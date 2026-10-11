@@ -208,7 +208,7 @@ usage error prints a message on stderr and no JSON.
 
 - **Corpus record.** [`evidence/fix-repairs`](../evidence/fix-repairs/README.md)
   runs `fix` on every DOCX in the repository with one of the three findings:
-  51 files. 29 were repaired and passed the re-check, against their source
+  55 files. 33 were repaired and passed the re-check, against their source
   where one is recorded; 5 of them also had their content type repaired. In the
   other 22, 23 comments were refused for the reasons above. Every output is
   deterministic, and the benchmark oracle's verdict did not change.
