@@ -7,16 +7,17 @@ repository, as a pair, and on every DOCX of the public corpora
 item has its own seed, so a rerun gives the same replacements
 ([script](../../research/anonymize_eval.py)). *Reproduced* means the CLI's
 findings on the originals and on the copies agree by code, severity, part and
-location; the leak scan is the command's own. [results.json](results.json)
-has every item.
+location; the leak scan is the command's own. *With findings* counts INFO
+too, so it grew when `FID014` began listing the paragraphs an edit changed.
+[results.json](results.json) has every item.
 
 | Items | Count | Anonymized | Findings reproduced | With findings | Leak reports |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| DOCX producer corpus pairs | 220 | 220 | 220 | 100 | 0 |
+| DOCX producer corpus pairs | 220 | 220 | 220 | 160 | 0 |
 | Existing-revision pairs | 30 | 30 | 30 | 30 | 0 |
 | Saved editor output pairs | 168 | 168 | 168 | 168 | 0 |
-| Agent run pairs | 8 | 8 | 8 | 7 | 0 |
-| Review-history benchmark pairs | 636 | 636 | 636 | 431 | 0 |
+| Agent run pairs | 8 | 8 | 8 | 8 | 0 |
+| Review-history benchmark pairs | 636 | 636 | 636 | 572 | 0 |
 | Public corpora documents | 1,887 | 1,848 | 1,848 | 275 | 0 |
 
 The 39 public documents not anonymized: 20 packages the checker cannot read

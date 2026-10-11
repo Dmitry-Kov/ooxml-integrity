@@ -38,6 +38,11 @@
       "code": "FID012",
       "severity": "info",
       "reason": "FID012 lists the tracked changes an edit added, per story, kind and author; it adds information without changing any recorded finding"
+    },
+    {
+      "code": "FID014",
+      "severity": "info",
+      "reason": "FID014 lists the paragraphs whose text an edit changed, with the text before and after; it adds information without changing any recorded finding"
     }
   ]
 }

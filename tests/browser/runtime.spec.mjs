@@ -45,7 +45,11 @@ test('real package: examples, JSON, coverage, Doctor and narrow layout', async (
   expect(report.files[0].coverage.items.length).toBeGreaterThan(0);
   report = await run(page, 'A detached comment, with its original', 1);
   expect(codes(report)).toEqual(expect.arrayContaining(['CMT005','FID001']));
-  expect(report.files[0].summary).toEqual({error:2, warn:0, info:1});
+  // INFO grows with the rules a version has (FID014 lists the changed
+  // paragraphs), so only errors and warnings are pinned here.
+  expect(report.files[0].summary).toMatchObject({error:2, warn:0});
+  expect(report.files[0].summary.info).toBe(
+    report.files[0].findings.filter(finding => finding.severity === 'info').length);
   await page.getByRole('tab', {name:'Report', exact:true}).click();
   await expect(page.locator('#human-output')).toContainText('CMT005');
   await expect(page.locator('#human-output')).toContainText('FID001');

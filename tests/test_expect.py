@@ -171,8 +171,9 @@ def test_the_benchmark_expectation_analysis_reproduces(tmp_path):
     again = json.loads(out.read_text())
     assert again['expectations'] == committed['expectations']
     assert again['tracked_expectations'] == committed['tracked_expectations']
+    assert again['text_expectations'] == committed['text_expectations']
     assert again['summary'] == committed['summary']
-    for mode in ('with', 'with_tracked'):
+    for mode in ('with', 'with_tracked', 'with_text'):
         moves = {(r['without']['outcome'], r[mode]['outcome']) for r in again['results']}
         assert ('detected', 'missed') not in moves and ('clean', 'false alarm') not in moves
 

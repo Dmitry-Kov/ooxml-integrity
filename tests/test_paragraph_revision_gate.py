@@ -14,7 +14,7 @@ def test_current_saved_outputs_match_declared_diagnostics():
     assert result["saved_outputs"]["output_pairs"] == 168
     assert len(result["saved_outputs"]["changed_pairs"]) == 40
     assert result["saved_outputs"]["not_evaluated_no_output"] == 45
-    assert result["saved_outputs"]["declared_added_findings"] == {"FID012": 80}
+    assert result["saved_outputs"]["declared_added_findings"] == {"FID012": 80, "FID014": 95}
 
 
 def test_only_declared_added_findings_are_tolerated(monkeypatch):

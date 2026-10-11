@@ -158,8 +158,8 @@ expectation or an unreadable config, and its text says why.
 The verdict starts with the CLI's summary line and says what it means:
 
 ```
-runs/t4_fast_fee/agreement.docx: 2 error(s), 0 warning(s), 1 info - fails at fail-on error: CMT005, FID001; not fully checked: 2 unsupported (see coverage)
-runs/t2_pres/agreement.docx: 0 error(s), 0 warning(s), 4 info - nothing at or above fail-on error; below it: FID002 (2), FID012 (2); not fully checked: 1 skipped, 2 unsupported (see coverage)
+runs/t4_fast_fee/agreement.docx: 2 error(s), 0 warning(s), 4 info - fails at fail-on error: CMT005, FID001; not fully checked: 2 unsupported (see coverage)
+runs/t2_pres/agreement.docx: 0 error(s), 0 warning(s), 9 info - nothing at or above fail-on error; below it: FID002 (2), FID012 (2), FID014 (5); not fully checked: 1 skipped, 2 unsupported (see coverage)
 corpus/base.docx: 0 error(s), 0 warning(s), 0 info - no findings in checked surfaces; not fully checked: 6 skipped, 2 unsupported (see coverage)
 plain.docx: 0 error(s), 0 warning(s), 0 info - clean
 ```

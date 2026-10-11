@@ -18,15 +18,19 @@ Expectations per task:
 Every other task declares none. A third reading adds, for every tracked
 replacement, 0.4.9's FID012 with the editor as author in the task's
 story (required): a correct tracked edit loses nothing, so only this says
-whether it landed where it was asked to.
+whether it landed where it was asked to. A fourth reading adds, for every
+replacement, FID014 for the task's story with the paragraph text the edit was
+asked to produce, with its tracked changes accepted and rejected (required):
+the text the oracle looks for to call the task completed, declared the way a
+caller who asked for the edit knows it.
 
 With --installed the checker is the ooxml_integrity installed in the running
 interpreter, such as a published wheel in a fresh environment, instead of this
-checkout's src/. --no-tracked leaves out the third reading, for a version
-without FID012.
+checkout's src/. --no-tracked leaves out the third and fourth readings, for a
+version without FID012; --no-text the fourth, for a version without FID014.
 
     python research/review_history_expectations.py [--output PATH]
-    python research/review_history_expectations.py --installed [--no-tracked] --output PATH
+    python research/review_history_expectations.py --installed [--no-tracked | --no-text] --output PATH
 """
 from __future__ import annotations
 
@@ -73,6 +77,22 @@ def tracked_expectations(task: dict, editor: dict) -> list[Expectation]:
         story = "/".join(story.split("/")[:2])
     return [Expectation("FID012", {"story": story, "author": editor["author"]},
                         reason=f"{task['id']} requests a tracked edit in {story}")]
+
+
+def text_expectations(task: dict) -> list[Expectation]:
+    """FID014 for a replacement: the paragraph reads as the task declares."""
+    if task["kind"] != "replace":
+        return []
+    call = task["call"]
+    story = call["story"]
+    if story.startswith(("header/", "footer/")):
+        story = "/".join(story.split("/")[:2])
+    # FID014 reads text with whitespace normalised; declare it the same way.
+    match = {"story": story, "after": _norm(call["expected"]["current"])}
+    if call["expected"].get("original") is not None:
+        match["after_original"] = _norm(call["expected"]["original"])
+    return [Expectation("FID014", match,
+                        reason=f"{task['id']} asks for this text in {story}")]
 
 
 def expectations_for(task: dict) -> list[Expectation]:
@@ -133,11 +153,15 @@ def main(argv=None) -> int:
     parser.add_argument("--installed", action="store_true",
                         help="use the installed ooxml_integrity, not this checkout's src/")
     parser.add_argument("--no-tracked", action="store_true",
-                        help="leave out the FID012 reading, for a version without FID012")
+                        help="leave out the FID012 and FID014 readings, for a version without FID012")
+    parser.add_argument("--no-text", action="store_true",
+                        help="leave out the FID014 reading, for a version without FID014")
     args = parser.parse_args(argv)
     if args.installed != INSTALLED:
         parser.error("--installed must be on the command line, before the checker is imported")
-    readings = ("without", "with") if args.no_tracked else ("without", "with", "with_tracked")
+    readings = (("without", "with") if args.no_tracked
+                else ("without", "with", "with_tracked") if args.no_text
+                else ("without", "with", "with_tracked", "with_text"))
     declared = json.loads(bench.TASKS.read_text(encoding="utf-8"))
     tasks = {t["id"]: t for t in declared["tasks"]}
     plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
@@ -146,6 +170,9 @@ def main(argv=None) -> int:
                           for e in tracked_expectations(t, declared["editor"])]
                     for tid, t in tasks.items()
                     if not args.no_tracked and tracked_expectations(t, declared["editor"])}
+    text_plan = {tid: [dict(code=e.code, match=dict(e.match), required=e.required)
+                       for e in text_expectations(t)]
+                 for tid, t in tasks.items() if "with_text" in readings and text_expectations(t)}
     evaluation = json.loads(bench.EVALUATION.read_text(encoding="utf-8"))
     rows = []
     table = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
@@ -158,6 +185,7 @@ def main(argv=None) -> int:
         plans = {"without": [], "with": expectations_for(task),
                  "with_tracked": expectations_for(task)
                  + tracked_expectations(task, declared["editor"])}
+        plans["with_text"] = plans["with_tracked"] + text_expectations(task)
         row = {"adapter": record["adapter"], "repeat": record["repeat"], "task": record["task"],
                "completed": bool(record.get("completed")),
                "preserved": record["preservation"]["preserved"]}
@@ -175,6 +203,7 @@ def main(argv=None) -> int:
         "oracle": "verdicts read from evaluation.json",
         "expectations": plan,
         "tracked_expectations": tracked_plan,
+        "text_expectations": text_plan,
         "summary": {a: {m: dict(c) for m, c in modes.items()} for a, modes in sorted(table.items())},
         "results": rows,
     }

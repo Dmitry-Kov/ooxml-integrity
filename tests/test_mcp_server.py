@@ -165,7 +165,7 @@ def test_compare_is_check_against_with_json_and_coverage(runs_dir, base_docx):
     assert json.loads(report_text) == expected
     assert verdict_text == structured["verdict"]
     assert verdict_text.startswith(
-        f"{Path(FAST)}: 2 error(s), 0 warning(s), 1 info - fails at fail-on error: "
+        f"{Path(FAST)}: 2 error(s), 0 warning(s), 4 info - fails at fail-on error: "
         "CMT005, FID001")
     assert "not fully checked: 2 unsupported" in verdict_text
     assert "clean" not in verdict_text
@@ -236,7 +236,7 @@ def test_fail_on_flag_reaches_the_verdict(runs_dir, base_docx):
     assert "nothing at or above fail-on error" in lenient["content"][0]["text"]
     assert strict["structuredContent"]["exit_code"] == cli.EXIT_FINDINGS
     assert strict["structuredContent"]["report"]["fail_on"] == "info"
-    assert "fails at fail-on info: FID002 (2), FID012 (2)" in (
+    assert "fails at fail-on info: FID002 (2), FID012 (2), FID014 (5)" in (
         strict["content"][0]["text"])
 
 
@@ -307,7 +307,7 @@ def test_expect_accepts_the_requested_change_only(runs_dir, base_docx):
         "FID001 tag=commentReference before=2 after=1: "
         "the task removed one comment")
     # the orphaned comment left behind still fails the run
-    assert [f["code"] for f in entry["findings"]] == ["CMT005", "FID002"]
+    assert [f["code"] for f in entry["findings"]] == ["CMT005", "FID002"] + ["FID014"] * 3
     assert result["structuredContent"]["exit_code"] == cli.EXIT_FINDINGS
     assert "1 finding(s) accepted as expected: FID001" in (
         result["content"][0]["text"])

@@ -106,6 +106,7 @@ expectation usually names carry these:
 | `FID011` | `author`, `date`, `source_text_sha256`, `additional_text`, `additional_characters` | the earlier insertion's author and date, the text added under them |
 | `FID012` | `story`, `tag`, `author`, `count` | `story` is `document`, `header/default` (and the other slots), `footnotes` or `endnotes`; `tag` is `ins`, `del`, `moveFrom` or `moveTo` |
 | `FID013` | `story`, `author`, `unchanged_words`, `changed_words`, `deleted`, `inserted` | `story` as for `FID012` |
+| `FID014` (unreleased) | `story`, `change`, `before`, `after`, `before_original`, `after_original` | `story` as for `FID012`; `change` is `changed`, `added` or `removed`; the texts are the paragraph with tracked changes accepted (`before`, `after`) and rejected (`*_original`), whitespace normalised |
 
 Values compare as text. `path` is a glob as for `ignore`, `reason` is required,
 and `required = false` allows a finding without requiring it, for a change the
@@ -136,6 +137,24 @@ match = { story = "header/default", author = "Benchmark Editor" }
 ```
 
 A tracked edit made anywhere else leaves this unmatched and fails with `EXP001`.
+
+Where the result is known, expect the text itself. `FID014`, an INFO finding
+(not yet released), lists every paragraph whose text the edit changed, with
+the text before and after, tracked changes accepted and rejected. Declare the
+paragraph the edit was asked to produce, with whitespace as `FID014` reads it
+(runs of spaces, tabs and breaks as one space, none at either end):
+
+```toml
+[[expect]]
+code = "FID014"
+reason = "the task replaces 'disputed amount' with 'disputed sum'"
+match = { story = "document", after = "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum." }
+```
+
+An edit of another span, of another paragraph, or no edit at all leaves this
+unmatched and fails with `EXP001`. In the review-history benchmark this caught
+the two damaged outputs no other rule or expectation reported: a tool rewrote
+the wrong words inside another reviewer's pending insertion and lost nothing.
 
 ## Findings in the pull request, not in a log
 

@@ -1,9 +1,9 @@
 {
- "evaluated_at": "2026-10-11T09:48:28+00:00",
+ "evaluated_at": "2026-10-11T14:16:14+00:00",
  "checker": {
   "version": "ooxml-integrity 0.7.0",
   "source": "src/ of this repository",
-  "commit": "0c5e7ec757b3ae8f804661a1fee82a08c3df6058",
+  "commit": "12f5f113a58170345c23615ac0fadbc37b4ef20e",
   "src_modified": false
  },
  "oracle_sha256": "b612a57b9c42df2ad3a5cd3e3d3191d7d52c11f6e23687523f92a901640f0074",
@@ -206,6 +206,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": [
@@ -317,6 +331,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": [
@@ -416,6 +444,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -455,7 +497,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -593,6 +650,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": [
@@ -704,6 +775,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
      }
     ],
     "new_actionable": [
@@ -802,6 +887,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -840,7 +939,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -976,6 +1090,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": [
@@ -1085,6 +1213,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
      }
     ],
     "new_actionable": [
@@ -1181,6 +1323,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
      }
     ],
     "new_actionable": []
@@ -1217,7 +1373,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -1335,6 +1506,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      },
      {
@@ -1474,6 +1659,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
      },
      {
       "code": "FID009",
@@ -1642,6 +1841,20 @@
       }
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     },
+     {
       "code": "FID011",
       "severity": "warn",
       "message": "12 additional character(s) carry a source pending insertion context by 'Reviewer A' dated '2026-09-29T09:25:00Z', without a distinct new insertion context; projected text: 'forty-five The Client maydisputed sum withhold any disputed amount.'; check attribution (author/date metadata does not establish edit intent)",
@@ -1759,7 +1972,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -2121,6 +2349,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -2217,6 +2473,20 @@
        "tag": "del",
        "before": 2,
        "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -2391,6 +2661,20 @@
       "part": "word/numbering.xml"
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
       "code": "FID007",
       "severity": "error",
       "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
@@ -2537,6 +2821,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
      },
      {
       "code": "FID007",
@@ -2703,6 +3001,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -2914,6 +3226,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -3148,6 +3474,20 @@
        "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
        "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": [
@@ -3276,6 +3616,20 @@
       "part": "word/numbering.xml"
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
       "code": "FID005",
       "severity": "error",
       "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
@@ -3397,6 +3751,20 @@
        "deleted": " Business days exclude public holidays in England and Wales.",
        "inserted": " Business days exclude public holidays in Scotland."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
      }
     ],
     "new_actionable": [
@@ -3455,6 +3823,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -3656,6 +4038,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": [
@@ -3767,6 +4163,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": [
@@ -3866,6 +4276,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -3905,7 +4329,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -4043,6 +4482,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": [
@@ -4154,6 +4607,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
      }
     ],
     "new_actionable": [
@@ -4252,6 +4719,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -4290,7 +4771,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -4426,6 +4922,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": [
@@ -4535,6 +5045,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
      }
     ],
     "new_actionable": [
@@ -4631,6 +5155,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
      }
     ],
     "new_actionable": []
@@ -4667,7 +5205,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -4785,6 +5338,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      },
      {
@@ -4924,6 +5491,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
      },
      {
       "code": "FID009",
@@ -5092,6 +5673,20 @@
       }
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     },
+     {
       "code": "FID011",
       "severity": "warn",
       "message": "12 additional character(s) carry a source pending insertion context by 'Reviewer A' dated '2026-09-29T09:25:00Z', without a distinct new insertion context; projected text: 'forty-five The Client maydisputed sum withhold any disputed amount.'; check attribution (author/date metadata does not establish edit intent)",
@@ -5209,7 +5804,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -5571,6 +6181,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -5667,6 +6305,20 @@
        "tag": "del",
        "before": 2,
        "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -5841,6 +6493,20 @@
       "part": "word/numbering.xml"
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
       "code": "FID007",
       "severity": "error",
       "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
@@ -5987,6 +6653,20 @@
       "message": "literal numeric punctuation/symbol spelling after XML decoding: '&#8226;'; possible double escaping (a deliberate literal example is also possible)",
       "where": "/w:numbering/w:abstractNum[2]/w:lvl/w:lvlText",
       "part": "word/numbering.xml"
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
      },
      {
       "code": "FID007",
@@ -6153,6 +6833,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -6364,6 +7058,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -6597,6 +7305,20 @@
        "changed_words": 1,
        "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
        "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
       }
      }
     ],
@@ -6726,6 +7448,20 @@
       "part": "word/numbering.xml"
      },
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
       "code": "FID005",
       "severity": "error",
       "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
@@ -6847,6 +7583,20 @@
        "deleted": " Business days exclude public holidays in England and Wales.",
        "inserted": " Business days exclude public holidays in Scotland."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
      }
     ],
     "new_actionable": [
@@ -6905,6 +7655,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -7047,6 +7811,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -7080,7 +7858,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7157,6 +7950,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -7191,7 +7998,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7267,6 +8089,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -7300,7 +8136,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7376,6 +8227,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -7409,7 +8274,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7483,6 +8363,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -7514,7 +8408,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7588,6 +8497,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
      }
     ],
     "new_actionable": []
@@ -7619,7 +8542,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -7693,6 +8631,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
      }
     ],
     "new_actionable": []
@@ -7725,6 +8677,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     },
      {
       "code": "FID009",
       "severity": "error",
@@ -7826,6 +8792,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": []
@@ -7905,7 +8885,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -8122,6 +9117,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -8197,6 +9220,20 @@
        "tag": "del",
        "before": 2,
        "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -8308,6 +9345,20 @@
     "version": "0.7.0",
     "findings": [
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
       "code": "FID007",
       "severity": "error",
       "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
@@ -8374,6 +9425,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -8518,6 +9583,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -8716,6 +9795,20 @@
     "version": "0.7.0",
     "findings": [
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
+     {
       "code": "FID007",
       "severity": "error",
       "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
@@ -8879,6 +9972,20 @@
        "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
        "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": [
@@ -8930,6 +10037,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -9031,6 +10152,20 @@
        "deleted": " Business days exclude public holidays in England and Wales.",
        "inserted": " Business days exclude public holidays in Scotland."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
      }
     ],
     "new_actionable": [
@@ -9082,6 +10217,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -9217,6 +10366,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -9250,7 +10413,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9327,6 +10505,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -9361,7 +10553,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9437,6 +10644,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -9470,7 +10691,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9546,6 +10782,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -9579,7 +10829,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9653,6 +10918,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -9684,7 +10963,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9758,6 +11052,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
      }
     ],
     "new_actionable": []
@@ -9789,7 +11097,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -9863,6 +11186,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
      }
     ],
     "new_actionable": []
@@ -9895,6 +11232,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     },
      {
       "code": "FID009",
       "severity": "error",
@@ -9996,6 +11347,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": []
@@ -10075,7 +11440,22 @@
    },
    "checker": {
     "version": "0.7.0",
-    "findings": [],
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice.disputed sum withhold disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
     "new_actionable": []
    },
    "detection": {
@@ -10292,6 +11672,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -10367,6 +11775,20 @@
        "tag": "del",
        "before": 2,
        "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -10478,6 +11900,20 @@
     "version": "0.7.0",
     "findings": [
      {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
       "code": "FID007",
       "severity": "error",
       "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
@@ -10544,6 +11980,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -10688,6 +12138,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -10885,6 +12349,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
      {
       "code": "FID007",
       "severity": "error",
@@ -11049,6 +12527,20 @@
        "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
        "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": [
@@ -11100,6 +12592,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -11201,6 +12707,20 @@
        "deleted": " Business days exclude public holidays in England and Wales.",
        "inserted": " Business days exclude public holidays in Scotland."
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
      }
     ],
     "new_actionable": [
@@ -11252,6 +12772,20 @@
    "checker": {
     "version": "0.7.0",
     "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
      {
       "code": "FID005",
       "severity": "error",
@@ -11435,6 +12969,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -11530,6 +13078,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -11623,6 +13185,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
       }
      }
     ],
@@ -11718,6 +13294,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -11810,6 +13400,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -11901,6 +13505,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
       }
      }
     ],
@@ -11999,6 +13617,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      }
     ],
@@ -12112,6 +13744,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -12382,6 +14028,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -12533,6 +14207,20 @@
        "before": 2,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-five days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": [
@@ -12625,6 +14313,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 7"
       }
      }
     ],
@@ -12722,6 +14424,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": []
@@ -12793,6 +14509,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
       }
      }
     ],
@@ -12968,6 +14698,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -13063,6 +14807,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -13156,6 +14914,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
       }
      }
     ],
@@ -13251,6 +15023,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -13343,6 +15129,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -13434,6 +15234,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
       }
      }
     ],
@@ -13532,6 +15346,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      }
     ],
@@ -13645,6 +15473,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -13915,6 +15757,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -14066,6 +15936,20 @@
        "before": 2,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-five days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": [
@@ -14158,6 +16042,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 7"
       }
      }
     ],
@@ -14255,6 +16153,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": []
@@ -14326,6 +16238,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
       }
      }
     ],
@@ -14491,6 +16417,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -14580,6 +16520,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -14667,6 +16621,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
       }
      }
     ],
@@ -14756,6 +16724,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -14842,6 +16824,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -14927,6 +16923,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
       }
      }
     ],
@@ -15019,6 +17029,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      }
     ],
@@ -15124,6 +17148,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -15376,6 +17414,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -15517,6 +17583,20 @@
        "before": 2,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-five days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": [
@@ -15598,6 +17678,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 7"
       }
      }
     ],
@@ -15687,6 +17781,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": []
@@ -15752,6 +17860,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
       }
      }
     ],
@@ -15911,6 +18033,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
      }
     ],
     "new_actionable": []
@@ -16000,6 +18136,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
      }
     ],
     "new_actionable": []
@@ -16087,6 +18237,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
       }
      }
     ],
@@ -16176,6 +18340,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
      }
     ],
     "new_actionable": []
@@ -16262,6 +18440,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
      }
     ],
     "new_actionable": []
@@ -16347,6 +18539,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
       }
      }
     ],
@@ -16439,6 +18645,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
       }
      }
     ],
@@ -16544,6 +18764,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
       }
      }
     ],
@@ -16796,6 +19030,34 @@
        "before": 1,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
      }
     ],
     "new_actionable": [
@@ -16937,6 +19199,20 @@
        "before": 2,
        "after": 0
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-five days of receipt of a valid invoice."
+      }
      }
     ],
     "new_actionable": [
@@ -17018,6 +19294,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 7"
       }
      }
     ],
@@ -17107,6 +19397,20 @@
        "author": "Benchmark Editor",
        "count": 1
       }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
      }
     ],
     "new_actionable": []
@@ -17172,6 +19476,20 @@
        "tag": "del",
        "author": "Benchmark Editor",
        "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
       }
      }
     ],
