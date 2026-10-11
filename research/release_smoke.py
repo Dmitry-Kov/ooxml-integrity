@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.6.0
+    python research/release_smoke.py --version 0.7.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -392,6 +392,18 @@ def main():
         refused = replies[3]["result"]
         assert refused["isError"] is True and "URL" in refused["content"][0]["text"], refused
 
+        # 0.7.0: PKG010 reports the content type Word refuses on a Codex
+        # output, and fix writes a re-checked copy with it and the unanchored
+        # reply repaired, on which the checker finds nothing.
+        codex = root / "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx"
+        before = json.loads(cli("check", codex, "--no-config", "--json", code=1).stdout)
+        assert {"PKG010", "CMT005"} <= {f["code"] for f in before["files"][0]["findings"]}
+        repaired = work / "codex-repaired.docx"
+        result = json.loads(cli("fix", codex, "-o", repaired, "--json").stdout)
+        assert result["status"] == "repaired" and result["verification"]["passed"], result
+        assert {r["repair"] for r in result["repaired"]} == {"content-type", "anchor-replies"}
+        cli("check", repaired, "--no-config", "--fail-on", "info")
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -438,6 +450,7 @@ def main():
           "0.5.1 FID013 on a sentence replaced to change one word, not on a phrase, "
           "0.5.2 anonymize of a firm's schema with its binding kept, "
           "0.6.0 mcp over stdio: compare equal to the CLI report, a URL refused, "
+          "0.7.0 PKG010 on a Codex output and fix repairing it to a clean copy, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

@@ -103,7 +103,7 @@ protocol, its amendments and every capture.
 ## Applied to other projects
 
 Findings from the corpus and the benchmark were filed upstream, each with a
-self-contained reproduction. adeu fixed two; the others are open.
+self-contained reproduction. adeu fixed two and docx-cli two; the others are open.
 
 | Project | Finding | Status |
 |---|---|---|
@@ -112,8 +112,8 @@ self-contained reproduction. adeu fixed two; the others are open.
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1609) | `add_comment()` references the `CommentReference` style without defining it | open |
 | [anthropics/skills](https://github.com/anthropics/skills/issues/1733) | the docx skill's `validate.py` passes a file whose comment is present in `comments.xml` but anchored to nothing — it checks marker → comment, not the reverse | open; [PR #1734](https://github.com/anthropics/skills/pull/1734) awaits maintainer review |
 | [sontanon/docx-mcp](https://github.com/sontanon/docx-mcp/issues/4) | offer of labelled pairs; question about the policy of rejecting inputs that already carry revisions | open |
-| [docx-cli](https://github.com/kklimuk/docx-cli/issues/12) | any write turns numeric character references such as `&#8226;` into literal text; Word shows `&#8226;` instead of a bullet | open |
-| [docx-cli](https://github.com/kklimuk/docx-cli/issues/13) | `replace --track` inside another author's pending insertion credits the new text to that author, and misses the target next to a nested deletion | open |
+| [docx-cli](https://github.com/kklimuk/docx-cli/issues/12) | any write turns numeric character references such as `&#8226;` into literal text; Word shows `&#8226;` instead of a bullet | fixed on main (PR #14), not yet released |
+| [docx-cli](https://github.com/kklimuk/docx-cli/issues/13) | `replace --track` inside another author's pending insertion credits the new text to that author, and misses the target next to a nested deletion | fixed on main (PRs #19, #20), not yet released |
 | [docxengine](https://github.com/ruwadgroup/docxengine/issues/1) | a new comment writes `w14:paraId` into a comments part that does not declare `w14`; Word reports unreadable content | open |
 | [docxengine](https://github.com/ruwadgroup/docxengine/issues/2), [SecurityRonin/docx-mcp](https://github.com/SecurityRonin/docx-mcp/issues/21) | a reply has no anchor in the document, and Word does not display it | open |
 
@@ -288,7 +288,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 |---|---|
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
 | `PKG009` | 0.4.4: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
-| `PKG010` | unreleased, ERROR: a part the main document relates is declared with another content type than its relationship type requires, as in Codex's `commentsExtended` parts that Word for Mac refuses; [scope and corpus run](evidence/docx-content-types/README.md) |
+| `PKG010` | 0.7.0, ERROR: a part the main document relates is declared with another content type than its relationship type requires, as in Codex's `commentsExtended` parts that Word for Mac refuses; [scope and corpus run](evidence/docx-content-types/README.md) |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
