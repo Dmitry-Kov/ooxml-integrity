@@ -1,0 +1,251 @@
+[
+ {
+  "n": 1,
+  "repair": "renumber-revisions",
+  "capture": "evidence/review-history-benchmark/captures/adeu-1/K4-S1-tracked.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/benchmark-adeu-1-K4-S1-tracked-K4-S1-tracked.docx",
+  "orig": "01-adeu-1-K4-S1-tracked-K4-S1-tracked--orig.docx",
+  "fixed": "01-adeu-1-K4-S1-tracked-K4-S1-tracked--fixed.docx",
+  "orig_sha256": "9ae24f934fdb7e0d9294a98fd0338e41f7c173e4370ed6934418eebd6de2439a",
+  "fixed_sha256": "84ce42dfebcd9fc9b793e1e4ad3cb748ab0e0f7236bb8307541047d109e7372b",
+  "changes": [
+   "w:ins by A. Counsel at line 2: id 101 -> 106"
+  ]
+ },
+ {
+  "n": 2,
+  "repair": "renumber-revisions",
+  "capture": "evidence/review-history-benchmark/captures/adeu-1/K4-S2-tracked.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/benchmark-adeu-1-K4-S2-tracked-K4-S2-tracked.docx",
+  "orig": "02-adeu-1-K4-S2-tracked-K4-S2-tracked--orig.docx",
+  "fixed": "02-adeu-1-K4-S2-tracked-K4-S2-tracked--fixed.docx",
+  "orig_sha256": "e3260958a52f2684ae261a015c3065028c5a39603c2db44c364a54cc266462ea",
+  "fixed_sha256": "e2c5d1e4e4f8efcc8c4653f19b04a117d15de73a2d60605723a73d7d58f174e4",
+  "changes": [
+   "w:ins by Reviewer A at line 2: id 12 -> 21"
+  ]
+ },
+ {
+  "n": 3,
+  "repair": "renumber-revisions",
+  "capture": "evidence/review-history-benchmark/captures/adeu-2/K4-S1-tracked.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/benchmark-adeu-2-K4-S1-tracked-K4-S1-tracked.docx",
+  "orig": "03-adeu-2-K4-S1-tracked-K4-S1-tracked--orig.docx",
+  "fixed": "03-adeu-2-K4-S1-tracked-K4-S1-tracked--fixed.docx",
+  "orig_sha256": "183baa85d98ba34eed191d48de86c6a7748cb3f1f4c21d6e7a9e5b283b326b31",
+  "fixed_sha256": "f1ccf22ff23bb7b25ecab62a7826d294bbb3ae68b28f3d07bb6710b26ec918a0",
+  "changes": [
+   "w:ins by A. Counsel at line 2: id 101 -> 106"
+  ]
+ },
+ {
+  "n": 4,
+  "repair": "renumber-revisions",
+  "capture": "evidence/review-history-benchmark/captures/adeu-2/K4-S2-tracked.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/benchmark-adeu-2-K4-S2-tracked-K4-S2-tracked.docx",
+  "orig": "04-adeu-2-K4-S2-tracked-K4-S2-tracked--orig.docx",
+  "fixed": "04-adeu-2-K4-S2-tracked-K4-S2-tracked--fixed.docx",
+  "orig_sha256": "fe6c72e9a898e0472f9a724beee502950c622ccaffd9c3f30c23a972c0f939bc",
+  "fixed_sha256": "cc390eff1afe65184fe7285412815dbb837008dc1b0132b2aa3b99a560677cfb",
+  "changes": [
+   "w:ins by Reviewer A at line 2: id 12 -> 21"
+  ]
+ },
+ {
+  "n": 5,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-1/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-1-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "05-codex-1-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "05-codex-1-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "486966298c2b252f847f0c094d7a6a12be3ae7c1701b0f4344f111f2f4994838",
+  "fixed_sha256": "32b694d6a7d971b55e28e9ed891047d39a5708ab9a97b86f0e17764aa154abf2",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 6,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-2/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-2-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "06-codex-2-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "06-codex-2-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "e03f4cc2cef4e8baa42050528427f889de629f037480fa0bccc35fdca5423096",
+  "fixed_sha256": "2b7611830e2e6126e7f6feeac5473b42cf66df164b466fba117f9b39a083243b",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 7,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-3/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-3-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "07-codex-3-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "07-codex-3-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "d331ea03253147c07da1a49b06ca784c1ea65a7b31089a065fd27e4cc49623a4",
+  "fixed_sha256": "00597ef5c5aa4f82e02e4778ef9ebff05df8ef3c1ab8142b70dcb8a62cff4319",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 8,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-3/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-3-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "08-codex-3-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "08-codex-3-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "17493a820911dca5e170e853d5eebaa7c6d855381852d963dfcfbb9b718eda03",
+  "fixed_sha256": "9608c64960266d3d2773ef85a8fe49574749506d8e9adea3dd4f44e3e145d6da",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 9,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-4/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-4-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "09-codex-4-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "09-codex-4-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "29f0e33e840b43d9f63881c7fe6e4734da0350082817213cb2eff35be5396575",
+  "fixed_sha256": "55da57a188537d364547be513fd17783e4ed873eb0957f98dce879623d85a91b",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 10,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/codex-5/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-codex-5-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "10-codex-5-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "10-codex-5-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "b7fefc7a142cd8301e6a0cecb96a0ed26b254f96b7df33a80dc83730bf0c447a",
+  "fixed_sha256": "a4329a652e1f4724494187e0569198a10ce722a45a2aa1f0d0939b464207d1f5",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 11,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/docx-mcp-3/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-docx-mcp-3-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "11-docx-mcp-3-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "11-docx-mcp-3-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "f909351d2d871656b650fb1e06826f0b695e8bebeb935d01368c031b39450f73",
+  "fixed_sha256": "7826ff3275bc2d77ee68e1a174dcb2f55806e383f5c4c714a0b810c241f0feb2",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 12,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/docx-mcp-4/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-docx-mcp-4-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "12-docx-mcp-4-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "12-docx-mcp-4-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "f797872a792b6dd4d040e354e3271caa0b46689743cf56841abe331f479ca9c6",
+  "fixed_sha256": "400a310f8f4426c2bca720e32f7760526e724b2f59dd7cfb9b07a7fb532d08ad",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 13,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/docxengine-1/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-docxengine-1-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "13-docxengine-1-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "13-docxengine-1-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "01869cba76c924b920ce9cffce626f0e88b3ba690bd404e98dd5fad5d97bf6b4",
+  "fixed_sha256": "98208febaba0126bfad0e6d6b0204b739f775847a42d1b08a97374d79a07704d",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 14,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/docxengine-2/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-docxengine-2-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "14-docxengine-2-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "14-docxengine-2-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "01869cba76c924b920ce9cffce626f0e88b3ba690bd404e98dd5fad5d97bf6b4",
+  "fixed_sha256": "98208febaba0126bfad0e6d6b0204b739f775847a42d1b08a97374d79a07704d",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 15,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/opencode-qwen-1/K5-S1-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-opencode-qwen-1-K5-S1-comment-K5-S1-comment.docx",
+  "orig": "15-opencode-qwen-1-K5-S1-comment-K5-S1-comment--orig.docx",
+  "fixed": "15-opencode-qwen-1-K5-S1-comment-K5-S1-comment--fixed.docx",
+  "orig_sha256": "09e63af78b49655555f8e04d92c1e447966630a36f98b9af33cb9e1a8787e6aa",
+  "fixed_sha256": "2827096a8d79f1417dc63264cd19d18fdc2bdddadeb33aedb7a41d251cf68f0d",
+  "changes": [
+   "anchored reply 3 at the range of comment 2 (thread 2)"
+  ]
+ },
+ {
+  "n": 16,
+  "repair": "anchor-replies",
+  "capture": "evidence/review-history-benchmark/captures/opencode-qwen-1/K5-S2-comment.docx",
+  "fixed_from": "tmp/fixability/fixed/anchor-replies/benchmark-opencode-qwen-1-K5-S2-comment-K5-S2-comment.docx",
+  "orig": "16-opencode-qwen-1-K5-S2-comment-K5-S2-comment--orig.docx",
+  "fixed": "16-opencode-qwen-1-K5-S2-comment-K5-S2-comment--fixed.docx",
+  "orig_sha256": "1895f2035f04d1822bab42a8037c4248748f50991f9c8c9d48a91e78fda58d20",
+  "fixed_sha256": "9c5d66cdf8374ca611fe4aee39aa7484cb5474c3eb3efeec569aea010b0f3883",
+  "changes": [
+   "anchored reply 15 at the range of comment 2 (thread 2, 3)"
+  ]
+ },
+ {
+  "n": 17,
+  "repair": "renumber-revisions",
+  "capture": "evidence/docx-revisions/outputs/duplicate-id.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/revisions-seeded_defect---duplicate-id.docx",
+  "orig": "17-revisions-seeded_defect--duplicate-id--orig.docx",
+  "fixed": "17-revisions-seeded_defect--duplicate-id--fixed.docx",
+  "orig_sha256": "f879520276a04a4659cd7fc91a9e2a1eddd29c67bf3e6f518e020edb0434e34d",
+  "fixed_sha256": "a542906235c7d0e9f80fb7cadf214682b82c4c4ebbdef76ffdc75fd0bf4271fe",
+  "changes": [
+   "w:del by Reviewer B at line 2: id 101 -> 104"
+  ]
+ },
+ {
+  "n": 18,
+  "repair": "renumber-revisions",
+  "capture": "public corpora: libreoffice/sw/qa/extras/ooxmlexport/data/tdf157011_ins_del_empty_cols.docx",
+  "fixed_from": "tmp/fixability/fixed/renumber-revisions/public-libreoffice---tdf157011_ins_del_empty_cols.docx",
+  "orig": "18-public-libreoffice--tdf157011_ins_del_empty_cols--orig.docx",
+  "fixed": "18-public-libreoffice--tdf157011_ins_del_empty_cols--fixed.docx",
+  "orig_sha256": "7c737a45db1ed60fa1a56d8a388e7e4a0d394de909fa9c5ca5d07060a6914794",
+  "fixed_sha256": "dab8618a7b2d1584477215eeff81ca211df781ac6bead06b55830ce595abc3e4",
+  "changes": [
+   "w:ins by Németh László at line 1: id 0 -> 2",
+   "w:del by Németh László at line 1: id 0 -> 3",
+   "w:del by Németh László at line 1: id 0 -> 4",
+   "w:ins by Németh László at line 1: id 0 -> 5",
+   "w:ins by Németh László at line 1: id 0 -> 6",
+   "w:del by Németh László at line 1: id 0 -> 7",
+   "w:del by Németh László at line 1: id 0 -> 8",
+   "w:ins by Németh László at line 1: id 0 -> 9",
+   "w:ins by Németh László at line 1: id 0 -> 10",
+   "w:del by Németh László at line 1: id 0 -> 11",
+   "w:del by Németh László at line 1: id 0 -> 12",
+   "w:del by Németh László at line 1: id 1 -> 13",
+   "w:del by Németh László at line 1: id 1 -> 14",
+   "w:del by Németh László at line 1: id 1 -> 15",
+   "w:del by Németh László at line 1: id 1 -> 16",
+   "w:del by Németh László at line 1: id 1 -> 17"
+  ]
+ }
+]

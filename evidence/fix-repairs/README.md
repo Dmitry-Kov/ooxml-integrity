@@ -95,9 +95,11 @@ part; everything else does not.
 
 ## Word for Mac and LibreOffice
 
-These results are summarised from the maintainer's fixability survey of
-2026-10-10. Its records (protocol, input hashes, screenshots) are outside this
-repository, which keeps only what it can reproduce.
+These results come from the maintainer's fixability survey of 2026-10-10. Its
+Word for Mac record is in [word-check](word-check/README.md): the protocol
+written before the first file was opened, the input hashes, what Word showed
+and did for each file, and the automation. The screenshots and the LibreOffice
+conversion logs stay outside this repository.
 
 **The setup:**
 - Microsoft Word for Mac 16.113.4 (build 16.113.26100421) on macOS 27.0.1, and

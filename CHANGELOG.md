@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- The record of the Word for Mac check behind `fix`'s evidence is published
+  ([word-check](evidence/fix-repairs/word-check/README.md)): the protocol
+  written before the first file was opened, Word's prompts, comments and
+  revisions per file, the 102 accept/reject actions, the thread placement
+  and the automation. `fix` writes 12 of those 18 repaired copies byte for
+  byte, so they can be rebuilt; the screenshots stay unpublished.
+
 ## 0.7.0 — 2026-10-11
 
 [Upgrade notes and verified publication](docs/releases/0.7.0.md). Published
