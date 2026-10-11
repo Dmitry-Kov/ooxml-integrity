@@ -131,13 +131,17 @@ class appeared.
 Unchanged in 0.27.0:
 
 - **A direct edit next to the nested deletion (K4-S2 plain) still edits the
-  wrong span**, and neither the 0.4.6 checker nor the current one reports
-  it. The output is byte for byte 0.26.0's: ` The Client may` becomes
+  wrong span**. Neither the 0.4.6 checker nor any loss rule of the current
+  one reports it; the unreleased `FID014` does when the caller expects the
+  text the edit was asked to produce, as the
+  [fourth reading](../review-history-benchmark/expectations/README.md#fourth-reading-the-text-the-edit-was-asked-to-produce)
+  of the frozen captures shows. The output is byte for byte 0.26.0's: ` The Client may` becomes
   `disputed sum` and `disputed amount` stays. Issue #13 reported the tracked
   command only. On that issue's own `nested-deletion.docx`, 0.27.0's `replace`
   without `--track` still replaces `The Client may ` with `disputed sum`, while
   `replace --track` now writes the expected markup
-  ([nested-deletion.json](nested-deletion.json)). Not yet reported upstream.
+  ([nested-deletion.json](nested-deletion.json)). Reported upstream as
+  [docx-cli#22](https://github.com/kklimuk/docx-cli/issues/22).
 - **A tracked note edit (K7n) still deletes and reinserts the whole note
   text.** Nothing is lost, but the tracked deletion is wider than the edit;
   `FID013` reports it on all four outputs of both versions. Not reported
