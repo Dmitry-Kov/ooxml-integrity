@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.7.0 — release candidate
+## 0.7.0 — 2026-10-11
 
-[Upgrade notes and validation](docs/releases/0.7.0.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.7.0.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - `ooxml-integrity fix IN -o OUT`: a repaired copy of a `.docx`, with only the
   three [repairs](docs/fix.md) whose result is unique.
