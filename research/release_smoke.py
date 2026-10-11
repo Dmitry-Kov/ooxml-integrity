@@ -193,17 +193,21 @@ def main():
             return [(f["code"], f["message"]) for f in report["files"][0]["findings"]]
 
         assert compared(short) == []
-        # A tracked edit loses nothing; FID012 lists the tracked changes it added.
-        assert [c for c in compared(tracked) if c[0] != "FID012"] == []
-        assert {c[0] for c in compared(tracked)} == {"FID012"}
+        # A tracked edit loses nothing; FID012 lists the tracked changes it
+        # added and FID014 the paragraph it changed.
+        changed = ("FID014", "document: paragraph 1 changed: "
+                   "'This is an initial document.' -> 'This is an final contract.'")
+        assert [c for c in compared(tracked) if c[0] != "FID012"] == [changed]
+        assert {c[0] for c in compared(tracked)} == {"FID012", "FID014"}
         assert compared(untracked, code=1) == [
+            changed,
             ("FID003", "text volume fell from 28 to 26 characters (7% of content lost)")]
 
         # 0.4.6: a tracked edit to note or header text is not a loss; untracked is.
         s2 = root / "evidence/review-history-benchmark/sources"
         report = json.loads(cli("check", s2 / "word-review.docx", "--against",
                                 s2 / "review-base.docx", "--no-config", "--json").stdout)
-        assert {f["code"] for f in report["files"][0]["findings"]} == {"FID002", "FID012"}
+        assert {f["code"] for f in report["files"][0]["findings"]} == {"FID002", "FID012", "FID014"}
         header_run = b"<w:r><w:t>Reference Agreement - Draft 7</w:t></w:r>"
         assert base["word/header1.xml"].count(header_run) == 1
         for name, run, code, expected in (
@@ -221,7 +225,7 @@ def main():
             report = json.loads(cli("check", path, "--against", source, "--no-config",
                                     "--json", code=code).stdout)
             assert [(f["code"], f["severity"], f["message"] if f["code"] == "FID012" else None)
-                    for f in report["files"][0]["findings"]] == expected
+                    for f in report["files"][0]["findings"] if f["code"] != "FID014"] == expected
 
         # 0.4.7: a tracked header edit next to a pending revision is not a loss.
         bench = root / "evidence/review-history-benchmark"
@@ -243,8 +247,8 @@ def main():
                                                  {**base, "word/document.xml": grown}),
                                 "--against", source, "--no-config", "--json", "--coverage",
                                 code=1).stdout)["files"][0]
-        assert [(f["code"], f["severity"]) for f in report["findings"]] == [
-            ("FID009", "error"), ("FID011", "warn")]
+        assert [(f["code"], f["severity"]) for f in report["findings"]
+                if f["code"] != "FID014"] == [("FID009", "error"), ("FID011", "warn")]
         coverage = {item["id"]: item for item in report["coverage"]["items"]}
         assert coverage["docx.fidelity.insertion-attribution"]["status"] == "checked"
         # 0.4.7 INT001: a check that raises is an error that names the check.
