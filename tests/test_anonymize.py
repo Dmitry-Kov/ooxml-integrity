@@ -7,6 +7,7 @@ text. Each test below names one of those properties.
 from __future__ import annotations
 
 import io
+import os
 import re
 import json
 from datetime import datetime
@@ -18,7 +19,8 @@ import pytest
 
 from conftest import ROOT, read_part, run_cli
 from ooxml_integrity import check
-from ooxml_integrity.anonymize import Mapper, anonymize, leak_scan, placeholder
+from ooxml_integrity import anonymize as anonymize_module
+from ooxml_integrity.anonymize import Mapper, Refused, anonymize, leak_scan, placeholder
 from ooxml_integrity.xmlutil import fromstring
 
 BENCH = ROOT / "evidence/review-history-benchmark"
@@ -33,8 +35,9 @@ MAIN = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.
 REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 
 
-def package(path, body, *, parts=None, rels="", defaults="", overrides=""):
-    """A minimal DOCX: `body` inside w:body, plus extra parts and relationships."""
+def package(path, body, *, parts=None, rels="", defaults="", overrides="", namespaces=""):
+    """A minimal DOCX: `body` inside w:body, plus extra parts and relationships;
+    `namespaces` adds declarations to w:document."""
     content_types = (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
@@ -46,7 +49,7 @@ def package(path, body, *, parts=None, rels="", defaults="", overrides=""):
                  f'<Relationship Id="rId1" Type="{REL}/officeDocument" Target="word/document.xml"/>'
                  '</Relationships>')
     document = (f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
-                f'<w:document {NS}><w:body>{body}</w:body></w:document>')
+                f'<w:document {NS}{namespaces}><w:body>{body}</w:body></w:document>')
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("[Content_Types].xml", content_types)
         z.writestr("_rels/.rels", root_rels)
@@ -451,3 +454,263 @@ def test_the_leak_scan_reads_part_names_and_custom_names(tmp_path):
     assert {(x["part"], x["where"]) for x in leaks} == {
         ("word/media/Acme_logo.png", "(part name)"),
         ("customXml/item1.xml", "Holdings (custom name)")}
+
+
+# --- the security review of 0.8.0 -----------------------------------------------------
+# Each case below is one of the review's reproducers (synthetic files only).
+
+FIRM = "https://acme.example/contracts"
+
+
+def package_bytes(path):
+    with zipfile.ZipFile(path) as z:
+        return b"".join(z.read(n) for n in z.namelist())
+
+
+@pytest.mark.parametrize("alias", ["same path", "hard link", "symbolic link"])
+def test_an_output_that_is_an_input_is_refused_before_anything_is_written(tmp_path, alias):
+    share = tmp_path / "share"
+    share.mkdir()
+    body = '<w:p><w:r><w:t>Secret original Acme</w:t></w:r></w:p>'
+    if alias == "same path":
+        source = package(share / "document.docx", body)
+    else:
+        source = package(tmp_path / "original.docx", body)
+        try:
+            if alias == "hard link":
+                os.link(source, share / "document.docx")
+            else:
+                (share / "document.docx").symlink_to(source)
+        except (OSError, NotImplementedError):
+            pytest.skip(f"this file system has no {alias}s")
+    before = source.read_bytes()
+    with pytest.raises(Refused, match="would replace the input"):
+        anonymize([source], share, rng=random.Random(7))
+    assert source.read_bytes() == before
+    assert sorted(p.name for p in share.iterdir()) == ["document.docx"]
+
+
+def test_the_edited_copy_of_a_pair_is_not_written_over_the_source(tmp_path):
+    # the outputs are source.docx and edited.docx: either may be an input
+    source = package(tmp_path / "contract.docx", '<w:p><w:r><w:t>Secret</w:t></w:r></w:p>')
+    edited = package(tmp_path / "edited.docx", '<w:p><w:r><w:t>Changed</w:t></w:r></w:p>')
+    kept = edited.read_bytes()
+    with pytest.raises(Refused, match="edited.docx would replace the input"):
+        anonymize([source, edited], tmp_path, rng=random.Random(7))
+    assert edited.read_bytes() == kept and not (tmp_path / "source.docx").exists()
+
+
+def test_the_originals_are_checked_before_any_copy_is_in_place(tmp_path, monkeypatch):
+    out = tmp_path / "out"
+    seen = []
+    real = anonymize_module.findings_of
+
+    def findings_of(paths, limits):
+        seen.append([p.name for p in paths] if out.exists() and any(out.iterdir()) else None)
+        return real(paths, limits)
+
+    monkeypatch.setattr(anonymize_module, "findings_of", findings_of)
+    source, edited = ROOT / "corpus/base.docx", ROOT / "runs/t4_fast_fee/agreement.docx"
+    report = anonymize([source, edited], out, rng=random.Random(7))
+    assert seen == [None, None]  # neither check ran with a copy in the output directory
+    assert report.reproduced and sum(report.original["edited"].values()) > 0
+
+
+def test_cli_refuses_to_write_over_an_input_even_with_force(tmp_path):
+    source = package(tmp_path / "document.docx", '<w:p><w:r><w:t>Secret</w:t></w:r></w:p>')
+    before = source.read_bytes()
+    result = run_cli("anonymize", str(source), "-o", str(tmp_path), "--force")
+    assert result.returncode == 2
+    assert "would replace the input" in result.stderr and "--force" not in result.stderr
+    assert source.read_bytes() == before
+
+
+def test_an_attribute_in_a_firms_namespace_is_replaced_in_any_part(tmp_path):
+    # its namespace and name were replaced before, its value was not
+    body = ('<w:p a:client="Acme"><w:r><w:t>Acme</w:t></w:r></w:p>'
+            '<w:p><a:matter number="Acme Holdings 7"/></w:p>')
+    report = run(tmp_path, package(tmp_path / "a.docx", body, namespaces=f' xmlns:a="{FIRM}"'))
+    assert b"Acme" not in package_bytes(report.outputs[0])
+    assert report.passed and report.leaks == []
+    document = fromstring(zipfile.ZipFile(report.outputs[0]).read("word/document.xml"))
+    paragraph = document.find(f".//{{{W_NS}}}p")
+    (name, value), = paragraph.attrib.items()
+    # replaced as text: the same replacement as the same word in the body
+    assert value == text_of(report.outputs[0])[0] and len(value) == 4
+
+
+def test_the_leak_scan_reads_attributes_in_a_firms_namespace_word_by_word(tmp_path):
+    # elsewhere in Office parts it looks for two consecutive words of the text
+    copy = package(tmp_path / "a.docx", '<w:p a:client="Acme"><w:r><w:t>x</w:t></w:r></w:p>'
+                   '<w:p><w:pPr><w:jc w:val="left"/></w:pPr></w:p>',
+                   namespaces=f' xmlns:a="{FIRM}"')
+    leaks, _ = leak_scan([copy], {"Acme", "left", "client"}, set())
+    assert leaks == [{"file": 1, "part": "word/document.xml", "where": "p (custom name)", "words": 1},
+                     {"file": 1, "part": "word/document.xml", "where": "p/@client", "words": 1}]
+
+
+def firm_binding(xpath, data, mappings=f"xmlns:ns0='{FIRM}'"):
+    body = (f'<w:sdt><w:sdtPr><w:dataBinding w:prefixMappings="{mappings}" w:xpath="{xpath}" '
+            'w:storeItemID="{1}"/></w:sdtPr><w:sdtContent><w:p><w:r><w:t>Acme</w:t></w:r></w:p>'
+            '</w:sdtContent></w:sdt>')
+    props = ('<ds:datastoreItem ds:itemID="{1}" xmlns:ds="http://schemas.openxmlformats.org/'
+             'officeDocument/2006/customXml"/>')
+    rels = ('<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+            f'<Relationship Id="rId1" Type="{REL}/customXmlProps" Target="itemProps1.xml"/>'
+            '</Relationships>')
+    return {"body": body, "parts": {"customXml/item1.xml": data,
+                                    "customXml/itemProps1.xml": props,
+                                    "customXml/_rels/item1.xml.rels": rels}}
+
+
+def selected(path):
+    """How many nodes the document's first binding selects in its custom XML."""
+    document = fromstring(zipfile.ZipFile(path).read("word/document.xml"))
+    binding = document.find(f".//{{{W_NS}}}dataBinding")
+    prefixes = dict(re.findall(r"xmlns:([\w.-]+)='([^']*)'", binding.get(f"{{{W_NS}}}prefixMappings")))
+    data = fromstring(zipfile.ZipFile(path).read("customXml/item1.xml"))
+    return len(data.xpath(binding.get(f"{{{W_NS}}}xpath"), namespaces=prefixes))
+
+
+def test_a_binding_path_compares_with_the_replaced_value_and_still_selects_it(tmp_path):
+    case = firm_binding(
+        "/ns0:Contract/ns0:Client[@name='Acme']/ns0:Matter[ns0:Code = 'AC-7' and not(@closed)]",
+        f'<a:Contract xmlns:a="{FIRM}"><a:Client name="Acme"><a:Matter><a:Code>AC-7</a:Code>'
+        '</a:Matter></a:Client></a:Contract>')
+    source = package(tmp_path / "a.docx", case["body"], parts=case["parts"])
+    report = run(tmp_path, source)
+    assert selected(source) == selected(report.outputs[0]) == 1
+    assert report.bindings == 1 and report.changed_bindings == [] and report.passed
+    assert b"Acme" not in package_bytes(report.outputs[0])
+    assert b"AC-7" not in package_bytes(report.outputs[0])
+    assert "data bindings kept" in report.render(tmp_path / "out")
+
+
+def test_a_binding_the_replacement_breaks_fails_the_run(tmp_path):
+    # the value is split across two text nodes, the literal is one word: the
+    # copy's literal no longer equals the copy's value, and the check says so
+    case = firm_binding("/ns0:Contract/ns0:Client[. = 'Acme']",
+                        f'<a:Contract xmlns:a="{FIRM}"><a:Client>Ac<a:b>me</a:b></a:Client>'
+                        '</a:Contract>')
+    source = package(tmp_path / "a.docx", case["body"], parts=case["parts"])
+    assert run_cli("anonymize", str(source), "-o", str(tmp_path / "cli")).returncode == 1
+    report = run(tmp_path, source)
+    assert report.reproduced and not report.passed
+    assert report.changed_bindings == [{"file": 1, "part": "word/document.xml", "binding": 1,
+                                        "original": 1, "anonymized": 0}]
+    assert "data bindings NOT kept" in report.render(tmp_path / "out")
+
+
+@pytest.mark.parametrize("xpath, reason", [
+    ("/ns0:Contract/ns0:Client[contains(@name, 'cm')]", "the function contains()"),
+    ("/*[name()='a:Contract']", "the function name()"),
+    ("/ns0:Contract/ns0:Client[@amount > 100]", "orders values with >"),
+    ("/ns0:Contract/ns0:Client | /ns0:Contract", "the operator |"),
+])
+def test_a_binding_path_that_cannot_be_mapped_is_refused(tmp_path, xpath, reason):
+    case = firm_binding(xpath, f'<a:Contract xmlns:a="{FIRM}"><a:Client name="Acme" amount="150"/>'
+                               '</a:Contract>')
+    out = tmp_path / "out"
+    with pytest.raises(Refused, match=re.escape(reason)):
+        anonymize([package(tmp_path / "a.docx", case["body"], parts=case["parts"])], out,
+                  rng=random.Random(7))
+    assert not out.exists() or not any(out.iterdir())
+
+
+def test_positions_alone_are_mapped_and_kept():
+    mapper = Mapper(random.Random(1))
+    for xpath in ("/ns0:a[1]/ns0:b[last()]", "position()<last()-1", "/ns0:a[position() = 2]"):
+        out, _ = mapper.binding(xpath, f"xmlns:ns0='{FIRM}'")
+        assert re.sub(r"[a-z]+(?=\[|$)", "", out.replace("ns0:", "")) == \
+            re.sub(r"[a-z]+(?=\[|$)", "", xpath.replace("ns0:", ""))
+
+
+def test_the_leak_scan_reads_binding_literals_and_prefixes(tmp_path):
+    case = firm_binding("/acme:Contract/acme:Client[@name='Holdings']",
+                        f'<Contract xmlns="{FIRM}"/>', mappings=f"xmlns:acme='{FIRM}'")
+    copy = package(tmp_path / "a.docx", case["body"], parts={
+        **case["parts"], "customXml/item1.xml": f'<Acme:Contract xmlns:Acme="{FIRM}"/>'})
+    leaks, _ = leak_scan([copy], {"Holdings", "Acme", "acme", "Contract", "Client"}, set())
+    assert {(x["part"], x["where"], x["words"]) for x in leaks} == {
+        ("word/document.xml", "dataBinding (data binding path)", 4),  # acme, Contract, Client, Holdings
+        ("word/document.xml", "t", 1),
+        ("customXml/item1.xml", "(namespace prefix)", 1),
+        ("customXml/item1.xml", "Contract (custom name)", 1)}
+
+
+def test_a_firms_prefix_is_renamed_everywhere_it_is_bound(tmp_path):
+    # the prefix in the data, in the document and in a binding's own mappings
+    case = firm_binding("/Acme:Contract/Acme:Client[1]",
+                        f'<Acme:Contract xmlns:Acme="{FIRM}"><Acme:Client>x</Acme:Client>'
+                        '</Acme:Contract>', mappings=f"xmlns:Acme='{FIRM}'")
+    body = case["body"] + '<w:p><w:r><w:t>Acme</w:t></w:r><Acme:note Acme:x="1"/></w:p>'
+    source = package(tmp_path / "a.docx", body, parts=case["parts"],
+                     namespaces=f' xmlns:Acme="{FIRM}" xmlns:mc="http://schemas.openxmlformats.org/'
+                                'markup-compatibility/2006" mc:Ignorable="w15 Acme"')
+    report = run(tmp_path, source)
+    assert b"Acme" not in package_bytes(report.outputs[0])
+    assert report.passed and selected(report.outputs[0]) == 1
+    document = fromstring(zipfile.ZipFile(report.outputs[0]).read("word/document.xml"))
+    ignorable = document.get("{http://schemas.openxmlformats.org/markup-compatibility/2006}Ignorable")
+    w15, firm = ignorable.split()
+    namespace = document.nsmap[firm]  # still names the (replaced) firm namespace
+    assert w15 == "w15" and namespace != FIRM and document.find(f".//{{{namespace}}}*") is not None
+
+
+def test_a_new_prefix_is_none_the_part_already_uses(tmp_path):
+    sharepoint = "http://schemas.microsoft.com/office/2006/metadata/properties"
+    data = (f'<ns0:properties xmlns:ns0="{sharepoint}" xmlns:p="{sharepoint}">'
+            f'<Acme:Client xmlns:Acme="{FIRM}">x</Acme:Client>'
+            f'<p:x xmlns:p="{FIRM}"><p:y/></p:x><p:z/>'  # p is the firm's only inside x
+            f'<ns5:w xmlns:ns5="{FIRM}"/></ns0:properties>')
+    report = run(tmp_path, package(tmp_path / "a.docx", "<w:p/>",
+                                   parts={"customXml/item1.xml": data}))
+    root = fromstring(zipfile.ZipFile(report.outputs[0]).read("customXml/item1.xml"))
+    client, inner, outer, generic = root
+    firm = etree_namespace(client)
+    assert firm != FIRM and root.nsmap == {"ns0": sharepoint, "p": sharepoint}
+    assert client.prefix not in ("ns0", "p", "ns5", "Acme")
+    assert inner.prefix not in ("ns0", "p", "ns5", client.prefix)
+    assert etree_namespace(inner) == etree_namespace(inner[0]) == firm
+    assert inner[0].prefix == inner.prefix
+    assert outer.prefix == "p" and etree_namespace(outer) == sharepoint
+    assert generic.prefix == "ns5" and etree_namespace(generic) == firm  # says nothing; kept
+
+
+def etree_namespace(node):
+    return node.tag[1:].split("}")[0]
+
+
+def test_a_part_that_is_not_well_formed_loses_a_firms_values_and_reports_its_names(tmp_path):
+    # its markup is kept as written, so it stays broken the same way: the
+    # firm's attribute value is replaced, its element name stays and is reported
+    body = ('<w:p a:client="Acme"><w:r><w:t>Acme Holdings</w:t></w:r></w:p>'
+            '<w:p><a:Holdings/><x:undeclared/></w:p>')
+    report = run(tmp_path, package(tmp_path / "a.docx", body, namespaces=f' xmlns:a="{FIRM}"'))
+    assert report.files[0].lexical == ["word/document.xml"] and report.reproduced
+    document = read_part(report.outputs[0], "word/document.xml")
+    assert re.search(r'a:client="[A-Z][a-z]{3}"', document) and "Acme" not in document
+    assert "<a:Holdings/>" in document
+    assert report.leaks == [{"file": 1, "part": "word/document.xml", "where": "(unparsed part)",
+                             "words": 1}]
+
+
+def test_a_binding_step_with_an_undeclared_prefix_is_renamed_like_its_data(tmp_path):
+    # Word's blog tool writes no prefix mappings (LibreOffice's tdf151912.docx):
+    # nothing says the namespace, so the step is renamed as the data's element is
+    blog = "http://www.microsoft.com/Office/Word/BlogTool"
+    case = firm_binding("/ns0:BlogPostInfo/ns0:PostTitle",
+                        f'<BlogPostInfo xmlns="{blog}"><PostTitle>Acme</PostTitle></BlogPostInfo>',
+                        mappings="")
+    report = run(tmp_path, package(tmp_path / "a.docx", case["body"], parts=case["parts"]))
+    copy = package_bytes(report.outputs[0])
+    assert b"BlogPostInfo" not in copy and b"PostTitle" not in copy
+    assert report.passed  # the binding resolves in neither: an undeclared prefix is an error
+
+
+def test_the_leak_scan_reads_attribute_values_of_a_part_it_cannot_parse(tmp_path):
+    # 0.5.0 to 0.8.0 read the attribute's name there instead of its value
+    copy = package(tmp_path / "a.docx", "<w:p/>", parts={
+        "word/broken.xml": '<x:root><style name="Acme Holdings"/>'})
+    leaks, _ = leak_scan([copy], {"Acme", "Holdings"}, {("Acme", "Holdings")})
+    assert leaks == [{"file": 1, "part": "word/broken.xml", "where": "(unparsed part)", "words": 1}]

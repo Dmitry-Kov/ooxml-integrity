@@ -2,6 +2,51 @@
 
 ## Unreleased
 
+Security fixes to `anonymize`, from an external review of 0.8.0. Copies made
+by 0.5.0 to 0.8.0 may hold the values listed below;
+[SECURITY.md](SECURITY.md#copies-made-by-050-to-080) says what to check
+before sharing one.
+
+- **An input is never overwritten.** An output that is an input, or is linked
+  to one (the same path, a symbolic or hard link), is refused before anything
+  is written, with or without `--force` (exit 2), and each output is checked
+  against both inputs of a pair. Before, `anonymize(["share/document.docx"],
+  "share")` replaced the original with its copy, as the command did with
+  `--force`; and since the originals' findings were read after the copies
+  were moved into place, that run compared the copy with itself. The
+  originals are now read first, and every check runs on the copies before
+  they are moved.
+- **Attribute values in a firm's namespace.** An attribute in a custom
+  namespace is the firm's data in any part, not only in a custom XML part:
+  its value is replaced like text. Before, `<w:p a:client="Acme">` had its
+  namespace and name replaced and kept `Acme`. A part that is not well-formed
+  XML, whose markup is kept as written, loses those values too, and the leak
+  scan reports the firm's names its markup keeps.
+- **Data binding paths.** The string literals of a binding's path are
+  replaced the way the values they compare with are, so
+  `[@name='Acme']` still selects the replaced client; before, the literal
+  stayed and the path selected nothing. A step inside a predicate is renamed
+  too. A path whose replacement could select other data (functions other
+  than `position()`, `last()` and `not()`, ordering or arithmetic on values,
+  unions, variables) is refused; one public test document, whose path
+  compares element names with `name()`, is refused now. A new check
+  evaluates every binding against its data in the original and in the copy:
+  one that selects another number of nodes fails the run (exit 1) and is
+  listed (`bindings` in the JSON report; `passed` is the exit-0 condition).
+- **Namespace prefixes.** A prefix bound to a custom namespace
+  (`<Acme:Contract xmlns:Acme=...>`) gets a generic name, `ns0`, `ns1`, ...,
+  in its declaration, tags, attributes and markup compatibility lists (an
+  ignorable namespace stays ignorable), and so does one a binding declares,
+  in its mappings and its path. A prefix that already is generic is kept. A
+  renamed part must parse to the same tree, or it is refused.
+- The leak scan reads all of these: attribute values in custom namespaces
+  word by word, prefixes, and a binding's literals, custom steps and
+  prefixes. In a part that is not well-formed XML it now reads attribute
+  values; since 0.5.0 it had read the attributes' names instead, so values
+  such a part keeps were never reported. A step whose prefix a binding does
+  not declare is renamed like the data, not kept.
+- The [measurement](evidence/anonymize/README.md) was rerun, and its
+  LibreOffice sample is now converted one file at a time with a time limit.
 - Every text rule reads run content alike. `FID014`'s paragraphs, `FID013`'s
   replacements and the header, footer, comment and note texts of
   `FID004`–`FID007` and `FID010` read a non-breaking hyphen

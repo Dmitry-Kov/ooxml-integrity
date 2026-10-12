@@ -26,6 +26,11 @@ What is replaced:
   style names, content control titles and tags, document variables, mail
   merge sources, custom XML. Element text in a part this module has no rule
   for is replaced too.
+- A firm's own schemas: their namespace URIs and prefixes, the names of
+  their elements and attributes, and the value of every attribute in them,
+  in whatever part it occurs. Data binding paths follow: their step names,
+  prefixes and string literals are replaced the way the data they select is.
+  A path this module cannot map that way is refused, and so is the run.
 - Pictures become 1x1 placeholders of the same format, embedded workbooks an
   empty workbook; other embedded objects and binary parts become empty.
   Embedded fonts are kept.
@@ -35,10 +40,13 @@ numbering formats, cell references in chart formulas, paragraph and revision
 ids, and the length and position of every word. A reader of the result learns
 the shape of the document, not its text.
 
-Afterwards the checker runs on the originals and on the results. The report
-says whether every finding was reproduced, and lists the places where words
-of the original text still occur in the results. docs/anonymize.md is the
-user's account of the same, and evidence/anonymize the measurement.
+No output may be, or be linked to, an input: that is refused before anything
+is written. Afterwards the checker runs on the originals, read before any
+copy is moved into place, and on the results. The report says whether every
+finding was reproduced and whether every data binding selects as many nodes
+as in the original, and lists the places where words of the original text
+still occur in the results. docs/anonymize.md is the user's account of the
+same, and evidence/anonymize the measurement.
 """
 from __future__ import annotations
 
@@ -46,6 +54,10 @@ import base64
 import collections
 import datetime as _dt
 import difflib
+import html
+import itertools
+import os
+import posixpath
 import random
 import re
 import shutil
@@ -92,8 +104,10 @@ MAIN_DOCX = (
 
 #: Namespaces whose attributes are structural unless listed below. In a part
 #: whose root is in none of them (custom XML data, sensitivity labels, ink),
-#: every attribute value is replaced as text. Office's own parts belong here:
-#: an enumeration replaced in a chart style makes Word refuse the file.
+#: every attribute value is replaced as text; so is the value of an attribute
+#: in a custom namespace in any part (user_attribute). Office's own parts
+#: belong here: an enumeration replaced in a chart style makes Word refuse
+#: the file.
 KNOWN_NAMESPACES = frozenset(ns.strip("{}") for ns in (
     W, W14, W15, W16DU, W16CEX, A, M, WP, WP14, C, V, O, REL, CT, EP, VT, CUSTOM, DCTERMS, CP,
     "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}",
@@ -139,12 +153,34 @@ URI_ATTRS = frozenset(("{http://schemas.openxmlformats.org/officeDocument/2006/c
                        W + "uri", W + "manifestLocation", W + "schemaLocation"))
 DATA_BINDINGS = frozenset((W + "dataBinding", W15 + "dataBinding"))
 PREFIX_MAPPING = re.compile(r"""xmlns:([\w.-]+)\s*=\s*['"]([^'"]*)['"]""")
-XPATH_STEP = re.compile(r"([/@])(?:([A-Za-z_][\w.-]*):)?([A-Za-z_][\w.-]*)(?!\s*\()")
+#: XPath 1.0 tokens: a data binding path is read token by token, so that a
+#: string literal is told apart from a step name.
+XPATH_TOKEN = re.compile(r"""
+    (?P<space>\s+)
+  | (?P<literal>"[^"]*"|'[^']*')
+  | (?P<number>\d+(?:\.\d*)?|\.\d+)
+  | (?P<symbol>//|::|!=|<=|>=|\.\.|[/()\[\]@,|+\-=<>.*$])
+  | (?P<name>[^\W\d][\w.\-]*(?::(?:[^\W\d][\w.\-]*|\*))?)
+""", re.X)
+XPATH_OPERATORS = frozenset(("and", "or", "mod", "div", "*", "/", "//", "|", "+", "-", "=", "!=",
+                             "<", "<=", ">", ">="))
+XPATH_AXES = frozenset(("child", "descendant", "descendant-or-self", "self", "parent", "ancestor",
+                        "ancestor-or-self", "following", "following-sibling", "preceding",
+                        "preceding-sibling", "attribute"))
+XPATH_NODE_TYPES = frozenset(("text", "node", "comment"))
+#: A prefix that says nothing: what Word writes in data bindings, and the
+#: replacement anonymize gives the prefixes of custom namespaces.
+GENERIC_PREFIX = re.compile(r"^ns\d+$")
+MC_NS = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+XML_NS = "http://www.w3.org/XML/1998/namespace"
+#: Markup compatibility attributes whose values name prefixes.
+MC_PREFIX_LISTS = frozenset("{%s}%s" % (MC_NS, name) for name in (
+    "Ignorable", "MustUnderstand", "ProcessContent", "PreserveElements", "PreserveAttributes"))
 #: Never replaced, in any part: relationship ids, markup compatibility, xml:*.
 RESERVED_NAMESPACES = (
     "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}",
-    "{http://schemas.openxmlformats.org/markup-compatibility/2006}",
-    "{http://www.w3.org/XML/1998/namespace}",
+    "{%s}" % MC_NS,
+    "{%s}" % XML_NS,
 )
 
 #: Elements whose text is read as one paragraph-level stream.
@@ -350,8 +386,222 @@ def placeholder(name: str) -> bytes | None:
     return None
 
 
+class Refused(ValueError):
+    """The input holds something that cannot be replaced safely, or an output
+    would replace an input; nothing is written."""
+
+
 def custom_namespace(uri: str | None) -> bool:
     return bool(uri) and not STANDARD_NAMESPACE.match(uri)
+
+
+def _namespace(name: str) -> str | None:
+    return name[1:name.index("}")] if name.startswith("{") else None
+
+
+def user_attribute(tag: str, attr: str) -> bool:
+    """An attribute whose value is someone's own data wherever it occurs: one
+    in a custom namespace, or an unqualified one on an element of a custom
+    namespace. The namespace of the part it is in does not matter."""
+    namespace = _namespace(attr)
+    return custom_namespace(namespace if namespace is not None else _namespace(tag))
+
+
+class UnmappableXPath(ValueError):
+    """A data binding path in a form whose replacement could select other nodes."""
+
+
+def _xpath_tokens(value: str) -> list[list]:
+    """[kind, text, start, end] for each token of an XPath 1.0 expression.
+
+    Names and ``*`` are told apart as the XPath recommendation (3.7) says:
+    after an operand, a name is an operator; before ``(``, a function; before
+    ``::``, an axis; otherwise a name test.
+    """
+    tokens, at = [], 0
+    while at < len(value):
+        match = XPATH_TOKEN.match(value, at)
+        if match is None:
+            raise UnmappableXPath("is not an XPath expression this tool reads")
+        if match.group() == "$":
+            raise UnmappableXPath("uses a variable")
+        kind = match.lastgroup
+        if kind == "symbol" and match.group() in XPATH_OPERATORS and match.group() != "*":
+            kind = "operator"
+        if kind != "space":
+            tokens.append([kind, match.group(), match.start(), match.end()])
+        at = match.end()
+    for i, token in enumerate(tokens):
+        if not (token[0] == "name" or token[1] == "*"):
+            continue
+        before = tokens[i - 1] if i else None
+        after = tokens[i + 1][1] if i + 1 < len(tokens) else None
+        operand_before = before is not None and not (
+            before[0] == "operator" or before[1] in ("@", "::", "(", "[", ","))
+        if operand_before:
+            if token[1] not in XPATH_OPERATORS:
+                raise UnmappableXPath("is not an XPath expression this tool reads")
+            token[0] = "operator"
+        elif token[1] == "*":
+            token[0] = "nametest"
+        else:
+            token[0] = {"(": "function", "::": "axis"}.get(after, "nametest")
+    return tokens
+
+
+class _XPathReader:
+    """Accepts the expressions whose replacement selects the same nodes.
+
+    Location paths with steps on any axis but ``namespace``, name and node
+    type tests, and predicates made of positions (``[1]``, ``[last()]``,
+    ``position() < last() - 1``), tests that a node exists, ``not()``,
+    ``and``, ``or``, and comparisons of nodes and string literals with ``=``
+    and ``!=``; the same at the top level. A literal is replaced the way the
+    values it is compared with are, and equality survives a replacement that
+    keeps equal strings equal. Everything else (other functions, arithmetic
+    on values, unions, variables, an order or a number compared with a value)
+    could select other nodes once the values change, and is refused.
+    """
+
+    def __init__(self, tokens: list[list]):
+        self.tokens, self.at = tokens, 0
+
+    def read(self) -> None:
+        if not self.tokens:
+            raise UnmappableXPath("is empty")
+        self.disjunction()
+        if self.at < len(self.tokens):
+            self.refuse(self.tokens[self.at])
+
+    def peek(self) -> list | None:
+        return self.tokens[self.at] if self.at < len(self.tokens) else None
+
+    def take(self, *texts: str) -> bool:
+        token = self.peek()
+        if token is not None and token[1] in texts and token[0] != "literal":
+            self.at += 1
+            return True
+        return False
+
+    def expect(self, text: str) -> None:
+        if not self.take(text):
+            self.refuse(self.peek())
+
+    def refuse(self, token: list | None):
+        if token is None:
+            raise UnmappableXPath("is not an XPath expression this tool reads")
+        kind, text = token[0], token[1]
+        if kind == "function":
+            raise UnmappableXPath(f"uses the function {text}()")
+        if kind == "axis":
+            raise UnmappableXPath(f"uses the {text} axis")
+        if kind == "operator":
+            raise UnmappableXPath(f"uses the operator {text}")
+        raise UnmappableXPath("is not an XPath expression this tool reads")
+
+    def at_step(self) -> bool:
+        token = self.peek()
+        return token is not None and (
+            token[0] in ("nametest", "axis") or token[1] in ("@", ".", "..")
+            or (token[0] == "function" and token[1] in XPATH_NODE_TYPES))
+
+    def path(self) -> None:
+        if self.take("/", "//"):
+            if self.tokens[self.at - 1][1] == "/" and not self.at_step():
+                return
+        self.step()
+        while self.take("/", "//"):
+            self.step()
+
+    def step(self) -> None:
+        if self.take(".", ".."):
+            return
+        token = self.peek()
+        if token is not None and token[0] == "axis":
+            if token[1] not in XPATH_AXES:
+                self.refuse(token)
+            self.at += 1
+            self.expect("::")
+        else:
+            self.take("@")
+        token = self.peek()
+        if token is not None and token[0] == "nametest":
+            self.at += 1
+        elif token is not None and token[0] == "function" and token[1] in XPATH_NODE_TYPES:
+            self.at += 1
+            self.expect("(")
+            self.expect(")")
+        else:
+            self.refuse(token)
+        while self.take("["):
+            self.disjunction()
+            self.expect("]")
+
+    def disjunction(self) -> None:
+        self.conjunction()
+        while self.take("or"):
+            self.conjunction()
+
+    def conjunction(self) -> None:
+        self.comparison()
+        while self.take("and"):
+            self.comparison()
+
+    def comparison(self) -> None:
+        left = self.sum()
+        token = self.peek()
+        if token is None or token[1] not in ("=", "!=", "<", "<=", ">", ">="):
+            return
+        self.at += 1
+        kinds = {left, self.sum()}
+        if kinds <= {"number", "position"}:
+            return
+        if kinds <= {"nodes", "literal"} and token[1] in ("=", "!="):
+            return
+        if token[1] not in ("=", "!="):
+            raise UnmappableXPath(f"orders values with {token[1]}")
+        raise UnmappableXPath("compares a value with a number or a condition")
+
+    def sum(self) -> str:
+        """An operand, or positions and numbers added and subtracted."""
+        kind = self.operand()
+        while True:
+            token = self.peek()
+            if token is None or token[0] != "operator" or token[1] not in ("+", "-"):
+                return kind
+            if kind not in ("number", "position"):
+                self.refuse(token)
+            self.at += 1
+            if self.operand() not in ("number", "position"):
+                self.refuse(token)
+            kind = "position"
+
+    def operand(self) -> str:
+        token = self.peek()
+        if token is None:
+            self.refuse(token)
+        if token[0] in ("literal", "number"):
+            self.at += 1
+            return token[0]
+        if token[0] == "function" and token[1] in ("position", "last"):
+            self.at += 1
+            self.expect("(")
+            self.expect(")")
+            return "position"
+        if token[0] == "function" and token[1] == "not":
+            self.at += 1
+            self.expect("(")
+            self.disjunction()
+            self.expect(")")
+            return "condition"
+        if self.take("("):
+            self.disjunction()
+            self.expect(")")
+            return "condition"
+        if self.at_step() or (token[1] in ("/", "//") and token[0] == "operator"):
+            self.path()
+            return "nodes"
+        self.refuse(token)
 
 
 def _word_char(char: str) -> bool:
@@ -390,6 +640,8 @@ class Mapper:
         self.inserted: dict[tuple, list[tuple[str, str]]] = collections.defaultdict(list)
         #: custom namespace URI -> replacement, the same in every part and file
         self._namespaces: dict[str, str] = {}
+        #: prefix of a custom namespace -> its generic name, where a part allows
+        self._prefixes: dict[str, str] = {}
         self.reading_source = True
 
     def _draw(self, token: str) -> str:
@@ -465,16 +717,71 @@ class Mapper:
         """An element or attribute name of a custom schema: still a valid name."""
         return self.text(local)
 
-    def xpath(self, value: str, prefixes: dict[str, str]) -> str:
-        """A data binding XPath: steps in custom namespaces renamed the way
-        their elements and attributes are; steps in standard ones kept."""
-        def step(match):
-            axis, prefix, local = match.groups()
-            uri = prefixes.get(prefix) if prefix else None
-            if prefix and not custom_namespace(uri):
-                return match.group(0)
-            return f"{axis}{prefix + ':' if prefix else ''}{self.name(local)}"
-        return XPATH_STEP.sub(step, value)
+    def prefix(self, old: str, avoid: set[str]) -> str:
+        """A generic name (``ns0``, ``ns1``, ...) for the prefix of a custom
+        namespace: a prefix says whose a schema is as well as its URI does.
+        A generic prefix stays. Any other gets the same name throughout the
+        run, unless `avoid` (the prefixes a part already uses) holds it."""
+        if GENERIC_PREFIX.match(old):
+            return old
+        new = self._prefixes.get(old)
+        if new is not None and new not in avoid:
+            return new
+        taken = avoid | set(self._prefixes.values())
+        new = next(f"ns{k}" for k in itertools.count() if f"ns{k}" not in taken)
+        self._prefixes.setdefault(old, new)
+        return new
+
+    def binding(self, xpath: str | None, mappings: str | None) -> tuple[str | None, str | None]:
+        """A data binding's path and prefix mappings, replaced together.
+
+        A step in a custom namespace, in none, or with a prefix the binding
+        does not declare (whose namespace nothing says) is renamed the way
+        its element or attribute is; a step in a standard namespace is kept. A
+        string literal is replaced the way the values it is compared with
+        are. The prefixes the binding declares for custom namespaces get
+        generic names in both. Raises UnmappableXPath for a path in a form
+        whose replacement could select other nodes.
+        """
+        declared = PREFIX_MAPPING.findall(mappings or "")
+        prefixes = dict(declared)
+        tokens = _xpath_tokens(xpath) if xpath else []
+        if xpath:
+            _XPathReader(tokens).read()
+        custom = [p for p, uri in declared if custom_namespace(uri)]
+        used = set(prefixes) | {t[1].split(":")[0] for t in tokens
+                                if t[0] == "nametest" and ":" in t[1]}
+        # generic prefixes (Word writes ns0, ns1, ...) stay; the others get
+        # generic names no other prefix of the binding has
+        renamed = {p: p for p in custom if GENERIC_PREFIX.match(p)}
+        for prefix in custom:
+            if prefix not in renamed:
+                taken = (used - set(custom)) | set(renamed.values())
+                renamed[prefix] = next(f"ns{k}" for k in itertools.count()
+                                       if f"ns{k}" not in taken)
+
+        def name(qname: str) -> str:
+            prefix, _, local = qname.rpartition(":")
+            if prefix in prefixes and not custom_namespace(prefixes[prefix]):
+                return qname
+            new = local if local == "*" else self.name(local)
+            return f"{renamed.get(prefix, prefix)}:{new}" if prefix else new
+
+        if xpath:
+            out, at = [], 0
+            for kind, text, start, end in tokens:
+                if kind == "literal":
+                    out += [xpath[at:start], text[0], self.text(text[1:-1]), text[-1]]
+                    at = end
+                elif kind == "nametest":
+                    out += [xpath[at:start], name(text)]
+                    at = end
+            xpath = "".join(out) + xpath[at:]
+        if mappings and renamed:
+            mappings = PREFIX_MAPPING.sub(
+                lambda m: (m.group(0)[:m.start(1) - m.start()] + renamed.get(m.group(1), m.group(1))
+                           + m.group(0)[m.end(1) - m.start():]), mappings)
+        return xpath, mappings
 
     def target(self, value: str) -> str:
         """An external target: keep a known scheme, replace the rest."""
@@ -769,9 +1076,11 @@ LEVEL_PLACEHOLDER = re.compile(r"%\d")
 
 def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
     on = TEXT_ATTRS_ON.get(node.tag, ())
-    if node.tag in DATA_BINDINGS and node.get(W + "xpath"):
-        prefixes = dict(PREFIX_MAPPING.findall(node.get(W + "prefixMappings") or ""))
-        node.set(W + "xpath", mapper.xpath(node.get(W + "xpath"), prefixes))
+    if node.tag in DATA_BINDINGS:
+        xpath, mappings = mapper.binding(node.get(W + "xpath"), node.get(W + "prefixMappings"))
+        for name, value in ((W + "xpath", xpath), (W + "prefixMappings", mappings)):
+            if value is not None:
+                node.set(name, value)
     if node.tag == W + "lvlText" and node.get(W + "val"):
         node.set(W + "val", mapper.text(node.get(W + "val"), keep=LEVEL_PLACEHOLDER))
     parent = node.getparent()
@@ -808,23 +1117,38 @@ def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
               or (CNVPR.search(node.tag) and name in ("name", "descr", "title"))):
             node.set(name, mapper.text(value, keep=FIELD_CODE) if name == W + "instr"
                      else mapper.text(value))
-        elif unknown and not name.startswith(RESERVED_NAMESPACES):
+        elif ((unknown or user_attribute(node.tag, name))
+              and not name.startswith(RESERVED_NAMESPACES)):
             node.set(name, mapper.text(value))
 
 
 #: Raw-text fallback for a part no XML parser accepts. Markup stays byte for
 #: byte, so the part stays broken in the same way; character data and the
 #: attributes the rules above name are replaced, matched by local name since
-#: the prefixes cannot be resolved. Text outside any markup (a stray dump)
-#: is character data too.
+#: the prefixes cannot be resolved. So are the values of attributes whose
+#: prefix, or whose element's prefix, the part binds to a custom namespace
+#: anywhere. Text outside any markup (a stray dump) is character data too.
 _MARKUP = re.compile(r"<[^<>]*>")
 _CHARACTER_DATA = re.compile(r"[^<>]+(?=<|$)")
 _ATTRIBUTE = re.compile(r"""(\s+)([^\s=/<>]+)\s*=\s*("[^"]*"|'[^']*')""")
 _ENTITY = re.compile(r"&(?:[A-Za-z]+|#[0-9]+|#[xX][0-9a-fA-F]+);")
+_DECLARATION = re.compile(r"""xmlns:([\w.-]+)\s*=\s*(["'])(.*?)\2""")
 
 
 def _local(name: str) -> str:
     return name.rsplit("}", 1)[-1].rsplit(":", 1)[-1]
+
+
+def _raw_prefixes(text: str) -> set[str]:
+    """Prefixes a part that cannot be parsed binds to a custom namespace, in
+    any scope: without a parser, a prefix bound to one anywhere counts."""
+    return {m.group(1) for m in _DECLARATION.finditer(text) if custom_namespace(m.group(3))}
+
+
+def _raw_user_attribute(element: str, name: str, custom: set[str]) -> bool:
+    """user_attribute() for raw markup: `element` and `name` as written."""
+    owner = name if ":" in name else element
+    return ":" in owner and owner.partition(":")[0] in custom
 
 
 _TEXT_LOCALS = frozenset(_local(n) for n in TEXT_ATTRS)
@@ -833,6 +1157,7 @@ _TEXT_ON_LOCALS = {_local(e): {_local(a) for a in attrs} for e, attrs in TEXT_AT
 
 def _lexical(data: bytes, mapper: Mapper) -> bytes:
     text = data.decode("utf-8", errors="surrogateescape")
+    custom = _raw_prefixes(text)
 
     def chars(value: str) -> str:
         out, at = [], 0
@@ -848,12 +1173,15 @@ def _lexical(data: bytes, mapper: Mapper) -> bytes:
             return "<!--" + chars(markup[4:-3]) + "-->"
         if markup.startswith(("<?", "<!", "</")):
             return markup
-        element = _local(re.match(r"<\s*([^\s/>]*)", markup).group(1))
+        raw = re.match(r"<\s*([^\s/>]*)", markup).group(1)
+        element = _local(raw)
 
         def attribute(match):
             space, name, quoted = match.groups()
             local, inner = _local(name), quoted[1:-1]
-            if local == "author":
+            if _raw_user_attribute(raw, name, custom):
+                inner = chars(inner)
+            elif local == "author":
                 inner = mapper.person(inner)
             elif local == "initials":
                 inner = mapper.initials(inner)
@@ -939,6 +1267,127 @@ def _replace_namespaces(data: bytes, mapper: Mapper) -> bytes:
     return data
 
 
+def custom_prefixes(root) -> bool:
+    """Whether a part declares a prefix for a custom namespace."""
+    return any(prefix and custom_namespace(uri)
+               for _, (prefix, uri) in etree.iterwalk(root, events=("start-ns",)))
+
+
+#: Markup as lxml writes it: comments, CDATA sections and processing
+#: instructions, then tags. lxml escapes "<" and ">" in text and attribute
+#: values, so a tag ends at the first ">".
+_SERIALIZED = re.compile(
+    r"<!--.*?-->|<!\[CDATA\[.*?\]\]>|<\?.*?\?>|<(/?)([^\s/>]+)([^>]*?)(/?)>", re.S)
+_TAG_ATTRIBUTE = re.compile(r"""(\s+)([^\s=]+)(\s*=\s*)("[^"]*"|'[^']*')""")
+
+
+def _rename_prefixes(data: bytes, mapper: Mapper, part: str) -> bytes:
+    """Give every prefix bound to a custom namespace a generic name.
+
+    ``<Acme:Contract xmlns:Acme="...">`` names a firm in the prefix as well
+    as in the URI. A prefix is not part of what the XML means, so wherever
+    one is bound to a custom namespace it is renamed: in tags, in attribute
+    names, in its declaration and in the markup compatibility lists that
+    name prefixes. The new names are none of the prefixes the part declares,
+    so no declaration comes to hide another. `data` is lxml's serialization;
+    the result must parse to the same tree, or the part is refused.
+    """
+    text = data.decode("utf-8")
+    tags = list(_SERIALIZED.finditer(text))
+    declared = {attr.group(2)[6:] for tag in tags if tag.group(2) and not tag.group(1)
+                for attr in _TAG_ATTRIBUTE.finditer(tag.group(3))
+                if attr.group(2).startswith("xmlns:")}
+    renamed: dict[str, str] = {}
+
+    def new(prefix: str) -> str:
+        if prefix not in renamed:
+            renamed[prefix] = mapper.prefix(prefix, declared | set(renamed.values()))
+        return renamed[prefix]
+
+    def qname(name: str, scope: dict) -> str:
+        prefix, colon, local = name.partition(":")
+        return f"{new(prefix)}:{local}" if colon and custom_namespace(scope.get(prefix)) else name
+
+    def listed(token: str, scope: dict) -> str:
+        if ":" in token:
+            return qname(token, scope)
+        return new(token) if custom_namespace(scope.get(token)) else token
+
+    def clark(name: str, scope: dict, element: bool = False) -> str:
+        prefix, colon, local = name.partition(":")
+        if colon:
+            return "{%s}%s" % (scope.get(prefix), local)
+        return "{%s}%s" % (scope[None], name) if element and scope.get(None) else name
+
+    out, at, stack = [], 0, [{"xml": XML_NS}]
+    for tag in tags:
+        out.append(text[at:tag.start()])
+        at = tag.end()
+        closing, name, attributes, empty = tag.groups()
+        if name is None:
+            out.append(tag.group(0))
+            continue
+        if closing:
+            out.append(f"</{qname(name, stack.pop())}{attributes}>")
+            continue
+        if _TAG_ATTRIBUTE.sub("", attributes).strip():
+            raise Refused(f"{part}: its markup could not be read to rename namespace prefixes")
+        scope = dict(stack[-1])
+        for attr in _TAG_ATTRIBUTE.finditer(attributes):
+            if attr.group(2) == "xmlns" or attr.group(2).startswith("xmlns:"):
+                scope[attr.group(2)[6:] or None] = html.unescape(attr.group(4)[1:-1])
+        element = clark(name, scope, element=True)
+
+        def attribute(attr, scope=scope, element=element):
+            space, key, equals, quoted = attr.groups()
+            value = quoted[1:-1]
+            if key.startswith("xmlns:"):
+                if custom_namespace(html.unescape(value)):
+                    key = "xmlns:" + new(key[6:])
+            else:
+                full = clark(key, scope)
+                if full in MC_PREFIX_LISTS or (element == "{%s}Choice" % MC_NS and key == "Requires"):
+                    value = re.sub(r"\S+", lambda t: listed(t.group(), scope), value)
+                key = qname(key, scope)
+            return f"{space}{key}{equals}{quoted[0]}{value}{quoted[-1]}"
+
+        out.append(f"<{qname(name, scope)}{_TAG_ATTRIBUTE.sub(attribute, attributes)}{empty}>")
+        if not empty:
+            stack.append(scope)
+    out.append(text[at:])
+    result = "".join(out).encode("utf-8")
+    if all(old == new for old, new in renamed.items()):
+        return data
+    if not _same_tree(fromstring(data), fromstring(result)):
+        raise Refused(f"{part}: its namespace prefixes could not be renamed safely")
+    return result
+
+
+def _same_tree(a, b) -> bool:
+    """The same elements, names, attributes and text; prefixes aside, except
+    that every namespace in scope stays in scope and every prefix of a
+    standard namespace keeps its binding. (A renamed prefix that shadowed
+    another no longer does, so `b` may see more.)"""
+    def resolved(node, name, value):
+        if name in MC_PREFIX_LISTS or (node.tag == "{%s}Choice" % MC_NS and name == "Requires"):
+            return [(node.nsmap.get(t.partition(":")[0]), t.partition(":")[2])
+                    for t in value.split()]
+        return value
+    pairs = itertools.zip_longest(a.iter(), b.iter())
+    for x, y in pairs:
+        if x is None or y is None or x.tag != y.tag or x.text != y.text or x.tail != y.tail:
+            return False
+        if not isinstance(x.tag, str):
+            continue
+        before, after = x.nsmap, y.nsmap
+        if (sorted(x.attrib.keys()) != sorted(y.attrib.keys())
+                or not set(before.values()) <= set(after.values())
+                or any(after.get(p) != u for p, u in before.items() if not custom_namespace(u))
+                or any(resolved(x, k, v) != resolved(y, k, y.get(k)) for k, v in x.attrib.items())):
+            return False
+    return True
+
+
 def _anonymize_package(source: Path, output: Path, mapper: Mapper,
                        limits: ArchiveLimits, known: set | None = None) -> FileResult:
     parts = read_package(source, limits)
@@ -971,8 +1420,15 @@ def _anonymize_package(source: Path, output: Path, mapper: Mapper,
                     data = _lexical(data, mapper)
                     result.lexical.append(name)
                 else:
-                    result.contexts |= _anonymize_tree(root, mapper, name, known)
+                    try:
+                        result.contexts |= _anonymize_tree(root, mapper, name, known)
+                    except UnmappableXPath as e:
+                        raise Refused(f"{source}: a data binding path in {name} {e}, which "
+                                      "anonymize cannot replace so that it selects the same "
+                                      "data; nothing was written") from None
                     data = _serialize(root, data)
+                    if custom_prefixes(root):
+                        data = _rename_prefixes(data, mapper, f"{source}: {name}")
                 data = _replace_namespaces(data, mapper)
             elif FONT_PARTS.search(name):
                 result.fonts.append(name)
@@ -1020,6 +1476,113 @@ def findings_of(paths: Sequence[Path],
             "edited": _signature(_run_one(paths[1], paths[0], limits))}
 
 
+DS = "{http://schemas.openxmlformats.org/officeDocument/2006/customXml}"
+#: Store ids Word gives the package's own property parts in a data binding.
+PROPERTY_STORES = {
+    "/metadata/core-properties": "{6C3C8BC8-F283-45AE-878A-BAB7291924A1}",
+    "/extended-properties": "{6668398D-A668-4E3E-A5EB-62B293D839F1}",
+}
+_RELS = re.compile(r"^(.*?)_rels/([^/]*)\.rels$")
+
+
+def _stores(parts: dict[str, bytes]) -> dict[str, str]:
+    """Upper-case store id -> the part a data binding with that id reads:
+    each custom XML part by the id in its properties part, and the core and
+    extended properties."""
+    stores = {}
+    for name, blob in parts.items():
+        match = _RELS.match(name)
+        if not match:
+            continue
+        base, source = match.group(1), match.group(1) + match.group(2)
+        try:
+            rels = fromstring(blob)
+        except (etree.XMLSyntaxError, UnsafeXML):
+            continue
+        for rel in rels.iter(REL + "Relationship"):
+            kind, target = rel.get("Type") or "", rel.get("Target") or ""
+            target = (target.lstrip("/") if target.startswith("/")
+                      else posixpath.normpath(posixpath.join(base, target)))
+            if kind.endswith("/customXmlProps") and target in parts:
+                try:
+                    item = fromstring(parts[target]).get(DS + "itemID")
+                except (etree.XMLSyntaxError, UnsafeXML):
+                    continue
+                if item:
+                    stores[item.upper()] = source
+            for suffix, store in PROPERTY_STORES.items():
+                if kind.endswith(suffix) and target in parts:
+                    stores[store] = target
+    return stores
+
+
+def _bindings(parts: dict[str, bytes]) -> dict[tuple[str, int], tuple]:
+    """(part, n) -> what the n-th data binding with a path in that part
+    selects: (store part, number of nodes) for the store it names, or for
+    every custom XML store when it names none of them. A path or store that
+    cannot be evaluated counts as "error"."""
+    stores = _stores(parts)
+    custom = sorted({p for p in stores.values() if p.startswith("customXml/")})
+    trees: dict[str, object] = {}
+
+    def select(store: str, xpath: str, prefixes: dict) -> int | str:
+        if store not in trees:
+            try:
+                trees[store] = fromstring(parts[store])
+            except (etree.XMLSyntaxError, UnsafeXML):
+                trees[store] = None
+        if trees[store] is None:
+            return "error"
+        try:
+            found = trees[store].xpath(xpath, namespaces=prefixes)
+        except (etree.XPathError, ValueError, TypeError):
+            return "error"
+        return len(found) if isinstance(found, list) else "error"
+
+    out = {}
+    for name, blob in parts.items():
+        if b"dataBinding" not in blob:
+            continue
+        try:
+            root = fromstring(blob)
+        except (etree.XMLSyntaxError, UnsafeXML):
+            continue
+        nodes = [n for n in root.iter(*DATA_BINDINGS) if n.get(W + "xpath")]
+        for k, node in enumerate(nodes, 1):
+            prefixes = dict(PREFIX_MAPPING.findall(node.get(W + "prefixMappings") or ""))
+            store = (node.get(W + "storeItemID") or "").upper()
+            targets = [stores[store]] if store in stores else custom
+            out[(name, k)] = tuple((t, select(t, node.get(W + "xpath"), prefixes))
+                                   for t in targets)
+    return out
+
+
+def binding_check(originals: Sequence[Path], copies: Sequence[Path],
+                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> tuple[int, list[dict]]:
+    """Does every data binding select as many nodes in the copy as in the
+    original? Independent of how the paths were replaced: each is evaluated
+    against the data it names in both packages. Returns the number of
+    bindings and the ones that differ, by file, part and position, with the
+    number of nodes each selects; never a path or a value."""
+    def total(result) -> int | str:
+        if result is None:
+            return "missing"
+        counts = [n for _, n in result]
+        return next((n for n in counts if isinstance(n, str)), sum(counts))
+
+    checked, changed = 0, []
+    for index, (original, copy) in enumerate(zip(originals, copies)):
+        before = _bindings(read_package(original, limits))
+        after = _bindings(read_package(copy, limits))
+        checked += len(before)
+        for key in sorted(set(before) | set(after)):
+            if before.get(key) != after.get(key):
+                changed.append({"file": index + 1, "part": key[0], "binding": key[1],
+                                "original": total(before.get(key)),
+                                "anonymized": total(after.get(key))})
+    return checked, changed
+
+
 def _tokens(text: str) -> Iterable[str]:
     start = None
     for i, char in enumerate(text + "\0"):
@@ -1052,9 +1615,10 @@ STRUCTURE = frozenset((
 
 #: Attributes that are structure wherever they occur, and elements all of
 #: whose attributes are: language tags, fonts, namespace URIs, store ids,
-#: VML formulas, numbering formats.
+#: VML formulas, numbering formats. Data binding paths are not: they hold
+#: names and literals of the data, and are read on their own.
 STRUCTURE_ATTRS = frozenset((
-    "space", "uri", "itemID", "storeItemID", "prefixMappings", "xpath", "eqn", "typeface",
+    "space", "uri", "itemID", "storeItemID", "eqn", "typeface",
     "hint", "type", "ext", "style", "inset", "path", "modelId", "lang", "namespaceuri",
     "Ignorable", "ShapeID", "shapeid", "idref", "spid", "ID"))
 STRUCTURE_ELEMENTS = frozenset(("lang", "themeFontLang", "rFonts", "lvlText", "font", "altName",
@@ -1087,21 +1651,54 @@ PART_NAME_WORDS = frozenset((
 ))
 
 
+def _binding_words(node, single: Callable[[str], int]) -> tuple[int, int]:
+    """Words of the text in a data binding's path and prefix mappings: those
+    in places anonymize replaces (string literals, steps and prefixes of
+    custom namespaces or of none), and those in the steps and prefixes of
+    standard namespaces, which it keeps. A path that cannot be read is
+    counted whole."""
+    xpath, mappings = node.get(W + "xpath") or "", node.get(W + "prefixMappings") or ""
+    prefixes = dict(PREFIX_MAPPING.findall(mappings))
+    try:
+        tokens = _xpath_tokens(xpath)
+    except UnmappableXPath:
+        return single(xpath) + single(mappings), 0
+    found = kept = 0
+    for prefix, uri in prefixes.items():
+        if custom_namespace(uri):
+            found += single(prefix)
+        else:
+            kept += single(prefix)
+    for kind, text, _, _ in tokens:
+        if kind == "literal":
+            found += single(text[1:-1])
+        elif kind == "nametest":
+            prefix, _, local = text.rpartition(":")
+            if prefix and prefix in prefixes and not custom_namespace(prefixes[prefix]):
+                kept += single(local)
+            else:
+                found += single(local) + (single(prefix) if prefix not in prefixes else 0)
+    return found, kept
+
+
 def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[str, str]],
               replacements: set[str] = frozenset(),
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> tuple[list[dict], int]:
     """Places in `paths` that still hold words of the original text.
 
-    Element text and the attributes of parts in unknown namespaces are
-    replaced wholesale, so any word there of four or more letters is
-    reported. Attributes in the known namespaces are kept unless listed as
-    text, and their values are mostly names the format defines (``left``,
-    ``auto``, ``Normal``), which a document's text may use too; there two
-    consecutive words of the text are reported, so free text copied into an
-    attribute this module does not know is found and an enumeration is not.
-    Hits in the kept structure listed in STRUCTURE are counted, not reported.
-    Each report names the file, part and element or attribute, never the
-    words, so it can be shared.
+    Element text, the attributes of parts in unknown namespaces and the
+    attributes in custom namespaces anywhere are replaced wholesale, so any
+    word there of four or more letters is reported; so is one in a name or a
+    namespace prefix of a custom schema, or in a data binding path's string
+    literals, custom step names and custom prefixes. Attributes in the known
+    namespaces are kept unless listed as text, and their values are mostly
+    names the format defines (``left``, ``auto``, ``Normal``), which a
+    document's text may use too; there two consecutive words of the text are
+    reported, so free text copied into an attribute this module does not
+    know is found and an enumeration is not. Hits in the kept structure
+    listed in STRUCTURE, and in the prefixes and binding steps of standard
+    namespaces, are counted, not reported. Each report names the file, part
+    and element or attribute, never the words, so it can be shared.
     """
     words = {w for w in vocabulary - replacements
              if len(w) >= 4 and not any(c.isdigit() for c in w)}
@@ -1131,21 +1728,43 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                 root = fromstring(data)
             except Exception:
                 raw = data.decode("utf-8", "replace")
+                custom = _raw_prefixes(raw)
                 found = sum(single(m.group(0)) for m in _CHARACTER_DATA.finditer(raw))
-                found += sum(phrase(m.group(2)[1:-1]) for m in _ATTRIBUTE.finditer(raw))
+                for tag in _MARKUP.finditer(raw):
+                    if tag.group(0).startswith(("<?", "<!", "</")):
+                        continue
+                    element = re.match(r"<\s*([^\s/>]*)", tag.group(0)).group(1)
+                    # a firm's names and prefixes stay in raw markup: report them
+                    if ":" in element and element.partition(":")[0] in custom:
+                        found += single(element.partition(":")[0]) + single(_local(element))
+                    for m in _ATTRIBUTE.finditer(tag.group(0)):
+                        key, value = m.group(2), m.group(3)[1:-1]
+                        if key.startswith("xmlns:") and key[6:] in custom:
+                            found += single(key[6:])
+                        elif _raw_user_attribute(element, key, custom):
+                            found += single(value) + single(_local(key))
+                        else:
+                            found += phrase(value)
                 if found:
                     hits[(index, name, "(unparsed part)")] += found
                 continue
             unknown = etree.QName(root).namespace not in KNOWN_NAMESPACES
+            for _, (prefix, uri) in etree.iterwalk(root, events=("start-ns",)):
+                found = single(prefix)
+                if found and custom_namespace(uri):
+                    hits[(index, name, "(namespace prefix)")] += found
+                elif found:
+                    structural += found
             for node in root.iter():
                 if not isinstance(node.tag, str):
                     continue
                 label = etree.QName(node).localname
-                if custom_namespace(etree.QName(node).namespace):
-                    named = single(label) + sum(single(etree.QName(a).localname)
-                                                for a in node.attrib)
-                    if named:
-                        hits[(index, name, f"{label} (custom name)")] += named
+                custom = custom_namespace(etree.QName(node).namespace)
+                named = (single(label) if custom else 0) + sum(
+                    single(etree.QName(a).localname) for a in node.attrib
+                    if custom or custom_namespace(_namespace(a)))
+                if named:
+                    hits[(index, name, f"{label} (custom name)")] += named
                 text = node.text
                 if node.tag in INSTRUCTION_TAGS and text:
                     # field types and switches are kept on purpose
@@ -1155,8 +1774,21 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                     structural += found
                 elif found:
                     hits[(index, name, label)] += found
+                binding = node.tag in DATA_BINDINGS
+                if binding:
+                    found, kept = _binding_words(node, single)
+                    structural += kept
+                    if found:
+                        hits[(index, name, f"{label} (data binding path)")] += found
                 for attr, value in node.attrib.items():
+                    if binding and attr in (W + "xpath", W + "prefixMappings"):
+                        continue
                     local = etree.QName(attr).localname
+                    if user_attribute(node.tag, attr):
+                        found = single(value)
+                        if found:
+                            hits[(index, name, f"{label}/@{local}")] += found
+                        continue
                     found = single(value) if unknown else phrase(value)
                     if found and _located(node.tag, local):
                         structural += found
@@ -1181,10 +1813,19 @@ class Report:
     anonymized: dict[str, collections.Counter]
     leaks: list[dict]
     structural: int = 0
+    #: data bindings with a path in the originals
+    bindings: int = 0
+    #: bindings that select another number of nodes in the copy
+    changed_bindings: list[dict] = field(default_factory=list)
 
     @property
     def reproduced(self) -> bool:
         return self.original == self.anonymized
+
+    @property
+    def passed(self) -> bool:
+        """Every finding reproduced, every binding kept, nothing left."""
+        return self.reproduced and not self.changed_bindings and not self.leaks
 
     def differences(self) -> dict[str, dict[str, list[dict]]]:
         """Findings the originals had and the results lack, and the reverse,
@@ -1231,6 +1872,16 @@ class Report:
                     for row in change[kind]:
                         lines.append(f"    {stage}: {kind} {row['code']} ({row['severity']}) "
                                      f"in {row['part'] or '-'} x{row['count']}")
+        if self.changed_bindings:
+            lines.append(f"  data bindings NOT kept ({len(self.changed_bindings)} of "
+                         f"{self.bindings}):")
+            for row in self.changed_bindings:
+                lines.append(f"    {self.outputs[row['file'] - 1].name} {row['part']} binding "
+                             f"{row['binding']}: selects {row['anonymized']} node(s), the "
+                             f"original {row['original']}")
+        elif self.bindings:
+            lines.append(f"  data bindings kept: each of {self.bindings} selects as many "
+                         "nodes as in the original")
         if self.leaks:
             lines.append("  words of the original text are still present in:")
             for leak in self.leaks:
@@ -1258,8 +1909,10 @@ class Report:
                          "anonymized": counts(self.anonymized),
                          "reproduced": self.reproduced,
                          "differences": self.differences()},
+            "bindings": {"checked": self.bindings, "changed": self.changed_bindings},
             "leaks": self.leaks,
             "words_in_kept_structure": self.structural,
+            "passed": self.passed,
         }
 
 
@@ -1268,17 +1921,57 @@ def output_names(count: int) -> list[str]:
     return ["document.docx"] if count == 1 else ["source.docx", "edited.docx"]
 
 
+def _same_file(a: Path, b: Path) -> bool:
+    """Whether `b` is `a`: the same path once resolved, or the same file
+    through a symbolic or hard link, a case-insensitive name or a mount."""
+    try:
+        if a.resolve() == b.resolve():
+            return True
+        first, second = os.stat(a), os.stat(b)
+    except (OSError, RuntimeError):
+        return False
+    return (first.st_dev, first.st_ino) == (second.st_dev, second.st_ino)
+
+
+def check_outputs(paths: Sequence[str | Path], out_dir: str | Path,
+                  names: Sequence[str]) -> None:
+    """Refuse outputs that would replace an input, before anything is written.
+
+    Each output is checked against every input, so the edited copy of a pair
+    cannot be written over its source either. Raises Refused.
+    """
+    if len(set(names)) != len(names):
+        raise Refused("the outputs need distinct names")
+    for name in names:
+        target = Path(out_dir) / name
+        for source in paths:
+            if _same_file(Path(source), target):
+                raise Refused(f"the output {target} would replace the input {source}; "
+                              "anonymize never writes over its inputs, so choose another "
+                              "output directory")
+        if target.is_dir():
+            raise Refused(f"the output {target} is a directory")
+
+
 def anonymize(paths: Sequence[str | Path], out_dir: str | Path, *,
               names: Sequence[str] | None = None, rng: random.Random | None = None,
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> Report:
-    """Anonymize one DOCX or a source/edited pair into `out_dir` and verify it."""
+    """Anonymize one DOCX or a source/edited pair into `out_dir` and verify it.
+
+    Nothing is written into `out_dir` until the copies are made and checked
+    in a scratch directory; an output that is, or links to, an input is
+    refused first (Refused). Existing outputs that are not inputs are
+    replaced.
+    """
     sources = [Path(p) for p in paths]
     if not 1 <= len(sources) <= 2:
         raise ValueError("anonymize takes one document or a source and an edited copy")
     if names is None:
         names = output_names(len(sources))
+    if len(names) != len(sources):
+        raise ValueError("anonymize needs one output name per input")
     out = Path(out_dir)
-    out.mkdir(parents=True, exist_ok=True)
+    check_outputs(sources, out, names)
     mapper = Mapper(rng)
     with tempfile.TemporaryDirectory() as scratch:
         staged = [Path(scratch) / name for name in names]
@@ -1287,14 +1980,21 @@ def anonymize(paths: Sequence[str | Path], out_dir: str | Path, *,
         if len(sources) == 2:
             files.append(_anonymize_package(sources[1], staged[1], mapper, limits,
                                             known=files[0].contexts))
+        # The originals are read before any copy is moved into place, and
+        # every check runs on the staged copies.
+        original = findings_of(sources, limits)
+        anonymized = findings_of(staged, limits)
+        leaks, structural = leak_scan(staged, mapper.vocabulary, mapper.phrases,
+                                      mapper.replacements, limits)
+        bindings, changed = binding_check(sources, staged, limits)
+        check_outputs(sources, out, names)
+        out.mkdir(parents=True, exist_ok=True)
         outputs = []
         for result, name in zip(files, names):
             target = out / name
             shutil.move(str(result.output), target)
             result.output = target
             outputs.append(target)
-    leaks, structural = leak_scan(outputs, mapper.vocabulary, mapper.phrases,
-                                  mapper.replacements, limits)
     return Report(outputs, mapper.replaced, mapper.distinct, mapper.people, mapper.dates,
-                  mapper.collisions, files, findings_of(sources, limits),
-                  findings_of(outputs, limits), leaks, structural)
+                  mapper.collisions, files, original, anonymized, leaks, structural,
+                  bindings=bindings, changed_bindings=changed)

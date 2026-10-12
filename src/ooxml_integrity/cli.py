@@ -324,14 +324,16 @@ def build_parser() -> argparse.ArgumentParser:
              "so a defect can be shared; then check the findings are reproduced",
         description="Replace every word, author, date, property, picture and "
                     "embedded object, keep the structure, then run the checks "
-                    "on the originals and the results and compare.",
+                    "on the originals and the results and compare, and check "
+                    "that every data binding still selects its data. An output "
+                    "that is, or links to, an input is refused.",
     )
     a.add_argument("files", nargs="+", type=Path, metavar="DOCX",
                    help="one document, or the source followed by the edited copy")
     a.add_argument("-o", "--output-dir", type=Path, required=True, metavar="DIR",
                    help="writes document.docx, or source.docx and edited.docx")
     a.add_argument("--force", action="store_true",
-                   help="overwrite those files if they already exist")
+                   help="overwrite those files if they already exist (never an input)")
     a.add_argument("--json", action="store_true",
                    help="machine-readable report on stdout")
 
@@ -385,7 +387,7 @@ def _run_fix(args) -> int:
 
 
 def _run_anonymize(args) -> int:
-    from .anonymize import anonymize, output_names
+    from .anonymize import Refused, anonymize, check_outputs, output_names
     from .archive import PackageIssue
 
     files = args.files
@@ -398,6 +400,12 @@ def _run_anonymize(args) -> int:
             print(f"ooxml-integrity: file not found: {path}", file=sys.stderr)
             return EXIT_USAGE
     names = output_names(len(files))
+    try:
+        # before --force is considered: an input is never overwritten
+        check_outputs(files, args.output_dir, names)
+    except Refused as e:
+        print(f"ooxml-integrity: {e}", file=sys.stderr)
+        return EXIT_USAGE
     taken = [n for n in names if (args.output_dir / n).exists()]
     if taken and not args.force:
         print(f"ooxml-integrity: {args.output_dir} already holds "
@@ -413,7 +421,7 @@ def _run_anonymize(args) -> int:
         sys.stdout.write("\n")
     else:
         print(report.render(args.output_dir))
-    return EXIT_OK if report.reproduced and not report.leaks else EXIT_FINDINGS
+    return EXIT_OK if report.passed else EXIT_FINDINGS
 
 
 def _run_mcp(args) -> int:

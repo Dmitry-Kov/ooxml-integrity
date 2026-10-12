@@ -58,8 +58,10 @@ define what was assessed, rather than a security certification.
 
 `ooxml-integrity anonymize` writes copies of a document or pair for sharing a
 defect. It replaces the words, people, dates, properties, pictures, embedded
-objects, a firm's own schema names and namespaces, and the other places
-listed in [what is replaced](docs/anonymize.md#what-is-replaced). It does not
+objects, a firm's own schemas (namespaces, prefixes, names, attribute values
+and the data binding paths into them), and the other places listed in
+[what is replaced](docs/anonymize.md#what-is-replaced); what it cannot replace
+safely it [refuses](docs/anonymize.md#what-is-refused). It does not
 make a document anonymous in every sense: the shape of the text (word lengths,
 capitals and digits, which words repeat), the package structure and the items
 under [what is kept](docs/anonymize.md#what-is-kept) remain, and a reader who
@@ -70,3 +72,49 @@ copies before sharing them.
 A word, name or value of the original that survives in a copy is a security
 defect of the anonymizer. Report it privately, as above, with a synthetic
 document that shows it, never with the confidential original.
+
+### Copies made by 0.5.0 to 0.8.0
+
+An external review of 0.8.0 found three places where those versions kept
+values of the original. The leak scan reported none of them (it looked there
+for two consecutive words of the text at most), so the report said nothing
+was left:
+
+- **Attributes in a firm's own namespace.** An attribute in a namespace that
+  is neither the format's nor Office's (`<w:p a:client="..."
+  xmlns:a="https://firm.example/...">`) had its namespace and name replaced
+  since 0.5.2, never its value.
+- **Data binding paths.** A content control bound to custom XML data
+  (`w:dataBinding`) kept the string literals of its path, such as `Acme` in
+  `[@name='Acme']`. Those copies' bindings also select nothing, because the
+  data the literal names was replaced.
+- **Namespace prefixes.** A prefix bound to a firm's namespace kept its name,
+  as in `<Acme:Contract xmlns:Acme="...">`.
+
+A fourth place was kept then and still is: a part that is not well-formed XML
+(the report lists it as "read as raw text") keeps its markup, and with it the
+attribute values the rules do not name. The leak scan of those versions read
+such an attribute's name instead of its value, so it did not report them; it
+reads the values now.
+
+Copies made by 0.5.0 and 0.5.1 also kept the namespace URIs and the element
+and attribute names of a firm's schemas (fixed in 0.5.2).
+
+Before sharing a copy made by one of those versions, make it again with a
+later version, which replaces the first three and reports the fourth. If that
+is not possible, open the copy's XML parts
+(`word/document.xml`, headers, footers, notes, comments, `customXml/item*.xml`)
+and check three things: the value of every attribute whose prefix is bound to
+a namespace outside `schemas.openxmlformats.org`, `schemas.microsoft.com` and
+the other standard ones; every quoted string in a `w:xpath`; and every
+`xmlns:` prefix bound to such a namespace. Also open every part the report
+listed as read as raw text. Searching all parts for the names that matter
+finds all of these, for example `unzip -p copy.docx | grep -c -i "acme"`.
+
+The same versions also wrote over an input whose path, or a link to it, was
+one of the output names (`document.docx`, `source.docx`, `edited.docx` in the
+output directory): always from Python, and from the command line with
+`--force`. That loses the original rather than exposing it; such a run then
+checked the copy against itself, so its "findings reproduced" said nothing.
+An output that is, or links to, an input is now refused before anything is
+written.
