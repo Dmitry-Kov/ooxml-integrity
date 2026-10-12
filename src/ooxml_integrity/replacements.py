@@ -9,12 +9,12 @@ editor's name, and cannot see what changed. In the review-history benchmark
 docx-cli edited a footnote that way.
 
 Only replacements an edit added are read: neither revision's kind, author and
-effective date occurs in the source story. Words are what whitespace separates,
-as a reader sees them. The unchanged ones are the words the two texts share at
-their start and at their end, which the replacement could have left out;
-words shared in the middle can be chance, a rewrite reusing "the" and "of",
-and do not count. A replacement is reported when it carries at least
-UNCHANGED_WORDS unchanged words and they outnumber the words it changes: a
+effective date occurs in the source story. Words are what whitespace, a tab or
+a break separates, as a reader sees them. The unchanged ones are the words the
+two texts share at their start and at their end, which the replacement could
+have left out; words shared in the middle can be chance, a rewrite reusing
+"the" and "of", and do not count. A replacement is reported when it carries
+at least UNCHANGED_WORDS unchanged words and they outnumber the words it changes: a
 rewritten sentence that keeps its first few words is a rewrite, a sentence
 deleted and inserted again to change one word of it is not.
 """
@@ -24,6 +24,7 @@ import os
 from typing import NamedTuple
 
 from .finding import WARN, Finding
+from .runtext import TAGS, is_character, shown
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 _DATE_UTC = "{http://schemas.microsoft.com/office/word/2023/wordml/word16du}dateUtc"
@@ -55,31 +56,38 @@ def _context(node) -> tuple:
 def replacements(root) -> list[Replacement]:
     """Every deletion and insertion by one author that touch in a paragraph.
 
-    Text is read in document order. Deleted text (``w:delText`` in a
-    deletion) and inserted text (``w:t`` in an insertion and no deletion)
-    form runs per revision context; anything else between them, text or a
-    revision of another kind, separates them. Text of a paragraph nested in a
-    text box belongs to that paragraph only.
+    Text is read in document order, as `runtext` reads it: a tab or a break
+    is whitespace that separates words, a non-breaking hyphen is "-". Deleted
+    text (``w:delText`` in a deletion) and inserted text (``w:t`` in an
+    insertion and no deletion) form runs per revision context, and so does a
+    tab, break, hyphen or symbol in a deletion or an insertion; anything else
+    between them, text or a revision of another kind, separates them. A soft
+    hyphen shows nothing and neither joins nor separates. Text of a paragraph
+    nested in a text box belongs to that paragraph only.
     """
     out = []
     for paragraph in root.iter(W + "p"):
         runs: list[list] = []  # [state, context, texts]
-        for node in paragraph.iter(W + "t", W + "delText"):
+        for node in paragraph.iter(*TAGS):
             if next(node.iterancestors(W + "p"), None) is not paragraph:
+                continue
+            text, character = shown(node), is_character(node)
+            if text is None or (character and not text):
                 continue
             wrappers = list(node.iterancestors(W + "del", W + "ins"))
             deletion = next((a for a in wrappers if a.tag == W + "del"), None)
             insertion = next((a for a in wrappers if a.tag == W + "ins"), None)
-            if node.tag == W + "delText" and deletion is not None:
+            # A tab or a hyphen has no deleted form: its wrapper says which it is.
+            if deletion is not None and (node.tag == W + "delText" or character):
                 state, context = "del", _context(deletion)
-            elif node.tag == W + "t" and insertion is not None and deletion is None:
+            elif insertion is not None and deletion is None and (node.tag == W + "t" or character):
                 state, context = "ins", _context(insertion)
             else:
                 state, context = "other", None
             if runs and runs[-1][0] == state and runs[-1][1] == context:
-                runs[-1][2].append(node.text or "")
+                runs[-1][2].append(text)
             else:
-                runs.append([state, context, [node.text or ""]])
+                runs.append([state, context, [text]])
         for a, b in zip(runs, runs[1:]):
             if {a[0], b[0]} == {"del", "ins"} and a[1][1] == b[1][1]:
                 deleted, inserted = (a, b) if a[0] == "del" else (b, a)

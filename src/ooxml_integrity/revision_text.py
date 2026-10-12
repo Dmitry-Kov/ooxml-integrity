@@ -2,6 +2,12 @@
 
 This is deliberately a text inventory, not revision identity or edit intent.
 IDs, metadata, formatting, locations and wrapper boundaries are not identities.
+
+It reads less than the other text rules (`runtext`) on purpose: a revision
+whose runs hold anything but text and run properties, a tab, a break or a
+hyphen element included, makes its kind unsupported and the comparison is
+skipped and said so, rather than compared on a reading that could join or
+split its words.
 """
 from __future__ import annotations
 

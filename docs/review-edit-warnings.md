@@ -104,7 +104,11 @@ tracked replacement. Only replacements the edit added are read: neither
 revision's kind, author and effective date occurs in the same story of the
 source, the rule `FID012` uses.
 
-Words are separated by whitespace, as a reader sees them. The unchanged words
+Words are separated by whitespace, as a reader sees them: a tab or a break
+(`w:tab`, `w:ptab`, `w:br`, `w:cr`) inside a revision separates words too, and
+a non-breaking hyphen joins them as `-` (from 0.8.1; 0.8.0 read
+`one<TAB>two<TAB>three<TAB>four<TAB>old` replaced by the same with `new` as one
+changed word and did not report it). The unchanged words
 are those the deleted and inserted text share at their start and at their
 end: words the replacement could have left out. FID013 reports WARN when they
 are at least four and outnumber the words that change on the longer side, with
@@ -123,9 +127,10 @@ The profile is deliberately narrow:
   a real agent's rewrite in `runs/t5_rewrite_bare` keeps four words and
   changes nine. Words shared in the middle of the two texts do not count,
   since a rewrite can reuse `the` and `of` by chance.
-- A replacement split by unchanged text between its deletion and insertion is
-  two replacements, each judged alone. Moves, deletions and insertions by
-  different authors, and revisions reusing a source context are not read.
+- A replacement split by unchanged text between its deletion and insertion,
+  a tab or a break included, is two replacements, each judged alone. Moves,
+  deletions and insertions by different authors, and revisions reusing a
+  source context are not read.
 - A person who selects a sentence and types it again with one word changed
   produces the same markup; the rule cannot tell who made the edit. WARN asks
   the caller to look. A pipeline that deliberately replaces whole sentences can

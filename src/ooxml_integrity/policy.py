@@ -42,7 +42,7 @@ import hashlib
 import json
 import os
 from dataclasses import dataclass, field
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import Any, Iterable
 
 from .archive import ArchiveLimits
@@ -110,30 +110,45 @@ class Ignore:
         return _match(file, self.path)
 
 
+def _segments(path: str) -> list[str]:
+    """A path's segments. Backslashes separate too, so a config written on
+    Windows reads the same on Linux; a leading "/" or "./" anchors nothing."""
+    return [s for s in str(path).replace("\\", "/").replace(os.sep, "/").split("/")
+            if s not in ("", ".")]
+
+
 def _match(file: str, pattern: str) -> bool:
-    """Glob match on a posix-style relative path, with `**` meaning any depth.
+    """Glob match on a posix-style relative path, segment by segment.
 
     `fnmatch` alone treats `*` as crossing directory separators, which makes
     `decks/*.pptx` match `decks/a/b.pptx` - surprising in a config file where
-    people expect shell semantics. So `**` is translated explicitly and `*` is
-    kept within one segment.
+    people expect shell semantics. So `*`, `?` and `[...]` match within one
+    segment, and `**` as a whole segment matches any number of segments,
+    including none: `out/**/accepted/*.docx` covers `out/accepted/a.docx` and
+    `out/x/y/accepted/a.docx`, not `out/a/accepted/nested/a.docx`. A pattern
+    ending in "/", or in `/**`, means everything under it, not the directory
+    itself; `*` alone means every file, as it did before `*` kept to one
+    segment.
     """
-    f = PurePosixPath(str(file).replace(os.sep, "/")).as_posix().lstrip("./")
-    p = pattern.replace(os.sep, "/").lstrip("./")
-    if p in ("**", "*"):
-        return True
+    p = pattern.replace("\\", "/").replace(os.sep, "/")
     # a bare directory prefix means everything under it
     if p.endswith("/"):
         p += "**"
-    parts = p.split("**")
-    if len(parts) == 1:
-        segs_f, segs_p = f.split("/"), p.split("/")
-        if len(segs_f) != len(segs_p):
+    names, globs = _segments(file), _segments(p)
+    if globs in (["*"], ["**"]):
+        return True
+    # The numbers of leading names the globs read so far can cover.
+    reach = {0}
+    for i, glob in enumerate(globs):
+        if glob == "**":
+            last = i == len(globs) - 1
+            reach = set(range(min(reach) + last, len(names) + 1))
+        else:
+            reach = {n + 1 for n in reach
+                     if n < len(names) and fnmatch.fnmatch(names[n], glob)}
+        if not reach:
             return False
-        return all(fnmatch.fnmatch(a, b) for a, b in zip(segs_f, segs_p))
-    # with `**` present, fall back to fnmatch over the whole path, which is
-    # what people mean by `decks/**/*.pptx`
-    return fnmatch.fnmatch(f, p.replace("**/", "*").replace("**", "*"))
+    return len(names) in reach
 
 
 @dataclass

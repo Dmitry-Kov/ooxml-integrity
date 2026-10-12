@@ -105,9 +105,54 @@ def test_ignores_are_scoped_to_their_path(tmp_path):
     ("decks/**/*.pptx", "decks/sub/a.pptx", True),
     ("decks/", "decks/sub/a.pptx", True),
     ("out/*.docx", "decks/a.docx", False),
+    # `**` is a whole segment matching any number of segments, including none;
+    # every other segment matches exactly one. 0.8.0 matched the trailing `*`
+    # across the separator.
+    ("out/**/accepted/*.docx", "out/a/accepted/nested/file.docx", False),
+    ("out/**/accepted/*.docx", "out/accepted/file.docx", True),
+    ("out/**/accepted/*.docx", "out/a/b/accepted/file.docx", True),
+    ("out/**/accepted/*.docx", "out/a/rejected/file.docx", False),
+    ("**/x.docx", "x.docx", True),
+    ("**/x.docx", "a/b/x.docx", True),
+    ("**/x.docx", "a/bx.docx", False),
+    ("a/**", "a/b/c.docx", True),
+    ("a/**", "a", False),
+    ("a/**", "b/a/c.docx", False),
+    ("a/**/b/*.docx", "a/b/x.docx", True),
+    ("a/**/b/*.docx", "a/1/2/b/x.docx", True),
+    ("a/**/b/*.docx", "a/b/c/x.docx", False),
+    ("a/**/b/*.docx", "a/1/b/c/x.docx", False),
+    # `**` inside a segment is `*`, as in a shell
+    ("**.docx", "x.docx", True),
+    ("**.docx", "a/x.docx", False),
+    ("**", "x.docx", True),
+    ("*", "a/b/c.pptx", True),
+    ("out/", "out/a.docx", True),
+    ("out/", "out", False),
+    ("out/", "outer/a.docx", False),
+    ("out/a?.docx", "out/ab.docx", True),
+    ("out/[ab].docx", "out/c.docx", False),
+    # a leading "./" or "/" anchors nothing, a leading dot is part of the name
+    ("./out/*.docx", "out/a.docx", True),
+    ("out/*.docx", "./out/a.docx", True),
+    ("hidden/*.docx", ".hidden/a.docx", False),
+    # Windows separators, in the path or in the pattern
+    ("out/**/accepted/*.docx", "out\\a\\accepted\\file.docx", True),
+    ("out/**/accepted/*.docx", "out\\a\\accepted\\nested\\file.docx", False),
+    ("out\\**\\accepted\\*.docx", "out/a/accepted/file.docx", True),
+    ("out\\", "out/a/b.docx", True),
 ])
 def test_path_matching_uses_shell_semantics(pattern, path, covered):
     assert Ignore("X", pattern, "r").covers("X", path) is covered
+
+
+def test_an_expectation_applies_only_where_its_path_matches():
+    from ooxml_integrity import Expectation, expect
+    wanted = Expectation("FID001", {"tag": "ins"}, reason="r", path="out/**/accepted/*.docx")
+    kept, _ = expect([], [wanted], "out/a/accepted/file.docx")
+    assert [f.code for f in kept] == ["EXP001"]
+    kept, _ = expect([], [wanted], "out/a/accepted/nested/file.docx")
+    assert kept == []
 
 
 def test_pyproject_section_is_read(tmp_path):

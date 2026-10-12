@@ -19,10 +19,11 @@ Every other task declares none. A third reading adds, for every tracked
 replacement, 0.4.9's FID012 with the editor as author in the task's
 story (required): a correct tracked edit loses nothing, so only this says
 whether it landed where it was asked to. A fourth reading adds, for every
-replacement, FID014 for the task's story with the paragraph text the edit was
-asked to produce, with its tracked changes accepted and rejected (required):
-the text the oracle looks for to call the task completed, declared the way a
-caller who asked for the edit knows it.
+replacement, FID014 for the task's story with the paragraph the task edits,
+changed in place, and the text the edit was asked to produce, with its
+tracked changes accepted and rejected (required): the text the oracle looks
+for to call the task completed, declared the way a caller who asked for the
+edit knows it.
 
 With --installed the checker is the ooxml_integrity installed in the running
 interpreter, such as a published wheel in a fresh environment, instead of this
@@ -80,7 +81,8 @@ def tracked_expectations(task: dict, editor: dict) -> list[Expectation]:
 
 
 def text_expectations(task: dict) -> list[Expectation]:
-    """FID014 for a replacement: the paragraph reads as the task declares."""
+    """FID014 for a replacement: the paragraph the task names, changed in
+    place, reads as the task declares."""
     if task["kind"] != "replace":
         return []
     call = task["call"]
@@ -88,7 +90,12 @@ def text_expectations(task: dict) -> list[Expectation]:
     if story.startswith(("header/", "footer/")):
         story = "/".join(story.split("/")[:2])
     # FID014 reads text with whitespace normalised; declare it the same way.
-    match = {"story": story, "after": _norm(call["expected"]["current"])}
+    # `before` names the paragraph the task edits, so an edit of another
+    # paragraph that happens to produce the asked text does not match, and
+    # `change` that it was changed where it stood, not removed and added.
+    match = {"story": story, "change": "changed",
+             "before": _norm(call["paragraph_current"]),
+             "after": _norm(call["expected"]["current"])}
     if call["expected"].get("original") is not None:
         match["after_original"] = _norm(call["expected"]["original"])
     return [Expectation("FID014", match,

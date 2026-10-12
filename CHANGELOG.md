@@ -1,5 +1,51 @@
 # Changelog
 
+## Unreleased
+
+- Every text rule reads run content alike. `FID014`'s paragraphs, `FID013`'s
+  replacements and the header, footer, comment and note texts of
+  `FID004`–`FID007` and `FID010` read a non-breaking hyphen
+  (`w:noBreakHyphen`) as `-`, a soft hyphen as nothing, a symbol (`w:sym`) as
+  its character code and an absolute position tab (`w:ptab`) as a tab, and
+  tabs and breaks as whitespace. 0.8.0's `FID014` did not report `non`,
+  a non-breaking hyphen and `compete obligation` becoming
+  `noncompete obligation`; it now does. `FID009` and `FID011` still read only
+  runs of plain text and skip, with a reason, a revision holding anything else.
+- `FID013` separates words at a tab or a break inside a tracked replacement:
+  `one<TAB>two<TAB>three<TAB>four<TAB>old` replaced by the same with `new` was
+  read as one changed word and not reported; it is now, with four unchanged
+  words and one changed. A tab or a break between a deletion and an insertion
+  separates them, as other text does. `deleted` and `inserted` keep a tab or a
+  break as `\t` or `\n`.
+- No recorded evidence changes: none of the 1,470 DOCX in this repository
+  holds a hyphen, symbol or absolute tab element, or a tab or break inside a
+  tracked change, and the DOCX beta, comment-story, revision-text and
+  review-history recheck gates, the benchmark expectations and the anonymize
+  measurement report the same findings as 0.8.0. A baseline entry for a finding whose text holds one
+  of these elements (`FID004`–`FID007`, `FID010`, `FID013`, `FID014` hash their
+  texts) no longer absorbs it; regenerate it after reviewing the finding.
+- `ignore` and `expect` path globs match segment by segment: `**` as a whole
+  segment matches any number of segments, every other segment exactly one.
+  0.8.0 matched a pattern with `**` against the whole path, so
+  `out/**/accepted/*.docx` also covered `out/a/accepted/nested/file.docx` and
+  `**/final.docx` covered `draft-final.docx`; it also dropped a leading `.`
+  (`hidden/*.docx` covered `.hidden/a.docx`). Such patterns now cover fewer
+  files: a finding an over-broad `ignore` hid can appear and fail the run, and
+  an `expect` entry no longer marks findings expected, or raises `EXP001`,
+  outside its pattern. Backslashes count as separators on every platform
+  ([configuration](docs/configuration.md#adopting-it-in-a-repository-that-already-has-findings)).
+- The `FID014` expectation recipe names the paragraph the edit was asked to
+  change (`before`), the text it was asked to produce (`after`) and
+  `change = "changed"`: `after` alone also accepted an edit of another
+  paragraph that produced that text. The guide explains what the match cannot
+  tell (repeated paragraphs, paragraph numbers, other changes) and how raising
+  `FID014`'s severity fails on unrequested paragraph changes
+  ([configuration](docs/configuration.md#changes-the-edit-was-asked-to-make)).
+  The review-history benchmark's fourth reading declares the same keys; its
+  [results](evidence/review-history-benchmark/expectations/README.md#fourth-reading-the-text-the-edit-was-asked-to-produce)
+  are unchanged, row for row (69 of 69 damaged outputs caught, 12 of 537
+  correct outputs flagged), and their `checker` label no longer says 0.7.0.
+
 ## 0.8.0 — 2026-10-11
 
 [Upgrade notes and verified publication](docs/releases/0.8.0.md). Published
