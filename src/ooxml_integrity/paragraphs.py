@@ -12,11 +12,13 @@ produce fails with `EXP001` when the edit produced something else.
 
 A paragraph's text is read in two views, as a reader of the review sees it:
 with every tracked change accepted (`before`, `after`) and with every tracked
-change rejected (`before_original`, `after_original`). Whitespace is
-normalised, as the story rules normalise it: runs of spaces, tabs and breaks
-read as one space, and none leads or trails, so a change of spacing alone is
-not a change of text. A paragraph inside a text box is a paragraph of its
-own. An empty paragraph has no text to change and is left out, so adding a
+change rejected (`before_original`, `after_original`). Run content reads as
+`runtext` reads it for every text rule: a non-breaking hyphen as "-", a soft
+hyphen as nothing, a symbol as its character code. Whitespace is normalised,
+as the story rules normalise it: runs of spaces, tabs and breaks read as one
+space, and none leads or trails, so a change of spacing alone is not a change
+of text. A paragraph inside a text box is a paragraph of its own. An empty
+paragraph has no text to change and is left out, so adding a
 section break or a blank line is not reported; paragraph numbers still count
 every paragraph. A header or footer story is read as the distinct texts its
 section slots show, each once, in the order a reader meets them: splitting a
@@ -32,6 +34,7 @@ import difflib
 from typing import NamedTuple
 
 from .finding import INFO, Finding
+from .runtext import shown
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 #: Content a reader sees only with tracked changes accepted, or only rejected.
@@ -57,19 +60,15 @@ def _own(paragraph):
 
 
 def _token(node, view: str) -> str | None:
-    tag = node.tag
-    if tag not in (W + "t", W + "delText", W + "tab", W + "br", W + "cr"):
+    text = shown(node)
+    if text is None:
         return None
     ancestors = {a.tag for a in node.iterancestors()}
-    if view == "current" and (tag == W + "delText" or ancestors & _REMOVED):
+    if view == "current" and (node.tag == W + "delText" or ancestors & _REMOVED):
         return None
     if view == "original" and ancestors & _INSERTED:
         return None
-    if tag == W + "tab":
-        return "\t"
-    if tag in (W + "br", W + "cr"):
-        return "\n"
-    return node.text or ""
+    return text
 
 
 def paragraph_text(paragraph, view: str) -> str:

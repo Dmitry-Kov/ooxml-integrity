@@ -47,6 +47,13 @@ answers.
   - the reply's start after the thread's last start;
   - its end and a reference run after the thread's last reference run;
   - the reference run's properties are copied from the parent's reference run.
+- **Only when the reply covers its parent's text.** The reply's range ends
+  after the thread's last reference run. Between the end of the parent's range
+  and the end of that run there may be only comment marks, bookmarks and
+  proofing marks, and the runs that hold them with their formatting. Anything
+  else, such as text after the reference inside the run,
+  would be covered by the reply and not by its parent, so the repair is
+  refused. The re-check reads both ranges from the copy again (below).
 - **Edit outputs.** Codex, OpenCode, docx-mcp and docxengine wrote such
   replies in the review-history benchmark. Word does not show them until they
   are anchored.
@@ -69,6 +76,12 @@ declared with another content type than its relationship type requires.
 - **Why the result is unique:** the relationship type names one content type,
   the one Word writes for it. `PKG010` reads fifteen such types; the repair
   uses the same table.
+- **Only for a part of that kind.** The part's root element must be the one
+  the relationship type's parts have, such as `w:styles` for `styles` and
+  `w15:commentsEx` for `commentsExtended` (a second table next to the first).
+  A styles part related as `settings` is refused, not declared as settings:
+  the relationship type may be the wrong side, and which side is wrong is not
+  unique.
 - **The repair** replaces the value of the part's `Override` `ContentType` in
   `[Content_Types].xml` with that type, spelled as Word writes it. Only the
   value between the quotes changes; the rest of `[Content_Types].xml` keeps its
@@ -101,9 +114,11 @@ with `--against`, of the comparison with the source) is listed too, with why
 | a reply to a reply | its range is not unique |
 | a reply whose thread does not share one range start, or whose reference is not in a run directly inside a paragraph (for example inside a tracked insertion) | where Word puts the reply there has not been observed |
 | a reply whose parent's reference run has tracked formatting, or a character style the package does not define | copying the run would add a revision or an `STY001` |
+| a reply whose range would cover more than its parent's: text or other content between the end of the parent's range and the end of the thread's last reference run, such as text after the reference in that run | Word gives a reply its parent's range; ending it anywhere else, such as inside a split run, has not been observed |
 | a repeated revision id where two of the uses are a paragraph-mark/content pair | which use collides is not unique |
 | a part typed only by a `Default` extension entry in `[Content_Types].xml` | changing the `Default` would retype every other part with that extension |
 | a part named by more than one `Override`, or related by types that require different content types | which content type applies is not unique |
+| a part whose root element is not its relationship type's, such as a `w:styles` part related as `settings` | the relationship type or the part is wrong, and which one is not unique |
 | the part to edit is not UTF-8, or the bytes of an element cannot be located | the part could not be edited in place |
 | `[Content_Types].xml` compressed with a method other than stored or deflate | `fix` writes only those two methods |
 | `STY001` | removing the reference and defining the style are both choices |
@@ -126,8 +141,16 @@ with `--against`, of the comparison with the source) is listed too, with why
 
 1. **A copy, never in place.** The output must not be the input under any
    name, including a hard link, and must not exist unless `--force` is given.
-   The copy is written to a temporary file next to the output and renamed into
-   place only after it is verified. Nothing is left behind otherwise.
+   The copy is written to a temporary file next to the output and put at the
+   output only after it is verified. Nothing is left behind otherwise.
+   - Without `--force`, the verified file is hard-linked to the output name.
+     The link fails if anything exists there, so a file another process
+     created at the output while `fix` ran is kept, and nothing is written.
+   - On a filesystem without hard links, the output is created exclusively
+     (`O_CREAT | O_EXCL`), which fails the same way, and the verified bytes
+     are copied into it. Until the copy is complete a reader can see a
+     partial file; if the copy fails, the output is removed.
+   - With `--force`, the verified file is renamed over the output.
 2. **Every change is listed.** For each repaired finding, the report gives
    every element added or changed: the part, its XPath in the copy, its line in
    the input, and old → new. The JSON report adds the input and output SHA-256
@@ -151,6 +174,11 @@ with `--against`, of the comparison with the source) is listed too, with why
    - `compare(input, output)` reports only the declared count increases;
    - with `--against`, `compare(source, output)` gains nothing that
      `compare(source, input)` lacked, beyond those increases;
+   - each reply anchor-replies wrote covers what its parent covers. Both
+     ranges are read from the written part, apart from the repair, and must
+     hold the same text and other content in the same order. Comment marks,
+     bookmarks, the runs and other containers that hold content, and
+     formatting do not count;
    - the ZIP comparison above holds;
    - the input did not change during the run.
 
@@ -172,7 +200,7 @@ that `0` always means a verified copy exists:
 |---|---|---|
 | `0` | at least one finding repaired, and the copy re-checked | written |
 | `1` | no `CMT005`, `REV001` or `PKG010` finding, or every one refused; the report says which and why | none |
-| `2` | usage error (missing input, not `.docx`, output exists without `--force`, output is the input, no output directory), or a package `fix` does not rewrite (see above) | none |
+| `2` | usage error (missing input, not `.docx`, output exists without `--force` or appeared while `fix` ran, output is the input, no output directory), or a package `fix` does not rewrite (see above) | none |
 | `3` | a repair could not be proved by the re-check, or failed internally | none |
 
 `1` matches `check`'s "the document has findings the run cannot clear".
@@ -211,7 +239,10 @@ usage error prints a message on stderr and no JSON.
   55 files. 33 were repaired and passed the re-check, against their source
   where one is recorded; 5 of them also had their content type repaired. In the
   other 22, 23 comments were refused for the reasons above. Every output is
-  deterministic, and the benchmark oracle's verdict did not change.
+  deterministic, and the benchmark oracle's verdict did not change. The two
+  refusals and the range re-check added after 0.8.0 change no file's entry:
+  each of the 14 replies is still anchored, and its range covers its
+  parent's; each of the 5 corrected parts has its relationship type's root.
 - **Word for Mac and LibreOffice.** Word for Mac 16.113.4 and LibreOffice
   25.8.4.2 were given the repaired copies of 18 files on 2026-10-10. 17 are in
   the repository, and `fix` writes 12 of those copies byte for byte. The other

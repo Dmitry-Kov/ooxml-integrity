@@ -37,6 +37,27 @@ path = "decks/social/**"
 reason = "these are cropped intentionally for Instagram export"
 ```
 
+A `path` glob is matched segment by segment against the file's path as given
+on the command line. `*`, `?` and `[...]` match within one segment; `**` as a
+whole segment matches any number of segments, including none; a pattern
+ending in `/` covers everything under that directory, and `*` alone every
+file. So `out/**/accepted/*.docx` covers `out/accepted/a.docx` and
+`out/2026/q3/accepted/a.docx`, but not `out/a/accepted/old/a.docx`, and
+`**/final.docx` covers `final.docx` at any depth but not `draft-final.docx`.
+Backslashes count as separators, so a config written on Windows reads the
+same elsewhere.
+
+0.8.1 narrows patterns with `**`. Up to 0.8.0 such a pattern was matched
+against the whole path at once, so its other `*` crossed separators too:
+`out/**/accepted/*.docx` also covered `out/a/accepted/nested/file.docx`, and
+`**/final.docx` also covered `draft-final.docx`; `**` inside a segment
+(`**.docx`) crossed them as well, and a leading `.` was dropped from paths and
+patterns (`hidden/*.docx` covered `.hidden/a.docx`). An `ignore` or `expect`
+entry written with such a pattern now covers fewer files. A finding an
+over-broad `ignore` hid can now appear and fail the run; on the files an
+`expect` entry no longer applies to, its finding is no longer marked expected,
+and a missing one no longer raises `EXP001`.
+
 **Create a baseline** when existing findings should be recorded without blocking
 new work. Record the current findings, then fail only on new ones:
 
@@ -141,20 +162,48 @@ A tracked edit made anywhere else leaves this unmatched and fails with `EXP001`.
 Where the result is known, expect the text itself. `FID014`, an INFO finding
 (0.8.0), lists every paragraph whose text the edit changed, with
 the text before and after, tracked changes accepted and rejected. Declare the
-paragraph the edit was asked to produce, with whitespace as `FID014` reads it
-(runs of spaces, tabs and breaks as one space, none at either end):
+paragraph the edit was asked to change as it read (`before`), the text it was
+asked to produce (`after`), and that it was changed in place
+(`change = "changed"`), with the text as `FID014` reads it: runs of spaces,
+tabs and breaks as one space, none at either end, a non-breaking hyphen as
+`-`, a soft hyphen as nothing:
 
 ```toml
 [[expect]]
 code = "FID014"
 reason = "the task replaces 'disputed amount' with 'disputed sum'"
-match = { story = "document", after = "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum." }
+match = { story = "document", change = "changed", before = "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.", after = "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum." }
 ```
 
-An edit of another span, of another paragraph, or no edit at all leaves this
-unmatched and fails with `EXP001`. In the review-history benchmark this caught
-the two damaged outputs no other rule or expectation reported: a tool rewrote
-the wrong words inside another reviewer's pending insertion and lost nothing.
+An edit of another span or no edit at all leaves this unmatched and fails
+with `EXP001`, and so does an edit of another paragraph. `after` alone is not
+enough: it accepts any changed paragraph that ends up with that text. Given
+`Pay within 30 days.` followed by `Legacy clause.`, an edit that leaves the
+first alone and rewrites the second into `Pay within 60 days.` matches
+`after = "Pay within 60 days."`; with `before = "Pay within 30 days."` it
+fails. `change = "changed"` requires the paragraph to stand where it stood: an
+edit that splits it, merges it with a neighbour, or deletes it and adds
+another is listed as paragraphs removed and added, and fails. In the
+review-history benchmark this expectation caught the two damaged outputs no
+other rule or expectation reported: a tool rewrote the wrong words inside
+another reviewer's pending insertion and lost nothing.
+
+What the match cannot tell:
+
+- **Repeated paragraphs.** `before` names a paragraph by its text, not its
+  place. Where two paragraphs read the same, an edit of either matches. Add
+  `where`, the paragraph's number in the edited story as `FID014` reports it
+  (`where = "document/p12"`), when the paragraphs before it do not change.
+- **Numbering.** That number counts every paragraph of the story, empty ones
+  included, so an edit that adds or removes a paragraph earlier shifts it.
+  Automatic list numbers (`1.`, `(a)`) are not paragraph text: renumbering a
+  list is no `FID014` change and cannot be expected this way.
+- **Other changes.** The match says the named paragraph changed as asked, not
+  that nothing else did. Every other changed paragraph is still listed as
+  `FID014` INFO, which does not fail the default gate. To fail on those too,
+  raise the rule: with `FID014 = "error"` under `[severity]`, each paragraph
+  change no expectation names is an error, and the expected one is still
+  listed as expected.
 
 ## Findings in the pull request, not in a log
 

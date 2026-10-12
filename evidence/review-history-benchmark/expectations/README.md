@@ -84,7 +84,13 @@ rejected, whitespace normalised. The fourth reading keeps the third and adds,
 for every replacement, `FID014` in the task's story with the paragraph the
 task declares, accepted and rejected (required): the text the oracle looks for
 to call the task completed, declared the way a caller who asked for the edit
-knows it.
+knows it. It also names the paragraph the task edits, as it read (`before`),
+and requires it changed in place (`change = "changed"`), as the
+[configuration guide](../../../docs/configuration.md#changes-the-edit-was-asked-to-make)
+now shows: `after` alone also matches an edit of another paragraph that
+happens to produce the asked text. Adding the two keys changed no row of
+[results.json](results.json); the rerun also corrects its `checker` label,
+which said 0.7.0 for the run that added this reading.
 
 | | Without | With 0.4.8 expectations | Also expecting `FID012` | Also expecting the text (`FID014`) |
 | --- | ---: | ---: | ---: | ---: |

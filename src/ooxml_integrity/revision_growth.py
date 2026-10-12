@@ -4,6 +4,11 @@ Like the character accounting used for tracked story edits, revision context
 means kind/author/effective date, not an ID or proof of who performed an edit.
 Only preserved source characters followed by surplus under an old context are
 reported. This is intentionally not a general revision diff.
+
+Like the FID009 inventory it reads only runs of plain text: a tab, a break, a
+hyphen or a symbol element in an insertion (which `runtext` reads for the
+other text rules) makes that insertion context unsupported, and it is skipped
+with a reason rather than read approximately.
 """
 from __future__ import annotations
 

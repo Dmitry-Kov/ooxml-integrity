@@ -1,4 +1,5 @@
-"""The content type each relationship from the main document requires (PKG010)."""
+"""The content type each relationship from the main document requires (PKG010),
+and the root element of a part of that kind."""
 from __future__ import annotations
 
 import posixpath
@@ -40,6 +41,25 @@ RELATED = {
     "http://schemas.microsoft.com/office/2011/relationships/people":
         _WP + "people+xml",
 }
+
+_W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+_W15 = "{http://schemas.microsoft.com/office/word/2012/wordml}"
+_ROOT = {
+    "styles": _W + "styles", "numbering": _W + "numbering",
+    "settings": _W + "settings", "webSettings": _W + "webSettings",
+    "fontTable": _W + "fonts", "footnotes": _W + "footnotes",
+    "endnotes": _W + "endnotes", "header": _W + "hdr", "footer": _W + "ftr",
+    "comments": _W + "comments",
+    "theme": "{http://schemas.openxmlformats.org/drawingml/2006/main}theme",
+    "commentsExtended": _W15 + "commentsEx",
+    "commentsIds": "{http://schemas.microsoft.com/office/word/2016/wordml/cid}commentsIds",
+    "commentsExtensible":
+        "{http://schemas.microsoft.com/office/word/2018/wordml/cex}commentsExtensible",
+    "people": _W15 + "people",
+}
+#: Relationship type in RELATED -> the root element of a part of that kind
+#: (ECMA-376 Part 1, [MS-DOCX]).
+ROOTS = {kind: _ROOT[kind.rsplit("/", 1)[-1]] for kind in RELATED}
 
 
 def part_key(name: str | None) -> str:

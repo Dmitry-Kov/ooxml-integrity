@@ -119,3 +119,20 @@ def test_its_baseline_identity_holds_no_text_and_an_expectation_can_declare_it()
                            [Expectation("FID013", {"story": "footnotes"},
                                         reason="the pipeline rewrites whole notes")])
     assert len(matched) == 1 and "FID013" not in {f.code for f in kept}
+
+
+def test_words_a_tab_or_a_break_separates_are_words(tmp_path):
+    # 0.8.0 read the tracked text of this edit as "onetwothreefourold" and
+    # "onetwothreefournew", one changed word, and reported nothing.
+    def revision(tag, last, separator):
+        text = "delText" if tag == "del" else "t"
+        words = separator.join(f"<w:{text}>{w}</w:{text}>" for w in ("one", "two", "three", "four", last))
+        return (f'<w:{tag} w:id="{1 if tag == "del" else 2}" w:author="Ed" '
+                f'w:date="2026-10-12T00:00:00Z"><w:r>{words}</w:r></w:{tag}>')
+
+    source = docx(tmp_path / "source.docx", "<w:p><w:r><w:t>one two three four old</w:t></w:r></w:p>")
+    for separator in ("<w:tab/>", "<w:br/>", "<w:cr/>"):
+        edited = docx(tmp_path / "edited.docx",
+                      f"<w:p>{revision('del', 'old', separator)}{revision('ins', 'new', separator)}</w:p>")
+        (finding,) = wide(source, edited)
+        assert (finding.extra["unchanged_words"], finding.extra["changed_words"]) == (4, 1)

@@ -35,6 +35,7 @@ from .paragraphs import ParagraphText, assess as assess_paragraphs, paragraph_vi
 from .revision_growth import (
     PendingInsertions, inventory as pending_inventory, assess as assess_insertion_growth,
 )
+from .runtext import TAGS as _TEXT_TAGS, is_character, shown
 from .xmlutil import fromstring as parse_xml
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -204,6 +205,26 @@ def _inserted(node) -> bool:
     return any(ancestor.tag in _INSERTED for ancestor in node.iterancestors())
 
 
+def _text_of(node, *, original: bool) -> str | None:
+    """What one element adds to a story, comment or note in a view.
+
+    Elements read as `runtext` reads them for every text rule. The current
+    view reads ``w:t`` and the characters (a tab, a break, a hyphen, a symbol)
+    outside deletions; the original view, every revision rejected, reads
+    ``w:t``, ``w:delText`` and the characters outside insertions and moves.
+    """
+    text = shown(node)
+    if text is None:
+        return None
+    if original:
+        return None if _inserted(node) else text
+    if node.tag == W + "delText":
+        return None
+    if is_character(node) and any(a.tag == W + "del" for a in node.iterancestors()):
+        return None
+    return text
+
+
 def _has_text_revisions(item) -> bool:
     return next(item.iter(*_TEXT_REVISIONS), None) is not None
 
@@ -218,10 +239,13 @@ def _record(item) -> tuple | None:
     wrappers = set(_TEXT_REVISIONS)
     out = []
     for paragraph in item.iter(W + "p"):
-        for node in paragraph.iter(W + "t", W + "delText"):
+        for node in paragraph.iter(*_TEXT_TAGS):
+            text = shown(node)
+            if not text:
+                continue
             state = tuple((a.tag, a.get(W + "author"), a.get(W + "date"))
                           for a in reversed(list(node.iterancestors())) if a.tag in wrappers)
-            out.extend((char, state) for char in node.text or "")
+            out.extend((char, state) for char in text)
         mark = paragraph.find(W + "pPr/" + W + "rPr")
         out.append(("\n", () if mark is None else tuple(
             (e.tag, e.get(W + "author"), e.get(W + "date")) for e in mark if e.tag in wrappers)))
@@ -263,11 +287,9 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
             continue
-        body = _norm("".join(t.text or "" for t in item.iter(W + "t")))
-        original = _norm("".join(
-            t.text or "" for t in item.iter(W + "t", W + "delText")
-            if not _inserted(t)
-        ))
+        body, original = (_norm("".join(
+            t for t in (_text_of(n, original=view) for n in item.iter(*_TEXT_TAGS))
+            if t is not None)) for view in (False, True))
         if body or original:
             out.append((body, original, _record(item)))
         if body:
@@ -351,8 +373,9 @@ def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
                 continue
             chunks, kinds = [], set()
             for node in note.iter():
-                if node.tag in (W + 't', W + 'delText'):
-                    chunks.append(node.text or '')
+                text = shown(node)
+                if text is not None:
+                    chunks.append(text)
                 elif node.tag in _REVISION_TAGS:
                     kinds.add(node.tag[len(W):])
             body = _norm(''.join(chunks))
@@ -529,15 +552,8 @@ def _story_text(root, *, original: bool = False) -> str:
     """
     paragraphs: list[str] = []
     for paragraph in root.iter(W + "p"):
-        tokens: list[str] = []
-        for node in paragraph.iter():
-            if original and _inserted(node):
-                continue
-            if node.tag == W + "t" or (original and node.tag == W + "delText"):
-                tokens.append(node.text or "")
-            elif node.tag in (W + "tab", W + "br", W + "cr"):
-                tokens.append(" ")
-        paragraphs.append("".join(tokens))
+        tokens = (_text_of(node, original=original) for node in paragraph.iter(*_TEXT_TAGS))
+        paragraphs.append("".join(t for t in tokens if t is not None))
     return _norm("\n".join(paragraphs))
 
 
@@ -661,6 +677,9 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     if comments is not None:
         comment_tree(parts, comments)
     counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
+    # FID003 measures the characters of w:t and w:delText only, not the
+    # one-character elements runtext reads (tabs, breaks, hyphens, symbols):
+    # it is a ratio with a 5% margin, and losing those is FID014's to report.
     text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
     deleted_length = sum(len(t.text or "") for t in doc.iter(W + "delText"))
     bodies: dict[str, list[_Text]] = {}

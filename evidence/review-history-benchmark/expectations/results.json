@@ -1,6 +1,6 @@
 {
  "scope": "Post-hoc analysis of the frozen captures; not part of the frozen evaluation.",
- "checker": "ooxml-integrity 0.7.0 from this checkout",
+ "checker": "ooxml-integrity 0.8.0 from this checkout",
  "oracle": "verdicts read from evaluation.json",
  "expectations": {
   "K0-S1-save": [],
@@ -252,6 +252,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
      "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
      "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
     },
@@ -263,6 +265,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
      "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
      "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
     },
@@ -274,6 +278,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
      "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
      "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
     },
@@ -285,6 +291,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
      "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
      "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
     },
@@ -296,6 +304,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "EUR 12,000",
      "after": "EUR 12,500",
      "after_original": "EUR 12,000"
     },
@@ -307,6 +317,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "EUR 12,000",
      "after": "EUR 12,500",
      "after_original": "EUR 12,500"
     },
@@ -318,6 +330,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "EUR 12,000",
      "after": "EUR 12,500",
      "after_original": "EUR 12,000"
     },
@@ -329,6 +343,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "EUR 12,000",
      "after": "EUR 12,500",
      "after_original": "EUR 12,500"
     },
@@ -340,6 +356,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "Historic spend is shown below.",
      "after": "Annual spend is shown below.",
      "after_original": "Historic spend is shown below."
     },
@@ -351,6 +369,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "Historic spend is shown below.",
      "after": "Annual spend is shown below.",
      "after_original": "Annual spend is shown below."
     },
@@ -362,6 +382,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
      "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
      "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
     },
@@ -373,6 +395,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
      "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
      "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
     },
@@ -384,6 +408,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Supplier shall maintain professional indemnity insurance.",
      "after": "The Supplier shall maintain professional liability insurance.",
      "after_original": ""
     },
@@ -395,6 +421,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "The Supplier shall maintain professional indemnity insurance.",
      "after": "The Supplier shall maintain professional liability insurance.",
      "after_original": ""
     },
@@ -406,6 +434,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
      "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
      "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
     },
@@ -417,6 +447,8 @@
     "code": "FID014",
     "match": {
      "story": "document",
+     "change": "changed",
+     "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
      "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
      "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
     },
@@ -428,6 +460,8 @@
     "code": "FID014",
     "match": {
      "story": "header/default",
+     "change": "changed",
+     "before": "Reference Agreement - Draft 7",
      "after": "Reference Agreement - Draft 8",
      "after_original": "Reference Agreement - Draft 7"
     },
@@ -439,6 +473,8 @@
     "code": "FID014",
     "match": {
      "story": "header/default",
+     "change": "changed",
+     "before": "Reference Agreement - Draft 7",
      "after": "Reference Agreement - Draft 8",
      "after_original": "Reference Agreement - Draft 8"
     },
@@ -450,6 +486,8 @@
     "code": "FID014",
     "match": {
      "story": "header/default",
+     "change": "changed",
+     "before": "Consulting Services Agreement - Draft 4",
      "after": "Consultancy Services Agreement - Draft 4",
      "after_original": "Consulting Services Agreement - Draft 3"
     },
@@ -461,6 +499,8 @@
     "code": "FID014",
     "match": {
      "story": "header/default",
+     "change": "changed",
+     "before": "Consulting Services Agreement - Draft 4",
      "after": "Consultancy Services Agreement - Draft 4",
      "after_original": "Consultancy Services Agreement - Draft 3"
     },
@@ -472,6 +512,8 @@
     "code": "FID014",
     "match": {
      "story": "footnotes",
+     "change": "changed",
+     "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
      "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
      "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
     },
@@ -483,6 +525,8 @@
     "code": "FID014",
     "match": {
      "story": "footnotes",
+     "change": "changed",
+     "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
      "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
      "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
     },
@@ -494,6 +538,8 @@
     "code": "FID014",
     "match": {
      "story": "footnotes",
+     "change": "changed",
+     "before": "Business days exclude public holidays in England and Wales.",
      "after": "Business days exclude public holidays in Scotland.",
      "after_original": "Business days exclude public holidays in England and Wales."
     },
@@ -505,6 +551,8 @@
     "code": "FID014",
     "match": {
      "story": "footnotes",
+     "change": "changed",
+     "before": "Business days exclude public holidays in England and Wales.",
      "after": "Business days exclude public holidays in Scotland.",
      "after_original": "Business days exclude public holidays in Scotland."
     },

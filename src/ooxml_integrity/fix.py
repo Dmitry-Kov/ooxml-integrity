@@ -8,8 +8,9 @@
     renumber-revisions  REV001: keep the first element of a repeated revision
                         id and give every later one a fresh id above every
                         w:id in the package.
-    content-type        PKG010 on a part declared by an Override: give that
-                        Override the content type the relationship type names.
+    content-type        PKG010 on a part declared by an Override, whose root
+                        element is the relationship type's: give that Override
+                        the content type the relationship type names.
 
 None restores or invents content: a top-level comment whose anchor is gone,
 a lost style or a lost revision has no unique repair, and the agreed position
@@ -22,7 +23,8 @@ the XML declaration, attribute order, entity spellings and whitespace stay as
 they were. The edited part is parsed again and must equal the intended tree.
 Every other ZIP member is copied as stored (`repack`). The copy is written to
 a temporary file, checked again (`check`, `compare` with the input and, when
-given, with the source), and only then renamed to OUT.
+given, with the source, and each anchored reply's range against its
+parent's), and only then put at OUT, which it replaces only with --force.
 
 See docs/fix.md.
 """
@@ -34,6 +36,7 @@ import hashlib
 import os
 import posixpath
 import re
+import shutil
 import tempfile
 import xml.parsers.expat
 from dataclasses import dataclass, field
@@ -48,7 +51,7 @@ from .comments import (
     _existing, _relationships, _resolve, comment_part, comment_tree,
     office_documents, relationships_part, story_parts,
 )
-from .content_types import CT, media_type, part_key
+from .content_types import CT, ROOTS, media_type, part_key
 from .content_types import related as related_content_types
 from .fidelity import TRACKED, compare
 from .finding import INFO, Finding
@@ -330,6 +333,10 @@ class Repaired:
     finding: Finding
     detail: str
     changes: list[Change] = field(default_factory=list)
+    #: anchor-replies: (story, reply id, parent id); the re-check requires the
+    #: reply's range in the copy to cover what its parent's covers
+    same_range: Optional[tuple[str, str, str]] = field(default=None, repr=False,
+                                                       compare=False)
 
     def as_dict(self) -> dict[str, Any]:
         return {"repair": self.repair, "finding": self.finding.as_dict(),
@@ -547,6 +554,28 @@ def _w_prefix(el) -> str:
                    "markers would go")
 
 
+#: What a reply's range may cross after its parent's range end without covering
+#: more than the parent: range and proofing markup, the comment marks, the runs
+#: that hold them, and the runs' formatting.
+_NO_CONTENT = {W + t for t in (
+    "commentRangeStart", "commentRangeEnd", "commentReference", "bookmarkStart",
+    "bookmarkEnd", "proofErr", "permStart", "permEnd", "lastRenderedPageBreak",
+    "r", "rPr")}
+
+
+def _beyond(nodes: list, position: dict, end, run) -> Optional[Any]:
+    """The first content after a range's `end` and up to the end of `run`;
+    `nodes` is the part in document order, `position` each node's index."""
+    last = run
+    for last in run.iter():
+        pass
+    for el in nodes[position[end] + 1:position[last] + 1]:
+        if (isinstance(el.tag, str) and el.tag not in _NO_CONTENT
+                and not any(a.tag == W + "rPr" for a in el.iterancestors())):
+            return el
+    return None
+
+
 def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                     ) -> tuple[list[Repaired], dict[int, str], collections.Counter]:
     """Returns the repairs, the refusals by target index, and how many of each
@@ -682,7 +711,8 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                 members.append(where[1])
             part = pkg.part(story)
             tree = part.tree
-            position = {el: n for n, el in enumerate(tree.iter())}
+            nodes = list(tree.iter())
+            position = {el: n for n, el in enumerate(nodes)}
             starts = [m["commentRangeStart"] for m in members]
             first = min(starts, key=position.get)
             block, nxt = [first], first.getnext()
@@ -703,6 +733,16 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
             if position[last_ref] < position[own["commentRangeEnd"]]:
                 raise _Refused(f"comment {cid}: the thread's reference precedes "
                                f"the end of comment {parent}'s range")
+            # The reply's range ends after the thread's last reference run, so
+            # it covers the parent's text only if nothing else lies before it.
+            extra = _beyond(nodes, position, own["commentRangeEnd"], ref_run)
+            if extra is not None:
+                shown = _qname(extra) + (f' "{_snippet(extra.text)}"'
+                                         if (extra.text or "").strip() else "")
+                raise _Refused(f"comment {cid}: {shown} lies between the end of "
+                               f"comment {parent}'s range and the end of the "
+                               "thread's last reference run; the reply's range "
+                               "would cover it, more than its parent's")
             parent_run = own["commentReference"].getparent()
             rpr = parent_run.find(W + "rPr") if parent_run.tag == W + "r" else None
             if rpr is not None and any(
@@ -773,7 +813,8 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                            + f"<{p}:commentReference {p}:id={q}/></{p}:r>"
                            .encode("utf-8")).decode("utf-8")),
             )]
-        repaired.append(Repaired(ANCHOR_REPLIES, finding, detail, changes))
+        repaired.append(Repaired(ANCHOR_REPLIES, finding, detail, changes,
+                                 same_range=(story, cid, parent)))
     return repaired, refused, +added
 
 
@@ -851,8 +892,10 @@ def _content_type(pkg: _Package, targets: list[tuple[str, Finding]]
     """Give a related part's Override the content type its relationship requires.
 
     The relationship type names the content type (content_types.RELATED), so
-    the value is unique. An Override declares it for one part only; a Default
-    declares it for every part with that extension, so it is not changed.
+    the value is unique, provided the part's root element is the one that
+    type's parts have (content_types.ROOTS). An Override declares it for one
+    part only; a Default declares it for every part with that extension, so it
+    is not changed.
     """
     method = pkg.methods.get(CONTENT_TYPES)
     if method not in (0, 8):
@@ -879,6 +922,24 @@ def _content_type(pkg: _Package, targets: list[tuple[str, Finding]]
                 raise _Refused(f"{name} is the target of {' and '.join(kinds)} "
                                "relationships, which require different content "
                                "types; which one applies is not unique")
+            # The relationship decides the value only if the part is of its kind.
+            # When the root says another kind, the relationship type may be the
+            # wrong one, and which side to change is not unique.
+            expected_root = ROOTS[pairs[0].relationship_type]
+            try:
+                root = parse_xml(pkg.parts[name])
+            except (ValueError, etree.XMLSyntaxError) as e:
+                raise _Refused(f"{name} could not be parsed, so whether it is a "
+                               f"{kinds[0]} part is not known: {e}") from e
+            if root.tag != expected_root:
+                held = next((k.rsplit("/", 1)[-1] for k, r in ROOTS.items()
+                             if r == root.tag), None)
+                raise _Refused(
+                    f"{name} has the root element {_qname(root)}"
+                    + (f", a {held} part's" if held else "")
+                    + f", not the {etree.QName(expected_root).localname} root its "
+                    f"{kinds[0]} relationship requires; whether the relationship "
+                    "type or the part is wrong is not unique")
             mine = [o for o in overrides if part_key(o.get("PartName")) == part_key(name)]
             if not mine:
                 ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
@@ -934,12 +995,81 @@ def _counts(findings: list[Finding], added: collections.Counter) -> list[Finding
             and f.extra.get("tag") in added]
 
 
+#: Elements that cover nothing themselves when a comment range is read: range,
+#: proofing and permission markup, the comment marks, and containers whose
+#: content is what they hold. Formatting (any *Pr element) is skipped whole.
+_MARKUP = {W + t for t in (
+    "commentRangeStart", "commentRangeEnd", "commentReference", "bookmarkStart",
+    "bookmarkEnd", "proofErr", "permStart", "permEnd", "lastRenderedPageBreak",
+    "r", "hyperlink", "ins", "del", "moveFrom", "moveTo", "smartTag", "customXml",
+    "sdt", "sdtContent", "fldSimple", "dir", "bdo")}
+
+
+def _range_content(root, ids: set) -> dict[str, Optional[list]]:
+    """What each comment range in `ids` covers, read from a part on its own:
+    every other element inside it, in document order, with its text and
+    attributes. None for a range that is not one start before one end."""
+    covered: dict[str, list] = {i: [] for i in ids}
+    state = dict.fromkeys(ids, "unseen")
+    skip = None
+    for event, el in etree.iterwalk(root, events=("start", "end")):
+        if skip is not None:
+            if event == "end" and el is skip:
+                skip = None
+            continue
+        if event == "end":
+            continue
+        cid = el.get(W + "id")
+        if el.tag == W + "commentRangeStart" and cid in state:
+            state[cid] = "open" if state[cid] == "unseen" else "invalid"
+        elif el.tag == W + "commentRangeEnd" and cid in state:
+            state[cid] = "closed" if state[cid] == "open" else "invalid"
+        elif etree.QName(el).localname.endswith("Pr"):
+            skip = el
+        elif el.tag not in _MARKUP:
+            token = (el.tag, el.text or "", tuple(sorted(el.attrib.items())))
+            for i in ids:
+                if state[i] == "open":
+                    covered[i].append(token)
+    return {i: covered[i] if state[i] == "closed" else None for i in ids}
+
+
+def _shown(content: list) -> str:
+    return '"' + _snippet("".join(
+        text or f"[{etree.QName(tag).localname}]" for tag, text, _ in content)) + '"'
+
+
+def _same_ranges(output: Path, repaired: list[Repaired], limits: ArchiveLimits
+                 ) -> list[str]:
+    """Each anchored reply's range in the written copy covers its parent's."""
+    wanted = [r.same_range for r in repaired if r.same_range is not None]
+    if not wanted:
+        return []
+    failures = []
+    parts = read_package(output, limits)
+    trees: dict[str, Any] = {}
+    for story, reply, parent in wanted:
+        if story not in trees:
+            trees[story] = parse_xml(parts[story])
+        content = _range_content(trees[story], {reply, parent})
+        for cid in (reply, parent):
+            if content[cid] is None:
+                failures.append(f"comment {cid}'s range in {story} is not one start "
+                                "before one end")
+        if None not in content.values() and content[reply] != content[parent]:
+            failures.append(f"comment {reply}'s range covers {_shown(content[reply])}, "
+                            f"its parent comment {parent}'s covers "
+                            f"{_shown(content[parent])}")
+    return failures
+
+
 def _verify(source: Path, output: Path, *, repaired: list[Repaired],
             before: list[Finding], against: Optional[Path],
             before_against: Optional[list[Finding]], added: collections.Counter,
             changed: list[str], limits: ArchiveLimits) -> Verification:
-    """Prove the copy: the targets are gone, nothing is new, and compare()
-    reports only what the repairs declared they add.
+    """Prove the copy: the targets are gone, nothing is new, compare()
+    reports only what the repairs declared they add, and each anchored reply's
+    range covers what its parent's covers.
 
     `added` counts the constructs compare() tracks that the repairs inserted
     in the main part: a comment reference per anchored reply, and the
@@ -1002,6 +1132,11 @@ def _verify(source: Path, output: Path, *, repaired: list[Repaired],
         against_added = news
         failures += [f"compare(source, output) gains {f.code} "
                      f"{f.severity.value.upper()} {f.message}" for f in news]
+
+    try:
+        failures += _same_ranges(output, repaired, limits)
+    except Exception as e:  # ranges that cannot be read prove nothing
+        failures.append(f"the output's comment ranges could not be read: {e}")
 
     try:
         failures += differences(source, output, set(changed))
@@ -1179,7 +1314,7 @@ def _write(report: FixReport, path: Path, output: Path, temp: str, fd: int,
            findings: list[Finding], against: Optional[Path],
            before_against: Optional[list[Finding]], added: collections.Counter,
            force: bool, limits: ArchiveLimits) -> FixReport:
-    """Write the copy to `temp`, re-check it, then move it to `output`."""
+    """Write the copy to `temp`, re-check it, then publish it at `output`."""
     with os.fdopen(fd, "wb") as fh:
         repack(path, fh, edited)
         fh.flush()
@@ -1199,18 +1334,48 @@ def _write(report: FixReport, path: Path, output: Path, temp: str, fd: int,
     mask = os.umask(0)
     os.umask(mask)
     os.chmod(temp, 0o666 & ~mask)
-    if force:
-        os.replace(temp, output)
-    else:
-        try:
-            os.link(temp, output)
-        except FileExistsError:
-            raise FixUsageError(f"{output} appeared while fixing; nothing written")
-        except OSError:
-            if output.exists():
-                raise FixUsageError(f"{output} appeared while fixing; nothing written")
-            os.replace(temp, output)
+    digest = _sha256(Path(temp))
+    _publish(temp, output, force)
     report.status = "repaired"
     report.reason = f"{len(repaired)} finding(s) repaired and re-checked"
-    report.output_sha256 = _sha256(output)
+    report.output_sha256 = digest
     return report
+
+
+def _publish(temp: str, output: Path, force: bool) -> None:
+    """Put the verified copy at `output`, replacing a file there only with --force.
+
+    Without --force, a hard link or an exclusive create puts it there: both
+    fail if anything exists at `output`, so a file that appeared since the
+    paths were checked is never replaced.
+    """
+    if force:
+        os.replace(temp, output)
+        return
+    appeared = f"{output} appeared while fixing; nothing written"
+    try:
+        os.link(temp, output)
+        return
+    except FileExistsError:
+        raise FixUsageError(appeared) from None
+    except OSError:
+        pass  # no hard links on this filesystem: copy into a new file instead
+    try:
+        target = open(output, "xb")  # O_CREAT | O_EXCL
+    except FileExistsError:
+        raise FixUsageError(appeared) from None
+    created = None
+    try:
+        with target:
+            created = os.fstat(target.fileno())
+            with open(temp, "rb") as copy:
+                shutil.copyfileobj(copy, target)
+            target.flush()
+            os.fsync(target.fileno())
+    except BaseException:
+        try:  # remove the incomplete copy, if it is still the file created here
+            if created is None or os.path.samestat(created, os.stat(output)):
+                os.unlink(output)
+        except OSError:
+            pass
+        raise
