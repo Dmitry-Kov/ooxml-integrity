@@ -207,6 +207,70 @@ def test_reply_to_a_reply_is_refused(tmp_path):
     assert not (tmp_path / "fixed.docx").exists()
 
 
+REF_3 = '<w:commentReference w:id="3"/></w:r>'
+
+
+def _codex_s2_variant(tmp_path, name, edit):
+    """Codex's S2 capture: reply 15 joins comment 2's thread, whose last
+    reference run is reply 3's."""
+    doc = read_part(CODEX_S2, "word/document.xml")
+    assert doc.count(REF_3) == 1
+    return repack(CODEX_S2, tmp_path / f"{name}.docx",
+                  {"word/document.xml": edit(doc).encode()})
+
+
+# The reply's range ends after the thread's last reference run. Content there
+# or before it, after the parent's range end, would be covered by the reply
+# and not by its parent (the 2026-10-12 audit's case is the first).
+@pytest.mark.parametrize("edit, shown", [
+    (lambda d: d.replace(REF_3, '<w:commentReference w:id="3"/>'
+                                '<w:t>EXTRA_OUTSIDE_PARENT</w:t></w:r>'),
+     'w:t "EXTRA_OUTSIDE_PARENT"'),
+    (lambda d: d.replace(REF_3, '<w:commentReference w:id="3"/><w:tab/></w:r>'),
+     "w:tab"),
+    (lambda d: d.replace('<w:commentRangeEnd w:id="3"/>',
+                         '<w:r><w:t>after</w:t></w:r><w:commentRangeEnd w:id="3"/>'),
+     'w:t "after"'),
+], ids=["text-in-reference-run", "tab-in-reference-run", "run-before-it"])
+def test_reply_whose_range_would_cover_more_than_its_parent_is_refused(
+        edit, shown, tmp_path):
+    variant = _codex_s2_variant(tmp_path, "more", edit)
+    assert [f.code for f in check(variant)] == ["CMT005"]
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert report.status == "nothing-to-repair" and report.exit_code == EXIT_NOTHING
+    (refused,) = [n for n in report.not_repaired if n.repair]
+    assert refused.repair == "anchor-replies"
+    assert refused.reason == (
+        f"comment 15: {shown} lies between the end of comment 2's range and the "
+        "end of the thread's last reference run; the reply's range would cover "
+        "it, more than its parent's")
+    assert not out.exists()
+
+
+def test_the_recheck_compares_the_reply_range_with_its_parents(tmp_path, monkeypatch):
+    """Read from the written copy on its own: without the precondition, the
+    audit's case fails the re-check and nothing is written."""
+    from ooxml_integrity import fix as module
+    out = tmp_path / "fixed.docx"
+    assert fix(CODEX_S2, out).verification.passed
+    content = module._range_content(module.parse_xml(
+        read_part(out, "word/document.xml").encode()), {"15", "2"})
+    assert content["15"] == content["2"]
+    assert module._shown(content["2"]) == '"Completion Date"'
+
+    variant = _codex_s2_variant(tmp_path, "audit", lambda d: d.replace(
+        REF_3, '<w:commentReference w:id="3"/><w:t>EXTRA_OUTSIDE_PARENT</w:t></w:r>'))
+    monkeypatch.setattr(module, "_beyond", lambda *args: None)
+    out = tmp_path / "unproved.docx"
+    report = fix(variant, out)
+    assert report.status == "verification-failed" and report.exit_code == EXIT_UNVERIFIED
+    assert report.verification.failures == [
+        'comment 15\'s range covers "Completion DateEXTRA_OUTSIDE_PARENT", its '
+        'parent comment 2\'s covers "Completion Date"']
+    assert not out.exists() and report.output_sha256 is None
+
+
 def test_undefined_reference_style_is_refused(tmp_path):
     import re
     variant = _thread_variant(
@@ -448,6 +512,49 @@ def test_another_relationship_type_is_repaired_and_word_is_not_claimed(tmp_path)
         "'application/xml'", f"'{expected}'")
 
 
+def test_a_part_whose_root_is_another_kind_is_refused(tmp_path):
+    """The 2026-10-12 audit's case: only the styles relationship's Type says
+    settings. The part is a styles part and declared as one, so the
+    relationship may be what is wrong; fix does not choose."""
+    rels = "word/_rels/document.xml.rels"
+    kind = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
+    assert read_part(BASE, rels).count(kind + 'styles"') == 1
+    variant = repack(BASE, tmp_path / "relation.docx", {rels: read_part(BASE, rels)
+                     .replace(kind + 'styles"', kind + 'settings"').encode()})
+    (finding,) = check(variant)
+    assert finding.code == "PKG010" and finding.part == "word/styles.xml"
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert report.status == "nothing-to-repair" and report.exit_code == EXIT_NOTHING
+    (refused,) = [n for n in report.not_repaired if n.repair]
+    assert refused.repair == "content-type"
+    assert refused.reason == (
+        "word/styles.xml has the root element w:styles, a styles part's, not the "
+        "settings root its settings relationship requires; whether the "
+        "relationship type or the part is wrong is not unique")
+    assert not out.exists()
+
+
+def test_every_relationship_type_has_its_parts_root():
+    """One root per type PKG010 reads. Three repository files relate parts of
+    all fifteen types, and each part has its type's root."""
+    from ooxml_integrity.comments import office_documents
+    from ooxml_integrity.content_types import RELATED, ROOTS, related
+    from ooxml_integrity.xmlutil import fromstring
+    assert list(ROOTS) == list(RELATED)
+    assert len(set(ROOTS.values())) == len(ROOTS)
+    seen = set()
+    for path in (BASE, D7, CODEX_S2):
+        parts = _members(path)
+        (main,) = office_documents(parts)
+        trees = {n: fromstring(parts[n]) for n in (
+            TYPES, main, "word/_rels/document.xml.rels")}
+        for pair in related(parts, trees, main).pairs:
+            assert fromstring(parts[pair.part]).tag == ROOTS[pair.relationship_type]
+            seen.add(pair.relationship_type)
+    assert seen == set(RELATED)
+
+
 # ------------------------------------------------------------------ refusals
 def test_top_level_orphan_is_refused_with_its_reason(tmp_path):
     out = tmp_path / "fixed.docx"
@@ -588,6 +695,82 @@ def test_internal_error_leaves_nothing(tmp_path, monkeypatch):
     monkeypatch.setattr(module, "repack", broken)
     report = fix(ADEU_S1, tmp_path / "fixed.docx")
     assert report.status == "verification-failed" and "boom" in report.reason
+    assert list(tmp_path.iterdir()) == []
+
+
+def _no_hard_links(monkeypatch, appear=None):
+    """A filesystem without hard links; `appear` runs once, as the copy is put
+    at the output (os.replace in 0.8.0, the exclusive create now)."""
+    import builtins
+
+    from ooxml_integrity import fix as module
+
+    def link(*args, **kwargs):
+        raise OSError("hard links are not supported on this filesystem")
+    monkeypatch.setattr(module.os, "link", link)
+    if appear is None:
+        return
+    real_replace, real_open, fired = os.replace, builtins.open, []
+
+    def race(target):
+        if appear[0] == Path(target) and not fired:
+            fired.append(True)
+            Path(target).write_bytes(appear[1])
+
+    def replace(src, dst, *args, **kwargs):
+        race(dst)
+        return real_replace(src, dst, *args, **kwargs)
+
+    def opener(file, mode="r", *args, **kwargs):
+        if "x" in mode or "w" in mode:
+            race(file)
+        return real_open(file, mode, *args, **kwargs)
+    monkeypatch.setattr(module.os, "replace", replace)
+    monkeypatch.setattr(module, "open", opener, raising=False)
+    return fired
+
+
+def test_a_file_that_appears_at_the_output_is_never_replaced(tmp_path, monkeypatch):
+    """The 2026-10-12 audit's case: without hard links, 0.8.0 checked that the
+    output did not exist and then renamed over it, replacing a file another
+    process created in between. The output is now created exclusively."""
+    out = tmp_path / "fixed.docx"
+    fired = _no_hard_links(monkeypatch, appear=(out, b"another process's file"))
+    with pytest.raises(FixUsageError, match="appeared while fixing; nothing written"):
+        fix(ADEU_S1, out)
+    assert fired and out.read_bytes() == b"another process's file"
+    assert [p.name for p in tmp_path.iterdir()] == ["fixed.docx"]
+
+
+def test_without_hard_links_the_verified_copy_is_written(tmp_path, monkeypatch):
+    linked = tmp_path / "linked.docx"
+    fix(ADEU_S1, linked)
+    _no_hard_links(monkeypatch)
+    out = tmp_path / "copied.docx"
+    report = fix(ADEU_S1, out)
+    assert report.status == "repaired"
+    assert out.read_bytes() == linked.read_bytes()
+    assert out.stat().st_mode == linked.stat().st_mode
+    import hashlib
+    assert report.output_sha256 == hashlib.sha256(out.read_bytes()).hexdigest()
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["copied.docx", "linked.docx"]
+
+
+def test_without_hard_links_a_failed_copy_leaves_nothing(tmp_path, monkeypatch):
+    from ooxml_integrity import fix as module
+    _no_hard_links(monkeypatch)
+    partial = []
+
+    def full(src, dst, *args, **kwargs):
+        dst.write(src.read(100))
+        partial.append(Path(dst.name))
+        raise OSError(28, "No space left on device")
+    monkeypatch.setattr(module.shutil, "copyfileobj", full)
+    report = fix(ADEU_S1, tmp_path / "fixed.docx")
+    assert report.status == "verification-failed" and report.exit_code == EXIT_UNVERIFIED
+    assert "No space left on device" in report.reason
+    assert partial == [tmp_path / "fixed.docx"]
+    assert report.output_sha256 is None
     assert list(tmp_path.iterdir()) == []
 
 

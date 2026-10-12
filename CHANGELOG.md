@@ -45,6 +45,26 @@
   [results](evidence/review-history-benchmark/expectations/README.md#fourth-reading-the-text-the-edit-was-asked-to-produce)
   are unchanged, row for row (69 of 69 damaged outputs caught, 12 of 537
   correct outputs flagged), and their `checker` label no longer says 0.7.0.
+- `fix` refuses two repairs whose result is not unique. 0.8.0 made them, and
+  its re-check passed the wrong result (found by an external audit, on
+  synthetic changes of repository files):
+  - anchor-replies, when anything but comment marks lies between the end of
+    the parent's range and the end of the thread's last reference run, such
+    as text after the reference in that run. The reply's range would cover it
+    and its parent's would not. The re-check now also reads both ranges from
+    the written copy, apart from the repair, and fails unless the reply's
+    covers what its parent's covers.
+  - content-type, when the part's root element is not the one its
+    relationship type's parts have (a table next to `PKG010`'s, in
+    `content_types.ROOTS`). 0.8.0 declared a styles part related as
+    `settings` a settings part; which side is wrong is not unique.
+- `fix` without `--force` never replaces a file that appears at the output
+  while it runs. Where hard links are not supported, 0.8.0 checked that the
+  output did not exist and then renamed over it; it now creates the output
+  exclusively (`O_CREAT | O_EXCL`), copies the verified bytes into it and
+  removes it if the copy fails ([guarantees](docs/fix.md#what-it-guarantees)).
+- No repository file's `fix` result changes: the
+  [record](evidence/fix-repairs/README.md)'s 55 entries are the same.
 
 ## 0.8.0 — 2026-10-11
 

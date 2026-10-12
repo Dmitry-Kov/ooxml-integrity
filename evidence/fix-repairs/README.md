@@ -41,6 +41,11 @@ and zlib 1.2.12, when the recheck's captures were added; no earlier file's
 entry changed. The output hash depends on the zlib that compresses the edited
 part; everything else does not.
 
+After 0.8.0, `fix` refuses two more cases and re-checks one more thing (below
+and in [docs/fix.md](../../docs/fix.md#what-it-refuses-and-why)). Run with
+them, every entry, output hashes included, is the same, so the record was not
+regenerated; its test re-derives each entry with the current code.
+
 ## Results
 
 | Documents | files (paths) | repaired | anchor-replies | renumber-revisions | content-type | refused |
@@ -60,7 +65,9 @@ part; everything else does not.
   - only `word/document.xml` changed, and `[Content_Types].xml` where
     content-type applied; every other ZIP member was copied as stored;
   - `compare(source, output)` gains nothing that `compare(source, input)`
-    lacked, beyond the declared count increases.
+    lacked, beyond the declared count increases;
+  - each of the 14 anchored replies covers what its parent covers, read
+    from the written copy (a check added after 0.8.0).
 - **`compare(input, output)` reports exactly what each repair adds:**
   - renumber-revisions and content-type: nothing.
   - anchor-replies: `FID002` INFO comment anchors +1. On the 7 S2 outputs it
@@ -171,6 +178,21 @@ Notes on the table:
   anchored only in a header or footnote, a reply to a reply, and a reference
   inside a tracked insertion are refused: Word's placement there was not
   observed. None occurs in the repository.
+- **Two refusals added after 0.8.0.** In both cases 0.8.0 made a repair
+  whose result is not unique, and its re-check passed. An external audit
+  (2026-10-12) found them on synthetic changes of repository files; no
+  repository file is refused for either.
+  - A reply whose thread's last reference run holds text after the reference
+    (or anything else that is not a comment mark lies between the parent's
+    range end and that run's end): the reply's range would have covered it,
+    and its parent's does not. In codex-3's `K5-S2` with text added after
+    reference 3, 0.8.0 anchored reply 15 on "Completion DateEXTRA_OUTSIDE_PARENT"
+    while its parent covers "Completion Date".
+  - A part whose root element is another kind's than its relationship type
+    requires: in `corpus/base.docx` with only the styles relationship's type
+    changed to `settings`, 0.8.0 declared `styles.xml` (root `w:styles`) a
+    settings part. Whether the relationship type or the part is wrong is not
+    unique.
 
 Reproduce with the development environment:
 
