@@ -44,7 +44,7 @@ protocol's rule; `EXP001` counts.
   oracle's scope: replies with no anchor in the document (`CMT005`, Codex and
   OpenCode), which Word for Mac does not display ([word check](../word-check/README.md));
   adeu's repeated revision id (`REV001`); an undefined `CommentReference` style
-  (`STY001`, Codex). Codex's five S1 outputs also carry the unreleased `PKG010`;
+  (`STY001`, Codex). Codex's five S1 outputs also carry 0.7.0's `PKG010`;
   see [below](#content-types-word-refuses). No correct output gained an `EXP001`.
 - **Damaged outputs.** None that was caught is missed with expectations. Four
   more are caught: Office-Word-MCP-Server and docxengine edited the document
@@ -78,7 +78,7 @@ rewrites the wrong span of it, next to Reviewer B's nested deletion, and
 
 ## Fourth reading: the text the edit was asked to produce
 
-The unreleased `FID014` lists, as INFO, every paragraph whose text the edit
+0.8.0's `FID014` lists, as INFO, every paragraph whose text the edit
 changed, with its text before and after, tracked changes accepted and
 rejected, whitespace normalised. The fourth reading keeps the third and adds,
 for every replacement, `FID014` in the task's story with the paragraph the

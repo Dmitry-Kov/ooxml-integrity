@@ -67,7 +67,7 @@ def tally() -> dict:
 #: Rule codes no published version has yet. The page describes published
 #: versions, so this checkout's analysis is recounted without them until a
 #: release ships them.
-UNRELEASED: frozenset = frozenset({"FID014"})
+UNRELEASED: frozenset = frozenset()
 #: The analysis run with a published wheel, for the paragraph about that version.
 PUBLISHED = {v: EVIDENCE / f"expectations/results-{v}.json" for v in ("0.4.8", "0.4.9")}
 
@@ -88,7 +88,7 @@ def expectations(version: str | None = None, excluded: frozenset = UNRELEASED) -
         raise SystemExit(f"{path.name} was not run with the published {version}: {data['checker']}")
     total = collections.Counter()
     for row in data["results"]:
-        for mode in ("without", "with", "with_tracked"):
+        for mode in ("without", "with", "with_tracked", "with_text"):
             if mode not in row:
                 continue
             codes = [c for c in row[mode]["codes"] if c not in excluded]
@@ -102,6 +102,8 @@ def expectations(version: str | None = None, excluded: frozenset = UNRELEASED) -
         "caught_with": total[("with", "detected")],
         "caught_tracked": total[("with_tracked", "detected")],
         "flagged_tracked": total[("with_tracked", "false alarm")],
+        "caught_text": total[("with_text", "detected")],
+        "flagged_text": total[("with_text", "false alarm")],
     }
 
 
@@ -162,6 +164,7 @@ def page() -> str:
         caught_without=x["caught_without"], caught_with=x["caught_with"], damaged=x["damaged"],
         caught_tracked=tracked["caught_tracked"], flagged_tracked=tracked["flagged_tracked"],
         caught_latest=latest["caught_tracked"], flagged_latest=latest["flagged_tracked"],
+        caught_text=latest["caught_text"], flagged_text=latest["flagged_text"],
         setter=f"{counts['python-docx-setter']['damaged']} of {counts['python-docx-setter']['ok']}",
     )
 
@@ -274,8 +277,8 @@ TEMPLATE = """<!doctype html>
         <p>Each class below was found by the oracle and then opened in Word for Mac 16.113.2. Where a tool's maintainers can fix it, an issue is filed.</p>
       </div>
       <div class="findings">
-        <div class="finding"><h3>Bullets turn into <code>&amp;#8226;</code></h3><p>Any write escapes the list's existing bullet reference a second time; Word prints the literal text instead of a bullet.</p><p class="who">docx-cli, every output of the first document · <a href="https://github.com/kklimuk/docx-cli/issues/12">issue</a>, fixed on docx-cli's main branch</p></div>
-        <div class="finding"><h3>New words credited to another reviewer</h3><p>A tracked replacement inside another author's pending insertion leaves the new words without a wrapper of their own, so Word shows them as that author's; next to a nested deletion it also deletes the wrong words.</p><p class="who">docx-cli · <a href="https://github.com/kklimuk/docx-cli/issues/13">issue</a>, fixed on docx-cli's main branch</p></div>
+        <div class="finding"><h3>Bullets turn into <code>&amp;#8226;</code></h3><p>Any write escapes the list's existing bullet reference a second time; Word prints the literal text instead of a bullet.</p><p class="who">docx-cli, every output of the first document · <a href="https://github.com/kklimuk/docx-cli/issues/12">issue</a>, fixed in docx-cli 0.27.0</p></div>
+        <div class="finding"><h3>New words credited to another reviewer</h3><p>A tracked replacement inside another author's pending insertion leaves the new words without a wrapper of their own, so Word shows them as that author's; next to a nested deletion it also deletes the wrong words.</p><p class="who">docx-cli · <a href="https://github.com/kklimuk/docx-cli/issues/13">issue</a>, fixed in docx-cli 0.27.0 for tracked edits; the untracked edit of the wrong words is <a href="https://github.com/kklimuk/docx-cli/issues/22">open</a></p></div>
         <div class="finding"><h3>Replies nobody can see</h3><p>The reply is in the comments part and linked to its thread, but has no anchor in the document. Word shows the reply neither in the margin nor in the Reviewing pane.</p><p class="who">docx-mcp, docxengine, and the agents Codex and OpenCode · issues for <a href="https://github.com/SecurityRonin/docx-mcp/issues/21">docx-mcp</a> and <a href="https://github.com/ruwadgroup/docxengine/issues/2">docxengine</a></p></div>
         <div class="finding"><h3>A file Word will not open</h3><p>The part that links replies to their threads is declared with a content type its relationship does not allow. Word reports unreadable content and opens the file once only that value is corrected; LibreOffice opens it either way. Found after the evaluation, in a Word check of repaired copies; the frozen oracle counts these outputs as correct.</p><p class="who">Codex, all five outputs of one comment task · <a href="{blob}/word-check-content-type/README.md">Word check</a></p></div>
         <div class="finding"><h3>A comments part Word has to repair</h3><p>A new comment uses a namespace prefix the part never declares. Word reports unreadable content; after repair the new comment is empty and has no author.</p><p class="who">docxengine, on a classic comments part · <a href="https://github.com/ruwadgroup/docxengine/issues/1">issue</a></p></div>
@@ -295,6 +298,7 @@ TEMPLATE = """<!doctype html>
         <p>A correct tracked edit loses nothing, so it draws no error to expect. 0.4.9 lists the tracked changes an edit added, per part of the document and author (<code>FID012</code>), and an expectation can require one in the header. Expecting that for every tracked task as well, caught damaged outputs rise to {caught_tracked} of {damaged} and flagged correct outputs stay at {flagged_tracked}: a tool that made its tracked edit in the document title instead of the header now fails too. <a href="{blob}/expectations/README.md">Analysis</a>, run with the published 0.4.8 and 0.4.9.</p>
         <p>0.5.1 also reports a tracked replacement that deletes and inserts again more unchanged words than it changes (<code>FID013</code>): docx-cli edits a footnote by striking its whole text and inserting it again with one phrase changed, which nothing reported before because nothing is lost. With it, caught damaged outputs reach {caught_latest} of {damaged}, and flagged correct outputs stay at {flagged_latest}. The two left are one tool's untracked edit of the wrong words inside another reviewer's pending insertion, in both captures.</p>
         <p>0.7.0 reports a part declared with a content type its relationship does not allow (<code>PKG010</code>): the five Codex outputs Word refuses. They were already flagged for their unanchored reply, so the counts stay. Its <a href="{repo}/blob/main/docs/fix.md"><code>fix</code></a> command repairs both, and Word opens the copy with the reply in its thread.</p>
+        <p>0.8.0 lists the paragraphs an edit changed, with their text before and after (<code>FID014</code>), so a caller can expect the text the edit was asked to produce. Expecting each replacement's text, caught damaged outputs reach {caught_text} of {damaged} and flagged correct outputs stay at {flagged_text}: the untracked edit of the wrong words inside another reviewer's insertion, which no loss rule reports, now fails. A <a href="{repo}/blob/main/evidence/review-history-recheck/README.md">recheck</a> of docx-cli 0.27.0 shows its fixes removed the escaped bullets and the misattributed tracked edit; that untracked edit is unchanged.</p>
       </div>
     </section>
 
