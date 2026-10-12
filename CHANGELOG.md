@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.8.1 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.8.1.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 Security fixes to `anonymize`, from an external review of 0.8.0. Copies made
 by 0.5.0 to 0.8.0 may hold the values listed below;
