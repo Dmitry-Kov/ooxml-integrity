@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.8.0 release notes](releases/0.8.0.md) before changing a version pin.
+[0.8.1 release notes](releases/0.8.1.md) before changing a version pin.
 
 ## What a release can change
 
@@ -41,6 +41,23 @@ five Codex outputs Word for Mac refuses. Projects that accept such files can
 lower or turn off the rule with a reason in their [configuration](configuration.md).
 Coverage gains the identifier `package.related-content-types`, additive under
 schema v1. Its baseline v2 identity is the general one: file, code and part.
+
+0.8.1 changes what some findings read and what some patterns cover:
+
+- Path globs in `ignore` and `expect` match segment by segment (`**` spans
+  whole segments, every other segment matches one). A pattern that matched
+  more in 0.8.0 covers fewer files: a finding it hid can appear and fail the
+  run, and an expectation no longer applies outside it.
+- `FID004`–`FID007`, `FID010`, `FID013` and `FID014` read a non-breaking
+  hyphen, a symbol and an absolute tab as text and tabs and breaks as
+  whitespace. A finding whose text holds one of these gets another baseline
+  v2 identity, since those codes hash their texts; review and regenerate the
+  baseline. `FID013` can now report a replacement it missed across a tab.
+- `anonymize` refuses an output that is or links to an input (exit 2), and
+  fails a run whose copy breaks a data binding (exit 1); some binding paths
+  are refused. Its JSON report gains `bindings`.
+- `fix` refuses a reply range or a content type whose repair is not unique
+  (exit 1, nothing written).
 
 0.8.0 adds `FID014`, an INFO finding of `compare()`: one per paragraph
 whose text the edit changed, added or removed, with the text before and after.
@@ -254,11 +271,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.8.0 | Meaning |
+| Output | Version in 0.8.1 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.8.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.8.1"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.8.0"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.8.1"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

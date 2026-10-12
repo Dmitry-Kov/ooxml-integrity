@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.8.0
+    python research/release_smoke.py --version 0.8.1
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -408,6 +408,43 @@ def main():
         assert {r["repair"] for r in result["repaired"]} == {"content-type", "anchor-replies"}
         cli("check", repaired, "--no-config", "--fail-on", "info")
 
+        # 0.8.1, from an external review of 0.8.0. anonymize refuses an output
+        # that is its input and leaves the input as it was.
+        alias = work / "alias"
+        alias.mkdir()
+        shared_input = alias / "document.docx"
+        shutil.copyfile(source, shared_input)
+        kept = shared_input.read_bytes()
+        cli("anonymize", shared_input, "-o", alias, "--force", code=2)
+        assert shared_input.read_bytes() == kept
+        # A value in a firm's namespace on a Word element is replaced.
+        firm_value = base["word/document.xml"].replace(b"<w:body>", (
+            b'<w:body><w:p xmlns:acme="https://acme.example/contracts" acme:client="Zorblatt">'
+            b"<w:r><w:t>Zorblatt</w:t></w:r></w:p>"), 1)
+        attributed = variant("firm-value.docx", {**base, "word/document.xml": firm_value})
+        cli("anonymize", attributed, "-o", work / "shared-value")
+        with ZipFile(work / "shared-value" / "document.docx") as package:
+            assert all(b"Zorblatt" not in package.read(n) for n in package.namelist())
+        # fix refuses a content type its part's root element contradicts.
+        rels = base["word/_rels/document.xml.rels"]
+        wrong = variant("wrong-relation.docx", {**base, "word/_rels/document.xml.rels":
+                                                rels.replace(b"relationships/styles", b"relationships/settings")})
+        cli("fix", wrong, "-o", work / "wrong-fixed.docx", code=1)
+        assert not (work / "wrong-fixed.docx").exists()
+        # FID014 reads a non-breaking hyphen as a hyphen.
+        hyphenated = minimal("hyphenated.docx",
+                             "<w:r><w:t>non</w:t><w:noBreakHyphen/><w:t>compete obligation</w:t></w:r>")
+        joined = minimal("joined.docx", "<w:r><w:t>noncompete obligation</w:t></w:r>")
+        changes = json.loads(cli("check", joined, "--against", hyphenated, "--no-config",
+                                 "--json").stdout)["files"][0]["findings"]
+        assert [(f["code"], f["extra"]["before"], f["extra"]["after"]) for f in changes
+                if f["code"] == "FID014"] == [
+            ("FID014", "non-compete obligation", "noncompete obligation")]
+        # `**` spans whole segments; every other segment matches one.
+        from ooxml_integrity.policy import _match
+        assert not _match("out/a/accepted/nested/file.docx", "out/**/accepted/*.docx")
+        assert _match("out/a/b/accepted/file.docx", "out/**/accepted/*.docx")
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -456,6 +493,9 @@ def main():
           "0.6.0 mcp over stdio: compare equal to the CLI report, a URL refused, "
           "0.7.0 PKG010 on a Codex output and fix repairing it to a clean copy, "
           "0.8.0 FID014 for the paragraph a tracked and an untracked edit change, "
+          "0.8.1 anonymize refusing its own input and replacing a firm's attribute value, "
+          "fix refusing a part whose root contradicts its relationship, FID014 reading "
+          "a non-breaking hyphen, segment-wise ** globs, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
