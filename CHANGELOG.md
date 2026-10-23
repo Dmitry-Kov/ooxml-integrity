@@ -2,6 +2,42 @@
 
 ## Unreleased
 
+Security fix to `anonymize`. Copies made by 0.5.0 to 0.8.1 of documents with
+custom XML markup or smart tags in a firm's namespace, or with the settings
+that go with them, keep the names and values listed below;
+[SECURITY.md](SECURITY.md#copies-made-by-050-to-081) says what to check
+before sharing one.
+
+- **Custom XML markup and smart tags.** `<w:customXml w:element="ClientName">`
+  around runs, paragraphs, table rows or cells, and a smart tag in a firm's
+  namespace, kept their element names, the names of their attributes
+  (`w:attr w:name`) and the custom XML placeholder text, while their
+  namespace URIs and attribute values were replaced. The names are now
+  renamed as the same names are in the firm's custom XML data, so the markup
+  still names the data's elements and attributes; an element without a
+  namespace is renamed too, and the placeholder text is replaced like text.
+  Office's own smart tags keep their names (`City`, `PersonName`,
+  `ProductID`), and so does Exchange's contact schema,
+  `urn:schemas:contacts`, which Office's person name smart tag writes: its
+  URI is no longer replaced.
+- **Settings for custom XML.** A smart tag type's name, namespace and
+  recognizer address (`w:smartTagType`), the schema library's namespace and
+  its schema and manifest locations (`sl:schema`), and the identifier of the
+  transform a document is saved through (`w:saveThroughXslt`) are replaced.
+  Before, the names, addresses, locations and identifier stayed, and so did
+  a namespace nothing else in the package named.
+- A part that is not well-formed XML loses the same names and values, and the
+  namespace URIs of its custom XML markup and smart tags.
+- The leak scan reads all of these: a firm's names in custom XML markup and
+  smart tags word by word, that markup's values and placeholder text like
+  text, and every custom namespace URI and schema location, less the scheme a
+  replacement keeps. Office's smart tag names count as kept structure.
+  Before, it looked there for two consecutive words of the text at most.
+- The [measurement](evidence/anonymize/README.md) was rerun: the same summary
+  and rows as 0.8.1's. Of 2,908 copies, two differ: those of LibreOffice's
+  `tdf168017.docx` and the Open XML SDK's `simpleSdt.docx`, which 0.8.1 left
+  with a document management system's smart tag names and a custom XML
+  element name.
 - **A paragraph boundary reads as a space.** A comment, footnote or endnote
   of several paragraphs read its paragraphs joined with nothing between
   them: "First." and "Second." read "First.Second.", so an edit that
