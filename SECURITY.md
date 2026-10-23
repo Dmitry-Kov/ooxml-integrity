@@ -77,9 +77,10 @@ document that shows it, never with the confidential original.
 ### Copies made by 0.5.0 to 0.8.1
 
 Those versions kept the names that custom XML markup and smart tags give of
-a firm's schema in the document itself, and settings that go with them. The
-leak scan looked there for two consecutive words of the text at most, so the
-report said nothing was left:
+a firm's schema in the document itself, and settings that go with them; in a
+part that is not well-formed XML, also hyperlink addresses and other values
+a well-formed part loses. The leak scan looked there for two consecutive
+words of the text at most, so the report said nothing was left:
 
 - **Custom XML markup** (`<w:customXml w:uri="https://firm.example/..."
   w:element="ClientName">`, around runs, paragraphs, table rows or cells):
@@ -99,7 +100,17 @@ report said nothing was left:
   document is saved through (`<w:saveThroughXslt w:solutionID="...">`).
 - In a part that is not well-formed XML (listed as "read as raw text"), the
   same names and text, and the namespace URI of custom XML markup and smart
-  tags when no well-formed part declared that namespace.
+  tags when no well-formed part declared that namespace. Such a part also
+  kept these values, which a well-formed part loses: hyperlink addresses on
+  VML shapes (`<v:shape href="..." o:href="...">`), external relationship
+  targets (`TargetMode="External"`, in a relationships part that is not
+  well-formed), shape names that VML repeats as ids (`<v:shape id="...">`)
+  and the references to them, numbering formats (`w:lvlText`), custom style
+  ids and names and their uses (`w:pStyle`, `w:basedOn`, ...), the names of
+  form fields, building blocks and mail merge fields (`<w:name w:val="...">`),
+  data binding paths (`w:dataBinding`), and the attached schema and the
+  schema library's namespace and locations when no well-formed part named
+  that namespace.
 
 Office's own smart tags keep their names on purpose (`City`, `PersonName` in
 `urn:schemas-microsoft-com:office:smarttags`, `GivenName` in
@@ -113,7 +124,9 @@ check every `w:customXml` and `w:smartTag` element (its `w:element` and the
 `w:attr` names and `w:placeholder` text that follow it), every
 `w:smartTagType`, `sl:schema` and `w:saveThroughXslt`, for example
 `unzip -p copy.docx word/document.xml | grep -oE '<w:(customXml|smartTag|attr|placeholder) [^>]*>' | sort -u`.
-Also open every part the report listed as read as raw text.
+Also open every part the report listed as read as raw text and check the
+values above in it, for example, when that part is the document,
+`unzip -p copy.docx word/document.xml | grep -oE '(href|Target|ShapeID|xpath)="[^"]*"|<(v:shape|w:lvlText|w:name|w:style|w:pStyle|sl:schema|w:attachedSchema) [^>]*>' | sort -u`.
 
 ### Copies made by 0.5.0 to 0.8.0
 

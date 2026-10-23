@@ -4,7 +4,8 @@
 
 Security fix to `anonymize`. Copies made by 0.5.0 to 0.8.1 of documents with
 custom XML markup or smart tags in a firm's namespace, or with the settings
-that go with them, keep the names and values listed below;
+that go with them, or with a part that is not well-formed XML, keep the names
+and values listed below;
 [SECURITY.md](SECURITY.md#copies-made-by-050-to-081) says what to check
 before sharing one.
 
@@ -33,11 +34,35 @@ before sharing one.
   text, and every custom namespace URI and schema location, less the scheme a
   replacement keeps. Office's smart tag names count as kept structure.
   Before, it looked there for two consecutive words of the text at most.
+- **Parts that are not well-formed XML.** Such a part, which the report lists
+  as read as raw text, kept values a well-formed part loses: hyperlink
+  addresses on VML shapes (`href`, `o:href`), external relationship targets,
+  shape names that VML repeats as ids and the references to them, numbering
+  formats, custom style ids and names and their uses, the names of form
+  fields, building blocks and mail merge fields, data binding paths, and the
+  attached schema and the schema library's namespace and locations when no
+  well-formed part named that namespace. The leak scan looked there for two
+  consecutive words of the text at most. They are now replaced as in a
+  well-formed part, found by their local names; a data binding path there
+  that cannot be mapped is refused, as in a well-formed part. A styles part
+  with a `DOCTYPE`, which stopped the run with an error, is read as raw text
+  like any other.
+- The leak scan reads external addresses (hyperlinks on VML shapes,
+  relationship targets) word by word, less the scheme a replacement keeps,
+  and so the attributes that are replaced as text wherever they occur
+  (bookmark names, tooltips, document variables, form field and drawing
+  names; a field instruction less its field type and switches), in any
+  part. Before, it looked there for two consecutive words of the text at
+  most, and not at all in a relationship's target or a form field's name.
 - The [measurement](evidence/anonymize/README.md) was rerun: the same summary
-  and rows as 0.8.1's. Of 2,908 copies, two differ: those of LibreOffice's
+  as 0.8.1's. Of 2,908 copies, ten differ: those of LibreOffice's
   `tdf168017.docx` and the Open XML SDK's `simpleSdt.docx`, which 0.8.1 left
   with a document management system's smart tag names and a custom XML
-  element name.
+  element name, and eight of LibreOffice test documents with several XML
+  files pasted into one part that is not well-formed, which kept custom
+  style names, Word's default shape names and the level text of bullets
+  there. Seven of those eight report fewer words of the text left; every
+  other row is 0.8.1's.
 - **A paragraph boundary reads as a space.** A comment, footnote or endnote
   of several paragraphs read its paragraphs joined with nothing between
   them: "First." and "Second." read "First.Second.", so an edit that

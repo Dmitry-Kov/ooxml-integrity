@@ -24576,7 +24576,7 @@
    "findings": {
     "document": 1
    },
-   "leaks": 42,
+   "leaks": 41,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -24935,7 +24935,7 @@
    "findings": {
     "document": 2
    },
-   "leaks": 68,
+   "leaks": 66,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -26710,7 +26710,7 @@
    "findings": {
     "document": 1
    },
-   "leaks": 38,
+   "leaks": 37,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -26724,7 +26724,7 @@
    "findings": {
     "document": 1
    },
-   "leaks": 38,
+   "leaks": 37,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -28898,7 +28898,7 @@
    "findings": {
     "document": 2
    },
-   "leaks": 120,
+   "leaks": 108,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -28913,7 +28913,7 @@
    "findings": {
     "document": 2
    },
-   "leaks": 234,
+   "leaks": 164,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [
@@ -29257,7 +29257,7 @@
    "findings": {
     "document": 1
    },
-   "leaks": 49,
+   "leaks": 47,
    "collisions": 0,
    "bindings": 0,
    "raw_text_parts": [

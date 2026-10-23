@@ -898,3 +898,139 @@ def test_a_part_that_is_not_well_formed_loses_inline_custom_xml_names(tmp_path):
         assert secret not in document
     assert 'w:element="City"' in document and 'w:name="ProductID"' in document
     assert report.leaks == [] and report.passed
+
+
+# --- parts that are not well-formed XML ------------------------------------------------
+# Read as raw text, their markup kept as written: an attribute value a rule
+# replaces in a parsed part is replaced there too, found by its local name.
+
+#: an unclosed paragraph at the end: the document is not well-formed
+UNCLOSED = "<w:p>"
+SCHEMA = "urn:acme-loans"
+
+
+@pytest.mark.parametrize("attribute", ["href", "o:href"])
+def test_a_part_that_is_not_well_formed_loses_vml_hyperlink_addresses(tmp_path, attribute):
+    # 0.5.0 to 0.8.1 kept them there, and the leak scan reported nothing
+    body = ('<w:p><w:r><w:t>Zorblatt invoice</w:t></w:r><w:r><w:pict><v:shape id="s1" '
+            f'{attribute}="https://zorblatt-secret.example/clientfile"/></w:pict></w:r></w:p>')
+    report = run(tmp_path, package(tmp_path / "a.docx", body + UNCLOSED))
+    assert report.files[0].lexical == ["word/document.xml"] and report.reproduced
+    document = read_part(report.outputs[0], "word/document.xml")
+    assert "zorblatt" not in document.lower() and "clientfile" not in document
+    assert f'{attribute}="https://' in document  # the scheme is kept, as in a parsed part
+    assert report.leaks == [] and report.passed
+
+
+def not_well_formed(tmp_path):
+    """Every part below is cut off or holds an unclosed element, but the
+    custom XML data the binding reads."""
+    case = firm_binding("/ns0:Contract[1]/ns0:Client[@name='Holdings']",
+                        f'<a:Contract xmlns:a="{FIRM}"><a:Client name="Holdings"/></a:Contract>')
+    body = (case["body"]
+            + '<w:p><w:pPr><w:pStyle w:val="AcmeClause"/></w:pPr><w:r><w:t>One</w:t></w:r></w:p>'
+            '<w:p><w:pPr><w:pStyle w:val="Heading1"/></w:pPr><w:r><w:object>'
+            '<v:shape id="Acme Logo" type="#_x0000_t75"/><o:OLEObject ShapeID="Acme Logo" '
+            'r:id="rId9"/></w:object><w:pict><v:shape id="_x0000_i1025"/></w:pict></w:r></w:p>'
+            '<w:p><w:r><w:fldChar w:fldCharType="begin"><w:ffData><w:name w:val="AcmeClient"/>'
+            '<w:enabled/></w:ffData></w:fldChar></w:r></w:p>' + UNCLOSED)
+    styles = (f'<w:styles {NS}><w:style w:type="paragraph" w:styleId="Heading1">'
+              '<w:name w:val="heading 1"/></w:style><w:style w:type="paragraph" '
+              'w:customStyle="1" w:styleId="AcmeClause"><w:name w:val="Acme Clause"/>'
+              '<w:aliases w:val="Holdings"/><w:basedOn w:val="Heading1"/></w:style>')
+    numbering = (f'<w:numbering {NS}><w:abstractNum w:abstractNumId="0"><w:lvl w:ilvl="0">'
+                 '<w:lvlText w:val="Acme Article %1."/></w:lvl></w:abstractNum>')
+    settings = (f'<w:settings {NS} xmlns:sl="{SCHEMA_LIBRARY}"><w:attachedSchema '
+                f'w:val="{SCHEMA}"/><sl:schemaLibrary><sl:schema sl:uri="{SCHEMA}" '
+                'sl:manifestLocation="C:\\Users\\akarimov\\Manifest.xml" '
+                'sl:schemaLocation="C:\\Users\\akarimov\\Loans.xsd"/></sl:schemaLibrary>')
+    rels = (f'<Relationship Id="rId5" Type="{REL}/hyperlink" '
+            'Target="https://deals.acme.example/contract?id=7&amp;client=Holdings" '
+            'TargetMode="External"/><Unclosed>')
+    return package(tmp_path / "a.docx", body, rels=rels, parts={
+        **case["parts"], "word/styles.xml": styles, "word/numbering.xml": numbering,
+        "word/settings.xml": settings})
+
+
+def test_a_part_that_is_not_well_formed_loses_what_a_parsed_part_does(tmp_path):
+    # external targets, shape names and their references, a numbering
+    # format, custom style names and their uses, form field names, a data
+    # binding path and the schema library's locations: 0.5.0 to 0.8.1 kept
+    # them all in a part that is not well-formed
+    report = run(tmp_path, not_well_formed(tmp_path))
+    assert report.files[0].lexical == ["word/document.xml", "word/_rels/document.xml.rels",
+                                       "word/styles.xml", "word/numbering.xml",
+                                       "word/settings.xml"]
+    assert report.reproduced and report.leaks == []
+    copy = package_bytes(report.outputs[0])
+    for secret in (b"acme", b"Acme", b"Holdings", b"Contract", b"Client", b"Logo", b"Article",
+                   b"Clause", b"akarimov", b"Manifest", b"Loans"):
+        assert secret not in copy, secret
+    out = report.outputs[0]
+    document = read_part(out, "word/document.xml")
+    shape = re.search(r'<v:shape id="([^"]*)" type="#_x0000_t75"/>', document).group(1)
+    assert f'<o:OLEObject ShapeID="{shape}" r:id="rId9"/>' in document
+    assert '<v:shape id="_x0000_i1025"/>' in document and 'w:pStyle w:val="Heading1"' in document
+    styles = read_part(out, "word/styles.xml")
+    style = re.search(r'w:customStyle="1" w:styleId="([^"]*)"', styles).group(1)
+    assert f'<w:pStyle w:val="{style}"/>' in document
+    assert 'w:basedOn w:val="Heading1"' in styles and 'w:val="heading 1"' in styles
+    assert re.search(r'w:lvlText w:val="[A-Z][a-z]{3} [A-Z][a-z]{6} %1\."',
+                     read_part(out, "word/numbering.xml"))
+    rels = read_part(out, "word/_rels/document.xml.rels")
+    assert re.search(r'Target="https://[a-z]{5}\.[a-z]{4}\.[a-z]{7}/[a-z]{8}\?[a-z]{2}=\d&amp;'
+                     r'[a-z]{6}=[A-Z][a-z]{7}" TargetMode="External"', rels)
+    # the binding still selects the firm's data in the copy
+    mappings, xpath = re.search(r'w:prefixMappings="([^"]*)" w:xpath="([^"]*)"', document).groups()
+    data = fromstring(zipfile.ZipFile(out).read("customXml/item1.xml"))
+    assert len(data.xpath(xpath, namespaces=dict(
+        re.findall(r"xmlns:([\w.-]+)='([^']*)'", mappings)))) == 1
+
+
+def test_a_binding_path_in_a_part_that_is_not_well_formed_is_refused_the_same_way(tmp_path):
+    case = firm_binding("/*[name()='a:Contract']", f'<a:Contract xmlns:a="{FIRM}"/>')
+    with pytest.raises(Refused, match=re.escape("word/document.xml uses the function name()")):
+        run(tmp_path, package(tmp_path / "a.docx", case["body"] + UNCLOSED, parts=case["parts"]))
+
+
+def test_the_leak_scan_reads_external_addresses_word_by_word(tmp_path):
+    # less the scheme a replacement keeps; parsed or not, in a hyperlink on a
+    # VML shape and in a relationship's target
+    shape = ('<w:p><w:r><w:pict><v:shape href="https://zorblatt.example/clientfile" '
+             'o:href="file:///C:/zorblatt/x"/></w:pict></w:r></w:p>')
+    rels = (f'<Relationship Id="rId5" Type="{REL}/hyperlink" Target="https://zorblatt.example/deal" '
+            'TargetMode="External"/>')
+    parsed = package(tmp_path / "a.docx", shape, rels=rels)
+    raw = package(tmp_path / "b.docx", shape + UNCLOSED, rels=rels + "<Unclosed>")
+    leaks, _ = leak_scan([parsed, raw], {"zorblatt", "clientfile", "deal", "https", "file"}, set())
+    assert {(x["file"], x["part"], x["where"]): x["words"] for x in leaks} == {
+        (1, "word/document.xml", "shape/@href"): 3,
+        (1, "word/_rels/document.xml.rels", "Relationship/@Target"): 2,
+        (2, "word/document.xml", "(unparsed part)"): 3,
+        (2, "word/_rels/document.xml.rels", "(unparsed part)"): 2}
+
+
+def test_custom_styles_are_read_in_a_styles_part_with_a_doctype(tmp_path):
+    # read as raw text like any part with one; 0.5.0 to 0.8.1 stopped there
+    styles = (f'<!DOCTYPE w:styles><w:styles {NS}><w:style w:type="paragraph" w:customStyle="1" '
+              'w:styleId="AcmeClause"><w:name w:val="Acme Clause"/></w:style></w:styles>')
+    report = run(tmp_path, package(tmp_path / "a.docx", '<w:p><w:pPr><w:pStyle w:val="AcmeClause"/>'
+                                   '</w:pPr></w:p>', parts={"word/styles.xml": styles}))
+    assert report.files[0].lexical == ["word/styles.xml"]
+    assert b"Acme" not in package_bytes(report.outputs[0]) and report.passed
+
+
+def test_the_leak_scan_reads_text_attributes_word_by_word(tmp_path):
+    # bookmark names, tooltips, field instructions, form field names: replaced
+    # wherever they occur, so one word of the text left there is reported, but
+    # not a field type, which is kept; the scan looked for two words at most
+    body = ('<w:p><w:bookmarkStart w:id="0" w:name="Zorblatt"/><w:hyperlink w:tooltip="Zorblatt">'
+            '<w:r><w:t>x</w:t></w:r></w:hyperlink><w:fldSimple w:instr=" MERGEFIELD Zorblatt "/>'
+            '<w:r><w:fldChar w:fldCharType="begin"><w:ffData><w:name w:val="Zorblatt"/>'
+            '</w:ffData></w:fldChar></w:r></w:p>')
+    parsed = package(tmp_path / "a.docx", body)
+    raw = package(tmp_path / "b.docx", body + UNCLOSED)
+    leaks, _ = leak_scan([parsed, raw], {"Zorblatt", "MERGEFIELD"}, set())
+    assert {(x["file"], x["where"]): x["words"] for x in leaks} == {
+        (1, "bookmarkStart/@name"): 1, (1, "hyperlink/@tooltip"): 1, (1, "fldSimple/@instr"): 1,
+        (1, "name/@val"): 1, (2, "(unparsed part)"): 4}
