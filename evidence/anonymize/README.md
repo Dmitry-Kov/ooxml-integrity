@@ -152,6 +152,44 @@ converts all fourteen and their originals. No document here has a firm's
 attribute value in an Office part or a string literal in a binding path, so
 those two fixes rest on the synthetic cases.
 
+## Custom XML markup and smart tags, after 0.8.1
+
+Custom XML markup written into the document
+(`<w:customXml w:uri="..." w:element="ClientName">` around runs, paragraphs,
+table rows or cells) and smart tags name a firm's schema as its custom XML
+data does. 0.8.1 replaced their namespace URIs and attribute values and kept
+the element names, the attribute names (`w:attr w:name`) and the placeholder
+text; in the settings, each smart tag type's name and recognizer address, the
+schema library's schema and manifest locations, the identifier of the
+transform the document is saved through, and a namespace there that nothing
+else in the package named. The leak scan looked there for two consecutive
+words of the text at most. A firm's names there are now renamed as the same
+names are in its custom XML data, the rest replaced, and the scan reads them
+word by word, and every custom namespace URI too. Names in Office's own smart
+tag namespaces are kept. `tests/test_anonymize.py` holds the synthetic cases;
+each fails on 0.8.1.
+
+In the public corpora, 19 documents hold smart tags: 118 of Office's
+(`place`, `City`, `PersonName`, ...) in 18 of them; two of Workshare's
+(`confidentialinformationexposure`, with an attribute `TagType`) in
+LibreOffice's `tdf168017.docx`; and in `tscp.docx` one in W3C's RDF
+namespace, whose names are kept as standard. The settings of 19 documents
+list 57 smart tag types, one of them Workshare's (two of those documents have
+no smart tag in their text, and two with smart tags list no type). One
+document has custom XML markup:
+`simpleSdt.docx`, an element `firstName` in no namespace. None has placeholder
+text in custom XML markup, a schema library or a transform.
+
+The rerun gives the same summary and the same row for every item as 0.8.1's
+run, with the same LibreOffice outcome. With the same seeds, 2,906 of the
+2,908 copies are byte for byte 0.8.1's. The other two are the copies of
+`tdf168017.docx`, in which 0.8.1 kept `confidentialinformationexposure`
+three times and `TagType` twice, and of `simpleSdt.docx`, which kept
+`firstName`; the new copies keep none of them. Since those names are drawn
+first, the other replacement words of these two copies differ as well. Their
+findings are reproduced, and LibreOffice converts both copies, as it does
+their originals.
+
 ## Limits
 
 These are the repository's own and public test documents. They cover many

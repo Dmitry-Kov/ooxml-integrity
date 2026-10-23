@@ -31,6 +31,9 @@ What is replaced:
   in whatever part it occurs. Data binding paths follow: their step names,
   prefixes and string literals are replaced the way the data they select is.
   A path this module cannot map that way is refused, and so is the run.
+  Custom XML markup and smart tags written into the document name the same
+  elements and attributes, and are renamed the same way; Office's own smart
+  tags keep their names.
 - Pictures become 1x1 placeholders of the same format, embedded workbooks an
   empty workbook; other embedded objects and binary parts become empty.
   Embedded fonts are kept.
@@ -94,6 +97,7 @@ CUSTOM = "{http://schemas.openxmlformats.org/officeDocument/2006/custom-properti
 DCTERMS = "{http://purl.org/dc/terms/}"
 CP = "{http://schemas.openxmlformats.org/package/2006/metadata/core-properties}"
 THM15 = "{http://schemas.microsoft.com/office/thememl/2012/main}"
+SL = "{http://schemas.openxmlformats.org/schemaLibrary/2006/main}"
 
 MAIN_DOCX = (
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml",
@@ -147,10 +151,15 @@ KNOWN_NAMESPACES = frozenset(ns.strip("{}") for ns in (
 STANDARD_NAMESPACE = re.compile(
     r"^(?:https?://schemas\.openxmlformats\.org/|https?://schemas\.microsoft\.com/"
     r"|urn:schemas-microsoft-com:|https?://www\.w3\.org/|https?://purl\.org/"
-    r"|https?://purl\.oclc\.org/|https?://ns\.adobe\.com/)", re.I)
-#: Attributes whose value is a namespace URI, and data binding attributes.
+    r"|https?://purl\.oclc\.org/|https?://ns\.adobe\.com/"
+    # Exchange's contact schema: Office's person name smart tag writes the
+    # parts of a name in it (GivenName, Sn)
+    r"|urn:schemas:contacts$)", re.I)
+#: Attributes whose value is a namespace URI, or the location of a schema in
+#: the schema library, and data binding attributes.
 URI_ATTRS = frozenset(("{http://schemas.openxmlformats.org/officeDocument/2006/customXml}uri",
-                       W + "uri", W + "manifestLocation", W + "schemaLocation"))
+                       W + "uri", W + "namespaceuri", W + "manifestLocation", W + "schemaLocation",
+                       SL + "uri", SL + "manifestLocation", SL + "schemaLocation"))
 DATA_BINDINGS = frozenset((W + "dataBinding", W15 + "dataBinding"))
 PREFIX_MAPPING = re.compile(r"""xmlns:([\w.-]+)\s*=\s*['"]([^'"]*)['"]""")
 #: XPath 1.0 tokens: a data binding path is read token by token, so that a
@@ -226,8 +235,10 @@ TEXT_ATTRS = frozenset((
     W + "tooltip", W + "anchor", W + "instr", W15 + "userId", W + "ed",
     V + "alt", O + "title", "string", "alt", "title", "descr", "tooltip", "phldrT",
 ))
-#: Hyperlink addresses written on VML shapes.
+#: Hyperlink addresses written on VML shapes, and where a smart tag type's
+#: recognizer is found.
 HREF_ATTRS = frozenset(("href", O + "href"))
+HREF_ATTRS_ON = {W + "smartTagType": {W + "url"}}
 #: Attributes that carry text on specific elements.
 TEXT_ATTRS_ON = {
     W + "bookmarkStart": {W + "name"},
@@ -247,6 +258,8 @@ TEXT_ATTRS_ON = {
     W + "exitMacro": {W + "val"},
     W + "listItem": {W + "displayText", W + "value"},
     W + "attr": {W + "val"},
+    W + "placeholder": {W + "val"},
+    W + "saveThroughXslt": {W + "solutionID"},
     W + "docPart": {W + "val"},
     W + "control": {W + "name"},
     CUSTOM + "property": {"name"},
@@ -405,6 +418,58 @@ def user_attribute(tag: str, attr: str) -> bool:
     namespace. The namespace of the part it is in does not matter."""
     namespace = _namespace(attr)
     return custom_namespace(namespace if namespace is not None else _namespace(tag))
+
+
+def uri_attribute(tag: str, attr: str) -> bool:
+    """An attribute whose value is a namespace URI or a schema's location."""
+    return attr in URI_ATTRS or (tag == W + "attachedSchema" and attr == W + "val")
+
+
+#: Custom XML markup and smart tags written into the document: an element of
+#: someone's schema as a Word element (w:customXml at run, paragraph, row and
+#: cell level; w:smartTag), w:element naming it and w:uri giving its
+#: namespace. Its properties (w:customXmlPr, w:smartTagPr) come first in it
+#: and name its attributes the same way: w:attr, with w:name, w:uri and the
+#: value, w:val. A custom XML element's also hold its placeholder text. The
+#: settings list each smart tag type by namespace (w:namespaceuri) and name.
+MARKUP_OWNERS = frozenset((W + "customXml", W + "smartTag"))
+MARKUP_PROPERTIES = frozenset((W + "customXmlPr", W + "smartTagPr"))
+MARKUP_NAMED = MARKUP_OWNERS | {W + "smartTagType", W + "attr"}
+#: Their values, and the other text the settings keep about custom XML: a
+#: smart tag recognizer's address and the transform a document is saved
+#: through. All are replaced; the leak scan reads them word by word.
+MARKUP_VALUES = frozenset(((W + "attr", W + "val"), (W + "placeholder", W + "val"),
+                           (W + "smartTagType", W + "url"),
+                           (W + "saveThroughXslt", W + "solutionID")))
+
+
+def _own(uri: str | None) -> bool:
+    """Whether names in this namespace are someone's own: a custom namespace,
+    or none (a custom XML element without w:uri is the firm's too)."""
+    return not uri or custom_namespace(uri)
+
+
+def markup_names(node) -> dict[str, bool]:
+    """The attributes of `node` that name an element or attribute of custom
+    XML markup or a smart tag, each with whether that name is someone's own,
+    replaced, or one Office defines and kept (its smart tags ``City``,
+    ``PersonName``, ``ProductID``).
+
+    Names are judged as in a custom XML part (_rename_custom): a w:attr
+    without w:uri names an attribute in no namespace, someone's own when its
+    element is. One outside custom XML or smart tag properties counts as
+    someone's own."""
+    if node.tag in MARKUP_OWNERS:
+        return {W + "element": _own(node.get(W + "uri"))}
+    if node.tag == W + "smartTagType":
+        return {W + "name": _own(node.get(W + "namespaceuri"))}
+    if node.tag == W + "attr":
+        uri, parent = node.get(W + "uri"), node.getparent()
+        owner = parent.getparent() if parent is not None and parent.tag in MARKUP_PROPERTIES else None
+        if not uri and owner is not None:
+            uri = owner.get(W + "uri")
+        return {W + "name": _own(uri)}
+    return {}
 
 
 class UnmappableXPath(ValueError):
@@ -982,6 +1047,7 @@ def _anonymize_tree(root, mapper: Mapper, part: str, known: set | None) -> set:
             else:
                 streams[key].append(None)
 
+    _rename_markup(root, mapper)
     for node in root.iter():
         if not isinstance(node.tag, str):
             # comments and processing instructions: content, not structure
@@ -1034,6 +1100,17 @@ def custom_styles(parts: dict[str, bytes]) -> set[str]:
             if style.get(W + "customStyle") in ON and style.get(W + "styleId"):
                 out.add(style.get(W + "styleId"))
     return out
+
+
+def _rename_markup(root, mapper: Mapper) -> None:
+    """Rename what custom XML markup and smart tags name of someone's schema,
+    as the same names are renamed in a custom XML part, so the markup still
+    names the data's elements and attributes. Read before any namespace URI
+    of the part is replaced, as markup_names() judges names by them."""
+    for node in root.iter(*MARKUP_NAMED):
+        for attr, own in markup_names(node).items():
+            if own and node.get(attr):
+                node.set(attr, mapper.name(node.get(attr)))
 
 
 def _rename_custom(node, mapper: Mapper, unknown: bool) -> None:
@@ -1108,9 +1185,9 @@ def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
         elif ((name == "id" and node.tag in VML_SHAPES) or name in SHAPE_REFERENCES) \
                 and not GENERATED_ID.match(value):
             node.set(name, mapper.text(value))
-        elif name in HREF_ATTRS:
+        elif name in HREF_ATTRS or name in HREF_ATTRS_ON.get(node.tag, ()):
             node.set(name, mapper.target(value))
-        elif name in URI_ATTRS or (node.tag == W + "attachedSchema" and name == W + "val"):
+        elif uri_attribute(node.tag, name):
             if custom_namespace(value):
                 node.set(name, mapper.namespace(value))
         elif (name in TEXT_ATTRS or name in on or (named and name == W + "val")
@@ -1153,11 +1230,55 @@ def _raw_user_attribute(element: str, name: str, custom: set[str]) -> bool:
 
 _TEXT_LOCALS = frozenset(_local(n) for n in TEXT_ATTRS)
 _TEXT_ON_LOCALS = {_local(e): {_local(a) for a in attrs} for e, attrs in TEXT_ATTRS_ON.items()}
+_HREF_ON_LOCALS = {_local(e): {_local(a) for a in attrs} for e, attrs in HREF_ATTRS_ON.items()}
+_RAW_OWNERS = frozenset(_local(t) for t in MARKUP_OWNERS)
+_RAW_PROPERTIES = frozenset(_local(t) for t in MARKUP_PROPERTIES)
+_RAW_VALUES = frozenset((_local(e), _local(a)) for e, a in MARKUP_VALUES)
+#: The namespace URIs custom XML markup and smart tags hold, by local names.
+_RAW_URIS = {"customXml": "uri", "smartTag": "uri", "attr": "uri", "smartTagType": "namespaceuri"}
+
+
+def _raw_tag(markup: str) -> tuple[str, dict[str, str]]:
+    """A start tag's element and attribute values, by local names."""
+    element = _local(re.match(r"<\s*([^\s/>]*)", markup).group(1))
+    return element, {_local(m.group(2)): m.group(3)[1:-1] for m in _ATTRIBUTE.finditer(markup)}
+
+
+class _RawMarkup:
+    """markup_names() for raw markup, read tag by tag in document order. A
+    w:attr without w:uri belongs to the custom XML element or smart tag whose
+    properties are open (they come first in it); outside them it counts as
+    someone's own."""
+
+    def __init__(self):
+        self.owner: str | None = None
+        self.open = False
+
+    def names(self, markup: str) -> dict[str, bool]:
+        """Local attribute name -> someone's own, for one tag."""
+        if markup.startswith("</"):
+            if _local(markup[2:-1].strip()) in _RAW_PROPERTIES:
+                self.open = False
+            return {}
+        if markup.startswith(("<?", "<!")):
+            return {}
+        element, values = _raw_tag(markup)
+        if element in _RAW_OWNERS:
+            self.owner = values.get("uri")
+            return {"element": _own(self.owner)}
+        if element in _RAW_PROPERTIES:
+            self.open = not markup.endswith("/>")
+        elif element == "smartTagType":
+            return {"name": _own(values.get("namespaceuri"))}
+        elif element == "attr":
+            return {"name": _own(values.get("uri") or (self.owner if self.open else None))}
+        return {}
 
 
 def _lexical(data: bytes, mapper: Mapper) -> bytes:
     text = data.decode("utf-8", errors="surrogateescape")
     custom = _raw_prefixes(text)
+    markup_state = _RawMarkup()
 
     def chars(value: str) -> str:
         out, at = [], 0
@@ -1169,6 +1290,7 @@ def _lexical(data: bytes, mapper: Mapper) -> bytes:
         return "".join(out)
 
     def tag(markup: str) -> str:
+        names = markup_state.names(markup)
         if markup.startswith("<!--"):
             return "<!--" + chars(markup[4:-3]) + "-->"
         if markup.startswith(("<?", "<!", "</")):
@@ -1179,7 +1301,13 @@ def _lexical(data: bytes, mapper: Mapper) -> bytes:
         def attribute(match):
             space, name, quoted = match.groups()
             local, inner = _local(name), quoted[1:-1]
-            if _raw_user_attribute(raw, name, custom):
+            if local in names:
+                if not names[local]:
+                    return match.group(0)
+                inner = mapper.name(inner)
+            elif local in _HREF_ON_LOCALS.get(element, ()):
+                inner = mapper.target(inner)
+            elif _raw_user_attribute(raw, name, custom):
                 inner = chars(inner)
             elif local == "author":
                 inner = mapper.person(inner)
@@ -1244,8 +1372,14 @@ def custom_namespaces(parts: dict[str, bytes], defaults: dict, overrides: dict) 
         try:
             root = fromstring(blob)
         except (etree.XMLSyntaxError, UnsafeXML):
+            text = blob.decode("utf-8", "replace")
             found.update(m.group(2) for m in re.finditer(
-                r"""xmlns(?::[\w.-]+)?\s*=\s*(['"])([^'"]*)\1""", blob.decode("utf-8", "replace")))
+                r"""xmlns(?::[\w.-]+)?\s*=\s*(['"])([^'"]*)\1""", text))
+            for markup in _MARKUP.finditer(text):
+                if not markup.group(0).startswith(("<?", "<!", "</")):
+                    element, values = _raw_tag(markup.group(0))
+                    if values.get(_RAW_URIS.get(element)):
+                        found.add(values[_RAW_URIS[element]])
             continue
         for node in root.iter():
             if not isinstance(node.tag, str):
@@ -1253,7 +1387,7 @@ def custom_namespaces(parts: dict[str, bytes], defaults: dict, overrides: dict) 
             found.update(node.nsmap.values())
             found.update(etree.QName(a).namespace for a in node.attrib)
             for attr, value in node.attrib.items():
-                if attr in URI_ATTRS or (node.tag == W + "attachedSchema" and attr == W + "val"):
+                if uri_attribute(node.tag, attr):
                     found.add(value)
                 elif node.tag in DATA_BINDINGS and attr == W + "prefixMappings":
                     found.update(uri for _, uri in PREFIX_MAPPING.findall(value))
@@ -1609,7 +1743,7 @@ STRUCTURE = frozenset((
     ("brkBinSub", "val"), ("idmap", "ext"), ("shapedefaults", "ext"),
     ("shapelayout", "ext"), ("docGrid", "type"), ("pitch", "val"),
     ("font", "typeface"), ("latin", "typeface"), ("ea", "typeface"), ("cs", "typeface"),
-    ("font", "name"), ("altName", "val"), ("attr", "name"), ("smartTag", "element"),
+    ("font", "name"), ("altName", "val"),
 ))
 
 
@@ -1681,6 +1815,19 @@ def _binding_words(node, single: Callable[[str], int]) -> tuple[int, int]:
     return found, kept
 
 
+def _replaced(tag: str, attr: str, value: str) -> str | None:
+    """The part of an attribute's value that anonymize replaces word by word
+    wherever it occurs, or None: a custom namespace URI or schema location
+    but for the scheme the replacement keeps (Mapper.target), an attribute
+    in a firm's namespace, and the values of custom XML markup and smart
+    tags."""
+    if uri_attribute(tag, attr) and custom_namespace(value):
+        return URL_SCHEME.sub("", value, count=1)
+    if user_attribute(tag, attr) or (tag, attr) in MARKUP_VALUES:
+        return value
+    return None
+
+
 def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[str, str]],
               replacements: set[str] = frozenset(),
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> tuple[list[dict], int]:
@@ -1688,9 +1835,11 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
 
     Element text, the attributes of parts in unknown namespaces and the
     attributes in custom namespaces anywhere are replaced wholesale, so any
-    word there of four or more letters is reported; so is one in a name or a
-    namespace prefix of a custom schema, or in a data binding path's string
-    literals, custom step names and custom prefixes. Attributes in the known
+    word there of four or more letters is reported; so is one in a name, a
+    namespace prefix or a namespace URI of a custom schema (also as custom
+    XML markup and smart tags name it), in the values of that markup, or in
+    a data binding path's string literals, custom step names and custom
+    prefixes. Attributes in the known
     namespaces are kept unless listed as text, and their values are mostly
     names the format defines (``left``, ``auto``, ``Normal``), which a
     document's text may use too; there two consecutive words of the text are
@@ -1729,18 +1878,28 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
             except Exception:
                 raw = data.decode("utf-8", "replace")
                 custom = _raw_prefixes(raw)
+                markup_state = _RawMarkup()
                 found = sum(single(m.group(0)) for m in _CHARACTER_DATA.finditer(raw))
                 for tag in _MARKUP.finditer(raw):
+                    names = markup_state.names(tag.group(0))
                     if tag.group(0).startswith(("<?", "<!", "</")):
                         continue
                     element = re.match(r"<\s*([^\s/>]*)", tag.group(0)).group(1)
+                    local_element = _local(element)
                     # a firm's names and prefixes stay in raw markup: report them
                     if ":" in element and element.partition(":")[0] in custom:
                         found += single(element.partition(":")[0]) + single(_local(element))
                     for m in _ATTRIBUTE.finditer(tag.group(0)):
                         key, value = m.group(2), m.group(3)[1:-1]
+                        local = _local(key)
                         if key.startswith("xmlns:") and key[6:] in custom:
                             found += single(key[6:])
+                        elif local in names:
+                            found += single(value) if names[local] else 0
+                        elif (local_element, local) in _RAW_VALUES:
+                            found += single(value)
+                        elif _RAW_URIS.get(local_element) == local and custom_namespace(value):
+                            found += single(URL_SCHEME.sub("", value, count=1))
                         elif _raw_user_attribute(element, key, custom):
                             found += single(value) + single(_local(key))
                         else:
@@ -1755,6 +1914,9 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                     hits[(index, name, "(namespace prefix)")] += found
                 elif found:
                     structural += found
+                found = single(URL_SCHEME.sub("", uri, count=1)) if custom_namespace(uri) else 0
+                if found:
+                    hits[(index, name, "(namespace URI)")] += found
             for node in root.iter():
                 if not isinstance(node.tag, str):
                     continue
@@ -1780,12 +1942,23 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                     structural += kept
                     if found:
                         hits[(index, name, f"{label} (data binding path)")] += found
+                names = markup_names(node)
                 for attr, value in node.attrib.items():
                     if binding and attr in (W + "xpath", W + "prefixMappings"):
                         continue
                     local = etree.QName(attr).localname
-                    if user_attribute(node.tag, attr):
+                    if attr in names:
+                        # custom XML markup and smart tags: a firm's names are
+                        # replaced, Office's kept
                         found = single(value)
+                        if found and names[attr]:
+                            hits[(index, name, f"{label}/@{local} (custom name)")] += found
+                        else:
+                            structural += found
+                        continue
+                    replaced = _replaced(node.tag, attr, value)
+                    if replaced is not None:
+                        found = single(replaced)
                         if found:
                             hits[(index, name, f"{label}/@{local}")] += found
                         continue

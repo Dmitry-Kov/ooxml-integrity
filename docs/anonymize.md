@@ -44,6 +44,8 @@ condition).
 | hyperlink and other external addresses, template paths | the scheme (`https://`, `file:`) kept, the rest replaced |
 | a firm's own schemas: the namespace URIs, element and attribute names of custom XML data and SharePoint columns | replaced the same way everywhere, so the bindings still resolve |
 | an attribute in a firm's namespace, in any part (`<w:p a:client="...">`) | its value replaced like text |
+| custom XML markup and smart tags written into the document, in a firm's namespace or in none (`<w:customXml w:element="ClientName">` around runs, paragraphs, table rows or cells; `w:smartTag`) | element and attribute names renamed as the same names are in the firm's custom XML data, so the markup still names its elements; attribute values and placeholder text replaced like text |
+| the settings that go with them: smart tag types, the schema library, the transform a document is saved through | a firm's smart tag names and namespaces as above; recognizer addresses and schema locations like external addresses; the transform's identifier like text |
 | namespace prefixes bound to a firm's namespace (`<Acme:Contract xmlns:Acme=...>`), also in markup compatibility lists | a generic name, `ns0`, `ns1`, ...; a prefix that already is one is kept |
 | data binding paths into custom XML data | step names and prefixes renamed as their elements are (a step whose prefix the binding does not declare too); string literals (`[@name='...']`) replaced the way the values they compare with are, so the binding still selects the same data, which the report checks |
 | field instructions | the arguments replaced; the field type (`HYPERLINK`, `MERGEFIELD`) and switches (`\h`, `\* MERGEFORMAT`) kept, since LibreOffice does not open a document with a made-up field type |
@@ -91,7 +93,11 @@ Nothing is written in these cases (exit `2`):
 - Names the format and Office define: built-in style names, element names in
   Office's own namespaces (SharePoint's `properties`), the prefixes bound to
   those namespaces, field types and switches, language tags, the ids Word
-  generates for shapes.
+  generates for shapes. Office's own smart tags keep their names (`City`,
+  `PersonName`, `ProductID` in `urn:schemas-microsoft-com:office:smarttags`,
+  and `GivenName`, `Sn` in `urn:schemas:contacts`, Exchange's contact schema,
+  which its person name smart tag writes): they say what kind of word was
+  tagged, and the tagged words and attribute values are replaced.
 - Font names and embedded fonts, the page setup, picture sizes, cell
   references in chart formulas (their sheet names are replaced).
 - Paragraph and revision ids (`w14:paraId`, `w:rsid*`). Two copies of
@@ -126,8 +132,10 @@ directory, and the originals are read first.
   by part and position, and fails the run.
 - **Leak scan.** The copies are searched for words of the original text.
   Element text is replaced everywhere, so any word of four or more letters
-  found there, in a part name, in a name, prefix or attribute value of a
-  firm's own schema, or in a data binding path's literals, is reported.
+  found there, in a part name, in a name, prefix, namespace URI or attribute
+  value of a firm's own schema (also as custom XML markup and smart tags name
+  it), in that markup's values and placeholder text, or in a data binding
+  path's literals, is reported.
   Attribute values in the Office namespaces are
   mostly names the format defines (`left`, `auto`, `Normal`) that a text may
   use too; there two consecutive words of the text are reported. The report

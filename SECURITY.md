@@ -58,8 +58,9 @@ define what was assessed, rather than a security certification.
 
 `ooxml-integrity anonymize` writes copies of a document or pair for sharing a
 defect. It replaces the words, people, dates, properties, pictures, embedded
-objects, a firm's own schemas (namespaces, prefixes, names, attribute values
-and the data binding paths into them), and the other places listed in
+objects, a firm's own schemas (namespaces, prefixes, names, attribute values,
+the data binding paths into them and the custom XML markup and smart tags
+that name them in the document), and the other places listed in
 [what is replaced](docs/anonymize.md#what-is-replaced); what it cannot replace
 safely it [refuses](docs/anonymize.md#what-is-refused). It does not
 make a document anonymous in every sense: the shape of the text (word lengths,
@@ -72,6 +73,47 @@ copies before sharing them.
 A word, name or value of the original that survives in a copy is a security
 defect of the anonymizer. Report it privately, as above, with a synthetic
 document that shows it, never with the confidential original.
+
+### Copies made by 0.5.0 to 0.8.1
+
+Those versions kept the names that custom XML markup and smart tags give of
+a firm's schema in the document itself, and settings that go with them. The
+leak scan looked there for two consecutive words of the text at most, so the
+report said nothing was left:
+
+- **Custom XML markup** (`<w:customXml w:uri="https://firm.example/..."
+  w:element="ClientName">`, around runs, paragraphs, table rows or cells):
+  the element name (`w:element`), and in its properties (`w:customXmlPr`)
+  the names of its attributes (`<w:attr w:name="...">`) and its placeholder
+  text (`<w:placeholder w:val="...">`). The namespace URI (since 0.5.2) and
+  the attribute values were replaced. An element without `w:uri` kept its
+  name too.
+- **Smart tags in a firm's namespace** (`w:smartTag`, such as a document
+  management system's): the element and attribute names, as above.
+- **The settings part** (`word/settings.xml`): each smart tag type's name and
+  recognizer address (`<w:smartTagType w:name="..." w:url="...">`), and its
+  namespace when no smart tag in the package used it; the schema library's
+  schema and manifest locations (`sl:schemaLocation`, `sl:manifestLocation`,
+  often file paths with a user or server name), and its namespace when
+  nothing else in the package named it; the identifier of the transform the
+  document is saved through (`<w:saveThroughXslt w:solutionID="...">`).
+- In a part that is not well-formed XML (listed as "read as raw text"), the
+  same names and text, and the namespace URI of custom XML markup and smart
+  tags when no well-formed part declared that namespace.
+
+Office's own smart tags keep their names on purpose (`City`, `PersonName` in
+`urn:schemas-microsoft-com:office:smarttags`, `GivenName` in
+`urn:schemas:contacts`, a namespace copies made by 0.5.2 to 0.8.1 replaced):
+they say what kind of word was tagged.
+
+Before sharing a copy made by one of those versions, make it again with
+0.8.2 or later. If that is not possible, open `word/settings.xml` and the
+parts with text (`word/document.xml`, headers, footers, notes, comments) and
+check every `w:customXml` and `w:smartTag` element (its `w:element` and the
+`w:attr` names and `w:placeholder` text that follow it), every
+`w:smartTagType`, `sl:schema` and `w:saveThroughXslt`, for example
+`unzip -p copy.docx word/document.xml | grep -oE '<w:(customXml|smartTag|attr|placeholder) [^>]*>' | sort -u`.
+Also open every part the report listed as read as raw text.
 
 ### Copies made by 0.5.0 to 0.8.0
 
@@ -100,9 +142,10 @@ reads the values now.
 Copies made by 0.5.0 and 0.5.1 also kept the namespace URIs and the element
 and attribute names of a firm's schemas (fixed in 0.5.2).
 
-Before sharing a copy made by one of those versions, make it again with a
-later version, which replaces the first three and reports the fourth. If that
-is not possible, open the copy's XML parts
+Before sharing a copy made by one of those versions, make it again with
+0.8.2 or later, which replaces the first three and the places in the section
+above, and reports the fourth. If that is not possible, open the copy's XML
+parts
 (`word/document.xml`, headers, footers, notes, comments, `customXml/item*.xml`)
 and check three things: the value of every attribute whose prefix is bound to
 a namespace outside `schemas.openxmlformats.org`, `schemas.microsoft.com` and

@@ -635,6 +635,7 @@ def test_the_leak_scan_reads_binding_literals_and_prefixes(tmp_path):
         ("word/document.xml", "dataBinding (data binding path)", 4),  # acme, Contract, Client, Holdings
         ("word/document.xml", "t", 1),
         ("customXml/item1.xml", "(namespace prefix)", 1),
+        ("customXml/item1.xml", "(namespace URI)", 1),  # acme, read since 0.8.2
         ("customXml/item1.xml", "Contract (custom name)", 1)}
 
 
@@ -714,3 +715,186 @@ def test_the_leak_scan_reads_attribute_values_of_a_part_it_cannot_parse(tmp_path
         "word/broken.xml": '<x:root><style name="Acme Holdings"/>'})
     leaks, _ = leak_scan([copy], {"Acme", "Holdings"}, {("Acme", "Holdings")})
     assert leaks == [{"file": 1, "part": "word/broken.xml", "where": "(unparsed part)", "words": 1}]
+
+
+# --- inline custom XML markup and smart tags ------------------------------------------
+# A firm's schema written into the document itself: w:customXml at run,
+# paragraph, row and cell level names its element (w:element) and namespace
+# (w:uri), w:customXmlPr its attributes (w:attr) and placeholder text; a smart
+# tag does the same, and the settings list each smart tag type.
+
+TAGS = "urn:acme-bank:smarttags"
+OFFICE_TAGS = "urn:schemas-microsoft-com:office:smarttags"
+CONTACTS = "urn:schemas:contacts"
+SCHEMA_LIBRARY = "http://schemas.openxmlformats.org/schemaLibrary/2006/main"
+#: every name and value of the firm's in the documents below
+INLINE_SECRETS = (b"acme", b"LoanAgreement", b"BorrowerName", b"Collateral", b"firstName",
+                  b"branch", b"segment", b"Chilonzor", b"Retail", b"borrower", b"RiskRating",
+                  b"Score", b"Watchlist", b"Karimov", b"Sedan", b"akarimov", b"LoanExport")
+
+
+def inline_markup(tmp_path, name="a.docx", inserted=True, data=True):
+    """The firm's data inline and, with `data`, in a custom XML part; a smart
+    tag in the firm's namespace and Office's own smart tags. `inserted` keeps
+    a tracked insertion inside the firm's markup, which an edited copy can
+    lose."""
+    insertion = ('<w:ins w:id="1" w:author="Jane Roe" w:date="2026-09-29T14:25:00Z">'
+                 '<w:r><w:t> Karimov</w:t></w:r></w:ins>' if inserted
+                 else '<w:r><w:t> Karimov</w:t></w:r>')
+    body = (
+        f'<w:customXml w:uri="{FIRM}" w:element="LoanAgreement"><w:customXmlPr>'
+        '<w:placeholder w:val="Enter the borrower"/><w:attr w:name="branch" w:val="Chilonzor"/>'
+        f'<w:attr w:uri="{FIRM}" w:name="segment" w:val="Retail"/></w:customXmlPr>'
+        f'<w:p><w:customXml w:uri="{FIRM}" w:element="BorrowerName"><w:r><w:t>Karimov</w:t></w:r>'
+        f'{insertion}</w:customXml></w:p></w:customXml>'
+        '<w:tbl><w:tblPr/><w:tblGrid><w:gridCol w:w="2000"/></w:tblGrid>'
+        f'<w:customXml w:uri="{FIRM}" w:element="Collateral"><w:tr>'
+        f'<w:customXml w:uri="{FIRM}" w:element="CollateralValue"><w:tc><w:p><w:r><w:t>Sedan</w:t>'
+        '</w:r></w:p></w:tc></w:customXml></w:tr></w:customXml></w:tbl>'
+        '<w:p><w:customXml w:element="firstName"><w:r><w:t>Kim</w:t></w:r></w:customXml>'
+        f'<w:smartTag w:uri="{TAGS}" w:element="RiskRating"><w:smartTagPr>'
+        '<w:attr w:name="Score" w:val="Watchlist"/></w:smartTagPr><w:r><w:t>Karimov</w:t></w:r>'
+        f'</w:smartTag><w:smartTag w:uri="{OFFICE_TAGS}" w:element="City"><w:smartTagPr>'
+        '<w:attr w:name="ProductID" w:val="Tashkent"/></w:smartTagPr><w:r><w:t>Tashkent</w:t></w:r>'
+        f'</w:smartTag><w:smartTag w:uri="{OFFICE_TAGS}" w:element="PersonName">'
+        f'<w:smartTag w:uri="{CONTACTS}" w:element="GivenName"><w:r><w:t>Kim</w:t></w:r>'
+        '</w:smartTag></w:smartTag></w:p>')
+    settings = (
+        f'<w:settings {NS} xmlns:sl="{SCHEMA_LIBRARY}">'
+        f'<w:attachedSchema w:val="{FIRM}"/><w:saveThroughXslt w:solutionID="AcmeLoanExport"/>'
+        f'<w:smartTagType w:namespaceuri="{TAGS}" w:name="RiskRating" '
+        'w:url="https://tags.acme.example/risk"/>'
+        f'<w:smartTagType w:namespaceuri="{OFFICE_TAGS}" w:name="City"/>'
+        f'<w:smartTagType w:namespaceuri="{CONTACTS}" w:name="GivenName"/>'
+        f'<sl:schemaLibrary><sl:schema sl:uri="{FIRM}" '
+        'sl:manifestLocation="C:\\Users\\akarimov\\Schemas\\LoanExport.xml" '
+        'sl:schemaLocation="C:\\Users\\akarimov\\Schemas\\LoanAgreement.xsd"/></sl:schemaLibrary>'
+        '</w:settings>')
+    parts = {"word/settings.xml": settings}
+    if data:
+        parts["customXml/item1.xml"] = (
+            f'<LoanAgreement xmlns="{FIRM}" xmlns:f="{FIRM}" branch="Chilonzor" f:segment="Retail">'
+            '<BorrowerName>Karimov</BorrowerName><Collateral><CollateralValue>Sedan'
+            '</CollateralValue></Collateral></LoanAgreement>')
+    return package(tmp_path / name, body, parts=parts)
+
+
+def inline_names(path):
+    """(element, [(attribute uri, name)], uri) of every inline custom XML
+    element and smart tag, in document order."""
+    document = fromstring(zipfile.ZipFile(path).read("word/document.xml"))
+    w = f"{{{W_NS}}}"
+    return [(node.get(w + "element"),
+             [(a.get(w + "uri"), a.get(w + "name")) for a in node.iter(w + "attr")
+              if a.getparent().getparent() is node],
+             node.get(w + "uri"))
+            for node in document.iter(w + "customXml", w + "smartTag")]
+
+
+def test_inline_custom_xml_and_a_firms_smart_tags_lose_their_names_and_values(tmp_path):
+    # 0.8.1 replaced their namespace URIs and attribute values and kept the
+    # element and attribute names, the placeholder text and the smart tag types
+    source = inline_markup(tmp_path, "source.docx")
+    edited = inline_markup(tmp_path, "edited.docx", inserted=False)
+    report = run(tmp_path, source, edited)
+    assert report.reproduced and report.original["edited"]  # the lost insertion comes back
+    assert report.passed and report.leaks == []
+    for output in report.outputs:
+        copy = package_bytes(output)
+        for secret in INLINE_SECRETS:
+            assert secret not in copy, secret
+    # names Office defines stay: its smart tags, and the contacts schema its
+    # person name smart tag writes
+    names = inline_names(report.outputs[0])
+    assert names[-3:] == [("City", [(None, "ProductID")], OFFICE_TAGS),
+                          ("PersonName", [], OFFICE_TAGS), ("GivenName", [], CONTACTS)]
+    settings = read_part(report.outputs[0], "word/settings.xml")
+    assert f'w:namespaceuri="{OFFICE_TAGS}" w:name="City"' in settings
+    assert f'w:namespaceuri="{CONTACTS}" w:name="GivenName"' in settings
+    assert 'w:url="https://tags.' not in settings and "https://" in settings
+
+
+def test_inline_custom_xml_names_follow_the_firms_data(tmp_path):
+    # renamed the way the same names are in the custom XML part, so the
+    # markup still names the data's elements and attributes
+    report = run(tmp_path, inline_markup(tmp_path))
+    out = report.outputs[0]
+    data = fromstring(zipfile.ZipFile(out).read("customXml/item1.xml"))
+    namespace, root = data.tag[1:].split("}")
+    attributes = {etree_namespace_of(a): a.rpartition("}")[2] for a in data.attrib}
+    borrower, collateral = data
+    value = collateral[0]
+    assert inline_names(out)[:5] == [
+        (root, [(None, attributes[None]), (namespace, attributes[namespace])], namespace),
+        (borrower.tag.split("}")[1], [], namespace),
+        (collateral.tag.split("}")[1], [], namespace),
+        (value.tag.split("}")[1], [], namespace),
+        (inline_names(out)[4][0], [], None)]  # firstName, in no namespace: renamed on its own
+    # the placeholder and attribute values are replaced like text
+    document = read_part(out, "word/document.xml")
+    placeholder = re.search(r'<w:placeholder w:val="([^"]*)"', document).group(1)
+    assert re.fullmatch(r"[A-Z][a-z]{4} [a-z]{3} [a-z]{8}", placeholder)
+    assert set(data.attrib.values()) == set(re.findall(
+        r'<w:attr (?:w:uri="[^"]*" )?w:name="[^"]*" w:val="([^"]*)"', document)[:2])
+    settings = read_part(out, "word/settings.xml")
+    firm_type = re.search(r'<w:smartTagType w:namespaceuri="([^"]*)" w:name="([^"]*)"', settings)
+    assert (firm_type.group(1), firm_type.group(2)) == inline_names(out)[5][2::-2]
+    library = re.search(r'<sl:schema sl:uri="([^"]*)"', settings).group(1)
+    assert library == namespace == re.search(r'w:attachedSchema w:val="([^"]*)"', settings).group(1)
+
+
+def etree_namespace_of(attribute):
+    return attribute[1:].split("}")[0] if attribute.startswith("{") else None
+
+
+def test_the_leak_scan_reads_inline_custom_xml_and_smart_tags(tmp_path):
+    # what 0.8.1 kept, read in the document as written: the scan looked
+    # there for two consecutive words of the text at most
+    vocabulary = {"acme", "LoanAgreement", "BorrowerName", "Collateral", "CollateralValue",
+                  "firstName", "branch", "segment", "Chilonzor", "Retail", "Enter", "borrower",
+                  "RiskRating", "Score", "Watchlist", "risk", "akarimov", "Schemas", "City",
+                  "ProductID", "Tashkent", "PersonName", "GivenName"}
+    leaks, structural = leak_scan([inline_markup(tmp_path, data=False)], vocabulary, set())
+    assert {(x["part"], x["where"]): x["words"] for x in leaks} == {
+        ("word/document.xml", "customXml/@element (custom name)"): 5,
+        ("word/document.xml", "attr/@name (custom name)"): 3,  # branch, segment, Score
+        ("word/document.xml", "smartTag/@element (custom name)"): 1,
+        ("word/document.xml", "attr/@val"): 4,  # Chilonzor, Retail, Watchlist, Tashkent
+        ("word/document.xml", "placeholder/@val"): 2,  # Enter, borrower
+        ("word/document.xml", "customXml/@uri"): 4,  # acme, in the firm's namespace
+        ("word/document.xml", "attr/@uri"): 1,
+        ("word/document.xml", "smartTag/@uri"): 1,
+        ("word/document.xml", "t"): 1,
+        ("word/settings.xml", "smartTagType/@name (custom name)"): 1,
+        ("word/settings.xml", "smartTagType/@namespaceuri"): 1,
+        ("word/settings.xml", "smartTagType/@url"): 2,  # acme, risk
+        ("word/settings.xml", "attachedSchema/@val"): 1,
+        ("word/settings.xml", "schema/@uri"): 1,
+        ("word/settings.xml", "schema/@manifestLocation"): 2,  # akarimov, Schemas
+        ("word/settings.xml", "schema/@schemaLocation"): 3,  # and LoanAgreement
+    }
+    # Office's names are kept structure: City, ProductID, PersonName and
+    # GivenName in the document, City and GivenName in the settings
+    assert structural == 6
+
+
+def test_a_part_that_is_not_well_formed_loses_inline_custom_xml_names(tmp_path):
+    # its markup stays as written: the names custom XML markup gives are
+    # attribute values, replaced as in a parsed part, and Office's are kept
+    body = (f'<w:p><w:customXml w:uri="{FIRM}" w:element="LoanAgreement"><w:customXmlPr>'
+            '<w:attr w:name="branch" w:val="Chilonzor"/></w:customXmlPr><w:r><w:t>Karimov</w:t>'
+            f'</w:r></w:customXml><w:smartTag w:uri="{OFFICE_TAGS}" w:element="City"><w:smartTagPr>'
+            '<w:attr w:name="ProductID" w:val="Tashkent"/></w:smartTagPr><w:r><w:t>Tashkent</w:t>'
+            '</w:r></w:smartTag><x:undeclared/></w:p>')
+    source = package(tmp_path / "a.docx", body)
+    leaks, _ = leak_scan([source], {"acme", "LoanAgreement", "branch", "Chilonzor", "City",
+                                    "ProductID"}, set())
+    assert leaks == [{"file": 1, "part": "word/document.xml", "where": "(unparsed part)",
+                      "words": 4}]  # Office's City and ProductID are not counted
+    report = run(tmp_path, source)
+    assert report.files[0].lexical == ["word/document.xml"] and report.reproduced
+    document = read_part(report.outputs[0], "word/document.xml")
+    for secret in ("acme", "LoanAgreement", "branch", "Chilonzor", "Karimov", "Tashkent"):
+        assert secret not in document
+    assert 'w:element="City"' in document and 'w:name="ProductID"' in document
+    assert report.leaks == [] and report.passed
