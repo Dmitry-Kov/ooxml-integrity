@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased
+
+- **A paragraph boundary reads as a space.** A comment, footnote or endnote
+  of several paragraphs read its paragraphs joined with nothing between
+  them: "First." and "Second." read "First.Second.", so an edit that
+  reflowed them into one paragraph, "First. Second.", was reported as a
+  lost comment or note (`FID004`–`FID006`, an error) although no word
+  changed, and `FID010` skipped the note's tracked changes as changed text.
+  These texts now read a paragraph boundary as whitespace, as they read a
+  tab or a break, so the reflow is not reported and `FID010` compares the
+  note's tracked changes; two paragraphs "Confirm this" and "figure." joined
+  into "Confirm thisfigure." are a changed comment. Header and footer
+  stories (`FID007`) already read their paragraphs apart, but read a text
+  box's paragraphs twice, once glued to the paragraph that holds the box;
+  each is now read once, on its own, so the same reflow inside a text box no
+  longer changes the story. Which paragraph a word stands in is still
+  reported, as `FID014` information. `fix` quotes a reply of several
+  paragraphs the same way. Among 2,732 distinct DOCX files in this
+  repository and the public corpora, 23 comment and footnote bodies in 8
+  files and 43 header and footer parts with text boxes in 32 files read
+  differently; none is in this repository's evidence, whose records are
+  unchanged. A finding on such a text gets another baseline identity: see
+  [compatibility](docs/compatibility.md#rule-codes-severity-and-exit-status).
+
 ## 0.8.1 — 2026-10-12
 
 [Upgrade notes and verified publication](docs/releases/0.8.1.md). Published

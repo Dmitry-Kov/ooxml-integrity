@@ -18,7 +18,14 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        exclude:
+          # ubuntu-latest is Ubuntu 26.04 from October 2026, which
+          # setup-python has no Python 3.9 for; 3.9 runs on 24.04 below
+          - os: ubuntu-latest
+            python: "3.9"
         include:
+          - os: ubuntu-24.04
+            python: "3.9"
           # the tool reads files Word wrote, so check it runs where Word lives,
           # on the oldest and newest Python it supports as well
           - os: windows-latest

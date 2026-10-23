@@ -33,6 +33,24 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+0.8.2 changes what the comment, note and header and footer texts read
+between paragraphs:
+
+- `FID004`–`FID006` and `FID010` read a paragraph boundary in a comment,
+  footnote or endnote as a space; through 0.8.1 the paragraphs were joined
+  with nothing between them. A reflow of a body's paragraphs into one is no
+  longer reported (exit 1 can become 0). Joining two paragraphs without a
+  space joins two words and is reported now (exit 0 can become 1), and
+  `FID010` compares, and can report, the tracked changes of a reflowed note
+  it skipped before as changed text.
+- `FID007` reads the paragraphs of a text box in a header or footer once,
+  apart from the paragraph that holds the box; through 0.8.1 they were read
+  twice, once glued to that paragraph.
+- A finding on a body of several paragraphs, or on a story with a text box,
+  carries another `body`. Its baseline v2 identity, which hashes `body` for
+  `FID004`–`FID007` and `FID010`, changes: review and regenerate the
+  baseline. An expectation that names such a `body` must name the new text.
+
 0.7.0 adds `PKG010`, an ERROR finding of `check()`: a part the main
 document relates whose declared content type is not the one its relationship
 type requires. A document that passed the default gate can now exit 1; among

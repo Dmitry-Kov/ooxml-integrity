@@ -22,8 +22,10 @@ FID004 to FID007 and FID010. A character one of them sees, all of them see.
 
 Field instructions (``w:instrText``) are not shown and are not read; the
 result a field shows is in ordinary runs. Which of ``w:t`` and ``w:delText``
-counts, and whether content inside a tracked insertion or deletion does, is
-each reader's view, not this module's.
+counts, whether content inside a tracked insertion or deletion does, and what
+stands between two paragraphs is each reader's view, not this module's: the
+story, comment and note texts read a paragraph boundary as a space, FID014
+compares paragraphs one by one.
 """
 from __future__ import annotations
 
