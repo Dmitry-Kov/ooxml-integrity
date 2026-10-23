@@ -53,7 +53,7 @@ from .comments import (
 )
 from .content_types import CT, ROOTS, media_type, part_key
 from .content_types import related as related_content_types
-from .fidelity import TRACKED, compare
+from .fidelity import TRACKED, _story_text, compare
 from .finding import INFO, Finding
 from .inspector import _paragraph_revision_pair, check
 from .repack import RepackError, differences, read_entries, repack
@@ -517,10 +517,6 @@ class _Package:
         return {n: p.result() for n, p in self._edited.items() if p.changed}
 
 
-def _text(el) -> str:
-    return "".join(t.text or "" for t in el.iter(W + "t"))
-
-
 def _snippet(text: str, n: int = 60) -> str:
     return text if len(text) <= n else text[:n - 3] + "..."
 
@@ -793,8 +789,10 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                                   for _ in el.iter(W + tag))
         reply, pc = comments[cid][0], comments[parent][0]
         others = [m for m in thread if m != parent]
+        # Quoted as FID004 reads a comment: a reply of two paragraphs is
+        # "First. Second.", not "First.Second.".
         detail = (f"reply {cid} by {reply.get(W + 'author') or 'no author'} "
-                  f'("{_snippet(_text(reply))}") anchored at the range of comment '
+                  f'("{_snippet(_story_text(reply))}") anchored at the range of comment '
                   f"{parent} by {pc.get(W + 'author') or 'no author'}"
                   + (f", after reply {', '.join(others)}" if others else "")
                   + f", in {story}, in the order Word writes a thread; Word does "

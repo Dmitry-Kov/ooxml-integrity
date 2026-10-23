@@ -9,6 +9,7 @@ original?".
 from __future__ import annotations
 
 import collections
+import functools
 import posixpath
 import re
 from dataclasses import dataclass
@@ -225,6 +226,43 @@ def _text_of(node, *, original: bool) -> str | None:
     return text
 
 
+def _joined(root, read) -> str:
+    """Normalised text of a story, comment or note: what `read` gives for each
+    element, in document order, a paragraph boundary read as a space.
+
+    The rules that compare these texts compare words, not paragraphs, so
+    where one paragraph ends and the next begins is whitespace, like a tab or
+    a break. Joined without it, a comment of two paragraphs "First." and
+    "Second." read "First.Second.", and an edit that reflowed them into one,
+    "First. Second.", lost a comment no word of which changed. Two paragraphs
+    "A" and "B" read "A B", as "A" and "B" separated by a space do, not "AB":
+    which paragraph a word stands in is FID014's to report. A paragraph in a
+    text box is a paragraph of its own: its text is read once, where it
+    stands, apart from the text around the box.
+    """
+    out: list[str] = []
+    owner = None
+    for node in root.iter(*_TEXT_TAGS):
+        text = read(node)
+        if text is None:
+            continue
+        paragraph = next(node.iterancestors(W + "p"), None)
+        if paragraph is not owner:
+            out.append("\n")
+            owner = paragraph
+        out.append(text)
+    return _norm("".join(out))
+
+
+def _story_text(root, *, original: bool = False) -> str:
+    """Normalised text of a story: a header, a footer, a comment or a note.
+
+    `original` rejects every revision: inserted and moved-to text is left
+    out and deleted text is kept.
+    """
+    return _joined(root, functools.partial(_text_of, original=original))
+
+
 def _has_text_revisions(item) -> bool:
     return next(item.iter(*_TEXT_REVISIONS), None) is not None
 
@@ -233,6 +271,11 @@ def _record(item) -> tuple | None:
     """Every character of an item, deleted or not, with the text revisions
     holding it as (tag, author, date), outermost first; each paragraph ends
     with a mark carrying its own mark revisions. None without text revisions.
+
+    Unlike the texts (`_joined`), the record keeps every character and where
+    each paragraph ends: it witnesses that every change an edit made is
+    tracked, and joining two paragraphs untracked is such a change. It is
+    consulted only when the texts as they stand differ.
     """
     if not _has_text_revisions(item):
         return None
@@ -287,9 +330,7 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
             continue
-        body, original = (_norm("".join(
-            t for t in (_text_of(n, original=view) for n in item.iter(*_TEXT_TAGS))
-            if t is not None)) for view in (False, True))
+        body, original = _story_text(item), _story_text(item, original=True)
         if body or original:
             out.append((body, original, _record(item)))
         if body:
@@ -371,14 +412,8 @@ def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
         for note in root.findall(W + kind):
             if note.get(W + 'type') in _BOILERPLATE:
                 continue
-            chunks, kinds = [], set()
-            for node in note.iter():
-                text = shown(node)
-                if text is not None:
-                    chunks.append(text)
-                elif node.tag in _REVISION_TAGS:
-                    kinds.add(node.tag[len(W):])
-            body = _norm(''.join(chunks))
+            kinds = {node.tag[len(W):] for node in note.iter(*_REVISION_TAGS)}
+            body = _joined(note, shown)
             if not body:
                 result.empty_records += len(kinds)
                 continue
@@ -542,19 +577,6 @@ def _effective_story_references(
             for (kind, variant), part in sorted(current.items())
         )
     return effective
-
-
-def _story_text(root, *, original: bool = False) -> str:
-    """Normalised story text, preserving run joins and paragraph boundaries.
-
-    `original` rejects every revision: inserted and moved-to text is left
-    out and deleted text is kept.
-    """
-    paragraphs: list[str] = []
-    for paragraph in root.iter(W + "p"):
-        tokens = (_text_of(node, original=original) for node in paragraph.iter(*_TEXT_TAGS))
-        paragraphs.append("".join(t for t in tokens if t is not None))
-    return _norm("\n".join(paragraphs))
 
 
 def _revision_contexts(root) -> collections.Counter:
