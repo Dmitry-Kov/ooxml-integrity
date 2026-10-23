@@ -190,6 +190,38 @@ first, the other replacement words of these two copies differ as well. Their
 findings are reproduced, and LibreOffice converts both copies, as it does
 their originals.
 
+## Parts that are not well-formed, after 0.8.1
+
+A part that is not well-formed XML keeps its markup, and the rules replace
+attribute values there by their local names. Verifying the change above
+found a hyperlink address on a VML shape (`<v:shape href="..."
+o:href="...">`) kept in such a part: no raw-text rule named it, and the leak
+scan looked there for two consecutive words of the text. Compared rule by
+rule with a well-formed part, such a part also kept external relationship
+targets, shape names that VML repeats as ids and the references to them,
+numbering formats, custom style ids and names and their uses, the names of
+form fields, building blocks and mail merge fields, data binding paths, and
+the attached schema and the schema library's namespace and locations when
+no well-formed part named that namespace. All are now replaced as in a
+well-formed part. The leak scan reads external addresses word by word, less
+the scheme a replacement keeps, and so the attributes that are replaced as
+text wherever they occur (bookmark names, tooltips, document variables, form
+field names and the like), in every part. `tests/test_anonymize.py` holds the
+synthetic cases; each fails on 0.8.1.
+
+With the same seeds, 2,900 of the 2,908 copies are byte for byte the run
+above's. The other eight are copies of LibreOffice test documents with parts
+like `7973.xml` (see above): their custom style ids, names and references
+(`rrdsinglerule`, `Buborékszöveg Char`), Word's Hungarian default shape
+names that VML repeats as ids (`Téglalap 1`) and the level text of bullets
+are now replaced, and since words are drawn in another order, the other
+replacement words of these copies differ as well. Their findings are
+reproduced and LibreOffice converts all eight. The leak scan reports the
+same eleven documents, with 5,293 words instead of 5,382; what is left there
+are the values no rule names. The summary and the LibreOffice outcome are
+those of the run above; the rows of seven of these documents differ only in
+the number of words reported.
+
 ## Limits
 
 These are the repository's own and public test documents. They cover many

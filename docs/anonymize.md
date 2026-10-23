@@ -134,9 +134,11 @@ directory, and the originals are read first.
   Element text is replaced everywhere, so any word of four or more letters
   found there, in a part name, in a name, prefix, namespace URI or attribute
   value of a firm's own schema (also as custom XML markup and smart tags name
-  it), in that markup's values and placeholder text, or in a data binding
-  path's literals, is reported.
-  Attribute values in the Office namespaces are
+  it), in that markup's values and placeholder text, in a data binding
+  path's literals, in an external address (a hyperlink on a shape, a
+  relationship's target) but for its scheme, or in an attribute replaced as
+  text wherever it occurs (a bookmark name, a tooltip, a form field's name),
+  is reported. Other attribute values in the Office namespaces are
   mostly names the format defines (`left`, `auto`, `Normal`) that a text may
   use too; there two consecutive words of the text are reported. The report
   names the file, part and element or attribute, never the words.
@@ -159,10 +161,14 @@ sample of copies in Word.
   be anonymized either. A part that is not well-formed XML is rewritten as
   text, its markup unchanged, so it stays broken in the same way; the report
   lists such parts. Its character data, the attributes the rules above name
-  and the attribute values in a firm's namespace are replaced; other
-  attribute values, and a firm's element names and prefixes, stay as
-  written. The leak scan reads them and reports words of the text it finds
-  there (single words in a firm's names and values, two consecutive words
+  (found by their local names, since the prefixes cannot be resolved) and
+  the attribute values in a firm's namespace are replaced; other attribute
+  values, and a firm's element names and prefixes, stay as written. A data
+  binding path there is replaced, or refused, as in a well-formed part, but
+  not checked: a binding in a part that is not well-formed cannot be
+  evaluated. The leak scan reads such a part and reports words of the text
+  it finds there (single words in a firm's names and values, in external
+  addresses and in attributes replaced as text, two consecutive words
   elsewhere).
 - Fonts are kept as they are; a custom corporate font keeps its name.
 
