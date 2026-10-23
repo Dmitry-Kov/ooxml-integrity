@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.8.1 release notes](releases/0.8.1.md) before changing a version pin.
+[0.8.2 release notes](releases/0.8.2.md) before changing a version pin.
 
 ## What a release can change
 
@@ -34,7 +34,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 ## Rule codes, severity and exit status
 
 0.8.2 changes what the comment, note and header and footer texts read
-between paragraphs:
+between paragraphs, and what `anonymize` replaces:
 
 - `FID004`–`FID006` and `FID010` read a paragraph boundary in a comment,
   footnote or endnote as a space; through 0.8.1 the paragraphs were joined
@@ -50,6 +50,14 @@ between paragraphs:
   carries another `body`. Its baseline v2 identity, which hashes `body` for
   `FID004`–`FID007` and `FID010`, changes: review and regenerate the
   baseline. An expectation that names such a `body` must name the new text.
+- `anonymize` replaces more of a firm's names and values (custom XML markup,
+  smart tags and their settings; values in parts that are not well-formed),
+  so a copy made with the same seed can differ from 0.8.1's. A data binding
+  path in a part that is not well-formed that cannot be mapped is refused
+  (exit 2), as one in a well-formed part already was. The leak scan reads
+  more places word by word, so a run can fail with leak reports (exit 1)
+  where 0.8.1 passed; its `leaks` counts change. `urn:schemas:contacts`, the
+  namespace Office's person name smart tag writes, is no longer replaced.
 
 0.7.0 adds `PKG010`, an ERROR finding of `check()`: a part the main
 document relates whose declared content type is not the one its relationship
@@ -289,11 +297,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.8.1 | Meaning |
+| Output | Version in 0.8.2 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.8.1"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.8.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.8.1"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.8.2"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

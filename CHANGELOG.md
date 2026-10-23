@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.8.2 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.8.2.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 Security fix to `anonymize`. Copies made by 0.5.0 to 0.8.1 of documents with
 custom XML markup or smart tags in a firm's namespace, or with the settings

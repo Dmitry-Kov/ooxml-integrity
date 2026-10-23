@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.8.1
+    python research/release_smoke.py --version 0.8.2
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -445,6 +445,37 @@ def main():
         assert not _match("out/a/accepted/nested/file.docx", "out/**/accepted/*.docx")
         assert _match("out/a/b/accepted/file.docx", "out/**/accepted/*.docx")
 
+        # 0.8.2. anonymize replaces a firm's element name in custom XML markup.
+        marked = base["word/document.xml"].replace(b"<w:body>", (
+            b'<w:body><w:p><w:customXml w:uri="https://acme.example/contracts" '
+            b'w:element="ZorblattClient"><w:r><w:t>Zorblatt</w:t></w:r></w:customXml></w:p>'), 1)
+        cli("anonymize", variant("custom-markup.docx", {**base, "word/document.xml": marked}),
+            "-o", work / "shared-markup")
+        with ZipFile(work / "shared-markup" / "document.docx") as package:
+            assert all(b"Zorblatt" not in package.read(n) for n in package.namelist())
+        # A hyperlink address on a VML shape in a part that is not well-formed
+        # is replaced as in a well-formed one.
+        broken = base["word/document.xml"].replace(b"<w:body>", (
+            b'<w:body><w:p><w:r><w:t>Zorblatt</w:t></w:r><w:r><w:pict '
+            b'xmlns:v="urn:schemas-microsoft-com:vml"><v:shape id="s1" '
+            b'href="https://zorblatt.example/client-file"/></w:pict></w:r></w:p><w:p>'), 1)
+        cli("anonymize", variant("broken-link.docx", {**base, "word/document.xml": broken}),
+            "-o", work / "shared-broken")
+        with ZipFile(work / "shared-broken" / "document.docx") as package:
+            assert b"zorblatt" not in package.read("word/document.xml").lower()
+        # A comment's paragraphs reflowed into one, no word changed, is not a
+        # lost comment.
+        comments = base["word/comments.xml"]
+        sentence = b"Confirm this figure against the source table before circulation."
+        assert comments.count(sentence) == 1
+        two = variant("two-paragraphs.docx", {**base, "word/comments.xml": comments.replace(
+            sentence, b"Confirm this figure.</w:t></w:r></w:p><w:p><w:r><w:t>Check the table.")})
+        one = variant("one-paragraph.docx", {**base, "word/comments.xml": comments.replace(
+            sentence, b"Confirm this figure. Check the table.")})
+        reflowed = json.loads(cli("check", one, "--against", two, "--no-config",
+                                  "--json").stdout)["files"][0]["findings"]
+        assert "FID004" not in {f["code"] for f in reflowed}
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -496,6 +527,8 @@ def main():
           "0.8.1 anonymize refusing its own input and replacing a firm's attribute value, "
           "fix refusing a part whose root contradicts its relationship, FID014 reading "
           "a non-breaking hyphen, segment-wise ** globs, "
+          "0.8.2 anonymize replacing a custom XML element name and a VML link in a "
+          "part that is not well-formed, a reflowed comment not lost, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
