@@ -38,10 +38,11 @@
   the problem and exit 2, in `check` and in `mcp`. A baseline count must be a
   whole number of at least 0; a count written as a string was read before.
 
-## 0.8.2 — release candidate
+## 0.8.2 — 2026-10-24
 
-[Upgrade notes and validation](docs/releases/0.8.2.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.8.2.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 Security fix to `anonymize`. Copies made by 0.5.0 to 0.8.1 of documents with
 custom XML markup or smart tags in a firm's namespace, or with the settings
