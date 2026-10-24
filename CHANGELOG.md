@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.8.3 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.8.3.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - **Empty paragraphs and empty lines in `.pptx` text take height.** An empty
   paragraph added none, so text pushed out of its box by empty paragraphs

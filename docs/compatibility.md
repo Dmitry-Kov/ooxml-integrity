@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.8.2 release notes](releases/0.8.2.md) before changing a version pin.
+[0.8.3 release notes](releases/0.8.3.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-The unreleased PPTX model changes `PPT001` and `PPT002` where a text box has
+0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a
 top-anchored box, and the last paragraph's space after, no longer count, so a
@@ -42,7 +42,7 @@ for shapes with empty lines. Codes, severities, report fields, coverage and
 baseline v2 identities are unchanged. Of 605 public decks, 8 change their
 findings ([details](pptx-empty-lines.md)).
 
-Unreleased `PKG011` and `REL004` are new ERROR findings of `check()`: a
+0.8.3 adds `PKG011` and `REL004`, new ERROR findings of `check()`: a
 content type declared twice for an extension or part name, and a relationship
 `Id` used twice in one relationship part. A document that passed the default
 gate can now exit 1; Word for Mac refuses such documents, and none of 1,903
@@ -51,7 +51,7 @@ to `package.content-types` and `package.relationships`. Their baseline v2
 identity is the general one: file, code and the location of the second
 declaration.
 
-Unreleased: a config, baseline or report path that cannot be used exits 2
+In 0.8.3 a config, baseline or report path that cannot be used exits 2
 with a one-line reason, where it raised a traceback and exited 1, the code for
 findings. A CI step that told the two apart by exit code now sees a usage
 error. A baseline whose counts are not whole numbers of at least 0 is refused;
@@ -322,11 +322,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.8.2 | Meaning |
+| Output | Version in 0.8.3 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.8.2"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.8.3"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.8.2"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.8.3"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
