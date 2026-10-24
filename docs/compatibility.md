@@ -45,6 +45,11 @@ longer `PKG005` (exit 1 can become 0), and a wrong content type on such an
 `Override` is `PKG010` instead of `PKG005`. No public file changes
 ([Word check](../evidence/docx-case-overrides/README.md)).
 
+Unreleased: a `.pptx` shape some of whose text has no font metrics gets
+`PPT000` ERROR, where it got at most a `PPT001` WARN on the rest of its text,
+and its coverage items `pptx.font-metrics` and `pptx.text-overflow` are
+`skipped` instead of `estimated`. No public deck changes.
+
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a

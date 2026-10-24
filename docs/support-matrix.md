@@ -217,7 +217,7 @@ It does not run the DOCX package inspector over a presentation.
 | Exact installed face | **Supported** | An exact family match is treated as trustworthy for the implemented advance-width model. This does not add GPOS/GSUB shaping. |
 | Metric-compatible substitution | **Partial** | Known substitutes are treated as trustworthy. Only the Calibri/Carlito pair has direct cross-machine measurements in this repository; other declared pairs have not received the same validation. |
 | Similar or last-resort substitution | **Partial** | A measurement is still attempted, but the result is marked as an estimate through `PPT007`; affected overflow severity is reduced when the face is not trustworthy. |
-| No usable fonts | **Supported** | Emits `PPT000` instead of reporting a clean text-layout result. Geometry checks can still run. |
+| No usable fonts | **Supported** | Emits `PPT000` instead of reporting a clean text-layout result. Geometry checks can still run. Unreleased: when only some of a shape's text runs have no metrics, `PPT000` names their fonts and the fit of the rest is still checked; through 0.8.3 that text was left out without a finding. |
 | Embedded fonts | **Not checked** | Fonts embedded in a presentation are not loaded from the package by the layout model. |
 | Kerning and shaping | **Partial** | Legacy `kern` pairs are applied. GPOS kerning, GSUB substitution, ligature shaping, bidirectional layout and complex-script shaping are not implemented. |
 | Stored `normAutofit` result | **Partial** | Applies stored `fontScale` and `lnSpcReduction`. If shrink-to-fit is requested but no scale is stored, `PPT005` reports renderer dependence. |

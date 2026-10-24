@@ -86,6 +86,15 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
                         "; " + "; ".join(result.notes) if result.notes else ""),
                     _where(shape)))
             continue
+        if result.unmeasured_fonts and machine_wide:
+            # Some runs measured, some not: a fit verdict on the rest alone is
+            # not a check of this shape, so say what was left out.
+            out.append(Finding(
+                "PPT000", ERROR,
+                "no font metrics were available for "
+                + ", ".join(repr(f) for f in result.unmeasured_fonts)
+                + ", so part of this shape's text was not measured and its fit "
+                  "was checked without it", _where(shape)))
 
         # Grow-to-fit behaviour is outside this model; this is no fit verdict.
         # Coverage reports the skip separately from stored-rectangle geometry.

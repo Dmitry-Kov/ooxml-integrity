@@ -794,6 +794,9 @@ class LayoutResult:
     #: than "nothing wrong" - the distinction the first version got wrong.
     measured: bool = True
     notes: list[str] = field(default_factory=list)
+    #: Fonts of text runs left out for want of metrics, while other runs were
+    #: measured: the numbers above leave that text out.
+    unmeasured_fonts: list[str] = field(default_factory=list)
 
     @property
     def vertical_overflow_pt(self) -> float:
@@ -831,9 +834,12 @@ class _Piece:
     size_pt: float
 
 
-def _split_runs(para: Paragraph, scale: float,
-                notes: list[str]) -> tuple[list[_Piece], bool]:
-    """Break a paragraph into word-sized pieces, each measured with its own face."""
+def _split_runs(para: Paragraph, scale: float, notes: list[str],
+                unmeasured: list[str] | None = None) -> tuple[list[_Piece], bool]:
+    """Break a paragraph into word-sized pieces, each measured with its own face.
+
+    The font of a run with text that has no metrics goes to `unmeasured`.
+    """
     pieces: list[_Piece] = []
     confident = True
     for run in para.runs:
@@ -843,6 +849,8 @@ def _split_runs(para: Paragraph, scale: float,
         if m is None:
             notes.append(f"no font metrics for {run.font!r}")
             confident = False
+            if unmeasured is not None and run.text.strip():
+                unmeasured.append(run.font)
             continue
         if not m.face.trustworthy:
             confident = False
@@ -978,6 +986,7 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
     notes: list[str] = []
     paragraphs_with_text = 0
     paragraphs_measured = 0
+    unmeasured: list[str] = []
     # The text top to bottom: (height, whether it draws glyphs). Spacing and
     # empty lines draw none.
     rows: list[tuple[float, bool]] = []
@@ -986,7 +995,7 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
         has_text = bool(para.text.strip())
         if has_text:
             paragraphs_with_text += 1
-        pieces, ok = _split_runs(para, scale, notes)
+        pieces, ok = _split_runs(para, scale, notes, unmeasured)
         confident = confident and ok
         if pieces:
             paragraphs_measured += 1
@@ -1044,7 +1053,8 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
 
     measured = paragraphs_measured > 0 or paragraphs_with_text == 0
     return LayoutResult(total_lines, text_h, box_h_pt, widest, box_w_pt,
-                        confident, measured, notes)
+                        confident, measured, notes,
+                        list(dict.fromkeys(unmeasured)) if measured else [])
 
 
 def read_deck(path: str | Path, *,
