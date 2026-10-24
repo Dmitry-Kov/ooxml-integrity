@@ -440,6 +440,22 @@ def _run_mcp(args) -> int:
     return serve(config=args.config, no_config=args.no_config, fail_on=fail_on)
 
 
+def _write_json(doc, path: str, option: str) -> bool:
+    """Write a report file; a path that cannot be written is a usage error.
+
+    Exit 1 means findings, so a crash there would read as a failing document.
+    """
+    try:
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
+    except OSError as e:
+        print(f"ooxml-integrity: {option}: cannot write {path}: {e.strerror or e}",
+              file=sys.stderr)
+        return False
+    return True
+
+
 def main(argv: list[str] | None = None) -> int:
     # Redirected Windows streams can use a legacy encoding. Keep that encoding
     # but escape unencodable diagnostic characters instead of truncating output.
@@ -505,9 +521,8 @@ def main(argv: list[str] | None = None) -> int:
     # config in, and changing the config later would then look like regressions.
     if args.write_baseline:
         doc = make_baseline({str(p): f for p, f in raw.items()})
-        with open(args.write_baseline, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
+        if not _write_json(doc, args.write_baseline, "--write-baseline"):
+            return EXIT_USAGE
         total = sum(doc["findings"].values())
         print(f"wrote {args.write_baseline}: {total} finding(s) from "
               f"{len(raw)} file(s) recorded as accepted")
@@ -545,9 +560,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
                           {str(p): d + matched.get(p, []) for p, d in hidden.items()})
-        with open(args.sarif, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
+        if not _write_json(doc, args.sarif, "--sarif"):
+            return EXIT_USAGE
 
     if args.json:
         files = [

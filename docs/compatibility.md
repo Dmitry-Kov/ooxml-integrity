@@ -51,6 +51,13 @@ to `package.content-types` and `package.relationships`. Their baseline v2
 identity is the general one: file, code and the location of the second
 declaration.
 
+Unreleased: a config, baseline or report path that cannot be used exits 2
+with a one-line reason, where it raised a traceback and exited 1, the code for
+findings. A CI step that told the two apart by exit code now sees a usage
+error. A baseline whose counts are not whole numbers of at least 0 is refused;
+`--write-baseline` never wrote one, but a count edited by hand into a string
+such as `"2"` was read before.
+
 0.8.2 changes what the comment, note and header and footer texts read
 between paragraphs, and what `anonymize` replaces:
 
