@@ -90,8 +90,15 @@ def _load_toml(path: Path) -> dict[str, Any]:
                 f"{path} needs a TOML parser on Python < 3.11. "
                 "Install it with: pip install tomli"
             ) from None
-    with open(path, "rb") as fh:
-        return tomllib.load(fh)
+    try:
+        with open(path, "rb") as fh:
+            return tomllib.load(fh)
+    except tomllib.TOMLDecodeError as e:
+        raise ConfigError(f"{path} is not valid TOML: {e}") from None
+    except UnicodeDecodeError:
+        raise ConfigError(f"{path} is not UTF-8 text, as TOML requires") from None
+    except OSError as e:
+        raise ConfigError(f"cannot read config file {path}: {e.strerror or e}") from None
 
 
 class ConfigError(Exception):
@@ -199,6 +206,9 @@ class Policy:
                 for key in table:
                     node = node.get(key, {}) if isinstance(node, dict) else {}
                 if node:
+                    if not isinstance(node, dict):
+                        raise ConfigError(
+                            f"{path}: [{'.'.join(table)}] must be a table")
                     data = node
                     break
             if not data:
@@ -223,8 +233,16 @@ class Policy:
         except ValueError as e:
             raise ConfigError(f"fail-on: {e}") from None
 
+        severity = data.get("severity") or {}
+        if not isinstance(severity, dict):
+            raise ConfigError(
+                'severity must be a table of rule codes, such as CMT005 = "warn"')
+        for key in ("ignore", "expect"):
+            if not isinstance(data.get(key) or [], list):
+                raise ConfigError(f"{key} must be an array of tables, [[{key}]]")
+
         sev = {}
-        for code, value in (data.get("severity") or {}).items():
+        for code, value in severity.items():
             v = str(value).strip().lower()
             if v != OFF:
                 try:
@@ -429,8 +447,13 @@ def read_baseline(path: str | os.PathLike) -> dict[str, int]:
     if not p.exists():
         raise ConfigError(
             f"baseline not found: {p}. Create one with --write-baseline {p}")
-    with open(p, encoding="utf-8") as fh:
-        data = json.load(fh)
+    try:
+        with open(p, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        raise ConfigError(f"{p} is not a ooxml-integrity baseline: not JSON ({e})") from None
+    except OSError as e:
+        raise ConfigError(f"cannot read baseline {p}: {e.strerror or e}") from None
     if not isinstance(data, dict) or "findings" not in data:
         raise ConfigError(f"{p} is not a ooxml-integrity baseline")
     version = data.get("version")
@@ -446,7 +469,13 @@ def read_baseline(path: str | os.PathLike) -> dict[str, int]:
             f"supports version {BASELINE_VERSION}. Regenerate it with the same "
             f"check command and --write-baseline {p}"
         )
-    return {str(k): int(v) for k, v in data["findings"].items()}
+    counts = data["findings"]
+    # --write-baseline writes whole counts; bool is an int in Python, not a count.
+    if not isinstance(counts, dict) or not all(
+            type(v) is int and v >= 0 for v in counts.values()):
+        raise ConfigError(f"{p} is not a ooxml-integrity baseline: its findings "
+                          "must map each fingerprint to a count")
+    return {str(k): v for k, v in counts.items()}
 
 
 def apply_baseline(file: str, findings: list[Finding], allowance: dict[str, int]

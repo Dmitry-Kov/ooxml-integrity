@@ -219,6 +219,76 @@ def test_a_file_that_is_not_a_baseline_is_refused(tmp_path):
         read_baseline(p)
 
 
+# --------------------------------------------- input that cannot be read
+# Exit 1 means findings. A traceback there made a broken config or baseline
+# read as a failing document; each of these was one before.
+@pytest.mark.parametrize("body, match", [
+    (b"fail-on = [\n", "is not valid TOML"),
+    (b"\xff\xfe", "is not UTF-8"),
+    (b'severity = ["CMT005"]\n', "severity must be a table"),
+    (b'severity = "off"\n', "severity must be a table"),
+    (b'ignore = "CMT005"\n', r"ignore must be an array of tables, \[\[ignore\]\]"),
+    (b'expect = "FID001"\n', r"expect must be an array of tables, \[\[expect\]\]"),
+])
+def test_a_config_that_cannot_be_read_is_refused(tmp_path, body, match):
+    cfg = tmp_path / "c.toml"
+    cfg.write_bytes(body)
+    with pytest.raises(ConfigError, match=match):
+        Policy.load(cfg)
+
+
+def test_a_directory_named_as_config_is_refused(tmp_path):
+    with pytest.raises(ConfigError, match="cannot read config file"):
+        Policy.load(tmp_path)
+
+
+def test_a_pyproject_section_that_is_not_a_table_is_refused(tmp_path):
+    p = write_cfg(tmp_path, '[tool]\nooxml-integrity = "x"\n', "pyproject.toml")
+    with pytest.raises(ConfigError, match=r"\[tool.ooxml-integrity\] must be a table"):
+        Policy.load(p)
+
+
+@pytest.mark.parametrize("body", [
+    '{"version": 2, "findings": {"x": ',
+    '{"version": 2, "findings": []}',
+    '{"version": 2, "findings": {"x": "1"}}',
+    '{"version": 2, "findings": {"x": -1}}',
+    '{"version": 2, "findings": {"x": true}}',
+])
+def test_a_baseline_that_cannot_be_read_is_refused(tmp_path, body):
+    p = tmp_path / "b.json"
+    p.write_text(body, encoding="utf-8")
+    with pytest.raises(ConfigError, match="not a ooxml-integrity baseline"):
+        read_baseline(p)
+
+
+def test_a_directory_named_as_baseline_is_refused(tmp_path):
+    with pytest.raises(ConfigError, match="cannot read baseline"):
+        read_baseline(tmp_path)
+
+
+def test_a_baseline_count_is_kept_as_written(tmp_path):
+    p = tmp_path / "b.json"
+    p.write_text('{"version": 2, "findings": {"a": 0, "b": 3}}', encoding="utf-8")
+    assert read_baseline(p) == {"a": 0, "b": 3}
+
+
+@pytest.mark.parametrize("option, setup", [
+    ("--config", lambda d: (d / "c.toml").write_text("fail-on = [\n") and d / "c.toml"),
+    ("--config", lambda d: d),
+    ("--baseline", lambda d: (d / "b.json").write_text("{") and d / "b.json"),
+    ("--baseline", lambda d: (d / "b.json").write_text('{"version": 2, "findings": []}')
+     and d / "b.json"),
+    ("--write-baseline", lambda d: d / "missing" / "b.json"),
+    ("--sarif", lambda d: d / "missing" / "r.sarif"),
+])
+def test_cli_reports_unreadable_input_as_a_usage_error(tmp_path, base_docx, option, setup):
+    r = run_cli("check", str(base_docx), option, str(setup(tmp_path)))
+    assert r.returncode == 2, r.stdout + r.stderr
+    assert "Traceback" not in r.stderr
+    assert r.stderr.startswith("ooxml-integrity: ")
+
+
 # -------------------------------------------------------------------- SARIF
 def test_sarif_is_shaped_as_the_schema_expects():
     doc = build_sarif({"a.docx": [F("CMT005", ERROR, "comment id=1")]})

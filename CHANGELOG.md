@@ -28,6 +28,15 @@
   declaration repeats the first ([Word check](evidence/docx-opc-duplicates/README.md));
   the checker reported nothing on six of them. Over 1,903 public Word files
   neither rule fires.
+- **A config, baseline or report path that cannot be used is a usage error
+  (exit 2).** A config that is not valid TOML or not UTF-8, a directory given
+  as a config or baseline, a `severity` that is not a table, an `ignore` or
+  `expect` that is not an array of tables, a `[tool.ooxml-integrity]` that is
+  not a table, a baseline that is not JSON or whose findings are not counts,
+  and a `--write-baseline` or `--sarif` path that cannot be written raised a
+  traceback and exited 1, the code for findings. They now name the file and
+  the problem and exit 2, in `check` and in `mcp`. A baseline count must be a
+  whole number of at least 0; a count written as a string was read before.
 
 ## 0.8.2 — release candidate
 
