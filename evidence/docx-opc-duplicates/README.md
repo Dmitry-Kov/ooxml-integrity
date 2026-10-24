@@ -1,6 +1,6 @@
 # Word refuses a content type or relationship Id declared twice
 
-**`PKG011` and `REL004` (ERROR), unreleased.** A script that adds a comments
+**`PKG011` and `REL004` (ERROR), released in 0.8.3.** A script that adds a comments
 part or a relationship without reading what the package already declares can
 write a second `Override` for the same part name, a second `Default` for the
 same extension, or a relationship `Id` that is already taken. Word for Mac
