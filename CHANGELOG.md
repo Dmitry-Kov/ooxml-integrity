@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.8.3 — release candidate
+## 0.8.3 — 2026-10-24
 
-[Upgrade notes and validation](docs/releases/0.8.3.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.8.3.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - **Empty paragraphs and empty lines in `.pptx` text take height.** An empty
   paragraph added none, so text pushed out of its box by empty paragraphs

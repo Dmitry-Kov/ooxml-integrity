@@ -208,7 +208,7 @@ What the match cannot tell:
 ## Findings in the pull request, not in a log
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.8.2
+- uses: Dmitry-Kov/ooxml-integrity@v0.8.3
   id: docs
   continue-on-error: true
   with:
