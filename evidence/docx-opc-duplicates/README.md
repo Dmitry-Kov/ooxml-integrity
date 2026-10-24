@@ -63,7 +63,10 @@ no check fails (`INT001`).
 - One Word build, on one source document. Word for Windows and Word on the web
   were not checked.
 - A percent-escaped spelling of a part name (`/word/%63omments.xml`) counts as a
-  repeat because OPC says so; Word was not shown one.
+  repeat because OPC says so. Word refuses such a package, but for the escaped
+  name itself: it refuses an `Override` that escapes an unreserved character
+  even when the name repeats nothing
+  ([case and escapes](../docx-case-overrides/README.md)).
 - Only `.docx` packages are checked. A `.pptx` with the same duplicates is not.
 - The operator was Claude Code driving Word through AppleScript, with the
   maintainer's permission, and was not blind to the expectations. On each

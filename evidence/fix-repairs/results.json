@@ -1,5 +1,5 @@
 {
- "checker": "0.8.2",
+ "checker": "0.8.3",
  "python": "3.12.8",
  "lxml": "6.1.3.0",
  "zlib": "1.2.12",
@@ -10,15 +10,15 @@
    "demo",
    "evidence"
   ],
-  "distinct_docx": 908,
-  "paths": 1478
+  "distinct_docx": 915,
+  "paths": 1485
  },
  "summary": {
   "files nothing-to-repair": 22,
-  "files repaired": 33,
+  "files repaired": 34,
   "refused anchor-replies": 23,
   "repaired anchor-replies": 14,
-  "repaired content-type": 5,
+  "repaired content-type": 6,
   "repaired renumber-revisions": 19
  },
  "files": [
@@ -766,6 +766,55 @@
    "other_findings": [],
    "verification": null,
    "output_sha256": null,
+   "deterministic": true
+  },
+  {
+   "paths": [
+    "evidence/docx-case-overrides/variants/override-capitals-wrong-type.docx"
+   ],
+   "sha256": "fee66c4357f65a3d56fe5ce0c2e2238e9688f7d82c419bc0a8b0f23b0bd90a4e",
+   "source": null,
+   "findings": {
+    "PKG010": 1
+   },
+   "status": "repaired",
+   "exit": 0,
+   "reason": "1 finding(s) repaired and re-checked",
+   "repaired": [
+    {
+     "repair": "content-type",
+     "finding": "word/commentsExtended.xml is declared as application/vnd.ms-word.commentsExtended+xml, but its commentsExtended relationship requires application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml - Word can refuse the document as unreadable",
+     "detail": "word/commentsExtended.xml is the target of the commentsExtended relationship rId8 in word/_rels/document.xml.rels, whose type requires application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml; its Override declared application/vnd.ms-word.commentsExtended+xml, and only that value changes; Word for Mac 16.113.4 refused files with this declaration as unreadable and opened them with only this value corrected",
+     "changes": [
+      {
+       "part": "[Content_Types].xml",
+       "element": "Override",
+       "where": "/Types/Override[9]",
+       "old": "ContentType=\"application/vnd.ms-word.commentsExtended+xml\"",
+       "new": "ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml\""
+      }
+     ]
+    }
+   ],
+   "refused": [],
+   "other_findings": [],
+   "verification": {
+    "passed": true,
+    "failures": [],
+    "removed": [
+     "PKG010"
+    ],
+    "added": [],
+    "compare_input_output": [],
+    "against_added": null,
+    "zip": {
+     "changed": [
+      "[Content_Types].xml"
+     ],
+     "copied": 20
+    }
+   },
+   "output_sha256": "d0903717abf855988c364bf7288ddaf4076b66649f1bafdfd832240f2c059a55",
    "deterministic": true
   },
   {

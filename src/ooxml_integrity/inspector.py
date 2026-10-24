@@ -36,7 +36,7 @@ from .comments import (
     relationships_part,
     story_parts,
 )
-from .content_types import media_type, part_key, related as related_content_types
+from .content_types import covered, media_type, part_key, related as related_content_types
 from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
 from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
@@ -248,7 +248,8 @@ class Inspector:
         defaults = {
             d.get("Extension", "").lower() for d in ct.findall(f"{{{NS['ct']}}}Default")
         }
-        overrides = {o.get("PartName") for o in ct.findall(f"{{{NS['ct']}}}Override")}
+        overrides = {covered(o.get("PartName"))
+                     for o in ct.findall(f"{{{NS['ct']}}}Override")}
         if "rels" not in defaults:
             # An Override covers a relationship part as well as any other part.
             # Only relationship parts left without any content type break the
@@ -257,7 +258,7 @@ class Inspector:
                 name for name in self.parts
                 if name.endswith(".rels")
                 and (name.startswith("_rels/") or "/_rels/" in name)
-                and "/" + name not in overrides
+                and covered("/" + name) not in overrides
             ]
             if uncovered:
                 self._add(
@@ -282,7 +283,7 @@ class Inspector:
             if name.startswith("_rels/") or "/_rels/" in name:
                 continue
             ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
-            if "/" + name in overrides or ext in defaults:
+            if covered("/" + name) in overrides or ext in defaults:
                 continue
             self._add("PKG005", ERROR,
                       f"part not covered by content types: {name} - Word asks "

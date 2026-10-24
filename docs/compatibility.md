@@ -39,6 +39,12 @@ through 0.8.3 it got nothing. A deck that passed can exit 1. Codes, report
 fields, coverage and baseline v2 identities are unchanged
 ([details](pptx-thin-boxes.md)).
 
+Unreleased: `PKG005` and `PKG010` match an `Override` to its part without
+regard to letter case. A part an `Override` names in other letters is no
+longer `PKG005` (exit 1 can become 0), and a wrong content type on such an
+`Override` is `PKG010` instead of `PKG005`. No public file changes
+([Word check](../evidence/docx-case-overrides/README.md)).
+
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a
