@@ -5,8 +5,7 @@ between two breaks or after a trailing break was always 18pt, and blank rows
 below the last line of text counted wherever the text was anchored. So text
 pushed out of its box by empty paragraphs between bullets was reported as
 fitting, while a top-anchored title followed by a few breaks was reported as
-overflowing when nothing was drawn outside it. The unreleased model fixes
-both.
+overflowing when nothing was drawn outside it. 0.8.3 fixes both.
 
 ## What the model does
 

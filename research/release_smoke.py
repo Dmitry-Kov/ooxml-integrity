@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.8.2
+    python research/release_smoke.py --version 0.8.3
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -476,6 +476,51 @@ def main():
                                   "--json").stdout)["files"][0]["findings"]
         assert "FID004" not in {f["code"] for f in reflowed}
 
+        # 0.8.3. A content type or relationship Id declared twice: Word refuses
+        # the package even when the second declaration repeats the first.
+        types = base["[Content_Types].xml"]
+        comments_type = (b'<Override PartName="/word/comments.xml" ContentType="application/'
+                         b'vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"/>')
+        assert types.count(comments_type) == 1
+        twice = variant("override-twice.docx", {
+            **base, "[Content_Types].xml": types.replace(comments_type, comments_type * 2)})
+        assert ("PKG011", "error") in found(twice, code=1)
+        rels = base["word/_rels/document.xml.rels"]
+        styles_rel = (b'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/'
+                      b'officeDocument/2006/relationships/styles" Target="styles.xml"/>')
+        assert rels.count(styles_rel) == 1
+        taken = variant("id-twice.docx", {
+            **base, "word/_rels/document.xml.rels": rels.replace(styles_rel, styles_rel * 2)})
+        assert ("REL004", "error") in found(taken, code=1)
+        # A config that is not TOML is a usage error, not a traceback that
+        # exits 1 as if the document had findings.
+        bad_config = work / "bad.toml"
+        bad_config.write_text("fail-on = [\n", encoding="utf-8")
+        refused = cli("check", source, "--config", bad_config, code=2)
+        assert "is not valid TOML" in refused.stderr and "Traceback" not in refused.stderr
+        # An empty paragraph is as tall as its mark, and blank rows below
+        # top-anchored text draw nothing. Fixed widths: no font is needed.
+        from ooxml_integrity import pptx_layout
+        from ooxml_integrity.fonts import EMU_PER_POINT, Metrics, ResolvedFace
+        fixed = Metrics(ResolvedFace("Test", Path("unused.ttf"), "Test", "exact"),
+                        1000, 800, 200, 0, {cp: 100 for cp in range(32, 127)}, 100, {})
+        measure, pptx_layout._metrics_for = pptx_layout._metrics_for, lambda run: fixed
+        try:
+            def box(*paragraphs, anchor="t"):
+                return pptx_layout.layout_shape(pptx_layout.Shape(
+                    "box", 1, 0, 0, round(500 * EMU_PER_POINT), round(500 * EMU_PER_POINT),
+                    paragraphs=list(paragraphs), insets=(0, 0, 0, 0), anchor=anchor)).text_height_pt
+
+            def line(text):
+                return pptx_layout.Paragraph([pptx_layout.Run(text, 18, "Test", False, False)])
+
+            empty = pptx_layout.Paragraph([], end_size_pt=36)
+            assert abs(box(line("Abc"), empty, line("Xyz")) - (21.6 + 43.2 + 21.6)) < 1e-6
+            assert abs(box(line("Abc"), empty) - 21.6) < 1e-6
+            assert abs(box(line("Abc"), empty, anchor="b") - (21.6 + 43.2)) < 1e-6
+        finally:
+            pptx_layout._metrics_for = measure
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -529,6 +574,8 @@ def main():
           "a non-breaking hyphen, segment-wise ** globs, "
           "0.8.2 anonymize replacing a custom XML element name and a VML link in a "
           "part that is not well-formed, a reflowed comment not lost, "
+          "0.8.3 PKG011 and REL004 on a repeated Override and relationship Id, a "
+          "config that is not TOML exiting 2, empty .pptx lines as tall as their marks, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

@@ -96,7 +96,7 @@ WARN. The three POI decks with one trailing newline still fail with `PKG002`,
 which now names the extra byte. Two of them are named after the web pages
 they came from, so a transfer probably added it.
 
-### PPTX: empty paragraphs and lines (unreleased)
+### PPTX: empty paragraphs and lines (0.8.3)
 
 With empty lines as tall as their marks and blank rows above or below the
 text counted by anchor, findings change in 8 of the 605 decks: 14 `PPT001`

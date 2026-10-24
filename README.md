@@ -290,10 +290,10 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `PKG001-008` | OPC package integrity, content types, archive budgets, unsafe part names |
 | `PKG009` | 0.4.4: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
 | `PKG010` | 0.7.0, ERROR: a part the main document relates is declared with another content type than its relationship type requires, as in Codex's `commentsExtended` parts that Word for Mac refuses; [scope and corpus run](evidence/docx-content-types/README.md) |
-| `PKG011` | unreleased, ERROR: a second `Default` for an extension or `Override` for a part name in `[Content_Types].xml`, compared as OPC compares them; Word for Mac refuses the package even when the second repeats the first; [Word check](evidence/docx-opc-duplicates/README.md) |
+| `PKG011` | 0.8.3, ERROR: a second `Default` for an extension or `Override` for a part name in `[Content_Types].xml`, compared as OPC compares them; Word for Mac refuses the package even when the second repeats the first; [Word check](evidence/docx-opc-duplicates/README.md) |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
-| `REL004` | unreleased, ERROR: one `Id` on two relationships of the same relationship part, which Word for Mac refuses; [Word check](evidence/docx-opc-duplicates/README.md) |
+| `REL004` | 0.8.3, ERROR: one `Id` on two relationships of the same relationship part, which Word for Mac refuses; [Word check](evidence/docx-opc-duplicates/README.md) |
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
 | `STY002` | undefined `basedOn` / `next` / `link` style references: warning; 0.4.5: `next` / `link` are info |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
