@@ -1,0 +1,49 @@
+{
+ "schema_version": 1,
+ "fixture": "corpus/pptx-thin-boxes.pptx",
+ "fixture_sha256": "35136c063db5f54658fa7304d78517a098ebb5615a5be3b9e080229f4523754a",
+ "builder": "research/pptx_thin_boxes.py build",
+ "measure": "research/pptx_thin_boxes.py measure: per probe, the top of the 'A' and the bottom of the 'X' of the one line, in points from the top of the box",
+ "licence": "Synthetic fixture under the project's MIT licence. The PDFs are not stored: they embed font subsets.",
+ "renderers": {
+  "libreoffice": {
+   "renderer": "LibreOffice 25.8.4.2, macOS 27.0.1, Apple Silicon",
+   "observed_on": "2026-10-24",
+   "method": "soffice --headless --convert-to pdf with a fresh user profile; Calibri drawn as Carlito",
+   "probes": {
+    "t_0": {
+     "a_top_pt": 1.32,
+     "x_bottom_pt": 19.32
+    },
+    "t_4": {
+     "a_top_pt": 5.29,
+     "x_bottom_pt": 23.29
+    },
+    "t_7.2": {
+     "a_top_pt": 8.35,
+     "x_bottom_pt": 26.35
+    },
+    "t_8": {
+     "a_top_pt": 8.35,
+     "x_bottom_pt": 26.35
+    },
+    "ctr_4": {
+     "a_top_pt": -3.95,
+     "x_bottom_pt": 14.05
+    },
+    "b_4": {
+     "a_top_pt": -13.22,
+     "x_bottom_pt": 4.78
+    },
+    "t_4_no_insets": {
+     "a_top_pt": 4.84,
+     "x_bottom_pt": 22.84
+    },
+    "t_40": {
+     "a_top_pt": 8.38,
+     "x_bottom_pt": 26.38
+    }
+   }
+  }
+ }
+}

@@ -26,6 +26,7 @@ Everything here is geometry and table lookups. No rendering.
 """
 from __future__ import annotations
 
+import math
 import posixpath
 import re
 from dataclasses import dataclass, field
@@ -801,7 +802,9 @@ class LayoutResult:
     @property
     def vertical_overflow_ratio(self) -> float:
         if self.box_height_pt <= 0:
-            return 0.0
+            # A box no taller than its insets has no room: any text overflows.
+            # 0 here once read as "fits".
+            return math.inf if self.text_height_pt > 0 else 0.0
         return self.text_height_pt / self.box_height_pt
 
     @property

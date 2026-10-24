@@ -98,10 +98,27 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
 
         if ratio > 1.0 + BORDERLINE:
             over_pt = result.vertical_overflow_pt
-            msg = (f"text needs {result.text_height_pt:.0f}pt in a "
-                   f"{result.box_height_pt:.0f}pt box - "
-                   f"{over_pt:.0f}pt too tall ({(ratio - 1) * 100:.0f}% over), "
-                   f"{result.lines} line(s)")
+            # Insets at least as tall as the shape leave no room for text. OOXML
+            # then moves both insets until they meet (LibreOffice's tdf#148321
+            # import does the same), so text no taller than the shape may still
+            # be drawn inside it, depending on the renderer.
+            placed_by_renderer = (result.box_height_pt <= 0 and result.text_height_pt
+                                  <= shape.height / EMU_PER_POINT * (1 + BORDERLINE))
+            if result.box_height_pt > 0:
+                msg = (f"text needs {result.text_height_pt:.0f}pt in a "
+                       f"{result.box_height_pt:.0f}pt box - "
+                       f"{over_pt:.0f}pt too tall ({(ratio - 1) * 100:.0f}% over), "
+                       f"{result.lines} line(s)")
+            else:
+                _, top, _, bottom = shape.insets
+                msg = (f"text needs {result.text_height_pt:.0f}pt in a box with no "
+                       f"room for text: it is {shape.height / EMU_PER_POINT:.1f}pt tall "
+                       f"and its top and bottom insets take "
+                       f"{(top + bottom) / EMU_PER_POINT:.1f}pt - {result.lines} line(s)")
+                if placed_by_renderer:
+                    msg += ("; the text is no taller than the shape, so whether it is "
+                            "drawn inside it depends on where the renderer puts text "
+                            "when the insets leave no room")
             if shape.autofit == "normAutofit" and shape.font_scale >= 1.0:
                 # PowerPoint stores the shrink it applied. No scale means either
                 # it never opened the file, or the writer did not compute one -
@@ -111,6 +128,8 @@ def check_text_overflow(deck: Deck) -> list[Finding]:
                     f'{msg}; the shape asks for shrink-to-fit but carries no '
                     f'stored fontScale, so the result depends on the renderer',
                     _where(shape)))
+            elif placed_by_renderer:
+                out.append(Finding("PPT001", WARN, msg + note, _where(shape)))
             elif confident:
                 out.append(Finding("PPT001", ERROR, msg + note, _where(shape)))
             else:
