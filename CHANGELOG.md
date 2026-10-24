@@ -19,10 +19,11 @@
   verdicts, and in 12 heights within 1pt and 0.05pt. Of 605 public decks, 8
   change: 14 `PPT001` and 2 `PPT002` go, 8 `PPT001` and 1 `PPT002` come.
 
-## 0.8.2 — release candidate
+## 0.8.2 — 2026-10-24
 
-[Upgrade notes and validation](docs/releases/0.8.2.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.8.2.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 Security fix to `anonymize`. Copies made by 0.5.0 to 0.8.1 of documents with
 custom XML markup or smart tags in a firm's namespace, or with the settings
