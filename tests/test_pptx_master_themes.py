@@ -295,7 +295,7 @@ def test_inherited_tokens_use_the_owner_theme(parts, tmp_path, source, token, ex
     assert fonts(read_deck(save(parts, tmp_path))) == [expected]
 
 
-def test_hard_break_uses_owner_theme_and_preserves_existing_size_default(parts, tmp_path):
+def test_hard_break_uses_owner_theme_and_inherited_size(parts, tmp_path):
     only_slides(parts, 2)
     tree = etree.fromstring(parts[SLIDE])
     body = tree.findall(f"{{{P}}}cSld/{{{P}}}spTree/{{{P}}}sp")[1]
@@ -303,8 +303,10 @@ def test_hard_break_uses_owner_theme_and_preserves_existing_size_default(parts, 
     br = etree.SubElement(ap, f"{{{A}}}br")
     etree.SubElement(etree.SubElement(br, f"{{{A}}}rPr"), f"{{{A}}}latin", typeface="+mj-lt")
     parts[SLIDE] = etree.tostring(tree)
-    run = bodies(read_deck(save(parts, tmp_path)))[0].paragraphs[0].runs[-1]
-    assert run.text == "\n" and run.font == "Times New Roman" and run.size_pt == 18
+    runs = bodies(read_deck(save(parts, tmp_path)))[0].paragraphs[0].runs
+    # A break sizes the empty line it ends, so it inherits like a run does.
+    assert runs[-1].text == "\n" and runs[-1].font == "Times New Roman"
+    assert runs[-1].size_pt == runs[0].size_pt == 24
 
 
 @pytest.mark.parametrize("owner", [SLIDE, LAYOUT])

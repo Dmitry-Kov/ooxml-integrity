@@ -33,6 +33,15 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased PPTX model changes `PPT001` and `PPT002` where a text box has
+empty paragraphs or empty lines. Empty paragraphs between lines of text now
+take height, so a deck that passed can exit 1. Blank rows below the text of a
+top-anchored box, and the last paragraph's space after, no longer count, so a
+deck that failed can exit 0. Line counts and heights in the messages change
+for shapes with empty lines. Codes, severities, report fields, coverage and
+baseline v2 identities are unchanged. Of 605 public decks, 8 change their
+findings ([details](pptx-empty-lines.md)).
+
 0.8.2 changes what the comment, note and header and footer texts read
 between paragraphs, and what `anonymize` replaces:
 

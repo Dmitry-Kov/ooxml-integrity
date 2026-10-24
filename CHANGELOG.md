@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+- **Empty paragraphs and empty lines in `.pptx` text take height.** An empty
+  paragraph added none, so text pushed out of its box by empty paragraphs
+  between bullets was reported as fitting; an empty line between breaks or
+  after a trailing break was always 18pt. An empty line is now as tall as the
+  mark that ends it: the paragraph's `a:endParaRPr`, inherited when absent, or
+  the break's run properties. An empty paragraph keeps its spacing; there is no
+  space below the last paragraph, as there was none above the first. Blank
+  rows above the first line of text or below the last count only where the
+  anchor moves text by them: below it for bottom-anchored text, above it for
+  top-anchored text, and their difference for centred text. A placeholder
+  without an anchor inherits its layout's or master's. Before, a top-anchored
+  title followed by breaks was reported as overflowing when nothing was drawn
+  outside its box. PowerPoint for Mac's and LibreOffice's renders of the new
+  [fixture](docs/pptx-empty-lines.md) match the model in all 18 anchor
+  verdicts, and in 12 heights within 1pt and 0.05pt. Of 605 public decks, 8
+  change: 14 `PPT001` and 2 `PPT002` go, 8 `PPT001` and 1 `PPT002` come.
+
 ## 0.8.2 — release candidate
 
 [Upgrade notes and validation](docs/releases/0.8.2.md). Publication follows the

@@ -1,0 +1,291 @@
+{
+ "schema_version": 1,
+ "fixture": "corpus/pptx-empty-lines.pptx",
+ "fixture_sha256": "f10f9d6577857fa6898d3aeabdeb0167c24c56db8adfcdd30d652ef5569903f8",
+ "builder": "research/pptx_empty_lines.py build",
+ "measure": "research/pptx_empty_lines.py measure: per probe, the top of the first 'A' and the bottom of the last 'X', in points from the top of the box",
+ "licence": "Synthetic fixture under the project's MIT licence. The PDFs are not stored: they embed font subsets.",
+ "renderers": {
+  "libreoffice": {
+   "renderer": "LibreOffice 25.8.4.2, macOS 27.0.1, Apple Silicon",
+   "observed_on": "2026-10-24",
+   "method": "soffice --headless --convert-to pdf with a fresh user profile; Calibri drawn as Carlito, its metric-compatible substitute",
+   "probes": {
+    "base": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 44.4
+    },
+    "empty18": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 66.0
+    },
+    "empty36": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 87.6
+    },
+    "empty10": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 56.42
+    },
+    "empty_inherited": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 66.0
+    },
+    "empty18_spacing": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 84.0
+    },
+    "two_empty36": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 130.8
+    },
+    "breaks_base": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 44.4
+    },
+    "break_break36": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 87.6
+    },
+    "break_break10": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 56.42
+    },
+    "trailing_break_mark36": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 87.6
+    },
+    "trailing_break_mark10": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 56.42
+    },
+    "solo": {
+     "a_top_pt": null,
+     "x_bottom_pt": 22.8
+    },
+    "leading_empty36": {
+     "a_top_pt": null,
+     "x_bottom_pt": 66.0
+    },
+    "mark36_on_text": {
+     "a_top_pt": 4.8,
+     "x_bottom_pt": 44.4
+    },
+    "t_text": {
+     "a_top_pt": 4.81,
+     "x_bottom_pt": 44.41
+    },
+    "t_trailing": {
+     "a_top_pt": 4.81,
+     "x_bottom_pt": 44.41
+    },
+    "t_leading": {
+     "a_top_pt": 91.21,
+     "x_bottom_pt": 130.81
+    },
+    "t_trailing_break": {
+     "a_top_pt": 4.84,
+     "x_bottom_pt": 44.44
+    },
+    "t_first_space_before": {
+     "a_top_pt": 4.84,
+     "x_bottom_pt": 44.44
+    },
+    "t_last_space_after": {
+     "a_top_pt": 4.84,
+     "x_bottom_pt": 44.44
+    },
+    "ctr_text": {
+     "a_top_pt": 33.21,
+     "x_bottom_pt": 72.81
+    },
+    "ctr_trailing": {
+     "a_top_pt": -9.99,
+     "x_bottom_pt": 29.61
+    },
+    "ctr_leading": {
+     "a_top_pt": 76.41,
+     "x_bottom_pt": 116.01
+    },
+    "ctr_trailing_break": {
+     "a_top_pt": -8.34,
+     "x_bottom_pt": 31.25
+    },
+    "ctr_first_space_before": {
+     "a_top_pt": 13.25,
+     "x_bottom_pt": 52.86
+    },
+    "ctr_last_space_after": {
+     "a_top_pt": 13.25,
+     "x_bottom_pt": 52.86
+    },
+    "b_text": {
+     "a_top_pt": 61.62,
+     "x_bottom_pt": 101.22
+    },
+    "b_trailing": {
+     "a_top_pt": -24.78,
+     "x_bottom_pt": 14.81
+    },
+    "b_leading": {
+     "a_top_pt": 61.62,
+     "x_bottom_pt": 101.22
+    },
+    "b_trailing_break": {
+     "a_top_pt": -21.55,
+     "x_bottom_pt": 18.05
+    },
+    "b_first_space_before": {
+     "a_top_pt": 21.65,
+     "x_bottom_pt": 61.25
+    },
+    "b_last_space_after": {
+     "a_top_pt": 21.65,
+     "x_bottom_pt": 61.25
+    }
+   },
+   "tolerance_pt": 0.05
+  },
+  "powerpoint": {
+   "renderer": "Microsoft PowerPoint for Mac 16.114.1, macOS 27.0.1, Apple Silicon",
+   "observed_on": "2026-10-24",
+   "method": "A copy of the fixture, byte-identical to it before and after, opened with open -a; AppleScript 'save active presentation ... as save as PDF'; closed without saving. Nothing was edited. Calibri from the PowerPoint bundle. PowerPoint quit when the presentation was closed, after the PDF was written.",
+   "tolerance_pt": 1.0,
+   "tolerance_note": "PowerPoint draws a line of text that follows an empty line up to 0.96pt lower than 1.2 x size predicts, and a leading empty 36pt line is 0.24pt shorter; block heights read from the bottom- and centre-anchored probes match 1.2 x size within 0.16pt. In the bottom-anchored box with two leading empty paragraphs the text is drawn 0.72pt lower than without them, the glyph box of its last line 0.28pt past the box bottom.",
+   "probes": {
+    "base": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 42.76
+    },
+    "empty18": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 64.84
+    },
+    "empty36": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 86.92
+    },
+    "empty10": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 54.76
+    },
+    "empty_inherited": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 64.84
+    },
+    "empty18_spacing": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 82.84
+    },
+    "two_empty36": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 129.88
+    },
+    "breaks_base": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 42.76
+    },
+    "break_break36": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 86.92
+    },
+    "break_break10": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 54.76
+    },
+    "trailing_break_mark36": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 86.92
+    },
+    "trailing_break_mark10": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 54.76
+    },
+    "solo": {
+     "a_top_pt": null,
+     "x_bottom_pt": 21.88
+    },
+    "leading_empty36": {
+     "a_top_pt": null,
+     "x_bottom_pt": 64.84
+    },
+    "mark36_on_text": {
+     "a_top_pt": 3.88,
+     "x_bottom_pt": 42.76
+    },
+    "t_text": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 42.92
+    },
+    "t_trailing": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 42.92
+    },
+    "t_leading": {
+     "a_top_pt": 89.72,
+     "x_bottom_pt": 129.8
+    },
+    "t_trailing_break": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 42.92
+    },
+    "t_first_space_before": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 42.92
+    },
+    "t_last_space_after": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 42.92
+    },
+    "ctr_text": {
+     "a_top_pt": 32.12,
+     "x_bottom_pt": 71.24
+    },
+    "ctr_trailing": {
+     "a_top_pt": -11.08,
+     "x_bottom_pt": 28.04
+    },
+    "ctr_leading": {
+     "a_top_pt": 75.08,
+     "x_bottom_pt": 114.92
+    },
+    "ctr_trailing_break": {
+     "a_top_pt": -9.4,
+     "x_bottom_pt": 29.72
+    },
+    "ctr_first_space_before": {
+     "a_top_pt": 12.2,
+     "x_bottom_pt": 51.32
+    },
+    "ctr_last_space_after": {
+     "a_top_pt": 12.2,
+     "x_bottom_pt": 51.32
+    },
+    "b_text": {
+     "a_top_pt": 60.68,
+     "x_bottom_pt": 99.56
+    },
+    "b_trailing": {
+     "a_top_pt": -25.72,
+     "x_bottom_pt": 13.16
+    },
+    "b_leading": {
+     "a_top_pt": 60.2,
+     "x_bottom_pt": 100.28
+    },
+    "b_trailing_break": {
+     "a_top_pt": -22.6,
+     "x_bottom_pt": 16.52
+    },
+    "b_first_space_before": {
+     "a_top_pt": 20.6,
+     "x_bottom_pt": 59.72
+    },
+    "b_last_space_after": {
+     "a_top_pt": 20.6,
+     "x_bottom_pt": 59.72
+    }
+   }
+  }
+ }
+}
