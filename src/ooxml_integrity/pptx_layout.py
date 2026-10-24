@@ -97,6 +97,9 @@ class Paragraph:
     space_after_pt: float = 0.0
     bullet_indent_emu: int = 0
     latin_line_break: bool = False
+    #: Size of the paragraph mark (a:endParaRPr, else inherited). An empty
+    #: line takes its height from the mark that ends it: this one, or a break.
+    end_size_pt: float = DEFAULT_SIZE_PT
 
     @property
     def text(self) -> str:
@@ -351,13 +354,18 @@ class DeckReader:
             return None
         return lst_style.find(_a(f"lvl{level + 1}pPr"))
 
-    def _placeholder_chain(self, slide_part: str, ph_idx, ph_type: str):
-        """lstStyle sources from the layout and master, in precedence order."""
-        chain = []
+    def _placeholder_shapes(self, slide_part: str, ph_idx, ph_type: str,
+                            master_type: str | None = None):
+        """The layout's, then the master's, placeholders this one may inherit from.
+
+        Yields ((0 for the layout or 1 for the master, whether only the type
+        matched), placeholder) in document order. `master_type` is the type
+        looked for on the master, if not `ph_type`.
+        """
         layout = self.pkg.related(slide_part, "/slideLayout")
         master = self.pkg.related(layout, "/slideMaster") if layout else None
-
-        for part in (layout, master):
+        for rank, (part, kind) in enumerate(((layout, ph_type),
+                                             (master, master_type or ph_type))):
             if not part:
                 continue
             t = self.pkg.tree(part)
@@ -368,9 +376,36 @@ class DeckReader:
                 if nv is None:
                     continue
                 if ph_idx is not None and nv.get("idx") == str(ph_idx):
-                    chain.append(sp.find(f'{_p("txBody")}/{_a("lstStyle")}'))
-                elif ph_type and (nv.get("type") or "body") == ph_type:
-                    chain.append(sp.find(f'{_p("txBody")}/{_a("lstStyle")}'))
+                    yield (rank, False), sp
+                elif kind and (nv.get("type") or "body") == kind:
+                    yield (rank, True), sp
+
+    def _placeholder_anchor(self, slide_part: str, ph_idx, ph_type: str) -> str | None:
+        """bodyPr anchor inherited from the layout placeholder, then the master's.
+
+        One placeholder per part: the one with the same idx, else the first of
+        the same type. A master has one title and one body placeholder: a
+        centred title takes the title's, a subtitle or content placeholder the
+        body's.
+        """
+        master_type = {"ctrTitle": "title", "subTitle": "body", "obj": "body"}.get(ph_type)
+        best: dict[int, tuple[bool, object]] = {}
+        for (rank, by_type), sp in self._placeholder_shapes(
+                slide_part, ph_idx, ph_type, master_type):
+            if rank not in best or by_type < best[rank][0]:
+                best[rank] = (by_type, sp)
+        for rank in sorted(best):
+            bodypr = best[rank][1].find(f'{_p("txBody")}/{_a("bodyPr")}')
+            if bodypr is not None and bodypr.get("anchor"):
+                return bodypr.get("anchor")
+        return None
+
+    def _placeholder_chain(self, slide_part: str, ph_idx, ph_type: str):
+        """lstStyle sources from the layout and master, in precedence order."""
+        chain = [sp.find(f'{_p("txBody")}/{_a("lstStyle")}')
+                 for _, sp in self._placeholder_shapes(slide_part, ph_idx, ph_type)]
+        layout = self.pkg.related(slide_part, "/slideLayout")
+        master = self.pkg.related(layout, "/slideMaster") if layout else None
 
         # the master's global text styles for this placeholder class
         if master:
@@ -384,9 +419,8 @@ class DeckReader:
         chain.append(self.pres_default_style)
         return [c for c in chain if c is not None]
 
-    def _effective_run_props(self, rpr, ppr, txbody_lst, style_chain, level: int,
-                             slide_part: str):
-        """Walk the chain for size, family, bold, italic - first hit per property wins."""
+    def _run_prop_sources(self, rpr, ppr, txbody_lst, style_chain, level: int):
+        """Run properties in precedence order: the run's own, then defRPr up the chain."""
         candidates = []
         if rpr is not None:
             candidates.append(rpr)
@@ -396,7 +430,19 @@ class DeckReader:
             lvl = self._lvl_props(src, level)
             if lvl is not None:
                 candidates.append(lvl.find(_a("defRPr")))
-        candidates = [c for c in candidates if c is not None]
+        return [c for c in candidates if c is not None]
+
+    def _effective_size(self, rpr, ppr, txbody_lst, style_chain, level: int) -> float:
+        """Size alone: a paragraph mark is never measured, so its font is not resolved."""
+        for c in self._run_prop_sources(rpr, ppr, txbody_lst, style_chain, level):
+            if c.get("sz"):
+                return int(c.get("sz")) / 100.0
+        return DEFAULT_SIZE_PT
+
+    def _effective_run_props(self, rpr, ppr, txbody_lst, style_chain, level: int,
+                             slide_part: str):
+        """Walk the chain for size, family, bold, italic - first hit per property wins."""
+        candidates = self._run_prop_sources(rpr, ppr, txbody_lst, style_chain, level)
 
         size_pt = None
         typeface = None
@@ -491,11 +537,11 @@ class DeckReader:
         )
         wrap = True
         autofit, scale, reduction = "none", 1.0, 0.0
-        anchor = "t"
+        anchor = None                    # None: inherited, see read()
         vertical_text = False
         if bodypr is not None:
             wrap = (bodypr.get("wrap") or "square") != "none"
-            anchor = bodypr.get("anchor") or "t"
+            anchor = bodypr.get("anchor")
             text_rotation = _int(bodypr, "rot", 0) or 0
             vertical_text = (
                 (bodypr.get("vert") or "horz") != "horz"
@@ -661,6 +707,9 @@ class DeckReader:
                     self._body_properties(txbody)
                 if vertical and has_text:
                     features["vertical_text_shapes"] += 1
+                if anchor is None and nv_ph is not None:
+                    anchor = self._placeholder_anchor(part, ph_idx, ph_type)
+                anchor = anchor or "t"
                 txbody_lst = txbody.find(_a("lstStyle")) if txbody is not None else None
                 style_chain = (
                     self._placeholder_chain(part, ph_idx, ph_type)
@@ -683,10 +732,10 @@ class DeckReader:
                                     style_chain, level, part)
                                 runs.append(Run(text, size, face, bold, italic))
                             elif ar.tag == _a("br"):
-                                _, face, _, _ = self._effective_run_props(
+                                size, face, _, _ = self._effective_run_props(
                                     ar.find(_a("rPr")), ppr, txbody_lst,
                                     style_chain, level, part)
-                                runs.append(Run("\n", DEFAULT_SIZE_PT, face, False, False))
+                                runs.append(Run("\n", size, face, False, False))
                         mult, exact, before, after = self._paragraph_spacing(
                             ppr, txbody_lst, style_chain, level)
                         latin_break = False
@@ -700,9 +749,11 @@ class DeckReader:
                             if source is not None and source.get("latinLnBrk") is not None:
                                 latin_break = _bool(source, "latinLnBrk")
                                 break
+                        end_size = self._effective_size(
+                            ap.find(_a("endParaRPr")), ppr, txbody_lst, style_chain, level)
                         paragraphs.append(Paragraph(
                             runs, level, mult, exact, before, after,
-                            _int(ppr, "marL", 0) or 0, latin_break))
+                            _int(ppr, "marL", 0) or 0, latin_break, end_size))
 
                 shapes.append(Shape(
                     name=name, slide=slide_no, left=left, top=top,
@@ -827,10 +878,15 @@ def _build_lines(pieces: list[_Piece], max_width_pt: float,
     current: list[_Piece] = []
     width = 0.0
 
-    def finish():
+    def finish(mark: _Piece | None = None):
         nonlocal current, width
         while current and current[-1].is_space:
             current.pop()
+        if not current and mark is not None:
+            # An empty line is as tall as the break that ends it; keep that
+            # size on a zero-width piece. An empty last line has the
+            # paragraph mark instead, which layout_shape supplies.
+            current = [_Piece("", mark.run, 0.0, True, mark.metrics, mark.size_pt)]
         lines.append(current)
         current, width = [], 0.0
 
@@ -838,7 +894,7 @@ def _build_lines(pieces: list[_Piece], max_width_pt: float,
         first = group[0]
         group_width = sum(p.width_pt for p in group)
         if first.text == "\n":
-            finish()
+            finish(first)
             continue
         if not wrap or width + group_width <= max_width_pt + 1e-9:
             current.extend(group)
@@ -913,37 +969,48 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
     box_h_pt = shape.usable_height_emu / EMU_PER_POINT
     scale = shape.font_scale if shape.autofit == "normAutofit" else 1.0
 
-    total_h = 0.0
     total_lines = 0
     widest = 0.0
     confident = True
     notes: list[str] = []
     paragraphs_with_text = 0
     paragraphs_measured = 0
+    # The text top to bottom: (height, whether it draws glyphs). Spacing and
+    # empty lines draw none.
+    rows: list[tuple[float, bool]] = []
 
     for i, para in enumerate(shape.paragraphs):
-        if not para.runs:
-            continue
-        if para.text.strip():
+        has_text = bool(para.text.strip())
+        if has_text:
             paragraphs_with_text += 1
         pieces, ok = _split_runs(para, scale, notes)
         confident = confident and ok
-        if not pieces:
-            continue
-        paragraphs_measured += 1
+        if pieces:
+            paragraphs_measured += 1
+        elif has_text:
+            continue                         # not measured; `measured` says so
 
         avail_w = max(0.0, box_w_pt - para.bullet_indent_emu / EMU_PER_POINT)
-        notes_before = len(notes)
-        lines = _build_lines(pieces, avail_w, shape.wrap, notes,
-                             latin_line_break=para.latin_line_break)
-        if len(notes) != notes_before:
-            confident = False
+        if pieces:
+            notes_before = len(notes)
+            lines = _build_lines(pieces, avail_w, shape.wrap, notes,
+                                 latin_line_break=para.latin_line_break)
+            if len(notes) != notes_before:
+                confident = False
+        else:
+            lines = [[]]                     # an empty paragraph is one empty line
 
-        para_h = 0.0
+        # No space above the first paragraph, and none below the last: PowerPoint
+        # and LibreOffice move no text by either under any anchor
+        # (docs/pptx-empty-lines.md).
+        if i > 0:
+            rows.append((para.space_before_pt, False))
         for line in lines:
             sizes = [p.run.size_pt * scale for p in line if not p.is_space]
             if not sizes:
-                sizes = [p.run.size_pt * scale for p in line] or [DEFAULT_SIZE_PT]
+                # An empty line: as tall as the break that ends it, else the
+                # paragraph mark.
+                sizes = [p.run.size_pt * scale for p in line] or [para.end_size_pt * scale]
             # DrawingML: the tallest run on the line sets that line's height,
             # at a flat 1.2x - see DRAWINGML_LINE_SPACING.
             line_h = max(sizes) * DRAWINGML_LINE_SPACING * para.line_spacing
@@ -951,18 +1018,29 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
                 line_h = para.line_spacing_pt
             if shape.line_space_reduction:
                 line_h *= (1.0 - shape.line_space_reduction)
-            para_h += line_h
+            rows.append((line_h, any(not p.is_space for p in line)))
             widest = max(widest, sum(p.width_pt for p in line) + box_w_pt - avail_w)
-
-        para_h += para.space_after_pt
-        if i > 0:
-            para_h += para.space_before_pt   # no space above the first paragraph
-
-        total_h += para_h
+        if i < len(shape.paragraphs) - 1:
+            rows.append((para.space_after_pt, False))
         total_lines += len(lines)
 
+    # Blank rows above the first line of text or below the last move glyphs
+    # only by way of the anchor: top-anchored text starts at the top whatever
+    # follows it, bottom-anchored text ends at the bottom whatever precedes
+    # it, and centred text moves by half the difference.
+    glyph_rows = [k for k, (_, glyphs) in enumerate(rows) if glyphs]
+    lead = sum(h for h, _ in rows[:glyph_rows[0]]) if glyph_rows else 0.0
+    trail = sum(h for h, _ in rows[glyph_rows[-1] + 1:]) if glyph_rows else 0.0
+    extent = sum(h for h, _ in rows) - lead - trail
+    if shape.anchor == "b":
+        text_h = extent + trail
+    elif shape.anchor == "ctr":
+        text_h = extent + abs(lead - trail)
+    else:
+        text_h = extent + lead
+
     measured = paragraphs_measured > 0 or paragraphs_with_text == 0
-    return LayoutResult(total_lines, total_h, box_h_pt, widest, box_w_pt,
+    return LayoutResult(total_lines, text_h, box_h_pt, widest, box_w_pt,
                         confident, measured, notes)
 
 
