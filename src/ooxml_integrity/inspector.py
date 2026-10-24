@@ -36,7 +36,7 @@ from .comments import (
     relationships_part,
     story_parts,
 )
-from .content_types import related as related_content_types
+from .content_types import media_type, part_key, related as related_content_types
 from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
 from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
@@ -244,6 +244,7 @@ class Inspector:
         if ct is None:
             self._add("PKG003", ERROR, "missing [Content_Types].xml")
             return
+        self._repeated_content_types(ct)
         defaults = {
             d.get("Extension", "").lower() for d in ct.findall(f"{{{NS['ct']}}}Default")
         }
@@ -286,6 +287,41 @@ class Inspector:
             self._add("PKG005", ERROR,
                       f"part not covered by content types: {name} - Word asks "
                       "to recover the document", part=name)
+
+    def _repeated_content_types(self, ct) -> None:
+        """PKG011: a second Default for an extension, or Override for a part name.
+
+        OPC allows one of each, compared ASCII-case-insensitively (a part name
+        also unescaped). Word for Mac refuses the package even when the second
+        declaration repeats the first.
+        """
+        groups: dict[tuple[str, str], list] = {}
+        for el in ct:
+            if el.tag == f"{{{NS['ct']}}}Default":
+                key = ("Default", (el.get("Extension") or "").translate(ASCII_LOWER))
+            elif el.tag == f"{{{NS['ct']}}}Override":
+                key = ("Override", part_key(el.get("PartName")))
+            else:
+                continue
+            groups.setdefault(key, []).append(el)
+        for (kind, _), els in groups.items():
+            if len(els) < 2:
+                continue
+            attr = "Extension" if kind == "Default" else "PartName"
+            names = [el.get(attr) or "" for el in els]
+            types = list(dict.fromkeys(el.get("ContentType") or "" for el in els))
+            what = (f'extension "{names[0]}"' if kind == "Default"
+                    else f"part {names[0]}")
+            spelled = (f" ({', '.join(names)})" if len(set(names)) > 1 else "")
+            differ = (f" with different content types ({', '.join(types)})"
+                      if len({media_type(t) for t in types}) > 1 else "")
+            self.findings.append(Finding(
+                "PKG011", ERROR,
+                f"{kind} for {what} declared {len(els)} times{spelled}{differ} - "
+                "Word asks to recover the document",
+                self._xpath(els[1]), "[Content_Types].xml",
+                extra={"declaration": kind, "names": names, "content_types": types},
+            ))
 
     def check_related_content_types(self) -> None:
         """PKG010: a part the main document relates, declared with another type.
@@ -371,6 +407,30 @@ class Inspector:
             return ()
         decoded = unquote(resolved)
         return ((resolved, decoded) if decoded != resolved else (resolved,))
+
+    def _repeated_relationship_ids(self, relsname: str, tree) -> None:
+        """REL004: an Id used by more than one relationship of the same part.
+
+        A reference by that Id is ambiguous, and Word for Mac refuses the
+        package even when the second relationship repeats the first.
+        """
+        groups: dict[str, list] = {}
+        for rel in tree.findall(f"{{{NS['rel']}}}Relationship"):
+            if rel.get("Id"):
+                groups.setdefault(rel.get("Id"), []).append(rel)
+        for rid, rels in groups.items():
+            if len(rels) < 2:
+                continue
+            targets = {(r.get("Type") or "", r.get("Target") or "", r.get("TargetMode") or "")
+                       for r in rels}
+            differ = " for different targets or types" if len(targets) > 1 else ""
+            self.findings.append(Finding(
+                "REL004", ERROR,
+                f"{rid} is the Id of {len(rels)} relationships{differ} - Word asks "
+                "to recover the document",
+                self._xpath(rels[1]), relsname,
+                extra={"id": rid, "targets": [r.get("Target") or "" for r in rels]},
+            ))
 
     def check_relationships(self) -> None:
         tree = self._tree(self.main)
@@ -468,6 +528,7 @@ class Inspector:
         for relsname, tree in self.trees.items():
             if not relsname.endswith(".rels"):
                 continue
+            self._repeated_relationship_ids(relsname, tree)
             source = self._source_for_rels(relsname)
             if source is None:
                 continue

@@ -42,6 +42,15 @@ for shapes with empty lines. Codes, severities, report fields, coverage and
 baseline v2 identities are unchanged. Of 605 public decks, 8 change their
 findings ([details](pptx-empty-lines.md)).
 
+Unreleased `PKG011` and `REL004` are new ERROR findings of `check()`: a
+content type declared twice for an extension or part name, and a relationship
+`Id` used twice in one relationship part. A document that passed the default
+gate can now exit 1; Word for Mac refuses such documents, and none of 1,903
+public Word files has either. Coverage items are unchanged: the rules belong
+to `package.content-types` and `package.relationships`. Their baseline v2
+identity is the general one: file, code and the location of the second
+declaration.
+
 0.8.2 changes what the comment, note and header and footer texts read
 between paragraphs, and what `anonymize` replaces:
 

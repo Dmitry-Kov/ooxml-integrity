@@ -10,8 +10,8 @@ re-check found.
 ## Construction
 
 `python research/fix_evidence.py evaluate --output evidence/fix-repairs/results.json`
-checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,470
-paths, 900 distinct files by content. The 55 distinct files (62 paths) that have
+checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,478
+paths, 908 distinct files by content. The 55 distinct files (62 paths) that have
 `CMT005`, `REV001` or `PKG010` go to `fix()`; the five with `PKG010` also have
 `CMT005`. Each runs against its source when the repository records one, which
 all but the two Word-check variants of a Codex capture have:

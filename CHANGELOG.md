@@ -18,6 +18,16 @@
   [fixture](docs/pptx-empty-lines.md) match the model in all 18 anchor
   verdicts, and in 12 heights within 1pt and 0.05pt. Of 605 public decks, 8
   change: 14 `PPT001` and 2 `PPT002` go, 8 `PPT001` and 1 `PPT002` come.
+- **`PKG011` (ERROR): a content type declared twice.** A second `Default` for
+  an extension or `Override` for a part name in `[Content_Types].xml`, compared
+  as OPC compares them: letters without regard to case, a part name also
+  unescaped. **`REL004` (ERROR): a relationship `Id` used twice** in the same
+  relationship part. A script that adds a part or a relationship without
+  reading what is declared writes these. Word for Mac refuses all eight
+  single-change variants of a Word-saved document, also those whose second
+  declaration repeats the first ([Word check](evidence/docx-opc-duplicates/README.md));
+  the checker reported nothing on six of them. Over 1,903 public Word files
+  neither rule fires.
 
 ## 0.8.2 — release candidate
 

@@ -1,0 +1,134 @@
+{
+ "schema_version": 1,
+ "observed_on": "2026-10-24",
+ "renderer": "Microsoft Word for Mac 16.114.1, macOS 27.0.1, Apple Silicon",
+ "method": "Each file opened alone with `open -a \"Microsoft Word\"` from a scratch folder; prompts read and answered through System Events. No recovery chosen, no preference changed, nothing saved. The control was opened before the first variant and again after the last.",
+ "operator": "Claude Code driving Word through AppleScript, with the maintainer's permission; not blind to the expectations.",
+ "unrelated": "On each launch an installed Adobe PDF add-in raised Visual Basic run-time error 53 (MacPDFM.framework not found); dismissed with End.",
+ "source": "evidence/review-history-benchmark/sources/word-review.docx",
+ "source_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+ "control": {
+  "file": "evidence/review-history-benchmark/sources/word-review.docx",
+  "word": "opens",
+  "prompts": [],
+  "object_model": {
+   "comments": 3,
+   "revisions": 8
+  },
+  "openings": 2
+ },
+ "variants": {
+  "default-repeated": {
+   "file": "variants/default-repeated.docx",
+   "sha256": "af400bff04edccd2624b864facb13c8d7f47ef05f1d1a48d15b79a115818d01a",
+   "entry": "[Content_Types].xml",
+   "change": "the xml Default written twice, same content type",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in default-repeated.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "default-conflicting": {
+   "file": "variants/default-conflicting.docx",
+   "sha256": "6066342278186ee08dbc3ba1d52fc9ae7d834f1661180a3b339be1c5a755e65d",
+   "entry": "[Content_Types].xml",
+   "change": "a second xml Default with another content type",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in default-conflicting.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "default-case": {
+   "file": "variants/default-case.docx",
+   "sha256": "09eba1ac221566f2e8da7c9fcba71a032495b308f3a9cb8ea7700becdd9385cf",
+   "entry": "[Content_Types].xml",
+   "change": "a second Default for XML, the same extension in capitals",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in default-case.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "override-repeated": {
+   "file": "variants/override-repeated.docx",
+   "sha256": "bda1fb6ca25e02bff1c011073e41e3c6ca0ae2c78211ef12b3fbe3149b66d4c6",
+   "entry": "[Content_Types].xml",
+   "change": "the comments Override written twice, same content type",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in override-repeated.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "override-conflicting": {
+   "file": "variants/override-conflicting.docx",
+   "sha256": "abfe447acd66e0dea52763a9923d3ff66e46b1d8c14ced4971f09f1907791dfd",
+   "entry": "[Content_Types].xml",
+   "change": "a second comments Override with another content type",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in override-conflicting.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "override-case": {
+   "file": "variants/override-case.docx",
+   "sha256": "5380d2b8a87855ff5e82c7b28a6c740952c5e466a5aee19dc2e01851a566379c",
+   "entry": "[Content_Types].xml",
+   "change": "a second comments Override naming the part in capitals",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in override-case.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "PKG011"
+  },
+  "relationship-repeated": {
+   "file": "variants/relationship-repeated.docx",
+   "sha256": "bf1a436a540c7f21eeedb66ed714cda960b8e1f0238547c6fc66fddb68032ce2",
+   "entry": "word/_rels/document.xml.rels",
+   "change": "the comments relationship written twice, same Id",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in relationship-repeated.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "REL004"
+  },
+  "relationship-conflicting": {
+   "file": "variants/relationship-conflicting.docx",
+   "sha256": "5bee741f5de4454072c8a1aa70f6c3ac64a57f30abaf595e954875802b94d3a9",
+   "entry": "word/_rels/document.xml.rels",
+   "change": "a hyperlink relationship added with the styles relationship's Id",
+   "word": "refused",
+   "prompts": [
+    "Word found unreadable content in relationship-conflicting.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ],
+   "expected_finding": "REL004"
+  }
+ }
+}
