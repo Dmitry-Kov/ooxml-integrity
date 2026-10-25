@@ -66,8 +66,8 @@ no check fails (`INT001`).
   repeat because OPC says so. Word refuses such a package, but for the escaped
   name itself: it refuses an `Override` that escapes an unreserved character
   even when the name repeats nothing
-  ([case and escapes](../docx-case-overrides/README.md)), which unreleased
-  [`PKG012`](../docx-escaped-part-names/README.md) reports.
+  ([case and escapes](../docx-case-overrides/README.md)), which
+  [`PKG012`](../docx-escaped-part-names/README.md), released in 0.8.4, reports.
 - Only `.docx` packages are checked. A `.pptx` with the same duplicates is not.
 - The operator was Claude Code driving Word through AppleScript, with the
   maintainer's permission, and was not blind to the expectations. On each
