@@ -19,6 +19,13 @@
   case, as OPC and Word do, and not unescaped: Word refuses an `Override` that
   escapes an unreserved character ([Word check](evidence/docx-case-overrides/README.md)).
   No public file changes.
+- **`PPT000` when part of a shape's text has no font metrics.** A run whose
+  font could not be read was left out of the layout, and the shape counted as
+  measured because another run was, so a fit verdict on the rest passed
+  silently; coverage said only "approximate font metrics". The shape now gets
+  `PPT000` ERROR naming the fonts left out, and its fit is still checked on the
+  rest. A font is missing only when a found font file cannot be read, so no
+  public deck changes.
 
 ## 0.8.3 — 2026-10-24
 
