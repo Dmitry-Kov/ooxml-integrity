@@ -33,6 +33,12 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased: a `.pptx` text box no taller than its insets gets `PPT001`, an
+ERROR when the text is taller than the shape and a WARN otherwise, where
+through 0.8.3 it got nothing. A deck that passed can exit 1. Codes, report
+fields, coverage and baseline v2 identities are unchanged
+([details](pptx-thin-boxes.md)).
+
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a

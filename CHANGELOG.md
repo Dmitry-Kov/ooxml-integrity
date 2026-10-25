@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- **A `.pptx` text box no taller than its insets is reported.** It leaves no
+  room for text, and the overflow ratio of such a box was taken as 0, so text
+  in it was never reported while a box 0.8pt taller was. Text taller than the
+  shape itself is now `PPT001` ERROR; text no taller than the shape is a WARN,
+  because OOXML moves insets that meet, and where such text is drawn depends
+  on the renderer. LibreOffice drew the text of every box without room outside
+  it ([evidence](docs/pptx-thin-boxes.md)). Of 605 public decks, three
+  LibreOffice inset tests gain 70 WARN and one deck 2 ERROR.
+
 ## 0.8.3 — 2026-10-24
 
 [Upgrade notes and verified publication](docs/releases/0.8.3.md). Published
