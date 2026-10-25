@@ -56,7 +56,8 @@
      "PKG005"
     ],
     "now": [
-     "PKG005"
+     "PKG005",
+     "PKG012"
     ]
    },
    "prompts": [
@@ -96,7 +97,8 @@
      "PKG011"
     ],
     "now": [
-     "PKG011"
+     "PKG011",
+     "PKG012"
     ]
    },
    "prompts": [
@@ -126,7 +128,9 @@
    "word": "refused",
    "findings": {
     "0.8.3": [],
-    "now": []
+    "now": [
+     "PKG012"
+    ]
    },
    "prompts": [
     "Word found unreadable content in override-absent-escaped.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",

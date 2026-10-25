@@ -26,6 +26,13 @@
   `PPT000` ERROR naming the fonts left out, and its fit is still checked on the
   rest. A font is missing only when a found font file cannot be read, so no
   public deck changes.
+- **`PKG012` (ERROR): an `Override` with an escape Word does not accept.** An
+  `Override` whose `PartName` escapes an unreserved character (`%6E` for `n`),
+  a slash, a backslash or a non-ASCII character, or has a `%` that starts no
+  escape. Word for Mac refuses such a package even when the `Override` names a
+  part the package lacks, and opens one that escapes a space, `%` or `#`
+  ([Word check](evidence/docx-escaped-part-names/README.md)). Before, no rule
+  reported it. No public file has one.
 
 ## 0.8.3 — 2026-10-24
 
