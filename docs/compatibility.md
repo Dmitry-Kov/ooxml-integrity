@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.8.3 release notes](releases/0.8.3.md) before changing a version pin.
+[0.8.4 release notes](releases/0.8.4.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,24 +33,24 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-Unreleased: a `.pptx` text box no taller than its insets gets `PPT001`, an
+In 0.8.4 a `.pptx` text box no taller than its insets gets `PPT001`, an
 ERROR when the text is taller than the shape and a WARN otherwise, where
 through 0.8.3 it got nothing. A deck that passed can exit 1. Codes, report
 fields, coverage and baseline v2 identities are unchanged
 ([details](pptx-thin-boxes.md)).
 
-Unreleased: `PKG005` and `PKG010` match an `Override` to its part without
+In 0.8.4 `PKG005` and `PKG010` match an `Override` to its part without
 regard to letter case. A part an `Override` names in other letters is no
 longer `PKG005` (exit 1 can become 0), and a wrong content type on such an
 `Override` is `PKG010` instead of `PKG005`. No public file changes
 ([Word check](../evidence/docx-case-overrides/README.md)).
 
-Unreleased: a `.pptx` shape some of whose text has no font metrics gets
+In 0.8.4 a `.pptx` shape some of whose text has no font metrics gets
 `PPT000` ERROR, where it got at most a `PPT001` WARN on the rest of its text,
 and its coverage items `pptx.font-metrics` and `pptx.text-overflow` are
 `skipped` instead of `estimated`. No public deck changes.
 
-Unreleased `PKG012` is a new ERROR finding of `check()`: an `Override` whose
+0.8.4 adds `PKG012`, a new ERROR finding of `check()`: an `Override` whose
 part name has an escape Word refuses. A document that passed the default gate
 can now exit 1; none of 1,903 public Word files has one. It belongs to the
 coverage item `package.content-types`; its baseline v2 identity is file, code
@@ -345,11 +345,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.8.3 | Meaning |
+| Output | Version in 0.8.4 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.8.3"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.8.4"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.8.3"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.8.4"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

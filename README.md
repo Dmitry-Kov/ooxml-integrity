@@ -291,7 +291,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `PKG009` | 0.4.4: Strict Open XML is not supported, so the Word checks were not run; reported as an error |
 | `PKG010` | 0.7.0, ERROR: a part the main document relates is declared with another content type than its relationship type requires, as in Codex's `commentsExtended` parts that Word for Mac refuses; [scope and corpus run](evidence/docx-content-types/README.md) |
 | `PKG011` | 0.8.3, ERROR: a second `Default` for an extension or `Override` for a part name in `[Content_Types].xml`, compared as OPC compares them; Word for Mac refuses the package even when the second repeats the first; [Word check](evidence/docx-opc-duplicates/README.md) |
-| `PKG012` | unreleased, ERROR: an `Override` whose part name escapes an unreserved character, a slash, a backslash or a non-ASCII character, or has a `%` that starts no escape, which Word for Mac refuses; [Word check](evidence/docx-escaped-part-names/README.md) |
+| `PKG012` | 0.8.4, ERROR: an `Override` whose part name escapes an unreserved character, a slash, a backslash or a non-ASCII character, or has a `%` that starts no escape, which Word for Mac refuses; [Word check](evidence/docx-escaped-part-names/README.md) |
 | `XML001` | well-formedness of every XML part |
 | `REL001-003` | `r:id` / `r:embed` / `r:link` references resolve; targets exist; unreferenced relationships |
 | `REL004` | 0.8.3, ERROR: one `Id` on two relationships of the same relationship part, which Word for Mac refuses; [Word check](evidence/docx-opc-duplicates/README.md) |

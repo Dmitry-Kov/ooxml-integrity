@@ -104,7 +104,7 @@ and 2 `PPT002` go, 8 `PPT001` and 1 `PPT002` come, and four more keep their
 code and place with other numbers in the message. The decks and the cause of
 each change are listed in [empty paragraphs and lines](pptx-empty-lines.md#on-public-decks).
 
-### PPTX: boxes no taller than their insets (unreleased)
+### PPTX: boxes no taller than their insets (0.8.4)
 
 72 findings are new and every other finding is unchanged: 2 `PPT001` ERROR in
 LibreOffice's `tdf165732.pptx` and 70 `PPT001` WARN in its

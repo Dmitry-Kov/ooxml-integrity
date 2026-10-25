@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.8.3
+    python research/release_smoke.py --version 0.8.4
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -521,6 +521,40 @@ def main():
         finally:
             pptx_layout._metrics_for = measure
 
+        # 0.8.4. An Override whose name escapes an unreserved character, which
+        # Word refuses even for a part the package lacks, is PKG012.
+        escaped = types.replace(comments_type, comments_type + (
+            b'<Override PartName="/word/%6Eothere.xml" ContentType="application/xml"/>'))
+        assert ("PKG012", "error") in found(variant("escaped-name.docx", {
+            **base, "[Content_Types].xml": escaped}), code=1)
+        # Without an xml Default, an Override in capitals still covers its part.
+        xml_default = b'<Default Extension="xml" ContentType="application/xml"/>'
+        assert types.count(xml_default) == 1
+        capitals = types.replace(xml_default, b"").replace(
+            comments_type, comments_type.replace(b"/word/comments.xml", b"/WORD/COMMENTS.XML"))
+        assert "PKG005" not in {code for code, _ in found(variant("capitals.docx", {
+            **base, "[Content_Types].xml": capitals}))}
+        # A box no taller than its insets has no room for a line of text, and
+        # text in a font without metrics is PPT000, not a silent pass.
+        from ooxml_integrity import pptx_checks
+        available = pptx_checks.measurement_available
+        pptx_layout._metrics_for = lambda run: None if run.font == "Missing" else fixed
+        pptx_checks.measurement_available = lambda: (True, "fixed widths")
+        try:
+            def overflow(height, *runs):
+                shape = pptx_layout.Shape(
+                    "box", 1, 0, 0, round(500 * EMU_PER_POINT), round(height * EMU_PER_POINT),
+                    paragraphs=[pptx_layout.Paragraph(
+                        [pptx_layout.Run(t, 18, f, False, False) for t, f in runs])])
+                return {(f.code, f.severity.value) for f in pptx_checks.check_text_overflow(
+                    pptx_layout.Deck(Path("t.pptx"), 9144000, 6858000, [shape], {}))}
+
+            assert overflow(4, ("Label", "Test")) == {("PPT001", "error")}
+            assert ("PPT000", "error") in overflow(200, ("Fits ", "Test"), ("left out", "Missing"))
+        finally:
+            pptx_layout._metrics_for = measure
+            pptx_checks.measurement_available = available
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -576,6 +610,8 @@ def main():
           "part that is not well-formed, a reflowed comment not lost, "
           "0.8.3 PKG011 and REL004 on a repeated Override and relationship Id, a "
           "config that is not TOML exiting 2, empty .pptx lines as tall as their marks, "
+          "0.8.4 PKG012 on an escaped Override name, an Override in capitals covering "
+          "its part, a box with no room and text without metrics reported, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")
