@@ -1,0 +1,148 @@
+{
+ "schema_version": 1,
+ "observed_on": "2026-10-24",
+ "renderer": "Microsoft Word for Mac 16.114.1, macOS 27.0.1, Apple Silicon",
+ "method": "Each file opened alone with `open -a \"Microsoft Word\"` from a scratch folder; prompts read and answered through System Events. No recovery chosen, no preference changed, nothing saved. The control was opened before the first variant and after the last.",
+ "operator": "Claude Code driving Word through AppleScript, with the maintainer's permission; not blind to the expectations.",
+ "unrelated": "On launch an installed Adobe PDF add-in raised Visual Basic run-time error 53; dismissed with End.",
+ "source": "evidence/review-history-benchmark/sources/word-review.docx",
+ "source_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+ "control": {
+  "word": "opens",
+  "object_model": {
+   "comments": 3,
+   "revisions": 8
+  },
+  "openings": 2
+ },
+ "variants": {
+  "no-xml-default": {
+   "file": "variants/no-xml-default.docx",
+   "sha256": "149a834cfb55706e2859deadb2f440254b552d8d7a15365d00c911f0b4ebbe11",
+   "change": "the xml Default removed; every XML part keeps its Override",
+   "word": "opens",
+   "findings": {
+    "0.8.3": [],
+    "now": []
+   },
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "override-capitals": {
+   "file": "variants/override-capitals.docx",
+   "sha256": "fd3f3888588d73c0aeda1268b5cd57bcb131e6f30d01192d6aac80a1aece5882",
+   "change": "no xml Default, and the comments Override names /WORD/COMMENTS.XML",
+   "word": "opens",
+   "findings": {
+    "0.8.3": [
+     "PKG005"
+    ],
+    "now": []
+   },
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "override-escaped": {
+   "file": "variants/override-escaped.docx",
+   "sha256": "368f72382f7890f7f466ae25ee1707059e7f6637075d7c9705eb4ab444c1ff12",
+   "change": "no xml Default, and the comments Override names /word/%63omments.xml",
+   "word": "refused",
+   "findings": {
+    "0.8.3": [
+     "PKG005"
+    ],
+    "now": [
+     "PKG005"
+    ]
+   },
+   "prompts": [
+    "Word found unreadable content in override-escaped.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "override-capitals-wrong-type": {
+   "file": "variants/override-capitals-wrong-type.docx",
+   "sha256": "fee66c4357f65a3d56fe5ce0c2e2238e9688f7d82c419bc0a8b0f23b0bd90a4e",
+   "change": "no xml Default, and the commentsExtended Override names /WORD/COMMENTSEXTENDED.XML with the type Codex wrote",
+   "word": "refused",
+   "findings": {
+    "0.8.3": [
+     "PKG005"
+    ],
+    "now": [
+     "PKG010"
+    ]
+   },
+   "prompts": [
+    "Word found unreadable content in override-capitals-wrong-type.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "override-escaped-repeat": {
+   "file": "variants/override-escaped-repeat.docx",
+   "sha256": "3d221a85592a72a97cff138180a6913980ca58ee027ce2dcb320e4d80aa93152",
+   "change": "a second comments Override naming /word/%63omments.xml",
+   "word": "refused",
+   "findings": {
+    "0.8.3": [
+     "PKG011"
+    ],
+    "now": [
+     "PKG011"
+    ]
+   },
+   "prompts": [
+    "Word found unreadable content in override-escaped-repeat.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "override-absent-part": {
+   "file": "variants/override-absent-part.docx",
+   "sha256": "6383c84441507ceb82317a2d5f91891edee79fda7235dadd34798ca3c64d1f50",
+   "change": "an Override for /word/nothere.xml, a part the package lacks",
+   "word": "opens",
+   "findings": {
+    "0.8.3": [],
+    "now": []
+   },
+   "object_model": {
+    "comments": 3
+   }
+  },
+  "override-absent-escaped": {
+   "file": "variants/override-absent-escaped.docx",
+   "sha256": "5706f4d55967834e5ce8bdebdad4f73bb03f4660640ae6b49cc6d90f53166ba4",
+   "change": "an Override for /word/%6Eothere.xml, the same name escaped",
+   "word": "refused",
+   "findings": {
+    "0.8.3": [],
+    "now": []
+   },
+   "prompts": [
+    "Word found unreadable content in override-absent-escaped.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  }
+ },
+ "repaired": {
+  "from": "override-capitals-wrong-type",
+  "by": "ooxml-integrity fix (content-type): the Override keeps /WORD/COMMENTSEXTENDED.XML and gets the wordprocessingml type",
+  "word": "opens",
+  "object_model": {
+   "comments": 3,
+   "revisions": 8
+  }
+ }
+}

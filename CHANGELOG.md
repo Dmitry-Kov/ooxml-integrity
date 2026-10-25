@@ -10,6 +10,15 @@
   on the renderer. LibreOffice drew the text of every box without room outside
   it ([evidence](docs/pptx-thin-boxes.md)). Of 605 public decks, three
   LibreOffice inset tests gain 70 WARN and one deck 2 ERROR.
+- **An `Override` covers its part in any letters.** `PKG005` and `PKG010`
+  compared an `Override`'s part name with the part's exactly, so without an
+  `xml` `Default` an `Override` for `/WORD/COMMENTS.XML` left
+  `word/comments.xml` "not covered" (`PKG005` ERROR), which Word opens, and a
+  wrong type on such an `Override` was reported as `PKG005` instead of
+  `PKG010`, which `fix` repairs. Names are now compared without regard to
+  case, as OPC and Word do, and not unescaped: Word refuses an `Override` that
+  escapes an unreserved character ([Word check](evidence/docx-case-overrides/README.md)).
+  No public file changes.
 
 ## 0.8.3 — 2026-10-24
 

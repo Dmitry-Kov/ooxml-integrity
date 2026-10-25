@@ -68,6 +68,14 @@ def part_key(name: str | None) -> str:
     return unquote((name or "").lstrip("/")).translate(ASCII_LOWER)
 
 
+def covered(name: str | None) -> str:
+    """A part name or Override PartName as Word matches one to the other for a
+    content type: ASCII letters without regard to case, not unescaped. Word for
+    Mac refuses a package whose Override escapes an unreserved character
+    (evidence/docx-case-overrides), so an escaped name covers nothing."""
+    return (name or "").translate(ASCII_LOWER)
+
+
 def media_type(value: str | None) -> str:
     """A content type without parameters, compared ASCII-case-insensitively."""
     return (value or "").split(";", 1)[0].strip().translate(ASCII_LOWER)
@@ -105,7 +113,7 @@ def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
     part is `unsupported`, and Strict, a missing or unreadable main part, its
     relationship part or `[Content_Types].xml` is `skipped`. An override applies
     to its part name ASCII-case-insensitively, else the extension default; a
-    part neither covers exactly has no content type, as for PKG005.
+    part neither covers has no content type, as for PKG005 (see `covered`).
     """
     types = trees.get("[Content_Types].xml")
     if types is None:
@@ -118,7 +126,7 @@ def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
                                "WordprocessingML document")
     defaults = {d.get("Extension", "").lower(): d.get("ContentType") or ""
                 for d in types.findall(CT + "Default")}
-    exact = {o.get("PartName") for o in types.findall(CT + "Override")}
+    named = {covered(o.get("PartName")) for o in types.findall(CT + "Override")}
     overrides: dict[str, list[str]] = {}
     for o in types.findall(CT + "Override"):
         overrides.setdefault(part_key(o.get("PartName")), []).append(
@@ -126,7 +134,7 @@ def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
 
     def declared(name: str) -> tuple[str, ...]:
         ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
-        if "/" + name not in exact and ext not in defaults:
+        if covered("/" + name) not in named and ext not in defaults:
             return ()
         return tuple(overrides.get(part_key(name)) or [defaults[ext]])
 

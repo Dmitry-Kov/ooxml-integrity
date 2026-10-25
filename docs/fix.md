@@ -236,13 +236,13 @@ usage error prints a message on stderr and no JSON.
 
 - **Corpus record.** [`evidence/fix-repairs`](../evidence/fix-repairs/README.md)
   runs `fix` on every DOCX in the repository with one of the three findings:
-  55 files. 33 were repaired and passed the re-check, against their source
-  where one is recorded; 5 of them also had their content type repaired. In the
-  other 22, 23 comments were refused for the reasons above. Every output is
+  56 files. 34 were repaired and passed the re-check, against their source
+  where one is recorded; 6 had their content type repaired, 5 of them along
+  with a reply. In the other 22, 23 comments were refused for the reasons above. Every output is
   deterministic, and the benchmark oracle's verdict did not change. The two
   refusals and the range re-check added after 0.8.0 change no file's entry:
   each of the 14 replies is still anchored, and its range covers its
-  parent's; each of the 5 corrected parts has its relationship type's root.
+  parent's; each of the 6 corrected parts has its relationship type's root.
 - **Word for Mac and LibreOffice.** Word for Mac 16.113.4 and LibreOffice
   25.8.4.2 were given the repaired copies of 18 files on 2026-10-10. 17 are in
   the repository, and `fix` writes 12 of those copies byte for byte. The other
