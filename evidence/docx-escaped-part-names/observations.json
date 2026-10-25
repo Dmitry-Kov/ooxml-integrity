@@ -1,0 +1,180 @@
+{
+ "schema_version": 1,
+ "observed_on": "2026-10-25",
+ "renderer": "Microsoft Word for Mac 16.114.1, macOS 27.0.1, Apple Silicon",
+ "method": "Each file opened alone with `open -a \"Microsoft Word\"` from a scratch folder, Word idle before each (no document or dialog open); prompts read and answered through System Events. No recovery chosen, no preference changed, nothing saved. The control was opened before the first variant and after the last. A first pass that opened the files without waiting for Word to be idle mixed up the prompts and was discarded.",
+ "operator": "Claude Code driving Word through AppleScript, with the maintainer's permission; not blind to the expectations.",
+ "unrelated": "On launch an installed Adobe PDF add-in raised Visual Basic run-time error 53; dismissed with End.",
+ "source": "evidence/review-history-benchmark/sources/word-review.docx",
+ "source_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+ "control": {
+  "word": "opens",
+  "object_model": {
+   "comments": 3,
+   "revisions": 8
+  },
+  "openings": 2
+ },
+ "variants": {
+  "plain": {
+   "file": "variants/plain.docx",
+   "sha256": "6383c84441507ceb82317a2d5f91891edee79fda7235dadd34798ca3c64d1f50",
+   "part_name": "/word/nothere.xml",
+   "shows": "no escape (control)",
+   "word": "opens",
+   "expected_finding": null,
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "letter-upper": {
+   "file": "variants/letter-upper.docx",
+   "sha256": "5706f4d55967834e5ce8bdebdad4f73bb03f4660640ae6b49cc6d90f53166ba4",
+   "part_name": "/word/%6Eothere.xml",
+   "shows": "an unreserved letter escaped, upper-case hex",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in letter-upper.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "letter-lower": {
+   "file": "variants/letter-lower.docx",
+   "sha256": "5bac0c11524d640208b00727af88e9c99373d4dc7fd5eb9bafb9bd1f1d2cab2f",
+   "part_name": "/word/%6eothere.xml",
+   "shows": "an unreserved letter escaped, lower-case hex",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in letter-lower.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "digit": {
+   "file": "variants/digit.docx",
+   "sha256": "60ae798711b003474cc97b11922f86f49bc4ccff9510c33089191f69c644ae7b",
+   "part_name": "/word/nothere%31.xml",
+   "shows": "an unreserved digit escaped",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in digit.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "tilde": {
+   "file": "variants/tilde.docx",
+   "sha256": "29a2d7ccabfe913c15577cba6522f62d42d79da69644678e144b849aad44cd5a",
+   "part_name": "/word/no%7Ethere.xml",
+   "shows": "the unreserved ~ escaped",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in tilde.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "space": {
+   "file": "variants/space.docx",
+   "sha256": "6ceb332ef79fa373a81aae58ce2514a2a712db7c10d3bab265c332f79c4e8b43",
+   "part_name": "/word/no%20there.xml",
+   "shows": "a space, which must be escaped",
+   "word": "opens",
+   "expected_finding": null,
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "percent": {
+   "file": "variants/percent.docx",
+   "sha256": "8f46356bea33f207b9eec28cead26b5db43f1073e5114ad77559dde7f92388c7",
+   "part_name": "/word/no%25there.xml",
+   "shows": "a %, which must be escaped",
+   "word": "opens",
+   "expected_finding": null,
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "hash": {
+   "file": "variants/hash.docx",
+   "sha256": "512288a63f446a184803af54fe3560fe8db0ce115b241b4786757276a04db8f0",
+   "part_name": "/word/no%23there.xml",
+   "shows": "a #, which must be escaped",
+   "word": "opens",
+   "expected_finding": null,
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   }
+  },
+  "non-ascii": {
+   "file": "variants/non-ascii.docx",
+   "sha256": "43d0964d0321614e06474b764ba23d5187bfe582157a07bf73421d50be5e5c66",
+   "part_name": "/word/n%C3%A9there.xml",
+   "shows": "a non-ASCII letter, escaped as UTF-8",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in non-ascii.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "slash": {
+   "file": "variants/slash.docx",
+   "sha256": "1423c96fd35212800320bb96a64f200158e63d4481a357af17835f7fb1b75c6a",
+   "part_name": "/word/no%2Fthere.xml",
+   "shows": "a slash escaped, which OPC forbids",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in slash.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "backslash": {
+   "file": "variants/backslash.docx",
+   "sha256": "08909ba1c6fbaa1f8e13da0352891549f0f053079c757c2d36831f18400cd8f9",
+   "part_name": "/word/no%5Cthere.xml",
+   "shows": "a backslash escaped, which OPC forbids",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in backslash.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  },
+  "malformed": {
+   "file": "variants/malformed.docx",
+   "sha256": "3dfba561856071c26fa1021ff442e03a24a1045a61b11af315e65a8ff2de614c",
+   "part_name": "/word/no%ZZthere.xml",
+   "shows": "a % not followed by two hex digits",
+   "word": "refused",
+   "expected_finding": "PKG012",
+   "prompts": [
+    "Word found unreadable content in malformed.docx. Do you want to recover the contents of this document? If you trust the source of this document, click Yes.",
+    "No",
+    "Word experienced an error trying to open the file.",
+    "OK"
+   ]
+  }
+ }
+}

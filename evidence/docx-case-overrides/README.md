@@ -25,10 +25,10 @@ on macOS 27.0.1 opened each alone on 24 October 2026; nothing was saved.
 | [no-xml-default](variants/no-xml-default.docx) | the `xml` `Default` removed | opens | — | — |
 | [override-capitals](variants/override-capitals.docx) | and the comments `Override` names `/WORD/COMMENTS.XML` | opens; 3 comments, 8 revisions | `PKG005` | — |
 | [override-capitals-wrong-type](variants/override-capitals-wrong-type.docx) | and the `commentsExtended` `Override` names `/WORD/COMMENTSEXTENDED.XML` with the type Codex wrote | refused | `PKG005` | `PKG010` |
-| [override-escaped](variants/override-escaped.docx) | and the comments `Override` names `/word/%63omments.xml` | refused | `PKG005` | `PKG005` |
-| [override-escaped-repeat](variants/override-escaped-repeat.docx) | the `xml` `Default` kept; a second comments `Override` for `/word/%63omments.xml` | refused | `PKG011` | `PKG011` |
+| [override-escaped](variants/override-escaped.docx) | and the comments `Override` names `/word/%63omments.xml` | refused | `PKG005` | `PKG005`, `PKG012` |
+| [override-escaped-repeat](variants/override-escaped-repeat.docx) | the `xml` `Default` kept; a second comments `Override` for `/word/%63omments.xml` | refused | `PKG011` | `PKG011`, `PKG012` |
 | [override-absent-part](variants/override-absent-part.docx) | the `xml` `Default` kept; an `Override` for `/word/nothere.xml`, which the package lacks | opens | — | — |
-| [override-absent-escaped](variants/override-absent-escaped.docx) | the same `Override` named `/word/%6Eothere.xml` | refused | — | — |
+| [override-absent-escaped](variants/override-absent-escaped.docx) | the same `Override` named `/word/%6Eothere.xml` | refused | — | `PKG012` |
 | control: `word-review.docx` | — | opens, before and after | — | — |
 
 `ooxml-integrity fix` now repairs `override-capitals-wrong-type`: it gives that
@@ -59,9 +59,9 @@ and nowhere else.
 
 - One Word build, on one source document. Word for Windows and Word on the web
   were not checked.
-- **Not fixed here:** an `Override` whose name escapes an unreserved character
-  and names no part (`override-absent-escaped`) is refused by Word and reported
-  by no rule.
+- An `Override` whose name escapes an unreserved character and names no part
+  (`override-absent-escaped`) was reported by no rule when this record was made;
+  unreleased [`PKG012`](../docx-escaped-part-names/README.md) reports it.
 - The operator was Claude Code driving Word through AppleScript, with the
   maintainer's permission, and was not blind to the expectations. An installed
   Adobe PDF add-in raised a Visual Basic error on launch, dismissed with

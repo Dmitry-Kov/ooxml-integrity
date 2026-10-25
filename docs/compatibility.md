@@ -50,6 +50,12 @@ Unreleased: a `.pptx` shape some of whose text has no font metrics gets
 and its coverage items `pptx.font-metrics` and `pptx.text-overflow` are
 `skipped` instead of `estimated`. No public deck changes.
 
+Unreleased `PKG012` is a new ERROR finding of `check()`: an `Override` whose
+part name has an escape Word refuses. A document that passed the default gate
+can now exit 1; none of 1,903 public Word files has one. It belongs to the
+coverage item `package.content-types`; its baseline v2 identity is file, code
+and the `Override`'s location.
+
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a

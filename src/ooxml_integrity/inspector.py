@@ -9,6 +9,7 @@ No model calls, no rendering, no network.
 from __future__ import annotations
 
 import posixpath
+import re
 import zipfile
 from pathlib import Path
 from typing import Iterable
@@ -122,6 +123,27 @@ _IMPLICIT_RELS = (
     "fontTable", "theme", "webSettings", "customXml", "people",
     "commentsExtended", "commentsIds", "glossaryDocument",
 )
+
+
+#: A % and what follows it: two hex digits, or whatever stands there instead.
+_ESCAPE = re.compile(r"%(..?)?")
+_UNRESERVED = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
+
+
+def _refused_escape(match: re.Match) -> str:
+    """Why Word refuses this escape in an Override's name, or "" if it does not."""
+    text = match.group(0)
+    digits = match.group(1) or ""
+    if len(digits) != 2 or any(c not in "0123456789abcdefABCDEF" for c in digits):
+        return f"has {text!r}, which is not an escape"
+    char = chr(int(digits, 16))
+    if char in _UNRESERVED:
+        return f"escapes {char!r} as {text}, an unreserved character a part name must not escape"
+    if char in "/\\":
+        return f"escapes {char!r} as {text}, which a part name must not escape"
+    if ord(char) >= 0x80:
+        return "escapes the bytes of a non-ASCII character"
+    return ""
 
 
 class Inspector:
@@ -245,6 +267,7 @@ class Inspector:
             self._add("PKG003", ERROR, "missing [Content_Types].xml")
             return
         self._repeated_content_types(ct)
+        self._escaped_part_names(ct)
         defaults = {
             d.get("Extension", "").lower() for d in ct.findall(f"{{{NS['ct']}}}Default")
         }
@@ -288,6 +311,28 @@ class Inspector:
             self._add("PKG005", ERROR,
                       f"part not covered by content types: {name} - Word asks "
                       "to recover the document", part=name)
+
+    def _escaped_part_names(self, ct) -> None:
+        """PKG012: an Override whose PartName has an escape Word does not accept.
+
+        Word for Mac refuses a package with such an Override even when it names
+        no part (evidence/docx-escaped-part-names): an escape that is not two
+        hex digits, or that stands for an unreserved character (OPC forbids
+        escaping those), a slash, a backslash or a byte of a non-ASCII
+        character. Escapes of other ASCII characters, such as %20, it opens.
+        """
+        for el in ct.findall(f"{{{NS['ct']}}}Override"):
+            name = el.get("PartName") or ""
+            bad = [why for why in map(_refused_escape, _ESCAPE.finditer(name)) if why]
+            if not bad:
+                continue
+            self.findings.append(Finding(
+                "PKG012", ERROR,
+                f"Override for {name} {'; '.join(dict.fromkeys(bad))} - Word asks to "
+                "recover the document",
+                self._xpath(el), "[Content_Types].xml",
+                extra={"part_name": name},
+            ))
 
     def _repeated_content_types(self, ct) -> None:
         """PKG011: a second Default for an extension, or Override for a part name.

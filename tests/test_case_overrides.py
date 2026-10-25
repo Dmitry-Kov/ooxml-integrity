@@ -20,7 +20,7 @@ from research.case_overrides import SOURCE, VARIANTS, build
 
 EVIDENCE = ROOT / "evidence" / "docx-case-overrides"
 OBSERVED = json.loads((EVIDENCE / "observations.json").read_text())
-RULES = ("PKG004", "PKG005", "PKG010", "PKG011")
+RULES = ("PKG004", "PKG005", "PKG010", "PKG011", "PKG012")
 
 
 def rules(path):
@@ -49,8 +49,6 @@ def test_what_word_opens_is_clean_and_what_it_refuses_fails(name):
     errors = [f for f in check(EVIDENCE / observed["file"]) if f.severity is Severity.ERROR]
     if observed["word"] == "opens":
         assert errors == []
-    elif name == "override-absent-escaped":
-        assert errors == []      # refused by Word, reported by no rule: a known gap
     else:
         assert errors
 
