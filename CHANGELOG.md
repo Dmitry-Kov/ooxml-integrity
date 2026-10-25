@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.8.4 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.8.4.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - **A `.pptx` text box no taller than its insets is reported.** It leaves no
   room for text, and the overflow ratio of such a box was taken as 0, so text

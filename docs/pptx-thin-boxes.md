@@ -4,7 +4,7 @@ A `.pptx` text box whose height is no more than its top and bottom insets
 leaves no room for text. Through 0.8.3 the checker reported nothing for text in
 it: the overflow ratio of a box with no room was taken as 0, which reads as
 "fits". A box 0.8pt taller, with almost no room, was reported as overflowing.
-The unreleased check closes that gap.
+0.8.4 closes that gap.
 
 ## What is reported
 
