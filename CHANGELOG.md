@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.8.4 — release candidate
+## 0.8.4 — 2026-10-25
 
-[Upgrade notes and validation](docs/releases/0.8.4.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.8.4.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - **A `.pptx` text box no taller than its insets is reported.** It leaves no
   room for text, and the overflow ratio of such a box was taken as 0, so text

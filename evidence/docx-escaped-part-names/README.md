@@ -1,6 +1,6 @@
 # Word refuses an `Override` whose name has an escape it does not accept
 
-**`PKG012` (ERROR), unreleased.** OPC part names are URIs: a character outside
+**`PKG012` (ERROR), released in 0.8.4.** OPC part names are URIs: a character outside
 the unreserved set is written as a percent-escape, and an unreserved one — a
 letter, a digit, `-`, `.`, `_`, `~` — must not be. Word for Mac 16.114.1 on
 macOS 27.0.1 refuses a package with an `Override` whose `PartName` escapes such

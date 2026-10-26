@@ -228,7 +228,7 @@ notes record the cases and their remaining limits.
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.8.3
+- uses: Dmitry-Kov/ooxml-integrity@v0.8.4
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -240,7 +240,7 @@ the source and edited files are still available for comparison.
 
 The action writes a summary to the job page and can produce JSON and SARIF
 reports. SARIF findings can appear as code-scanning annotations in a pull
-request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.3/docs/configuration.md)
+request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.4/docs/configuration.md)
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
@@ -280,7 +280,7 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe [0.8.3](docs/releases/0.8.3.md). Version `0.4.0` treated undefined character styles
+These tables describe [0.8.4](docs/releases/0.8.4.md). Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 `.docx`:
@@ -338,8 +338,8 @@ Use `--coverage` to see the scope of a result. It distinguishes
 `unsupported` surfaces per file, and a result with a gap says
 `no findings in checked surfaces`, not `clean`. `ooxml-integrity doctor`
 reports which measurements are available on the current machine.
-See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.3/docs/support-matrix.md) and
-[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.3/docs/coverage.md).
+See the [support matrix](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.4/docs/support-matrix.md) and
+[coverage and doctor](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.8.4/docs/coverage.md).
 
 ## Limitations
 

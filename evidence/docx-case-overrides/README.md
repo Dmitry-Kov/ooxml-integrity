@@ -1,6 +1,6 @@
 # An `Override` that names its part in other letters
 
-**`PKG005` and `PKG010`, unreleased change.** OPC compares part names
+**`PKG005` and `PKG010`, changed in 0.8.4.** OPC compares part names
 ASCII-case-insensitively, and so does Word: an `Override` for
 `/WORD/COMMENTS.XML` covers `word/comments.xml`. Through 0.8.3 both rules
 compared the name exactly. A package with an `xml` `Default` hides that, since
@@ -61,7 +61,7 @@ and nowhere else.
   were not checked.
 - An `Override` whose name escapes an unreserved character and names no part
   (`override-absent-escaped`) was reported by no rule when this record was made;
-  unreleased [`PKG012`](../docx-escaped-part-names/README.md) reports it.
+  [`PKG012`](../docx-escaped-part-names/README.md), released in 0.8.4, reports it.
 - The operator was Claude Code driving Word through AppleScript, with the
   maintainer's permission, and was not blind to the expectations. An installed
   Adobe PDF add-in raised a Visual Basic error on launch, dismissed with
