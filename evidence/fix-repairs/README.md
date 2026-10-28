@@ -10,8 +10,8 @@ re-check found.
 ## Construction
 
 `python research/fix_evidence.py evaluate --output evidence/fix-repairs/results.json`
-checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,497
-paths, 925 distinct files by content. The 56 distinct files (63 paths) that have
+checks every `.docx` under `corpus/`, `runs/`, `demo/` and `evidence/`: 1,553
+paths, 930 distinct files by content. The 56 distinct files (63 paths) that have
 `CMT005`, `REV001` or `PKG010` go to `fix()`; five of the six with `PKG010` also
 have `CMT005`. Each runs against its source when the repository records one, which
 all but the two Word-check variants of a Codex capture have:
@@ -36,13 +36,14 @@ benchmark's oracle evaluates the input and the copy.
 - the output hash, the determinism result and, for benchmark captures, the
   oracle's verdicts.
 
-The record was last regenerated with checker 0.8.3 and the unreleased
-case-insensitive `Override` match, Python 3.12.8, lxml 6.1.3 and zlib 1.2.12,
-when the [case-override](../docx-case-overrides/README.md) variants were added;
-one entry was added and no earlier file's entry changed. The
-[escaped-name](../docx-escaped-part-names/README.md) variants add files to the
-scan and no entry. The output hash depends on the zlib that compresses the edited
-part; everything else does not.
+The record was last regenerated with checker 0.8.4, Python 3.12.8, lxml 6.1.3
+and zlib 1.2.12, when the docx-cli 0.28.0 captures of the
+[recheck](../review-history-recheck/README.md) were added: they add files to
+the scan and no entry, and every entry, output hashes included, is the same.
+The [case-override](../docx-case-overrides/README.md) variants added one entry
+before it, and the [escaped-name](../docx-escaped-part-names/README.md) variants
+files to the scan and no entry. The output hash depends on the zlib that
+compresses the edited part; everything else does not.
 
 After 0.8.0, `fix` refuses two more cases and re-checks one more thing (below
 and in [docs/fix.md](../../docs/fix.md#what-it-refuses-and-why)). Run with

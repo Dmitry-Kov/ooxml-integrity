@@ -1,9 +1,9 @@
 {
- "evaluated_at": "2026-10-11T14:16:14+00:00",
+ "evaluated_at": "2026-10-28T18:34:28+00:00",
  "checker": {
-  "version": "ooxml-integrity 0.7.0",
+  "version": "ooxml-integrity 0.8.4",
   "source": "src/ of this repository",
-  "commit": "12f5f113a58170345c23615ac0fadbc37b4ef20e",
+  "commit": "63e14b15b253262d3c4e95dc61399e256ccb508b",
   "src_modified": false
  },
  "oracle_sha256": "b612a57b9c42df2ad3a5cd3e3d3191d7d52c11f6e23687523f92a901640f0074",
@@ -28,6 +28,16 @@
     "damaged_with_new_error_or_warn": 10,
     "ok": 56,
     "preserved": 44,
+    "unsupported": 4
+   },
+   "0.28.0": {
+    "completed": 50,
+    "correct_with_new_error_or_warn": 14,
+    "damaged": 10,
+    "damaged_with_finding_on_category": 6,
+    "damaged_with_new_error_or_warn": 10,
+    "ok": 56,
+    "preserved": 46,
     "unsupported": 4
    }
   },
@@ -144,7 +154,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -323,7 +333,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -399,7 +409,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -496,7 +506,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -598,7 +608,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -767,7 +777,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -842,7 +852,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -938,7 +948,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -1038,7 +1048,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -1205,7 +1215,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -1278,7 +1288,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -1372,7 +1382,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -1477,7 +1487,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -1651,7 +1661,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -1816,7 +1826,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -1971,7 +1981,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -2100,7 +2110,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "STY001",
@@ -2213,7 +2223,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -2321,7 +2331,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -2453,7 +2463,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -2651,7 +2661,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -2813,7 +2823,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -2999,7 +3009,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -3224,7 +3234,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -3428,7 +3438,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -3606,7 +3616,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -3712,7 +3722,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -3821,7 +3831,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -3976,7 +3986,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -4155,7 +4165,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -4231,7 +4241,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -4328,7 +4338,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -4430,7 +4440,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -4599,7 +4609,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -4674,7 +4684,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -4770,7 +4780,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -4870,7 +4880,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -5037,7 +5047,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -5110,7 +5120,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -5204,7 +5214,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -5309,7 +5319,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -5483,7 +5493,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -5648,7 +5658,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -5803,7 +5813,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -5932,7 +5942,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "STY001",
@@ -6045,7 +6055,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -6153,7 +6163,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -6285,7 +6295,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -6483,7 +6493,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -6645,7 +6655,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -6831,7 +6841,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -7056,7 +7066,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -7260,7 +7270,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -7438,7 +7448,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "TXT002",
@@ -7544,7 +7554,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -7653,7 +7663,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -7756,7 +7766,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -7857,7 +7867,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -7905,7 +7915,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -7997,7 +8007,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8044,7 +8054,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8135,7 +8145,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8182,7 +8192,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8273,7 +8283,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8318,7 +8328,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8407,7 +8417,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8452,7 +8462,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8541,7 +8551,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8586,7 +8596,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8675,7 +8685,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8747,7 +8757,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -8884,7 +8894,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -8958,7 +8968,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "STY001",
@@ -9043,7 +9053,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -9096,7 +9106,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -9200,7 +9210,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -9342,7 +9352,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -9423,7 +9433,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -9581,7 +9591,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -9792,7 +9802,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -9933,7 +9943,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -10035,7 +10045,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10113,7 +10123,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -10215,7 +10225,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10311,7 +10321,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -10412,7 +10422,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10460,7 +10470,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -10552,7 +10562,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10599,7 +10609,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -10690,7 +10700,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10737,7 +10747,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -10828,7 +10838,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -10873,7 +10883,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -10962,7 +10972,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -11007,7 +11017,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -11096,7 +11106,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -11141,7 +11151,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -11230,7 +11240,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -11302,7 +11312,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -11439,7 +11449,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -11513,7 +11523,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "STY001",
@@ -11598,7 +11608,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -11651,7 +11661,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -11755,7 +11765,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -11897,7 +11907,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -11978,7 +11988,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -12136,7 +12146,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -12347,7 +12357,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -12488,7 +12498,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -12590,7 +12600,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -12668,7 +12678,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -12770,7 +12780,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID014",
@@ -12833,6 +12843,592 @@
   },
   {
    "task": "K0-S1-save",
+   "status": "unsupported",
+   "probes": {
+    "tool_messages": []
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K0-S2-save",
+   "status": "unsupported",
+   "probes": {
+    "tool_messages": []
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K1-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K1-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K1-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K1-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K2-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K2-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K2-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K2-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K3-S1-tracked",
    "status": "ok",
    "completed": true,
    "preservation": {
@@ -12842,7 +13438,4429 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K3-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K3-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K3-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K4-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K4-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     },
+     {
+      "code": "FID009",
+      "severity": "error",
+      "message": "source tracked insertion text is missing or altered despite unchanged wrapper count (1 of 1 literal occurrences not found): 'The Supplier shall maintain professional indemnity insurance.'",
+      "part": "word/document.xml",
+      "extra": {
+       "tag": "ins",
+       "body": "The Supplier shall maintain professional indemnity insurance.",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID009",
+      "severity": "error",
+      "message": "source tracked insertion text is missing or altered despite unchanged wrapper count (1 of 1 literal occurrences not found): 'The Supplier shall maintain professional indemnity insurance.'",
+      "part": "word/document.xml",
+      "extra": {
+       "tag": "ins",
+       "body": "The Supplier shall maintain professional indemnity insurance.",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID009"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K4-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K4-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K5-S1-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {
+     "changed": [
+      [
+       [
+        "[Content_Types].xml",
+        "5bfee21048f46433"
+       ],
+       [
+        "[Content_Types].xml",
+        "b59e0e15b86ef18e"
+       ]
+      ],
+      [
+       [
+        "word/_rels/document.xml.rels",
+        "5e87ef0184a6f6c5"
+       ],
+       [
+        "word/_rels/document.xml.rels",
+        "8ca94b0862d0146d"
+       ]
+      ]
+     ]
+    },
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[2]/w:r[4]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[11]/w:r[3]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[2]/w:r[4]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[11]/w:r[3]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "STY001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K5-S2-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 3 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 3,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 6 -> 8 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 6,
+       "after": 8
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K6-S1-resolve",
+   "status": "ok",
+   "completed": true,
+   "unresolved": [],
+   "paragraphs_not_found": 0,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K6-S2-resolve",
+   "status": "ok",
+   "completed": true,
+   "unresolved": [],
+   "paragraphs_not_found": 0,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7h-S1-tracked",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "paragraph": {
+      "lost": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 7"
+       ]
+      ],
+      "added": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 8",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Reference Agreement - Draft 8",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Reference Agreement - Draft 7"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Reference Agreement - Draft 8"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007"
+    ],
+    "by_category": {
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7h-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID007"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7h-S2-tracked",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "header/default/1",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "3",
+        "Consulting Services Agreement - Draft 3"
+       ],
+       [
+        "header/default/1",
+        "ins",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "4",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ]
+     },
+     "paragraph": {
+      "lost": [
+       [
+        "header/default/1",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ],
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Consulting Services Agreement - Draft 3"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Consultancy Services Agreement - Draft 4"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007",
+     "FID008"
+    ],
+    "by_category": {
+     "revision": false,
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7h-S2-plain",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "header/default/1",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "3",
+        "Consulting Services Agreement - Draft 3"
+       ],
+       [
+        "header/default/1",
+        "ins",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "4",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ]
+     },
+     "paragraph": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Consulting Services Agreement - Draft 3"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Consultancy Services Agreement - Draft 4"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007",
+     "FID008"
+    ],
+    "by_category": {
+     "revision": false,
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7n-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "attribution": {
+      "problems": [
+       "the editor deleted source text outside the old text at [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 45]"
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked insertion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked deletion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 1 that did, so a reviewer sees them struck through and added again: deleted \"ECMA-376 Part 1, 5th edition, section 17.3.1.\", inserted \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 1,
+       "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 1 that did, so a reviewer sees them struck through and added again: deleted \"ECMA-376 Part 1, 5th edition, section 17.3.1.\", inserted \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 1,
+       "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID013"
+    ],
+    "by_category": {
+     "attribution": false
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7n-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID005"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7n-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "attribution": {
+      "problems": [
+       "the editor deleted source text outside the old text at [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 59]"
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked insertion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked deletion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 3 that did, so a reviewer sees them struck through and added again: deleted \"Business days exclude public holidays in England and Wales.\", inserted \"Business days exclude public holidays in Scotland.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 3,
+       "deleted": " Business days exclude public holidays in England and Wales.",
+       "inserted": " Business days exclude public holidays in Scotland."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 3 that did, so a reviewer sees them struck through and added again: deleted \"Business days exclude public holidays in England and Wales.\", inserted \"Business days exclude public holidays in Scotland.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 3,
+       "deleted": " Business days exclude public holidays in England and Wales.",
+       "inserted": " Business days exclude public holidays in Scotland."
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID013"
+    ],
+    "by_category": {
+     "attribution": false
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K7n-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"Business days exclude public holidays in England and Wales.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "Business days exclude public holidays in England and Wales.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"Business days exclude public holidays in England and Wales.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "Business days exclude public holidays in England and Wales.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID005"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-1"
+  },
+  {
+   "task": "K0-S1-save",
+   "status": "unsupported",
+   "probes": {
+    "tool_messages": []
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K0-S2-save",
+   "status": "unsupported",
+   "probes": {
+    "tool_messages": []
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K1-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K1-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 2 changed: 'This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last sign...' -> 'This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last s...'",
+      "where": "document/p2",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature.",
+       "before_original": "This agreement governs the provision of services described in Schedule A. The Effective Date is the date of last signature.",
+       "after_original": "This agreement governs the provision of services described in Schedule A. The Commencement Date is the date of last signature."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K1-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K1-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true,
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 5 changed: 'The Consultant shall provide the Services from the Effective Date until the Completion Date.' -> 'The Consultant shall provide the Services from the Effective Date until the Expiry Date.'",
+      "where": "document/p5",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after": "The Consultant shall provide the Services from the Effective Date until the Expiry Date.",
+       "before_original": "The Consultant shall provide the Services from the Effective Date until the Completion Date.",
+       "after_original": "The Consultant shall provide the Services from the Effective Date until the Expiry Date."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K2-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K2-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K2-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,000"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K2-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": [
+     true
+    ]
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 21 changed: 'EUR 12,000' -> 'EUR 12,500'",
+      "where": "document/p21",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "EUR 12,000",
+       "after": "EUR 12,500",
+       "before_original": "EUR 12,000",
+       "after_original": "EUR 12,500"
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K3-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Historic spend is shown below."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K3-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 19 changed: 'Historic spend is shown below.' -> 'Annual spend is shown below.'",
+      "where": "document/p19",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Historic spend is shown below.",
+       "after": "Annual spend is shown below.",
+       "before_original": "Historic spend is shown below.",
+       "after_original": "Annual spend is shown below."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K3-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K3-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 13 changed: 'The Consultant shall deliver a monthly progress report within ten business days after the end of each month.' -> 'The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.'",
+      "where": "document/p13",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month.",
+       "before_original": "The Consultant shall deliver a monthly progress report within ten business days after the end of each month.",
+       "after_original": "The Consultant shall deliver a monthly progress report within fifteen business days after the end of each month."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K4-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 1 -> 2 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 2
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K4-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed: 'The Supplier shall maintain professional indemnity insurance.' -> 'The Supplier shall maintain professional liability insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional liability insurance.",
+       "before_original": "",
+       "after_original": ""
+      }
+     },
+     {
+      "code": "FID009",
+      "severity": "error",
+      "message": "source tracked insertion text is missing or altered despite unchanged wrapper count (1 of 1 literal occurrences not found): 'The Supplier shall maintain professional indemnity insurance.'",
+      "part": "word/document.xml",
+      "extra": {
+       "tag": "ins",
+       "body": "The Supplier shall maintain professional indemnity insurance.",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID009",
+      "severity": "error",
+      "message": "source tracked insertion text is missing or altered despite unchanged wrapper count (1 of 1 literal occurrences not found): 'The Supplier shall maintain professional indemnity insurance.'",
+      "part": "word/document.xml",
+      "extra": {
+       "tag": "ins",
+       "body": "The Supplier shall maintain professional indemnity insurance.",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID009"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K4-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked insertions: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "tracked deletions: 2 -> 3 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 3
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked insertion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "document: 1 new tracked deletion by Benchmark Editor",
+      "where": "document",
+      "extra": {
+       "story": "document",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K4-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed sum.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within thirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K5-S1-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {
+     "changed": [
+      [
+       [
+        "[Content_Types].xml",
+        "5bfee21048f46433"
+       ],
+       [
+        "[Content_Types].xml",
+        "b59e0e15b86ef18e"
+       ]
+      ],
+      [
+       [
+        "word/_rels/document.xml.rels",
+        "5e87ef0184a6f6c5"
+       ],
+       [
+        "word/_rels/document.xml.rels",
+        "8ca94b0862d0146d"
+       ]
+      ]
+     ]
+    },
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[2]/w:r[4]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[11]/w:r[3]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 2 -> 4 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 2,
+       "after": 4
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 4 -> 6 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 4,
+       "after": 6
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[2]/w:r[4]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     },
+     {
+      "code": "STY001",
+      "severity": "warn",
+      "message": "rStyle references undefined style \"CommentReference\" - formatting is silently lost",
+      "where": "/w:document/w:body/w:p[11]/w:r[3]/w:rPr/w:rStyle",
+      "part": "word/document.xml"
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "STY001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K5-S2-comment",
+   "status": "ok",
+   "completed": true,
+   "reply": true,
+   "threaded": true,
+   "anchored": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "comment anchors: 3 -> 5 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "commentReference",
+       "before": 3,
+       "after": 5
+      }
+     },
+     {
+      "code": "FID002",
+      "severity": "info",
+      "message": "character style references: 6 -> 8 - added during editing (count increase alone does not establish a defect)",
+      "extra": {
+       "tag": "rStyle",
+       "before": 6,
+       "after": 8
+      }
+     }
+    ],
+    "new_actionable": []
+   },
+   "detection": {
+    "outcome": "clean",
+    "codes": [],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K6-S1-resolve",
+   "status": "ok",
+   "completed": true,
+   "unresolved": [],
+   "paragraphs_not_found": 0,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 6 changed with its tracked changes rejected: '' -> 'The Supplier shall maintain professional indemnity insurance.'",
+      "where": "document/p6",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The Supplier shall maintain professional indemnity insurance.",
+       "after": "The Supplier shall maintain professional indemnity insurance.",
+       "before_original": "",
+       "after_original": "The Supplier shall maintain professional indemnity insurance."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 7 changed: 'The parties agree the fee is EUR 44,500 per annum.' -> 'The parties agree the fee is EUR 40,000 EUR 44,500 per annum.'",
+      "where": "document/p7",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "The parties agree the fee is EUR 44,500 per annum.",
+       "after": "The parties agree the fee is EUR 40,000 EUR 44,500 per annum.",
+       "before_original": "The parties agree the fee is EUR 40,000 per annum.",
+       "after_original": "The parties agree the fee is EUR 40,000 per annum."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 1 -> 0 (all lost)",
+      "extra": {
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K6-S2-resolve",
+   "status": "ok",
+   "completed": true,
+   "unresolved": [],
+   "paragraphs_not_found": 0,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "document: paragraph 15 changed: 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.' -> 'Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.'",
+      "where": "document/p15",
+      "extra": {
+       "story": "document",
+       "change": "changed",
+       "before": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold disputed amount.",
+       "after": "Fees are payable within forty-five days of receipt of a valid invoice. The Client may withhold any disputed amount.",
+       "before_original": "Fees are payable within thirty days of receipt of a valid invoice.",
+       "after_original": "Fees are payable within forty-fivethirty days of receipt of a valid invoice."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked insertions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "ins",
+       "before": 2,
+       "after": 1
+      }
+     },
+     {
+      "code": "FID001",
+      "severity": "error",
+      "message": "tracked deletions: 2 -> 1 (1 lost)",
+      "extra": {
+       "tag": "del",
+       "before": 2,
+       "after": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID001"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7h-S1-tracked",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "paragraph": {
+      "lost": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 7"
+       ]
+      ],
+      "added": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Reference Agreement - Draft 8",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Reference Agreement - Draft 8",
+        "Reference Agreement - Draft 8"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Reference Agreement - Draft 7"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Reference Agreement - Draft 8"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007"
+    ],
+    "by_category": {
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7h-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Reference Agreement - Draft 7' -> 'Reference Agreement - Draft 8'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Reference Agreement - Draft 7",
+       "after": "Reference Agreement - Draft 8",
+       "before_original": "Reference Agreement - Draft 7",
+       "after_original": "Reference Agreement - Draft 8"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Reference Agreement - Draft 7\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Reference Agreement - Draft 7",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID007"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7h-S2-tracked",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "header/default/1",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "3",
+        "Consulting Services Agreement - Draft 3"
+       ],
+       [
+        "header/default/1",
+        "ins",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "4",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ]
+     },
+     "paragraph": {
+      "lost": [
+       [
+        "header/default/1",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ],
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Consulting Services Agreement - Draft 3"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Consultancy Services Agreement - Draft 4"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007",
+     "FID008"
+    ],
+    "by_category": {
+     "revision": false,
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7h-S2-plain",
+   "status": "ok",
+   "completed": false,
+   "reason": "no paragraph with the expected texts",
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "revision": {
+      "lost": [
+       [
+        "header/default/1",
+        "del",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "3",
+        "Consulting Services Agreement - Draft 3"
+       ],
+       [
+        "header/default/1",
+        "ins",
+        "Reviewer A",
+        [
+         "2026-09-29T14:26:00Z",
+         "2026-09-29T09:26:00Z"
+        ],
+        [],
+        "4",
+        "Consulting Services Agreement - Draft 3"
+       ]
+      ]
+     },
+     "paragraph": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "paragraph_current": {
+      "added": [
+       [
+        "header/default/1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story_current": {
+      "added": [
+       [
+        "header",
+        "default",
+        "1",
+        "Consultancy Services Agreement - Draft 4",
+        "Consultancy Services Agreement - Draft 4"
+       ]
+      ]
+     },
+     "story": {
+      "changed": [
+       [
+        [
+         "header",
+         "default",
+         "1",
+         "Consulting Services Agreement - Draft 3"
+        ],
+        [
+         "header",
+         "default",
+         "1",
+         "Consultancy Services Agreement - Draft 4"
+        ]
+       ]
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "header/default: paragraph 1 changed: 'Consulting Services Agreement - Draft 4' -> 'Consultancy Services Agreement - Draft 4'",
+      "where": "header/default/p1",
+      "extra": {
+       "story": "header/default",
+       "change": "changed",
+       "before": "Consulting Services Agreement - Draft 4",
+       "after": "Consultancy Services Agreement - Draft 4",
+       "before_original": "Consulting Services Agreement - Draft 3",
+       "after_original": "Consultancy Services Agreement - Draft 4"
+      }
+     },
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID007",
+      "severity": "error",
+      "message": "a source default header story is missing or changed in the edited file. Its normalised text was: \"Consulting Services Agreement - Draft 4\"",
+      "where": "header/default",
+      "part": "word/header1.xml",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "body": "Consulting Services Agreement - Draft 4",
+       "lost": 1,
+       "in_source": 1
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked insertions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "ins",
+       "before": 1,
+       "after": 0
+      }
+     },
+     {
+      "code": "FID008",
+      "severity": "error",
+      "message": "default header tracked deletions: 1 -> 0 (all lost)",
+      "where": "header/default",
+      "extra": {
+       "story_kind": "header",
+       "variant": "default",
+       "tag": "del",
+       "before": 1,
+       "after": 0
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID007",
+     "FID008"
+    ],
+    "by_category": {
+     "revision": false,
+     "paragraph": false,
+     "paragraph_current": false,
+     "story_current": true,
+     "story": true
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7n-S1-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "attribution": {
+      "problems": [
+       "the editor deleted source text outside the old text at [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 45]"
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked insertion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked deletion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 1 that did, so a reviewer sees them struck through and added again: deleted \"ECMA-376 Part 1, 5th edition, section 17.3.1.\", inserted \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 1,
+       "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.1."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 1 that did, so a reviewer sees them struck through and added again: deleted \"ECMA-376 Part 1, 5th edition, section 17.3.1.\", inserted \"ECMA-376 Part 1, 5th edition, section 17.3.2.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 1,
+       "deleted": " ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "inserted": " ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID013"
+    ],
+    "by_category": {
+     "attribution": false
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7n-S1-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'ECMA-376 Part 1, 5th edition, section 17.3.1.' -> 'ECMA-376 Part 1, 5th edition, section 17.3.2.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after": "ECMA-376 Part 1, 5th edition, section 17.3.2.",
+       "before_original": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "after_original": "ECMA-376 Part 1, 5th edition, section 17.3.2."
+      }
+     },
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"ECMA-376 Part 1, 5th edition, section 17.3.1.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "ECMA-376 Part 1, 5th edition, section 17.3.1.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID005"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7n-S2-tracked",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": false,
+    "violations": {
+     "attribution": {
+      "problems": [
+       "the editor deleted source text outside the old text at [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 59]"
+      ]
+     }
+    },
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked insertion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "ins",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID012",
+      "severity": "info",
+      "message": "footnotes: 1 new tracked deletion by Benchmark Editor",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "tag": "del",
+       "author": "Benchmark Editor",
+       "count": 1
+      }
+     },
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 3 that did, so a reviewer sees them struck through and added again: deleted \"Business days exclude public holidays in England and Wales.\", inserted \"Business days exclude public holidays in Scotland.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 3,
+       "deleted": " Business days exclude public holidays in England and Wales.",
+       "inserted": " Business days exclude public holidays in Scotland."
+      }
+     },
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in England and Wales."
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID013",
+      "severity": "warn",
+      "message": "footnotes: a tracked replacement by Benchmark Editor deletes and inserts again 6 words that did not change around 3 that did, so a reviewer sees them struck through and added again: deleted \"Business days exclude public holidays in England and Wales.\", inserted \"Business days exclude public holidays in Scotland.\"",
+      "where": "footnotes",
+      "extra": {
+       "story": "footnotes",
+       "author": "Benchmark Editor",
+       "unchanged_words": 6,
+       "changed_words": 3,
+       "deleted": " Business days exclude public holidays in England and Wales.",
+       "inserted": " Business days exclude public holidays in Scotland."
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "detected",
+    "codes": [
+     "FID013"
+    ],
+    "by_category": {
+     "attribution": false
+    }
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K7n-S2-plain",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
+    "findings": [
+     {
+      "code": "FID014",
+      "severity": "info",
+      "message": "footnotes: paragraph 3 changed: 'Business days exclude public holidays in England and Wales.' -> 'Business days exclude public holidays in Scotland.'",
+      "where": "footnotes/p3",
+      "extra": {
+       "story": "footnotes",
+       "change": "changed",
+       "before": "Business days exclude public holidays in England and Wales.",
+       "after": "Business days exclude public holidays in Scotland.",
+       "before_original": "Business days exclude public holidays in England and Wales.",
+       "after_original": "Business days exclude public holidays in Scotland."
+      }
+     },
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"Business days exclude public holidays in England and Wales.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "Business days exclude public holidays in England and Wales.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ],
+    "new_actionable": [
+     {
+      "code": "FID005",
+      "severity": "error",
+      "message": "a footnote present in the source is gone from the edited file - its text is not there under any id, so nothing downstream will report it. Footnote: \"Business days exclude public holidays in England and Wales.\"",
+      "part": "word/footnotes.xml",
+      "extra": {
+       "body": "Business days exclude public holidays in England and Wales.",
+       "author": "",
+       "lost": 1,
+       "in_source": 1
+      }
+     }
+    ]
+   },
+   "detection": {
+    "outcome": "false_alarm",
+    "codes": [
+     "FID005"
+    ],
+    "by_category": {}
+   },
+   "probes": {
+    "tool_messages": [],
+    "literal_bullets": [],
+    "repeated_revision_ids": {}
+   },
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "origin": "recheck",
+   "capture": "docx-cli-0.28.0-2"
+  },
+  {
+   "task": "K0-S1-save",
+   "status": "ok",
+   "completed": true,
+   "preservation": {
+    "preserved": true,
+    "violations": {},
+    "package_changes": {},
+    "anchor_follows_edit": null
+   },
+   "checker": {
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -12877,7 +17895,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -12914,7 +17932,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13033,7 +18051,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13141,7 +18159,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13249,7 +18267,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13355,7 +18373,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13461,7 +18479,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13567,7 +18585,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -13694,7 +18712,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -13857,7 +18875,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -13916,7 +18934,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -14007,7 +19025,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -14186,7 +19204,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -14289,7 +19307,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -14399,7 +19417,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -14485,7 +19503,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -14571,7 +19589,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -14606,7 +19624,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -14643,7 +19661,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -14762,7 +19780,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -14870,7 +19888,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -14978,7 +19996,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -15084,7 +20102,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -15190,7 +20208,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -15296,7 +20314,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -15423,7 +20441,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -15586,7 +20604,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -15645,7 +20663,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -15736,7 +20754,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -15915,7 +20933,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -16018,7 +21036,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -16128,7 +21146,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -16214,7 +21232,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -16300,7 +21318,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -16330,7 +21348,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -16362,7 +21380,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16475,7 +21493,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16577,7 +21595,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16679,7 +21697,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16779,7 +21797,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16879,7 +21897,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -16979,7 +21997,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -17098,7 +22116,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -17253,7 +22271,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -17307,7 +22325,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -17393,7 +22411,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -17562,7 +22580,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -17654,7 +22672,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -17756,7 +22774,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -17836,7 +22854,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -17916,7 +22934,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -17946,7 +22964,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [],
     "new_actionable": []
    },
@@ -17978,7 +22996,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18091,7 +23109,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18193,7 +23211,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18295,7 +23313,7 @@
     ]
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18395,7 +23413,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18495,7 +23513,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18595,7 +23613,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -18714,7 +23732,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "REV001",
@@ -18869,7 +23887,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -18923,7 +23941,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID002",
@@ -19009,7 +24027,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -19178,7 +24196,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID001",
@@ -19270,7 +24288,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -19372,7 +24390,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",
@@ -19452,7 +24470,7 @@
     "anchor_follows_edit": null
    },
    "checker": {
-    "version": "0.7.0",
+    "version": "0.8.4",
     "findings": [
      {
       "code": "FID012",

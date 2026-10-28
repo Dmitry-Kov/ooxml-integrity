@@ -1,0 +1,9 @@
+{
+  "task": "K1-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Effective Date\", \"Commencement Date\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.276,
+  "finished_at": "2026-10-28T18:33:27+00:00",
+  "output": "K1-S1-plain.docx",
+  "output_sha256": "f63db06dce1561ada1edd08b26415dbd965e9be4cd18b70ac62aca28f9f927c4"
+}

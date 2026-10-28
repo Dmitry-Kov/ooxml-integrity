@@ -159,13 +159,14 @@ the frozen evaluation.
 
 ## Post-release recheck (later evidence)
 
-docx-cli 0.27.0 and adeu 3.0.7 ran the same tasks after their releases,
-outside the frozen evaluation ([recheck](../review-history-recheck/README.md)).
-docx-cli's fixes for the two issues reported from this benchmark removed the
-literal bullets and the tracked edit credited to another author: 12 of its 56
-outputs are damaged instead of 38. The untracked edit next to the nested
-deletion (K4 on S2) and the whole-note tracked edit (K7n) are unchanged.
-adeu 3.0.7's outputs have the same facts as 3.0.6's.
+docx-cli 0.27.0 and 0.28.0 and adeu 3.0.7 ran the same tasks after their
+releases, outside the frozen evaluation ([recheck](../review-history-recheck/README.md)).
+docx-cli 0.27.0's fixes for the two issues reported from this benchmark removed
+the literal bullets and the tracked edit credited to another author: 12 of its
+56 outputs are damaged instead of 38. 0.28.0 fixes the untracked edit next to
+the nested deletion (K4 on S2), reported from the recheck: 10 are damaged. The
+whole-note tracked edit (K7n) is unchanged. adeu 3.0.7's outputs have the same
+facts as 3.0.6's.
 
 ## Amendments
 
