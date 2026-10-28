@@ -44,6 +44,46 @@
      "x_bottom_pt": 26.38
     }
    }
+  },
+  "powerpoint": {
+   "renderer": "Microsoft PowerPoint for Mac 16.114.1, macOS 27.0.1, Apple Silicon",
+   "observed_on": "2026-10-24",
+   "method": "A copy of the fixture, byte-identical to it before and after, opened with open -a; AppleScript 'save active presentation ... as save as PDF'. PowerPoint asked for access to the output folder, which the maintainer granted; it then wrote the PDF. Nothing was edited. Calibri from the PowerPoint bundle.",
+   "placement": "With insets at least as tall as the box, PowerPoint moves each inset by half their excess, so the text area is a line (top - bottom + height) / 2 from the top: 0pt in the 0pt box, 2.0pt in the 4pt box, 3.6pt in the 7.2pt box; the text hangs below it under t, centres on it under ctr and stands on it under b.",
+   "probes": {
+    "t_0": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 21.8
+    },
+    "t_4": {
+     "a_top_pt": 5.72,
+     "x_bottom_pt": 23.72
+    },
+    "t_7.2": {
+     "a_top_pt": 7.4,
+     "x_bottom_pt": 25.4
+    },
+    "t_8": {
+     "a_top_pt": 7.4,
+     "x_bottom_pt": 25.4
+    },
+    "ctr_4": {
+     "a_top_pt": -5.08,
+     "x_bottom_pt": 12.92
+    },
+    "b_4": {
+     "a_top_pt": -15.88,
+     "x_bottom_pt": 2.12
+    },
+    "t_4_no_insets": {
+     "a_top_pt": 3.8,
+     "x_bottom_pt": 21.8
+    },
+    "t_40": {
+     "a_top_pt": 7.4,
+     "x_bottom_pt": 25.4
+    }
+   }
   }
  }
 }

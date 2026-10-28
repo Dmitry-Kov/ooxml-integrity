@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- **Evidence:** PowerPoint for Mac drew the boxes without room of the
+  [thin-box fixture](docs/pptx-thin-boxes.md) as 0.8.4 reports them, as
+  LibreOffice did, and its placement follows the OOXML rule that moves
+  insets that meet. The fixture's tests check the model against both renderers.
+
 ## 0.8.4 — 2026-10-25
 
 [Upgrade notes and verified publication](docs/releases/0.8.4.md). Published
