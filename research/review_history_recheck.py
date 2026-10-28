@@ -7,17 +7,20 @@ version runs every declared task through the benchmark's own adapter and
 runner, unchanged, in an image built the way the frozen one was
 (evidence/review-history-recheck/tools.json); only the image name differs.
 
-    python research/review_history_recheck.py capture TOOL REPEAT
-    python research/review_history_recheck.py control TOOL
+    python research/review_history_recheck.py capture TOOL REPEAT [--version V]
+    python research/review_history_recheck.py control TOOL [--version V]
     python research/review_history_recheck.py evaluate --checker PYTHON
     python research/review_history_recheck.py table
-    python research/review_history_recheck.py nested-deletion
+    python research/review_history_recheck.py nested-deletion [--version V]
 
-`capture`, `control` and `nested-deletion` run Docker. `control` runs the previous version's image
-through this same path and compares its outputs with the frozen captures, so a
+`--version` names a release in tools.json; without it, the latest.
+`capture`, `control` and `nested-deletion` run Docker. `control` runs the image
+of the version before V through this same path and compares its outputs with
+that version's captures (the frozen ones, or an earlier recheck's), so a
 difference in the recheck comes from the release, not from the harness.
-`evaluate` scores the recheck captures and the frozen captures of the previous
-version with the benchmark's oracle and evaluator and the checker in PYTHON.
+`evaluate` scores the recheck captures and the frozen captures of the version
+the benchmark ran with the benchmark's oracle and evaluator and the checker in
+PYTHON.
 """
 from __future__ import annotations
 
@@ -45,6 +48,22 @@ RESULTS = RECHECK / "results.json"
 
 def tools() -> dict:
     return json.loads(TOOLS.read_text(encoding="utf-8"))["tools"]
+
+
+def release(tool: str, version: str | None = None) -> dict:
+    """`tool`'s recheck release `version`, by default the latest."""
+    found = tools()[tool]["releases"]
+    return found[-1] if version is None else next(r for r in found if r["version"] == version)
+
+
+def versions(tool: str) -> list[tuple[dict, str, list[Path]]]:
+    """(spec, origin, capture folders) of the frozen version, then of each release."""
+    spec = tools()[tool]
+    out = [(spec["frozen"], "frozen", [bench.CAPTURES / n for n in spec["frozen"]["captures"]])]
+    for r in spec["releases"]:
+        out.append((r, "recheck", sorted(f.parent for f in CAPTURES.glob(
+            f"{tool}-{r['version']}-*/capture.json"))))
+    return out
 
 
 def _declared() -> dict:
@@ -114,47 +133,48 @@ def _record(tool: str, version: str, image: str, image_id: str, repeat) -> dict:
                 "research/review_history_adapters.py", runner)}}
 
 
-def capture(tool: str, repeat: int) -> dict:
-    spec = tools()[tool]
+def capture(tool: str, repeat: int, version: str | None = None) -> dict:
+    spec = release(tool, version)
     folder = CAPTURES / f"{tool}-{spec['version']}-{repeat}"
     record = _record(tool, spec["version"], spec["image"], spec["image_id"], repeat)
     return _run_tasks(folder, performer(tool, spec["image"]), record)
 
 
-def control(tool: str, work: Path | None = None) -> dict:
-    """The previous version's image through this path, against its frozen captures."""
+def control(tool: str, version: str | None = None, work: Path | None = None) -> dict:
+    """The image of the version before `version` through this path, against its captures."""
     import shutil
-    previous = tools()[tool]["previous"]
+    order = versions(tool)
+    new = release(tool, version)["version"]
+    previous, _, folders = order[[s["version"] for s, _, _ in order].index(new) - 1]
     work = work or ROOT / "tmp" / "recheck" / "control" / f"{tool}-{previous['version']}"
     if work.exists():
         shutil.rmtree(work)
     record = _record(tool, previous["version"], previous["image"], previous["image_id"], "control")
     summary = _run_tasks(work, performer(tool, previous["image"]), record)
-    frozen = [json.loads((bench.CAPTURES / name / "capture.json").read_text(encoding="utf-8"))
-              for name in previous["captures"]]
+    recorded = [json.loads((f / "capture.json").read_text(encoding="utf-8")) for f in folders]
     rows = []
     for attempt in summary["attempts"]:
-        before = [next(a for a in f["attempts"] if a["task"] == attempt["task"]) for f in frozen]
+        before = [next(a for a in r["attempts"] if a["task"] == attempt["task"]) for r in recorded]
         row = {"task": attempt["task"], "status": attempt["status"],
-               "frozen_status": sorted({a["status"] for a in before})}
+               "recorded_status": sorted({a["status"] for a in before})}
         if attempt["status"] == "ok":
             output = work / attempt["output"]
-            row["byte_identical_to"] = [name for name, a in zip(previous["captures"], before)
+            row["byte_identical_to"] = [f.name for f, a in zip(folders, before)
                                         if a.get("output_sha256") == attempt["output_sha256"]]
             row["facts_equal_ignoring_dates"] = [
-                name for name, a in zip(previous["captures"], before) if a.get("output")
-                and oracle.summary(oracle.compare(bench.CAPTURES / name / a["output"], output,
+                f.name for f, a in zip(folders, before) if a.get("output")
+                and oracle.summary(oracle.compare(f / a["output"], output,
                                                   ignore_dates=True)) == {}]
         rows.append(row)
-    same = [r for r in rows if r["frozen_status"] == [r["status"]] and (
-        r["status"] != "ok" or len(r["facts_equal_ignoring_dates"]) == len(previous["captures"]))]
+    same = [r for r in rows if r["recorded_status"] == [r["status"]] and (
+        r["status"] != "ok" or len(r["facts_equal_ignoring_dates"]) == len(folders))]
     result = {"tool": tool, "version": previous["version"], "image_id": previous["image_id"],
               "ran_at": summary["finished_at"], "attempts": len(rows),
               "same_status_and_facts": len(same),
               "byte_identical": sum(bool(r.get("byte_identical_to")) for r in rows),
               "ok": sum(r["status"] == "ok" for r in rows), "rows": rows}
     record = json.loads(CONTROL.read_text(encoding="utf-8")) if CONTROL.exists() else {}
-    record[tool] = result
+    record.setdefault(tool, {})[previous["version"]] = result
     CONTROL.write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     return result
 
@@ -168,7 +188,10 @@ NESTED_DELETION = (
     '<w:del w:id="2" w:author="Reviewer B" w:date="2026-09-02T00:00:00Z">'
     '<w:r><w:delText xml:space="preserve">any </w:delText></w:r></w:del>'
     '<w:r><w:t>disputed amount.</w:t></w:r></w:ins></w:p>')
-NESTED = RECHECK / "nested-deletion.json"
+
+
+def nested_record(version: str) -> Path:
+    return RECHECK / f"nested-deletion-{version}.json"
 
 
 def _nested_deletion_docx(path: Path) -> None:
@@ -185,13 +208,13 @@ def _nested_deletion_docx(path: Path) -> None:
         z.writestr("word/document.xml", f"<w:document {w}><w:body>{NESTED_DELETION}</w:body></w:document>")
 
 
-def nested_deletion(tool: str = "docx-cli") -> dict:
-    """Issue #13's nested-deletion case with and without --track, in the new image."""
+def nested_deletion(tool: str = "docx-cli", version: str | None = None) -> dict:
+    """Issue #13's nested-deletion case with and without --track, in a release's image."""
     import shutil
     import tempfile
     import zipfile
     from lxml import etree
-    spec = tools()[tool]
+    spec = release(tool, version)
     assert _image_id(spec["image"]) == spec["image_id"]
     work = Path(tempfile.mkdtemp(prefix="nested-", dir=ROOT / "tmp"))
     try:
@@ -221,7 +244,8 @@ def nested_deletion(tool: str = "docx-cli") -> dict:
               "ran_at": bench._now(), "source_paragraph": NESTED_DELETION,
               "expected_current": "Fees are due. The Client may withhold disputed sum.",
               "runs": runs}
-    NESTED.write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    nested_record(spec["version"]).write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n",
+                                              encoding="utf-8")
     return record
 
 
@@ -278,13 +302,12 @@ def probes(task: dict, attempt: dict, output: Path | None) -> dict:
 # --- evaluation ---------------------------------------------------------------------
 
 def _captures():
-    """(tool, version, origin, folder) for the previous version's frozen captures
-    and the new version's recheck captures."""
-    for tool, spec in tools().items():
-        for name in spec["previous"]["captures"]:
-            yield tool, spec["previous"]["version"], "frozen", bench.CAPTURES / name
-        for folder in sorted(CAPTURES.glob(f"{tool}-{spec['version']}-*")):
-            yield tool, spec["version"], "recheck", folder
+    """(tool, version, origin, folder) for the frozen version's captures and each
+    release's recheck captures."""
+    for tool in tools():
+        for spec, origin, folders in versions(tool):
+            for folder in folders:
+                yield tool, spec["version"], origin, folder
 
 
 def evaluate_one(task: dict, attempt: dict, folder: Path, python: str | None) -> dict:
@@ -373,18 +396,22 @@ def _cell(results: list[dict]) -> dict:
     return out
 
 
+def _versions(tool: str) -> list[str]:
+    return [spec["version"] for spec, _, _ in versions(tool)]
+
+
 def comparison(record: dict) -> list[dict]:
     rows = []
     by = collections.defaultdict(list)
     for r in record["results"]:
-        by[(r["tool"], r["task"], r["origin"])].append(r)
-    for tool, spec in tools().items():
+        by[(r["tool"], r["task"], r["version"])].append(r)
+    for tool in tools():
+        names = _versions(tool)
         for task in _declared()["tasks"]:
-            before, after = by[(tool, task["id"], "frozen")], by[(tool, task["id"], "recheck")]
-            if not after:
+            if not by[(tool, task["id"], names[-1])]:
                 continue
             rows.append({"tool": tool, "task": task["id"],
-                         spec["previous"]["version"]: _cell(before), spec["version"]: _cell(after)})
+                         **{v: _cell(by[(tool, task["id"], v)]) for v in names}})
     return rows
 
 
@@ -407,29 +434,33 @@ def _show(cell: dict) -> str:
 
 
 def table(record: dict | None = None) -> str:
-    """The counts per version, then every task where either version is not
-    completed, preserved and free of new ERROR/WARN findings (and ran)."""
+    """The counts per version, then every task where some version is not
+    completed, preserved and free of new ERROR/WARN findings (and ran), marked
+    with the versions whose cell differs from the one before."""
     record = record or json.loads(RESULTS.read_text(encoding="utf-8"))
     lines = ["| Tool | Captures | Ran | Unsupported | Rejected | Completed | Preserved "
              "| Damaged | damaged with a new ERROR/WARN | Correct with a new ERROR/WARN |",
              "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
-    for tool, spec in tools().items():
-        for version, origin in ((spec["previous"]["version"], "frozen"), (spec["version"], "recheck")):
+    for tool in tools():
+        for spec, origin, _ in versions(tool):
+            version = spec["version"]
             row = collections.Counter(record["summary"][tool][version])
             lines.append(f"| {tool} {version} | {origin} | {row['ok']} | {row['unsupported']} "
                          f"| {row['rejected']} | {row['completed']} | {row['preserved']} "
                          f"| {row['damaged']} | {row['damaged_with_new_error_or_warn']} "
                          f"| {row['correct_with_new_error_or_warn']} |")
     lines.append("")
-    for tool, spec in tools().items():
-        old, new = spec["previous"]["version"], spec["version"]
-        lines += [f"| {tool} task | {old} | {new} |", "| --- | --- | --- |"]
+    for tool in tools():
+        names = _versions(tool)
+        lines += [f"| {tool} task | " + " | ".join(names) + " |", "| --- |" + " --- |" * len(names)]
         for row in comparison(record):
             if row["tool"] != tool or all(row[v] == CLEAN or row[v]["status"] != "ok"
-                                          for v in (old, new)):
+                                          for v in names):
                 continue
-            marker = "" if row[old] == row[new] else " (changed)"
-            lines.append(f"| {row['task']}{marker} | {_show(row[old])} | {_show(row[new])} |")
+            changed = [new for old, new in zip(names, names[1:]) if row[old] != row[new]]
+            marker = f" (changed in {', '.join(changed)})" if changed else ""
+            lines.append(f"| {row['task']}{marker} | "
+                         + " | ".join(_show(row[v]) for v in names) + " |")
         lines.append("")
     return "\n".join(lines)
 
@@ -437,26 +468,31 @@ def table(record: dict | None = None) -> str:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     sub = parser.add_subparsers(dest="command", required=True)
+    version = {"help": "a release in tools.json (default: the latest)"}
     run = sub.add_parser("capture")
     run.add_argument("tool", choices=sorted(tools()))
     run.add_argument("repeat", type=int)
+    run.add_argument("--version", **version)
     check = sub.add_parser("control")
     check.add_argument("tool", choices=sorted(tools()))
+    check.add_argument("--version", **version)
     every = sub.add_parser("evaluate")
     every.add_argument("--checker", required=True, help="Python with ooxml-integrity")
     sub.add_parser("table")
-    sub.add_parser("nested-deletion", help="docx-cli issue #13's nested-deletion case, both modes")
+    nested = sub.add_parser("nested-deletion", help="docx-cli issue #13's nested-deletion case, both modes")
+    nested.add_argument("--version", **version)
     args = parser.parse_args(argv)
     if args.command == "capture":
-        summary = capture(args.tool, args.repeat)
+        summary = capture(args.tool, args.repeat, args.version)
         print(args.tool, args.repeat, dict(collections.Counter(a["status"] for a in summary["attempts"])))
     elif args.command == "control":
-        result = control(args.tool)
+        result = control(args.tool, args.version)
         print(json.dumps({k: v for k, v in result.items() if k != "rows"}, indent=1))
     elif args.command == "evaluate":
         print(json.dumps(evaluate(args.checker)["summary"], indent=1))
     elif args.command == "nested-deletion":
-        print(json.dumps({m: r["current"] for m, r in nested_deletion()["runs"].items()}, indent=1))
+        runs = nested_deletion(version=args.version)["runs"]
+        print(json.dumps({m: r["current"] for m, r in runs.items()}, indent=1))
     else:
         print(table())
     return 0

@@ -43,8 +43,8 @@ def test_the_frozen_benchmark_is_untouched():
                          ids=lambda p: p.parent.name)
 def test_recheck_captures_match_their_receipts(folder):
     data = json.loads(folder.read_text(encoding="utf-8"))
-    spec = recheck.tools()[data["tool"]]
-    assert (data["version"], data["image_id"]) == (spec["version"], spec["image_id"])
+    spec = recheck.release(data["tool"], data["version"])
+    assert data["image_id"] == spec["image_id"]
     assert data["protocol_sha256"] == bench._sha(bench.PROTOCOL)
     assert [a["task"] for a in data["attempts"]] == list(TASK)
     for attempt in data["attempts"]:
@@ -64,8 +64,9 @@ def test_recheck_results_reevaluate_identically(recorded):
 
 
 def test_two_captures_per_version_cover_every_task():
-    for tool, spec in recheck.tools().items():
-        for version in (spec["previous"]["version"], spec["version"]):
+    for tool in recheck.tools():
+        for spec, _, _ in recheck.versions(tool):
+            version = spec["version"]
             found = [r for r in RECORD["results"] if (r["tool"], r["version"]) == (tool, version)]
             assert len(found) == 2 * len(TASK) and len({r["capture"] for r in found}) == 2
 
@@ -83,10 +84,11 @@ def _probes(capture, task):
 
 
 def test_the_recorded_damage_classes():
-    # docx-cli 0.26.0 wrote the S1 bullet as the text `&#8226;`; 0.27.0 does not.
+    # docx-cli 0.26.0 wrote the S1 bullet as the text `&#8226;`; 0.27.0 and 0.28.0 do not.
     s1 = [t for t in TASK if "-S1-" in t and not t.startswith("K0")]
     assert all(_probes("docx-cli-5", t)["literal_bullets"] == ["&#8226;"] for t in s1)
-    assert all(_probes("docx-cli-0.27.0-1", t)["literal_bullets"] == [] for t in s1)
+    for capture in ("docx-cli-0.27.0-1", "docx-cli-0.28.0-1"):
+        assert all(_probes(capture, t)["literal_bullets"] == [] for t in s1)
     # adeu keeps one w:id on both halves of the other author's split insertion.
     for capture in ("adeu-1", "adeu-3.0.7-1"):
         assert _probes(capture, "K4-S1-tracked")["repeated_revision_ids"] == {
@@ -95,11 +97,14 @@ def test_the_recorded_damage_classes():
             "word/document.xml": ["12"]}
 
 
-def test_an_untracked_replace_next_to_a_nested_deletion_still_misses_the_target():
+@pytest.mark.parametrize("version, plain", [
+    ("0.27.0", "Fees are due. disputed sumwithhold disputed amount."),
+    ("0.28.0", "Fees are due. The Client may withhold disputed sum.")])
+def test_an_untracked_replace_next_to_a_nested_deletion_hits_the_target_from_0_28_0(version, plain):
     from lxml import etree
     from research import review_history_oracle as oracle
-    record = json.loads(recheck.NESTED.read_text(encoding="utf-8"))
-    assert record["source_paragraph"] == recheck.NESTED_DELETION
+    record = json.loads(recheck.nested_record(version).read_text(encoding="utf-8"))
+    assert record["version"] == version and record["source_paragraph"] == recheck.NESTED_DELETION
     texts = {}
     for mode, run in record["runs"].items():
         assert run["exit"] == 0 and run["stdout"] == "replace 1 occurrence replaced"
@@ -107,7 +112,20 @@ def test_an_untracked_replace_next_to_a_nested_deletion_still_misses_the_target(
         texts[mode] = oracle.text(body, "current")
         assert texts[mode] == run["current"]
     assert texts["tracked"] == record["expected_current"]
-    assert texts["plain"] == "Fees are due. disputed sumwithhold disputed amount."
+    assert texts["plain"] == plain
+
+
+def test_the_requested_text_is_expected_on_k4_s2_plain_from_0_28_0():
+    # The expectations' fourth reading: 0.27.0's edit of the wrong span fails
+    # them (the expected FID014 does not occur), 0.28.0's edit matches.
+    from research import review_history_expectations as analysis
+    task = TASK["K4-S2-plain"]
+    expectations = analysis.expectations_for(task) + analysis.text_expectations(task)
+    for version, codes, expected in (("0.27.0", ["EXP001"], []), ("0.28.0", [], ["FID014"])):
+        for repeat in (1, 2):
+            output = recheck.CAPTURES / f"docx-cli-{version}-{repeat}" / "K4-S2-plain.docx"
+            assert analysis.actionable(ROOT / task["source_path"], output, expectations) == {
+                "codes": codes, "expected": expected}
 
 
 def test_tool_messages_are_stderr_of_successful_steps():
@@ -133,15 +151,21 @@ def test_performer_points_the_frozen_adapters_at_the_image_and_restores_them(mon
     assert images == ["ooxml-bench-docx-cli:test"] and adapters.CONTAINER_TOOLS["docx-cli"] == frozen
 
 
-def test_the_control_reproduced_the_frozen_captures():
+def test_the_control_reproduced_the_previous_captures():
+    # Each release's control ran the version before it: the frozen one, or the
+    # release before.
     control = json.loads(recheck.CONTROL.read_text(encoding="utf-8"))
-    for tool, spec in recheck.tools().items():
-        assert control[tool]["image_id"] == spec["previous"]["image_id"]
-        assert control[tool]["same_status_and_facts"] == control[tool]["attempts"] == len(TASK)
+    for tool in recheck.tools():
+        before = [spec for spec, _, _ in recheck.versions(tool)][:-1]
+        assert sorted(control[tool]) == sorted(spec["version"] for spec in before)
+        for spec in before:
+            result = control[tool][spec["version"]]
+            assert result["image_id"] == spec["image_id"]
+            assert result["same_status_and_facts"] == result["attempts"] == len(TASK)
 
 
 def test_the_build_record_pins_what_the_dockerfiles_check():
-    for spec in recheck.tools().values():
+    for spec in (r for t in recheck.tools().values() for r in t["releases"]):
         dockerfile = (ROOT / spec["dockerfile"]).read_text(encoding="utf-8")
         assert spec["base_image"] in dockerfile
         assert spec.get("tarball_sha256", spec.get("uv_lock_sha256")) in dockerfile

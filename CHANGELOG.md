@@ -6,6 +6,13 @@
   [thin-box fixture](docs/pptx-thin-boxes.md) as 0.8.4 reports them, as
   LibreOffice did, and its placement follows the OOXML rule that moves
   insets that meet. The fixture's tests check the model against both renderers.
+- **Evidence:** the [post-release recheck](evidence/review-history-recheck/README.md)
+  adds docx-cli 0.28.0. Its fix for docx-cli#22, reported from the recheck,
+  makes the untracked edit next to another reviewer's nested deletion change
+  the requested words: 10 of 56 outputs are damaged (0.27.0: 12), and every
+  other output has 0.27.0's facts. The
+  [fix record](evidence/fix-repairs/README.md) scans the new captures; no
+  entry changes.
 
 ## 0.8.4 — 2026-10-25
 

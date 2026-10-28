@@ -1,5 +1,5 @@
 {
- "checker": "0.8.3",
+ "checker": "0.8.4",
  "python": "3.12.8",
  "lxml": "6.1.3.0",
  "zlib": "1.2.12",
@@ -10,8 +10,8 @@
    "demo",
    "evidence"
   ],
-  "distinct_docx": 925,
-  "paths": 1497
+  "distinct_docx": 930,
+  "paths": 1553
  },
  "summary": {
   "files nothing-to-repair": 22,

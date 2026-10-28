@@ -1,0 +1,19 @@
+{
+  "started_at": "2026-10-28T18:33:26+00:00",
+  "tool": "docx-cli",
+  "version": "0.28.0",
+  "repeat": 2,
+  "image": "ooxml-bench-docx-cli:0.28.0",
+  "image_id": "sha256:ac9c43080926745d7ab341a73fc2778493734d466e6a8e85ffcc21ad8680dc4d",
+  "protocol_sha256": "bbd99772831a3fa3071c42bc3de369b11c9626c88168a3065faf9100bfcf8c91",
+  "tasks_sha256": "766afd889e31595ecbdc84365e0617ed646c9c1662f3d7a40b40cabd566cb2bd",
+  "scripts": {
+    "research/review_history_adapters.py": "aa4720a734ea880bea376615dfa635bae41d8332e7da69c9e58d923008979606",
+    "research/review_history_runners/docx_cli.mjs": "6ed99d10a686f72b02c02f6062e4a5b30fb0632d67edd5a159376457d18dcf0e"
+  },
+  "environment": {
+    "python": "3.12.8",
+    "python-docx": "1.2.0",
+    "lxml": "6.1.3"
+  }
+}
