@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **The package rules run on `.pptx` decks.** `check_pptx` read only what
+  its layout checks need, so a deck without `[Content_Types].xml` or
+  `_rels/.rels`, with a declaration written twice or a relationship to
+  nothing, was reported clean. `XML001`, `PKG003`–`PKG005`, `PKG011`,
+  `PKG012`, `REL001`, `REL002` and `REL004` now run on decks, each message
+  saying what PowerPoint does. PowerPoint for Mac refused a deck with each
+  defect Word refuses, and opened those Word opens; a picture whose
+  relationship is broken it shows as one it can't display, and a missing
+  thumbnail or SmartArt drawing it does without, so that is a `REL002` WARN
+  ([evidence](evidence/pptx-package-rules/README.md)). `PKG006`, `PKG009`,
+  `PKG010` and `REL003` are Word's and do not run on decks. Of 610 public
+  decks, 5 get an ERROR, each of which PowerPoint refused, and 17 a WARN;
+  coverage reports `pptx.package-integrity` as `checked`.
 - **A namespace name that is not a URI is not malformed XML.** SharePoint
   writes `xmlns:ns3="$ListId:Shared Documents;"` into custom XML parts, and
   libxml2 2.14 reports it at error level, so `XML001` called such a part not

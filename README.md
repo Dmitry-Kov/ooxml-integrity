@@ -325,6 +325,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 |---|---|
 | `PPT000` | text could not be measured; reported as an error |
 | `PKG009` | 0.4.4: Strict Open XML is not supported, so the layout checks were not run; reported as an error |
+| `XML001`, `PKG003-005`, `PKG011`, `PKG012`, `REL001`, `REL002`, `REL004` | unreleased: the package rules of `.docx`, saying what PowerPoint for Mac does; a missing thumbnail or SmartArt drawing is a `REL002` WARN; [PowerPoint check](evidence/pptx-package-rules/README.md) |
 | `PPT001` | text taller than its box, beyond the measurement tolerance |
 | `PPT002` | predicted text height exceeds the box by up to 5% — borderline overflow |
 | `PPT003` | line runs outside the usable width: wrap off, or a single overwide glyph |

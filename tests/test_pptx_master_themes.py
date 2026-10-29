@@ -11,6 +11,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 import pytest
 from lxml import etree
 
+from conftest import aborted
 from ooxml_integrity import ERROR, WARN, check_pptx
 from ooxml_integrity.coverage import CoverageStatus, pptx_coverage
 from ooxml_integrity.doctor import UNAVAILABLE_CHECKS
@@ -206,7 +207,7 @@ def test_unresolvable_dependency_fails_closed(parts, tmp_path, owner, suffix, ta
             parts[name] = b"<wrong/>"
     path = save(parts, tmp_path)
     found = check_pptx(path)
-    assert len(found) == 1 and found[0].code == "PKG002" and found[0].severity == ERROR
+    assert aborted(found)
     assert all(i.status == CoverageStatus.SKIPPED for i in pptx_coverage(path, found).items)
 
 
@@ -325,8 +326,7 @@ def test_font_scheme_overrides_are_explicitly_outside_this_model(parts, tmp_path
         assert fonts(read_deck(path)) == EXPECTED_FONTS
     else:
         found = check_pptx(path)
-        assert len(found) == 1 and found[0].code == "PKG002"
-        assert "themeOverride" in found[0].message
+        assert aborted(found) and "themeOverride" in found[-1].message
 
 
 @pytest.mark.parametrize("match", ["exact", "metric", "fallback"])
