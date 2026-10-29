@@ -1,0 +1,1134 @@
+{
+ "schema_version": 1,
+ "observed_on": "2026-10-29",
+ "renderer": "Microsoft PowerPoint for Mac 16.114.3 (16.114.26102720), macOS 27.0.1, Apple Silicon",
+ "method": "Each file opened alone with `open -a \"Microsoft PowerPoint\"` from a scratch folder, PowerPoint idle before each (no presentation or prompt open). A file counts as opened when its window stayed without a prompt for 10 seconds; the object model was then read. PowerPoint draws its repair prompt inside the document window, where accessibility exposes only the two buttons, or, after the window opened, as an alert; the drawn prompt was read from a capture of the window with macOS Vision. Cancel was chosen, no preference changed, nothing saved. The control was opened before the first variant and after the last. A first pass took the window of a deck whose prompt came later for an open deck and was discarded.",
+ "operator": "Claude Code driving PowerPoint through AppleScript, with the maintainer's permission; not blind to the expectations.",
+ "unrelated": "On each open an installed Adobe PDF add-in raised Visual Basic run-time error 53; dismissed with End.",
+ "seed": {
+  "file": "powerpoint-seed.pptx",
+  "sha256": "472fc55b3495f2481939a3c9c6b7940c14646687ca1a624437525b22b50d20b2",
+  "made": "PowerPoint for Mac 16.114.3 made a new presentation of two slides through AppleScript and saved it; `research/pptx_package.py media` added a picture and a hyperlink to slide 2; PowerPoint opened that file and saved it under this name, rewriting every entry"
+ },
+ "control": {
+  "powerpoint": "opens",
+  "object_model": {
+   "slides": 2,
+   "slide_2_shapes": 3,
+   "picture_on_slide_2": true,
+   "hyperlink": "https://example.org/"
+  },
+  "openings": 2,
+  "findings": []
+ },
+ "variants": {
+  "default-repeated": {
+   "file": "variants/default-repeated.pptx",
+   "sha256": "b4acf0290255087d258a7e3f28199b79caa44502b586cf15e74730c3d038a01c",
+   "change": "the xml Default written twice, same content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in default-repeated.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "default-conflicting": {
+   "file": "variants/default-conflicting.pptx",
+   "sha256": "f489f3ab9754853f52f3a24b9593ae4fd32b873c6f4b7b2d72ed54ba47f6cab0",
+   "change": "a second xml Default with another content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in default-conflicting.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "default-case": {
+   "file": "variants/default-case.pptx",
+   "sha256": "c9dddbf5ef4894bc515a041f36cb24ed8cfff7bca2ce86923691fcc78d9bc4ef",
+   "change": "a second Default for XML, the same extension in capitals",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in default-case.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "override-repeated": {
+   "file": "variants/override-repeated.pptx",
+   "sha256": "c74a31f168dd4c2b17bd0640db3a0c2168d9599a31d8081b1f8fd9ab9558c8bb",
+   "change": "slide 2's Override written twice, same content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in override-repeated.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "override-conflicting": {
+   "file": "variants/override-conflicting.pptx",
+   "sha256": "5b4a65d88b6fec656fb1bddf7d33ae110ca3bd3e1caf9452db1691034769d4c4",
+   "change": "a second Override for slide 2 with another content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in override-conflicting.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "override-case": {
+   "file": "variants/override-case.pptx",
+   "sha256": "6fb2f1f8cb12d0afe89a38cb15a18da9f1c5cc8c2a93e7dc95c02640be835727",
+   "change": "a second Override for slide 2 naming the part in capitals",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in override-case.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG011",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-plain": {
+   "file": "variants/name-plain.pptx",
+   "sha256": "0fcf0afcfbdde0a6bcf936ec9fb969350954d24be1a4540092beca94c55c5bf1",
+   "change": "an Override for /ppt/nothere.xml, which the deck lacks: no escape (control)",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "name-space": {
+   "file": "variants/name-space.pptx",
+   "sha256": "381d3a33a69936581d7d12596fef3571df7851cef8d59bf7c30948f816c99a50",
+   "change": "an Override for /ppt/no%20there.xml, which the deck lacks: a space, which must be escaped",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "name-percent": {
+   "file": "variants/name-percent.pptx",
+   "sha256": "f22622d9d1d330801fe6128c2ee43e1ff1e81b48ea94dcec97d53a80d5bcef93",
+   "change": "an Override for /ppt/no%25there.xml, which the deck lacks: a %, which must be escaped",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "name-hash": {
+   "file": "variants/name-hash.pptx",
+   "sha256": "4ecc825dea90e12bed79566b4dad4c9ba9f44d7ecb0cb417e0d22932602b6bc8",
+   "change": "an Override for /ppt/no%23there.xml, which the deck lacks: a #, which must be escaped",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "name-letter-upper": {
+   "file": "variants/name-letter-upper.pptx",
+   "sha256": "6c4817563b73604e092b1de3a2793233708090e73e29c55ab91fb2a77f2dea1c",
+   "change": "an Override for /ppt/%6Eothere.xml, which the deck lacks: an unreserved letter escaped, upper-case hex",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-letter-upper.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-letter-lower": {
+   "file": "variants/name-letter-lower.pptx",
+   "sha256": "2167d89c5bdbf13e05b2d11c6e4dadfc4754d3846f651fd99729c1c45ccf2b71",
+   "change": "an Override for /ppt/%6eothere.xml, which the deck lacks: an unreserved letter escaped, lower-case hex",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-letter-lower.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-digit": {
+   "file": "variants/name-digit.pptx",
+   "sha256": "c4ffe9ec3652cd1aa340ac1c8a8b52c86623ad258f7c7a36b34024fc9ee747ff",
+   "change": "an Override for /ppt/nothere%31.xml, which the deck lacks: an unreserved digit escaped",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-digit.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-tilde": {
+   "file": "variants/name-tilde.pptx",
+   "sha256": "90792c464ccfc803e07b8951368b7ec6009dca7f9ea4243dd084dae9b0b0e1bd",
+   "change": "an Override for /ppt/no%7Ethere.xml, which the deck lacks: the unreserved ~ escaped",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-tilde.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-non-ascii": {
+   "file": "variants/name-non-ascii.pptx",
+   "sha256": "3af3649f7993a4549c5504ddad68ddd7b0a137966fc253f57c848673e76644a4",
+   "change": "an Override for /ppt/n%C3%A9there.xml, which the deck lacks: a non-ASCII letter, escaped as UTF-8",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-non-ascii.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-slash": {
+   "file": "variants/name-slash.pptx",
+   "sha256": "f614fb3558e0612249559e65939b509c399ca7759221fcba09a8c3aca597df8c",
+   "change": "an Override for /ppt/no%2Fthere.xml, which the deck lacks: a /, which a part name must not escape",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-slash.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-backslash": {
+   "file": "variants/name-backslash.pptx",
+   "sha256": "f2f304ee00bc2667e9852159e48ffcbd25c87a740d88386d0ad433a661e70950",
+   "change": "an Override for /ppt/no%5Cthere.xml, which the deck lacks: a \\, which a part name must not escape",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-backslash.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "name-malformed": {
+   "file": "variants/name-malformed.pptx",
+   "sha256": "7f377b988ed71b555c518a1390f5f3786a91cc915f0a13756c48bf05c4d74fa8",
+   "change": "an Override for /ppt/no%ZZthere.xml, which the deck lacks: a % that starts no escape",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in name-malformed.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG012",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "no-xml-default": {
+   "file": "variants/no-xml-default.pptx",
+   "sha256": "6dfc6b6b68f0c768e294bcd92d0d7a9c2c0a33de0cf164158fd3f9b4e186dcda",
+   "change": "the xml Default removed; every XML part keeps its Override",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "override-capitals": {
+   "file": "variants/override-capitals.pptx",
+   "sha256": "dbebffedb36245146c0c5b830597b574132ed405ab6c10b9acbd4bd3185740c3",
+   "change": "the xml Default removed, and slide 2's Override names /PPT/SLIDES/SLIDE2.XML",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  },
+  "types-missing": {
+   "file": "variants/types-missing.pptx",
+   "sha256": "517e32cf88aff80ed36b3ebd566400e8e5f279ec8145d20d7294c1b3572af070",
+   "change": "[Content_Types].xml removed",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in types-missing.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG003",
+     "severity": "error",
+     "part": ""
+    }
+   ]
+  },
+  "rels-default-missing": {
+   "file": "variants/rels-default-missing.pptx",
+   "sha256": "558cec7bc317c787da7d4bf468f6ddf9ebe4ca320df6353b3d3c73c06e70dc9b",
+   "change": "the rels Default removed; no relationship part has a content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in rels-default-missing.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG004",
+     "severity": "error",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "rels-by-override": {
+   "file": "variants/rels-by-override.pptx",
+   "sha256": "09f909dfcd753ce2c20fc5cb6c23bb8f28d6a4537c6aa3fd762fd194fc4da438",
+   "change": "the rels Default replaced by an Override for every relationship part",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": [
+    {
+     "code": "PKG004",
+     "severity": "warn",
+     "part": "[Content_Types].xml"
+    }
+   ]
+  },
+  "png-uncovered": {
+   "file": "variants/png-uncovered.pptx",
+   "sha256": "9d58d2f6660bb4f70c8d37b1a349d8179d5538ad18625303606ee88175b8ebc3",
+   "change": "the png Default removed, so ppt/media/image1.png has no content type",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in png-uncovered.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG005",
+     "severity": "error",
+     "part": "ppt/media/image1.png"
+    }
+   ]
+  },
+  "slide-uncovered": {
+   "file": "variants/slide-uncovered.pptx",
+   "sha256": "b7f36f7a53d233c81e5a458a81e7ffc361e5ddf30940cfe62e151c5595afd589",
+   "change": "the xml Default and slide 2's Override removed",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in slide-uncovered.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "PKG005",
+     "severity": "error",
+     "part": "ppt/slides/slide2.xml"
+    }
+   ]
+  },
+  "relationship-repeated": {
+   "file": "variants/relationship-repeated.pptx",
+   "sha256": "bc6c229b03ed0451c06fbbc4430847aa6dfdc8cbdd6f3e7c8498ad379c09146b",
+   "change": "slide 2's image relationship written twice, same Id",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in relationship-repeated.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "REL004",
+     "severity": "error",
+     "part": "ppt/slides/_rels/slide2.xml.rels"
+    }
+   ]
+  },
+  "relationship-conflicting": {
+   "file": "variants/relationship-conflicting.pptx",
+   "sha256": "5d3ebd043f7dd270db806aa04cb0a468dfa3b1f164d648f7061348eacc5783f2",
+   "change": "a hyperlink relationship added with the image relationship's Id",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in relationship-conflicting.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "REL004",
+     "severity": "error",
+     "part": "ppt/slides/_rels/slide2.xml.rels"
+    }
+   ]
+  },
+  "embed-dangling": {
+   "file": "variants/embed-dangling.pptx",
+   "sha256": "2c672b98200d4704605f1af9c307f8549ca9af4399cce6948820bdcf389c1096",
+   "change": "the picture's r:embed names rId9, which slide 2 does not declare",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": [
+    {
+     "code": "REL001",
+     "severity": "error",
+     "part": "ppt/slides/slide2.xml"
+    }
+   ],
+   "shows": "slide 2's picture as a frame reading \"The picture can't be displayed.\""
+  },
+  "hyperlink-dangling": {
+   "file": "variants/hyperlink-dangling.pptx",
+   "sha256": "7407a4304bb9cc11a7d276ed462fe8a906c5f24ab3e5d55eeb7c7cabc40e7a9a",
+   "change": "the hyperlink's r:id names rId9, which slide 2 does not declare",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "alert",
+    "text": "PowerPoint found a problem with content in hyperlink-dangling.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "REL001",
+     "severity": "error",
+     "part": "ppt/slides/slide2.xml"
+    }
+   ]
+  },
+  "target-missing": {
+   "file": "variants/target-missing.pptx",
+   "sha256": "644bee425148a24747231aaa4da380f4ae413e06f1511380f282f78b2b4dff04",
+   "change": "the image relationship targets ../media/image2.png, which the deck lacks",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": [
+    {
+     "code": "REL002",
+     "severity": "error",
+     "part": "ppt/slides/_rels/slide2.xml.rels"
+    }
+   ],
+   "shows": "slide 2's picture as a frame reading \"The picture can't be displayed.\""
+  },
+  "thumbnail-missing": {
+   "file": "variants/thumbnail-missing.pptx",
+   "sha256": "48a548563bb98e5d90735ff6548273e77f3fef9dad91e7c2e725324a91924dcd",
+   "change": "the thumbnail the package relationships name removed",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": [
+    {
+     "code": "REL002",
+     "severity": "warn",
+     "part": "_rels/.rels"
+    }
+   ]
+  },
+  "office-document-missing": {
+   "file": "variants/office-document-missing.pptx",
+   "sha256": "7ee703edfe3c4a08fcad086ceee3c103becf169aee650042cd62f6117ffd3de1",
+   "change": "the package officeDocument relationship removed",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in office-document-missing.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "REL001",
+     "severity": "error",
+     "part": "_rels/.rels"
+    }
+   ]
+  },
+  "root-rels-missing": {
+   "file": "variants/root-rels-missing.pptx",
+   "sha256": "0b82d292660e39fc7f62ebc7a7b3297c3102b0149c30c76d0e00c8e4710d46f2",
+   "change": "_rels/.rels removed",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "in the window",
+    "text": "PowerPoint found a problem with content in root-rels-missing.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "REL001",
+     "severity": "error",
+     "part": "_rels/.rels"
+    }
+   ]
+  },
+  "slide-malformed": {
+   "file": "variants/slide-malformed.pptx",
+   "sha256": "debd8e4b772458761af58ad4cad691f100f7824e65979db14d1b0e68de3ccd51",
+   "change": "slide 2's closing </p:sld> removed",
+   "powerpoint": "refused",
+   "prompt": {
+    "shown": "alert",
+    "text": "PowerPoint found a problem with content in slide-malformed.pptx. PowerPoint can attempt to repair the presentation. If you trust the source of this presentation, click Repair.",
+    "buttons": [
+     "Repair",
+     "Cancel"
+    ],
+    "answered": "Cancel",
+    "then": "nothing open"
+   },
+   "findings": [
+    {
+     "code": "XML001",
+     "severity": "error",
+     "part": "ppt/slides/slide2.xml"
+    },
+    {
+     "code": "PKG002",
+     "severity": "error",
+     "part": "ppt/slides/slide2.xml"
+    }
+   ]
+  },
+  "unreferenced-malformed": {
+   "file": "variants/unreferenced-malformed.pptx",
+   "sha256": "fa2d7806e2c11c0cd80e413f41b0ff9c8c0b273d54d0d8efc89270784795c864",
+   "change": "a malformed ppt/unused.xml added that no relationship reaches",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": [
+    {
+     "code": "XML001",
+     "severity": "warn",
+     "part": "ppt/unused.xml"
+    }
+   ]
+  },
+  "custom-xml-namespace": {
+   "file": "variants/custom-xml-namespace.pptx",
+   "sha256": "097d95c5feee174ac7df2f465b7071cb25b947684b39ed3757650ffb936cba68",
+   "change": "a custom XML item related from the presentation, declaring the namespace name $ListId:Shared Documents;",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 2,
+    "slide_2_shapes": 3,
+    "picture_on_slide_2": true,
+    "hyperlink": "https://example.org/"
+   },
+   "findings": []
+  }
+ },
+ "public": {
+  "source": "LibreOffice core 382bad999f5d",
+  "decks": {
+   "bnc591147.pptx": {
+    "path": "sd/qa/unit/data/pptx/bnc591147.pptx",
+    "sha256": "3724fa0ecbf42e7380ee8528fe0f784b23247a69d897c434c5cc7643822ad0e2",
+    "powerpoint": "refused",
+    "prompt": {
+     "shown": "in the window",
+     "answered": "Cancel",
+     "then": "nothing open"
+    },
+    "findings": [
+     {
+      "code": "PKG005",
+      "severity": "error",
+      "part": "ppt/media/video.avi"
+     },
+     {
+      "code": "PKG005",
+      "severity": "error",
+      "part": "ppt/media/audio.mp3"
+     }
+    ]
+   },
+   "n862510_1.pptx": {
+    "path": "sd/qa/unit/data/pptx/n862510_1.pptx",
+    "sha256": "18b18a87fa7131df0c9d8df663ba74a2a4ffbe4a9b3cca21baafb3eabb13b0c1",
+    "powerpoint": "refused",
+    "prompt": {
+     "shown": "in the window",
+     "answered": "Cancel",
+     "then": "nothing open"
+    },
+    "findings": [
+     {
+      "code": "PKG005",
+      "severity": "error",
+      "part": "ppt/slides/.slide1.xml.swp"
+     }
+    ]
+   },
+   "predefined-table-style.pptx": {
+    "path": "sd/qa/unit/data/pptx/predefined-table-style.pptx",
+    "sha256": "f3711fb2c44295c7d93ae92e5a5458af14a49e049ace24cc6fc64a3e3c0018bc",
+    "powerpoint": "refused",
+    "prompt": {
+     "shown": "in the window",
+     "answered": "Cancel",
+     "then": "nothing open"
+    },
+    "findings": [
+     {
+      "code": "PKG005",
+      "severity": "error",
+      "part": "ppt/slides/.slide1.xml.swp"
+     }
+    ]
+   },
+   "tdf148478_transitionMusic.pptx": {
+    "path": "sd/qa/unit/data/pptx/tdf148478_transitionMusic.pptx",
+    "sha256": "5809f88f8e4500f42582dd8a61ac9fb3dadb61b5cfc13ae854dd3eb69a6ee878",
+    "powerpoint": "refused",
+    "prompt": {
+     "shown": "in the window",
+     "answered": "Cancel",
+     "then": "nothing open"
+    },
+    "findings": [
+     {
+      "code": "PKG012",
+      "severity": "error",
+      "part": "[Content_Types].xml"
+     },
+     {
+      "code": "PKG005",
+      "severity": "error",
+      "part": "ppt/media/Cortázar.wav"
+     }
+    ]
+   },
+   "tdf169781.pptx": {
+    "path": "sd/qa/unit/data/pptx/tdf169781.pptx",
+    "sha256": "78d5f10913eb67c81e7ee364ffbf381c55cf71a540a07636fd73d9b16bbdb5ff",
+    "powerpoint": "refused",
+    "prompt": {
+     "shown": "in the window",
+     "answered": "Cancel",
+     "then": "nothing open"
+    },
+    "findings": [
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL001",
+      "severity": "error",
+      "part": "ppt/slideMasters/slideMaster1.xml"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide13.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide4.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide11.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide17.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide22.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide3.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide9.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide21.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide10.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide16.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide19.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide18.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide6.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide12.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide1.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide5.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide20.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide15.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/notesSlides/_rels/notesSlide14.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/drawings/_rels/legacyDrawing3.vml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/drawings/_rels/legacyDrawing4.vml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "error",
+      "part": "ppt/slideMasters/_rels/slideMaster2.xml.rels"
+     }
+    ]
+   },
+   "BoldonseFontEmbedded.pptx": {
+    "path": "sd/qa/unit/data/BoldonseFontEmbedded.pptx",
+    "sha256": "9801672f6c932e218e044df19608d1f31629fee5c87af0bc7c04bfc9f84dbb69",
+    "powerpoint": "opens",
+    "findings": [
+     {
+      "code": "REL002",
+      "severity": "warn",
+      "part": "_rels/.rels"
+     }
+    ]
+   },
+   "smartart-autoTxRot.pptx": {
+    "path": "sd/qa/unit/data/pptx/smartart-autoTxRot.pptx",
+    "sha256": "7c5e882567fbe88bdbd7afd7b021008c427216e55f4c5058b480074032d4635e",
+    "powerpoint": "opens",
+    "findings": [
+     {
+      "code": "REL002",
+      "severity": "warn",
+      "part": "ppt/slides/_rels/slide2.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "warn",
+      "part": "ppt/slides/_rels/slide3.xml.rels"
+     },
+     {
+      "code": "REL002",
+      "severity": "warn",
+      "part": "ppt/slides/_rels/slide1.xml.rels"
+     }
+    ],
+    "shows": "every SmartArt graphic, drawn from its data"
+   },
+   "smoketest.pptx": {
+    "path": "sd/qa/unit/data/smoketest.pptx",
+    "sha256": "88a4755fa90815802c8f439c9e0488772e5e7d8db63cfd0326e4d3f35fdeaa44",
+    "powerpoint": "opens",
+    "findings": [
+     {
+      "code": "PKG004",
+      "severity": "warn",
+      "part": "[Content_Types].xml"
+     }
+    ]
+   },
+   "tdf89927.pptx": {
+    "path": "sd/qa/unit/data/pptx/tdf89927.pptx",
+    "sha256": "2bae75327ebfcea568da95a17c64a1ce58e3d3f2cdf43233017c3575515bd6de",
+    "powerpoint": "opens",
+    "findings": []
+   }
+  }
+ }
+}

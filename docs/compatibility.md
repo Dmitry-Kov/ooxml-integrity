@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased: `check_pptx`, and the `check` command on a deck, run the package rules
+`XML001`, `PKG003`–`PKG005`, `PKG011`, `PKG012`, `REL001`, `REL002` and `REL004`,
+which ran on Word documents only. A deck that passed can exit 1: of 610 public
+decks, 5 get an ERROR, each of which PowerPoint for Mac refused, and 17 a WARN.
+The coverage item `pptx.package-integrity` is `checked` instead of `unsupported`,
+and `doctor` no longer lists it as unavailable. Baseline v2 identities are the
+general ones ([PowerPoint check](../evidence/pptx-package-rules/README.md)).
+
 In 0.8.4 a `.pptx` text box no taller than its insets gets `PPT001`, an
 ERROR when the text is taller than the shape and a WARN otherwise, where
 through 0.8.3 it got nothing. A deck that passed can exit 1. Codes, report

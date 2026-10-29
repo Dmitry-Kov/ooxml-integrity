@@ -23,6 +23,7 @@ from pathlib import Path
 from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue
 from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .fonts import EMU_PER_POINT, measurement_available
+from .inspector import PresentationInspector
 from .pptx_layout import Deck, Shape, layout_shape, read_deck
 
 #: Within this fraction of the box, a verdict is not resolvable from advance
@@ -271,17 +272,20 @@ CHECKS = (check_measurable, check_text_overflow, check_offcanvas,
 
 def check_pptx(path: str | Path, *,
                limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
-    """Inspect one .pptx for layout defects. Returns every finding."""
+    """Inspect one .pptx: its package, then its layout. Returns every finding."""
+    package = PresentationInspector(path, limits)
+    out = package.run()
+    if not package.readable:  # read_deck says why, as before
+        out = []
     try:
         deck = read_deck(path, limits=limits)
     except FileNotFoundError:
         return [Finding("PKG000", ERROR, f"file not found: {path}")]
     except PackageIssue as e:
-        return [Finding(e.code, ERROR, str(e), part=e.part)]
+        return out + [Finding(e.code, ERROR, str(e), part=e.part)]
     except Exception as e:
-        return [Finding("PKG002", ERROR, f"could not read as a .pptx package: {e}")]
+        return out + [Finding("PKG002", ERROR, f"could not read as a .pptx package: {e}")]
 
-    out: list[Finding] = []
     for fn in CHECKS:
         try:
             out.extend(fn(deck))

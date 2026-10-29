@@ -30,10 +30,6 @@ UNAVAILABLE_CHECKS = (
         "reason": "PPTX source comparison is not implemented",
     },
     {
-        "id": "pptx.package-integrity",
-        "reason": "the complete PPTX OPC relationship graph is not validated",
-    },
-    {
         "id": "pptx.grouped-shapes",
         "reason": "group transforms are not composed",
     },
