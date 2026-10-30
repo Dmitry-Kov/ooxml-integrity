@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **A namespace name that is not a URI is not malformed XML.** SharePoint
+  writes `xmlns:ns3="$ListId:Shared Documents;"` into custom XML parts, and
+  libxml2 2.14 reports it at error level, so `XML001` called such a part not
+  well-formed (ERROR). Word and PowerPoint for Mac open such packages without a
+  prompt ([evidence](evidence/xml-namespace-names/README.md)). A part whose
+  parse reports nothing else is now read; any other error still fails it. No
+  file of the public corpora or this repository changes: no DOCX has such a
+  part.
 - **Evidence:** PowerPoint for Mac drew the boxes without room of the
   [thin-box fixture](docs/pptx-thin-boxes.md) as 0.8.4 reports them, as
   LibreOffice did, and its placement follows the OOXML rule that moves
