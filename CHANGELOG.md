@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+- **The package rules run on `.pptx` decks.** `check_pptx` read only what
+  its layout checks need, so a deck without `[Content_Types].xml` or
+  `_rels/.rels`, with a declaration written twice or a relationship to
+  nothing, was reported clean. `XML001`, `PKG003`–`PKG005`, `PKG011`,
+  `PKG012`, `REL001`, `REL002` and `REL004` now run on decks, each message
+  saying what PowerPoint does. PowerPoint for Mac refused a deck with each
+  defect Word refuses, and opened those Word opens; a picture whose
+  relationship is broken it shows as one it can't display, and a missing
+  thumbnail or SmartArt drawing it does without, so that is a `REL002` WARN
+  ([evidence](evidence/pptx-package-rules/README.md)). `PKG006`, `PKG009`,
+  `PKG010` and `REL003` are Word's and do not run on decks. Of 610 public
+  decks, 5 get an ERROR, each of which PowerPoint refused, and 17 a WARN;
+  coverage reports `pptx.package-integrity` as `checked`.
+- **A namespace name that is not a URI is not malformed XML.** SharePoint
+  writes `xmlns:ns3="$ListId:Shared Documents;"` into custom XML parts, and
+  libxml2 2.14 reports it at error level, so `XML001` called such a part not
+  well-formed (ERROR). Word and PowerPoint for Mac open such packages without a
+  prompt ([evidence](evidence/xml-namespace-names/README.md)). A part whose
+  parse reports nothing else is now read; any other error still fails it. No
+  file of the public corpora or this repository changes: no DOCX has such a
+  part.
 - **Evidence:** PowerPoint for Mac drew the boxes without room of the
   [thin-box fixture](docs/pptx-thin-boxes.md) as 0.8.4 reports them, as
   LibreOffice did, and its placement follows the OOXML rule that moves

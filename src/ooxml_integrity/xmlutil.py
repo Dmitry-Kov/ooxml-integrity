@@ -17,16 +17,39 @@ class UnsafeXML(ValueError):
     """XML uses a feature that OOXML does not require and we deliberately reject."""
 
 
-def fromstring(data: bytes) -> etree._Element:
-    """Parse one OOXML part without DTD/entity expansion or network access."""
-    parser = etree.XMLParser(
+def _parser(recover: bool) -> etree.XMLParser:
+    return etree.XMLParser(
         resolve_entities=False,
         no_network=True,
         load_dtd=False,
         huge_tree=False,
-        recover=False,
+        recover=recover,
     )
-    root = etree.fromstring(data, parser=parser)
+
+
+def _only_namespace_names(log) -> bool:
+    return bool(log) and all(e.type == etree.ErrorTypes.WAR_NS_URI for e in log)
+
+
+def fromstring(data: bytes) -> etree._Element:
+    """Parse one OOXML part without DTD/entity expansion or network access.
+
+    A namespace name that is not a URI, such as the `$ListId:Shared Documents;`
+    SharePoint writes into custom XML parts, does not make a part malformed:
+    libxml2 2.14 reports it as a namespace warning at error level, and Word and
+    PowerPoint open such parts (evidence/xml-namespace-names). A part whose
+    parse reported nothing else is parsed again, recovering from it alone.
+    """
+    parser = _parser(recover=False)
+    try:
+        root = etree.fromstring(data, parser=parser)
+    except etree.XMLSyntaxError as error:
+        if not _only_namespace_names(parser.error_log):
+            raise
+        parser = _parser(recover=True)
+        root = etree.fromstring(data, parser=parser)
+        if root is None or not _only_namespace_names(parser.error_log):
+            raise error
     if root.getroottree().docinfo.doctype:
         raise UnsafeXML("DOCTYPE declarations are not allowed in OOXML parts")
     return root

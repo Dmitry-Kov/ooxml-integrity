@@ -161,7 +161,7 @@ def test_pptx_coverage_has_stable_ids_and_explicit_font_confidence(root):
 
     assert tuple(item["id"] for item in report["items"]) == PPTX_COVERAGE_IDS
     items = _by_id(report)
-    assert items["pptx.package-integrity"]["status"] == "unsupported"
+    assert items["pptx.package-integrity"]["status"] == "checked"
     assert items["pptx.font-metrics"]["status"] in {"estimated", "skipped"}
     assert items["pptx.text-overflow"]["status"] == \
         items["pptx.font-metrics"]["status"]

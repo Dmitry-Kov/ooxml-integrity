@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased: `check_pptx`, and the `check` command on a deck, run the package rules
+`XML001`, `PKG003`–`PKG005`, `PKG011`, `PKG012`, `REL001`, `REL002` and `REL004`,
+which ran on Word documents only. A deck that passed can exit 1: of 610 public
+decks, 5 get an ERROR, each of which PowerPoint for Mac refused, and 17 a WARN.
+The coverage item `pptx.package-integrity` is `checked` instead of `unsupported`,
+and `doctor` no longer lists it as unavailable. Baseline v2 identities are the
+general ones ([PowerPoint check](../evidence/pptx-package-rules/README.md)).
+
 In 0.8.4 a `.pptx` text box no taller than its insets gets `PPT001`, an
 ERROR when the text is taller than the shape and a WARN otherwise, where
 through 0.8.3 it got nothing. A deck that passed can exit 1. Codes, report
@@ -55,6 +63,11 @@ part name has an escape Word refuses. A document that passed the default gate
 can now exit 1; none of 1,903 public Word files has one. It belongs to the
 coverage item `package.content-types`; its baseline v2 identity is file, code
 and the `Override`'s location.
+
+Unreleased: a part whose parse reports nothing but a namespace name that is
+not a URI, such as SharePoint's `$ListId:Shared Documents;`, no longer gets
+`XML001` ERROR, so a document or deck that failed can exit 0. No public file
+changes ([Word and PowerPoint check](../evidence/xml-namespace-names/README.md)).
 
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now

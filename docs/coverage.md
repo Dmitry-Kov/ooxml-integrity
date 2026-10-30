@@ -193,8 +193,15 @@ exit codes are unchanged.
 hidden slides. An absent/empty list is `not-present`; unlisted parts are not
 used as a fallback. A broken listed relationship or slide aborts reading with
 `PKG002` and a skipped inventory. Order and layout are then left unchecked.
-This does not validate the complete PPTX package graph. See the
+The package itself is `pptx.package-integrity`, below. See the
 [slide-order contract and Office evidence](pptx-slide-order.md).
+
+`pptx.package-integrity` is `checked` when the archive can be read: the XML
+well-formedness, content types and relationships of every member were checked,
+as for a Word document, apart from the Word rules `PKG006`, `PKG009`, `PKG010`
+and `REL003`. It is `skipped` when one of those checks raised (`INT001`).
+Through 0.8.4 it was `unsupported`
+([PowerPoint check](../evidence/pptx-package-rules/README.md)).
 
 Font metrics and overflow use families resolved from each slide's owning master
 theme. A required theme chain or Latin face that cannot be resolved, or a
