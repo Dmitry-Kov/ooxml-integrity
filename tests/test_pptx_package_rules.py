@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 
 import pytest
 
@@ -55,10 +54,10 @@ def test_an_error_exactly_where_powerpoint_refused_or_lost_the_picture(name):
 def test_the_seed_and_the_decks_of_this_repository_have_no_package_finding():
     assert OBSERVED["control"]["powerpoint"] == "opens"
     assert package(SOURCE) == []
-    decks = subprocess.run(["git", "ls-files", "*.pptx"], cwd=ROOT, capture_output=True,
-                           text=True, check=True).stdout.split()
-    assert decks and all(package(ROOT / deck) == []
-                         for deck in decks if not deck.startswith("evidence/pptx-package-rules/"))
+    # Walked, not listed by git: the suite also runs from the sdist, which has no repository.
+    decks = [deck for top in ("corpus", "demo", "evidence") for deck in (ROOT / top).rglob("*.pptx")
+             if EVIDENCE not in deck.parents]
+    assert decks and all(package(deck) == [] for deck in decks)
 
 
 def message(name, code):
