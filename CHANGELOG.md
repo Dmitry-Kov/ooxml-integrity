@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.9.0 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.9.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - **The package rules run on `.pptx` decks.** `check_pptx` read only what
   its layout checks need, so a deck without `[Content_Types].xml` or

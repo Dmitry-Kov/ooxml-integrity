@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.8.4 release notes](releases/0.8.4.md) before changing a version pin.
+[0.9.0 release notes](releases/0.9.0.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-Unreleased: `check_pptx`, and the `check` command on a deck, run the package rules
+In 0.9.0 `check_pptx`, and the `check` command on a deck, run the package rules
 `XML001`, `PKG003`–`PKG005`, `PKG011`, `PKG012`, `REL001`, `REL002` and `REL004`,
 which ran on Word documents only. A deck that passed can exit 1: of 610 public
 decks, 5 get an ERROR, each of which PowerPoint for Mac refused, and 17 a WARN.
@@ -64,7 +64,7 @@ can now exit 1; none of 1,903 public Word files has one. It belongs to the
 coverage item `package.content-types`; its baseline v2 identity is file, code
 and the `Override`'s location.
 
-Unreleased: a part whose parse reports nothing but a namespace name that is
+In 0.9.0 a part whose parse reports nothing but a namespace name that is
 not a URI, such as SharePoint's `$ListId:Shared Documents;`, no longer gets
 `XML001` ERROR, so a document or deck that failed can exit 0. No public file
 changes ([Word and PowerPoint check](../evidence/xml-namespace-names/README.md)).
@@ -358,11 +358,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.8.4 | Meaning |
+| Output | Version in 0.9.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.8.4"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.9.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.8.4"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.9.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
