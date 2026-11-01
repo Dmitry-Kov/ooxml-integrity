@@ -11,8 +11,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 import pytest
 from lxml import etree
 
-from conftest import run_cli
-from ooxml_integrity import ERROR, check_pptx
+from conftest import aborted, run_cli
+from ooxml_integrity import ERROR, WARN, check_pptx
 from ooxml_integrity.coverage import CoverageStatus, pptx_coverage
 from ooxml_integrity.policy import fingerprint
 from ooxml_integrity.pptx_layout import P, R, read_deck
@@ -163,7 +163,9 @@ def test_unlisted_defect_and_orphan_parts_do_not_create_findings(parts, tmp_path
     parts["ppt/slides/slide999.xml"] = b"not XML and not listed"
     path = save(parts, tmp_path)
     assert shape_order(path) == [(1, "FIT_first"), (2, "FIT_second")]
-    assert check_pptx(path) == []
+    # PowerPoint opens a deck with a malformed part nothing reaches.
+    assert [(f.code, f.severity, f.part) for f in check_pptx(path)] == [
+        ("XML001", WARN, "ppt/slides/slide999.xml")]
     assert read_deck(path).features["slides"] == 2
 
 
@@ -254,8 +256,7 @@ def test_broken_order_fails_closed_instead_of_skipping_and_renumbering(parts, tm
             parts[part] = b"<wrong/>"
     path = save(parts, tmp_path)
     found = check_pptx(path)
-    assert len(found) == 1 and found[0].code == "PKG002" and found[0].severity == ERROR
-    assert "slide" in found[0].message
+    assert aborted(found) and "slide" in found[-1].message
     report = pptx_coverage(path, found)
     assert all(i.status == CoverageStatus.SKIPPED for i in report.items)
 
@@ -276,4 +277,4 @@ def test_same_slide_identity_reaches_json_sarif_and_baselines(fixture):
 def test_unreadable_slide_anywhere_aborts_before_any_layout_findings(parts, tmp_path, part):
     parts[part] = b"<broken"
     found = check_pptx(save(parts, tmp_path))
-    assert [(f.code, f.part) for f in found] == [("PKG002", part)]
+    assert [(f.code, f.part) for f in found] == [("XML001", part), ("PKG002", part)]

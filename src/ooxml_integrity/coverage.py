@@ -90,9 +90,9 @@ def _item(identifier: str, status: CoverageStatus, reason: str,
 #: what is present, not what a check got through, so a check that raised
 #: (`INT001`) would otherwise leave its surface reported as `checked`.
 CHECK_SURFACES: dict[str, tuple[str, ...]] = {
-    "check_content_types": ("package.content-types",),
+    "check_content_types": ("package.content-types", "pptx.package-integrity"),
     "check_related_content_types": ("package.related-content-types",),
-    "check_relationships": ("package.relationships",),
+    "check_relationships": ("package.relationships", "pptx.package-integrity"),
     "check_styles": ("docx.styles",),
     "check_numbering": ("docx.numbering",),
     "check_footnotes": ("docx.footnotes",),
@@ -620,9 +620,11 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
             features.get("entries", 0),
         ),
         _item(
-            "pptx.package-integrity", CoverageStatus.UNSUPPORTED,
-            "only relationships needed for layout were followed; the complete PPTX "
-            "OPC graph and XML set were not validated",
+            "pptx.package-integrity", CoverageStatus.CHECKED,
+            "XML well-formedness, content types and relationships of every member "
+            "were checked; relationship-type content types (PKG010) and unused "
+            "relationships (REL003) are Word rules and were not",
+            features.get("entries", 0),
         ),
     ]
 

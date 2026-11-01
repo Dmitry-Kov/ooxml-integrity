@@ -149,6 +149,22 @@ def _refused_escape(match: re.Match) -> str:
 class Inspector:
     """Runs every check against one package. Reusable, but cheap to recreate."""
 
+    #: What Word does with each package defect, as the evidence records it;
+    #: `PresentationInspector` says what PowerPoint does.
+    SAYS = {
+        "unreached": "Word opens such a package without a prompt",
+        "corrupt": "Word reports the package as corrupt",
+        "recover": "Word asks to recover the document",
+        "no entry": "Word cannot locate the document",
+        "dangling": "Word will error or drop the object",
+    }
+    #: Run the rules that read the main part as WordprocessingML (PKG006,
+    #: PKG009) and report relationships it never references (REL003).
+    WORDPROCESSING = True
+    #: Relationship types whose missing target the application does without,
+    #: so REL002 is a WARN for them (`SAYS["optional"]`).
+    OPTIONAL_TARGETS: tuple[str, ...] = ()
+
     def __init__(self, path: str | Path,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
         self.path = Path(path)
@@ -222,8 +238,8 @@ class Inspector:
         for name, message in failed:
             if reached is not None and name not in reached:
                 self._add("XML001", WARN,
-                          f"{message} - no relationship reaches this part; Word "
-                          "opens such a package without a prompt", part=name)
+                          f"{message} - no relationship reaches this part; "
+                          f"{self.SAYS['unreached']}", part=name)
             else:
                 self._add("XML001", ERROR, message, part=name)
         return True
@@ -288,7 +304,7 @@ class Inspector:
                     "PKG004", ERROR,
                     'no <Default Extension="rels"> and no Override for '
                     f"{len(uncovered)} relationship part(s), e.g. {uncovered[0]} "
-                    "- Word reports the package as corrupt",
+                    f"- {self.SAYS['corrupt']}",
                     part="[Content_Types].xml",
                 )
             else:
@@ -309,8 +325,8 @@ class Inspector:
             if covered("/" + name) in overrides or ext in defaults:
                 continue
             self._add("PKG005", ERROR,
-                      f"part not covered by content types: {name} - Word asks "
-                      "to recover the document", part=name)
+                      f"part not covered by content types: {name} - "
+                      f"{self.SAYS['recover']}", part=name)
 
     def _escaped_part_names(self, ct) -> None:
         """PKG012: an Override whose PartName has an escape Word does not accept.
@@ -328,8 +344,8 @@ class Inspector:
                 continue
             self.findings.append(Finding(
                 "PKG012", ERROR,
-                f"Override for {name} {'; '.join(dict.fromkeys(bad))} - Word asks to "
-                "recover the document",
+                f"Override for {name} {'; '.join(dict.fromkeys(bad))} - "
+                f"{self.SAYS['recover']}",
                 self._xpath(el), "[Content_Types].xml",
                 extra={"part_name": name},
             ))
@@ -364,7 +380,7 @@ class Inspector:
             self.findings.append(Finding(
                 "PKG011", ERROR,
                 f"{kind} for {what} declared {len(els)} times{spelled}{differ} - "
-                "Word asks to recover the document",
+                f"{self.SAYS['recover']}",
                 self._xpath(els[1]), "[Content_Types].xml",
                 extra={"declaration": kind, "names": names, "content_types": types},
             ))
@@ -472,15 +488,14 @@ class Inspector:
             differ = " for different targets or types" if len(targets) > 1 else ""
             self.findings.append(Finding(
                 "REL004", ERROR,
-                f"{rid} is the Id of {len(rels)} relationships{differ} - Word asks "
-                "to recover the document",
+                f"{rid} is the Id of {len(rels)} relationships{differ} - "
+                f"{self.SAYS['recover']}",
                 self._xpath(rels[1]), relsname,
                 extra={"id": rid, "targets": [r.get("Target") or "" for r in rels]},
             ))
 
-    def check_relationships(self) -> None:
-        tree = self._tree(self.main)
-        strict = tree is not None and tree.tag == STRICT_DOCUMENT
+    def _check_main_part(self, tree, strict: bool) -> None:
+        """PKG006 and PKG009: the main part is Transitional WordprocessingML."""
         if tree is None and self.main in self.parts:
             # XML001 names the reason; the part exists.
             self._add("PKG006", ERROR, f"{self.main} could not be parsed, so the "
@@ -496,6 +511,12 @@ class Inspector:
             self._add("PKG006", ERROR,
                       f"{self.main} is the main document part but has root "
                       f"{tree.tag!r}", part=self.main)
+
+    def check_relationships(self) -> None:
+        tree = self._tree(self.main)
+        strict = tree is not None and tree.tag == STRICT_DOCUMENT
+        if self.WORDPROCESSING:
+            self._check_main_part(tree, strict)
 
         # A DOCX is entered through the package-level officeDocument
         # relationship, and its target is the main part every story check
@@ -518,8 +539,8 @@ class Inspector:
             if not office_rels:
                 self._add(
                     "REL001", ERROR,
-                    "_rels/.rels has no officeDocument relationship - Word "
-                    "cannot locate the document",
+                    "_rels/.rels has no officeDocument relationship - "
+                    f"{self.SAYS['no entry']}",
                     part="_rels/.rels",
                 )
             elif not any(
@@ -559,8 +580,8 @@ class Inspector:
                     if rid not in rels:
                         self._add(
                             "REL001", ERROR,
-                            f"relationship {rid} not found in {relsname} - Word "
-                            "will error or drop the object",
+                            f"relationship {rid} not found in {relsname} - "
+                            f"{self.SAYS['dangling']}",
                             self._xpath(el), source,
                         )
             used_by_source[source] = used
@@ -598,15 +619,18 @@ class Inspector:
                 if not candidates or not any(
                     c.translate(ASCII_LOWER) in equivalent_names for c in candidates
                 ):
+                    optional = rtype.endswith(self.OPTIONAL_TARGETS)
                     self._add(
-                        "REL002", ERROR,
-                        f"{rid} points at a missing part: {target}",
+                        "REL002", WARN if optional else ERROR,
+                        f"{rid} points at a missing part: {target}"
+                        + (f" - {self.SAYS['optional']}" if optional else ""),
                         part=relsname,
                     )
 
             # Strict relationship attributes are not recognised, so every
             # relationship would look unused.
-            if strict or not source or source not in used_by_source:
+            if (not self.WORDPROCESSING or strict or not source
+                    or source not in used_by_source):
                 continue
             used = used_by_source[source]
             for rid, (_, _, rtype) in rels.items():
@@ -994,6 +1018,34 @@ class Inspector:
             except Exception as e:  # a broken check must not hide the others
                 self.findings.append(check_failed(c.__name__, e))
         return self.findings
+
+
+class PresentationInspector(Inspector):
+    """The package checks of a .pptx: XML, content types and relationships.
+
+    PowerPoint for Mac asked to repair a deck, and opened nothing on Cancel,
+    for every package defect Word refuses, and opened the decks Word opens
+    (evidence/pptx-package-rules); a picture whose relationship is missing or
+    names a missing part it showed as one it can't display. A missing thumbnail
+    or SmartArt drawing it does without: it draws SmartArt from its data. The
+    rules that read the main part as WordprocessingML, its related content
+    types (PKG010) and relationships nothing references (REL003) are Word's and
+    are not run: PowerPoint relates slide layouts, masters and properties
+    without naming them in the source part.
+    """
+
+    SAYS = {
+        "unreached": "PowerPoint opens such a package without a prompt",
+        "corrupt": "PowerPoint asks to repair the presentation",
+        "recover": "PowerPoint asks to repair the presentation",
+        "no entry": "PowerPoint asks to repair the presentation",
+        "dangling": "PowerPoint asks to repair the presentation or shows the "
+                    "object as missing",
+        "optional": "PowerPoint opens the deck without it",
+    }
+    WORDPROCESSING = False
+    OPTIONAL_TARGETS = ("/metadata/thumbnail", "/diagramDrawing")
+    CHECKS = (Inspector.check_content_types, Inspector.check_relationships)
 
 
 def check(path: str | Path, *,

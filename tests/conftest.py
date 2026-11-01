@@ -122,3 +122,16 @@ def run_cli(*args: str) -> subprocess.CompletedProcess:
         [sys.executable, "-m", "ooxml_integrity.cli", *args],
         capture_output=True, text=True, cwd=ROOT,
     )
+
+
+#: The package rules that run on a deck before its layout is read.
+PACKAGE_RULES = {"XML001", "PKG003", "PKG004", "PKG005", "PKG011", "PKG012",
+                 "REL001", "REL002", "REL004"}
+
+
+def aborted(found):
+    """The layout read stopped with one PKG002 after the package findings, if any."""
+    from ooxml_integrity import ERROR
+    *package, last = found
+    return (last.code == "PKG002" and last.severity == ERROR
+            and {f.code for f in package} <= PACKAGE_RULES)
