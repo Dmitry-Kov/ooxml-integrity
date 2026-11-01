@@ -56,6 +56,11 @@ can now exit 1; none of 1,903 public Word files has one. It belongs to the
 coverage item `package.content-types`; its baseline v2 identity is file, code
 and the `Override`'s location.
 
+Unreleased: a part whose parse reports nothing but a namespace name that is
+not a URI, such as SharePoint's `$ListId:Shared Documents;`, no longer gets
+`XML001` ERROR, so a document or deck that failed can exit 0. No public file
+changes ([Word and PowerPoint check](../evidence/xml-namespace-names/README.md)).
+
 0.8.3 changes `PPT001` and `PPT002` where a `.pptx` text box has
 empty paragraphs or empty lines. Empty paragraphs between lines of text now
 take height, so a deck that passed can exit 1. Blank rows below the text of a

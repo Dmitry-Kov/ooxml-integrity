@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "observed_on": "2026-10-29",
+ "renderers": {
+  "word": "Microsoft Word for Mac 16.114.3 (16.114.26102720), macOS 27.0.1, Apple Silicon",
+  "powerpoint": "Microsoft PowerPoint for Mac 16.114.3 (16.114.26102720), macOS 27.0.1, Apple Silicon"
+ },
+ "method": "Each file opened alone with `open -a` from a scratch folder, the application idle before each (no document or prompt open); prompts read through System Events. No recovery or repair chosen, no preference changed, nothing saved. The Word control was opened before the variants and after them.",
+ "operator": "Claude Code driving Word and PowerPoint through AppleScript, with the maintainer's permission; not blind to the expectations.",
+ "unrelated": "On each open an installed Adobe PDF add-in raised Visual Basic run-time error 53; dismissed with End.",
+ "source": "evidence/review-history-benchmark/sources/word-review.docx",
+ "source_sha256": "fd572878a64bc022f5aa4e297ca468200ae74e4483d0d08b8ed16e1cea5168f8",
+ "control": {
+  "word": "opens",
+  "object_model": {
+   "comments": 3,
+   "revisions": 8
+  },
+  "openings": 2
+ },
+ "variants": {
+  "not-a-uri": {
+   "file": "variants/not-a-uri.docx",
+   "sha256": "301540afe1724f7523aa9823a02a6f69cade66b056be3e5178232954712e4138",
+   "namespace": "$ListId:Shared Documents;",
+   "word": "opens",
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   },
+   "finding_before": "XML001 ERROR on customXml/item1.xml",
+   "finding_now": null
+  },
+  "uri": {
+   "file": "variants/uri.docx",
+   "sha256": "ee5df243f0b86786affa2f062c2ce34a542778017a58f02a0926483606df3d16",
+   "namespace": "urn:example:shared-documents",
+   "word": "opens",
+   "object_model": {
+    "comments": 3,
+    "revisions": 8
+   },
+   "finding_before": null,
+   "finding_now": null
+  }
+ },
+ "public": {
+  "tdf89927.pptx": {
+   "source": "LibreOffice core 382bad999f5d, sd/qa/unit/data/pptx/tdf89927.pptx",
+   "sha256": "2bae75327ebfcea568da95a17c64a1ce58e3d3f2cdf43233017c3575515bd6de",
+   "part": "customXml/item3.xml, related from ppt/presentation.xml",
+   "namespace": "$ListId:Shared Documents;",
+   "powerpoint": "opens",
+   "object_model": {
+    "slides": 1
+   }
+  }
+ }
+}
