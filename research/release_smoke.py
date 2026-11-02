@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.8.4
+    python research/release_smoke.py --version 0.9.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -555,6 +555,31 @@ def main():
             pptx_layout._metrics_for = measure
             pptx_checks.measurement_available = available
 
+        # 0.9.0. The package rules run on a deck as on a document: a Default
+        # written twice is PKG011, and a missing thumbnail, which PowerPoint
+        # opens the deck without, a REL002 WARN. Word's own rules do not run.
+        from ooxml_integrity import check_pptx
+        with ZipFile(root / "corpus/deck.pptx") as z:
+            deck = {name: z.read(name) for name in z.namelist()}
+
+        def package(path):
+            return {(f.code, f.severity.value) for f in check_pptx(path)
+                    if f.code.startswith(("PKG", "REL", "XML"))}
+
+        assert package(root / "corpus/deck.pptx") == set()
+        deck_types = deck["[Content_Types].xml"]
+        assert deck_types.count(xml_default) == 1
+        assert package(variant("default-twice.pptx", {
+            **deck, "[Content_Types].xml": deck_types.replace(xml_default, xml_default * 2)})) == {
+            ("PKG011", "error")}
+        del deck["docProps/thumbnail.jpeg"]
+        assert package(variant("no-thumbnail.pptx", deck)) == {("REL002", "warn")}
+        # A namespace name that is not a URI, as SharePoint writes, is not a
+        # syntax error.
+        sharepoint = (b'<p:properties xmlns:p="http://schemas.microsoft.com/office/2006/'
+                      b'metadata/properties" xmlns:ns3="$ListId:Shared Documents;"/>')
+        assert found(variant("sharepoint.docx", {**base, "customXml/item9.xml": sharepoint})) == []
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -612,6 +637,7 @@ def main():
           "config that is not TOML exiting 2, empty .pptx lines as tall as their marks, "
           "0.8.4 PKG012 on an escaped Override name, an Override in capitals covering "
           "its part, a box with no room and text without metrics reported, "
+          "0.9.0 PKG011 and a REL002 WARN on a deck, a SharePoint namespace name read, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

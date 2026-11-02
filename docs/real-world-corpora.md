@@ -110,7 +110,7 @@ each change are listed in [empty paragraphs and lines](pptx-empty-lines.md#on-pu
 LibreOffice's `tdf165732.pptx` and 70 `PPT001` WARN in its
 `TextDistancesInsets1`–`3` decks ([thin boxes](pptx-thin-boxes.md#on-public-decks)).
 
-### PPTX: package rules (unreleased)
+### PPTX: package rules (0.9.0)
 
 With the package rules run on decks, findings change in 22 of the 610 decks,
 only by additions: 5 decks get an ERROR (`PKG005`, `PKG012`, `REL001`,
