@@ -1,7 +1,7 @@
 # The package of a `.pptx`, checked as PowerPoint reads it
 
 **`XML001`, `PKG003`–`PKG005`, `PKG011`, `PKG012`, `REL001`, `REL002` and
-`REL004` for `.pptx`, unreleased.** Through 0.8.4 `check_pptx` read only what
+`REL004` for `.pptx`, released in 0.9.0.** Through 0.8.4 `check_pptx` read only what
 the layout checks need: `ppt/presentation.xml` by its name, the slides it lists
 and their layouts, masters and themes. A deck without `[Content_Types].xml` or
 `_rels/.rels`, with a declaration written twice or a relationship to nothing,

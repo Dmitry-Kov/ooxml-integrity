@@ -1,6 +1,6 @@
 # A namespace name that is not a URI is not malformed XML
 
-**`XML001`, changed and unreleased.** SharePoint document libraries write custom
+**`XML001`, changed in 0.9.0.** SharePoint document libraries write custom
 XML parts that declare `xmlns:ns3="$ListId:Shared Documents;"`. Namespaces in
 XML asks for a URI there, and libxml2 2.14 reports such a name as a namespace
 warning at error level, so lxml refused the part and the checker reported it
