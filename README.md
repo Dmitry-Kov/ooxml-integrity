@@ -308,6 +308,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
 | `CMT001-006` | Comment ranges/references ↔ the related comments part; unresolved or unreadable comments parts |
+| `CMT007` | unreleased, ERROR: a second `commentRangeStart`, `commentRangeEnd` or `commentReference` for one comment id in a story, as the closed python-docx [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) wrote when setting the text of the first paragraph of a comment over two; a text box's copy in `mc:Fallback` does not count |
 | `REV001-003` | revision-ID collisions outside the verified paragraph-mark/content pair; `w:del` carries `w:delText`, respecting legal `w:ins > w:del` nesting |
 | `TBL001-002` | `tblGrid` present; cells per row vs grid columns, accounting for `gridSpan` |
 | `SDT001-002` | content-control integrity |
