@@ -744,12 +744,11 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     paragraphs = {"document": paragraph_views(doc), **stories.paragraphs}
     references = References()
     references.read("document", doc)
-    read_stories: set[tuple[str, str]] = set()
+    # Once per slot, as the constructs of headers and footers are counted: two
+    # sections showing one footer part and two showing two identical parts
+    # hold the same fields.
     for kind, variant, part in story_references:
-        story = f"{kind}/{variant}"
-        if (story, part) not in read_stories:  # one part can fill several slots
-            read_stories.add((story, part))
-            references.read(story, parse_xml(parts[part]))
+        references.read(f"{kind}/{variant}", parse_xml(parts[part]))
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
             notes = parse_xml(parts[part])

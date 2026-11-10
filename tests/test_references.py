@@ -15,12 +15,14 @@ from conftest import read_part, repack
 from ooxml_integrity import ERROR, INFO, WARN, compare
 from ooxml_integrity.introduced import split
 from ooxml_integrity.policy import fingerprint
-from ooxml_integrity.references import References, assess, instructions
+from ooxml_integrity.references import References, assess, instructions, read_fields
 
 DOC = "word/document.xml"
 FOOTER = "word/footer1.xml"
 NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = "{%s}" % NS
+R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+PKG_REL = "http://schemas.openxmlformats.org/package/2006/relationships"
 
 
 def _xml(fragment: str):
@@ -110,6 +112,53 @@ def test_nested_fields_are_each_read():
     assert sorted(kind for kind, _ in instructions(_xml(nested))) == ["IF", "MERGEFIELD"]
 
 
+def test_a_field_inside_another_fields_result_is_derived():
+    # each entry of a table of contents: text and a PAGEREF, written by TOC
+    toc = ('<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+           '<w:r><w:instrText>TOC \\o "1-3"</w:instrText></w:r>'
+           '<w:r><w:fldChar w:fldCharType="separate"/></w:r>'
+           + _complex(r"PAGEREF _Toc1 \h", "3") + _simple(r"PAGEREF _Toc2 \h", "4")
+           + '<w:r><w:fldChar w:fldCharType="end"/></w:r>'
+           + _complex(r"PAGEREF _Toc1 \h", "3"))
+    assert [(kind, derived) for kind, _, derived in read_fields(_xml(toc))] == [
+        ("TOC", False), ("PAGEREF", True), ("PAGEREF", True), ("PAGEREF", False)]
+    nested = f'<w:fldSimple w:instr="SEQ Table">{_complex("PAGE")}</w:fldSimple>'
+    assert [(kind, derived) for kind, _, derived in read_fields(_xml(nested))] == [
+        ("SEQ", False), ("PAGE", True)]
+
+
+def test_a_field_inside_an_instruction_is_not_derived():
+    nested = ('<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+              '<w:r><w:instrText>IF </w:instrText></w:r>'
+              + _complex("MERGEFIELD Total", "5")
+              + '<w:r><w:instrText> &gt; 0 "yes"</w:instrText></w:r>'
+              '<w:r><w:fldChar w:fldCharType="end"/></w:r>')
+    assert [(kind, derived) for kind, _, derived in read_fields(_xml(nested))] == [
+        ("IF", False), ("MERGEFIELD", False)]
+
+
+def test_a_field_with_no_end_is_still_read():
+    root = _xml('<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+                '<w:r><w:instrText>PAGE</w:instrText></w:r>')
+    assert instructions(root) == [("PAGE", "PAGE")]
+
+
+def test_a_table_of_contents_written_back_without_its_entries_fields_is_not_a_loss():
+    # what LibreOffice writes: the TOC field, its entries as plain text
+    entries = _complex(r"PAGEREF _Toc1 \h", "3") * 3
+    def toc(result):
+        return ('<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+                '<w:r><w:instrText>TOC \\o "1-3"</w:instrText></w:r>'
+                '<w:r><w:fldChar w:fldCharType="separate"/></w:r>' + result
+                + '<w:r><w:fldChar w:fldCharType="end"/></w:r>')
+    before = _references(_bookmark("_Toc1") + toc(entries))
+    after = _references(_bookmark("_Toc1") + toc("<w:r><w:t>Fees 3</w:t></w:r>"))
+    assert assess(before, after) == []
+    # the entries still count as pointing at the heading's bookmark
+    [f] = assess(before, _references(toc(entries)))
+    assert (f.code, f.severity, f.extra["referenced"]) == ("FID015", ERROR, "fields")
+
+
 def test_a_formula_field_has_the_kind_equals():
     assert instructions(_xml(_simple("=SUM(ABOVE)"))) == [("=", "=SUM(ABOVE)")]
 
@@ -153,7 +202,7 @@ def test_a_field_pointed_at_another_bookmark_is_reported():
     before = _references(_complex(r"REF _Ref1 \h") + _complex(r"REF _Ref2 \h"))
     after = _references(_complex(r"REF _Ref1 \h") + _complex(r"REF _Ref9 \h"))
     [f] = assess(before, after)
-    assert (f.code, f.severity) == ("FID016", WARN)
+    assert (f.code, f.severity) == ("FID016", ERROR)
     assert f.extra["targets"] == ["_Ref2"] and f.extra["after"] == 2
 
 
@@ -170,7 +219,7 @@ def test_a_hidden_bookmark_nothing_points_at_is_not_reported(name):
 
 def test_a_visible_bookmark_nothing_points_at_is_a_warning():
     [f] = assess(_references(_bookmark("Schedule1")), _references(""))
-    assert (f.code, f.severity, f.extra["referenced"]) == ("FID015", WARN, False)
+    assert (f.code, f.severity, f.extra["referenced"]) == ("FID015", WARN, "nothing")
     assert f.extra["names"] == ["Schedule1"]
 
 
@@ -178,14 +227,25 @@ def test_a_visible_bookmark_nothing_points_at_is_a_warning():
     _complex(r"REF _Toc1 \h"),
     _complex(r"PAGEREF _toc1 \h"),
     _complex(r'NOTEREF "_Toc1"'),
-    _complex(r'HYPERLINK \l "_Toc1"'),
-    '<w:hyperlink w:anchor="_Toc1"><w:r><w:t>4.2</w:t></w:r></w:hyperlink>',
 ])
-def test_a_bookmark_something_still_points_at_is_an_error(pointer):
+def test_a_bookmark_a_field_still_points_at_is_an_error(pointer):
     before = _references(_bookmark("_Toc1") + pointer)
     after = _references(pointer)
     [f] = [f for f in assess(before, after) if f.code == "FID015"]
-    assert (f.severity, f.extra["referenced"], f.extra["references"]) == (ERROR, True, 1)
+    assert (f.severity, f.extra["referenced"], f.extra["references"]) == (ERROR, "fields", 1)
+    assert "Error! Bookmark not defined." in f.message
+
+
+@pytest.mark.parametrize("pointer", [
+    _complex(r'HYPERLINK \l "_Toc1"'),
+    '<w:hyperlink w:anchor="_Toc1"><w:r><w:t>4.2</w:t></w:r></w:hyperlink>',
+])
+def test_a_bookmark_only_a_link_points_at_is_a_warning(pointer):
+    before = _references(_bookmark("_Toc1") + pointer)
+    after = _references(pointer)
+    [f] = [f for f in assess(before, after) if f.code == "FID015"]
+    assert (f.severity, f.extra["referenced"], f.extra["references"]) == (WARN, "links", 1)
+    assert "no longer leads anywhere" in f.message
 
 
 def test_a_reference_that_dangled_in_the_source_is_not_blamed_on_the_edit():
@@ -205,6 +265,12 @@ def test_fields_are_compared_story_by_story():
     after = _references(_complex("PAGE"), "document")
     [f] = assess(before, after)
     assert (f.code, f.severity, f.where) == ("FID016", ERROR, "footer/default")
+
+
+def test_a_lost_cross_reference_is_an_error_while_others_remain():
+    refs = _complex(r"REF _Ref1 \h") + _complex(r"REF _Ref2 \h")
+    [f] = assess(_references(refs), _references(_complex(r"REF _Ref1 \h")))
+    assert (f.code, f.severity, f.extra["after"]) == ("FID016", ERROR, 1)
 
 
 def test_losing_every_field_of_a_kind_is_an_error_and_some_a_warning():
@@ -312,3 +378,47 @@ def test_lost_references_are_never_set_aside_as_inherited():
     found = assess(_references(_bookmark("Schedule1") + _complex("PAGE")), _references(""))
     assert {f.code for f in found} == {"FID015", "FID016"}
     assert split(found, found) == (found, [])
+
+
+def test_two_slots_showing_one_footer_hold_the_fields_of_two(base_docx, tmp_path):
+    """Two sections with identical footer parts, then both showing one part."""
+    footer = (f'<w:ftr xmlns:w="{NS}" xmlns:r="{R}"><w:p>'
+              + _complex("PAGE", "1") + "</w:p></w:ftr>").encode()
+    rels_name = "word/_rels/document.xml.rels"
+
+    def build(name, second_target):
+        tree = etree.fromstring(read_part(base_docx, DOC).encode("utf-8"))
+        body = tree.find(W + "body")
+        last = body.find(W + "sectPr")
+        for ref in list(last.iter(W + "footerReference")):
+            last.remove(ref)
+        rels = etree.fromstring(read_part(base_docx, rels_name).encode("utf-8"))
+        footer_type = ("http://schemas.openxmlformats.org/officeDocument/2006/"
+                       "relationships/footer")
+        for rid, target in (("rIdFooterA", "footerA.xml"), ("rIdFooterB", second_target)):
+            etree.SubElement(rels, f"{{{PKG_REL}}}Relationship",
+                             Id=rid, Type=footer_type, Target=target)
+        first = etree.fromstring(
+            f'<w:p xmlns:w="{NS}" xmlns:r="{R}"><w:pPr><w:sectPr>'
+            '<w:footerReference w:type="default" r:id="rIdFooterA"/>'
+            "</w:sectPr></w:pPr></w:p>")
+        last.addprevious(first)
+        last.insert(0, etree.fromstring(
+            f'<w:footerReference xmlns:w="{NS}" xmlns:r="{R}" w:type="default" '
+            'r:id="rIdFooterB"/>'))
+        types = read_part(base_docx, "[Content_Types].xml").replace(
+            "</Types>",
+            '<Override PartName="/word/footerA.xml" ContentType="application/vnd.'
+            'openxmlformats-officedocument.wordprocessingml.footer+xml"/>'
+            '<Override PartName="/word/footerB.xml" ContentType="application/vnd.'
+            'openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>')
+        edits = {DOC: etree.tostring(tree), rels_name: etree.tostring(rels),
+                 "[Content_Types].xml": types.encode(), "word/footerA.xml": footer}
+        if second_target == "footerB.xml":
+            edits["word/footerB.xml"] = footer
+        return repack(base_docx, tmp_path / name, edits)
+
+    two_parts = build("two-parts.docx", "footerB.xml")
+    one_part = build("one-part.docx", "footerA.xml")
+    assert _found(two_parts, one_part, "FID016") == []
+    assert _found(one_part, two_parts, "FID016") == []

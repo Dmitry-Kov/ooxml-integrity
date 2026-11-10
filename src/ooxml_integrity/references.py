@@ -2,20 +2,23 @@
 lost of it.
 
 "See clause 4.2" in a contract is a ``REF`` field whose instruction names a
-bookmark around the clause number. A table of contents is a ``TOC`` field and
-one ``PAGEREF`` per entry, each naming a ``_Toc`` bookmark in a heading. The
-page number in a footer is a ``PAGE`` field. An edit that rebuilds a paragraph
-drops whichever of these stood in it, and the file still opens: the field's
-last result stays behind as plain text, or the field stays and its bookmark is
-gone, and Word prints "Error! Reference source not found." in its place the
-next time fields are updated.
+bookmark around the clause number. A table of contents is a ``TOC`` field
+whose result holds one ``PAGEREF`` per entry, each naming a ``_Toc`` bookmark
+in a heading. The page number in a footer is a ``PAGE`` field. An edit that
+rebuilds a paragraph drops whichever of these stood in it, and the file still
+opens: the field's last result stays behind as plain text, or the field stays
+and its bookmark is gone, and Word prints "Error! Reference source not
+found." in its place the next time fields are updated.
 
 Two findings, both against a source:
 
-``FID015``  a bookmark of the source is gone. An error when a field or an
-            internal link of the edited file still points at it; a warning
-            when nothing does and the name is not one of Word's hidden ones.
-``FID016``  a field of the source is gone, per story and kind of field.
+``FID015``  a bookmark of the source is gone. An error when a field of the
+            edited file still points at it; a warning when only an internal
+            link does, or when nothing does and the name is not one of Word's
+            hidden ones.
+``FID016``  a field of the source is gone, per story and kind of field. An
+            error for a field that points at a bookmark and when none of the
+            kind is left; else a warning.
 
 What counts as the same:
 
@@ -35,6 +38,12 @@ What counts as the same:
 
 What is deliberately not reported:
 
+- A field inside another field's result. The ``PAGEREF`` of each entry of a
+  table of contents and the ``SEQ`` of each entry of a table of figures are
+  what the outer field last produced, and updating it writes them again.
+  LibreOffice writes a table of contents back without them and the table
+  still updates. Such a field is not counted, but the bookmark it names still
+  counts as pointed at.
 - A hidden bookmark nothing refers to. Word writes ``_GoBack`` for the last
   cursor position and ``_Hlk…`` while pasting, and removes them as it likes.
 - A ``HYPERLINK`` field that became a ``w:hyperlink`` element. Word writes
@@ -59,7 +68,7 @@ _REFERRING = ("REF", "PAGEREF", "NOTEREF")
 _ARGUMENT = re.compile(r'"([^"]*)"|(\S+)')
 _LOCAL_LINK = re.compile(r'\\l\s+(?:"([^"]*)"|(\S+))')
 
-#: How many names or instructions a message spells out before "and N more".
+#: How many names a message spells out before "and N more".
 _LISTED = 5
 
 
@@ -83,31 +92,52 @@ def normalise(instruction: str) -> tuple[str, str]:
     return kind, f"{kind} {rest}" if rest else kind
 
 
-def instructions(root) -> list[tuple[str, str]]:
-    """Every field of a story as (kind, instruction), in document order of
-    where each field ends."""
-    out = [normalise(node.get(W + "instr", "")) for node in root.iter(W + "fldSimple")
-           if not alternative_branch(node)]
+def read_fields(root) -> list[tuple[str, str, bool]]:
+    """Every field of a story as (kind, instruction, derived), in the order
+    the fields begin.
+
+    `derived` is true for a field inside another field's result: after the
+    outer field's ``separate``, or anywhere under a ``w:fldSimple``.
+    """
     # A complex field is begin, instruction runs, an optional separate, result
     # runs, end. Fields nest, both inside an instruction and inside a result,
     # so the open fields are a stack and text goes to the innermost one that is
     # still reading its instruction.
-    open_fields: list[list] = []
-    for node in root.iter(W + "fldChar", W + "instrText", W + "delInstrText"):
+    found: list[list] = []      # [order, instruction parts, derived]
+    open_fields: list[list] = []  # [entry of `found`, still reading its instruction]
+    for node in root.iter(W + "fldSimple", W + "fldChar",
+                          W + "instrText", W + "delInstrText"):
         if alternative_branch(node):
             continue
-        if node.tag != W + "fldChar":
+        if node.tag in (W + "instrText", W + "delInstrText"):
             if open_fields and open_fields[-1][1]:
-                open_fields[-1][0].append(node.text or "")
+                open_fields[-1][0][1].append(node.text or "")
             continue
-        state = node.get(W + "fldCharType")
-        if state == "begin":
-            open_fields.append([[], True])
+        state = "simple" if node.tag == W + "fldSimple" else node.get(W + "fldCharType")
+        if state in ("simple", "begin"):
+            derived = (any(not reading for _, reading in open_fields)
+                       or next(node.iterancestors(W + "fldSimple"), None) is not None)
+            entry = [len(found), [node.get(W + "instr", "")] if state == "simple" else [],
+                     derived]
+            found.append(entry)
+            if state == "begin":
+                open_fields.append([entry, True])
         elif state == "separate" and open_fields:
             open_fields[-1][1] = False
         elif state == "end" and open_fields:
-            out.append(normalise("".join(open_fields.pop()[0])))
-    return [item for item in out if item[0]]
+            open_fields.pop()
+    # a field with no end is still a field: its instruction was read
+    out = []
+    for _, parts, derived in found:
+        kind, instruction = normalise("".join(parts))
+        if kind:
+            out.append((kind, instruction, derived))
+    return out
+
+
+def instructions(root) -> list[tuple[str, str]]:
+    """Every field of a story as (kind, instruction), derived or not."""
+    return [(kind, instruction) for kind, instruction, _ in read_fields(root)]
 
 
 def _target(kind: str, instruction: str) -> str | None:
@@ -132,8 +162,11 @@ class References:
 
     #: casefolded name -> the name as first written
     bookmarks: dict[str, str] = field(default_factory=dict)
-    #: casefolded bookmark name -> how many fields and links point at it
-    targets: collections.Counter = field(default_factory=collections.Counter)
+    #: casefolded bookmark name -> how many REF, PAGEREF and NOTEREF fields
+    #: point at it, derived ones included
+    field_targets: collections.Counter = field(default_factory=collections.Counter)
+    #: casefolded bookmark name -> how many internal links point at it
+    link_targets: collections.Counter = field(default_factory=collections.Counter)
     #: story -> (kind, casefolded bookmark it points at or "") -> count
     fields: dict[str, collections.Counter] = field(default_factory=dict)
     #: casefolded bookmark name -> the name as a field first wrote it
@@ -142,18 +175,19 @@ class References:
     links: collections.Counter = field(default_factory=collections.Counter)
 
     def read(self, story: str, root) -> None:
-        """Add one story part. A story of several parts is read part by part."""
+        """Add one story part, once for each slot that shows it."""
         for node in root.iter(W + "bookmarkStart"):
             name = node.get(W + "name")
             if name and not alternative_branch(node):
                 self.bookmarks.setdefault(_key(name), name)
         found = self.fields.setdefault(story, collections.Counter())
-        for kind, instruction in instructions(root):
+        for kind, instruction, derived in read_fields(root):
             target = _target(kind, instruction)
             points = kind in _REFERRING and bool(target)
-            found[(kind, _key(target) if points else "")] += 1
+            if not derived:
+                found[(kind, _key(target) if points else "")] += 1
             if target:
-                self.targets[_key(target)] += 1
+                (self.field_targets if points else self.link_targets)[_key(target)] += 1
                 self.written.setdefault(_key(target), target)
         for node in root.iter(W + "hyperlink"):
             if alternative_branch(node):
@@ -161,7 +195,7 @@ class References:
             self.links[story] += 1
             anchor = node.get(W + "anchor")
             if anchor:
-                self.targets[_key(anchor)] += 1
+                self.link_targets[_key(anchor)] += 1
 
 
 def _listed(items: list[str]) -> str:
@@ -170,26 +204,36 @@ def _listed(items: list[str]) -> str:
     return f"{shown} and {more} more" if more > 0 else shown
 
 
-def assess(source: References, edited: References) -> list[Finding]:
-    """FID015 and FID016: what `edited` lost of the source's bookmarks and
-    fields."""
+def _lost_bookmarks(source: References, edited: References) -> list[Finding]:
+    gone = sorted(name for key, name in source.bookmarks.items()
+                  if key not in edited.bookmarks)
+    by_fields = [n for n in gone if edited.field_targets[_key(n)]]
+    by_links = [n for n in gone
+                if not edited.field_targets[_key(n)] and edited.link_targets[_key(n)]]
+    unused = [n for n in gone if not edited.field_targets[_key(n)]
+              and not edited.link_targets[_key(n)] and not n.startswith("_")]
     out: list[Finding] = []
-
-    gone = [name for key, name in source.bookmarks.items()
-            if key not in edited.bookmarks]
-    dangling = sorted(name for name in gone if edited.targets[_key(name)])
-    unused = sorted(name for name in gone
-                    if not edited.targets[_key(name)] and not name.startswith("_"))
-    if dangling:
-        pointing = sum(edited.targets[_key(name)] for name in dangling)
+    if by_fields:
+        pointing = sum(edited.field_targets[_key(n)] for n in by_fields)
         out.append(Finding(
             "FID015", ERROR,
-            f"{len(dangling)} bookmark(s) of the source are gone while "
-            f"{pointing} field(s) or link(s) still point at them: "
-            f"{_listed(dangling)} - Word prints 'Error! Reference source not "
-            "found.' for such a field when fields are updated",
-            extra={"referenced": True, "lost": len(dangling),
-                   "references": pointing, "names": dangling},
+            f"{len(by_fields)} bookmark(s) of the source are gone while "
+            f"{pointing} field(s) still point at them: {_listed(by_fields)} - "
+            "Word prints 'Error! Reference source not found.' or 'Error! "
+            "Bookmark not defined.' in place of such a field when fields are "
+            "updated",
+            extra={"referenced": "fields", "lost": len(by_fields),
+                   "references": pointing, "names": by_fields},
+        ))
+    if by_links:
+        pointing = sum(edited.link_targets[_key(n)] for n in by_links)
+        out.append(Finding(
+            "FID015", WARN,
+            f"{len(by_links)} bookmark(s) of the source are gone while "
+            f"{pointing} internal link(s) still point at them: "
+            f"{_listed(by_links)} - such a link no longer leads anywhere",
+            extra={"referenced": "links", "lost": len(by_links),
+                   "references": pointing, "names": by_links},
         ))
     if unused:
         out.append(Finding(
@@ -197,9 +241,15 @@ def assess(source: References, edited: References) -> list[Finding]:
             f"{len(unused)} bookmark(s) of the source are gone: "
             f"{_listed(unused)} - nothing in the edited file points at them, "
             "but a link from another document would no longer land",
-            extra={"referenced": False, "lost": len(unused), "names": unused},
+            extra={"referenced": "nothing", "lost": len(unused), "names": unused},
         ))
+    return out
 
+
+def assess(source: References, edited: References) -> list[Finding]:
+    """FID015 and FID016: what `edited` lost of the source's bookmarks and
+    fields."""
+    out = _lost_bookmarks(source, edited)
     for story, before in source.fields.items():
         after = edited.fields.get(story, collections.Counter())
         for kind in sorted({kind for kind, _ in before}):
@@ -225,8 +275,11 @@ def assess(source: References, edited: References) -> list[Finding]:
             else:
                 what = f"{lost} of {had} {kind} field(s) of the source are gone"
             pointed = f" (to {_listed(targets)})" if targets else ""
+            # A cross-reference turned into plain text reads the same today and
+            # goes stale with nothing left to say so: the invisible kind of loss.
+            severity = ERROR if has == 0 or kind in _REFERRING else WARN
             out.append(Finding(
-                "FID016", ERROR if has == 0 else WARN,
+                "FID016", severity,
                 f"{story}: {what}{pointed} - what a lost field showed stays "
                 "as plain text, if at all, and no longer updates",
                 where=story,

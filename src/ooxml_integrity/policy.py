@@ -429,7 +429,7 @@ def fingerprint(file: str, f: Finding) -> str:
                                           separators=(",", ":")).encode("utf-8")).hexdigest()
         stable = f"fields-sha256={digest}"
 
-    key =f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
+    key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key
 
 
