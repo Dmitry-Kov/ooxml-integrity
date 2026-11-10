@@ -30,6 +30,14 @@
   `--introduced` a repeat the source already had is set aside; one the edit
   added, or a count it raised, is reported. None of 1,903 public Word files
   and no file in this repository has one; such a file was not opened in Word.
+- **Metadata for MCP catalogs.** The MCP server could be found only by reading
+  this repository. `server.json` now describes it in the MCP Registry format
+  as `io.github.Dmitry-Kov/ooxml-integrity`: the PyPI package, started with
+  the argument `mcp`, over stdio. The README carries the `mcp-name:` line the
+  registry looks for in the README published on PyPI, as an HTML comment, so
+  this is the first version that can be listed; 0.9.0 and earlier cannot. A
+  test fails when `server.json` and the package version differ. The server
+  itself is unchanged. [Catalogs](docs/mcp.md#catalogs).
 
 ## 0.9.0 — 2026-11-02
 

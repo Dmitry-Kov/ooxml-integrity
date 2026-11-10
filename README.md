@@ -263,6 +263,8 @@ call returns the report of `check --json --coverage` and a one-line verdict.
 The [MCP guide](docs/mcp.md) has the configuration for Claude Code, Codex and
 OpenCode.
 
+<!-- mcp-name: io.github.Dmitry-Kov/ooxml-integrity -->
+
 ## From Python
 
 ```python

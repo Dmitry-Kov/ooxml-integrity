@@ -7,7 +7,8 @@ scope fixed while preparing a release.
 
 ## Prepare
 
-1. Update `pyproject.toml`, `src/ooxml_integrity/__init__.py`, the changelog,
+1. Update `pyproject.toml`, `src/ooxml_integrity/__init__.py`, both `version`
+   fields of `server.json` (the server's and its PyPI package's), the changelog,
    and versioned release notes with the new Action example. Keep working public
    examples on the existing tag until publication, and historical evidence
    unchanged. Explain every incompatible change, including baseline migration.
@@ -81,6 +82,17 @@ describe this token-free workflow. Never put API tokens in the repository or log
    the package/runtime/browser versions and page revision in `demo/VALIDATION.md`.
    Merge the pin update only after those checks pass; Pages repeats both suites
    on the deployed commit before uploading the public demo.
+7. List the version in the [MCP Registry](https://registry.modelcontextprotocol.io/),
+   from a checkout of the release tag, with the registry's
+   [`mcp-publisher`](https://github.com/modelcontextprotocol/registry/blob/main/docs/modelcontextprotocol-io/quickstart.mdx):
+   `mcp-publisher validate`, `mcp-publisher login github` as `Dmitry-Kov`, then
+   `mcp-publisher publish`. This can only follow the PyPI upload: the registry
+   fetches `https://pypi.org/pypi/ooxml-integrity/VERSION/json` and refuses the
+   entry unless that README has the `mcp-name:` line and `server.json` names
+   the same version. `tests/test_mcp_registry_metadata.py` checks both before
+   the release. An entry is immutable, like a PyPI version; a correction to the
+   metadata alone needs a new `version` in `server.json`. A failure here does
+   not affect the published package and can be retried.
 
 Do not overwrite a published tag or attempt to reuse a PyPI version. A failure
 before upload can be retried after correcting its prerequisite. If upload

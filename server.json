@@ -1,0 +1,29 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Dmitry-Kov/ooxml-integrity",
+  "title": "ooxml-integrity",
+  "description": "Checks .docx and .pptx files after automated editing for lost comments, tracked changes and notes.",
+  "repository": {
+    "url": "https://github.com/Dmitry-Kov/ooxml-integrity",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/Dmitry-Kov/ooxml-integrity/blob/main/docs/mcp.md",
+  "version": "0.9.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "ooxml-integrity",
+      "version": "0.9.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}

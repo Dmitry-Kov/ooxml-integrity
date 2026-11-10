@@ -57,7 +57,7 @@ packages = ["src/ooxml_integrity"]
 # demo run and fail. runs/ holds test fixtures; the demo itself is not shipped.
 include = ["/src/", "/tests/", "/research/", "/corpus/", "/evidence/", "/docs/", "/runs/",
            "/action.yml", "/.github/", "/CHANGELOG.md", "/README.md", "/LICENSE",
-           "/SECURITY.md", "/CONTRIBUTING.md"]
+           "/SECURITY.md", "/CONTRIBUTING.md", "/server.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
