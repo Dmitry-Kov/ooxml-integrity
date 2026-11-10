@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.9.0
+    python research/release_smoke.py --version 0.10.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -580,6 +580,95 @@ def main():
                       b'metadata/properties" xmlns:ns3="$ListId:Shared Documents;"/>')
         assert found(variant("sharepoint.docx", {**base, "customXml/item9.xml": sharepoint})) == []
 
+        # 0.10.0. A comment marked twice in a story is CMT007: the end and the
+        # reference of comment 2 written again, as the closed python-docx PR
+        # #1605 wrote them. Every start still has an end and a reference.
+        marks = b'<w:commentRangeEnd w:id="2"/>\n<w:r><w:commentReference w:id="2"/></w:r>\n'
+        body = base["word/document.xml"]
+        assert body.count(marks) == 1
+        repeated = variant("comment-twice.docx", {
+            **base, "word/document.xml": body.replace(marks, marks * 2)})
+        assert found(repeated, code=1) == [("CMT007", "error")]
+
+        # --introduced fails only on what the edit added. A copy of a source
+        # that already has the repeat passes, with the finding set aside and
+        # the reason given; without the flag the same pair fails.
+        because = "already in the source (--introduced)"
+
+        def added(edited_path, source_path, code=0):
+            report = json.loads(cli("check", edited_path, "--against", source_path, "--no-config",
+                                    "--introduced", "--json", "--coverage", code=code).stdout)
+            assert report["introduced"] is True
+            [result] = report["files"]
+            return (report, [f["code"] for f in result["findings"]],
+                    [(f["code"], f["suppressed_because"]) for f in result["suppressed"]])
+
+        plain = json.loads(cli("check", repeated, "--against", repeated, "--no-config",
+                               "--json", code=1).stdout)
+        assert "introduced" not in plain and plain["files"][0]["suppressed"] == []
+        inherited_report, kept, aside = added(repeated, repeated)
+        assert kept == [] and aside == [("CMT007", because)]
+        # A repeat the edit made is reported, and so is a second one beside
+        # the source's: comment 1 marked twice as well.
+        _, kept, aside = added(repeated, source, code=1)
+        assert "CMT007" in kept and aside == []
+        other_marks = b'<w:commentRangeEnd w:id="1"/>\n<w:r><w:commentReference w:id="1"/></w:r>'
+        assert body.count(other_marks) == 1
+        both = variant("comments-twice.docx", {**base, "word/document.xml": body.replace(
+            marks, marks * 2).replace(other_marks, other_marks * 2)})
+        _, kept, aside = added(both, repeated, code=1)
+        # FID002 INFO counts the added anchor; fidelity findings are never set aside.
+        assert sorted(kept) == ["CMT007", "FID002"] and aside == [("CMT007", because)]
+        # Lost content is never set aside, and the flag needs a source.
+        _, kept, aside = added(edited, source, code=1)
+        assert {"CMT005", "FID001"} <= set(kept) and aside == []
+        usage = cli("check", repeated, "--no-config", "--introduced", code=2)
+        assert "--against" in usage.stderr
+        # The same from Python and from the MCP compare tool.
+        from ooxml_integrity import check, compare, introduced
+        new, inherited = introduced(check(repeated) + compare(repeated, repeated), repeated)
+        assert new == [] and [(f.code, why) for f, why in inherited] == [("CMT007", because)]
+        session = "\n".join([
+            rpc(0, "initialize", {"protocolVersion": "2025-06-18", "capabilities": {},
+                                  "clientInfo": {"name": "release-smoke", "version": args.version}}),
+            json.dumps({"jsonrpc": "2.0", "method": "notifications/initialized"}),
+            rpc(1, "tools/call", {"name": "compare", "arguments": {
+                "source": str(repeated), "edited": str(repeated), "introduced": True}}),
+        ]) + "\n"
+        served = subprocess.run([str(console), "mcp", "--no-config"], input=session,
+                                capture_output=True, text=True, cwd=root, timeout=300)
+        assert served.returncode == 0, served.stderr
+        reply = json.loads(served.stdout.splitlines()[1])["result"]
+        assert reply["isError"] is False and reply["structuredContent"]["exit_code"] == 0
+        assert reply["structuredContent"]["report"] == inherited_report
+
+        # FID015 and FID016. "See clause 4.2" is a REF field pointing at a
+        # bookmark. An edit that drops the bookmark leaves a field Word prints
+        # an error for; one that writes the field as text leaves a number
+        # that no longer updates. The text reads the same in all three.
+        clause = ('<w:bookmarkStart w:id="7" w:name="Clause42"/><w:r><w:t xml:space="preserve">'
+                  'Payment terms. </w:t></w:r><w:bookmarkEnd w:id="7"/>'
+                  '<w:r><w:t xml:space="preserve">See clause </w:t></w:r>')
+        unmarked = clause.replace('<w:bookmarkStart w:id="7" w:name="Clause42"/>', "").replace(
+            '<w:bookmarkEnd w:id="7"/>', "")
+        field = '<w:fldSimple w:instr=" REF Clause42 \\h "><w:r><w:t>4.2</w:t></w:r></w:fldSimple>'
+        referring = minimal("reference.docx", clause + field)
+
+        def lost(edited_path, *options, code=0):
+            report = json.loads(cli("check", edited_path, "--against", referring, "--no-config",
+                                    "--json", *options, code=code).stdout)
+            return [(f["code"], f["severity"]) for f in report["files"][0]["findings"]]
+
+        assert lost(referring) == []
+        no_bookmark = minimal("no-bookmark.docx", unmarked + field)
+        assert lost(no_bookmark, code=1) == [("FID015", "error")]
+        flattened = minimal("flattened.docx", clause + "<w:r><w:t>4.2</w:t></w:r>")
+        assert lost(flattened, code=1) == [("FID016", "error")]
+        # --introduced does not set them aside; an expectation declares a
+        # removal the edit was asked to make.
+        assert lost(flattened, "--introduced", code=1) == [("FID016", "error")]
+        assert lost(flattened, "--expect", "FID016:story=document,kind=REF") == []
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -638,6 +727,10 @@ def main():
           "0.8.4 PKG012 on an escaped Override name, an Override in capitals covering "
           "its part, a box with no room and text without metrics reported, "
           "0.9.0 PKG011 and a REL002 WARN on a deck, a SharePoint namespace name read, "
+          "0.10.0 CMT007 on a comment marked twice, --introduced setting aside what the "
+          "source already had from the CLI, Python and mcp but not a new repeat or lost "
+          "content, FID015 on a lost bookmark a field points at, FID016 on a field "
+          "written as text and its expectation, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

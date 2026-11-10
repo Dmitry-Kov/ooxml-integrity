@@ -118,7 +118,7 @@ expectation usually names carry these:
 
 | code | `extra` keys | values |
 | --- | --- | --- |
-| `FID001`, `FID002` | `tag`, `before`, `after` | `tag` is the counted element: `commentReference`, `footnoteReference`, `ins`, `del`, `sdt`, `drawing`, `tbl`, `hyperlink`, `pStyle`, `rStyle`, `numPr`, `tblHeader`; the counts are numbers |
+| `FID001`, `FID002` | `tag`, `before`, `after` | `tag` is the counted element: `commentReference`, `footnoteReference`, `endnoteReference` and `sectPr` (both 0.10.0), `ins`, `del`, `sdt`, `drawing`, `tbl`, `hyperlink`, `pStyle`, `rStyle`, `numPr`, `tblHeader`; the counts are numbers |
 | `FID003` | `before`, `after`, `tracked_deleted` | main-document text lengths in characters; `tracked_deleted`, when present, the text the edit kept as new tracked deletions |
 | `FID004`-`FID006` | `body`, `author`, `lost`, `in_source` | `body` is the comment, footnote or endnote text, whitespace-normalised |
 | `FID007` | `story_kind`, `variant`, `body`, `lost`, `in_source` | `header` or `footer`; `default`, `first` or `even` |
@@ -128,6 +128,8 @@ expectation usually names carry these:
 | `FID012` | `story`, `tag`, `author`, `count` | `story` is `document`, `header/default` (and the other slots), `footnotes` or `endnotes`; `tag` is `ins`, `del`, `moveFrom` or `moveTo` |
 | `FID013` | `story`, `author`, `unchanged_words`, `changed_words`, `deleted`, `inserted` | `story` as for `FID012` |
 | `FID014` (0.8.0) | `story`, `change`, `before`, `after`, `before_original`, `after_original` | `story` as for `FID012`; `change` is `changed`, `added` or `removed`; the texts are the paragraph with tracked changes accepted (`before`, `after`) and rejected (`*_original`), whitespace normalised |
+| `FID015` (0.10.0) | `referenced`, `lost`, `references`, `names` | `referenced` is `fields`, `links` or `nothing`, what in the edited file still points at the lost bookmarks; `names` lists them; `references` is absent when nothing points at them |
+| `FID016` (0.10.0) | `story`, `kind`, `before`, `after`, `lost`, `targets` | `story` as for `FID012`; `kind` is the field's kind, such as `REF`, `TOC` or `PAGE`; `targets` lists the bookmarks the lost fields pointed at |
 
 Values compare as text. `path` is a glob as for `ignore`, `reason` is required,
 and `required = false` allows a finding without requiring it, for a change the
@@ -211,8 +213,8 @@ A document an edit starts from can already be broken: a comment an earlier
 tool orphaned, a style nobody defined. `check --against` reports those in the
 edited copy too, so the edit fails for damage it did not do. A baseline cannot
 help when every run brings a different document, as when an agent edits
-whatever a user uploads. `--introduced` checks the source as well and fails
-only on what the edit added:
+whatever a user uploads. `--introduced` (0.10.0) checks the source as well and
+fails only on what the edit added:
 
 ```bash
 ooxml-integrity check edited.docx --against original.docx --introduced

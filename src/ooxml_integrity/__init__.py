@@ -32,7 +32,7 @@ from .introduced import introduced
 from .policy import Policy
 from .pptx_checks import check_pptx
 
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 
 __all__ = [
     "check",
