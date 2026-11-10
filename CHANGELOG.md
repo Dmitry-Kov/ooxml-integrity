@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+- **`--introduced`: fail only on what the edit added.** `check --against`
+  reported every finding of the edited copy, including those its source
+  already had, so an edit of a document that arrived with an orphaned comment
+  failed for damage it did not do. A baseline cannot cover that when every run
+  brings another document, and a project that depends on the checker wrote
+  this filter around it. With `--introduced` the source is checked too, and a finding it
+  already has, same code, part and message, counted, is suppressed with the
+  reason `already in the source (--introduced)`. Positions are not compared,
+  since an inserted paragraph moves every later XPath. Lost content (`FID`), a
+  check that did not complete and every finding that says part of a file was
+  not checked are never set aside. Without `--against` it is a usage error.
+  The same is `introduced()` in Python, `"introduced": true` on the MCP
+  `compare` tool and `introduced: "true"` in the Action. The JSON report gains
+  an optional top-level `introduced: true`. Without the flag nothing changes.
+  [What counts as the same finding, and what it cannot tell](docs/configuration.md#defects-the-source-already-had).
+
 ## 0.9.0 — 2026-11-02
 
 [Upgrade notes and verified publication](docs/releases/0.9.0.md). Published

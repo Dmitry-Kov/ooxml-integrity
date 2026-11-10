@@ -153,6 +153,11 @@ This can find losses even when the edited file has no broken references.
 ooxml-integrity check edited.docx --against original.docx
 ```
 
+When the original may already be broken, as with a document a user uploads to
+an agent, add `--introduced` to fail only on what the edit added. A finding the
+original already has is listed as suppressed instead; lost content always
+counts. [What counts as the same finding](docs/configuration.md#defects-the-source-already-had).
+
 Exit codes are `0` for no findings at or above `--fail-on` (default `error`),
 `1` when such findings exist, and `2` for a usage error. Use `--json` for
 machine-readable output and `--quiet` to print only findings that fail the run.

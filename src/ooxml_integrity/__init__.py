@@ -10,7 +10,9 @@ Two questions, both needed:
 `Policy` carries a project's config - severity overrides, path-scoped ignores,
 `fail-on` - and is what makes the checks deployable in someone else's
 repository rather than only in this one. `expect()` sorts out the findings an
-edit was asked to cause, such as accepting a named revision.
+edit was asked to cause, such as accepting a named revision. `introduced()`
+sets aside the findings the source already had, so an edit is not blamed for
+damage it started from.
 
 None of them needs a model, a renderer, or the network.
 
@@ -26,6 +28,7 @@ from .expect import Expectation, expect
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
+from .introduced import introduced
 from .policy import Policy
 from .pptx_checks import check_pptx
 
@@ -48,6 +51,7 @@ __all__ = [
     "Policy",
     "Expectation",
     "expect",
+    "introduced",
     "ArchiveLimits",
     "CoverageItem",
     "CoverageReport",

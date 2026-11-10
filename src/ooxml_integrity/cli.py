@@ -31,6 +31,7 @@ from .expect import Expectation, expect
 from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
+from .introduced import REASON as INHERITED, source_findings, split as split_inherited
 from .policy import (
     ConfigError, DEFAULT_BASELINE, NOT_BASELINED, Policy, apply_baseline,
     make_baseline, read_baseline,
@@ -105,11 +106,16 @@ def _run_one(path: Path, source: Path | None,
 def _apply_policy(path: Path, findings: list[Finding], policy: Policy,
                   expectations: list[Expectation],
                   allowance: dict[str, int] | None,
+                  inherited_from: list[Finding] | None = None,
                   ) -> tuple[list[Finding], list[tuple[Finding, str]],
                              list[tuple[Finding, str]]]:
-    """Config, then expectations, then the baseline. Returns (kept, hidden
-    with why, expected with why)."""
+    """Config, then the source's own findings (`--introduced`), then
+    expectations, then the baseline. Returns (kept, hidden with why, expected
+    with why)."""
     kept, dropped = policy.apply(str(path), findings)
+    if inherited_from is not None:
+        kept, inherited = split_inherited(kept, inherited_from)
+        dropped = dropped + inherited
     matched: list[tuple[Finding, str]] = []
     if expectations:
         kept, matched = expect(kept, expectations, str(path))
@@ -147,14 +153,18 @@ def _json_file(path: Path | str, findings: list[Finding],
 
 
 def _json_payload(files: list[dict], threshold: Severity, policy: Policy,
-                  baseline: str | None) -> dict:
-    return {
+                  baseline: str | None, *, introduced: bool = False) -> dict:
+    payload = {
         "version": __version__,
         "fail_on": threshold.value,
         "config": policy.source or None,
         "baseline": baseline,
-        "files": files,
     }
+    if introduced:
+        # Optional: present only when the source's own findings were set aside.
+        payload["introduced"] = True
+    payload["files"] = files
+    return payload
 
 
 #: Coverage statuses that mean part of the file was not fully assessed. A file
@@ -261,6 +271,10 @@ def build_parser() -> argparse.ArgumentParser:
                         ".pptx files get the layout checks instead")
     c.add_argument("--against", metavar="SOURCE", type=Path, default=None,
                    help="also report what was lost relative to SOURCE")
+    c.add_argument("--introduced", action="store_true",
+                   help="with --against: fail only on what the edit introduced; "
+                        "a finding SOURCE already has is suppressed, not "
+                        "failing (see --show-suppressed)")
     c.add_argument("--fail-on", default="error", metavar="SEVERITY",
                    help="minimum severity that makes the run fail: "
                         "error (default), warn, info")
@@ -289,7 +303,8 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--sarif", metavar="PATH", default=None,
                    help="write a SARIF 2.1.0 report for code-scanning upload")
     c.add_argument("--show-suppressed", action="store_true",
-                   help="also print what config or the baseline hid, and why")
+                   help="also print what config, the baseline or --introduced "
+                        "hid, and why")
     c.add_argument("--coverage", action="store_true",
                    help="report what was checked, absent, estimated, skipped or "
                         "unsupported for each file")
@@ -496,6 +511,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"ooxml-integrity: --expect: {e}", file=sys.stderr)
         return EXIT_USAGE
 
+    if args.introduced and args.against is None:
+        print("ooxml-integrity: --introduced needs --against SOURCE: without "
+              "the source, no finding can be told apart as already there",
+              file=sys.stderr)
+        return EXIT_USAGE
+
     if args.against is not None and not args.against.exists():
         print(f"ooxml-integrity: --against file not found: {args.against}",
               file=sys.stderr)
@@ -549,12 +570,16 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ooxml-integrity: {e}", file=sys.stderr)
             return EXIT_USAGE
 
+    # One source for every file, so its own findings are computed once.
+    inherited_from = (source_findings(args.against, limits=policy.archive)
+                      if args.introduced else None)
+
     results: dict[Path, list[Finding]] = {}
     hidden: dict[Path, list[tuple[Finding, str]]] = {}
     matched: dict[Path, list[tuple[Finding, str]]] = {}
     for path, findings in raw.items():
         results[path], hidden[path], matched[path] = _apply_policy(
-            path, findings, policy, expectations, allowance,
+            path, findings, policy, expectations, allowance, inherited_from,
         )
 
     if args.sarif:
@@ -572,7 +597,8 @@ def main(argv: list[str] | None = None) -> int:
             )
             for p, f in results.items()
         ]
-        payload = _json_payload(files, threshold, policy, args.baseline)
+        payload = _json_payload(files, threshold, policy, args.baseline,
+                                introduced=args.introduced)
         json.dump(payload, sys.stdout, indent=2, ensure_ascii=True)
         sys.stdout.write("\n")
     else:
@@ -593,14 +619,23 @@ def main(argv: list[str] | None = None) -> int:
                 for x, why in hidden[p]:
                     print(f"  [hidden] {x.code}  {why}")
         n = sum(len(v) for v in hidden.values())
+        inherited_n = sum(why == INHERITED for v in hidden.values() for _, why in v)
         if n and not args.show_suppressed:
-            print(f"\n{n} finding(s) suppressed by "
-                  + " and ".join(
-                      x for x in (
-                          f"config ({policy.source})" if policy.source else "",
-                          f"baseline ({args.baseline})" if args.baseline else "",
-                      ) if x)
-                  + ". Re-run with --show-suppressed to see them.")
+            said = []
+            if n - inherited_n:
+                said.append(
+                    f"{n - inherited_n} finding(s) suppressed by "
+                    + " and ".join(
+                        x for x in (
+                            f"config ({policy.source})" if policy.source else "",
+                            f"baseline ({args.baseline})" if args.baseline else "",
+                        ) if x)
+                    + ".")
+            if inherited_n:
+                said.append(f"{inherited_n} finding(s) already in the source "
+                            f"{args.against}, set aside by --introduced.")
+            print("\n" + "\n".join(said)
+                  + " Re-run with --show-suppressed to see them.")
 
     failed = any(
         _fails(findings, threshold) for findings in results.values()
