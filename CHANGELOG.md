@@ -17,6 +17,25 @@
   `compare` tool and `introduced: "true"` in the Action. The JSON report gains
   an optional top-level `introduced: true`. Without the flag nothing changes.
   [What counts as the same finding, and what it cannot tell](docs/configuration.md#defects-the-source-already-had).
+- **Bookmarks and fields against a source: `FID015`, `FID016`.** "See clause
+  4.2" is a `REF` field pointing at a bookmark, a table of contents is a `TOC`
+  field with a `PAGEREF` per entry, a page number is a `PAGE` field. An edit
+  that rebuilt a paragraph dropped them and `check --against` reported
+  nothing, since it counted neither. `FID015` reports a bookmark of the
+  source that is gone: ERROR when a field or internal link of the edited file
+  still points at it, where Word prints "Error! Reference source not found."
+  when fields update; WARN when nothing does; nothing for a hidden bookmark
+  such as `_GoBack` that nothing points at. `FID016` reports lost fields per
+  story and kind: ERROR when none of the kind is left, else WARN. A field is
+  its kind and the bookmark it points at; switches are not compared, because
+  LibreOffice rewrites them on every save. `FID001`/`FID002` also count
+  endnote references (ERROR when lost) and section breaks (WARN). A
+  comparison that passed can now fail. On the public corpora the new findings
+  report none of 1,841 files against themselves and none of 1,816 python-docx
+  saves, and 186 of 235 files after `paragraph.text` was assigned where a
+  field or bookmark stood; the other 49 lost only hidden bookmarks nothing
+  points at. No save by Word of a document with fields was measured.
+  [Scope, corpus run and limits](evidence/docx-references/README.md).
 
 ## 0.9.0 — 2026-11-02
 

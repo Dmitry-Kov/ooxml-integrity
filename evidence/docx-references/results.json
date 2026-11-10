@@ -1,0 +1,177 @@
+{
+  "checker": "0.9.0",
+  "python": "3.12.15",
+  "python_docx": "1.2.0",
+  "docx_files": 1887,
+  "holding_a_bookmark_or_field": 272,
+  "counts": {
+    "copy": 1841,
+    "no body paragraph holds one": 35,
+    "not compared": 46,
+    "pydocx": 1816,
+    "pydocx holding a bookmark or field": 270,
+    "python-docx cannot open": 25,
+    "rebuilt": 235,
+    "rebuilt and reported": 186
+  },
+  "rebuilt_findings": {
+    "FID001 error endnoteReference": 1,
+    "FID015 error referenced": 40,
+    "FID015 warn unreferenced": 39,
+    "FID016 error =": 3,
+    "FID016 error ADDIN": 2,
+    "FID016 error ADVANCE": 1,
+    "FID016 error ASK": 3,
+    "FID016 error AUTHOR": 2,
+    "FID016 error AUTOTEXT": 1,
+    "FID016 error AUTOTEXTLIST": 1,
+    "FID016 error BARCODE": 1,
+    "FID016 error BIBLIOGRAPHY": 2,
+    "FID016 error BIDIOUTLINE": 1,
+    "FID016 error CITATION": 7,
+    "FID016 error COMPARE": 1,
+    "FID016 error CREATEDATE": 2,
+    "FID016 error DATE": 7,
+    "FID016 error DOCPROPERTY": 6,
+    "FID016 error DOCVARIABLE": 4,
+    "FID016 error EDITTIME": 1,
+    "FID016 error EQ": 3,
+    "FID016 error FILENAME": 1,
+    "FID016 error FORMCHECKBOX": 3,
+    "FID016 error FORMDROPDOWN": 3,
+    "FID016 error FORMTEXT": 9,
+    "FID016 error GOTOBUTTON": 1,
+    "FID016 error GREETINGLINE": 1,
+    "FID016 error HYPERLINK": 13,
+    "FID016 error IF": 5,
+    "FID016 error INCLUDEPICTURE": 1,
+    "FID016 error INCLUDETEXT": 1,
+    "FID016 error INDEX": 6,
+    "FID016 error INFO": 1,
+    "FID016 error LASTSAVEDBY": 2,
+    "FID016 error LISTNUM": 1,
+    "FID016 error M:ENDUSERCONTENT": 1,
+    "FID016 error M:USERCONTENT": 1,
+    "FID016 error MACROBUTTON": 2,
+    "FID016 error MERGEFIELD": 8,
+    "FID016 error NEXT": 1,
+    "FID016 error NOTEREF": 1,
+    "FID016 error PAGE": 6,
+    "FID016 error PAGEREF": 12,
+    "FID016 error PRINT": 1,
+    "FID016 error PRINTDATE": 4,
+    "FID016 error QUOTE": 1,
+    "FID016 error REF": 16,
+    "FID016 error REVNUM": 1,
+    "FID016 error SAVEDATE": 3,
+    "FID016 error SECTION": 1,
+    "FID016 error SECTIONPAGES": 1,
+    "FID016 error SEQ": 16,
+    "FID016 error SET": 3,
+    "FID016 error STYLEREF": 1,
+    "FID016 error TC": 2,
+    "FID016 error TIME": 2,
+    "FID016 error TITLE": 1,
+    "FID016 error TOC": 12,
+    "FID016 error USERADDRESS": 1,
+    "FID016 error USERINITIALS": 1,
+    "FID016 error USERNAME": 1,
+    "FID016 error XE": 7,
+    "FID016 error \\SYMBOL": 1,
+    "FID016 warn FORMCHECKBOX": 4,
+    "FID016 warn FORMTEXT": 1,
+    "FID016 warn PAGEREF": 1,
+    "FID016 warn REF": 4,
+    "FID016 warn SEQ": 1,
+    "FID016 warn TOC": 1
+  },
+  "rebuilt_silent": {
+    "only hidden bookmarks nothing points at were lost": 49
+  },
+  "control_findings": [],
+  "libreoffice": {
+    "version": "LibreOffice 26.2.3.2 70e089b17412e4cb7773e41413306b17a2328c34",
+    "sample": 120,
+    "counts": {
+      "compared": 119,
+      "not converted": 1,
+      "with a finding": 10,
+      "with an error": 6
+    },
+    "findings": {
+      "FID001 warn sectPr": 1,
+      "FID015 warn unreferenced": 2,
+      "FID016 error DOCPROPERTY": 1,
+      "FID016 error FILENAME": 1,
+      "FID016 error NEXT": 1,
+      "FID016 error PAGE": 1,
+      "FID016 error PAGEREF": 1,
+      "FID016 error TOC": 1,
+      "FID016 error \\SYMBOL": 1,
+      "FID016 warn PAGEREF": 1
+    },
+    "files": [
+      {
+        "file": "docx4j/docs/OpenDoPE Specification v3 WD 2026 09 18.docx",
+        "findings": [
+          "[WARN ] FID016  document: 32 of 49 PAGEREF field(s) of the source are gone or point elsewhere, 17 remain (to 'app_ack', 'app_changes', 'app_docx4j', 'app_history', 'app_tags' and 27 more) - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "docx4j/docs/developer/themeFontLang.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'book1c67ae01-fa87-4b43-aeed-693ec22740bb_1' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "docx4j/docx4j-samples-docx4j/sample-docs/MergeWithNext.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 NEXT field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/TOC_field_b.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 PAGEREF field(s) of the source are gone (to '_Toc376250471') - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/fdo69548.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'this is a bookmark' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/fdo73596_AlphaSeparator.docx",
+        "findings": [
+          "[WARN ] FID001  section breaks: 3 -> 1 (2 lost)"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf125038_conditionalText_DOCPROPERTY.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 DOCPROPERTY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf143384_tableInFoot_negativeMargins.docx",
+        "findings": [
+          "[ERROR] FID016  footer/first: all 1 FILENAME field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf154481.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 TOC field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf85161.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 \\SYMBOL field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      }
+    ]
+  }
+}
