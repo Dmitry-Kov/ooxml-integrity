@@ -17,6 +17,19 @@
   `compare` tool and `introduced: "true"` in the Action. The JSON report gains
   an optional top-level `introduced: true`. Without the flag nothing changes.
   [What counts as the same finding, and what it cannot tell](docs/configuration.md#defects-the-source-already-had).
+- **`CMT007` (ERROR): a comment marked more than once.** A second
+  `commentRangeStart`, `commentRangeEnd` or `commentReference` for one comment
+  id in a story. Every start still had an end and a reference, so `CMT001` to
+  `CMT003` passed such a file, and against its source it was only `FID002` INFO
+  (`comment anchors: 1 -> 2`). The closed python-docx
+  [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) writes it
+  when `Paragraph.text` is set on the first paragraph of a comment that spans
+  two: the end and the reference again, while the second paragraph keeps its
+  own. Markers in a later branch of `mc:AlternateContent`, where Word repeats
+  a text box for older readers, are copies and do not count. With
+  `--introduced` a repeat the source already had is set aside; one the edit
+  added, or a count it raised, is reported. None of 1,903 public Word files
+  and no file in this repository has one; such a file was not opened in Word.
 
 ## 0.9.0 — 2026-11-02
 
