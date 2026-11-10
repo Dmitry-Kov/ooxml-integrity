@@ -159,13 +159,13 @@ constructs. `FID015` (a bookmark of the source is gone) and `FID016` (fields
 of the source are gone) are ERROR or WARN as the [support matrix](support-matrix.md)
 says, and `FID001`/`FID002` now also count endnote references (ERROR when
 lost) and section breaks (WARN). A comparison that passed can now fail (exit 0
-can become 1) when the edit lost a referenced bookmark, every field of a kind
-in a story, or an endnote reference, and `FID002` INFO appears where an edit
-adds a section. An intended removal is declared as an
+can become 1) when the edit lost a bookmark a field still points at, a `REF`,
+`PAGEREF` or `NOTEREF` field, every field of another kind in a story, or an
+endnote reference, and `FID002` INFO appears where an edit adds a section. An intended removal is declared as an
 [expectation](configuration.md#changes-the-edit-was-asked-to-make), for
 example `--expect FID016:story=document,kind=TOC`. `--introduced` never sets
 these aside. No public file changes shape; `extra` of the new findings holds
-`names`, `referenced` and `lost` (`FID015`) and `story`, `kind`, `before`,
+`names`, `lost` and `referenced` (`fields`, `links` or `nothing`; `FID015`) and `story`, `kind`, `before`,
 `after`, `lost` and `targets` (`FID016`).
 
 0.8.0 adds `FID014`, an INFO finding of `compare()`: one per paragraph

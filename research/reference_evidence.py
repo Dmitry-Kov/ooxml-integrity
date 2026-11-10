@@ -10,10 +10,11 @@ every DOCX there whose main document compare() reads:
     rebuilt   python-docx assigns `paragraph.text` in every body paragraph
               that holds a field or a bookmark            should report
 
-With `--soffice PATH`, a fixed sample of the files that hold a bookmark other
-than `_GoBack` or a field is also converted by LibreOffice, headless, to DOCX
-and compared with its source. LibreOffice rewrites every part, so those
-findings show what a producer's save does to instructions and names.
+With `--soffice PATH`, every file that holds a bookmark other than `_GoBack` or
+a field, in the main document, a header, a footer or a note, is also converted
+by LibreOffice, headless, to DOCX and compared with its source. LibreOffice
+rewrites every part, so those findings show what a producer's save does to
+fields and names.
 
     python research/reference_evidence.py ~/ooxml-corpora \\
         --soffice /Applications/LibreOffice.app/Contents/MacOS/soffice \\
@@ -28,6 +29,7 @@ import collections
 import glob
 import json
 import platform
+import re
 import subprocess
 import sys
 import tempfile
@@ -43,23 +45,29 @@ from ooxml_integrity.references import References
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 NEW_CODES = {"FID015", "FID016"}
 NEW_TAGS = {"sectPr", "endnoteReference"}
-SAMPLE = 120
+STORY = re.compile(r"word/(document|header\d*|footer\d*|footnotes|endnotes)\.xml")
 
 
-def main_story(path: str) -> References | None:
-    """Bookmarks and fields of `word/document.xml`, or None if unreadable."""
+def stories(path: str) -> References | None:
+    """Bookmarks and fields of the conventional story parts, read as one
+    story, or None if the main document is unreadable."""
+    found = References()
     try:
         with zipfile.ZipFile(path) as package:
-            root = etree.fromstring(package.read("word/document.xml"))
+            found.read("all", etree.fromstring(package.read("word/document.xml")))
+            for name in package.namelist():
+                if STORY.fullmatch(name) and name != "word/document.xml":
+                    try:
+                        found.read("all", etree.fromstring(package.read(name)))
+                    except etree.XMLSyntaxError:
+                        pass
     except Exception:
         return None
-    found = References()
-    found.read("document", root)
     return found
 
 
 def has_content(found: References) -> bool:
-    return bool(set(found.bookmarks) - {"_goback"} or found.fields["document"])
+    return bool(set(found.bookmarks) - {"_goback"} or found.fields["all"])
 
 
 def new_findings(source, edited):
@@ -73,8 +81,8 @@ def new_findings(source, edited):
 
 
 def label(finding) -> str:
-    what = finding.extra.get("kind") or finding.extra.get("tag") or (
-        "referenced" if finding.extra.get("referenced") else "unreferenced")
+    what = (finding.extra.get("kind") or finding.extra.get("tag")
+            or f"pointed at by {finding.extra.get('referenced')}")
     return f"{finding.code} {finding.severity.value} {what}"
 
 
@@ -92,9 +100,9 @@ def rebuild(source: str, target: Path) -> int:
 
 
 def why_silent(source: str, rebuilt: Path) -> str:
-    before, after = main_story(source), main_story(str(rebuilt))
+    before, after = stories(source), stories(str(rebuilt))
     gone = [name for key, name in before.bookmarks.items() if key not in after.bookmarks]
-    if sum((before.fields["document"] - after.fields["document"]).values()):
+    if sum((before.fields["all"] - after.fields["all"]).values()):
         return "a field was lost"
     if any(not name.startswith("_") for name in gone):
         return "a visible bookmark was lost"
@@ -110,7 +118,7 @@ def run(corpora: str, soffice: str | None, work: Path) -> dict:
     holding: list[str] = []
 
     for index, path in enumerate(files):
-        story = main_story(path)
+        story = stories(path)
         if story is None or (found := new_findings(path, path)) is None:
             stats["not compared"] += 1
             continue
@@ -175,7 +183,7 @@ def run(corpora: str, soffice: str | None, work: Path) -> dict:
     }
 
     if soffice:
-        sample = holding[::max(1, len(holding) // SAMPLE)][:SAMPLE]
+        sample = holding
         counts: collections.Counter = collections.Counter()
         kinds: collections.Counter = collections.Counter()
         rows = []
