@@ -1,8 +1,8 @@
 # Bookmarks and fields against a source (FID015, FID016)
 
-**On the public corpora, `FID015`, `FID016` and the two new `FID001` tags
-report nothing on 1,841 files compared with themselves and nothing on 1,816
-files python-docx loaded and saved. After `paragraph.text` was assigned in
+**`FID015`, `FID016` and the two new `FID001` tags, released in 0.10.0. On the
+public corpora they report nothing on 1,841 files compared with themselves and
+nothing on 1,816 files python-docx loaded and saved. After `paragraph.text` was assigned in
 every body paragraph holding a field or a bookmark, they report 188 of 278
 files; the other 90 lost nothing the rules compare. After a LibreOffice save
 of 385 files, 38 have a finding, and each of their 54 findings names a field,

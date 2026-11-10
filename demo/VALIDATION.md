@@ -1,5 +1,35 @@
 # Browser validation
 
+## Published 0.10.0 pin — 2026-11-10 (Asia/Tashkent)
+
+Version 0.10.0 was published before this pin update. The [publication receipt](../evidence/releases/0.10.0/publication.json)
+records green source CI on `3fbfb8f1b14f1ee3afdedc6f833b2b7ba1039e14`, all release jobs,
+matching GitHub/PyPI hashes and the fresh no-cache public installation smoke.
+The public wheel SHA-256 is `4c2e81bb8021708fc1297387592328f93bb60f34492026a2d2cd9dd2ce4ba5f3`.
+
+Both local browser modes passed all 7 scenarios with zero skips/retries:
+public PyPI installation and a newly built checkout wheel in an isolated preview.
+The public mode requested its wheel from files.pythonhosted.org; the preview
+used only its declared local wheel, whose hash differs from the published one
+because the wheel metadata carries the updated README. The observed footer was
+**ooxml-integrity 0.10.0 · Pyodide 314.0.6**. Chromium
+156.0.8078.4, Playwright 1.64.1 and Node v24.22.1 were used.
+[Browser receipt](../evidence/releases/0.10.0/demo-pin.json) includes actual runtime/Doctor
+versions, downloads, page-file hashes and separate scenario results for both modes.
+
+These checks cover the existing synthetic examples, JSON/coverage/Doctor,
+upload handling, responsive viewports, runtime/font failures, voluntary feedback,
+delayed startup and the actual 60-second worker deadline/recovery. They do not
+exercise `--introduced` or a bookmark or field comparison, which the page has
+no example for. No user document was uploaded and no feedback issue was
+submitted. This is Chromium verification, not physical mobile devices, other
+browsers or Office rendering.
+
+This record describes the branch tested locally. The pin PR must pass its
+checks before merge; Pages then repeats both modes before deployment. Only the
+public demo directory is deployed. The immutable release tag and archives remain
+unchanged.
+
 ## Published 0.9.0 pin — 2026-11-02 (Asia/Tashkent)
 
 Version 0.9.0 was published before this pin update. The [publication receipt](../evidence/releases/0.9.0/publication.json)
