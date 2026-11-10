@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.10.0 — release candidate
+
+[Upgrade notes and validation](docs/releases/0.10.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
 
 - **`--introduced`: fail only on what the edit added.** `check --against`
   reported every finding of the edited copy, including those its source

@@ -121,8 +121,8 @@ and suggests `uvx` as the runner. By hand that is `uvx ooxml-integrity mcp`.
 
 The registry accepts a version only if the README published on PyPI for it
 carries the line `mcp-name: io.github.Dmitry-Kov/ooxml-integrity`. The first
-version that can be listed is therefore the first one released with that
-line, and a catalog may trail a release. Whether a version is listed is the
+version that can be listed is therefore 0.10.0, the first one released with
+that line, and a catalog may trail a release. Whether a version is listed is the
 registry's to say:
 
 ```bash
@@ -146,9 +146,9 @@ the layout checks and reports the comparison as not performed (`FID000`), as
 the CLI does.
 
 An agent often edits a document it did not write, and the original can
-already be broken. With `"introduced": true`, `compare` fails only on what the
-edit added: a finding the original already has is listed as suppressed, and
-the verdict says so (`1 finding(s) already in the original, not failing:
+already be broken. With `"introduced": true` (0.10.0), `compare` fails only
+on what the edit added: a finding the original already has is listed as
+suppressed, and the verdict says so (`1 finding(s) already in the original, not failing:
 CMT005`). Lost content (`FID`) and anything that was not checked always count.
 What counts as the same finding is described under
 [defects the source already had](configuration.md#defects-the-source-already-had).

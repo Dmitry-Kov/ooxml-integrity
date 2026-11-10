@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.9.0 release notes](releases/0.9.0.md) before changing a version pin.
+[0.10.0 release notes](releases/0.10.0.md) before changing a version pin.
 
 ## What a release can change
 
@@ -33,7 +33,7 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
-Unreleased `CMT007` is a new ERROR finding of `check()`: one comment id with
+In 0.10.0 `CMT007` is a new ERROR finding of `check()`: one comment id with
 more than one `commentRangeStart`, `commentRangeEnd` or `commentReference` in a
 story part. A document that passed the default gate can now exit 1; none of
 1,903 public Word files has one. It belongs to the coverage item
@@ -154,7 +154,7 @@ schema v1. Its baseline v2 identity is the general one: file, code and part.
 - `fix` refuses a reply range or a content type whose repair is not unique
   (exit 1, nothing written).
 
-The release after 0.9.0 adds two findings of `compare()` and two counted
+0.10.0 adds two findings of `compare()` and two counted
 constructs. `FID015` (a bookmark of the source is gone) and `FID016` (fields
 of the source are gone) are ERROR or WARN as the [support matrix](support-matrix.md)
 says, and `FID001`/`FID002` now also count endnote references (ERROR when
@@ -380,11 +380,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.9.0 | Meaning |
+| Output | Version in 0.10.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.9.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.10.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.9.0"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.10.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 
@@ -407,7 +407,7 @@ that contract. Since 0.7.0 the server reads its config once, when it starts,
 not on every call; restart it to apply a config you changed.
 
 CLI JSON always has `version`, `fail_on`, `config`, `baseline`, and `files`.
-`config` and `baseline` are null when unused. Since the release after 0.9.0,
+`config` and `baseline` are null when unused. Since 0.10.0,
 `introduced: true` is present when `--introduced` set aside the source's own
 findings, and absent otherwise. Each file has `path`, `summary`,
 `worst`, `findings`, and `suppressed`. Summary contains all three severity keys
