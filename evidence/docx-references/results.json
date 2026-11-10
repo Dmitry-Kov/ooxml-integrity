@@ -1,0 +1,380 @@
+{
+  "checker": "0.9.0",
+  "python": "3.12.15",
+  "python_docx": "1.2.0",
+  "docx_files": 1887,
+  "holding_a_bookmark_or_field": 386,
+  "counts": {
+    "copy": 1841,
+    "no body paragraph holds one": 104,
+    "not compared": 46,
+    "pydocx": 1816,
+    "pydocx holding a bookmark or field": 382,
+    "python-docx cannot open": 25,
+    "rebuilt": 278,
+    "rebuilt and reported": 188
+  },
+  "rebuilt_findings": {
+    "FID001 error endnoteReference": 2,
+    "FID015 error pointed at by fields": 31,
+    "FID015 warn pointed at by links": 13,
+    "FID015 warn pointed at by nothing": 39,
+    "FID016 error =": 3,
+    "FID016 error ADDIN": 2,
+    "FID016 error ADVANCE": 1,
+    "FID016 error ASK": 3,
+    "FID016 error AUTHOR": 2,
+    "FID016 error AUTOTEXT": 1,
+    "FID016 error AUTOTEXTLIST": 1,
+    "FID016 error BARCODE": 1,
+    "FID016 error BIBLIOGRAPHY": 2,
+    "FID016 error BIDIOUTLINE": 1,
+    "FID016 error CITATION": 7,
+    "FID016 error COMPARE": 1,
+    "FID016 error CREATEDATE": 2,
+    "FID016 error DATE": 7,
+    "FID016 error DOCPROPERTY": 6,
+    "FID016 error DOCVARIABLE": 4,
+    "FID016 error EDITTIME": 1,
+    "FID016 error EQ": 3,
+    "FID016 error FILENAME": 1,
+    "FID016 error FORMCHECKBOX": 3,
+    "FID016 error FORMDROPDOWN": 3,
+    "FID016 error FORMTEXT": 8,
+    "FID016 error GOTOBUTTON": 1,
+    "FID016 error GREETINGLINE": 1,
+    "FID016 error HYPERLINK": 14,
+    "FID016 error IF": 5,
+    "FID016 error INCLUDEPICTURE": 1,
+    "FID016 error INCLUDETEXT": 1,
+    "FID016 error INDEX": 6,
+    "FID016 error INFO": 1,
+    "FID016 error LASTSAVEDBY": 2,
+    "FID016 error LISTNUM": 1,
+    "FID016 error M:ENDUSERCONTENT": 1,
+    "FID016 error M:USERCONTENT": 1,
+    "FID016 error MACROBUTTON": 2,
+    "FID016 error MERGEFIELD": 7,
+    "FID016 error NEXT": 1,
+    "FID016 error NOTEREF": 1,
+    "FID016 error PAGE": 5,
+    "FID016 error PAGEREF": 4,
+    "FID016 error PRINT": 1,
+    "FID016 error PRINTDATE": 4,
+    "FID016 error QUOTE": 1,
+    "FID016 error REF": 20,
+    "FID016 error REVNUM": 1,
+    "FID016 error SAVEDATE": 3,
+    "FID016 error SECTION": 1,
+    "FID016 error SECTIONPAGES": 1,
+    "FID016 error SEQ": 17,
+    "FID016 error SET": 3,
+    "FID016 error STYLEREF": 1,
+    "FID016 error TC": 2,
+    "FID016 error TIME": 2,
+    "FID016 error TITLE": 1,
+    "FID016 error TOC": 12,
+    "FID016 error USERADDRESS": 1,
+    "FID016 error USERINITIALS": 1,
+    "FID016 error USERNAME": 1,
+    "FID016 error XE": 6,
+    "FID016 error \\SYMBOL": 1,
+    "FID016 warn FORMCHECKBOX": 4,
+    "FID016 warn FORMTEXT": 1,
+    "FID016 warn TOC": 1
+  },
+  "rebuilt_silent": {
+    "nothing was lost": 2,
+    "only hidden bookmarks nothing points at were lost": 88
+  },
+  "control_findings": [],
+  "libreoffice": {
+    "version": "LibreOffice 26.2.3.2 70e089b17412e4cb7773e41413306b17a2328c34",
+    "sample": 386,
+    "counts": {
+      "compared": 385,
+      "not converted": 1,
+      "with a finding": 38,
+      "with an error": 25
+    },
+    "findings": {
+      "FID001 warn sectPr": 4,
+      "FID015 error pointed at by fields": 2,
+      "FID015 warn pointed at by nothing": 7,
+      "FID016 error AUTONUM": 1,
+      "FID016 error BIBLIOGRAPHY": 2,
+      "FID016 error CITATION": 1,
+      "FID016 error DOCPROPERTY": 1,
+      "FID016 error EQ": 2,
+      "FID016 error FILENAME": 2,
+      "FID016 error FORMTEXT": 2,
+      "FID016 error GOTOBUTTON": 1,
+      "FID016 error HYPERLINK": 1,
+      "FID016 error IF": 1,
+      "FID016 error INCLUDEPICTURE": 1,
+      "FID016 error LASTSAVEDBY": 1,
+      "FID016 error MERGEFIELD": 1,
+      "FID016 error NEXT": 1,
+      "FID016 error NUMPAGES": 2,
+      "FID016 error PAGE": 6,
+      "FID016 error PRINTDATE": 1,
+      "FID016 error REF": 1,
+      "FID016 error SAVEDATE": 2,
+      "FID016 error STYLEREF": 1,
+      "FID016 error TITLE": 1,
+      "FID016 error TOC": 2,
+      "FID016 error \\PAGE": 1,
+      "FID016 error \\SYMBOL": 1,
+      "FID016 warn DOCPROPERTY": 1,
+      "FID016 warn FORMCHECKBOX": 1,
+      "FID016 warn IF": 1,
+      "FID016 warn PAGE": 2
+    },
+    "files": [
+      {
+        "file": "apache-poi/test-data/document/form_footnotes.docx",
+        "findings": [
+          "[WARN ] FID015  25 bookmark(s) of the source are gone: 'Text10', 'Text11', 'Text13', 'Text14', 'Text2' and 20 more - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "docx4j/docs/developer/themeFontLang.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'book1c67ae01-fa87-4b43-aeed-693ec22740bb_1' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "docx4j/docx4j-core-tests/src/test/resources/LegacyForms.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'Text1' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "docx4j/docx4j-samples-docx4j/sample-docs/DOCPROP_builtin.docx",
+        "findings": [
+          "[WARN ] FID016  document: 14 of 25 DOCPROPERTY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "docx4j/docx4j-samples-docx4j/sample-docs/MergeWithNext.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 NEXT field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/IndexFieldFlagF.docx",
+        "findings": [
+          "[WARN ] FID001  section breaks: 5 -> 4 (1 lost)"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/Unsupportedtextfields.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 GOTOBUTTON field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document",
+          "[ERROR] FID016  document: all 1 INCLUDEPICTURE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/fdo69548.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'this is a bookmark' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/fdo73596_AlphaSeparator.docx",
+        "findings": [
+          "[WARN ] FID001  section breaks: 3 -> 1 (2 lost)"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/fdo73596_RunInStyle.docx",
+        "findings": [
+          "[WARN ] FID001  section breaks: 4 -> 2 (2 lost)"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/rprchange_closed.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 HYPERLINK field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf120224_textControlCrossRef.docx",
+        "findings": [
+          "[ERROR] FID015  1 bookmark(s) of the source are gone while 1 field(s) still point at them: 'Text1' - Word prints 'Error! Reference source not found.' or 'Error! Bookmark not defined.' in place of such a field when fields are updated"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf125038_conditionalText3.docx",
+        "findings": [
+          "[WARN ] FID016  document: 3 of 4 IF field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document",
+          "[ERROR] FID016  document: all 2 REF field(s) of the source are gone (to 'Titel', 'Titel') - what a lost field showed stays as plain text, if at all, and no longer updates           -> document",
+          "[ERROR] FID016  footer/first: all 1 FILENAME field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 IF field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 LASTSAVEDBY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 NUMPAGES field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 SAVEDATE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf125038_conditionalText_DOCPROPERTY.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 DOCPROPERTY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf128156.docx",
+        "findings": [
+          "[WARN ] FID016  header/even: 1 of 2 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> header/even"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf143384_tableInFoot_negativeMargins.docx",
+        "findings": [
+          "[ERROR] FID016  footer/first: all 1 FILENAME field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf148380_fldLocked.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 PRINTDATE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document",
+          "[ERROR] FID016  document: all 1 SAVEDATE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf149649.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 FORMTEXT field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf153613_sdtAfterPgBreak.docx",
+        "findings": [
+          "[ERROR] FID016  header/first: all 1 NUMPAGES field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> header/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf154478.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 TOC field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf154481.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 TOC field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf166436.docx",
+        "findings": [
+          "[WARN ] FID001  section breaks: 2 -> 1 (1 lost)",
+          "[ERROR] FID016  footer/default: all 2 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/default",
+          "[ERROR] FID016  footer/even: all 1 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/even"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf166510_sectPr_bottomSpacing.docx",
+        "findings": [
+          "[ERROR] FID016  footer/first: all 1 AUTONUM field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first",
+          "[ERROR] FID016  footer/first: all 1 STYLEREF field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf166850.docx",
+        "findings": [
+          "[WARN ] FID016  footer/first: 1 of 2 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf168017.docx",
+        "findings": [
+          "[WARN ] FID016  document: 3 of 10 FORMCHECKBOX field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf61000.docx",
+        "findings": [
+          "[ERROR] FID015  2 bookmark(s) of the source are gone while 13 field(s) still point at them: 'SSEDate', 'SSNumber' - Word prints 'Error! Reference source not found.' or 'Error! Bookmark not defined.' in place of such a field when fields are updated"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf85161.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 \\SYMBOL field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/tdf92472.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'Text45' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlexport/data/testOuterShdw.docx",
+        "findings": [
+          "[ERROR] FID016  footer/first: all 1 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf125038.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 2 MERGEFIELD field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf126114.docx",
+        "findings": [
+          "[WARN ] FID015  1 bookmark(s) of the source are gone: 'Kies_burgelijke_status' - nothing in the edited file points at them, but a link from another document would no longer land"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf129237.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 4 TITLE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf130214.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 BIBLIOGRAPHY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document",
+          "[ERROR] FID016  footnotes: all 1 BIBLIOGRAPHY field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footnotes",
+          "[ERROR] FID016  footnotes: all 1 CITATION field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footnotes"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf152200-bad_fldChar_end.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 1 FORMTEXT field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf75573_lostTable.docx",
+        "findings": [
+          "[ERROR] FID016  footer/first: all 4 PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/first"
+        ]
+      },
+      {
+        "file": "libreoffice/sw/qa/extras/ooxmlimport/data/tdf85232.docx",
+        "findings": [
+          "[ERROR] FID016  footer/default: all 1 \\PAGE field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> footer/default"
+        ]
+      },
+      {
+        "file": "open-xml-sdk/test/DocumentFormat.OpenXml.Tests.Assets/assets/TestFiles/complex0.docx",
+        "findings": [
+          "[ERROR] FID016  document: all 11 EQ field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      },
+      {
+        "file": "open-xml-sdk/test/DocumentFormat.OpenXml.Tests.Assets/assets/TestFiles/complex2010.docx",
+        "findings": [
+          "[WARN ] FID015  2 bookmark(s) of the source are gone: 'A160', 'A32' - nothing in the edited file points at them, but a link from another document would no longer land",
+          "[ERROR] FID016  document: all 11 EQ field(s) of the source are gone - what a lost field showed stays as plain text, if at all, and no longer updates           -> document"
+        ]
+      }
+    ]
+  }
+}

@@ -38,7 +38,9 @@ from .comments import (
     story_parts,
 )
 from .content_types import covered, media_type, part_key, related as related_content_types
-from .xmlutil import UnsafeXML, fromstring as parse_xml, parser_limit, text_contexts
+from .xmlutil import (
+    UnsafeXML, alternative_branch, fromstring as parse_xml, parser_limit, text_contexts,
+)
 from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
 NS = {
@@ -59,27 +61,6 @@ def _r(tag: str) -> str:
 
 
 _COMMENT_MARKERS = ("commentRangeStart", "commentRangeEnd", "commentReference")
-_ALTERNATE_CONTENT = "{http://schemas.openxmlformats.org/markup-compatibility/2006}AlternateContent"
-
-
-def _alternative_branch(el) -> bool:
-    """True inside a branch of mc:AlternateContent other than its first.
-
-    A reader takes one branch: its mc:Choice or, if it cannot, the
-    mc:Fallback. Word writes a text box in both, with its paragraphs repeated
-    in each, so a comment marker in a later branch is a copy, not a second
-    anchor. The first branch stands for the content.
-    """
-    child, parent = el, el.getparent()
-    while parent is not None:
-        if parent.tag == _ALTERNATE_CONTENT:
-            first = next((c for c in parent if isinstance(c.tag, str)), None)
-            if child is not first:
-                return True
-        child, parent = parent, parent.getparent()
-    return False
-
-
 def _paragraph_revision_pair(elements: list[etree._Element]) -> bool:
     """Recognize only the verified plain whole-paragraph mark/content pair.
 
@@ -884,7 +865,7 @@ class Inspector:
             for kind in _COMMENT_MARKERS:
                 for e in tree.iter(_w(kind)):
                     i = e.get(_w("id"))
-                    if i is not None and not _alternative_branch(e):
+                    if i is not None and not alternative_branch(e):
                         counts = marks.setdefault(i, {})
                         counts[kind] = counts.get(kind, 0) + 1
             for i in srt(marks):

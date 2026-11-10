@@ -414,6 +414,20 @@ def fingerprint(file: str, f: Finding) -> str:
         digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
                                           separators=(",", ":")).encode("utf-8")).hexdigest()
         stable = f"paragraph-change-sha256={digest}"
+    elif f.code == "FID015":
+        # Which bookmarks, and whether anything still points at them, hashed:
+        # losing another bookmark is another finding.
+        identity = [f.extra.get("referenced", ""), f.extra.get("names", [])]
+        digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
+                                          separators=(",", ":")).encode("utf-8")).hexdigest()
+        stable = f"bookmarks-sha256={digest}"
+    elif f.code == "FID016":
+        # Story, kind, how many and which bookmarks they pointed at, hashed:
+        # losing another field of the same kind is another finding.
+        identity = [f.extra.get(key, "") for key in ("story", "kind", "lost", "targets")]
+        digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
+                                          separators=(",", ":")).encode("utf-8")).hexdigest()
+        stable = f"fields-sha256={digest}"
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key

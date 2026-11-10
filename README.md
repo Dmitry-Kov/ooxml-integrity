@@ -315,7 +315,7 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `TXT001` | XML edge whitespace in runs without effective `xml:space="preserve"` |
 | `TXT002` | WARN: literal numeric punctuation/symbol spellings after XML decoding, suggesting double escaping; [scope and intent ambiguity](docs/review-edit-warnings.md) |
 | `FID000` | requested source comparison could not run |
-| `FID001-003` | losses and additions relative to the source, by construct count; drop in text volume |
+| `FID001-003` | losses and additions relative to the source, by construct count (next release: endnote references and section breaks too); drop in text volume |
 | `FID004-006` | comment, footnote or endnote text missing from the edited file, allowing for changed ids; 0.4.6: a tracked edit is not a loss |
 | `FID007-008` | header/footer story missing or changed untracked (0.4.6); tracked constructs lost from headers/footers |
 | `FID009` | 0.4.2: missing literal insertion/deletion text with equal wrapper counts in the supported main-document profile; [limits](evidence/docx-revision-text/README.md) |
@@ -324,6 +324,8 @@ as errors; use `--fail-on warn` to keep them failing after upgrading.
 | `FID012` | 0.4.9, INFO: the tracked changes an edit added, per story (body, header/footer slot, notes), kind and author, so an [expectation](docs/configuration.md#changes-the-edit-was-asked-to-make) can require a tracked edit in the right place |
 | `FID013` | 0.5.1, WARN: a tracked replacement the edit added deletes and inserts again more unchanged words than it changes (at least four), so a reviewer sees unchanged text struck through and added again; [scope](docs/review-edit-warnings.md#fid013-a-tracked-replacement-wider-than-the-change) |
 | `FID014` | 0.8.0, INFO: a paragraph whose text the edit changed, with its text before and after, tracked changes accepted and rejected, so an [expectation](docs/configuration.md#changes-the-edit-was-asked-to-make) can require the text the edit was asked to produce |
+| `FID015` | next release: a bookmark of the source is gone. ERROR when a `REF`, `PAGEREF` or `NOTEREF` field of the edited file still points at it, so Word prints "Error! Reference source not found." or "Error! Bookmark not defined." when fields update; WARN when only an internal link does, or nothing does; a hidden bookmark nothing points at (`_GoBack`, `_Hlk…`) is not reported; [scope and corpus run](evidence/docx-references/README.md) |
+| `FID016` | next release: fields of the source are gone, per story and kind (`REF`, `TOC`, `PAGE`, …). ERROR for a lost `REF`, `PAGEREF` or `NOTEREF` and when none of a kind is left, else WARN. A field is its kind and the bookmark it points at; switches, the simple or complex form, and fields inside another field's result (the entries of a table of contents) are not compared; [scope and corpus run](evidence/docx-references/README.md) |
 | `INT001` | a check raised and did not complete: error; other checks still run, and coverage reports that check's surface as `skipped` |
 | `EXP001` | 0.4.8: a declared expectation (`--expect` or `[[expect]]`) matched no finding, so the requested change did not happen; [expected changes](docs/configuration.md#changes-the-edit-was-asked-to-make) |
 

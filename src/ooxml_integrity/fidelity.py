@@ -36,6 +36,7 @@ from .paragraphs import ParagraphText, assess as assess_paragraphs, paragraph_vi
 from .revision_growth import (
     PendingInsertions, inventory as pending_inventory, assess as assess_insertion_growth,
 )
+from .references import References, assess as assess_references
 from .runtext import TAGS as _TEXT_TAGS, is_character, shown
 from .xmlutil import fromstring as parse_xml
 
@@ -52,6 +53,7 @@ REL = "{http://schemas.openxmlformats.org/package/2006/relationships}"
 TRACKED: tuple[tuple[str, str, object], ...] = (
     ("commentReference", "comment anchors", ERROR),
     ("footnoteReference", "footnote references", ERROR),
+    ("endnoteReference", "endnote references", ERROR),
     ("ins", "tracked insertions", ERROR),
     ("del", "tracked deletions", ERROR),
     ("sdt", "content controls", ERROR),
@@ -62,7 +64,22 @@ TRACKED: tuple[tuple[str, str, object], ...] = (
     ("rStyle", "character style references", WARN),
     ("numPr", "numbered list items", WARN),
     ("tblHeader", "table header rows", WARN),
+    ("sectPr", "section breaks", WARN),
 )
+
+
+def _count(root, tag: str) -> int:
+    """How many of a tracked construct a story holds.
+
+    A tracked change of section properties (``w:sectPrChange``) keeps the
+    former properties in a ``w:sectPr`` of its own. That one is a record, not
+    a section break, and accepting the change removes it.
+    """
+    nodes = root.iter(W + tag)
+    if tag == "sectPr":
+        return sum(node.getparent() is None
+                   or node.getparent().tag != W + "sectPrChange" for node in nodes)
+    return sum(1 for _ in nodes)
 
 #: below this fraction of the source's text length, report FID003
 TEXT_LOSS_THRESHOLD = 0.95
@@ -615,7 +632,7 @@ def _story_facts(parts: dict[str, bytes], document, *,
         texts.append((identity, (kind, variant, original), record))
         locations.setdefault(identity, part)
         for tag, _, _ in TRACKED:
-            constructs[(kind, variant, tag)] += len(list(root.iter(W + tag)))
+            constructs[(kind, variant, tag)] += _count(root, tag)
         story = f"{kind}/{variant}"
         if (story, part) not in counted:  # one part can fill several sections' slots
             counted.add((story, part))
@@ -664,6 +681,8 @@ class _Snapshot:
     replacements: dict[str, list[Replacement]]
     #: story -> paragraph texts in reading order, keyed like `revisions`
     paragraphs: dict[str, list[ParagraphText]]
+    #: bookmarks, fields and internal links of every story
+    references: References
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -698,7 +717,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         parts.update(read_package(path, limits, members=story_parts))
     if comments is not None:
         comment_tree(parts, comments)
-    counts = {tag: len(list(doc.iter(W + tag))) for tag, _, _ in TRACKED}
+    counts = {tag: _count(doc, tag) for tag, _, _ in TRACKED}
     # FID003 measures the characters of w:t and w:delText only, not the
     # one-character elements runtext reads (tabs, breaks, hyphens, symbols):
     # it is a ratio with a 5% margin, and losing those is FID014's to report.
@@ -723,12 +742,20 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     revisions = {"document": _revision_contexts(doc), **stories.revisions}
     replacements = {"document": replacement_inventory(doc), **stories.replacements}
     paragraphs = {"document": paragraph_views(doc), **stories.paragraphs}
+    references = References()
+    references.read("document", doc)
+    # Once per slot, as the constructs of headers and footers are counted: two
+    # sections showing one footer part and two showing two identical parts
+    # hold the same fields.
+    for kind, variant, part in story_references:
+        references.read(f"{kind}/{variant}", parse_xml(parts[part]))
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
             notes = parse_xml(parts[part])
             revisions[story] = _revision_contexts(notes)
             replacements[story] = replacement_inventory(notes)
             paragraphs[story] = paragraph_views(notes)
+            references.read(story, notes)
     return _Snapshot(
         counts, bodies, authors, text_length, deleted_length,
         stories,
@@ -741,6 +768,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         revisions,
         replacements,
         paragraphs,
+        references,
     )
 
 
@@ -924,6 +952,9 @@ def compare(source: str | Path, edited: str | Path, *,
             ))
 
     out.extend(_story_losses(source_snapshot, edited_snapshot))
+    out.extend(assess_references(
+        source_snapshot.references, edited_snapshot.references,
+    ))
     out.extend(assess_revision_text(
         source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
         part=source_snapshot.main,

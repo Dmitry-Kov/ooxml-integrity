@@ -38,6 +38,29 @@
   this is the first version that can be listed; 0.9.0 and earlier cannot. A
   test fails when `server.json` and the package version differ. The server
   itself is unchanged. [Catalogs](docs/mcp.md#catalogs).
+- **Bookmarks and fields against a source: `FID015`, `FID016`.** "See clause
+  4.2" is a `REF` field pointing at a bookmark, a table of contents is a `TOC`
+  field, a page number is a `PAGE` field. An edit that rebuilt a paragraph
+  dropped them and `check --against` reported nothing, since it counted
+  neither. `FID015` reports a bookmark of the source that is gone: ERROR when
+  a `REF`, `PAGEREF` or `NOTEREF` field of the edited file still points at it,
+  where Word prints "Error! Reference source not found." when fields update;
+  WARN when only an internal link does, or nothing does; nothing for a hidden
+  bookmark such as `_GoBack` that nothing points at. `FID016` reports lost
+  fields per story and kind: ERROR for a lost `REF`, `PAGEREF` or `NOTEREF`
+  and when none of a kind is left, else WARN. A field is its kind and the
+  bookmark it points at. Switches are not compared, because LibreOffice
+  rewrites them on every save, and a field inside another field's result,
+  such as the `PAGEREF` of each entry of a table of contents, is not counted.
+  `FID001`/`FID002` also count endnote references (ERROR when lost) and
+  section breaks (WARN). A comparison that passed can now fail. On the public
+  corpora the new findings report none of 1,841 files against themselves and
+  none of 1,816 python-docx saves, 188 of 278 files after `paragraph.text` was
+  assigned where a field or bookmark stood (the other 90 lost nothing the
+  rules compare), and 38 of 385 LibreOffice saves, each for a field, bookmark
+  or section break the save did change. No save by Word of a document with
+  fields was measured.
+  [Scope, corpus run and limits](evidence/docx-references/README.md).
 
 ## 0.9.0 — 2026-11-02
 

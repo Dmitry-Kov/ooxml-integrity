@@ -312,10 +312,14 @@ def test_adding_a_section_and_story_does_not_create_a_false_loss(
         },
     )
 
-    # Nothing is lost; the new first-page header is reported as text added.
+    # Nothing is lost; the new section break is counted as added and the new
+    # first-page header is reported as text added.
     findings = compare(base_docx, edited)
+    assert [(f.code, f.severity, f.extra["tag"], f.extra["before"], f.extra["after"])
+            for f in findings if f.code == "FID002"] == [
+        ("FID002", Severity.INFO, "sectPr", 1, 2)]
     assert [(f.code, f.severity, f.extra["story"], f.extra["change"], f.extra["after"])
-            for f in findings] == [
+            for f in findings if f.code != "FID002"] == [
         ("FID014", Severity.INFO, "header/first", "added", "New first page")]
 
 
