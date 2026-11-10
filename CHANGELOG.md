@@ -17,6 +17,14 @@
   `compare` tool and `introduced: "true"` in the Action. The JSON report gains
   an optional top-level `introduced: true`. Without the flag nothing changes.
   [What counts as the same finding, and what it cannot tell](docs/configuration.md#defects-the-source-already-had).
+- **Metadata for MCP catalogs.** The MCP server could be found only by reading
+  this repository. `server.json` now describes it in the MCP Registry format
+  as `io.github.Dmitry-Kov/ooxml-integrity`: the PyPI package, started with
+  the argument `mcp`, over stdio. The README carries the `mcp-name:` line the
+  registry looks for in the README published on PyPI, as an HTML comment, so
+  this is the first version that can be listed; 0.9.0 and earlier cannot. A
+  test fails when `server.json` and the package version differ. The server
+  itself is unchanged. [Catalogs](docs/mcp.md#catalogs).
 
 ## 0.9.0 — 2026-11-02
 

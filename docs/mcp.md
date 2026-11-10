@@ -111,6 +111,27 @@ influence, give the server a config outside the repository it edits with
 `--config`, or none with `--no-config`. Whatever config is used, the verdict
 names every finding it suppressed and the file that suppressed it.
 
+## Catalogs
+
+[`server.json`](../server.json) at the repository root describes the server
+to MCP catalogs in the [MCP Registry](https://registry.modelcontextprotocol.io/)
+format. The name is `io.github.Dmitry-Kov/ooxml-integrity`; the entry tells a
+client to run the PyPI package of the same version with the argument `mcp`,
+and suggests `uvx` as the runner. By hand that is `uvx ooxml-integrity mcp`.
+
+The registry accepts a version only if the README published on PyPI for it
+carries the line `mcp-name: io.github.Dmitry-Kov/ooxml-integrity`. The first
+version that can be listed is therefore the first one released with that
+line, and a catalog may trail a release. Whether a version is listed is the
+registry's to say:
+
+```bash
+curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Dmitry-Kov/ooxml-integrity"
+```
+
+A catalog entry changes how the server is found, not what it does: it is
+still a local process that opens no socket.
+
 ## Tools
 
 | tool | arguments | same as |
