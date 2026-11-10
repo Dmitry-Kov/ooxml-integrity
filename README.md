@@ -108,7 +108,7 @@ self-contained reproduction. adeu fixed two and docx-cli three; the others are o
 | Project | Finding | Status |
 |---|---|---|
 | [adeu](https://github.com/dealfluence/adeu/issues/137) | comment reference run carried `rStyle="CommentReference"` with no such style defined | fixed in 3.0.3; the reference document from this corpus was adopted as an upstream fixture |
-| [python-docx](https://github.com/python-openxml/python-docx/issues/1604) | `paragraph.text` setter detaches comment anchors created through 1.2's comment API and existing footnote references | open; [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) restores the comment anchors, footnotes and revisions remain |
+| [python-docx](https://github.com/python-openxml/python-docx/issues/1604) | `paragraph.text` setter detaches comment anchors created through 1.2's comment API and existing footnote references | open; [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) restored the comment anchors but was closed unmerged by its author on 2026-11-09; footnotes and revisions were outside its scope |
 | [python-docx](https://github.com/python-openxml/python-docx/issues/1609) | `add_comment()` references the `CommentReference` style without defining it | open |
 | [anthropics/skills](https://github.com/anthropics/skills/issues/1733) | the docx skill's `validate.py` passes a file whose comment is present in `comments.xml` but anchored to nothing — it checks marker → comment, not the reverse | open; [PR #1734](https://github.com/anthropics/skills/pull/1734) awaits maintainer review |
 | [sontanon/docx-mcp](https://github.com/sontanon/docx-mcp/issues/4) | offer of labelled pairs; question about the policy of rejecting inputs that already carry revisions | open |
@@ -152,6 +152,11 @@ This can find losses even when the edited file has no broken references.
 ```bash
 ooxml-integrity check edited.docx --against original.docx
 ```
+
+When the original may already be broken, as with a document a user uploads to
+an agent, add `--introduced` to fail only on what the edit added. A finding the
+original already has is listed as suppressed instead; lost content always
+counts. [What counts as the same finding](docs/configuration.md#defects-the-source-already-had).
 
 Exit codes are `0` for no findings at or above `--fail-on` (default `error`),
 `1` when such findings exist, and `2` for a usage error. Use `--json` for

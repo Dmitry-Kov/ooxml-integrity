@@ -116,13 +116,21 @@ names every finding it suppressed and the file that suppressed it.
 | tool | arguments | same as |
 |---|---|---|
 | `check` | `path` | `ooxml-integrity check PATH --json --coverage` |
-| `compare` | `source`, `edited`, optional `expect` | `ooxml-integrity check EDITED --against SOURCE --json --coverage` |
+| `compare` | `source`, `edited`, optional `expect`, optional `introduced` | `ooxml-integrity check EDITED --against SOURCE --json --coverage`, plus `--introduced` when `introduced` is true |
 
 `check` inspects one file on its own. Without the original it cannot see
 what an edit removed, such as a deleted comment or an accepted revision, so an
 agent with the original should call `compare`. For a `.pptx`, `compare` runs
 the layout checks and reports the comparison as not performed (`FID000`), as
 the CLI does.
+
+An agent often edits a document it did not write, and the original can
+already be broken. With `"introduced": true`, `compare` fails only on what the
+edit added: a finding the original already has is listed as suppressed, and
+the verdict says so (`1 finding(s) already in the original, not failing:
+CMT005`). Lost content (`FID`) and anything that was not checked always count.
+What counts as the same finding is described under
+[defects the source already had](configuration.md#defects-the-source-already-had).
 
 ### Paths
 

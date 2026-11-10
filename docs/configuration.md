@@ -205,6 +205,63 @@ What the match cannot tell:
   change no expectation names is an error, and the expected one is still
   listed as expected.
 
+## Defects the source already had
+
+A document an edit starts from can already be broken: a comment an earlier
+tool orphaned, a style nobody defined. `check --against` reports those in the
+edited copy too, so the edit fails for damage it did not do. A baseline cannot
+help when every run brings a different document, as when an agent edits
+whatever a user uploads. `--introduced` checks the source as well and fails
+only on what the edit added:
+
+```bash
+ooxml-integrity check edited.docx --against original.docx --introduced
+```
+
+A finding the source already has is listed as suppressed with the reason
+`already in the source (--introduced)`, as config and baseline suppressions
+are: in `--show-suppressed`, in the JSON report's `suppressed` list and in
+SARIF. The JSON report also gets `"introduced": true`.
+
+What counts as the same finding:
+
+- **The same code, part and message.** The message names the item, such as the
+  comment id, the style name or the relationship id, but not where it sits.
+  Inserting a paragraph moves every later finding's XPath, so the location
+  does not have to match.
+- **Counted.** A source with one orphaned comment absorbs one finding. A second
+  orphaned comment with the same message is still reported.
+- **The same location first.** When the edited copy has more of a finding than
+  the source, the ones reported are those at a location the source does not
+  have.
+
+Never set aside, whatever the source has:
+
+- lost or changed content (`FID`), which describes the edit itself;
+- a check that did not complete (`INT001`) and an expectation (`EXP001`);
+- any finding that says part of the file was not checked: `PKG000`–`PKG002`,
+  `PKG006`–`PKG009`, `XML001`, `CMT006` and `PPT000`.
+
+A source that cannot be read absorbs nothing, and its `FID000` still fails the
+run. A `.pptx` comparison is not implemented, so its `FID000` fails the run
+with or without `--introduced`.
+
+What it cannot tell:
+
+- **A message that carries a position.** `TBL001` and `TBL002` name the table
+  and row by number (`table 1, row 1: ...`), so a table inserted earlier makes
+  an inherited table finding look new. The run then fails; it does not pass
+  on a finding that should fail.
+- **An edit that fixes one and breaks another the same way.** If one paragraph
+  of the source names a missing style, and the edit fixes it but gives another
+  paragraph the same missing style, the counts balance and nothing is
+  reported. The messages have to be identical: a comment finding names the
+  comment id, so anchoring one comment and orphaning another is reported.
+
+Config applies first, so an `ignore` or a severity of `off` removes a finding
+before it is matched; expectations and the baseline apply after.
+`--write-baseline` still records every finding of the edited file.
+
 ## Findings in the pull request, not in a log
 
 ```yaml

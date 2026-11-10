@@ -385,7 +385,9 @@ that contract. Since 0.7.0 the server reads its config once, when it starts,
 not on every call; restart it to apply a config you changed.
 
 CLI JSON always has `version`, `fail_on`, `config`, `baseline`, and `files`.
-`config` and `baseline` are null when unused. Each file has `path`, `summary`,
+`config` and `baseline` are null when unused. Since the release after 0.9.0,
+`introduced: true` is present when `--introduced` set aside the source's own
+findings, and absent otherwise. Each file has `path`, `summary`,
 `worst`, `findings`, and `suppressed`. Summary contains all three severity keys
 and counts the retained findings; `worst` is null when there are none.
 Suppressed findings are separate and include `suppressed_because`, even without

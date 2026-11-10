@@ -22,6 +22,13 @@ inputs:
       silently skipped; an unreadable source also fails the check.
     required: false
     default: ""
+  introduced:
+    description: >-
+      "true" fails only on what the edit introduced: a finding the `against`
+      source already has is suppressed instead of failing. Lost content (FID)
+      and anything not checked always count. Needs `against`.
+    required: false
+    default: "false"
   fail-on:
     description: "Minimum severity that fails the step: error (default), warn, info."
     required: false
@@ -116,6 +123,7 @@ runs:
       env:
         OOXML_FILES: ${{ inputs.files }}
         OOXML_AGAINST: ${{ inputs.against }}
+        OOXML_INTRODUCED: ${{ inputs.introduced }}
         OOXML_FAIL_ON: ${{ inputs.fail-on }}
         OOXML_JSON_REPORT: ${{ inputs.json-report }}
         OOXML_CONFIG: ${{ inputs.config }}
@@ -135,6 +143,14 @@ runs:
         if [ -n "$OOXML_AGAINST" ]; then
           args+=(--against "$OOXML_AGAINST")
         fi
+        case "$OOXML_INTRODUCED" in
+          true) args+=(--introduced) ;;
+          false|"") ;;
+          *)
+            echo "::error::introduced must be \"true\" or \"false\", got \"$OOXML_INTRODUCED\""
+            exit 2
+            ;;
+        esac
         args+=(--fail-on "$OOXML_FAIL_ON")
         if [ "$OOXML_CONFIG" = "none" ]; then
           args+=(--no-config)

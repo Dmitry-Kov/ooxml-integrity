@@ -41,6 +41,7 @@ from . import __version__, cli
 from .coverage import CoverageReport, coverage_for
 from .expect import Expectation
 from .finding import Finding, Severity
+from .introduced import REASON as INHERITED, source_findings
 from .policy import ConfigError, Policy
 
 #: Newest first. A client asking for another version gets the newest; tools
@@ -147,6 +148,16 @@ TOOLS = [
                         "additionalProperties": False,
                     },
                 },
+                "introduced": {
+                    "type": "boolean",
+                    "description": (
+                        "true reports only what the edit introduced: a "
+                        "finding the original already has, such as a comment "
+                        "an earlier tool orphaned, is listed as suppressed "
+                        "instead of failing. Lost content (FID) and anything "
+                        "not checked always count. Default false"
+                    ),
+                },
             },
             "required": ["source", "edited"],
             "additionalProperties": False,
@@ -246,10 +257,15 @@ def verdict(path: Path | str, findings: list[Finding], threshold: Severity,
     if expected:
         line += (f"; {len(expected)} finding(s) accepted as expected: "
                  f"{_codes([f for f, _ in expected])}")
-    if hidden:
-        line += (f"; {len(hidden)} finding(s) suppressed by config"
+    inherited = [f for f, why in hidden if why == INHERITED]
+    by_config = [f for f, why in hidden if why != INHERITED]
+    if by_config:
+        line += (f"; {len(by_config)} finding(s) suppressed by config"
                  + (f" {_shown(config)}" if config else "")
-                 + f": {_codes([f for f, _ in hidden])}")
+                 + f": {_codes(by_config)}")
+    if inherited:
+        line += (f"; {len(inherited)} finding(s) already in the original, "
+                 f"not failing: {_codes(inherited)}")
     if note:
         line += f"; {note}"
     if gaps:
@@ -288,8 +304,11 @@ class Server:
 
     # ------------------------------------------------------------ tools
     def run(self, edited_arg: Any, source_arg: Any = None,
-            expect_arg: Any = None, *, edited_name: str = "path") -> dict:
+            expect_arg: Any = None, introduced_arg: Any = None, *,
+            edited_name: str = "path") -> dict:
         """One CLI run on one file; returns verdict, exit_code and report."""
+        if introduced_arg is not None and not isinstance(introduced_arg, bool):
+            raise ToolError("introduced must be true or false")
         edited = local_path(edited_arg, edited_name)
         source = (local_path(source_arg, "source")
                   if source_arg is not None else None)
@@ -303,13 +322,16 @@ class Server:
         findings = cli._run_one(edited, source, policy.archive)
         coverage = coverage_for(edited, findings, source=source,
                                 limits=policy.archive)
+        introduced = bool(introduced_arg) and source is not None
+        inherited_from = (source_findings(source, limits=policy.archive)
+                          if introduced else None)
         kept, hidden, matched = cli._apply_policy(
-            edited, findings, policy, expectations, None)
+            edited, findings, policy, expectations, None, inherited_from)
         report = cli._json_payload(
             [cli._json_file(edited, kept, hidden, matched,
                             expectations=bool(expectations),
                             coverage=coverage)],
-            threshold, policy, None,
+            threshold, policy, None, introduced=introduced,
         )
         failed = cli._fails(kept, threshold)
         return {
@@ -324,7 +346,8 @@ class Server:
         if name == "check":
             return self.run(args.get("path"))
         return self.run(args.get("edited"), args.get("source"),
-                        args.get("expect"), edited_name="edited")
+                        args.get("expect"), args.get("introduced"),
+                        edited_name="edited")
 
     def call(self, params: dict) -> dict:
         name = params.get("name")
