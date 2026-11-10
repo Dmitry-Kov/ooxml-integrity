@@ -118,6 +118,21 @@ def test_a_field_in_a_tracked_deletion_is_still_there():
     assert instructions(_xml(_complex("PAGE", deleted=True))) == [("PAGE", "PAGE")]
 
 
+def test_a_text_box_is_read_once():
+    # Word writes a text box in mc:Choice and again in mc:Fallback
+    mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    inner = _bookmark("Box1") + _complex("PAGE")
+    both = _references(f'<mc:AlternateContent xmlns:mc="{mc}"><mc:Choice Requires="wps">'
+                       f"{inner}</mc:Choice><mc:Fallback>{inner}</mc:Fallback>"
+                       "</mc:AlternateContent>")
+    first_only = _references(f'<mc:AlternateContent xmlns:mc="{mc}">'
+                             f'<mc:Choice Requires="wps">{inner}</mc:Choice>'
+                             "</mc:AlternateContent>")
+    assert both.fields == first_only.fields and sum(both.fields["document"].values()) == 1
+    assert assess(both, first_only) == [] and assess(first_only, both) == []
+    assert [f.code for f in assess(both, _references(""))] == ["FID015", "FID016"]
+
+
 def _references(fragment: str, story: str = "document") -> References:
     out = References()
     out.read(story, _xml(fragment))

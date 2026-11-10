@@ -28,6 +28,10 @@ What counts as the same:
   form (``w:fldSimple``) and the complex form (``w:fldChar`` with
   ``w:instrText``) are the same field, since producers write either. An
   instruction inside a tracked deletion (``w:delInstrText``) is still there.
+- A text box is read once. Word writes it twice, in ``mc:Choice`` and again
+  in ``mc:Fallback`` for older readers, and a producer may keep or drop the
+  second copy; what stands in a later branch of ``mc:AlternateContent`` is
+  not read.
 
 What is deliberately not reported:
 
@@ -46,6 +50,7 @@ import re
 from dataclasses import dataclass, field
 
 from .finding import ERROR, WARN, Finding
+from .xmlutil import alternative_branch
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -81,13 +86,16 @@ def normalise(instruction: str) -> tuple[str, str]:
 def instructions(root) -> list[tuple[str, str]]:
     """Every field of a story as (kind, instruction), in document order of
     where each field ends."""
-    out = [normalise(node.get(W + "instr", "")) for node in root.iter(W + "fldSimple")]
+    out = [normalise(node.get(W + "instr", "")) for node in root.iter(W + "fldSimple")
+           if not alternative_branch(node)]
     # A complex field is begin, instruction runs, an optional separate, result
     # runs, end. Fields nest, both inside an instruction and inside a result,
     # so the open fields are a stack and text goes to the innermost one that is
     # still reading its instruction.
     open_fields: list[list] = []
     for node in root.iter(W + "fldChar", W + "instrText", W + "delInstrText"):
+        if alternative_branch(node):
+            continue
         if node.tag != W + "fldChar":
             if open_fields and open_fields[-1][1]:
                 open_fields[-1][0].append(node.text or "")
@@ -137,7 +145,7 @@ class References:
         """Add one story part. A story of several parts is read part by part."""
         for node in root.iter(W + "bookmarkStart"):
             name = node.get(W + "name")
-            if name:
+            if name and not alternative_branch(node):
                 self.bookmarks.setdefault(_key(name), name)
         found = self.fields.setdefault(story, collections.Counter())
         for kind, instruction in instructions(root):
@@ -148,6 +156,8 @@ class References:
                 self.targets[_key(target)] += 1
                 self.written.setdefault(_key(target), target)
         for node in root.iter(W + "hyperlink"):
+            if alternative_branch(node):
+                continue
             self.links[story] += 1
             anchor = node.get(W + "anchor")
             if anchor:
