@@ -33,6 +33,14 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+Unreleased `CMT007` is a new ERROR finding of `check()`: one comment id with
+more than one `commentRangeStart`, `commentRangeEnd` or `commentReference` in a
+story part. A document that passed the default gate can now exit 1; none of
+1,903 public Word files has one. It belongs to the coverage item
+`docx.comments`; its baseline v2 identity is file, code and the story part, as
+for `CMT001`–`CMT004`. Its message carries the counts, so `--introduced` sets
+aside a repeat the source already had and reports one the edit made worse.
+
 In 0.9.0 `check_pptx`, and the `check` command on a deck, run the package rules
 `XML001`, `PKG003`–`PKG005`, `PKG011`, `PKG012`, `REL001`, `REL002` and `REL004`,
 which ran on Word documents only. A deck that passed can exit 1: of 610 public

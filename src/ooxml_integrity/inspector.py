@@ -58,6 +58,28 @@ def _r(tag: str) -> str:
     return f"{{{NS['r']}}}{tag}"
 
 
+_COMMENT_MARKERS = ("commentRangeStart", "commentRangeEnd", "commentReference")
+_ALTERNATE_CONTENT = "{http://schemas.openxmlformats.org/markup-compatibility/2006}AlternateContent"
+
+
+def _alternative_branch(el) -> bool:
+    """True inside a branch of mc:AlternateContent other than its first.
+
+    A reader takes one branch: its mc:Choice or, if it cannot, the
+    mc:Fallback. Word writes a text box in both, with its paragraphs repeated
+    in each, so a comment marker in a later branch is a copy, not a second
+    anchor. The first branch stands for the content.
+    """
+    child, parent = el, el.getparent()
+    while parent is not None:
+        if parent.tag == _ALTERNATE_CONTENT:
+            first = next((c for c in parent if isinstance(c.tag, str)), None)
+            if child is not first:
+                return True
+        child, parent = parent, parent.getparent()
+    return False
+
+
 def _paragraph_revision_pair(elements: list[etree._Element]) -> bool:
     """Recognize only the verified plain whole-paragraph mark/content pair.
 
@@ -854,6 +876,25 @@ class Inspector:
                 self._add("CMT004", ERROR,
                           f"commentReference id={i} not found in {cm_label}",
                           part=part)
+            # One comment has one range and one reference. An edit that writes
+            # the markers again without removing the old ones leaves a second
+            # start, end or reference for the id; it pairs with the first, so
+            # CMT001-CMT003 do not see it.
+            marks: dict = {}
+            for kind in _COMMENT_MARKERS:
+                for e in tree.iter(_w(kind)):
+                    i = e.get(_w("id"))
+                    if i is not None and not _alternative_branch(e):
+                        counts = marks.setdefault(i, {})
+                        counts[kind] = counts.get(kind, 0) + 1
+            for i in srt(marks):
+                repeated = [f"{n} {kind}" for kind, n in marks[i].items() if n > 1]
+                if repeated:
+                    self._add("CMT007", ERROR,
+                              f"comment id={i} is marked more than once: "
+                              f"{', '.join(repeated)} - a comment has one range "
+                              "and one reference, so its anchor is ambiguous",
+                              part=part)
         if unread:
             return
         for i in srt(defined - referenced):
