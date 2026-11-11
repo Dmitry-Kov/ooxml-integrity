@@ -337,7 +337,7 @@ are retained.
 
 Use `code`, such as `CMT005`, as the rule identifier. Codes retain their
 documented purpose; a different kind of check should receive a different code.
-The [rule list](../README.md#what-it-reports-and-how-much-it-covered) and [support matrix](support-matrix.md)
+The [rule list](rules.md) and [support matrix](support-matrix.md)
 describe current scope. Correcting or extending a rule within that scope can
 add or remove findings. Message wording, measurements, finding order, XPath
 locations and optional `extra` details are diagnostic data, not stable keys
