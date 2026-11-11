@@ -76,7 +76,7 @@ def inventory(document) -> PendingInsertions:
              if len(node) or node.getparent() is None
              or not node.getparent().tag.endswith('Pr')]
     known = {_context(node) for node in document.iter(*REVISIONS)}
-    counts = defaultdict(int)
+    counts: defaultdict = defaultdict(int)
     unsupported = set()
     records = defaultdict(list)
 

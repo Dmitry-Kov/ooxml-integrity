@@ -4,6 +4,7 @@ from __future__ import annotations
 import platform
 import shutil
 from importlib import metadata
+from typing import Any
 
 from lxml import etree
 
@@ -74,7 +75,7 @@ def _version(distribution: str) -> str:
         return "unavailable"
 
 
-def build_report() -> dict[str, object]:
+def build_report() -> dict[str, Any]:
     """Return a stable, JSON-ready capability report."""
     runtime = {
         "python": platform.python_version(),
@@ -107,7 +108,7 @@ def build_report() -> dict[str, object]:
         },
     ]
 
-    font_probes: list[dict[str, object]] = []
+    font_probes: list[dict[str, Any]] = []
     font_failures: list[dict[str, str]] = []
     for requested in FONT_PROBES:
         try:

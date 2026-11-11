@@ -50,7 +50,7 @@ def fromstring(data: bytes) -> etree._Element:
         root = etree.fromstring(data, parser=parser)
         if root is None or not _only_namespace_names(parser.error_log):
             raise error
-    if root.getroottree().docinfo.doctype:
+    if root.getroottree().docinfo.doctype:  # type: ignore[union-attr]  # not in lxml-stubs
         raise UnsafeXML("DOCTYPE declarations are not allowed in OOXML parts")
     return root
 
@@ -63,7 +63,8 @@ def parser_limit(error: etree.XMLSyntaxError) -> str | None:
     """Why a parse stopped at a limit of the safe parser; None for broken XML."""
     if "Excessive depth" in str(error):
         return f"nesting deeper than {MAX_DEPTH} elements exceeds the safe parser's limit"
-    if error.code == getattr(etree.ErrorTypes, "ERR_RESOURCE_LIMIT", None):
+    code = error.code  # type: ignore[attr-defined]  # not in lxml-stubs
+    if code == getattr(etree.ErrorTypes, "ERR_RESOURCE_LIMIT", None):
         return f"a resource limit of the safe parser was exceeded ({error})"
     return None
 

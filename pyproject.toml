@@ -60,7 +60,8 @@ packages = ["src/ooxml_integrity"]
 # demo run and fail. runs/ holds test fixtures; the demo itself is not shipped.
 include = ["/src/", "/tests/", "/research/", "/corpus/", "/evidence/", "/docs/", "/runs/",
            "/action.yml", "/.github/", "/CHANGELOG.md", "/README.md", "/LICENSE",
-           "/SECURITY.md", "/CONTRIBUTING.md", "/server.json"]
+           "/SECURITY.md", "/CONTRIBUTING.md", "/server.json",
+           "/.pre-commit-hooks.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -76,3 +77,15 @@ select = ["E9", "F"]
 [tool.ruff.lint.per-file-ignores]
 # Hash-pinned by the frozen review-history protocol; a changed byte is drift.
 "research/review_history_oracle.py" = ["F401"]
+
+[tool.mypy]
+# The package ships py.typed, so its own annotations have to hold. mypy 2
+# checks Python 3.10 and newer; the 3.9 test legs cover that runtime.
+python_version = "3.10"
+files = ["src/ooxml_integrity"]
+
+[[tool.mypy.overrides]]
+# fontTools ships no annotations; tomllib is 3.11+ and tomli its backport,
+# and policy.py imports whichever one the interpreter has.
+module = ["fontTools.*", "tomli", "tomllib"]
+ignore_missing_imports = true

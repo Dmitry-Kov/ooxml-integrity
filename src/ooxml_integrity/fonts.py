@@ -178,14 +178,14 @@ def _fc_match(pattern: str) -> tuple[str, str, int] | None:
     path, family, number = fields
     if not number.isdecimal() or not path or not Path(path).is_file():
         return None
-    number = int(number)
+    index = int(number)
     # Fontconfig/FreeType encode a variable-font named instance in the high
     # bits. Masking those bits would silently measure a different instance.
-    if number > 0xFFFF:
+    if index > 0xFFFF:
         raise FontUnavailable("fontconfig selected a named variable-font instance; "
                               "variation metrics are not supported")
     family = family.split(",")[0].strip()
-    return (path, family, number) if family else None
+    return (path, family, index) if family else None
 
 
 #: Where fonts live when there is no fontconfig to ask. macOS has none by
@@ -515,7 +515,7 @@ def load_metrics(family: str, bold: bool = False, italic: bool = False) -> Metri
         # DrawingML ignores all of this - see pptx_layout.DRAWINGML_LINE_SPACING.
         ascender = descender = line_gap = 0
         os2 = font.get("OS/2")
-        if os2 is not None and getattr(os2, "sTypoAscender", 0):
+        if os2 is not None and getattr(os2, "sTypoAscender", None):
             if bool(getattr(os2, "fsSelection", 0) & (1 << 7)):
                 ascender = os2.sTypoAscender
                 descender = abs(os2.sTypoDescender)
@@ -529,7 +529,7 @@ def load_metrics(family: str, bold: bool = False, italic: bool = False) -> Metri
         kerning: dict[tuple[int, int], int] = {}
         kern_table = font.get("kern")
         if kern_table is not None:
-            name_to_cp = {}
+            name_to_cp: dict[str, int] = {}
             for cp, name in cmap.items():
                 name_to_cp.setdefault(name, cp)
             for subtable in getattr(kern_table, "kernTables", []):

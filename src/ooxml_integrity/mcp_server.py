@@ -69,7 +69,7 @@ _PATH = {"type": "string",
          "description": "path on this machine; absolute, or relative to the "
                         "server's working directory. URLs are rejected"}
 
-TOOLS = [
+TOOLS: list[dict[str, Any]] = [
     {
         "name": "check",
         "title": "Check a .docx or .pptx",
@@ -268,7 +268,7 @@ def verdict(path: Path | str, findings: list[Finding], threshold: Severity,
                  f"not failing: {_codes(inherited)}")
     if note:
         line += f"; {note}"
-    if gaps:
+    if gaps and coverage is not None:
         counts = coverage.summary()
         line += "; not fully checked: " + ", ".join(
             f"{counts[s.value]} {s.value}" for s in cli.GAP_STATUSES
@@ -312,10 +312,10 @@ class Server:
         edited = local_path(edited_arg, edited_name)
         source = (local_path(source_arg, "source")
                   if source_arg is not None else None)
-        if self.config_error:
+        policy = self.policy
+        if self.config_error or policy is None:
             raise ToolError(f"config: {self.config_error} (read when the server "
                             "started; restart it after fixing the file)")
-        policy = self.policy
         threshold = self.fail_on or policy.fail_on
         expectations = policy.expectations + _expectations(expect_arg)
 
@@ -324,7 +324,7 @@ class Server:
                                 limits=policy.archive)
         introduced = bool(introduced_arg) and source is not None
         inherited_from = (source_findings(source, limits=policy.archive)
-                          if introduced else None)
+                          if introduced and source is not None else None)
         kept, hidden, matched = cli._apply_policy(
             edited, findings, policy, expectations, None, inherited_from)
         report = cli._json_payload(
@@ -446,6 +446,7 @@ def serve(stdin: BinaryIO | None = None, stdout: BinaryIO | None = None,
         for raw in stdin:
             if not raw.strip():
                 continue
+            reply: dict | None
             try:
                 message = json.loads(raw)
             except ValueError as e:

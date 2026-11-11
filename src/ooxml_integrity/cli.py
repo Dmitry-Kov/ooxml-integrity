@@ -22,6 +22,7 @@ import glob
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 from . import __version__
 from .archive import ArchiveLimits
@@ -134,7 +135,7 @@ def _json_file(path: Path | str, findings: list[Finding],
                matched: list[tuple[Finding, str]], *, expectations: bool,
                coverage: CoverageReport | None) -> dict:
     """One file's entry in the `--json` report."""
-    item = {
+    item: dict[str, Any] = {
         "path": str(path),
         "summary": summarize(findings),
         "worst": (w.value if (w := worst(findings)) else None),
@@ -154,7 +155,7 @@ def _json_file(path: Path | str, findings: list[Finding],
 
 def _json_payload(files: list[dict], threshold: Severity, policy: Policy,
                   baseline: str | None, *, introduced: bool = False) -> dict:
-    payload = {
+    payload: dict[str, Any] = {
         "version": __version__,
         "fail_on": threshold.value,
         "config": policy.source or None,

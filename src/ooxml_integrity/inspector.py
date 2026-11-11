@@ -12,7 +12,7 @@ import posixpath
 import re
 import zipfile
 from pathlib import Path
-from typing import Iterable
+from typing import Callable, Iterable
 from urllib.parse import unquote, urlsplit
 
 from lxml import etree
@@ -77,12 +77,15 @@ def _paragraph_revision_pair(elements: list[etree._Element]) -> bool:
     kind = elements[0].tag
     if kind not in (_w("ins"), _w("del")):
         return False
-    content = next((e for e in elements if e.getparent() is not None
-                    and e.getparent().tag == _w("p")), None)
+    content = next((e for e in elements if (parent := e.getparent()) is not None
+                    and parent.tag == _w("p")), None)
     if content is None:
         return False
     paragraph = content.getparent()
-    if paragraph.getparent() is None or paragraph.getparent().tag != _w("body"):
+    if paragraph is None:
+        return False
+    owner = paragraph.getparent()
+    if owner is None or owner.tag != _w("body"):
         return False
     mark = elements[1] if content is elements[0] else elements[0]
     props = paragraph.find(_w("pPr"))
@@ -599,16 +602,16 @@ class Inspector:
             if not relsname.endswith(".rels"):
                 continue
             self._repeated_relationship_ids(relsname, tree)
-            source = self._source_for_rels(relsname)
-            if source is None:
+            owner = self._source_for_rels(relsname)
+            if owner is None:
                 continue
-            rels: dict[str | None, tuple[str | None, str | None, str]] = {}
+            declared: dict[str | None, tuple[str | None, str | None, str]] = {}
             for rel in tree.findall(f"{{{NS['rel']}}}Relationship"):
                 rid = rel.get("Id")
                 target = rel.get("Target")
                 mode = rel.get("TargetMode")
                 rtype = rel.get("Type") or ""
-                rels[rid] = (target, mode, rtype)
+                declared[rid] = (target, mode, rtype)
                 if mode == "External":
                     continue
                 if not target:
@@ -618,7 +621,7 @@ class Inspector:
                         part=relsname,
                     )
                     continue
-                candidates = self._target_candidates(source, target)
+                candidates = self._target_candidates(owner, target)
                 if not candidates or not any(
                     c.translate(ASCII_LOWER) in equivalent_names for c in candidates
                 ):
@@ -632,11 +635,11 @@ class Inspector:
 
             # Strict relationship attributes are not recognised, so every
             # relationship would look unused.
-            if (not self.WORDPROCESSING or strict or not source
-                    or source not in used_by_source):
+            if (not self.WORDPROCESSING or strict or not owner
+                    or owner not in used_by_source):
                 continue
-            used = used_by_source[source]
-            for rid, (_, _, rtype) in rels.items():
+            used = used_by_source[owner]
+            for rid, (_, _, rtype) in declared.items():
                 if rid in used:
                     continue
                 if any(k in rtype for k in _IMPLICIT_RELS):
@@ -863,9 +866,9 @@ class Inspector:
             # CMT001-CMT003 do not see it.
             marks: dict = {}
             for kind in _COMMENT_MARKERS:
-                for e in tree.iter(_w(kind)):
-                    i = e.get(_w("id"))
-                    if i is not None and not alternative_branch(e):
+                for el in tree.iter(_w(kind)):
+                    i = el.get(_w("id"))
+                    if i is not None and not alternative_branch(el):
                         counts = marks.setdefault(i, {})
                         counts[kind] = counts.get(kind, 0) + 1
             for i in srt(marks):
@@ -1023,7 +1026,7 @@ class Inspector:
                     self._xpath(node), part,
                 )
 
-    CHECKS = (
+    CHECKS: tuple[Callable[[Inspector], None], ...] = (
         check_content_types, check_related_content_types, check_relationships,
         check_styles, check_numbering,
         check_footnotes, check_comments, check_revisions, check_tables,

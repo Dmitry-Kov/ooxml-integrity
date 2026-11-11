@@ -114,7 +114,7 @@ def assess(story: str, before: list[ParagraphText],
     # Align the paragraphs that hold text; number them as they stand.
     old = [(n, p) for n, p in enumerate(before, 1) if p.current or p.original]
     new = [(n, p) for n, p in enumerate(after, 1) if p.current or p.original]
-    out = []
+    out: list[Finding] = []
     matcher = difflib.SequenceMatcher(None, [p for _, p in old], [p for _, p in new],
                                       autojunk=False)
     for op, i1, i2, j1, j2 in matcher.get_opcodes():

@@ -69,7 +69,7 @@ import unicodedata
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Iterable, Sequence
+from typing import Any, Callable, Iterable, NoReturn, Sequence
 
 from lxml import etree
 
@@ -405,7 +405,13 @@ class Refused(ValueError):
 
 
 def custom_namespace(uri: str | None) -> bool:
-    return bool(uri) and not STANDARD_NAMESPACE.match(uri)
+    return bool(uri and not STANDARD_NAMESPACE.match(uri))
+
+
+def _attribute_items(node) -> list[tuple[str, str]]:
+    """A parsed element's attributes. lxml gives str names and values; its
+    stubs also allow bytes."""
+    return node.attrib.items()
 
 
 def _namespace(name: str) -> str | None:
@@ -483,7 +489,8 @@ def _xpath_tokens(value: str) -> list[list]:
     after an operand, a name is an operator; before ``(``, a function; before
     ``::``, an axis; otherwise a name test.
     """
-    tokens, at = [], 0
+    tokens: list[list[Any]] = []
+    at = 0
     while at < len(value):
         match = XPATH_TOKEN.match(value, at)
         if match is None:
@@ -510,7 +517,7 @@ def _xpath_tokens(value: str) -> list[list]:
         elif token[1] == "*":
             token[0] = "nametest"
         else:
-            token[0] = {"(": "function", "::": "axis"}.get(after, "nametest")
+            token[0] = {"(": "function", "::": "axis"}.get(after or "", "nametest")
     return tokens
 
 
@@ -552,7 +559,7 @@ class _XPathReader:
         if not self.take(text):
             self.refuse(self.peek())
 
-    def refuse(self, token: list | None):
+    def refuse(self, token: list | None) -> NoReturn:
         if token is None:
             raise UnmappableXPath("is not an XPath expression this tool reads")
         kind, text = token[0], token[1]
@@ -721,9 +728,9 @@ class Mapper:
         return "".join(out)
 
     def word(self, token: str) -> str:
-        out = self._words.get(token)
-        if out is not None:
-            return out
+        known = self._words.get(token)
+        if known is not None:
+            return known
         # Distinct from every other replacement; for words long enough to be
         # recognised, also from the word itself and from every word of the
         # text. A short token (a digit, a one-letter word) may stay itself
@@ -818,7 +825,7 @@ class Mapper:
                                 if t[0] == "nametest" and ":" in t[1]}
         # generic prefixes (Word writes ns0, ns1, ...) stay; the others get
         # generic names no other prefix of the binding has
-        renamed = {p: p for p in custom if GENERIC_PREFIX.match(p)}
+        renamed: dict[str, str] = {p: p for p in custom if GENERIC_PREFIX.match(p)}
         for prefix in custom:
             if prefix not in renamed:
                 taken = (used - set(custom)) | set(renamed.values())
@@ -1104,8 +1111,9 @@ def custom_styles(parts: dict[str, bytes]) -> set[str]:
                         out.add(html.unescape(values["styleId"]))
             continue
         for style in root.iter(W + "style"):
-            if style.get(W + "customStyle") in ON and style.get(W + "styleId"):
-                out.add(style.get(W + "styleId"))
+            style_id = style.get(W + "styleId")
+            if style.get(W + "customStyle") in ON and style_id:
+                out.add(style_id)
     return out
 
 
@@ -1276,7 +1284,8 @@ def _raw_text(element: str, local: str, parent: tuple[str, dict] | None) -> bool
 
 def _raw_tag(markup: str) -> tuple[str, dict[str, str]]:
     """A start tag's element and attribute values, by local names."""
-    element = _local(re.match(r"<\s*([^\s/>]*)", markup).group(1))
+    # A start tag begins with "<", so the pattern always matches.
+    element = _local(re.match(r"<\s*([^\s/>]*)", markup).group(1))  # type: ignore[union-attr]
     return element, {_local(m.group(2)): m.group(3)[1:-1] for m in _ATTRIBUTE.finditer(markup)}
 
 
@@ -1363,7 +1372,7 @@ def _lexical(data: bytes, mapper: Mapper) -> bytes:
             return "<!--" + chars(markup[4:-3]) + "-->"
         if markup.startswith(("<?", "<!", "</")):
             return markup
-        raw = re.match(r"<\s*([^\s/>]*)", markup).group(1)
+        raw = re.match(r"<\s*([^\s/>]*)", markup).group(1)  # type: ignore[union-attr]
         element, values, parent = markup_state.element, markup_state.values, markup_state.parent
         bound = {}
         if element in _BINDING_LOCALS:
@@ -1428,7 +1437,8 @@ def _lexical(data: bytes, mapper: Mapper) -> bytes:
 
 def _content_types(parts: dict[str, bytes]) -> tuple[dict[str, str], dict[str, str]]:
     blob = parts.get("[Content_Types].xml")
-    defaults, overrides = {}, {}
+    defaults: dict[str, str] = {}
+    overrides: dict[str, str] = {}
     if blob is None:
         return defaults, overrides
     root = fromstring(blob)
@@ -1458,7 +1468,7 @@ class FileResult:
 
 def custom_namespaces(parts: dict[str, bytes], defaults: dict, overrides: dict) -> set[str]:
     """Every custom namespace URI the package declares, uses or names."""
-    found = set()
+    found: set[Any] = set()
     for name, blob in parts.items():
         if not _is_xml(name, defaults, overrides):
             continue
@@ -1479,7 +1489,7 @@ def custom_namespaces(parts: dict[str, bytes], defaults: dict, overrides: dict) 
                 continue
             found.update(node.nsmap.values())
             found.update(etree.QName(a).namespace for a in node.attrib)
-            for attr, value in node.attrib.items():
+            for attr, value in _attribute_items(node):
                 if uri_attribute(node.tag, attr):
                     found.add(value)
                 elif node.tag in DATA_BINDINGS and attr == W + "prefixMappings":
@@ -1546,7 +1556,9 @@ def _rename_prefixes(data: bytes, mapper: Mapper, part: str) -> bytes:
             return "{%s}%s" % (scope.get(prefix), local)
         return "{%s}%s" % (scope[None], name) if element and scope.get(None) else name
 
-    out, at, stack = [], 0, [{"xml": XML_NS}]
+    out: list[str] = []
+    at = 0
+    stack: list[dict[str | None, str]] = [{"xml": XML_NS}]
     for tag in tags:
         out.append(text[at:tag.start()])
         at = tag.end()
@@ -1687,7 +1699,11 @@ def _serialize(root, original: bytes) -> bytes:
             standalone = match.group(1) == b"yes"
     if not declaration:
         return etree.tostring(root, encoding="UTF-8", xml_declaration=False)
-    return etree.tostring(root, encoding="UTF-8", xml_declaration=True, standalone=standalone)
+    # lxml returns bytes for an encoding and takes None for no standalone;
+    # lxml-stubs says neither.
+    return etree.tostring(  # type: ignore[return-value]
+        root, encoding="UTF-8", xml_declaration=True,
+        standalone=standalone)  # type: ignore[arg-type]
 
 
 # --- verification -----------------------------------------------------------
@@ -1753,7 +1769,7 @@ def _bindings(parts: dict[str, bytes]) -> dict[tuple[str, int], tuple]:
     cannot be evaluated counts as "error"."""
     stores = _stores(parts)
     custom = sorted({p for p in stores.values() if p.startswith("customXml/")})
-    trees: dict[str, object] = {}
+    trees: dict[str, Any] = {}
 
     def select(store: str, xpath: str, prefixes: dict) -> int | str:
         if store not in trees:
@@ -1782,7 +1798,7 @@ def _bindings(parts: dict[str, bytes]) -> dict[tuple[str, int], tuple]:
             prefixes = dict(PREFIX_MAPPING.findall(node.get(W + "prefixMappings") or ""))
             store = (node.get(W + "storeItemID") or "").upper()
             targets = [stores[store]] if store in stores else custom
-            out[(name, k)] = tuple((t, select(t, node.get(W + "xpath"), prefixes))
+            out[(name, k)] = tuple((t, select(t, node.get(W + "xpath") or "", prefixes))
                                    for t in targets)
     return out
 
@@ -1933,7 +1949,7 @@ def _replaced(node, attr: str, value: str) -> str | None:
 
 
 def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[str, str]],
-              replacements: set[str] = frozenset(),
+              replacements: set[str] | frozenset[str] = frozenset(),
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> tuple[list[dict], int]:
     """Places in `paths` that still hold words of the original text.
 
@@ -1991,15 +2007,18 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                     names = markup_state.names(tag.group(0))
                     if tag.group(0).startswith(("<?", "<!", "</")):
                         continue
-                    element = re.match(r"<\s*([^\s/>]*)", tag.group(0)).group(1)
+                    element = re.match(  # type: ignore[union-attr]
+                        r"<\s*([^\s/>]*)", tag.group(0)).group(1)
                     local_element, values = markup_state.element, markup_state.values
                     # a firm's names and prefixes stay in raw markup: report them
                     if ":" in element and element.partition(":")[0] in custom:
                         found += single(element.partition(":")[0]) + single(_local(element))
                     binding = local_element in _BINDING_LOCALS
                     if binding:
-                        found += _binding_words(*(html.unescape(values.get(k, ""))
-                                                  for k in ("xpath", "prefixMappings")), single)[0]
+                        bound_path, bound_prefixes = (
+                            html.unescape(values.get(k, ""))
+                            for k in ("xpath", "prefixMappings"))
+                        found += _binding_words(bound_path, bound_prefixes, single)[0]
                     for m in _ATTRIBUTE.finditer(tag.group(0)):
                         key, value = m.group(2), m.group(3)[1:-1]
                         local = _local(key)
@@ -2019,7 +2038,8 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                                                        and local == "Target"
                                                        and values.get("TargetMode") == "External"):
                             found += single(URL_SCHEME.sub("", value, count=1))
-                        elif _raw_text(local_element, local, markup_state.parent):
+                        elif _raw_text(local_element, local,  # type: ignore[arg-type]
+                                       markup_state.parent):
                             found += single(FIELD_CODE.sub(" ", value) if local == "instr"
                                             else value)
                         else:
@@ -2041,10 +2061,10 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                 if not isinstance(node.tag, str):
                     continue
                 label = etree.QName(node).localname
-                custom = custom_namespace(etree.QName(node).namespace)
-                named = (single(label) if custom else 0) + sum(
-                    single(etree.QName(a).localname) for a in node.attrib
-                    if custom or custom_namespace(_namespace(a)))
+                in_custom = custom_namespace(etree.QName(node).namespace)
+                named = (single(label) if in_custom else 0) + sum(
+                    single(etree.QName(a).localname) for a, _ in _attribute_items(node)
+                    if in_custom or custom_namespace(_namespace(a)))
                 if named:
                     hits[(index, name, f"{label} (custom name)")] += named
                 text = node.text
@@ -2064,7 +2084,7 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                     if found:
                         hits[(index, name, f"{label} (data binding path)")] += found
                 names = markup_names(node)
-                for attr, value in node.attrib.items():
+                for attr, value in _attribute_items(node):
                     if binding and attr in (W + "xpath", W + "prefixMappings"):
                         continue
                     local = etree.QName(attr).localname
