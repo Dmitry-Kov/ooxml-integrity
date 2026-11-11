@@ -1,3 +1,4 @@
+.DS_Store
 __pycache__/
 *.pyc
 out/
@@ -7,6 +8,7 @@ dist/
 build/
 *.egg-info/
 .pytest_cache/
+.coverage
 .venv/
 /tests/browser/node_modules/
 

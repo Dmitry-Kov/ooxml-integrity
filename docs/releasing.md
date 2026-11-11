@@ -9,7 +9,9 @@ scope fixed while preparing a release.
 
 1. Update `pyproject.toml`, `src/ooxml_integrity/__init__.py`, both `version`
    fields of `server.json` (the server's and its PyPI package's), the changelog,
-   and versioned release notes with the new Action example. Keep working public
+   and versioned release notes with the new Action example. Add new codes to
+   the [rule tables](rules.md) and point their "These tables describe" line at
+   the new release notes. Keep working public
    examples on the existing tag until publication, and historical evidence
    unchanged. Explain every incompatible change, including baseline migration.
    Apply the [compatibility policy](compatibility.md): describe finding and
