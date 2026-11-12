@@ -233,6 +233,24 @@ jobs:
           python -m pip install --quiet ruff==0.16.10
           ruff check --output-format github .
 
+  # The package ships py.typed, so its own annotations have to agree with its
+  # code. Settings are in pyproject.toml; mypy and the lxml stubs are pinned so
+  # a new release of either cannot fail an unrelated change.
+  types:
+    name: mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: The package's annotations hold
+        run: |
+          python -m pip install --quiet -e . mypy==2.4.1 lxml-stubs==0.5.1
+          mypy
+
   self-check:
     name: the action checks its own fixtures
     runs-on: ubuntu-latest

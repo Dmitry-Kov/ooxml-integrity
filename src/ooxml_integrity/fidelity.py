@@ -14,6 +14,7 @@ import posixpath
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 from urllib.parse import unquote, urlsplit
 
 from .archive import (
@@ -22,7 +23,7 @@ from .archive import (
     package_names,
     read_package,
 )
-from .finding import ERROR, INFO, WARN, Finding
+from .finding import ERROR, INFO, WARN, Finding, Severity
 from .comments import (
     comment_part,
     comment_tree,
@@ -50,7 +51,7 @@ REL = "{http://schemas.openxmlformats.org/package/2006/relationships}"
 #: INVISIBLE is an error, because nothing downstream will report it. Losing
 #: something that only changes how the document looks is a warning. Losing all
 #: of any construct is always an error.
-TRACKED: tuple[tuple[str, str, object], ...] = (
+TRACKED: tuple[tuple[str, str, Severity], ...] = (
     ("commentReference", "comment anchors", ERROR),
     ("footnoteReference", "footnote references", ERROR),
     ("endnoteReference", "endnote references", ERROR),
@@ -166,7 +167,7 @@ def _revision_text_signature(document, tag: str):
         for ordinal, paragraph in enumerate(document.iter(W + "p")):
             if paragraph not in paragraphs:
                 continue
-            tokens = []
+            tokens: list[Any] = []
 
             def text_run(run, context):
                 if run.tag != W + "r":
@@ -297,7 +298,7 @@ def _record(item) -> tuple | None:
     if not _has_text_revisions(item):
         return None
     wrappers = set(_TEXT_REVISIONS)
-    out = []
+    out: list[Any] = []
     for paragraph in item.iter(W + "p"):
         for node in paragraph.iter(*_TEXT_TAGS):
             text = shown(node)
@@ -326,7 +327,7 @@ def _without_new_revisions(record: tuple, known: set) -> tuple:
 
 #: One comment, note or story: (current text, text with every revision
 #: rejected, character record if it has text revisions of its own, else None).
-_Text = tuple[object, object, object]
+_Text = tuple[Any, Any, Any]
 
 
 def _bodies(parts: dict[str, bytes], part: str, tag: str
@@ -458,7 +459,7 @@ def assess_note_revisions(source: NoteRevisions, edited: NoteRevisions) -> NoteR
     result = NoteRevisionComparison([], sum(source.revised.values()) + source.empty_records, 0, [])
     if source.empty_records:
         result.skipped.append(f'{source.empty_records} source note/kind record(s) have empty text')
-    unmatched = collections.Counter()
+    unmatched: collections.Counter = collections.Counter()
     for (part, body, tag), count in source.revised.items():
         if source.notes[(part, body)] != edited.notes[(part, body)]:
             unmatched[part] += count
@@ -612,7 +613,7 @@ def _story_facts(parts: dict[str, bytes], document, *,
     texts: list[_Text] = []
     constructs: collections.Counter = collections.Counter()
     locations: dict[tuple[str, str, str], str] = {}
-    trees: dict[str, object] = {}
+    trees: dict[str, tuple[Any, str, str, Any]] = {}
     revisions: dict[str, collections.Counter] = {}
     replacements: dict[str, list[Replacement]] = {}
     paragraphs: dict[str, list[list[ParagraphText]]] = {}

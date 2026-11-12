@@ -286,6 +286,29 @@ A SARIF report makes findings available in the pull request review, alongside
 the changes that caused them. Suppressed findings remain in the report with
 their reasons, so reviewers can also inspect the exceptions.
 
+## Before a commit
+
+The repository is a [pre-commit](https://pre-commit.com) hook. It runs
+`ooxml-integrity check` on the `.docx` and `.pptx` files of a commit:
+
+```yaml
+repos:
+  - repo: https://github.com/Dmitry-Kov/ooxml-integrity
+    rev: vX.Y.Z   # a release after 0.10.0; that one and earlier have no hook
+    hooks:
+      - id: ooxml-integrity
+```
+
+The hook has no source to compare with, so it reports what one file shows on
+its own: broken references, orphaned comments, text that does not fit its box.
+What an edit lost needs `--against`, in CI or from the command line. The
+project's config file applies as it does there, and `args` passes options:
+
+```yaml
+      - id: ooxml-integrity
+        args: [--fail-on, warn]
+```
+
 
 ## Bounded archive processing
 

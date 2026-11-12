@@ -185,7 +185,7 @@ class References:
             target = _target(kind, instruction)
             points = kind in _REFERRING and bool(target)
             if not derived:
-                found[(kind, _key(target) if points else "")] += 1
+                found[(kind, _key(target) if points and target else "")] += 1
             if target:
                 (self.field_targets if points else self.link_targets)[_key(target)] += 1
                 self.written.setdefault(_key(target), target)

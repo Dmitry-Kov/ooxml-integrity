@@ -213,15 +213,15 @@ class _Part:
         if len(starts) != len(self._elements):
             raise _Refused(f"{self.name}: the two parsers disagree on its elements")
         spans, closing = {}, {}
-        for el, s, name, e in zip(self._elements, starts, names, ends):
+        for el, s, name, stop in zip(self._elements, starts, names, ends):
             qname = (f"{el.prefix}:" if el.prefix else "") + etree.QName(el).localname
             if name != qname:
                 raise _Refused(f"{self.name}: the two parsers disagree on its elements")
             head = _tag_end(self.data, s)
             empty = self.data[head - 2] == 0x2F
-            spans[el] = (s, head, head if empty else _tag_end(self.data, e))
+            spans[el] = (s, head, head if empty else _tag_end(self.data, stop))
             if not empty:
-                closing[el] = e
+                closing[el] = stop
         # Where an element's tail text ends: lxml's addnext() puts a new
         # sibling there, so the bytes must too.
         after = {}
@@ -236,7 +236,7 @@ class _Part:
     def span(self, el) -> tuple[int, int, int]:
         """(start, end of start tag, end) of an element of the input."""
         self.locate()
-        return self._spans[el]
+        return self._spans[el]  # type: ignore[index]  # locate() set it
 
     def raw(self, el) -> bytes:
         s, _, e = self.span(el)
@@ -503,7 +503,7 @@ class _Package:
             self._edited[name] = _Part(name, self.parts[name])
         return self._edited[name]
 
-    def related(self, rel_type: str) -> list[str]:
+    def related(self, rel_type: str) -> list[Optional[str]]:
         """Existing internal targets of the main part's relationships of a type."""
         out = []
         for rel in _relationships(self.parts, relationships_part(self.main)):
@@ -616,7 +616,7 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
             links[para].append((ex.get(W15 + "paraIdParent") or "").upper())
 
     # Markers per comment id across stories, from the trees the repair edits.
-    markers: dict[str, list[tuple[str, str, Any]]] = collections.defaultdict(list)
+    markers: dict[Optional[str], list[tuple[str, str, Any]]] = collections.defaultdict(list)
     for story in pkg.stories:
         tree = pkg.part(story).tree
         for kind in _MARKERS:
@@ -710,7 +710,7 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
             nodes = list(tree.iter())
             position = {el: n for n, el in enumerate(nodes)}
             starts = [m["commentRangeStart"] for m in members]
-            first = min(starts, key=position.get)
+            first = min(starts, key=position.get)  # type: ignore[arg-type]
             block, nxt = [first], first.getnext()
             while nxt is not None and nxt.tag == W + "commentRangeStart":
                 block.append(nxt)
@@ -718,8 +718,9 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
             if not set(starts) <= set(block):
                 raise _Refused(f"comment {cid}: the thread of comment {parent} does "
                                "not share one range start")
-            last_start = max(starts, key=position.get)
-            last_ref = max((m["commentReference"] for m in members), key=position.get)
+            last_start = max(starts, key=position.get)  # type: ignore[arg-type]
+            last_ref = max((m["commentReference"] for m in members),
+                           key=position.get)  # type: ignore[arg-type]
             ref_run = last_ref.getparent()
             if (ref_run is None or ref_run.tag != W + "r" or ref_run.getparent() is None
                     or ref_run.getparent().tag != W + "p"):
@@ -840,8 +841,9 @@ def _renumber_revisions(pkg: _Package, targets: list[tuple[str, Finding]]
     fresh = max(used, default=0) + 1
     groups: dict[str, list] = {}
     for el in tree.iter(*_REVISIONS):
-        if el.get(W + "id") is not None:
-            groups.setdefault(el.get(W + "id"), []).append(el)
+        ident = el.get(W + "id")
+        if ident is not None:
+            groups.setdefault(ident, []).append(el)
 
     repaired: list[Repaired] = []
     refused: dict[int, str] = {}
@@ -1054,10 +1056,11 @@ def _same_ranges(output: Path, repaired: list[Repaired], limits: ArchiveLimits
             if content[cid] is None:
                 failures.append(f"comment {cid}'s range in {story} is not one start "
                                 "before one end")
-        if None not in content.values() and content[reply] != content[parent]:
-            failures.append(f"comment {reply}'s range covers {_shown(content[reply])}, "
+        mine, theirs = content[reply], content[parent]
+        if mine is not None and theirs is not None and mine != theirs:
+            failures.append(f"comment {reply}'s range covers {_shown(mine)}, "
                             f"its parent comment {parent}'s covers "
-                            f"{_shown(content[parent])}")
+                            f"{_shown(theirs)}")
     return failures
 
 
@@ -1108,6 +1111,8 @@ def _verify(source: Path, output: Path, *, repaired: list[Repaired],
 
     against_added = None
     if against is not None:
+        if before_against is None:
+            raise ValueError("before_against is required with against")
         try:
             after_against = compare(against, output, limits=limits)
         except Exception as e:
@@ -1118,8 +1123,9 @@ def _verify(source: Path, output: Path, *, repaired: list[Repaired],
             _key(f) for f in before_against if f not in counted_in)
         news = [f for f in after_against if f not in _counts(after_against, added)
                 and not _take(rest_in, _key(f))]
-        old = {(f.extra.get("tag"), f.extra.get("before")): f.extra.get("after")
-               for f in counted_in}
+        old: dict[tuple[Any, Any], Any] = {
+            (f.extra.get("tag"), f.extra.get("before")): f.extra.get("after")
+            for f in counted_in}
         for f in _counts(after_against, added):
             tag = f.extra.get("tag")
             if f in counted_in or (f.code == "FID002" and f.severity == INFO):

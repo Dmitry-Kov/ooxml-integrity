@@ -43,7 +43,7 @@ import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, cast
 
 from .archive import ArchiveLimits
 from .expect import Expectation
@@ -183,7 +183,8 @@ class Policy:
             p = Path(explicit)
             if not p.exists():
                 raise ConfigError(f"config file not found: {p}")
-            return cls._from_file(p)
+            # None only comes back when the file is not required.
+            return cast("Policy", cls._from_file(p))
 
         here = Path(start).resolve()
         for d in (here, *here.parents):

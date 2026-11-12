@@ -51,6 +51,13 @@ python -m pip install ruff==0.16.10
 ruff check .
 ```
 
+and type-checks the package with mypy, since it ships `py.typed`:
+
+```sh
+python -m pip install mypy==2.4.1 lxml-stubs==0.5.1
+mypy
+```
+
 PPTX tests need usable fonts. The [CI workflow](.github/workflows/ci.yml) installs
 Carlito, Caladea and Liberation on Linux/macOS and checks the resolved families;
 Windows runners have Office-compatible system fonts. Use that workflow's font

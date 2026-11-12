@@ -1,0 +1,9 @@
+# Hook for https://pre-commit.com. It runs `ooxml-integrity check` on the
+# .docx and .pptx files of a commit: the checks of one file, with no source to
+# compare with. docs/configuration.md says how to use it.
+- id: ooxml-integrity
+  name: ooxml-integrity
+  description: Check .docx files for broken internal references and .pptx files for text that does not fit its box.
+  entry: ooxml-integrity check
+  language: python
+  files: '\.(docx|pptx)$'

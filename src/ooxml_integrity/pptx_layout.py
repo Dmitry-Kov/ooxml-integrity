@@ -31,6 +31,7 @@ import posixpath
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, NoReturn
 from urllib.parse import unquote, urlsplit
 
 from lxml import etree
@@ -237,7 +238,7 @@ class _Package:
         relname = f"{d}/_rels/{base}.rels" if d else f"_rels/{base}.rels"
         t = self.tree(relname)
 
-        def invalid(reason):
+        def invalid(reason) -> NoReturn:
             raise PackageIssue("PKG002", f"cannot resolve theme dependency {rel_suffix} "
                                f"from {part}: {reason}", part=relname)
 
@@ -259,7 +260,7 @@ class _Package:
             invalid("invalid or external target")
         resolved = self.rels(part).get(rid)
         tree = self.tree(resolved) if resolved else None
-        if tree is None or tree.tag != root_tag:
+        if resolved is None or tree is None or tree.tag != root_tag:
             invalid("missing, unreadable or unsupported target root")
         return resolved
 
@@ -390,7 +391,7 @@ class DeckReader:
         body's.
         """
         master_type = {"ctrTitle": "title", "subTitle": "body", "obj": "body"}.get(ph_type)
-        best: dict[int, tuple[bool, object]] = {}
+        best: dict[int, tuple[bool, Any]] = {}
         for (rank, by_type), sp in self._placeholder_shapes(
                 slide_part, ph_idx, ph_type, master_type):
             if rank not in best or by_type < best[rank][0]:
@@ -567,7 +568,7 @@ class DeckReader:
         pres_part = "ppt/presentation.xml"
         rel_part = "ppt/_rels/presentation.xml.rels"
 
-        def invalid(message: str, part: str = pres_part):
+        def invalid(message: str, part: str = pres_part) -> NoReturn:
             raise PackageIssue("PKG002", "cannot resolve presentation slide order: "
                                + message, part=part)
 
