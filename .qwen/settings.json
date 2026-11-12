@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$QWEN_PROJECT_DIR/.qwen/hooks/guard_git.py\"",
+            "name": "guard-git",
+            "description": "Deny commits on main; ask before a push, a tag, GitHub writes, uploads and discarding work",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

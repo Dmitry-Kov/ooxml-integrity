@@ -12,6 +12,12 @@ build/
 .venv/
 /tests/browser/node_modules/
 
+# Per-person agent files: private instructions and the worktrees Qwen Code
+# makes. The shared instructions, rules, skills and hook under .qwen/ are tracked.
+/.qwen/QWEN.local.md
+/.qwen/worktrees/
+/.qwen/archived-skills/
+
 # Local working plans and pilot notes; excluded from Git and distributions.
 /AUDIT_PLAN.md
 /PILOT_TRACKER.md
