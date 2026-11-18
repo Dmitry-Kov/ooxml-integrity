@@ -85,6 +85,7 @@ def test_write_baseline_leaves_a_crash_out(broken_styles, base_docx, tmp_path, c
                  "--write-baseline", str(baseline)]) == EXIT_OK
     err = capsys.readouterr().err
     assert "1 INT001 finding(s) not recorded" in err
+    assert "a check that did not complete" in err
     assert json.loads(baseline.read_text())["findings"] == {}
 
     assert main(["check", str(base_docx), "--no-config",

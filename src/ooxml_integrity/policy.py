@@ -434,11 +434,15 @@ def fingerprint(file: str, f: Finding) -> str:
     return f"{key}::{stable}" if stable else key
 
 
-#: Codes a baseline never records or absorbs. A baselined defect is still
-#: checked on every run; a baselined crash would mean the check silently stops
-#: running on that file, and a baselined EXP001 would accept that a requested
-#: change never happened. Turning one off takes a config entry with a reason.
-NOT_BASELINED = frozenset({"INT001", "EXP001"})
+#: Codes a baseline never records or absorbs. INT001 and FID000 mean a check
+#: or requested comparison did not complete. EXP001 means a requested change
+#: never happened. Turning one off takes a config entry with a reason.
+BASELINE_EXCLUSION_REASONS = {
+    "INT001": "a check that did not complete cannot be baselined",
+    "FID000": "the requested source comparison did not complete",
+    "EXP001": "the edit did not satisfy a required expectation",
+}
+NOT_BASELINED = frozenset(BASELINE_EXCLUSION_REASONS)
 
 
 def make_baseline(results: dict[str, list[Finding]]) -> dict[str, Any]:

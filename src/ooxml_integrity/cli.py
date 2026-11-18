@@ -21,6 +21,7 @@ import argparse
 import glob
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -35,7 +36,7 @@ from .inspector import check
 from .introduced import REASON as INHERITED, source_findings, split as split_inherited
 from .paths import DECK_SUFFIXES, same_file
 from .policy import (
-    ConfigError, DEFAULT_BASELINE, NOT_BASELINED, Policy, apply_baseline,
+    BASELINE_EXCLUSION_REASONS, ConfigError, DEFAULT_BASELINE, Policy, apply_baseline,
     make_baseline, read_baseline,
 )
 from .pptx_checks import check_pptx
@@ -565,11 +566,11 @@ def main(argv: list[str] | None = None) -> int:
         total = sum(doc["findings"].values())
         print(f"wrote {args.write_baseline}: {total} finding(s) from "
               f"{len(raw)} file(s) recorded as accepted")
-        crashed = sum(f.code in NOT_BASELINED for fs in raw.values() for f in fs)
-        if crashed:
-            print(f"ooxml-integrity: warning: {crashed} INT001 finding(s) not "
-                  "recorded: a check that did not complete cannot be "
-                  "baselined", file=sys.stderr)
+        omitted = Counter(f.code for findings in raw.values() for f in findings
+                          if f.code in BASELINE_EXCLUSION_REASONS)
+        for code, count in sorted(omitted.items()):
+            print(f"ooxml-integrity: warning: {count} {code} finding(s) not "
+                  f"recorded: {BASELINE_EXCLUSION_REASONS[code]}", file=sys.stderr)
         return EXIT_OK
 
     coverage_requested = args.coverage or args.coverage_details

@@ -484,6 +484,11 @@ stop that check on that file. `--write-baseline` reports the left-out
 findings on stderr. Accepting a known crash takes a config `ignore` with a
 reason or a severity override.
 
+A baseline also skips `FID000`, which means the checker could not perform
+the requested source comparison. If an older v2 baseline contains its key,
+`check --baseline` ignores that entry and exits `1` under the default policy
+when the comparison fails again. The existing v2 file needs no migration.
+
 Current releases read/write v2 and reject v1 rather than applying its weaker
 fidelity identities. Review the raw findings first, then follow the
 [v1-to-v2 migration](releases/0.4.0.md#breaking-change-baseline-v2). Regenerating
