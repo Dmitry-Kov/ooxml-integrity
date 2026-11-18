@@ -365,6 +365,18 @@ are applied before the exit decision. `--quiet` affects human display only.
 A missing named input is a `PKG000` finding, whereas a missing `--against`
 source is a usage error. Process crashes or termination are not valid reports.
 
+If the destination of `--sarif` or `--write-baseline` points to an input
+document or the `--against` source, including through a symbolic or hard
+link, `check` exits with usage code `2` before writing. It also refuses to
+overwrite any existing `.docx`, `.pptx`, `.potx` or `.ppsx` file. This matters
+when a shell expands a glob after the option and the first matching filename
+becomes its output path. Putting `--write-baseline` last writes the default
+`.ooxml-integrity-baseline.json`.
+
+```sh
+ooxml-integrity check edited/*.docx --write-baseline
+```
+
 `--write-baseline` is a separate recording operation: it writes the raw
 findings and exits `0` even when they include errors. It returns before normal
 JSON, SARIF and coverage output. That exit does not mean the document passed.

@@ -33,6 +33,7 @@ from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
 from .introduced import REASON as INHERITED, source_findings, split as split_inherited
+from .paths import DECK_SUFFIXES, same_file
 from .policy import (
     ConfigError, DEFAULT_BASELINE, NOT_BASELINED, Policy, apply_baseline,
     make_baseline, read_baseline,
@@ -75,7 +76,7 @@ def _expand(patterns: list[str]) -> tuple[list[Path], list[str]]:
 
 def _run_one(path: Path, source: Path | None,
              limits: ArchiveLimits) -> list[Finding]:
-    if path.suffix.lower() in (".pptx", ".potx", ".ppsx"):
+    if path.suffix.lower() in DECK_SUFFIXES:
         if source is not None:
             return check_pptx(path, limits=limits) + [
                 Finding(
@@ -295,7 +296,8 @@ def build_parser() -> argparse.ArgumentParser:
                         f"(default file: {DEFAULT_BASELINE})")
     c.add_argument("--write-baseline", metavar="PATH", nargs="?",
                    const=DEFAULT_BASELINE, default=None,
-                   help="record the current findings as accepted and exit 0")
+                   help="record the current findings as accepted and exit 0. "
+                        "Put this option last to use the default baseline file")
     c.add_argument("--expect", metavar="CODE[:KEY=VALUE,...]", action="append", default=[],
                    help="a finding the edit was asked to cause, e.g. "
                         "FID001:tag=ins,before=2,after=0; it is reported as "
@@ -456,12 +458,26 @@ def _run_mcp(args) -> int:
     return serve(config=args.config, no_config=args.no_config, fail_on=fail_on)
 
 
-def _write_json(doc, path: str, option: str) -> bool:
+def _write_json(doc, path: str, option: str, inputs: list[Path]) -> bool:
     """Write a report file; a path that cannot be written is a usage error.
 
     Exit 1 means findings, so a crash there would read as a failing document.
+    A destination that is one of the inputs, by any name or link, is refused
+    before anything is written: the report would replace the document.
     """
+    destination = Path(path)
+    for source in inputs:
+        if same_file(source, destination):
+            print(f"ooxml-integrity: {option}: {path} is the input document "
+                  f"{source}; write the report to a separate file", file=sys.stderr)
+            return False
     try:
+        # A shell-expanded glob after the option can put its first document
+        # in the output argument, leaving it out of inputs altogether.
+        if destination.suffix.lower() in (".docx", *DECK_SUFFIXES) and destination.is_file():
+            print(f"ooxml-integrity: {option}: refusing to overwrite {destination}. "
+                  "Put the input files first and use a separate report path", file=sys.stderr)
+            return False
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
@@ -534,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
         print("ooxml-integrity: nothing to check", file=sys.stderr)
         return EXIT_USAGE
 
+    documents = paths if args.against is None else [*paths, args.against]
     raw: dict[Path, list[Finding]] = {}
     for path in paths:
         raw[path] = _run_one(path, args.against, policy.archive)
@@ -543,7 +560,7 @@ def main(argv: list[str] | None = None) -> int:
     # config in, and changing the config later would then look like regressions.
     if args.write_baseline:
         doc = make_baseline({str(p): f for p, f in raw.items()})
-        if not _write_json(doc, args.write_baseline, "--write-baseline"):
+        if not _write_json(doc, args.write_baseline, "--write-baseline", documents):
             return EXIT_USAGE
         total = sum(doc["findings"].values())
         print(f"wrote {args.write_baseline}: {total} finding(s) from "
@@ -586,7 +603,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
                           {str(p): d + matched.get(p, []) for p, d in hidden.items()})
-        if not _write_json(doc, args.sarif, "--sarif"):
+        if not _write_json(doc, args.sarif, "--sarif", documents):
             return EXIT_USAGE
 
     if args.json:

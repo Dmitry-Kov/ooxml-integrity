@@ -59,7 +59,6 @@ import datetime as _dt
 import difflib
 import html
 import itertools
-import os
 import posixpath
 import random
 import re
@@ -74,6 +73,7 @@ from typing import Any, Callable, Iterable, NoReturn, Sequence
 from lxml import etree
 
 from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, read_package
+from .paths import same_file
 from .xmlutil import UnsafeXML, fromstring
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -2235,18 +2235,6 @@ def output_names(count: int) -> list[str]:
     return ["document.docx"] if count == 1 else ["source.docx", "edited.docx"]
 
 
-def _same_file(a: Path, b: Path) -> bool:
-    """Whether `b` is `a`: the same path once resolved, or the same file
-    through a symbolic or hard link, a case-insensitive name or a mount."""
-    try:
-        if a.resolve() == b.resolve():
-            return True
-        first, second = os.stat(a), os.stat(b)
-    except (OSError, RuntimeError):
-        return False
-    return (first.st_dev, first.st_ino) == (second.st_dev, second.st_ino)
-
-
 def check_outputs(paths: Sequence[str | Path], out_dir: str | Path,
                   names: Sequence[str]) -> None:
     """Refuse outputs that would replace an input, before anything is written.
@@ -2259,7 +2247,7 @@ def check_outputs(paths: Sequence[str | Path], out_dir: str | Path,
     for name in names:
         target = Path(out_dir) / name
         for source in paths:
-            if _same_file(Path(source), target):
+            if same_file(Path(source), target):
                 raise Refused(f"the output {target} would replace the input {source}; "
                               "anonymize never writes over its inputs, so choose another "
                               "output directory")
