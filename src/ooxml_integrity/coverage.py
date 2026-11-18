@@ -31,6 +31,7 @@ from .revision_growth import inventory as pending_inventory, assess as assess_in
 from .literal_entities import surfaces as entity_surfaces
 from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
 from .fonts import resolve_face
+from .paths import DECK_SUFFIXES
 from .pptx_layout import Deck, layout_shape, read_deck
 from .xmlutil import fromstring as parse_xml
 
@@ -754,6 +755,6 @@ def coverage_for(path: str | Path, findings: list[Finding], *,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS,
                  ) -> CoverageReport:
     suffix = Path(path).suffix.lower()
-    if suffix in (".pptx", ".potx", ".ppsx"):
+    if suffix in DECK_SUFFIXES:
         return pptx_coverage(path, findings, source=source, limits=limits)
     return docx_coverage(path, findings, source=source, limits=limits)
