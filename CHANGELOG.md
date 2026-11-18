@@ -16,6 +16,13 @@
   `FID000`, because source comparison is not implemented for decks. Such a
   run now fails until `--against` is left out for decks or a config `ignore`
   with a reason accepts `FID000`.
+- **Check the requested edit in the primary text of a Word text box.**
+  `FID014` now reads the first branch of `mc:AlternateContent`. If only the
+  fallback copy changes from “30 days” to “60 days”, an expectation requiring
+  that edit now fails with `EXP001` (exit `1`). Apply the edit to the primary
+  text as well. Paragraph numbers after a fallback copy can shift. Review
+  expectations that name a paragraph by number and baselines for affected
+  documents.
 
 ## 0.10.0 — 2026-11-10
 

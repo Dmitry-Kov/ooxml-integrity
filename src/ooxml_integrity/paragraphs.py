@@ -20,8 +20,9 @@ space, and none leads or trails, so a change of spacing alone is not a change
 of text. A paragraph inside a text box is a paragraph of its own. An empty
 paragraph has no text to change and is left out, so adding a
 section break or a blank line is not reported; paragraph numbers still count
-every paragraph. A header or footer story is read as the distinct texts its
-section slots show, each once, in the order a reader meets them: splitting a
+every paragraph in reading order. Both views take the first branch of
+`mc:AlternateContent`. A header or footer story is read as the distinct texts
+its section slots show, each once, in the order a reader meets them: splitting a
 shared header part into two with the same text, or one more section showing
 it, changes nothing. Paragraphs are aligned in reading order, per story, with the
 unchanged ones as anchors. A changed paragraph is one that stands where a
@@ -35,6 +36,7 @@ from typing import NamedTuple
 
 from .finding import INFO, Finding
 from .runtext import shown
+from .xmlutil import alternative_branch
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 #: Content a reader sees only with tracked changes accepted, or only rejected.
@@ -61,7 +63,7 @@ def _own(paragraph):
 
 def _token(node, view: str) -> str | None:
     text = shown(node)
-    if text is None:
+    if text is None or alternative_branch(node):
         return None
     ancestors = {a.tag for a in node.iterancestors()}
     if view == "current" and (node.tag == W + "delText" or ancestors & _REMOVED):
@@ -77,9 +79,9 @@ def paragraph_text(paragraph, view: str) -> str:
 
 
 def paragraph_views(root) -> list[ParagraphText]:
-    """Every paragraph of a story part in reading order, in both views."""
+    """Both text views in reading order, taking the first branch of each AlternateContent."""
     return [ParagraphText(paragraph_text(p, "current"), paragraph_text(p, "original"))
-            for p in root.iter(W + "p")]
+            for p in root.iter(W + "p") if not alternative_branch(p)]
 
 
 def _short(text: str) -> str:
