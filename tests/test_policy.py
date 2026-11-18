@@ -8,6 +8,7 @@ and masks something new, is worse than no suppression at all.
 from __future__ import annotations
 
 import json
+import os
 
 import pytest
 from conftest import read_part, repack, run_cli
@@ -287,6 +288,99 @@ def test_cli_reports_unreadable_input_as_a_usage_error(tmp_path, base_docx, opti
     assert r.returncode == 2, r.stdout + r.stderr
     assert "Traceback" not in r.stderr
     assert r.stderr.startswith("ooxml-integrity: ")
+
+
+@pytest.mark.parametrize("option", ["--sarif", "--write-baseline"])
+@pytest.mark.parametrize("input_role", ["checked", "against"])
+@pytest.mark.parametrize("alias", ["direct", "symlink", "hardlink"])
+def test_report_destination_cannot_overwrite_a_document(
+        tmp_path, tmp_docx, option, input_role, alias):
+    original = tmp_docx.read_bytes()
+    outputs = tmp_path / "edited"
+    outputs.mkdir()
+    first = outputs / "first.docx"
+    last = outputs / "last.docx"
+    for document in (first, last):
+        document.write_bytes(original)
+
+    # The last of two glob matches and the separate comparison source are
+    # both inputs, even if the report's name has a different extension.
+    target = last if input_role == "checked" else tmp_docx
+    report = target if alias == "direct" else tmp_path / "report.json"
+    try:
+        if alias == "hardlink":
+            os.link(target, report)
+        elif alias == "symlink":
+            report.symlink_to(target)
+    except (OSError, NotImplementedError) as e:
+        pytest.skip(f"{alias} unavailable: {e}")
+
+    result = run_cli("check", str(outputs / "*.docx"), "--against", str(tmp_docx),
+                     "--no-config", option, str(report))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert option in result.stderr
+    for document in (tmp_docx, first, last, report):
+        assert document.read_bytes() == original
+
+
+@pytest.mark.parametrize("option", ["--sarif", "--write-baseline"])
+@pytest.mark.parametrize("extension", ["docx", "DoCx", "PpTx", "PoTx", "PpSx"])
+def test_report_destination_cannot_consume_the_first_shell_match(
+        tmp_path, base_docx, root, option, extension):
+    edited = tmp_path / "edited"
+    edited.mkdir()
+    first = edited / f"first.{extension}"
+    second = edited / "second.docx"
+    first_bytes = (base_docx if extension.lower() == "docx"
+                   else root / "corpus" / "deck.pptx").read_bytes()
+    second_bytes = base_docx.read_bytes()
+    first.write_bytes(first_bytes)
+    second.write_bytes(second_bytes)
+
+    # As after shell expansion, both names arrive as separate arguments.
+    # argparse consumes the first as the report; only the second is positional.
+    result = run_cli("check", "--no-config", option, str(first), str(second))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert option in result.stderr
+    assert first.read_bytes() == first_bytes
+    assert second.read_bytes() == second_bytes
+
+
+@pytest.mark.parametrize("explicit", [False, True], ids=["default", "custom-path"])
+def test_report_destination_baseline_records_all_positional_documents(
+        tmp_path, runs_dir, monkeypatch, explicit):
+    from ooxml_integrity.cli import main
+    from ooxml_integrity.policy import DEFAULT_BASELINE
+
+    monkeypatch.chdir(tmp_path)
+    names = ["fee.docx", "table.docx"]
+    for name, case in zip(names, ("t4_fast_fee", "t4_fast_table")):
+        (tmp_path / name).write_bytes((runs_dir / case / "agreement.docx").read_bytes())
+
+    if explicit:
+        destination = "accepted.snapshot"
+        args = ["--write-baseline", destination, *names]
+    else:
+        destination = DEFAULT_BASELINE
+        args = [*names, "--write-baseline"]
+    assert main(["check", "--no-config", *args]) == 0
+    findings = read_baseline(tmp_path / destination)
+    assert {key.split("::", 1)[0] for key in findings} == set(names)
+
+
+@pytest.mark.parametrize("option, key", [("--sarif", "runs"), ("--write-baseline", "findings")])
+def test_report_destination_can_replace_a_previous_report(tmp_path, tmp_docx, option, key):
+    # Longer than any new report, so a replacement that kept the old tail
+    # would leave a file that is no longer JSON.
+    report = tmp_path / "report.json"
+    report.write_text(json.dumps({"previous": "x" * 100_000}), encoding="utf-8")
+    original = tmp_docx.read_bytes()
+    result = run_cli("check", str(tmp_docx), "--no-config", option, str(report))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert key in json.loads(report.read_text(encoding="utf-8"))
+    # One line ending per line on every platform, with no doubled carriage return.
+    assert b"\r\r" not in report.read_bytes()
+    assert tmp_docx.read_bytes() == original
 
 
 # -------------------------------------------------------------------- SARIF

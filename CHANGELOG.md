@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- **Protect documents when writing a report or baseline.** `check --sarif`
+  and `check --write-baseline` exit with code `2` before overwriting an input,
+  the `--against` source, or an existing `.docx`, `.pptx`, `.potx` or `.ppsx`
+  file. This protects the first document in a shell-expanded glob when the
+  option consumes its name as the output path.
+
 ## 0.10.0 — 2026-11-10
 
 [Upgrade notes and verified publication](docs/releases/0.10.0.md). Published
