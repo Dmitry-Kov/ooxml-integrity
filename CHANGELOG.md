@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- **Keep failed source comparisons visible.** `FID000` means the checker
+  could not perform the requested `--against` comparison. Writing a baseline
+  skips this finding and exits `0` on success. An ordinary check now exits
+  `1` under the default policy even if an older v2 baseline recorded the
+  same `FID000`. Existing v2 baselines can be used as they are.
+  A `.pptx`, `.potx` or `.ppsx` deck checked with `--against` always gets
+  `FID000`, because source comparison is not implemented for decks. Such a
+  run now fails until `--against` is left out for decks or a config `ignore`
+  with a reason accepts `FID000`.
+
 ## 0.10.0 — 2026-11-10
 
 [Upgrade notes and verified publication](docs/releases/0.10.0.md). Published
