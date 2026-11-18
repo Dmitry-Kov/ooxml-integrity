@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **Check the requested edit in the primary text of a Word text box.**
+  `FID014` now reads the first branch of `mc:AlternateContent`. If only the
+  fallback copy changes from “30 days” to “60 days”, an expectation requiring
+  that edit now fails with `EXP001` (exit `1`). Apply the edit to the primary
+  text as well. Paragraph numbers after a fallback copy can shift. Review
+  expectations that name a paragraph by number and baselines for affected
+  documents.
+
 ## 0.10.0 — 2026-11-10
 
 [Upgrade notes and verified publication](docs/releases/0.10.0.md). Published

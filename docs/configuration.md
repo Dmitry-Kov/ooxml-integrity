@@ -196,8 +196,11 @@ What the match cannot tell:
   place. Where two paragraphs read the same, an edit of either matches. Add
   `where`, the paragraph's number in the edited story as `FID014` reports it
   (`where = "document/p12"`), when the paragraphs before it do not change.
-- **Numbering.** That number counts every paragraph of the story, empty ones
-  included, so an edit that adds or removes a paragraph earlier shifts it.
+- **Numbering.** That number counts paragraphs in reading order, including
+  empty ones. In `mc:AlternateContent`, `FID014` reads and numbers only the
+  first branch. Editing just the fallback copy of a text box leaves the
+  expectation unmatched. Adding or removing an earlier paragraph shifts
+  the number.
   Automatic list numbers (`1.`, `(a)`) are not paragraph text: renumbering a
   list is no `FID014` change and cannot be expected this way.
 - **Other changes.** The match says the named paragraph changed as asked, not

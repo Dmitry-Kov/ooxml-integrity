@@ -175,6 +175,14 @@ now fails on the paragraphs it changed, as it already did on `FID002` and
 `FID012`. Its baseline v2 identity hashes the story, the kind of change and
 the texts in both views, so no document text enters the baseline.
 
+In the unreleased checker, `FID014` reads the first branch of
+`mc:AlternateContent` in both views. A change confined to a fallback copy
+stops producing that finding. A required expectation for that change now
+fails with `EXP001`. For documents with alternate content, review the
+reported text and paragraph numbers used in `where` expectations. Regenerate
+affected baseline entries if the corrected findings should still be accepted.
+Baseline v2 includes both the paragraph location and the text digest.
+
 0.5.1 adds `FID013`, a WARN finding of `compare()`: a tracked
 replacement the edit added that deletes and inserts again more unchanged words
 than it changes, at least four. It does not fail the default gate. A
