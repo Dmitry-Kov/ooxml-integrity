@@ -79,6 +79,11 @@ a known defect visible to every later run, but a recorded crash would mean the
 check silently stops running on that file. To accept one, add an `ignore` with
 the reason, ideally a link to the bug report.
 
+Likewise, `FID000` means the requested source comparison could not run.
+`--write-baseline` skips this finding and exits `0` when it writes the
+baseline. On a subsequent check, `FID000` fails the default gate even if
+the baseline contains a matching entry from an older version.
+
 The baseline format is versioned. If a newer checker refuses an older baseline,
 regenerate it with the same check command and `--write-baseline`; legacy formats
 are not accepted when their fingerprints could hide a different new finding.
@@ -265,7 +270,7 @@ What it cannot tell:
 
 Config applies first, so an `ignore` or a severity of `off` removes a finding
 before it is matched; expectations and the baseline apply after.
-`--write-baseline` still records every finding of the edited file.
+`--write-baseline` records eligible findings before `--introduced` is applied.
 
 ## Findings in the pull request, not in a log
 

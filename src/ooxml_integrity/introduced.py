@@ -39,6 +39,7 @@ from typing import Iterable, Sequence
 from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits
 from .finding import Finding
 from .inspector import check
+from .paths import DECK_SUFFIXES
 from .pptx_checks import check_pptx
 
 #: Findings that say part of a file was not checked.
@@ -54,8 +55,6 @@ NEVER_INHERITED = UNCHECKED | {"INT001", "EXP001"}
 #: SARIF.
 REASON = "already in the source (--introduced)"
 
-_DECK_SUFFIXES = (".pptx", ".potx", ".ppsx")
-
 
 def inheritable(f: Finding) -> bool:
     """Whether a finding like this one in the source may absorb `f`."""
@@ -69,7 +68,7 @@ def source_findings(source: str | Path, *,
     takes. A source that cannot be read returns only findings that absorb
     nothing."""
     path = Path(source)
-    if path.suffix.lower() in _DECK_SUFFIXES:
+    if path.suffix.lower() in DECK_SUFFIXES:
         return check_pptx(path, limits=limits)
     return check(path, limits=limits)
 
