@@ -43,6 +43,13 @@
   preserves the document. Set `json-report` to a separate file, such as
   `check-results.json`. Verified with the Action's Bash step on temporary
   copies of the synthetic `corpus/base.docx` fixture.
+- **Check comment anchors in the primary version of a Word text box.** When a
+  comment range in `mc:Choice` has a reference only in `mc:Fallback`, `check`
+  reports `CMT003` and exits `1` at the default threshold. It also reports
+  `CMT005` if the comment has no reference in any checked story. Restore the
+  matching `w:commentReference` in the primary text. A document whose only
+  error was a reference to an unknown comment ID in the fallback now passes.
+  This behavior was verified only on synthetic documents.
 
 ## 0.10.0 — 2026-11-10
 
