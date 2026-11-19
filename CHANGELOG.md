@@ -23,6 +23,14 @@
   text as well. Paragraph numbers after a fallback copy can shift. Review
   expectations that name a paragraph by number and baselines for affected
   documents.
+- **Use the project's failure threshold in the GitHub Action.** With the
+  `fail-on` input omitted, projects configured to fail on warnings or info
+  now fail CI whenever a finding reaches that threshold. Set the Action input
+  to `error` to keep the previous threshold. A failed report write also fails
+  the step on an otherwise clean run. Give JSON and SARIF separate, writable
+  file paths. The Action's Bash step was checked locally with the
+  [benchmark DOCX that reports `TXT002`](evidence/review-history-benchmark/captures/docx-cli-1/K1-S1-plain.docx)
+  and an unwritable report destination.
 
 ## 0.10.0 — 2026-11-10
 
