@@ -23,6 +23,12 @@
   text as well. Paragraph numbers after a fallback copy can shift. Review
   expectations that name a paragraph by number and baselines for affected
   documents.
+- **Protect input documents when the GitHub Action publishes JSON.** A workflow
+  whose `json-report` points to a checked document or its `against` source,
+  directly or through a symbolic or hard link, now exits with code `2` and
+  preserves the document. Set `json-report` to a separate file, such as
+  `check-results.json`. Verified with the Action's Bash step on temporary
+  copies of the synthetic `corpus/base.docx` fixture.
 
 ## 0.10.0 — 2026-11-10
 
