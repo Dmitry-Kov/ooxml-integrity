@@ -11,6 +11,7 @@ from __future__ import annotations
 import posixpath
 import re
 import zipfile
+from collections import Counter
 from pathlib import Path
 from typing import Callable, Iterable
 from urllib.parse import unquote, urlsplit
@@ -840,10 +841,16 @@ class Inspector:
             if tree is None:
                 unread = True
                 continue
-            starts = {e.get(_w("id")) for e in tree.iter(_w("commentRangeStart"))}
-            ends = {e.get(_w("id")) for e in tree.iter(_w("commentRangeEnd"))}
-            refs = {e.get(_w("id")) for e in tree.iter(_w("commentReference"))}
-            referenced |= refs
+            # Both presence and multiplicity refer to the same version of a text box.
+            marker_counts = {
+                kind: Counter(el.get(_w("id")) for el in tree.iter(_w(kind))
+                              if not alternative_branch(el))
+                for kind in _COMMENT_MARKERS
+            }
+            starts = marker_counts["commentRangeStart"].keys()
+            ends = marker_counts["commentRangeEnd"].keys()
+            refs = marker_counts["commentReference"].keys()
+            referenced.update(refs)
             for i in srt(starts - ends):
                 self._add("CMT001", ERROR,
                           f"commentRangeStart id={i} with no commentRangeEnd - "
@@ -864,15 +871,9 @@ class Inspector:
             # the markers again without removing the old ones leaves a second
             # start, end or reference for the id; it pairs with the first, so
             # CMT001-CMT003 do not see it.
-            marks: dict = {}
-            for kind in _COMMENT_MARKERS:
-                for el in tree.iter(_w(kind)):
-                    i = el.get(_w("id"))
-                    if i is not None and not alternative_branch(el):
-                        counts = marks.setdefault(i, {})
-                        counts[kind] = counts.get(kind, 0) + 1
-            for i in srt(marks):
-                repeated = [f"{n} {kind}" for kind, n in marks[i].items() if n > 1]
+            for i in srt((starts | ends | refs) - {None}):
+                repeated = [f"{counts[i]} {kind}" for kind, counts in marker_counts.items()
+                            if counts[i] > 1]
                 if repeated:
                     self._add("CMT007", ERROR,
                               f"comment id={i} is marked more than once: "

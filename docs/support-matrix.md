@@ -130,6 +130,10 @@ cannot be parsed, orphans are not decided and `docx.comments` coverage is
 skipped. Headers and footers otherwise keep the scope of their row.
 [Labelled pairs](../evidence/docx-comment-stories/README.md).
 
+In the unreleased checker, comment ranges and references in
+`mc:AlternateContent` are read from its first branch. A range in that branch
+whose only matching reference is in `mc:Fallback` yields `CMT003`.
+
 ## DOCX fidelity against a source
 
 Fidelity checks run when an edited DOCX is checked with `--against` or through

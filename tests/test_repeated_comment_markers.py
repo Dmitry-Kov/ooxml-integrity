@@ -180,13 +180,13 @@ def _text_box(choice: str, fallback: str) -> str:
         '</mc:AlternateContent></w:r></w:p>')
 
 
-def _boxed_comment(tmp_docx, tmp_path, choice_reference=REFERENCE):
+def _boxed_comment(tmp_docx, tmp_path, choice_reference=REFERENCE, fallback_reference=REFERENCE):
     doc = read_part(tmp_docx, DOC)
     for marker in (START, END, REFERENCE):
         assert doc.count(marker) == 1
         doc = doc.replace(marker, "")
     boxed = f"<w:p>{START}<w:r><w:t>Boxed</w:t></w:r>{END}{{}}</w:p>"
-    box = _text_box(boxed.format(choice_reference), boxed.format(REFERENCE))
+    box = _text_box(boxed.format(choice_reference), boxed.format(fallback_reference))
     return repack(tmp_docx, tmp_path / "box.docx", {DOC: _before_section(doc, box)})
 
 
@@ -194,6 +194,23 @@ def test_a_text_box_copy_in_the_fallback_is_not_a_second_anchor(tmp_docx, tmp_pa
     out = _boxed_comment(tmp_docx, tmp_path)
     assert read_part(out, DOC).count(START) == 2
     assert _findings(out) == []
+
+
+@pytest.mark.parametrize("choice,fallback,exit_code,expected", [
+    ("", REFERENCE, 1, [("CMT003", DOC), ("CMT005", "word/comments.xml")]),
+    (REFERENCE, "", 0, []),
+    (REFERENCE, REFERENCE.replace('w:id="1"', 'w:id="999"'), 0, []),
+], ids=["reference-only-in-fallback", "reference-only-in-choice", "stale-fallback-id"])
+def test_default_gate_uses_the_primary_text_box_comment_reference(
+        tmp_docx, tmp_path, choice, fallback, exit_code, expected):
+    path = _boxed_comment(tmp_docx, tmp_path, choice_reference=choice, fallback_reference=fallback)
+    result = run_cli("check", str(path), "--no-config", "--json")
+    assert result.returncode == exit_code, result.stdout + result.stderr
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    assert sorted((f["code"], f["part"]) for f in findings) == expected
+    for finding in findings:
+        assert finding["severity"] == "error"
+        assert "id=1" in finding["message"].split()
 
 
 def test_a_repeat_inside_one_branch_is_reported(tmp_docx, tmp_path):
