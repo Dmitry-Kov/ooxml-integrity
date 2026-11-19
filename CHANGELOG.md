@@ -50,6 +50,16 @@
   matching `w:commentReference` in the primary text. A document whose only
   error was a reference to an unknown comment ID in the fallback now passes.
   This behavior was verified only on synthetic documents.
+- **Align Word coverage counts with `check`.** Coverage counts comment
+  references in the primary copy of a text box. It counts comment and
+  footnote definitions only when they are direct children of their respective
+  part roots. Verified on synthetic documents.
+- **Skip reply anchors that require editing both copies of a text box.**
+  When a reply's thread has markers inside `mc:AlternateContent`, `fix`
+  reports the reason for skipping that reply and continues with other
+  repairs. If another repair succeeds and the copy passes verification,
+  `fix` writes it and exits `0`. Restore the skipped anchor in both copies
+  of the text box. Verified on synthetic text boxes.
 
 ## 0.10.0 — 2026-11-10
 

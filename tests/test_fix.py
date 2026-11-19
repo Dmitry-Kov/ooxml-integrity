@@ -16,6 +16,7 @@ from pathlib import Path
 
 import pytest
 from conftest import ROOT, read_part, repack, run_cli
+from test_repeated_comment_markers import _text_box
 
 from ooxml_integrity import check, compare
 from ooxml_integrity.fix import (
@@ -175,6 +176,97 @@ def _drop_markers(cid):
         return re.sub(rf'<w:r(?: [^>]*)?>(?:<w:rPr>(?:(?!</w:rPr>).)*</w:rPr>)?'
                       rf'<w:commentReference w:id="{cid}"/></w:r>', "", doc)
     return edit
+
+
+def _box_parent(source, output, *, duplicate):
+    import re
+    document = read_part(source, "word/document.xml")
+    # In both captures comment 2's entire thread range is in one paragraph.
+    [paragraph] = [p for p in re.findall(r"<w:p\b[^>]*>.*?</w:p>", document, re.S)
+                   if '<w:commentRangeStart w:id="2"/>' in p]
+    box = _text_box(paragraph, paragraph if duplicate else "<w:p/>")
+    return repack(source, output, {"word/document.xml": document.replace(paragraph, box).encode()})
+
+
+@pytest.mark.parametrize("duplicate", [True, False], ids=["both-copies", "choice-only"])
+def test_fix_refuses_a_parent_anchor_in_alternate_content(tmp_path, duplicate):
+    variant = _box_parent(DOCX_MCP, tmp_path / "text-box.docx", duplicate=duplicate)
+    assert _codes(variant) == ["CMT005"]
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert not out.exists()
+    assert report.exit_code == EXIT_NOTHING
+    refused = next(n for n in report.not_repaired if n.repair == "anchor-replies")
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+
+
+def test_boxed_reply_allows_content_type_repair_even_with_force(tmp_path):
+    variant = _box_parent(CODEX_S1, tmp_path / "text-box.docx", duplicate=True)
+    assert {"CMT005", "PKG010"} <= set(_codes(variant))
+    out = tmp_path / "fixed.docx"
+    out.write_bytes(b"previous output")
+    report = fix(variant, out, force=True)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    assert [(r.repair, r.finding.code) for r in report.repaired] == [("content-type", "PKG010")]
+    (refused,) = [n for n in report.not_repaired if n.repair == "anchor-replies"]
+    assert refused.finding.code == "CMT005" and refused.finding.severity.value == "error"
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+    after = list(check(out))
+    assert refused.finding in after
+    assert all(f.code != "PKG010" for f in after)
+
+
+def test_boxed_reply_allows_an_orphaned_reply_in_another_thread_to_be_anchored(tmp_path):
+    # Leave reply 3 with parent 2 in the text box. Give reply 15 the ordinary parent 14.
+    variant = _thread_variant(
+        tmp_path, "two-threads", document=_drop_markers("3"),
+        extended=lambda x: x.replace('w15:paraId="1C4295B9" w15:paraIdParent="4DCE4551"',
+                                     'w15:paraId="1C4295B9" w15:paraIdParent="644236CF"'))
+    boxed = _box_parent(variant, tmp_path / "text-box.docx", duplicate=True)
+    orphans = {f.message.split()[1]: f for f in check(boxed) if f.code == "CMT005"}
+    assert set(orphans) == {"id=3", "id=15"}
+    assert all(f.severity.value == "error" for f in orphans.values())
+
+    out = tmp_path / "fixed.docx"
+    report = fix(boxed, out)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    (repaired,) = report.repaired
+    assert repaired.repair == "anchor-replies" and repaired.finding == orphans["id=15"]
+    (refused,) = report.not_repaired
+    assert refused.repair == "anchor-replies" and refused.finding == orphans["id=3"]
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+    assert list(check(out)) == [orphans["id=3"]]
+
+
+def _thread_with_boxed_markers(tmp_path, choice, fallback):
+    box = _text_box(f"<w:p>{choice}</w:p>", f"<w:p>{fallback}</w:p>")
+    return _thread_variant(tmp_path, "boxed-reply", document=lambda doc: doc.replace(
+        "<w:sectPr", box + "<w:sectPr", 1))
+
+
+@pytest.mark.parametrize("choice, fallback", [
+    ('<w:commentRangeStart w:id="15"/>', ""),
+    ("", '<w:r><w:commentReference w:id="15"/></w:r>'),
+    ("", '<w:r><w:commentReference w:id="3"/></w:r>'),
+], ids=["reply-start-in-choice", "reply-reference-in-fallback", "existing-sibling-in-fallback"])
+def test_fix_refuses_a_boxed_marker_of_the_target_reply_or_its_thread(tmp_path, choice, fallback):
+    variant = _thread_with_boxed_markers(tmp_path, choice, fallback)
+    assert "CMT005" in _codes(variant)
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert not out.exists()
+    assert report.exit_code == EXIT_NOTHING
+    (refused,) = [n for n in report.not_repaired if n.repair == "anchor-replies"]
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+
+
+def test_a_boxed_comment_outside_the_thread_allows_an_ordinary_reply_repair(tmp_path):
+    variant = _thread_with_boxed_markers(tmp_path, "", '<w:r><w:commentReference w:id="14"/></w:r>')
+    assert _codes(variant) == ["CMT005"]
+    out = tmp_path / "fixed.docx"
+    report = fix(variant, out)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    assert _codes(out) == []
 
 
 def test_two_orphaned_replies_are_anchored_in_comment_order(tmp_path):

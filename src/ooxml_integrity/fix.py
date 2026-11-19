@@ -57,7 +57,7 @@ from .fidelity import TRACKED, _story_text, compare
 from .finding import INFO, Finding
 from .inspector import _paragraph_revision_pair, check
 from .repack import RepackError, differences, read_entries, repack
-from .xmlutil import fromstring as parse_xml
+from .xmlutil import ALTERNATE_CONTENT, fromstring as parse_xml
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = "{%s}" % W_NS
@@ -617,11 +617,15 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
 
     # Markers per comment id across stories, from the trees the repair edits.
     markers: dict[Optional[str], list[tuple[str, str, Any]]] = collections.defaultdict(list)
+    boxed: set[str] = set()
     for story in pkg.stories:
         tree = pkg.part(story).tree
         for kind in _MARKERS:
             for el in tree.iter(W + kind):
-                markers[el.get(W + "id")].append((story, kind, el))
+                cid = el.get(W + "id")
+                markers[cid].append((story, kind, el))
+                if cid is not None and next(el.iterancestors(ALTERNATE_CONTENT), None) is not None:
+                    boxed.add(cid)
 
     def parent_of(cid: str) -> Optional[str]:
         """The parent comment's id, or None for a top-level comment."""
@@ -652,6 +656,13 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                            f"{len(parents)} comments, not one")
         return parents[0]
 
+    # An existing sibling's range also determines where a new reply would go.
+    boxed_threads = boxed.copy()
+    for cid in boxed.intersection(comments):
+        parent = _safe_parent(parent_of, cid)
+        if parent is not None:
+            boxed_threads.add(parent)
+
     def anchored(cid: str) -> Optional[tuple[str, dict]]:
         """(story, {kind: element}) when anchored once in one story."""
         found = markers.get(cid, [])
@@ -672,6 +683,9 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                 raise _Refused(f"comment {cid} is not in the comments part")
             if cid in defined_twice:
                 raise _Refused(f"comment id {cid} is defined more than once")
+            if cid in boxed_threads or _safe_parent(parent_of, cid) in boxed_threads:
+                raise _Refused(f"the thread of reply {cid} has markers in mc:AlternateContent. "
+                               "The text box is stored in two copies and fix does not edit both copies.")
             if markers.get(cid):
                 raise _Refused(f"comment {cid} has range markers but no reference; "
                                "where its reference belongs is not in the file")

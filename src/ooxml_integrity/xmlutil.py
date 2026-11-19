@@ -101,7 +101,7 @@ def text_contexts(root, tag: str):
     yield from walk(root, '/' + name(root), None)
 
 
-_ALTERNATE_CONTENT = "{http://schemas.openxmlformats.org/markup-compatibility/2006}AlternateContent"
+ALTERNATE_CONTENT = "{http://schemas.openxmlformats.org/markup-compatibility/2006}AlternateContent"
 
 
 def alternative_branch(el) -> bool:
@@ -114,7 +114,7 @@ def alternative_branch(el) -> bool:
     """
     child, parent = el, el.getparent()
     while parent is not None:
-        if parent.tag == _ALTERNATE_CONTENT:
+        if parent.tag == ALTERNATE_CONTENT:
             first = next((c for c in parent if isinstance(c.tag, str)), None)
             if child is not first:
                 return True
