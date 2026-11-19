@@ -57,7 +57,7 @@ from .fidelity import TRACKED, _story_text, compare
 from .finding import INFO, Finding
 from .inspector import _paragraph_revision_pair, check
 from .repack import RepackError, differences, read_entries, repack
-from .xmlutil import fromstring as parse_xml
+from .xmlutil import ALTERNATE_CONTENT, fromstring as parse_xml
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = "{%s}" % W_NS
@@ -101,6 +101,15 @@ class FixUsageError(ValueError):
 
 class _Refused(Exception):
     """A precondition does not hold; the reason is reported, nothing changes."""
+
+
+class _BoxedReply(Exception):
+    """A thread in alternate content prevents publishing the repaired package."""
+
+    def __init__(self, finding: Finding, cid: str):
+        self.finding = finding
+        super().__init__(f"the thread of reply {cid} has markers in mc:AlternateContent. "
+                         "The text box is stored in two copies and fix does not edit both copies.")
 
 
 class _Unproved(Exception):
@@ -388,7 +397,7 @@ class FixReport:
     """What fix did to one file, and why. `status` decides the exit code:
 
     repaired             OUT written; every repair re-checked          0
-    nothing-to-repair    no CMT005/REV001/PKG010, or every one refused 1
+    nothing-to-repair    no eligible repair, or a thread in alternate content 1
     input-refused        a package fix does not rewrite                2
     verification-failed  a repair could not be proved; nothing written 3
     """
@@ -617,11 +626,15 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
 
     # Markers per comment id across stories, from the trees the repair edits.
     markers: dict[Optional[str], list[tuple[str, str, Any]]] = collections.defaultdict(list)
+    boxed: set[str] = set()
     for story in pkg.stories:
         tree = pkg.part(story).tree
         for kind in _MARKERS:
             for el in tree.iter(W + kind):
-                markers[el.get(W + "id")].append((story, kind, el))
+                cid = el.get(W + "id")
+                markers[cid].append((story, kind, el))
+                if cid is not None and next(el.iterancestors(ALTERNATE_CONTENT), None) is not None:
+                    boxed.add(cid)
 
     def parent_of(cid: str) -> Optional[str]:
         """The parent comment's id, or None for a top-level comment."""
@@ -651,6 +664,17 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
             raise _Refused(f"comment {cid}: its parent paraId {found[0]} names "
                            f"{len(parents)} comments, not one")
         return parents[0]
+
+    if boxed:
+        # An existing sibling's range also determines where a new reply would go.
+        boxed_threads = boxed.copy()
+        for cid in boxed.intersection(comments):
+            parent = _safe_parent(parent_of, cid)
+            if parent is not None:
+                boxed_threads.add(parent)
+        for cid, finding in targets:
+            if cid in comments and _safe_parent(parent_of, cid) in boxed_threads:
+                raise _BoxedReply(finding, cid)
 
     def anchored(cid: str) -> Optional[tuple[str, dict]]:
         """(story, {kind: element}) when anchored once in one story."""
@@ -1286,6 +1310,14 @@ def fix(path: str | Path, output: str | Path, *, against: str | Path | None = No
         for r in repaired:
             for c in r.changes:
                 c.where = _path(c.node)
+    except _BoxedReply as e:
+        report.reason = str(e)
+        report.not_repaired = [
+            NotRepaired(f, report.reason, ANCHOR_REPLIES) if f is e.finding
+            else NotRepaired(f, "the package was not repaired") for f in findings]
+        report.not_repaired += [NotRepaired(f, _reason(f), origin="against")
+                                for f in before_against or []]
+        return report
     except _Unproved as e:
         report.status, report.reason = "verification-failed", str(e)
         return report

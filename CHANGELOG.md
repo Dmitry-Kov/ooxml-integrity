@@ -51,6 +51,7 @@
   error was a reference to an unknown comment ID in the fallback now passes.
   This behavior was verified only on synthetic documents.
 - Word comment coverage now counts the reference in the primary copy of a text box once. Verified on synthetic documents.
+- `fix` now exits `1` without writing a file when anchoring a reply would involve `mc:AlternateContent`. Restore the anchor in both copies of the text box. Verified on synthetic text boxes.
 
 ## 0.10.0 — 2026-11-10
 
