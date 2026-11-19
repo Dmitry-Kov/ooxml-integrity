@@ -324,6 +324,83 @@ def test_report_destination_cannot_overwrite_a_document(
 
 
 @pytest.mark.parametrize("option", ["--sarif", "--write-baseline"])
+@pytest.mark.parametrize("name", ["custom.toml", ".ooxml-integrity.toml", "pyproject.toml"])
+def test_report_preserves_the_loaded_config(tmp_path, base_docx, monkeypatch, option, name):
+    from ooxml_integrity.cli import main
+
+    header = "[tool.ooxml-integrity]\n" if name == "pyproject.toml" else ""
+    config = write_cfg(tmp_path, header + 'fail-on = "warn"\n', name)
+    original = config.read_bytes()
+    project = tmp_path / "nested"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    args = ["--config", str(config)] if name == "custom.toml" else []
+
+    assert main(["check", str(base_docx), *args, option, str(config)]) == 2
+    assert config.read_bytes() == original
+
+
+def test_sarif_can_use_a_path_from_a_disabled_config_option(tmp_path, base_docx):
+    report = tmp_path / "report.json"
+    result = run_cli("check", str(base_docx), "--config", str(report), "--no-config",
+                     "--sarif", str(report))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert json.loads(report.read_bytes())["runs"]
+
+
+@pytest.mark.parametrize("alias", [False, True], ids=["direct", "hardlink"])
+def test_sarif_preserves_the_input_baseline(tmp_path, base_docx, alias):
+    baseline = tmp_path / "accepted.json"
+    original = json.dumps(make_baseline({})).encode()
+    baseline.write_bytes(original)
+    target = baseline
+    if alias:
+        target = tmp_path / "report.sarif"
+        try:
+            os.link(baseline, target)
+        except (OSError, NotImplementedError) as e:
+            pytest.skip(f"hardlink unavailable: {e}")
+    args = ["check", str(base_docx), "--no-config", "--baseline", str(baseline), "--sarif"]
+    refused = run_cli(*args, str(target))
+    assert refused.returncode == 2, refused.stdout + refused.stderr
+    assert baseline.read_bytes() == target.read_bytes() == original
+
+    separate = tmp_path / "separate.sarif"
+    allowed = run_cli(*args, str(separate))
+    assert allowed.returncode == 0, allowed.stdout + allowed.stderr
+    assert json.loads(separate.read_bytes())["runs"]
+    assert baseline.read_bytes() == original
+
+
+def test_write_baseline_can_refresh_the_input_baseline(tmp_path, base_docx):
+    baseline = tmp_path / "accepted.json"
+    baseline.write_text(json.dumps(make_baseline({"old.docx": [F()]})), encoding="utf-8")
+    result = run_cli("check", str(base_docx), "--no-config", "--baseline", str(baseline),
+                     "--write-baseline", str(baseline))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert read_baseline(baseline) == {}
+
+
+@pytest.mark.parametrize("link", ["symlink", "hardlink"])
+def test_write_baseline_preserves_input_baseline_under_a_different_name(tmp_path, base_docx, link):
+    baseline = tmp_path / "accepted.json"
+    original = json.dumps(make_baseline({"old.docx": [F()]})).encode()
+    baseline.write_bytes(original)
+    report = tmp_path / "new-baseline.json"
+    try:
+        if link == "symlink":
+            report.symlink_to(baseline)
+        else:
+            os.link(baseline, report)
+    except (OSError, NotImplementedError) as e:
+        pytest.skip(f"{link} unavailable: {e}")
+    result = run_cli("check", str(base_docx), "--no-config", "--baseline", str(baseline),
+                     "--write-baseline", str(report))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert report.read_bytes() == baseline.read_bytes() == original
+
+
+@pytest.mark.parametrize("option", ["--sarif", "--write-baseline"])
 @pytest.mark.parametrize("extension", ["docx", "DoCx", "PpTx", "PoTx", "PpSx"])
 def test_report_destination_cannot_consume_the_first_shell_match(
         tmp_path, base_docx, root, option, extension):

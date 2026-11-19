@@ -34,7 +34,7 @@ from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
 from .introduced import REASON as INHERITED, source_findings, split as split_inherited
-from .paths import DECK_SUFFIXES, same_file
+from .paths import DECK_SUFFIXES, check_report_destination, same_file
 from .policy import (
     BASELINE_EXCLUSION_REASONS, ConfigError, DEFAULT_BASELINE, Policy, apply_baseline,
     make_baseline, read_baseline,
@@ -463,25 +463,15 @@ def _write_json(doc, path: str, option: str, inputs: list[Path]) -> bool:
     """Write a report file; a path that cannot be written is a usage error.
 
     Exit 1 means findings, so a crash there would read as a failing document.
-    A destination that is one of the inputs, by any name or link, is refused
-    before anything is written: the report would replace the document.
     """
-    destination = Path(path)
-    for source in inputs:
-        if same_file(source, destination):
-            print(f"ooxml-integrity: {option}: {path} is the input document "
-                  f"{source}; write the report to a separate file", file=sys.stderr)
-            return False
     try:
-        # A shell-expanded glob after the option can put its first document
-        # in the output argument, leaving it out of inputs altogether.
-        if destination.suffix.lower() in (".docx", *DECK_SUFFIXES) and destination.is_file():
-            print(f"ooxml-integrity: {option}: refusing to overwrite {destination}. "
-                  "Put the input files first and use a separate report path", file=sys.stderr)
-            return False
+        check_report_destination(Path(path), inputs)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(doc, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
+    except ValueError as e:
+        print(f"ooxml-integrity: {option}: {e}", file=sys.stderr)
+        return False
     except OSError as e:
         print(f"ooxml-integrity: {option}: cannot write {path}: {e.strerror or e}",
               file=sys.stderr)
@@ -551,7 +541,19 @@ def main(argv: list[str] | None = None) -> int:
         print("ooxml-integrity: nothing to check", file=sys.stderr)
         return EXIT_USAGE
 
-    documents = paths if args.against is None else [*paths, args.against]
+    protected = list(paths)
+    if args.against is not None:
+        protected.append(args.against)
+    if policy.source:
+        protected.append(Path(policy.source))
+    if args.baseline:
+        baseline = Path(args.baseline)
+        refresh = Path(args.write_baseline) if args.write_baseline else None
+        # Refreshing the named baseline is intentional. A different output
+        # name might be a symbolic or hard link back to that input.
+        if (refresh is None or refresh.name != baseline.name
+                or not same_file(refresh.parent, baseline.parent)):
+            protected.append(baseline)
     raw: dict[Path, list[Finding]] = {}
     for path in paths:
         raw[path] = _run_one(path, args.against, policy.archive)
@@ -561,7 +563,7 @@ def main(argv: list[str] | None = None) -> int:
     # config in, and changing the config later would then look like regressions.
     if args.write_baseline:
         doc = make_baseline({str(p): f for p, f in raw.items()})
-        if not _write_json(doc, args.write_baseline, "--write-baseline", documents):
+        if not _write_json(doc, args.write_baseline, "--write-baseline", protected):
             return EXIT_USAGE
         total = sum(doc["findings"].values())
         print(f"wrote {args.write_baseline}: {total} finding(s) from "
@@ -604,7 +606,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
                           {str(p): d + matched.get(p, []) for p, d in hidden.items()})
-        if not _write_json(doc, args.sarif, "--sarif", documents):
+        if not _write_json(doc, args.sarif, "--sarif", protected):
             return EXIT_USAGE
 
     if args.json:
