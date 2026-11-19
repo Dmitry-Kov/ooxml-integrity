@@ -103,15 +103,6 @@ class _Refused(Exception):
     """A precondition does not hold; the reason is reported, nothing changes."""
 
 
-class _BoxedReply(Exception):
-    """A thread in alternate content prevents publishing the repaired package."""
-
-    def __init__(self, finding: Finding, cid: str):
-        self.finding = finding
-        super().__init__(f"the thread of reply {cid} has markers in mc:AlternateContent. "
-                         "The text box is stored in two copies and fix does not edit both copies.")
-
-
 class _Unproved(Exception):
     """An edit did not produce the intended part; nothing is written."""
 
@@ -397,7 +388,7 @@ class FixReport:
     """What fix did to one file, and why. `status` decides the exit code:
 
     repaired             OUT written; every repair re-checked          0
-    nothing-to-repair    no eligible repair, or a thread in alternate content 1
+    nothing-to-repair    no CMT005/REV001/PKG010, or every one refused 1
     input-refused        a package fix does not rewrite                2
     verification-failed  a repair could not be proved; nothing written 3
     """
@@ -665,16 +656,12 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                            f"{len(parents)} comments, not one")
         return parents[0]
 
-    if boxed:
-        # An existing sibling's range also determines where a new reply would go.
-        boxed_threads = boxed.copy()
-        for cid in boxed.intersection(comments):
-            parent = _safe_parent(parent_of, cid)
-            if parent is not None:
-                boxed_threads.add(parent)
-        for cid, finding in targets:
-            if cid in comments and _safe_parent(parent_of, cid) in boxed_threads:
-                raise _BoxedReply(finding, cid)
+    # An existing sibling's range also determines where a new reply would go.
+    boxed_threads = boxed.copy()
+    for cid in boxed.intersection(comments):
+        parent = _safe_parent(parent_of, cid)
+        if parent is not None:
+            boxed_threads.add(parent)
 
     def anchored(cid: str) -> Optional[tuple[str, dict]]:
         """(story, {kind: element}) when anchored once in one story."""
@@ -696,6 +683,9 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                 raise _Refused(f"comment {cid} is not in the comments part")
             if cid in defined_twice:
                 raise _Refused(f"comment id {cid} is defined more than once")
+            if cid in boxed_threads or _safe_parent(parent_of, cid) in boxed_threads:
+                raise _Refused(f"the thread of reply {cid} has markers in mc:AlternateContent. "
+                               "The text box is stored in two copies and fix does not edit both copies.")
             if markers.get(cid):
                 raise _Refused(f"comment {cid} has range markers but no reference; "
                                "where its reference belongs is not in the file")
@@ -1310,14 +1300,6 @@ def fix(path: str | Path, output: str | Path, *, against: str | Path | None = No
         for r in repaired:
             for c in r.changes:
                 c.where = _path(c.node)
-    except _BoxedReply as e:
-        report.reason = str(e)
-        report.not_repaired = [
-            NotRepaired(f, report.reason, ANCHOR_REPLIES) if f is e.finding
-            else NotRepaired(f, "the package was not repaired") for f in findings]
-        report.not_repaired += [NotRepaired(f, _reason(f), origin="against")
-                                for f in before_against or []]
-        return report
     except _Unproved as e:
         report.status, report.reason = "verification-failed", str(e)
         return report

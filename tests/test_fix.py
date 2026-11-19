@@ -200,15 +200,42 @@ def test_fix_refuses_a_parent_anchor_in_alternate_content(tmp_path, duplicate):
     assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
 
 
-def test_boxed_reply_blocks_a_separate_repair_even_with_force(tmp_path):
+def test_boxed_reply_allows_content_type_repair_even_with_force(tmp_path):
     variant = _box_parent(CODEX_S1, tmp_path / "text-box.docx", duplicate=True)
     assert {"CMT005", "PKG010"} <= set(_codes(variant))
     out = tmp_path / "fixed.docx"
     out.write_bytes(b"previous output")
     report = fix(variant, out, force=True)
-    assert out.read_bytes() == b"previous output"
-    assert report.exit_code == EXIT_NOTHING and report.repaired == []
-    assert "mc:AlternateContent" in report.reason
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    assert [(r.repair, r.finding.code) for r in report.repaired] == [("content-type", "PKG010")]
+    (refused,) = [n for n in report.not_repaired if n.repair == "anchor-replies"]
+    assert refused.finding.code == "CMT005" and refused.finding.severity.value == "error"
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+    after = list(check(out))
+    assert refused.finding in after
+    assert all(f.code != "PKG010" for f in after)
+
+
+def test_boxed_reply_allows_an_orphaned_reply_in_another_thread_to_be_anchored(tmp_path):
+    # Leave reply 3 with parent 2 in the text box. Give reply 15 the ordinary parent 14.
+    variant = _thread_variant(
+        tmp_path, "two-threads", document=_drop_markers("3"),
+        extended=lambda x: x.replace('w15:paraId="1C4295B9" w15:paraIdParent="4DCE4551"',
+                                     'w15:paraId="1C4295B9" w15:paraIdParent="644236CF"'))
+    boxed = _box_parent(variant, tmp_path / "text-box.docx", duplicate=True)
+    orphans = {f.message.split()[1]: f for f in check(boxed) if f.code == "CMT005"}
+    assert set(orphans) == {"id=3", "id=15"}
+    assert all(f.severity.value == "error" for f in orphans.values())
+
+    out = tmp_path / "fixed.docx"
+    report = fix(boxed, out)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    (repaired,) = report.repaired
+    assert repaired.repair == "anchor-replies" and repaired.finding == orphans["id=15"]
+    (refused,) = report.not_repaired
+    assert refused.repair == "anchor-replies" and refused.finding == orphans["id=3"]
+    assert "mc:AlternateContent" in refused.reason and "both copies" in refused.reason
+    assert list(check(out)) == [orphans["id=3"]]
 
 
 def _thread_with_boxed_markers(tmp_path, choice, fallback):

@@ -111,7 +111,7 @@ with `--against`, of the comparison with the source) is listed too, with why
 |---|---|
 | a top-level comment with no anchor | nothing links it to a parent, and its anchor position is lost; the text it was attached to is usually gone too |
 | a reply whose parent has no anchor, or more than one | the thread's range is lost |
-| a reply to repair or its parent has a marker inside `mc:AlternateContent` | the text box has separate representations for different readers. Restoring the anchor requires editing both copies. `fix` leaves the entire output untouched, even if another finding is repairable |
+| a reply whose thread has a marker inside `mc:AlternateContent` | the text box has separate representations for different readers. Restoring this reply's anchor requires editing both copies. Other repairs proceed |
 | a reply to a reply | its range is not unique |
 | a reply whose thread does not share one range start, or whose reference is not in a run directly inside a paragraph (for example inside a tracked insertion) | where Word puts the reply there has not been observed |
 | a reply whose parent's reference run has tracked formatting, or a character style the package does not define | copying the run would add a revision or an `STY001` |
@@ -200,7 +200,7 @@ that `0` always means a verified copy exists:
 | Exit | Meaning | Output |
 |---|---|---|
 | `0` | at least one finding repaired, and the copy re-checked | written |
-| `1` | no repairable finding, every repair refused, or a reply anchor in alternate content requires editing both copies | none |
+| `1` | no `CMT005`, `REV001` or `PKG010` finding, or every one refused; the report says which and why | none |
 | `2` | usage error (missing input, not `.docx`, output exists without `--force` or appeared while `fix` ran, output is the input, no output directory), or a package `fix` does not rewrite (see above) | none |
 | `3` | a repair could not be proved by the re-check, or failed internally | none |
 
