@@ -69,7 +69,7 @@ def _check_step(workdir, inputs):
         default = re.search(r"^    default: (.*)$", field[1], re.M)
         env[var] = inputs.get(name, default[1].strip("\"'") if default else "")
     env.update(PATH=str(Path(sys.executable).parent) + os.pathsep + env["PATH"],
-               PYTHONPATH=str(ACTION.parent / "src"),
+               PYTHONPATH=str(ACTION.parent / "src"), GITHUB_ACTION_PATH=str(ACTION.parent),
                GITHUB_STEP_SUMMARY="step-summary.md", GITHUB_OUTPUT="step-output")
     script = next(block for block in _run_blocks() if "GITHUB_STEP_SUMMARY" in block)
     result = subprocess.run([bash, "-c", script], env=env, cwd=workdir,

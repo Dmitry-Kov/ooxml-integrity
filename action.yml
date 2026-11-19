@@ -53,7 +53,8 @@ inputs:
   json-report:
     description: >-
       Path to write a JSON report to, e.g. "ooxml-integrity.json". Empty writes
-      no file. Useful as a build artifact.
+      no file. Use a separate file from the checked documents and the against
+      source, including when using symbolic or hard links.
     required: false
     default: ""
   config:
@@ -208,8 +209,10 @@ runs:
           code=2
         fi
         if [ "$code" -le 1 ] && [ -n "$OOXML_JSON_REPORT" ]; then
+          # Publish with the input guard from this Action ref, including for a checker override.
           if [ -d "$OOXML_JSON_REPORT" ] || [ "$OOXML_JSON_REPORT" -ef "$OOXML_SARIF" ] ||
-             ! cp -- "$machine_report" "$OOXML_JSON_REPORT"; then
+             ! PYTHONPATH="$GITHUB_ACTION_PATH/src" python "$GITHUB_ACTION_PATH/.github/publish_json_report.py" \
+                 "$machine_report" "$OOXML_JSON_REPORT" "$OOXML_AGAINST"; then
             echo "::error::Could not write a separate JSON report at the requested path."
             code=2
           fi
