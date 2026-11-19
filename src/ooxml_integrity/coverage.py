@@ -33,7 +33,7 @@ from .fidelity import story_reference_count, note_revision_inventory, assess_not
 from .fonts import resolve_face
 from .paths import DECK_SUFFIXES
 from .pptx_layout import Deck, layout_shape, read_deck
-from .xmlutil import fromstring as parse_xml
+from .xmlutil import alternative_branch, fromstring as parse_xml
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -149,13 +149,15 @@ def _element_surface(root, tag: str, identifier: str, singular: str,
 
 
 def _combined_surface(stories, supporting, tag: str, supporting_tag: str,
-                      identifier: str, label: str, *, gap: str) -> CoverageItem:
+                      identifier: str, label: str, *, gap: str,
+                      primary_references: bool = False) -> CoverageItem:
     """Describe checks that consider both references and definitions."""
     if stories is None:
         return _item(identifier, CoverageStatus.SKIPPED, gap)
-    references = sum(len(list(root.iter(W + tag))) for root in stories)
+    references = sum(1 for root in stories for node in root.iter(W + tag)
+                     if not primary_references or not alternative_branch(node))
     definitions = (
-        len(list(supporting.iter(W + supporting_tag)))
+        len(supporting.findall(W + supporting_tag))
         if supporting is not None else 0
     )
     count = references + definitions
@@ -302,7 +304,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
                 None if document is None
                 else [document, *(trees[part] for part in stories[1:])],
                 comments_tree, "commentReference", "comment", "docx.comments",
-                "comment", gap=gap,
+                "comment", gap=gap, primary_references=True,
             )
     except (ValueError, etree.XMLSyntaxError) as e:
         comments_surface = _item(

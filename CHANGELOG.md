@@ -50,6 +50,7 @@
   matching `w:commentReference` in the primary text. A document whose only
   error was a reference to an unknown comment ID in the fallback now passes.
   This behavior was verified only on synthetic documents.
+- Word comment coverage now counts the reference in the primary copy of a text box once. Verified on synthetic documents.
 
 ## 0.10.0 — 2026-11-10
 

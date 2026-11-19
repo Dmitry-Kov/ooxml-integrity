@@ -136,6 +136,51 @@ def test_orphan_note_definitions_still_count_as_a_checked_surface(
     assert items["docx.comments"]["status"] == "checked"
 
 
+@pytest.mark.parametrize("boxed", [False, True], ids=["plain", "text-box"])
+def test_coverage_counts_only_the_comment_reference_in_the_primary_branch(
+        root, tmp_path, boxed):
+    from test_repeated_comment_markers import _text_box
+
+    path = root / "evidence/docx-benchmark-boundaries/agent-local-1/basic-comment-101/input.docx"
+    document = read_part(path, "word/document.xml")
+    if boxed:
+        # The marked paragraph contains one comment reference and one footnote reference.
+        marker = document.index("<w:commentRangeStart ")
+        start = document.rindex("<w:p>", 0, marker)
+        end = document.index("</w:p>", marker) + len("</w:p>")
+        paragraph = document[start:end]
+        document = document[:start] + _text_box(paragraph, paragraph) + document[end:]
+        path = repack(path, tmp_path / "box.docx", {"word/document.xml": document.encode()})
+
+    result = run_cli("check", str(path), "--coverage", "--no-config", "--json")
+    assert result.returncode == EXIT_OK, result.stdout + result.stderr
+    items = _by_id(_coverage(result))
+    assert items["docx.comments"]["status"] == "checked"
+    assert items["docx.comments"]["count"] == 2  # one reference and one definition
+    # The footnote and whitespace checks visit both copies of the paragraph.
+    assert items["docx.footnotes"]["count"] == (5 if boxed else 4)
+    assert items["docx.text-whitespace"]["count"] == document.count("</w:t>")
+
+
+def test_coverage_counts_only_direct_comment_and_footnote_definitions(base_docx, tmp_path):
+    from test_repeated_comment_markers import MC, WPS
+
+    edits = {}
+    for tag in ("comment", "footnote"):
+        part = f"word/{tag}s.xml"
+        closing = f"</w:{tag}s>"
+        nested = (f'<mc:AlternateContent xmlns:mc="{MC}" xmlns:wps="{WPS}">'
+                  f'<mc:Choice Requires="wps"><w:{tag} w:id="99"/></mc:Choice>'
+                  f'</mc:AlternateContent>')
+        edits[part] = read_part(base_docx, part).replace(closing, nested + closing).encode()
+    path = repack(base_docx, tmp_path / "definitions.docx", edits)
+    result = run_cli("check", str(path), "--coverage", "--no-config", "--json")
+    assert result.returncode == EXIT_OK, result.stdout + result.stderr
+    items = _by_id(_coverage(result))
+    assert items["docx.comments"]["count"] == 4  # two references, two definitions
+    assert items["docx.footnotes"]["count"] == 6  # two references, four definitions
+
+
 def test_unreadable_file_has_an_explicit_skipped_inventory(tmp_path):
     result = run_cli(
         "check", str(tmp_path / "missing.docx"), "--coverage", "--json",
