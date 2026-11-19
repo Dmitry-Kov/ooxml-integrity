@@ -357,7 +357,7 @@ class DeckReader:
         return lst_style.find(_a(f"lvl{level + 1}pPr"))
 
     def _placeholder_shapes(self, slide_part: str, ph_idx, ph_type: str,
-                            master_type: str | None = None):
+                            master_type: str | None = None, *, layout_only: bool = False):
         """The layout's, then the master's, placeholders this one may inherit from.
 
         Yields ((0 for the layout or 1 for the master, whether only the type
@@ -365,7 +365,7 @@ class DeckReader:
         looked for on the master, if not `ph_type`.
         """
         layout = self.pkg.related(slide_part, "/slideLayout")
-        master = self.pkg.related(layout, "/slideMaster") if layout else None
+        master = self.pkg.related(layout, "/slideMaster") if layout and not layout_only else None
         for rank, (part, kind) in enumerate(((layout, ph_type),
                                              (master, master_type or ph_type))):
             if not part:
@@ -507,21 +507,15 @@ class DeckReader:
     # ------------------------------------------------------------------ shapes
     def _shape_geometry(self, sp, slide_part, ph_idx, ph_type):
         """a:xfrm on the shape, or inherited from the layout placeholder."""
-        xfrm = sp.find(f'{_p("spPr")}/{_a("xfrm")}')
-        if xfrm is None:
-            layout = self.pkg.related(slide_part, "/slideLayout")
-            t = self.pkg.tree(layout) if layout else None
-            if t is not None:
-                for lsp in t.iter(_p("sp")):
-                    nv = lsp.find(f'{_p("nvSpPr")}/{_p("nvPr")}/{_p("ph")}')
-                    if nv is None:
-                        continue
-                    same = (ph_idx is not None and nv.get("idx") == str(ph_idx)) or \
-                           (ph_type and (nv.get("type") or "body") == ph_type)
-                    if same:
-                        xfrm = lsp.find(f'{_p("spPr")}/{_a("xfrm")}')
-                        if xfrm is not None:
-                            break
+        xfrm_path = f'{_p("spPr")}/{_a("xfrm")}'
+        xfrm = sp.find(xfrm_path)
+        if xfrm is None and ph_type:
+            candidates = self._placeholder_shapes(slide_part, ph_idx, ph_type, layout_only=True)
+            # Prefer the column's own idx, then fall back to the same type in layout order.
+            for _, placeholder in sorted(candidates, key=lambda item: item[0]):
+                xfrm = placeholder.find(xfrm_path)
+                if xfrm is not None:
+                    break
         if xfrm is None:
             return None
         off, ext = xfrm.find(_a("off")), xfrm.find(_a("ext"))
