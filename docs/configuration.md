@@ -274,6 +274,12 @@ before it is matched; expectations and the baseline apply after.
 
 ## Findings in the pull request, not in a log
 
+With an Action ref containing the fix, omitting the `fail-on` input uses the
+same threshold as the CLI. An explicit input overrides the project config.
+The step still publishes reports for findings that fail the gate. A report
+error fails the step even if the human-readable check passed. Give
+`json-report` and `sarif` separate, writable file paths.
+
 ```yaml
 - uses: Dmitry-Kov/ooxml-integrity@v0.10.0
   id: docs

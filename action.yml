@@ -30,9 +30,9 @@ inputs:
     required: false
     default: "false"
   fail-on:
-    description: "Minimum severity that fails the step: error (default), warn, info."
+    description: "Minimum severity that fails the step (error, warn, info). Empty uses the project threshold, which defaults to error."
     required: false
-    default: "error"
+    default: ""
   version:
     description: >-
       Explicit PyPI version override, e.g. "0.4.1". Empty installs the code from
@@ -53,7 +53,8 @@ inputs:
   json-report:
     description: >-
       Path to write a JSON report to, e.g. "ooxml-integrity.json". Empty writes
-      no file. Useful as a build artifact.
+      no file. Use a separate file from the checked documents and the against
+      source, including when using symbolic or hard links.
     required: false
     default: ""
   config:
@@ -81,8 +82,8 @@ inputs:
 
 outputs:
   sarif:
-    description: "Path of the SARIF report, when `sarif` was set."
-    value: ${{ inputs.sarif }}
+    description: "Path of the SARIF report after successful report generation."
+    value: ${{ steps.run.outputs.reports-ready == 'true' && inputs.sarif || '' }}
   exit-code:
     description: "0 clean, 1 findings at or above fail-on, 2 usage error."
     value: ${{ steps.run.outputs.exit-code }}
@@ -151,7 +152,9 @@ runs:
             exit 2
             ;;
         esac
-        args+=(--fail-on "$OOXML_FAIL_ON")
+        if [ -n "$OOXML_FAIL_ON" ]; then
+          args+=(--fail-on "$OOXML_FAIL_ON")
+        fi
         if [ "$OOXML_CONFIG" = "none" ]; then
           args+=(--no-config)
         elif [ -n "$OOXML_CONFIG" ]; then
@@ -178,33 +181,52 @@ runs:
         if [ -n "$OOXML_SARIF" ]; then
           sarif_args+=(--sarif "$OOXML_SARIF")
         fi
+        report_code=0
         python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
-          > "$machine_report" || true
-        errors=0
-        warnings=0
-        counts_valid=false
-        if counts=$(python -c '
+          > "$machine_report" || report_code=$?
+        if [ "$report_code" -gt "$code" ]; then
+          code=$report_code
+        fi
+        if [ "$code" -le 1 ]; then
+          if counts=$(python -c '
         import json, sys
-        with open(sys.argv[1]) as report:
+        with open(sys.argv[1], encoding="utf-8") as report:
             data = json.load(report)
         print(
             sum(file["summary"]["error"] for file in data["files"]),
             sum(file["summary"]["warn"] for file in data["files"]),
+            data["fail_on"],
         )
-        ' "$machine_report" 2>/dev/null); then
-          read -r errors warnings <<< "$counts"
-          counts_valid=true
+        ' "$machine_report"); then
+            read -r errors warnings threshold <<< "$counts"
+          else
+            echo "::error::Could not read the checker's JSON report."
+            code=2
+          fi
+        fi
+        if [ "$code" -le 1 ] && [ -n "$OOXML_SARIF" ] && [ ! -s "$OOXML_SARIF" ]; then
+          echo "::error::The checker did not produce the requested SARIF report."
+          code=2
+        fi
+        if [ "$code" -le 1 ] && [ -n "$OOXML_JSON_REPORT" ]; then
+          # Publish with the input guard from this Action ref, including for a checker override.
+          if [ -d "$OOXML_JSON_REPORT" ] || [ "$OOXML_JSON_REPORT" -ef "$OOXML_SARIF" ] ||
+             ! PYTHONPATH="$GITHUB_ACTION_PATH/src" python "$GITHUB_ACTION_PATH/.github/publish_json_report.py" \
+                 "$machine_report" "$OOXML_JSON_REPORT" "$OOXML_AGAINST"; then
+            echo "::error::Could not write a separate JSON report at the requested path."
+            code=2
+          fi
         fi
 
         {
           echo "### ooxml-integrity"
           echo
           if [ "$code" -eq 0 ]; then
-            printf 'No findings at or above `%s`.\n' "$OOXML_FAIL_ON"
-          elif [ "$counts_valid" = true ]; then
+            printf 'No findings at or above `%s`.\n' "$threshold"
+          elif [ "$code" -eq 1 ]; then
             echo "**$errors error(s), $warnings warning(s)**"
           else
-            echo "The checker exited with code $code before producing a JSON report."
+            echo "The check or report generation failed (exit $code)."
           fi
           echo
           echo '```'
@@ -212,11 +234,11 @@ runs:
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
 
-        if [ -n "$OOXML_JSON_REPORT" ]; then
-          cp "$machine_report" "$OOXML_JSON_REPORT"
+        if [ "$code" -le 1 ]; then
+          echo "errors=$errors" >> "$GITHUB_OUTPUT"
+          echo "warnings=$warnings" >> "$GITHUB_OUTPUT"
+          echo "reports-ready=true" >> "$GITHUB_OUTPUT"
         fi
 
         echo "exit-code=$code" >> "$GITHUB_OUTPUT"
-        echo "errors=$errors" >> "$GITHUB_OUTPUT"
-        echo "warnings=$warnings" >> "$GITHUB_OUTPUT"
         exit "$code"

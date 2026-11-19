@@ -29,6 +29,20 @@
   Decks whose only error was this overlap now pass the default gate. Remove
   any required expectation for the former overlap to avoid an unmet
   expectation. This inheritance case was verified only on synthetic slides.
+- **Use the project's failure threshold in the GitHub Action.** With the
+  `fail-on` input omitted, projects configured to fail on warnings or info
+  now fail CI whenever a finding reaches that threshold. Set the Action input
+  to `error` to keep the previous threshold. A failed report write also fails
+  the step on an otherwise clean run. Give JSON and SARIF separate, writable
+  file paths. The Action's Bash step was checked locally with the
+  [benchmark DOCX that reports `TXT002`](evidence/review-history-benchmark/captures/docx-cli-1/K1-S1-plain.docx)
+  and an unwritable report destination.
+- **Protect input documents when the GitHub Action publishes JSON.** A workflow
+  whose `json-report` points to a checked document or its `against` source,
+  directly or through a symbolic or hard link, now exits with code `2` and
+  preserves the document. Set `json-report` to a separate file, such as
+  `check-results.json`. Verified with the Action's Bash step on temporary
+  copies of the synthetic `corpus/base.docx` fixture.
 
 ## 0.10.0 — 2026-11-10
 
