@@ -23,6 +23,12 @@
   text as well. Paragraph numbers after a fallback copy can shift. Review
   expectations that name a paragraph by number and baselines for affected
   documents.
+- **Fix a false `PPT006` on Two Content slides.** When both columns inherit
+  their geometry from the layout, the checker now uses each column's
+  placeholder index. It previously placed both columns in the left rectangle.
+  Decks whose only error was this overlap now pass the default gate. Remove
+  any required expectation for the former overlap to avoid an unmet
+  expectation. This inheritance case was verified only on synthetic slides.
 
 ## 0.10.0 — 2026-11-10
 

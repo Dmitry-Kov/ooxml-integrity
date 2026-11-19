@@ -93,6 +93,39 @@ def test_overlapping_shapes_are_caught(findings):
     assert any("OVERLAP" in f.where for f in overlaps)
 
 
+@pytest.mark.parametrize("overlapping", [False, True], ids=["inherited", "slide-override"])
+def test_two_content_columns_take_their_layout_geometry_by_idx(tmp_path, overlapping):
+    from pptx import Presentation
+
+    def rect(shape):
+        return shape.left, shape.top, shape.width, shape.height
+
+    prs = Presentation()
+    layout = prs.slide_layouts.get_by_name("Two Content")
+    slide = prs.slides.add_slide(layout)
+    left, right = slide.placeholders[1], slide.placeholders[2]
+    expected = {}
+    for column in (left, right):
+        idx = column.placeholder_format.idx
+        column.text = f"Column {idx}"
+        assert not column.element.xpath("p:spPr/a:xfrm")
+        expected[column.name] = rect(layout.placeholders.get(idx=idx))
+    assert left.left + left.width <= right.left
+
+    if overlapping:
+        right.left, right.top, right.width, right.height = expected[left.name]
+        expected[right.name] = expected[left.name]
+
+    path = tmp_path / "two-content.pptx"
+    prs.save(path)
+    overlaps = [f for f in check_pptx(path) if f.code == "PPT006"]
+    if overlapping:
+        assert [f.severity for f in overlaps] == [Severity.ERROR]
+    else:
+        assert not overlaps
+    assert {s.name: rect(s) for s in read_deck(path).shapes if s.has_text} == expected
+
+
 def test_autofit_shrink_is_a_warning_not_an_error(findings):
     """A deck asking for shrink-to-fit with no stored scale is renderer-dependent."""
     ppt005 = [f for f in findings if f.code == "PPT005"]
