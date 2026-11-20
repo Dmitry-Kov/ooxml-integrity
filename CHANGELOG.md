@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.11.0 — release candidate
+## 0.11.0 — 2026-11-20
 
-[Upgrade notes and validation](docs/releases/0.11.0.md). Publication follows the
-release workflow; the version/tag are not published by this preparation change.
+[Upgrade notes and verified publication](docs/releases/0.11.0.md). Published
+package, GitHub Release archives and checksums agree; public consumer/demo pins
+are updated after the publication smoke test.
 
 - **A pre-commit hook.** `.pre-commit-hooks.yaml` lets a repository run
   `ooxml-integrity check` on the `.docx` and `.pptx` files of a commit, with

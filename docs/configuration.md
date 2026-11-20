@@ -281,7 +281,7 @@ error fails the step even if the human-readable check passed. Give
 `json-report` and `sarif` separate, writable file paths.
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.10.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.11.0
   id: docs
   continue-on-error: true
   with:
@@ -308,7 +308,7 @@ The repository is a [pre-commit](https://pre-commit.com) hook. It runs
 ```yaml
 repos:
   - repo: https://github.com/Dmitry-Kov/ooxml-integrity
-    rev: vX.Y.Z   # 0.11.0 or later; 0.10.0 and earlier have no hook
+    rev: v0.11.0   # 0.10.0 and earlier have no hook
     hooks:
       - id: ooxml-integrity
 ```

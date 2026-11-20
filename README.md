@@ -143,7 +143,7 @@ notes record the cases and their remaining limits.
 ## In CI
 
 ```yaml
-- uses: Dmitry-Kov/ooxml-integrity@v0.10.0
+- uses: Dmitry-Kov/ooxml-integrity@v0.11.0
   with:
     files: "out/**/*.docx"
     against: templates/master.docx   # optional, enables the fidelity check
@@ -155,7 +155,7 @@ the source and edited files are still available for comparison.
 
 The action writes a summary to the job page and can produce JSON and SARIF
 reports. SARIF findings can appear as code-scanning annotations in a pull
-request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.10.0/docs/configuration.md)
+request. The [configuration guide](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.11.0/docs/configuration.md)
 covers severity overrides, path-scoped ignores with a required `reason`, and
 counted baselines for repositories that already have findings.
 
