@@ -178,6 +178,50 @@ def _drop_markers(cid):
     return edit
 
 
+def _copy_reply_definition(tmp_path, branch=None):
+    part = "word/comments.xml"
+    comments = read_part(DOCX_MCP, part)
+    start = comments.index('<w:comment w:id="15"')
+    end = comments.index("</w:comment>", start) + len("</w:comment>")
+    duplicate = comments[start:end]
+    if branch is None:
+        # The reply id alone is ambiguous, even with a distinct paragraph id.
+        duplicate = duplicate.replace('w14:paraId="1C4295B9"', 'w14:paraId="12345678"')
+    else:
+        choice = duplicate if branch == "Choice" else ""
+        fallback = duplicate if branch == "Fallback" else ""
+        duplicate = (f'<mc:AlternateContent><mc:Choice Requires="w14">{choice}</mc:Choice>'
+                     f'<mc:Fallback>{fallback}</mc:Fallback></mc:AlternateContent>')
+    comments = comments.replace("</w:comments>", duplicate + "</w:comments>")
+    return repack(DOCX_MCP, tmp_path / "copied-definition.docx", {part: comments.encode()})
+
+
+@pytest.mark.parametrize("branch", ["Choice", "Fallback"])
+def test_anchor_replies_ignores_a_definition_copied_into_alternate_content(tmp_path, branch):
+    source = _copy_reply_definition(tmp_path, branch)
+    (orphan,) = check(source)
+    assert orphan.code == "CMT005" and orphan.severity.value == "error" and "id=15" in orphan.message
+
+    out = tmp_path / "fixed.docx"
+    report = fix(source, out)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    (repaired,) = report.repaired
+    assert repaired.repair == "anchor-replies" and repaired.finding == orphan
+    assert _changed(source, out) == ["word/document.xml"]
+    assert list(check(out)) == []
+
+
+def test_anchor_replies_refuses_two_direct_definitions_of_the_reply(tmp_path):
+    source = _copy_reply_definition(tmp_path)
+    out = tmp_path / "fixed.docx"
+    report = fix(source, out)
+    assert report.exit_code == EXIT_NOTHING and not out.exists()
+    (refused,) = report.not_repaired
+    assert refused.repair == "anchor-replies" and refused.finding.code == "CMT005"
+    assert refused.finding.severity.value == "error"
+    assert "15" in refused.reason and "defined more than once" in refused.reason
+
+
 def _box_parent(source, output, *, duplicate):
     import re
     document = read_part(source, "word/document.xml")

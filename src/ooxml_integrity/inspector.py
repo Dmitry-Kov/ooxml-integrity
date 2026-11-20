@@ -803,7 +803,7 @@ class Inspector:
                           f"footnote reference id={i} has no entry in footnotes.xml",
                           self._xpath(ref))
         for i in sorted(defined - used - special, key=lambda x: (x is None, x)):
-            if i not in ("-1", "0"):
+            if i != "-1":
                 self._add("FTN002", ERROR,
                           f"footnote id={i} is defined but never referenced - "
                           "the footnote no longer appears",

@@ -1,19 +1,21 @@
 """Spec-valid constructs from real producers must not raise structural errors.
 
-Each case was first seen in public test documents (LibreOffice's
-sw/qa/extras/ooxmlexport corpus, Word 2007 files, docx4j's samples) and is
-rebuilt here from corpus/base.docx. Every case keeps a negative control, so the
-rule still fires on a genuine defect.
+The producer cases were first seen in public test documents (LibreOffice's
+sw/qa/extras/ooxmlexport corpus, Word 2007 files, docx4j's samples) and are
+rebuilt here from corpus/base.docx. The ordinary footnote with ID zero is
+synthetic. Each case keeps a negative control so the rule still fires on a
+genuine defect.
 """
 from __future__ import annotations
 
+import json
 import re
 import zipfile
 
 import pytest
 from lxml import etree
 
-from conftest import read_part, repack
+from conftest import read_part, repack, run_cli
 
 from ooxml_integrity import check, compare, coverage_for
 
@@ -60,7 +62,10 @@ def _libreoffice_footnote_ids(source, target, *, drop_reference=None):
 
 def test_separator_notes_are_identified_by_type_not_id(base_docx, tmp_path):
     edited = _libreoffice_footnote_ids(base_docx, tmp_path / "lo-notes.docx")
-    assert 'w:type="continuationSeparator" w:id="1"' in read_part(edited, FOOTNOTES)
+    notes = read_part(edited, FOOTNOTES)
+    assert 'w:type="separator" w:id="0"' in notes
+    assert 'w:type="continuationSeparator" w:id="1"' in notes
+    assert '<w:footnoteReference w:id="0"/>' not in read_part(edited, DOC)
     codes = _codes(edited)
     assert "FTN001" not in codes and "FTN002" not in codes
 
@@ -71,6 +76,39 @@ def test_orphaned_normal_note_is_still_reported_with_0_1_separators(
         base_docx, tmp_path / "lo-orphan.docx", drop_reference="2")
     findings = [f for f in check(edited) if f.code == "FTN002"]
     assert [f.message.split(" ")[1] for f in findings] == ["id=2"]
+
+
+@pytest.mark.parametrize("note_type", [None, "normal"], ids=["implicit", "explicit"])
+def test_normal_footnote_zero_requires_a_reference(base_docx, tmp_path, note_type):
+    # Swap IDs of the first ordinary note and the continuation separator.
+    notes = etree.fromstring(read_part(base_docx, FOOTNOTES).encode())
+    normal = notes.find(f'{W}footnote[@{W}id="1"]')
+    separator = notes.find(f'{W}footnote[@{W}type="continuationSeparator"]')
+    normal.set(W + "id", "0")
+    if note_type is not None:
+        normal.set(W + "type", note_type)
+    separator.set(W + "id", "1")
+    settings = read_part(base_docx, "word/settings.xml").replace(
+        '<w:footnote w:id="0"/>', '<w:footnote w:id="1"/>')
+    document = read_part(base_docx, DOC)
+    old_ref = '<w:footnoteReference w:id="1"/>'
+    new_ref = '<w:footnoteReference w:id="0"/>'
+    assert document.count(old_ref) == 1
+    linked = repack(base_docx, tmp_path / "linked.docx", {
+        FOOTNOTES: etree.tostring(notes, encoding="UTF-8"),
+        "word/settings.xml": settings.encode(),
+        DOC: document.replace(old_ref, new_ref).encode(),
+    })
+    clean = run_cli("check", str(linked), "--no-config", "--json")
+    assert clean.returncode == 0, clean.stderr
+    assert json.loads(clean.stdout)["files"][0]["findings"] == []
+
+    orphan = repack(linked, tmp_path / "orphan.docx", {DOC: document.replace(old_ref, "").encode()})
+    result = run_cli("check", str(orphan), "--no-config", "--json")
+    assert result.returncode == 1, result.stderr
+    [finding] = json.loads(result.stdout)["files"][0]["findings"]
+    assert (finding["code"], finding["severity"], finding["part"]) == ("FTN002", "error", FOOTNOTES)
+    assert "id=0 " in finding["message"]
 
 
 # ------------------------------------------------------------ numId="0"
