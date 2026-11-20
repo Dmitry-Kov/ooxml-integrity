@@ -503,6 +503,12 @@ the requested source comparison. If an older v2 baseline contains its key,
 `check --baseline` ignores that entry and exits `1` under the default policy
 when the comparison fails again. The existing v2 file needs no migration.
 
+Likewise, a baseline cannot suppress `PKG009` on a Strict DOCX or PPTX.
+A project that previously passed by recording this finding now exits `1`
+on every check of the same file at the default threshold. Other entries in
+the same v2 baseline still apply. Use a Transitional copy or an explicit
+severity override as described in the [configuration guide](configuration.md).
+
 Current releases read/write v2 and reject v1 rather than applying its weaker
 fidelity identities. Review the raw findings first, then follow the
 [v1-to-v2 migration](releases/0.4.0.md#breaking-change-baseline-v2). Regenerating

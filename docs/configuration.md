@@ -84,6 +84,12 @@ Likewise, `FID000` means the requested source comparison could not run.
 baseline. On a subsequent check, `FID000` fails the default gate even if
 the baseline contains a matching entry from an older version.
 
+For Strict OOXML, `PKG009` signals that Word content or PowerPoint layout
+checks could not run. Writing a baseline skips this code and explains why
+on stderr. Use a Transitional copy to run the checks. To allow Strict files
+at the default threshold while keeping the finding visible, set
+`PKG009 = "warn"` in the project's `[severity]` table.
+
 The baseline format is versioned. If a newer checker refuses an older baseline,
 regenerate it with the same check command and `--write-baseline`; legacy formats
 are not accepted when their fingerprints could hide a different new finding.

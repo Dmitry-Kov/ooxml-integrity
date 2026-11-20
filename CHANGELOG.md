@@ -93,6 +93,12 @@
   missing content in the affected branch. Review baseline entries that
   previously accepted losses counted across both copies. Verified only
   on synthetic documents and synthetic variants of captured documents.
+- **Keep unsupported Strict OOXML visible through a baseline.** Baseline
+  writes skip `PKG009`. A Strict DOCX or PPTX that passed only through an
+  older baseline now exits `1` on every check at the default threshold.
+  Save a Transitional copy for inspection, or set `PKG009 = "warn"` under
+  `[severity]` to accept the gap explicitly. A requested comparison can
+  still report `FID000`. Verified on synthetic Strict documents and decks.
 
 ## 0.10.0 — 2026-11-10
 

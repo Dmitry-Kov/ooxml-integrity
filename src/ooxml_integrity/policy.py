@@ -435,11 +435,13 @@ def fingerprint(file: str, f: Finding) -> str:
 
 
 #: Codes a baseline never records or absorbs. INT001 and FID000 mean a check
-#: or requested comparison did not complete. EXP001 means a requested change
-#: never happened. Turning one off takes a config entry with a reason.
+#: or requested comparison did not complete. PKG009 excludes format-specific
+#: checks on Strict OOXML. EXP001 means a requested change never happened.
+#: A project can explicitly ignore one of these findings with a reason.
 BASELINE_EXCLUSION_REASONS = {
     "INT001": "a check that did not complete cannot be baselined",
     "FID000": "the requested source comparison did not complete",
+    "PKG009": "Strict Open XML is unsupported, so format-specific checks did not run",
     "EXP001": "the edit did not satisfy a required expectation",
 }
 NOT_BASELINED = frozenset(BASELINE_EXCLUSION_REASONS)
