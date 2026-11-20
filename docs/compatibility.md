@@ -385,6 +385,12 @@ becomes its output path. Putting `--write-baseline` last writes the default
 ooxml-integrity check edited/*.docx --write-baseline
 ```
 
+CLI and GitHub Action report destinations with multiple hard links also
+cause exit `2`. This includes refreshing a baseline that has another name
+linked to the same file. Use a new report path or a baseline with a single
+hard link. When the Action publishes JSON and SARIF, it checks both
+destinations before writing either report.
+
 `--write-baseline` is a separate recording operation: it writes the raw
 findings and exits `0` even when they include errors. It returns before normal
 JSON, SARIF and coverage output. That exit does not mean the document passed.

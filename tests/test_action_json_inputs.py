@@ -170,3 +170,30 @@ def test_action_json_report_preserves_unselected_office_file(tmp_path, tmp_docx,
     assert outputs["exit-code"] == "2"
     assert "json-report" in result.stderr and destination.name in result.stderr
     assert document.read_bytes() == original
+
+
+@pytest.mark.parametrize("linked,separate", [("json-report", "sarif"), ("sarif", "json-report")])
+@pytest.mark.parametrize("existing", [False, True], ids=["new", "previous"])
+def test_action_rejects_hardlinked_output_before_publishing_either_report(
+        tmp_path, tmp_docx, linked, separate, existing):
+    original = tmp_docx.read_bytes()
+    document = tmp_path / "review-copy.docx"
+    document.write_bytes(original)
+    alias = tmp_path / "report.json"
+    try:
+        os.link(document, alias)
+    except (NotImplementedError, OSError) as exc:
+        pytest.skip(f"hardlink unavailable: {exc}")
+    other = tmp_path / "separate-report.json"
+    if existing:
+        other.write_bytes(b"previous report")
+
+    result, outputs = _check_step(tmp_path, {"files": tmp_docx.name, linked: alias.name, separate: other.name})
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert outputs["exit-code"] == "2" and "reports-ready" not in outputs
+    assert linked in result.stderr and alias.name in result.stderr
+    assert document.read_bytes() == alias.read_bytes() == original
+    if existing:
+        assert other.read_bytes() == b"previous report"
+    else:
+        assert not other.exists()

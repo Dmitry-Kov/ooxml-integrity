@@ -67,6 +67,12 @@
   separate path. To refresh a baseline, `--write-baseline` can still use
   the same path as `--baseline`. Verified with copies of synthetic corpus
   documents through the CLI and the Action's Bash step.
+- **Preserve files with multiple hard links when writing reports.** The CLI
+  and GitHub Action exit `2` if a report destination has another hard link,
+  including when refreshing a baseline under its own name. The Action checks
+  both destinations before publishing either report. Choose a fresh output
+  path or update a baseline that has only one hard link. Verified with a
+  synthetic DOCX and a JSON baseline through the CLI and the Action's Bash step.
 
 ## 0.10.0 — 2026-11-10
 
