@@ -357,7 +357,8 @@ class DeckReader:
         return lst_style.find(_a(f"lvl{level + 1}pPr"))
 
     def _placeholder_shapes(self, slide_part: str, ph_idx, ph_type: str,
-                            master_type: str | None = None, *, layout_only: bool = False):
+                            master_type: str | None = None, *, layout_only: bool = False,
+                            master_by_type: bool = False):
         """The layout's, then the master's, placeholders this one may inherit from.
 
         Yields ((0 for the layout or 1 for the master, whether only the type
@@ -366,8 +367,9 @@ class DeckReader:
         """
         layout = self.pkg.related(slide_part, "/slideLayout")
         master = self.pkg.related(layout, "/slideMaster") if layout and not layout_only else None
-        for rank, (part, kind) in enumerate(((layout, ph_type),
-                                             (master, master_type or ph_type))):
+        master_idx = None if master_by_type else ph_idx
+        for rank, (part, kind, idx) in enumerate(((layout, ph_type, ph_idx),
+                                                  (master, master_type or ph_type, master_idx))):
             if not part:
                 continue
             t = self.pkg.tree(part)
@@ -377,27 +379,26 @@ class DeckReader:
                 nv = sp.find(f'{_p("nvSpPr")}/{_p("nvPr")}/{_p("ph")}')
                 if nv is None:
                     continue
-                if ph_idx is not None and nv.get("idx") == str(ph_idx):
+                if idx is not None and nv.get("idx") == str(idx):
                     yield (rank, False), sp
                 elif kind and (nv.get("type") or "body") == kind:
                     yield (rank, True), sp
 
-    def _placeholder_anchor(self, slide_part: str, ph_idx, ph_type: str) -> str | None:
-        """bodyPr anchor inherited from the layout placeholder, then the master's.
-
-        One placeholder per part: the one with the same idx, else the first of
-        the same type. A master has one title and one body placeholder: a
-        centred title takes the title's, a subtitle or content placeholder the
-        body's.
-        """
+    def _style_placeholders(self, slide_part: str, ph_idx, ph_type: str, *, master_by_type: bool):
+        """Pick one placeholder per part, preferring its idx where applicable."""
         master_type = {"ctrTitle": "title", "subTitle": "body", "obj": "body"}.get(ph_type)
         best: dict[int, tuple[bool, Any]] = {}
         for (rank, by_type), sp in self._placeholder_shapes(
-                slide_part, ph_idx, ph_type, master_type):
+                slide_part, ph_idx, ph_type, master_type, master_by_type=master_by_type):
             if rank not in best or by_type < best[rank][0]:
                 best[rank] = (by_type, sp)
         for rank in sorted(best):
-            bodypr = best[rank][1].find(f'{_p("txBody")}/{_a("bodyPr")}')
+            yield best[rank][1]
+
+    def _placeholder_anchor(self, slide_part: str, ph_idx, ph_type: str) -> str | None:
+        """Inherit the layout's anchor, then the matching title or body anchor on the master."""
+        for sp in self._style_placeholders(slide_part, ph_idx, ph_type, master_by_type=False):
+            bodypr = sp.find(f'{_p("txBody")}/{_a("bodyPr")}')
             if bodypr is not None and bodypr.get("anchor"):
                 return bodypr.get("anchor")
         return None
@@ -405,7 +406,7 @@ class DeckReader:
     def _placeholder_chain(self, slide_part: str, ph_idx, ph_type: str):
         """lstStyle sources from the layout and master, in precedence order."""
         chain = [sp.find(f'{_p("txBody")}/{_a("lstStyle")}')
-                 for _, sp in self._placeholder_shapes(slide_part, ph_idx, ph_type)]
+                 for sp in self._style_placeholders(slide_part, ph_idx, ph_type, master_by_type=True)]
         layout = self.pkg.related(slide_part, "/slideLayout")
         master = self.pkg.related(layout, "/slideMaster") if layout else None
 
@@ -415,7 +416,7 @@ class DeckReader:
             styles = mt.find(_p("txStyles")) if mt is not None else None
             if styles is not None:
                 which = {"title": "titleStyle", "ctrTitle": "titleStyle",
-                         "subTitle": "bodyStyle", "body": "bodyStyle"}.get(
+                         "subTitle": "bodyStyle", "body": "bodyStyle", "obj": "bodyStyle"}.get(
                              ph_type, "otherStyle")
                 chain.append(styles.find(_p(which)))
         chain.append(self.pres_default_style)

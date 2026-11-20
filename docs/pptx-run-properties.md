@@ -15,6 +15,11 @@ The first definition of **each property** wins in the existing candidate chain:
 5. The master text style for the placeholder class at that level.
 6. Presentation defaults at that level.
 
+On the layout, the reader selects the placeholder with the matching `idx`,
+falling back to the first matching type. On the master it selects by type.
+When the right column of a Two Content slide has no size of its own, it can
+inherit the master's body style even if a date placeholder shares its index.
+
 For non-placeholder shapes, the chain goes from the shape's list style directly
 to presentation defaults. Unset size defaults to 18pt; an unset family or a theme
 token resolves through the [owning master's theme](pptx-master-themes.md).
@@ -25,10 +30,9 @@ flag never supplies a value for the other.
 This is the existing level-specific property model, not the full DrawingML
 style cascade. `a:defPPr` run-property fallbacks, shape-style `a:fontRef`, complex
 or ambiguous placeholder matching, fields and script-specific shaping are
-outside this claim. The change concerns ordinary runs; hard-break formatting
-and placeholder selection retain their existing behaviour. The resolved flags
-are passed to font discovery and measurement, subject to the installed-face and
-substitution limits in the [support matrix](support-matrix.md).
+outside this claim. The bold and italic regressions below cover ordinary runs.
+The resolved flags are passed to font discovery and measurement, subject to
+the installed-face and substitution limits in the [support matrix](support-matrix.md).
 
 ## Regression evidence
 

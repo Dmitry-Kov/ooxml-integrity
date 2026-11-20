@@ -1,10 +1,12 @@
 """Each run property inherits independently through the supported style chain."""
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import pytest
+from conftest import run_cli
 from lxml import etree
 
 from ooxml_integrity.pptx_layout import A, P, read_deck
@@ -94,6 +96,49 @@ def resolved(path):
     assert len(deck.shapes) == 1
     run = deck.shapes[0].paragraphs[0].runs[0]
     return run.size_pt, run.font, run.bold, run.italic
+
+
+@pytest.mark.parametrize("left_pt,right_pt,expected_right_pt,exit_code", [
+    (16, 32, 32, 1), (32, 16, 16, 0), (16, None, 32, 1), (16, 16, 16, 0),
+], ids=["missed-overflow", "false-overflow", "inherit-from-master", "both-fit"])
+def test_two_content_uses_each_columns_own_font_size(tmp_path, left_pt, right_pt,
+                                                     expected_right_pt, exit_code):
+    from pptx import Presentation
+    from pptx.util import Pt
+
+    prs = Presentation()
+    layout = prs.slide_layouts.get_by_name("Two Content")
+    left, right = (layout.placeholders.get(idx=i) for i in (1, 2))
+    left_style = left.element.xpath("p:txBody/a:lstStyle")[0]
+    right_style = right.element.xpath("p:txBody/a:lstStyle")[0]
+    level_properties(left_style, {"sz": left_pt * 100}, 0)
+    level_properties(right_style, {"sz": right_pt * 100} if right_pt is not None else {}, 0)
+    # The master date placeholder shares idx 2 with the right column.
+    # Only the master's body style should supply the missing column size.
+    date = layout.slide_master.element.xpath('.//p:sp[p:nvSpPr/p:nvPr/p:ph[@type="dt" and @idx="2"]]')[0]
+    level_properties(date.find(f'{p("txBody")}/{a("lstStyle")}'), {"sz": 1200}, 0)
+    master = layout.slide_master.element.xpath("p:txStyles/p:bodyStyle")[0]
+    level_properties(master, {"sz": 3200}, 0)
+    right.height = Pt(35)
+
+    slide = prs.slides.add_slide(layout)
+    if right_pt is None:
+        # Explicit obj and the template's implicit object type both use the master's body style.
+        slide.placeholders[2].element.xpath("p:nvSpPr/p:nvPr/p:ph")[0].set("type", "obj")
+    for column in (slide.placeholders[1], slide.placeholders[2]):
+        column.text = "Review"
+        column.text_frame.paragraphs[0].runs[0].font.name = "Arial"
+    path = tmp_path / "two-content.pptx"
+    prs.save(path)
+
+    result = run_cli("check", str(path), "--no-config", "--json")
+    assert result.returncode == exit_code, result.stdout + result.stderr
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    expected = [("PPT001", "error", f"slide1/{slide.placeholders[2].name}")] if exit_code else []
+    assert [(f["code"], f["severity"], f["where"]) for f in findings if f["severity"] != "info"] == expected
+    sizes = {shape.name: shape.paragraphs[0].runs[0].size_pt
+             for shape in read_deck(path).shapes if shape.has_text}
+    assert sizes == {slide.placeholders[1].name: left_pt, slide.placeholders[2].name: expected_right_pt}
 
 
 @pytest.mark.parametrize("source", INHERITED)

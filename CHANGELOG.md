@@ -93,6 +93,11 @@
   missing content in the affected branch. Review baseline entries that
   previously accepted losses counted across both copies. Verified only
   on synthetic documents and synthetic variants of captured documents.
+- **Use each column's inherited font on Two Content slides.** Selecting the
+  layout placeholder by index and the master by type can reveal a missed overflow
+  (`PPT001` ERROR, default exit `1`) or clear a false one (exit `0` if it
+  was the only error). Enlarge the affected text box or reduce its font size
+  if the text overflows. Verified only on synthetic slides.
 
 ## 0.10.0 — 2026-11-10
 
