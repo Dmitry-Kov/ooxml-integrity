@@ -5,7 +5,7 @@ where one can be identified. Losses that hide content or its audit trail are
 errors. Losses that affect only appearance are warnings.
 Undefined paragraph and table styles remain errors because they can carry
 numbering and structure; undefined character styles are warnings.
-These tables describe [0.10.0](releases/0.10.0.md). Version `0.4.0` treated undefined character styles
+These tables describe [0.11.0](releases/0.11.0.md). Version `0.4.0` treated undefined character styles
 as errors; use `--fail-on warn` to keep them failing after upgrading.
 
 The [README](../README.md) shows the two questions and how to run the checker;

@@ -3,7 +3,7 @@
 This policy describes the public interfaces of the research-alpha `0.x`
 releases. A compatible report format does not promise identical findings:
 correcting a missed defect can make an existing CI job fail. Check the
-[0.10.0 release notes](releases/0.10.0.md) before changing a version pin.
+[0.11.0 release notes](releases/0.11.0.md) before changing a version pin.
 
 ## What a release can change
 
@@ -175,7 +175,7 @@ now fails on the paragraphs it changed, as it already did on `FID002` and
 `FID012`. Its baseline v2 identity hashes the story, the kind of change and
 the texts in both views, so no document text enters the baseline.
 
-In the unreleased checker, `FID014` reads the first branch of
+In 0.11.0 `FID014` reads the first branch of
 `mc:AlternateContent` in both views. A change confined to a fallback copy
 stops producing that finding. A required expectation for that change now
 fails with `EXP001`. For documents with alternate content, review the
@@ -406,11 +406,11 @@ failed its re-check and nothing was written. See [fix](fix.md#exit-codes).
 
 These versions identify different things:
 
-| Output | Version in 0.10.0 | Meaning |
+| Output | Version in 0.11.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.10.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` | Top-level `version: "0.11.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
-| `doctor --json` | `schema_version: 1` and `version: "0.10.0"` | Capability schema and checker package, respectively. |
+| `doctor --json` | `schema_version: 1` and `version: "0.11.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |
 | SARIF | `version: "2.1.0"` | SARIF format; `runs[].tool.driver.version` identifies the checker. |
 

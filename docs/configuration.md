@@ -308,7 +308,7 @@ The repository is a [pre-commit](https://pre-commit.com) hook. It runs
 ```yaml
 repos:
   - repo: https://github.com/Dmitry-Kov/ooxml-integrity
-    rev: vX.Y.Z   # a release after 0.10.0; that one and earlier have no hook
+    rev: vX.Y.Z   # 0.11.0 or later; 0.10.0 and earlier have no hook
     hooks:
       - id: ooxml-integrity
 ```
