@@ -78,6 +78,12 @@
   footnote has lost its last reference. Restore its reference in the text.
   Typed separators still pass. The ordinary footnote with ID zero was
   verified only on synthetic documents.
+- **Preserve files with multiple hard links when writing reports.** The CLI
+  and GitHub Action exit `2` if a report destination has another hard link,
+  including when refreshing a baseline under its own name. The Action checks
+  both destinations before publishing either report. Choose a fresh output
+  path or update a baseline that has only one hard link. Verified with a
+  synthetic DOCX and a JSON baseline through the CLI and the Action's Bash step.
 
 ## 0.10.0 — 2026-11-10
 

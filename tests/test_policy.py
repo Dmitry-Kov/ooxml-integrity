@@ -381,6 +381,39 @@ def test_write_baseline_can_refresh_the_input_baseline(tmp_path, base_docx):
     assert read_baseline(baseline) == {}
 
 
+def test_refresh_preserves_a_baseline_with_a_second_name(tmp_path, base_docx):
+    baseline = tmp_path / "accepted.json"
+    original = json.dumps(make_baseline({"old.docx": [F()]})).encode()
+    baseline.write_bytes(original)
+    alias = tmp_path / "previous.json"
+    try:
+        os.link(baseline, alias)
+    except (OSError, NotImplementedError) as exc:
+        pytest.skip(f"hardlink unavailable: {exc}")
+    result = run_cli("check", str(base_docx), "--no-config", "--baseline", str(baseline),
+                     "--write-baseline", str(baseline))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "--write-baseline" in result.stderr and "hard link" in result.stderr
+    assert baseline.read_bytes() == alias.read_bytes() == original
+
+
+@pytest.mark.parametrize("option", ["--sarif", "--write-baseline"])
+def test_report_preserves_a_hardlinked_unselected_document(tmp_path, base_docx, option):
+    document = tmp_path / "review-copy.docx"
+    original = base_docx.read_bytes()
+    document.write_bytes(original)
+    report = tmp_path / "report.json"
+    try:
+        os.link(document, report)
+    except (OSError, NotImplementedError) as exc:
+        pytest.skip(f"hardlink unavailable: {exc}")
+    result = run_cli("check", str(base_docx), "--no-config", option, str(report))
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert option in result.stderr and report.name in result.stderr
+    assert "hard link" in result.stderr
+    assert document.read_bytes() == report.read_bytes() == original
+
+
 @pytest.mark.parametrize("link", ["symlink", "hardlink"])
 def test_write_baseline_preserves_input_baseline_under_a_different_name(tmp_path, base_docx, link):
     baseline = tmp_path / "accepted.json"

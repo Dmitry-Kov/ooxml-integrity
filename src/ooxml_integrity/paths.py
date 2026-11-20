@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import stat
 from pathlib import Path
 
 DECK_SUFFIXES = (".pptx", ".potx", ".ppsx")
@@ -20,14 +21,22 @@ def same_file(a: Path, b: Path) -> bool:
 
 
 def check_report_destination(destination: Path, inputs: list[Path]) -> None:
-    """Raise ValueError if a report would replace a run input or an existing document."""
+    """Refuse run inputs, shared files and existing documents as report destinations."""
     for source in inputs:
         if same_file(source, destination):
             raise ValueError(f"{destination} points to input file {source}. "
                              "Choose a separate report path.")
 
+    try:
+        existing = destination.stat()
+    except FileNotFoundError:
+        return
+    # Another name for the file may be a document outside this run.
+    if existing.st_nlink > 1 and not stat.S_ISDIR(existing.st_mode):
+        raise ValueError(f"{destination} has multiple hard links. Choose a separate report path.")
+
     # A shell-expanded glob can put the first document in the output argument.
-    if destination.is_file():
+    if stat.S_ISREG(existing.st_mode):
         suffixes = (".docx", *DECK_SUFFIXES)
         if destination.suffix.lower() in suffixes or destination.resolve().suffix.lower() in suffixes:
             raise ValueError(f"refusing to overwrite {destination}. "
