@@ -1,7 +1,7 @@
 """Exercise the installed distribution, not an editable checkout.
 
 Run with a fresh wheel/sdist installation's Python from this source checkout:
-    python research/release_smoke.py --version 0.10.0
+    python research/release_smoke.py --version 0.11.0
 No Office, network, or font files are needed for these DOCX/CLI contracts.
 """
 from __future__ import annotations
@@ -669,6 +669,94 @@ def main():
         assert lost(flattened, "--introduced", code=1) == [("FID016", "error")]
         assert lost(flattened, "--expect", "FID016:story=document,kind=REF") == []
 
+        # 0.11.0. Word writes a text box twice in mc:AlternateContent, and the
+        # first branch is what it shows. Comment 2's paragraph is boxed, with
+        # its reference in one copy or both.
+        box_ns = ('xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" '
+                  'xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" '
+                  'xmlns:v="urn:schemas-microsoft-com:vml"')
+        text = body.decode("utf-8")
+        start = text.index('<w:commentRangeStart w:id="2"/>')
+        head, tail = text.rindex("<w:p>", 0, start), text.index("</w:p>", start) + len("</w:p>")
+        paragraph = text[head:tail]
+        unreferenced = paragraph.replace('<w:r><w:commentReference w:id="2"/></w:r>', "")
+        assert unreferenced != paragraph
+
+        def boxed(name, choice, fallback):
+            box = (f'<w:p><w:r><mc:AlternateContent {box_ns}><mc:Choice Requires="wps"><wps:txbx>'
+                   f'<w:txbxContent>{choice}</w:txbxContent></wps:txbx></mc:Choice><mc:Fallback>'
+                   '<w:pict><v:shape><v:textbox><w:txbxContent>'
+                   f'{fallback}</w:txbxContent></v:textbox></v:shape></w:pict></mc:Fallback>'
+                   '</mc:AlternateContent></w:r></w:p>')
+            return variant(name, {**base, "word/document.xml":
+                                  (text[:head] + box + text[tail:]).encode("utf-8")})
+
+        def against(edited_path, source_path, code=0):
+            report = json.loads(cli("check", edited_path, "--against", source_path, "--no-config",
+                                    "--json", code=code).stdout)
+            return sorted((f["code"], f["severity"]) for f in report["files"][0]["findings"])
+
+        both_copies = boxed("box-both.docx", paragraph, paragraph)
+        assert found(both_copies) == []
+        # The reference only in the fallback: Word cannot anchor the comment.
+        fallback_ref = boxed("box-fallback-ref.docx", unreferenced, paragraph)
+        assert sorted(found(fallback_ref, code=1)) == [("CMT003", "error"), ("CMT005", "error")]
+        # Moving the only reference into the fallback loses the anchor Word shows.
+        choice_ref = boxed("box-choice-ref.docx", paragraph, unreferenced)
+        assert ("FID001", "error") in against(fallback_ref, choice_ref, code=1)
+        # Dropping only the fallback copy warns and passes the default gate.
+        dropped = boxed("box-dropped.docx", paragraph, "<w:p/>")
+        lost_backup = against(dropped, both_copies)
+        assert lost_backup and {severity for _, severity in lost_backup} == {"warn"}
+
+        # An ordinary footnote numbered 0 that lost its reference is FTN002;
+        # separators are known by w:type. Note 1 and the continuation
+        # separator swap ids.
+        notes = (base["word/footnotes.xml"]
+                 .replace(b'<w:footnote w:id="1">', b'<w:footnote w:id="0">')
+                 .replace(b'<w:footnote w:type="continuationSeparator" w:id="0">',
+                          b'<w:footnote w:type="continuationSeparator" w:id="1">'))
+        settings = base["word/settings.xml"].replace(b'<w:footnote w:id="0"/>',
+                                                     b'<w:footnote w:id="1"/>')
+        note_ref = b'<w:footnoteReference w:id="1"/>'
+        assert body.count(note_ref) == 1 and notes != base["word/footnotes.xml"]
+        renumbered = {**base, "word/footnotes.xml": notes, "word/settings.xml": settings}
+        note_zero = variant("note-zero.docx", {**renumbered, "word/document.xml": body.replace(
+            note_ref, b'<w:footnoteReference w:id="0"/>')})
+        assert found(note_zero) == []
+        note_zero_lost = variant("note-zero-lost.docx", {
+            **renumbered, "word/document.xml": body.replace(note_ref, b"")})
+        assert found(note_zero_lost, code=1) == [("FTN002", "error")]
+
+        # A report never replaces a file the run reads, an Office file outside
+        # the run, or a file with another hard link.
+        accepted = work / "accepted.json"
+        cli("check", source, "--no-config", "--write-baseline", accepted)
+        accepted_bytes = accepted.read_bytes()
+        cli("check", source, "--no-config", "--baseline", accepted, "--sarif", accepted, code=2)
+        assert accepted.read_bytes() == accepted_bytes
+        bystander = work / "bystander.docx"
+        shutil.copyfile(source, bystander)
+        cli("check", source, "--no-config", "--sarif", bystander, code=2)
+        alias = work / "alias.sarif"
+        try:
+            os.link(bystander, alias)
+        except OSError:
+            alias = None
+        if alias is not None:
+            cli("check", source, "--no-config", "--sarif", alias, code=2)
+        assert bystander.read_bytes() == source.read_bytes()
+
+        # A comparison that cannot run cannot be baselined: FID000 for a deck.
+        deck = root / "corpus/deck.pptx"
+        deck_baseline = work / "deck-baseline.json"
+        written = cli("check", deck, "--against", deck, "--no-config",
+                      "--write-baseline", deck_baseline)
+        assert "FID000" in written.stderr
+        unbaselined = json.loads(cli("check", deck, "--against", deck, "--no-config", "--baseline",
+                                     deck_baseline, "--json", code=1).stdout)
+        assert [f["code"] for f in unbaselined["files"][0]["findings"]] == ["FID000"]
+
         baseline = work / "baseline.json"
         cli("check", edited, "--against", source, "--no-config", "--write-baseline", baseline)
         data = json.loads(baseline.read_text())
@@ -731,6 +819,10 @@ def main():
           "source already had from the CLI, Python and mcp but not a new repeat or lost "
           "content, FID015 on a lost bookmark a field points at, FID016 on a field "
           "written as text and its expectation, "
+          "0.11.0 CMT003/CMT005 on a text box whose reference is only in its fallback, "
+          "FID001 ERROR for a reference moved into the fallback and only warnings for a "
+          "dropped fallback, FTN002 on an ordinary footnote 0, reports refused over the "
+          "baseline, an unrelated .docx and a hard link, FID000 not baselined, "
           "FID009/FID010 and their coverage, "
           "both entry points, clean/findings/usage exits, JSON, coverage, "
           "baseline v2, v1 rejection, new-file regression, SARIF, config and archive policy passed")

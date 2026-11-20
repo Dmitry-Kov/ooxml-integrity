@@ -1,0 +1,201 @@
+{
+ "scope": "check() on .docx and check_pptx() on decks, for every file of the public corpora at the commits research/realworld_scan.py pins, with ooxml-integrity 0.10.0 installed from public PyPI and with the 0.11.0 candidate checkout. Network access was denied while checking. Neither run compares against a source. No file was opened in Word or PowerPoint.",
+ "corpora_commits": {
+  "apache-poi": "3b299acbf0195299f4cca3ba4207dd36b66d3210",
+  "docx4j": "49e66dd85bad4d2292b42222bf4867adea637a3a",
+  "libreoffice": "382bad999f5d43448458ce2a3170a24c1781c867",
+  "open-xml-sdk": "431ab05cf160248cc3885a4a766026d4f8243792",
+  "python-docx": "e45454602b53e8e572b179ccf1c91093ec9f4ed7",
+  "python-pptx": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be"
+ },
+ "checkers": {
+  "0.10.0": "public PyPI wheel in a fresh Python 3.12.15 environment",
+  "0.11.0": "candidate checkout, main b92b84e with this preparation change"
+ },
+ "files": {
+  "total": 2497,
+  "docx": 1887,
+  "decks": 610
+ },
+ "with_alternate_content": {
+  "total": 419,
+  "docx": 294
+ },
+ "alternate_content_test": "an XML part of the package contains the bytes 'AlternateContent'",
+ "crashes": {
+  "0.10.0": 0,
+  "0.11.0": 0
+ },
+ "findings": {
+  "0.10.0": 2165,
+  "0.11.0": 2150
+ },
+ "files_with_changed_findings": {
+  "total": 5,
+  "docx": 0,
+  "decks": 5
+ },
+ "changed": [
+  {
+   "path": "apache-poi/test-data/slideshow/layouts.pptx",
+   "kind": "deck",
+   "alternate_content": false,
+   "only_0.10.0": [
+    {
+     "code": "PPT001",
+     "severity": "error",
+     "where": "slide5/Content Placeholder 3",
+     "message": "text needs 74pt in a 43pt box - 31pt too tall (72% over), 3 line(s)"
+    },
+    {
+     "code": "PPT001",
+     "severity": "error",
+     "where": "slide5/Content Placeholder 5",
+     "message": "text needs 74pt in a 43pt box - 31pt too tall (72% over), 3 line(s)"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide4/Content Placeholder 2",
+     "message": "overlaps 'Content Placeholder 3' over 100% of the smaller shape (318x356pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Content Placeholder 3",
+     "message": "overlaps 'Content Placeholder 5' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Content Placeholder 3",
+     "message": "overlaps 'Text Placeholder 4' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Text Placeholder 2",
+     "message": "overlaps 'Content Placeholder 3' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Text Placeholder 2",
+     "message": "overlaps 'Content Placeholder 5' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Text Placeholder 2",
+     "message": "overlaps 'Text Placeholder 4' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide5/Text Placeholder 4",
+     "message": "overlaps 'Content Placeholder 5' over 100% of the smaller shape (318x50pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide8/Content Placeholder 2",
+     "message": "overlaps 'Text Placeholder 3' over 100% of the smaller shape (402x461pt) - both carry text, so one will obscure the other"
+    }
+   ],
+   "only_0.11.0": []
+  },
+  {
+   "path": "libreoffice/sd/qa/unit/data/pptx/bnc870233_1.pptx",
+   "kind": "deck",
+   "alternate_content": false,
+   "only_0.10.0": [
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide1/Text Placeholder 3",
+     "message": "overlaps 'Text Placeholder 4' over 100% of the smaller shape (395x70pt) - both carry text, so one will obscure the other"
+    }
+   ],
+   "only_0.11.0": [
+    {
+     "code": "PPT001",
+     "severity": "error",
+     "where": "slide1/Text Placeholder 4",
+     "message": "text needs 35pt in a 15pt box - 20pt too tall (137% over), 1 line(s)"
+    }
+   ]
+  },
+  {
+   "path": "libreoffice/sd/qa/unit/data/pptx/master-slides.pptx",
+   "kind": "deck",
+   "alternate_content": false,
+   "only_0.10.0": [
+    {
+     "code": "PPT001",
+     "severity": "warn",
+     "where": "slide1/Text Placeholder 1",
+     "message": "text needs 11pt in a 6pt box - 5pt too tall (85% over), 1 line(s) - an estimate because font metrics or line breaking are approximate; Poppins SemiBold is not installed and has no known substitute; measured with Helvetica - widths are a guess"
+    },
+    {
+     "code": "PPT001",
+     "severity": "warn",
+     "where": "slide1/Text Placeholder 11",
+     "message": "text needs 22pt in a 6pt box - 16pt too tall (271% over), 2 line(s) - an estimate because font metrics or line breaking are approximate; Poppins SemiBold is not installed and has no known substitute; measured with Helvetica - widths are a guess"
+    },
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide1/Text Placeholder 1",
+     "message": "overlaps 'Text Placeholder 11' over 100% of the smaller shape (351x13pt) - both carry text, so one will obscure the other"
+    }
+   ],
+   "only_0.11.0": []
+  },
+  {
+   "path": "libreoffice/sd/qa/unit/data/pptx/tdf114848.pptx",
+   "kind": "deck",
+   "alternate_content": false,
+   "only_0.10.0": [
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide4/Inhaltsplatzhalter 2",
+     "message": "overlaps 'Inhaltsplatzhalter 3' over 100% of the smaller shape (318x356pt) - both carry text, so one will obscure the other"
+    },
+    {
+     "code": "PPT006",
+     "severity": "warn",
+     "where": "slide4/Inhaltsplatzhalter 3",
+     "message": "overlaps 'Textfeld 4' over 27% of the smaller shape (90x29pt) - both carry text, so one will obscure the other"
+    }
+   ],
+   "only_0.11.0": [
+    {
+     "code": "PPT006",
+     "severity": "error",
+     "where": "slide4/Inhaltsplatzhalter 3",
+     "message": "overlaps 'Textfeld 4' over 69% of the smaller shape (225x29pt) - both carry text, so one will obscure the other"
+    }
+   ]
+  },
+  {
+   "path": "libreoffice/sd/qa/unit/data/pptx/tdf140852.pptx",
+   "kind": "deck",
+   "alternate_content": false,
+   "only_0.10.0": [
+    {
+     "code": "PPT001",
+     "severity": "warn",
+     "where": "slide1/Textplatzhalter 19",
+     "message": "text needs 106pt in a 20pt box - 85pt too tall (423% over), 2 line(s) - an estimate because font metrics or line breaking are approximate; Work Sans Light is not installed and has no known substitute; measured with Helvetica - widths are a guess"
+    }
+   ],
+   "only_0.11.0": []
+  }
+ ],
+ "per_file_results_sha256": {
+  "0.10.0": "420d569a873350526f3d29cf2ec5adfb6323cd842f2cdb261745e53fdffaf998",
+  "0.11.0": "27666c4dcde4c32ff69fd39701cc12899f2db0592de9930e808190b99786c1b8"
+ },
+ "not_established": "Whether the one PPT001 ERROR 0.11.0 adds (bnc870233_1.pptx, a placeholder that now takes the 15pt layout box with its own idx) matches what PowerPoint shows was not checked in PowerPoint."
+}

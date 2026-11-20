@@ -1,7 +1,17 @@
 # Changelog
 
-## Unreleased
+## 0.11.0 — release candidate
 
+[Upgrade notes and validation](docs/releases/0.11.0.md). Publication follows the
+release workflow; the version/tag are not published by this preparation change.
+
+- **A pre-commit hook.** `.pre-commit-hooks.yaml` lets a repository run
+  `ooxml-integrity check` on the `.docx` and `.pptx` files of a commit, with
+  `rev` set to 0.11.0 or later. The hook has no source to compare with, so it
+  reports what one file shows on its own
+  ([configuration guide](docs/configuration.md#before-a-commit)).
+- **Type annotations are checked.** The package ships `py.typed`; CI now runs
+  mypy over it. No check, message or exit code changes.
 - **Protect documents when writing a report or baseline.** `check --sarif`
   and `check --write-baseline` exit with code `2` before overwriting an input,
   the `--against` source, or an existing `.docx`, `.pptx`, `.potx` or `.ppsx`
