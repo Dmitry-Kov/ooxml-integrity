@@ -60,6 +60,12 @@
   repairs. If another repair succeeds and the copy passes verification,
   `fix` writes it and exits `0`. Restore the skipped anchor in both copies
   of the text box. Verified on synthetic text boxes.
+- **Restore reply anchors when a fallback contains a copy of the comment.**
+  Like `check`, `fix` reads only direct `w:comment` children of
+  `w:comments`. If a copy in `mc:Fallback` was the only reason for refusal,
+  `fix` now writes the verified repair and exits `0`. Two direct definitions
+  with the same reply ID still prevent that repair. Verified on synthetic
+  variants of a captured DOCX.
 
 ## 0.10.0 — 2026-11-10
 
