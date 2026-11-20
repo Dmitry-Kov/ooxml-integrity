@@ -67,6 +67,12 @@
   separate path. To refresh a baseline, `--write-baseline` can still use
   the same path as `--baseline`. Verified with copies of synthetic corpus
   documents through the CLI and the Action's Bash step.
+- **Restore reply anchors when a fallback contains a copy of the comment.**
+  Like `check`, `fix` reads only direct `w:comment` children of
+  `w:comments`. If a copy in `mc:Fallback` was the only reason for refusal,
+  `fix` now writes the verified repair and exits `0`. Two direct definitions
+  with the same reply ID still prevent that repair. Verified on synthetic
+  variants of a captured DOCX.
 
 ## 0.10.0 — 2026-11-10
 

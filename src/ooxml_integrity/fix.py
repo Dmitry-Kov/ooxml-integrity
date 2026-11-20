@@ -594,7 +594,7 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
     comments: dict[str, Any] = {}
     defined_twice: set[str] = set()
     by_para: dict[str, list[str]] = collections.defaultdict(list)
-    for c in ctree.iter(W + "comment"):
+    for c in ctree.findall(W + "comment"):
         cid = c.get(W + "id")
         paras = list(c.iter(W + "p"))
         para = (paras[-1].get(W14 + "paraId") or "").upper() if paras else ""
