@@ -98,6 +98,12 @@
   (`PPT001` ERROR, default exit `1`) or clear a false one (exit `0` if it
   was the only error). Enlarge the affected text box or reduce its font size
   if the text overflows. Verified only on synthetic slides.
+- **Inherit vertical text alignment from the matching master placeholder.**
+  A Two Content column could take the date field's alignment. With trailing
+  blank lines, this could cause a false `PPT001` (now exit `0` if it was the
+  only error) or hide an overflow (now exit `1` at the default threshold).
+  For a genuine overflow, adjust the text box or remove unintended blank lines.
+  Verified only on synthetic slides.
 
 ## 0.10.0 — 2026-11-10
 

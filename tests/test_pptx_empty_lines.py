@@ -15,7 +15,7 @@ from pathlib import Path
 import pytest
 from lxml import etree
 
-from conftest import ROOT, needs_zlib_bytes, read_part, repack
+from conftest import ROOT, needs_zlib_bytes, read_part, repack, run_cli
 from ooxml_integrity import Severity, check_pptx
 from ooxml_integrity.fonts import EMU_PER_POINT, Metrics, ResolvedFace
 from ooxml_integrity.pptx_checks import check_text_overflow
@@ -196,6 +196,47 @@ def test_a_placeholder_inherits_from_the_layout_placeholder_with_its_idx(tmp_pat
     edited = repack(path, tmp_path / "anchored.pptx", {layout: etree.tostring(tree)})
     anchors = {s.paragraphs[0].runs[0].text: s.anchor for s in read_deck(edited).shapes}
     assert anchors["idx 1"] == "t" and anchors["idx 2"] == "b"
+
+
+@pytest.mark.parametrize("body_anchor,date_anchor,layout_anchor,expected,exit_code", [
+    (None, "ctr", None, "t", 0),
+    ("ctr", "t", None, "ctr", 1),
+    ("ctr", "ctr", "t", "t", 0),
+], ids=["trailing-rows-fit", "real-centred-overflow", "layout-overrides-master"])
+def test_two_content_anchor_inherits_from_the_master_body(
+        tmp_path, body_anchor, date_anchor, layout_anchor, expected, exit_code):
+    from pptx import Presentation
+    from pptx.util import Pt
+
+    prs = Presentation()
+    layout = prs.slide_layouts.get_by_name("Two Content")
+    column = layout.placeholders.get(idx=2)
+    column.height = Pt(38)
+    if layout_anchor:
+        column.element.xpath("p:txBody/a:bodyPr")[0].set("anchor", layout_anchor)
+    master = layout.slide_master.element
+    date = master.xpath('.//p:sp[p:nvSpPr/p:nvPr/p:ph[@type="dt" and @idx="2"]]/p:txBody/a:bodyPr')[0]
+    date.set("anchor", date_anchor)
+    body = master.xpath('.//p:sp[p:nvSpPr/p:nvPr/p:ph[@type="body"]]/p:txBody/a:bodyPr')[0]
+    if body_anchor:
+        body.set("anchor", body_anchor)
+
+    slide = prs.slides.add_slide(layout)
+    right = slide.placeholders[2]
+    right.text = "Review\n\n"
+    for para in right.text_frame.paragraphs:
+        para.font.name = "Arial"
+        para.font.size = Pt(16)
+    path = tmp_path / "alignment.pptx"
+    prs.save(path)
+
+    result = run_cli("check", str(path), "--no-config", "--json")
+    assert result.returncode == exit_code, result.stdout + result.stderr
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    assert [(f["code"], f["severity"], f["where"]) for f in findings if f["severity"] != "info"] == (
+        [("PPT001", "error", f"slide1/{right.name}")] if exit_code else [])
+    [shape] = [s for s in read_deck(path).shapes if s.has_text]
+    assert shape.anchor == expected
 
 
 # ------------------------------------------------------- renderer evidence

@@ -357,19 +357,17 @@ class DeckReader:
         return lst_style.find(_a(f"lvl{level + 1}pPr"))
 
     def _placeholder_shapes(self, slide_part: str, ph_idx, ph_type: str,
-                            master_type: str | None = None, *, layout_only: bool = False,
-                            master_by_type: bool = False):
+                            master_type: str | None = None, *, layout_only: bool = False):
         """The layout's, then the master's, placeholders this one may inherit from.
 
         Yields ((0 for the layout or 1 for the master, whether only the type
-        matched), placeholder) in document order. `master_type` is the type
-        looked for on the master, if not `ph_type`.
+        matched), placeholder) in document order. A slide index identifies a
+        layout placeholder. Master placeholders match by type.
         """
         layout = self.pkg.related(slide_part, "/slideLayout")
         master = self.pkg.related(layout, "/slideMaster") if layout and not layout_only else None
-        master_idx = None if master_by_type else ph_idx
-        for rank, (part, kind, idx) in enumerate(((layout, ph_type, ph_idx),
-                                                  (master, master_type or ph_type, master_idx))):
+        for rank, (part, kind) in enumerate(((layout, ph_type),
+                                             (master, master_type or ph_type))):
             if not part:
                 continue
             t = self.pkg.tree(part)
@@ -379,17 +377,17 @@ class DeckReader:
                 nv = sp.find(f'{_p("nvSpPr")}/{_p("nvPr")}/{_p("ph")}')
                 if nv is None:
                     continue
-                if idx is not None and nv.get("idx") == str(idx):
+                if rank == 0 and ph_idx is not None and nv.get("idx") == str(ph_idx):
                     yield (rank, False), sp
                 elif kind and (nv.get("type") or "body") == kind:
                     yield (rank, True), sp
 
-    def _style_placeholders(self, slide_part: str, ph_idx, ph_type: str, *, master_by_type: bool):
+    def _style_placeholders(self, slide_part: str, ph_idx, ph_type: str):
         """Pick one placeholder per part, preferring its idx where applicable."""
         master_type = {"ctrTitle": "title", "subTitle": "body", "obj": "body"}.get(ph_type)
         best: dict[int, tuple[bool, Any]] = {}
         for (rank, by_type), sp in self._placeholder_shapes(
-                slide_part, ph_idx, ph_type, master_type, master_by_type=master_by_type):
+                slide_part, ph_idx, ph_type, master_type):
             if rank not in best or by_type < best[rank][0]:
                 best[rank] = (by_type, sp)
         for rank in sorted(best):
@@ -397,7 +395,7 @@ class DeckReader:
 
     def _placeholder_anchor(self, slide_part: str, ph_idx, ph_type: str) -> str | None:
         """Inherit the layout's anchor, then the matching title or body anchor on the master."""
-        for sp in self._style_placeholders(slide_part, ph_idx, ph_type, master_by_type=False):
+        for sp in self._style_placeholders(slide_part, ph_idx, ph_type):
             bodypr = sp.find(f'{_p("txBody")}/{_a("bodyPr")}')
             if bodypr is not None and bodypr.get("anchor"):
                 return bodypr.get("anchor")
@@ -406,7 +404,7 @@ class DeckReader:
     def _placeholder_chain(self, slide_part: str, ph_idx, ph_type: str):
         """lstStyle sources from the layout and master, in precedence order."""
         chain = [sp.find(f'{_p("txBody")}/{_a("lstStyle")}')
-                 for sp in self._style_placeholders(slide_part, ph_idx, ph_type, master_by_type=True)]
+                 for sp in self._style_placeholders(slide_part, ph_idx, ph_type)]
         layout = self.pkg.related(slide_part, "/slideLayout")
         master = self.pkg.related(layout, "/slideMaster") if layout else None
 

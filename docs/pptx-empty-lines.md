@@ -29,9 +29,10 @@ overflowing when nothing was drawn outside it. 0.8.3 fixes both.
   Blank rows between lines of text always count.
 - **The anchor is inherited.** A placeholder without `anchor` takes it from
   its layout placeholder (the one with its `idx`, else the first of its
-  type), then from the master's; a master has one title and one body
-  placeholder, so `ctrTitle` reads the title's and `subTitle` and `obj` read
-  the body's.
+  type), then from the master placeholder of the corresponding type.
+  A centred title reads the title anchor. A subtitle or content column reads
+  the body anchor, even when a date field on the master shares the column's
+  index. With no inherited anchor the text is top-aligned.
 
 ## Evidence
 
