@@ -53,8 +53,9 @@ inputs:
   json-report:
     description: >-
       Path to write a JSON report to, e.g. "ooxml-integrity.json". Empty writes
-      no file. Use a separate file from the checked documents and the against
-      source, including when using symbolic or hard links.
+      no file. Use separate report paths from each other, the checked
+      documents, the against source, the loaded config and the baseline.
+      Existing .docx, .pptx, .potx and .ppsx destinations are refused.
     required: false
     default: ""
   config:
@@ -178,8 +179,9 @@ runs:
         # A second pass for machine-readable counts, and the SARIF report in the
         # same pass. Cheap: no rendering, no model calls, no network.
         sarif_args=()
+        sarif_report="$work/report.sarif"
         if [ -n "$OOXML_SARIF" ]; then
-          sarif_args+=(--sarif "$OOXML_SARIF")
+          sarif_args+=(--sarif "$sarif_report")
         fi
         report_code=0
         python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
@@ -204,16 +206,15 @@ runs:
             code=2
           fi
         fi
-        if [ "$code" -le 1 ] && [ -n "$OOXML_SARIF" ] && [ ! -s "$OOXML_SARIF" ]; then
+        if [ "$code" -le 1 ] && [ -n "$OOXML_SARIF" ] && [ ! -s "$sarif_report" ]; then
           echo "::error::The checker did not produce the requested SARIF report."
           code=2
         fi
-        if [ "$code" -le 1 ] && [ -n "$OOXML_JSON_REPORT" ]; then
-          # Publish with the input guard from this Action ref, including for a checker override.
-          if [ -d "$OOXML_JSON_REPORT" ] || [ "$OOXML_JSON_REPORT" -ef "$OOXML_SARIF" ] ||
-             ! PYTHONPATH="$GITHUB_ACTION_PATH/src" python "$GITHUB_ACTION_PATH/.github/publish_json_report.py" \
-                 "$machine_report" "$OOXML_JSON_REPORT" "$OOXML_AGAINST"; then
-            echo "::error::Could not write a separate JSON report at the requested path."
+        if [ "$code" -le 1 ] && [[ -n "$OOXML_JSON_REPORT" || -n "$OOXML_SARIF" ]]; then
+          # Check both paths before publishing either report, also for checker overrides.
+          if ! PYTHONPATH="$GITHUB_ACTION_PATH/src" python "$GITHUB_ACTION_PATH/.github/publish_json_report.py" \
+                 "$machine_report" "$sarif_report"; then
+            echo "::error::Could not publish the requested reports."
             code=2
           fi
         fi

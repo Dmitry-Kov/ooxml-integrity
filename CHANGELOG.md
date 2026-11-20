@@ -60,6 +60,13 @@
   repairs. If another repair succeeds and the copy passes verification,
   `fix` writes it and exits `0`. Restore the skipped anchor in both copies
   of the text box. Verified on synthetic text boxes.
+- **Preserve the files a check reads when writing reports.** The CLI and
+  GitHub Action exit `2` if a report would overwrite the input baseline or
+  the loaded config. Action reports also protect existing `.docx`, `.pptx`,
+  `.potx` and `.ppsx` files outside the checked inputs. Give each report a
+  separate path. To refresh a baseline, `--write-baseline` can still use
+  the same path as `--baseline`. Verified with copies of synthetic corpus
+  documents through the CLI and the Action's Bash step.
 - **Compare both representations of a Word text box separately.** With
   `check --against`, moving a comment reference from the first branch of
   `mc:AlternateContent` into `mc:Fallback` now produces `FID001` ERROR.
