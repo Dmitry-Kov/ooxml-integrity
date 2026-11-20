@@ -61,6 +61,15 @@ def _r(tag: str) -> str:
     return f"{{{NS['r']}}}{tag}"
 
 
+def _decimal_id(value: str) -> str:
+    """Canonical spelling of an OOXML decimal ID; leave malformed values as written."""
+    number = value.strip(" \t\r\n")
+    if not re.fullmatch(r"[+-]?[0-9]+", number):
+        return value
+    digits = number.lstrip("+-").lstrip("0") or "0"
+    return "-" + digits if number.startswith("-") and digits != "0" else digits
+
+
 _COMMENT_MARKERS = ("commentRangeStart", "commentRangeEnd", "commentReference")
 def _paragraph_revision_pair(elements: list[etree._Element]) -> bool:
     """Recognize only the verified plain whole-paragraph mark/content pair.
@@ -827,10 +836,17 @@ class Inspector:
                       part=relationships_part(self.main))
         cm_label = ("comments.xml" if cm_part == "word/comments.xml"
                     else cm_part or "the related comments part")
-        defined = (
-            {c.get(_w("id")) for c in cm.findall(_w("comment"))} if cm is not None
-            else set()
-        )
+        ids = [c.get(_w("id")) for c in cm.findall(_w("comment"))] if cm is not None else []
+        defined = set(ids)
+        for cid, count in Counter(_decimal_id(i) for i in ids if i is not None).items():
+            if count > 1:
+                self.findings.append(Finding(
+                    "CMT008", ERROR,
+                    f"comment id={cid} has {count} definitions - a reader may load only one "
+                    "comment for this id",
+                    where=f"{cm_part}#comment-{cid}", part=cm_part or "",
+                    extra={"id": cid, "definitions": count},
+                ))
         # A range and its reference belong to one story: the main part, or a
         # header, footer or note part it relates. A comment is orphaned only
         # when no story refers to it. An unreadable story hides its anchors, so

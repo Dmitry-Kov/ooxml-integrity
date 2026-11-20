@@ -216,7 +216,8 @@ def test_anchor_replies_refuses_two_direct_definitions_of_the_reply(tmp_path):
     out = tmp_path / "fixed.docx"
     report = fix(source, out)
     assert report.exit_code == EXIT_NOTHING and not out.exists()
-    (refused,) = report.not_repaired
+    assert sorted(n.finding.code for n in report.not_repaired) == ["CMT005", "CMT008"]
+    (refused,) = [n for n in report.not_repaired if n.finding.code == "CMT005"]
     assert refused.repair == "anchor-replies" and refused.finding.code == "CMT005"
     assert refused.finding.severity.value == "error"
     assert "15" in refused.reason and "defined more than once" in refused.reason

@@ -29,6 +29,7 @@ the [support matrix](support-matrix.md) records the exact scope of each rule.
 | `FTN001-002` | footnote references resolve; orphaned footnotes |
 | `CMT001-006` | Comment ranges/references ↔ the related comments part; unresolved or unreadable comments parts |
 | `CMT007` | 0.10.0, ERROR: a second `commentRangeStart`, `commentRangeEnd` or `commentReference` for one comment id in a story, as the closed python-docx [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) wrote when setting the text of the first paragraph of a comment over two; a text box's copy in `mc:Fallback` does not count |
+| `CMT008` | Unreleased, ERROR. Two or more direct `w:comment` children of the related `w:comments` root share an ID (`1` and `01` denote the same number). An editor may load only one of the comments. [WordprocessingML comment semantics](https://learn.microsoft.com/en-us/office/open-xml/word/how-to-retrieve-comments-from-a-word-processing-document) |
 | `REV001-003` | revision-ID collisions outside the verified paragraph-mark/content pair; `w:del` carries `w:delText`, respecting legal `w:ins > w:del` nesting |
 | `TBL001-002` | `tblGrid` present; cells per row vs grid columns, accounting for `gridSpan` |
 | `SDT001-002` | content-control integrity |

@@ -99,6 +99,11 @@
   Restore the reference in the primary branch. A stale ID confined to
   the fallback no longer triggers `FTN001`, and coverage counts only
   primary references. Verified only on synthetic documents.
+- `check` reports `CMT008` ERROR when more than one comment in the related
+  comments part defines the same ID. A reader may show only one of them.
+  Affected documents now exit `1` at the default threshold on every run.
+  Restore a unique ID and matching anchors for each intended comment, or
+  remove an unintended duplicate. Verified on synthetic DOCX files.
 
 ## 0.10.0 — 2026-11-10
 
