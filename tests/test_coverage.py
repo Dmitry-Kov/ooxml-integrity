@@ -166,7 +166,7 @@ def test_orphan_note_definitions_still_count_as_a_checked_surface(
 
 
 @pytest.mark.parametrize("boxed", [False, True], ids=["plain", "text-box"])
-def test_coverage_counts_only_the_comment_reference_in_the_primary_branch(
+def test_coverage_counts_only_primary_comment_and_footnote_references(
         root, tmp_path, boxed):
     from test_repeated_comment_markers import _text_box
 
@@ -186,9 +186,36 @@ def test_coverage_counts_only_the_comment_reference_in_the_primary_branch(
     items = _by_id(_coverage(result))
     assert items["docx.comments"]["status"] == "checked"
     assert items["docx.comments"]["count"] == 2  # one reference and one definition
-    # The footnote and whitespace checks visit both copies of the paragraph.
-    assert items["docx.footnotes"]["count"] == (5 if boxed else 4)
+    assert items["docx.footnotes"]["count"] == 4  # one reference and three definitions
     assert items["docx.text-whitespace"]["count"] == document.count("</w:t>")
+
+
+@pytest.mark.parametrize("choice_id,fallback_id,expected", [
+    (None, 1, [("FTN002", 1)]),
+    (1, 999, []),
+    (999, 1, [("FTN001", 999), ("FTN002", 1)]),
+], ids=["fallback-only", "stale-fallback", "dangling-primary"])
+def test_footnote_gate_and_coverage_use_the_primary_reference(
+        base_docx, tmp_path, choice_id, fallback_id, expected):
+    from test_repeated_comment_markers import MC
+
+    part = "word/document.xml"
+    doc = read_part(base_docx, part)
+    ref = '<w:footnoteReference w:id="1"/>'
+    assert doc.count(ref) == 1
+    choice = f'<w:footnoteReference w:id="{choice_id}"/>' if choice_id is not None else ""
+    wrapper = (f'<mc:AlternateContent xmlns:mc="{MC}"><mc:Choice Requires="w">{choice}</mc:Choice>'
+               f'<mc:Fallback><w:footnoteReference w:id="{fallback_id}"/></mc:Fallback></mc:AlternateContent>')
+    path = repack(base_docx, tmp_path / "note.docx", {part: doc.replace(ref, wrapper).encode()})
+    result = run_cli("check", str(path), "--coverage", "--no-config", "--json")
+    assert result.returncode == (EXIT_FINDINGS if expected else EXIT_OK), result.stdout + result.stderr
+    [entry] = json.loads(result.stdout)["files"]
+    assert [(f["code"], f["severity"]) for f in entry["findings"]] == [(code, "error") for code, _ in expected]
+    for finding, (_, note_id) in zip(entry["findings"], expected):
+        assert f"id={note_id}" in finding["message"].split()
+    surface = _by_id(entry["coverage"])["docx.footnotes"]
+    # Four definitions and one other reference outside AlternateContent.
+    assert surface["count"] == (5 if choice_id is None else 6)
 
 
 def test_coverage_counts_only_direct_comment_and_footnote_definitions(base_docx, tmp_path):

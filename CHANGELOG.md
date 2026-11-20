@@ -93,6 +93,12 @@
   missing content in the affected branch. Review baseline entries that
   previously accepted losses counted across both copies. Verified only
   on synthetic documents and synthetic variants of captured documents.
+- **Check footnote references in the primary branch of AlternateContent.**
+  If a footnote's last reference survives only in the fallback, `check`
+  now reports `FTN002` ERROR and exits `1` at the default threshold.
+  Restore the reference in the primary branch. A stale ID confined to
+  the fallback no longer triggers `FTN001`, and coverage counts only
+  primary references. Verified only on synthetic documents.
 
 ## 0.10.0 — 2026-11-10
 

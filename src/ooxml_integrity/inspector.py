@@ -796,6 +796,8 @@ class Inspector:
                    if f.get(_w("type")) not in (None, "normal")}
         used = set()
         for ref in doc.iter(_w("footnoteReference")):
+            if alternative_branch(ref):
+                continue
             i = ref.get(_w("id"))
             used.add(i)
             if i not in defined:

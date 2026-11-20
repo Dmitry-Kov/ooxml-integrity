@@ -151,13 +151,12 @@ def _element_surface(root, tag: str, identifier: str, singular: str,
 
 
 def _combined_surface(stories, supporting, tag: str, supporting_tag: str,
-                      identifier: str, label: str, *, gap: str,
-                      primary_references: bool = False) -> CoverageItem:
+                      identifier: str, label: str, *, gap: str) -> CoverageItem:
     """Describe checks that consider both references and definitions."""
     if stories is None:
         return _item(identifier, CoverageStatus.SKIPPED, gap)
     references = sum(1 for root in stories for node in root.iter(W + tag)
-                     if not primary_references or not alternative_branch(node))
+                     if not alternative_branch(node))
     definitions = (
         len(supporting.findall(W + supporting_tag))
         if supporting is not None else 0
@@ -306,7 +305,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
                 None if document is None
                 else [document, *(trees[part] for part in stories[1:])],
                 comments_tree, "commentReference", "comment", "docx.comments",
-                "comment", gap=gap, primary_references=True,
+                "comment", gap=gap,
             )
     except (ValueError, etree.XMLSyntaxError) as e:
         comments_surface = _item(
