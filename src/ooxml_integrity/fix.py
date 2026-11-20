@@ -1006,7 +1006,7 @@ _LABELS = {tag: label for tag, label, _ in TRACKED}
 def _counts(findings: list[Finding], added: collections.Counter) -> list[Finding]:
     """The count findings of compare() for constructs a repair added."""
     return [f for f in findings if f.code in ("FID001", "FID002")
-            and f.extra.get("tag") in added]
+            and f.extra.get("tag") in added and f.extra.get("branch") != "fallback"]
 
 
 #: Elements that cover nothing themselves when a comment range is read: range,

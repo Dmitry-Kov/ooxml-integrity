@@ -163,14 +163,20 @@ def test_baseline_distinguishes_payload_kind_and_increased_loss():
 
 def test_search_work_is_bounded_and_incomplete_coverage_is_explicit(base_docx, tmp_path, monkeypatch):
     from ooxml_integrity import coverage as coverage_module
+    from ooxml_integrity.fidelity import assess_revision_text_views, revision_text_views
     from ooxml_integrity.revision_text import inventory, assess
     source, old = make(base_docx, tmp_path/'source.docx', ['optional', 'retained'])
     output, new = make(base_docx, tmp_path/'output.docx', ['invented', 'retained'])
     result = assess(inventory(old), inventory(new), scan_limit=0)
     assert not result.findings and result.compared == 1
     assert result.skipped == ['ins: literal-text search budget exhausted']
-    monkeypatch.setattr(coverage_module, 'assess_revision_text',
-                        lambda a,b: assess(a,b,scan_limit=0))
+    # Enough for the primary search. The backup can still use exact matches.
+    both = assess_revision_text_views(revision_text_views(old, old), revision_text_views(new, new),
+                                      scan_limit=len('inventedretained'))
+    assert both.compared == 3 and both.scan_work == len('inventedretained')
+    assert both.skipped == ['fallback: ins: literal-text search budget exhausted']
+    monkeypatch.setattr(coverage_module, 'assess_revision_text_views',
+                        lambda a,b: assess_revision_text_views(a,b,scan_limit=0))
     item = next(i for i in docx_coverage(output, [], source=source).items
                 if i.id == 'docx.fidelity.revision-text')
     assert item.status.value == 'estimated' and item.count == 1

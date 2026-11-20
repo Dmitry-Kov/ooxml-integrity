@@ -144,7 +144,7 @@ threshold when the requested comparison could not run.
 
 | surface | status | current scope |
 | --- | --- | --- |
-| Main-document construct counts | **Supported** | Compares counts of comment and footnote references, insertions, deletions, content controls, drawings, tables, hyperlinks, paragraph and character style references, numbered-list properties and table-header markers among all descendants of `word/document.xml`. Since 0.10.0 it also counts endnote references (ERROR) and section breaks (WARN; the `w:sectPr` a tracked section change keeps as its record is not one). VML pictures (`w:pict`) are not counted: a producer may write or drop the VML fallback of a drawing, and no save of such a file was measured. Loss and addition are reported separately. A lower insertion/deletion count is exempt only for positively matched plain inline coalescence; [scope and conservative fallbacks](../evidence/docx-fid001-coalescence/README.md). This does not compare all revision payloads when counts match. |
+| Main-document construct counts | **Supported** | Compares counts of comment and footnote references, insertions, deletions, content controls, drawings, tables, hyperlinks, paragraph and character style references, numbered-list properties and table-header markers among descendants of the main document, with primary and backup representations counted separately. Since 0.10.0 it also counts endnote references (ERROR) and section breaks (WARN; the `w:sectPr` a tracked section change keeps as its record is not one). VML pictures (`w:pict`) are not counted: a producer may write or drop the VML fallback of a drawing, and no save of such a file was measured. Loss and addition are reported separately. A lower insertion/deletion count is exempt only for positively matched plain inline coalescence; [scope and conservative fallbacks](../evidence/docx-fid001-coalescence/README.md). This does not compare all revision payloads when counts match. |
 | Main-document revision text (0.4.2 FID009) | **Partial** | With equal same-kind wrapper counts, compares nonempty literal text in direct paragraph-level insertions/deletions. IDs, formatting, metadata and wrapper boundaries are not identities. Nested/empty/non-text revisions skip that kind; searches have a fixed work budget. Incidental wording elsewhere can mask loss. [Coverage and explicit limits](../evidence/docx-revision-text/README.md). |
 | Literal numeric punctuation/symbol spellings (TXT002) | **Partial** | Parsed Word story text and conventional numbering level values are scanned for literal numeric references. These can be deliberate examples; split-node spellings and other Unicode categories are outside the heuristic. WARN only. [Scope](review-edit-warnings.md). |
 | Tracked changes added (0.4.9 FID012) | **Supported** | Per story (`word/document.xml`, each effective header/footer slot, conventional footnote and endnote parts), lists the insertions, deletions and moves whose kind, author and effective date (`w16du:dateUtc` before `w:date`) no story revision in the source had, grouped by kind and author. Splitting or joining an existing revision adds nothing. INFO only. An edit stamped with an existing revision's author and date is not listed; comments' revisions are not read. |
@@ -163,6 +163,14 @@ threshold when the requested comparison could not run.
 | Style, numbering, settings and relationship fidelity | **Not checked** | Definitions and package graphs are checked for some forms of self-consistency, but they are not compared source-to-output for semantic equivalence. |
 | Media and embedded-part fidelity | **Not checked** | The comparison does not prove that images, charts, embedded files or custom XML retained the same bytes or meaning. |
 | Intended edits and semantic correctness | **Not checked** | A structurally intact file can still contain the wrong amount, name, clause, slide text or other business content. |
+
+For Word `mc:AlternateContent`, the first branch supplies the primary
+content. Later branches supply the backup. Moving a comment reference
+from the primary branch into the backup loses a primary anchor
+(`FID001` ERROR). Missing backup constructs or text can produce warnings
+with `extra.branch = "fallback"`. Accepting one of these warnings in a
+baseline leaves the corresponding primary loss visible. Construct counts
+and the main-document text-volume threshold apply within each representation.
 
 In 0.4.5, `FID003` adds the edit's new tracked-deletion text
 (`w:delText` beyond the source's amount) to the edited length, so a tracked

@@ -12,7 +12,7 @@ import collections
 import functools
 import posixpath
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlsplit
@@ -31,7 +31,10 @@ from .comments import (
     main_part,
     relationships_part,
 )
-from .revision_text import RevisionText, inventory as revision_inventory, assess as assess_revision_text
+from .revision_text import (
+    MAX_SCAN_WORK, RevisionText, TextComparison, assess as assess_revision_text,
+    inventory as revision_inventory,
+)
 from .replacements import Replacement, assess as assess_replacements, replacements as replacement_inventory
 from .paragraphs import ParagraphText, assess as assess_paragraphs, paragraph_views
 from .revision_growth import (
@@ -39,7 +42,7 @@ from .revision_growth import (
 )
 from .references import References, assess as assess_references
 from .runtext import TAGS as _TEXT_TAGS, is_character, shown
-from .xmlutil import fromstring as parse_xml
+from .xmlutil import alternative_branch, fromstring as parse_xml, extract_fallback
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
@@ -67,6 +70,40 @@ TRACKED: tuple[tuple[str, str, Severity], ...] = (
     ("tblHeader", "table header rows", WARN),
     ("sectPr", "section breaks", WARN),
 )
+
+
+def _fallback_warning(finding: Finding) -> Finding:
+    # Give a backup loss its own location so accepting it in a baseline
+    # cannot hide a subsequent loss in the primary representation.
+    location = finding.where or finding.part
+    where = (location + "/" if location else "") + "mc:AlternateContent/fallback"
+    return replace(finding, severity=WARN, message=f"Fallback copy: {finding.message}",
+                   where=where, extra={**finding.extra, "branch": "fallback"})
+
+
+def _include_fallback(result: TextComparison | NoteRevisionComparison,
+                      backup: TextComparison | NoteRevisionComparison) -> None:
+    result.findings.extend(_fallback_warning(f) for f in backup.findings)
+    result.source_count += backup.source_count
+    result.compared += backup.compared
+    result.skipped.extend(f"fallback: {reason}" for reason in backup.skipped)
+
+
+_RevisionTextViews = tuple[RevisionText, RevisionText]
+
+
+def revision_text_views(primary, fallback) -> _RevisionTextViews:
+    return revision_inventory(primary), revision_inventory(fallback)
+
+
+def assess_revision_text_views(source: _RevisionTextViews, edited: _RevisionTextViews, *,
+                               part: str = "word/document.xml", scan_limit: int = MAX_SCAN_WORK
+                               ) -> TextComparison:
+    primary = assess_revision_text(source[0], edited[0], part=part, scan_limit=scan_limit)
+    backup = assess_revision_text(source[1], edited[1], part=part, scan_limit=scan_limit - primary.scan_work)
+    _include_fallback(primary, backup)
+    primary.scan_work += backup.scan_work
+    return primary
 
 
 def _count(root, tag: str) -> int:
@@ -330,7 +367,11 @@ def _without_new_revisions(record: tuple, known: set) -> tuple:
 _Text = tuple[Any, Any, Any]
 
 
-def _bodies(parts: dict[str, bytes], part: str, tag: str
+def _text_fact(root) -> _Text:
+    return _story_text(root), _story_text(root, original=True), _record(root)
+
+
+def _bodies(parts: dict[str, bytes], part: str, tag: str, *, fallback: list[_Text] | None = None
             ) -> tuple[list[_Text], dict[str, str]]:
     """Normalised texts of every item in `part`, one entry per item.
 
@@ -348,9 +389,16 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str
     for item in root.iter(W + tag):
         if item.get(W + "type") in _BOILERPLATE:
             continue
-        body, original = _story_text(item), _story_text(item, original=True)
+        if alternative_branch(item):
+            if fallback is not None:
+                fallback.append(_text_fact(item))
+            continue
+        backup = extract_fallback(item)
+        if fallback is not None and backup is not None:
+            fallback.append(_text_fact(backup))
+        body, original, record = _text_fact(item)
         if body or original:
-            out.append((body, original, _record(item)))
+            out.append((body, original, record))
         if body:
             authors.setdefault(body, item.get(W + "author") or "")
     return out, authors
@@ -407,10 +455,25 @@ def _unmatched(source: list[_Text], edited: list[_Text]) -> collections.Counter:
 
 
 @dataclass
-class NoteRevisions:
-    notes: collections.Counter
-    revised: collections.Counter
-    empty_records: int
+class _NoteRevisionView:
+    notes: collections.Counter = field(default_factory=collections.Counter)
+    revised: collections.Counter = field(default_factory=collections.Counter)
+    empty_records: int = 0
+
+    def read(self, part: str, note) -> None:
+        kinds = {node.tag[len(W):] for node in note.iter(*_REVISION_TAGS)}
+        body = _joined(note, shown)
+        if not body:
+            self.empty_records += len(kinds)
+            return
+        self.notes[(part, body)] += 1
+        for tag in sorted(kinds):
+            self.revised[(part, body, tag)] += 1
+
+
+@dataclass
+class NoteRevisions(_NoteRevisionView):
+    fallback: _NoteRevisionView = field(default_factory=_NoteRevisionView)
 
 
 def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
@@ -418,9 +481,10 @@ def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
 
     Include deleted words in the key so unwrapping a deletion can be compared
     with the same words in ordinary runs. This is not rendered text or identity.
-    One note contributes at most once per kind, regardless of fragment count.
+    Each representation contributes at most once per note and revision kind,
+    regardless of fragment count.
     """
-    result = NoteRevisions(collections.Counter(), collections.Counter(), 0)
+    result = NoteRevisions()
     for part, kind in (('word/footnotes.xml','footnote'), ('word/endnotes.xml','endnote')):
         if part not in parts:
             continue
@@ -430,14 +494,10 @@ def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
         for note in root.findall(W + kind):
             if note.get(W + 'type') in _BOILERPLATE:
                 continue
-            kinds = {node.tag[len(W):] for node in note.iter(*_REVISION_TAGS)}
-            body = _joined(note, shown)
-            if not body:
-                result.empty_records += len(kinds)
-                continue
-            result.notes[(part, body)] += 1
-            for tag in sorted(kinds):
-                result.revised[(part, body, tag)] += 1
+            backup = extract_fallback(note)
+            result.read(part, note)
+            if backup is not None:
+                result.fallback.read(part, backup)
     return result
 
 
@@ -450,6 +510,12 @@ class NoteRevisionComparison:
 
 
 def assess_note_revisions(source: NoteRevisions, edited: NoteRevisions) -> NoteRevisionComparison:
+    result = _assess_note_view(source, edited)
+    _include_fallback(result, _assess_note_view(source.fallback, edited.fallback))
+    return result
+
+
+def _assess_note_view(source: _NoteRevisionView, edited: _NoteRevisionView) -> NoteRevisionComparison:
     """Detect missing ins/del presence only in equally populated text groups.
 
     A surviving same-kind revision can mask partial removal within a note, and
@@ -482,11 +548,17 @@ def assess_note_revisions(source: NoteRevisions, edited: NoteRevisions) -> NoteR
 
 
 @dataclass
-class _StoryFacts:
+class _StoryView:
     #: (kind, variant, text) keys, one entry per effective section slot
     texts: list[_Text]
     constructs: collections.Counter
     parts: dict[tuple[str, str, str], str]
+
+
+@dataclass
+class _StoryFacts:
+    primary: _StoryView
+    fallback: _StoryView
     #: "kind/variant" -> revision contexts of the parts in those slots
     revisions: dict[str, collections.Counter]
     #: "kind/variant" -> adjacent tracked replacements in those parts
@@ -610,10 +682,9 @@ def _revision_contexts(root) -> collections.Counter:
 def _story_facts(parts: dict[str, bytes], document, *,
                  references: list[tuple[str, str, str]],
                  ) -> _StoryFacts:
-    texts: list[_Text] = []
-    constructs: collections.Counter = collections.Counter()
-    locations: dict[tuple[str, str, str], str] = {}
-    trees: dict[str, tuple[Any, str, str, Any]] = {}
+    primary = _StoryView([], collections.Counter(), {})
+    fallback = _StoryView([], collections.Counter(), {})
+    trees: dict[str, tuple[Any, list[tuple[_StoryView, Any, _Text]]]] = {}
     revisions: dict[str, collections.Counter] = {}
     replacements: dict[str, list[Replacement]] = {}
     paragraphs: dict[str, list[list[ParagraphText]]] = {}
@@ -626,14 +697,19 @@ def _story_facts(parts: dict[str, bytes], document, *,
                 raise ValueError(
                     f"{part} is related as a {kind} but has root {root.tag!r}"
                 )
-            trees[part] = (root, _story_text(root),
-                           _story_text(root, original=True), _record(root))
-        root, body, original, record = trees[part]
-        identity = (kind, variant, body)
-        texts.append((identity, (kind, variant, original), record))
-        locations.setdefault(identity, part)
-        for tag, _, _ in TRACKED:
-            constructs[(kind, variant, tag)] += _count(root, tag)
+            backup = extract_fallback(root)
+            representations = [(primary, root, _text_fact(root))]
+            if backup is not None:
+                representations.append((fallback, backup, _text_fact(backup)))
+            trees[part] = root, representations
+        root, representations = trees[part]
+        for view, tree, (body, original, record) in representations:
+            if view is primary or body or original:
+                identity = (kind, variant, body)
+                view.texts.append((identity, (kind, variant, original), record))
+                view.parts.setdefault(identity, part)
+            for tag, _, _ in TRACKED:
+                view.constructs[(kind, variant, tag)] += _count(tree, tag)
         story = f"{kind}/{variant}"
         if (story, part) not in counted:  # one part can fill several sections' slots
             counted.add((story, part))
@@ -648,7 +724,7 @@ def _story_facts(parts: dict[str, bytes], document, *,
         if not _shown_already(shown, views[part]):
             shown.append(views[part])
     flat = {story: [p for slot in slots for p in slot] for story, slots in paragraphs.items()}
-    return _StoryFacts(texts, constructs, locations, revisions, replacements, flat)
+    return _StoryFacts(primary, fallback, revisions, replacements, flat)
 
 
 def _shown_already(shown: list[list[ParagraphText]], slot: list[ParagraphText]) -> bool:
@@ -659,20 +735,40 @@ def story_reference_count(parts: dict[str, bytes]) -> int:
     """Number of effective first/even/default header/footer section slots."""
     main = main_part(parts)
     document = main_document(parts, main)
+    extract_fallback(document)
     return len(_effective_story_references(parts, document, main=main))
 
 
 @dataclass
-class _Snapshot:
+class _BodyCounts:
     counts: dict[str, int]
-    bodies: dict[str, list[_Text]]
-    authors: dict[tuple[str, str], str]
     text_length: int
     deleted_length: int
-    stories: _StoryFacts
     revision_text: dict[str, tuple | None]
+
+
+def _body_counts(root) -> _BodyCounts:
+    if root is None:
+        return _BodyCounts({}, 0, 0, {})
+    counts = {tag: _count(root, tag) for tag, _, _ in TRACKED}
+    # FID003 measures characters in w:t and w:delText; tabs, breaks and
+    # symbols belong to the paragraph comparison.
+    text = sum(len(t.text or "") for t in root.iter(W + "t"))
+    deleted = sum(len(t.text or "") for t in root.iter(W + "delText"))
+    signatures = {tag: _revision_text_signature(root, tag) for tag in ("ins", "del")}
+    return _BodyCounts(counts, text, deleted, signatures)
+
+
+@dataclass
+class _Snapshot:
+    primary: _BodyCounts
+    fallback: _BodyCounts
+    bodies: dict[str, list[_Text]]
+    fallback_bodies: dict[str, list[_Text]]
+    authors: dict[tuple[str, str], str]
+    stories: _StoryFacts
     body_locations: dict[str, str]
-    inline_revision_text: RevisionText
+    inline_revision_text: _RevisionTextViews
     pending_insertions: PendingInsertions
     note_revisions: NoteRevisions
     main: str
@@ -705,6 +801,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     }
     parts.update(read_package(path, limits, members=wanted))
     doc = main_document(parts, main)
+    fallback = extract_fallback(doc)
     comments = comment_part(parts, names=names, main=main)
     if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
         raise ValueError("document has comment references but no comments relationship")
@@ -718,19 +815,15 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         parts.update(read_package(path, limits, members=story_parts))
     if comments is not None:
         comment_tree(parts, comments)
-    counts = {tag: _count(doc, tag) for tag, _, _ in TRACKED}
-    # FID003 measures the characters of w:t and w:delText only, not the
-    # one-character elements runtext reads (tabs, breaks, hyphens, symbols):
-    # it is a ratio with a 5% margin, and losing those is FID014's to report.
-    text_length = sum(len(t.text or "") for t in doc.iter(W + "t"))
-    deleted_length = sum(len(t.text or "") for t in doc.iter(W + "delText"))
     bodies: dict[str, list[_Text]] = {}
+    fallback_bodies: dict[str, list[_Text]] = {}
     authors: dict[tuple[str, str], str] = {}
     locations: dict[str, str] = {}
     for part, tag, _, _ in BODY_PARTS:
+        fallback_bodies[part] = []
         actual = comments if tag == "comment" else part
         body_counts, body_authors = (
-            _bodies(parts, actual, tag) if actual is not None
+            _bodies(parts, actual, tag, fallback=fallback_bodies[part]) if actual is not None
             else ([], {})
         )
         bodies[part] = body_counts
@@ -753,16 +846,16 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
             notes = parse_xml(parts[part])
+            extract_fallback(notes)
             revisions[story] = _revision_contexts(notes)
             replacements[story] = replacement_inventory(notes)
             paragraphs[story] = paragraph_views(notes)
             references.read(story, notes)
     return _Snapshot(
-        counts, bodies, authors, text_length, deleted_length,
+        _body_counts(doc), _body_counts(fallback), bodies, fallback_bodies, authors,
         stories,
-        {tag: _revision_text_signature(doc, tag) for tag in ("ins", "del")},
         locations,
-        revision_inventory(doc),
+        revision_text_views(doc, fallback),
         pending_inventory(doc),
         note_revision_inventory(parts),
         main,
@@ -820,11 +913,11 @@ def _paragraph_changes(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
     return out
 
 
-def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
+def _story_losses(source: _StoryView, edited: _StoryView) -> list[Finding]:
     out: list[Finding] = []
-    unmatched = _unmatched(source.stories.texts, edited.stories.texts)
+    unmatched = _unmatched(source.texts, edited.texts)
     in_source = collections.Counter(
-        identity for identity, _, _ in source.stories.texts)
+        identity for identity, _, _ in source.texts)
     for (kind, variant, body), n in in_source.items():
         lost = unmatched[(kind, variant, body)]
         if lost <= 0:
@@ -845,7 +938,7 @@ def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
             f"a source {variant} {kind} story is missing or changed in the "
             f"edited file{occurrences}.{content}",
             where=f"{kind}/{variant}",
-            part=source.stories.parts[(kind, variant, body)],
+            part=source.parts[(kind, variant, body)],
             extra={
                 "story_kind": kind,
                 "variant": variant,
@@ -856,10 +949,10 @@ def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
         ))
 
     labels = {tag: (label, severity) for tag, label, severity in TRACKED}
-    for (kind, variant, tag), before in source.stories.constructs.items():
+    for (kind, variant, tag), before in source.constructs.items():
         if not before:
             continue
-        after = edited.stories.constructs.get((kind, variant, tag), 0)
+        after = edited.constructs.get((kind, variant, tag), 0)
         if after >= before:
             continue
         label, severity = labels[tag]
@@ -880,29 +973,18 @@ def _story_losses(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
     return out
 
 
-def compare(source: str | Path, edited: str | Path, *,
-            limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
-    """What did `edited` lose relative to `source`?
-
-    Package reads are bounded by `limits`. Raises package/XML exceptions;
-    callers that may be handed invalid input should use the CLI, which converts
-    a failed requested comparison into an error-level `FID000` finding.
-    """
-    source_snapshot = _snapshot(source, limits)
-    edited_snapshot = _snapshot(edited, limits)
-    before, after = source_snapshot.counts, edited_snapshot.counts
+def _construct_changes(source: _BodyCounts, edited: _BodyCounts) -> list[Finding]:
     out: list[Finding] = []
-
     for tag, label, sev in TRACKED:
-        a, b = before[tag], after[tag]
+        a, b = source.counts.get(tag, 0), edited.counts.get(tag, 0)
         if not a:
             continue
         if b < a:
             # Word can join adjacent deletion/insertion wrappers on a save.
             # Suppress the count-only loss only with a positive content witness;
             # two unsupported (None) signatures must never count as equal.
-            witness = source_snapshot.revision_text.get(tag)
-            if witness is not None and witness == edited_snapshot.revision_text.get(tag):
+            witness = source.revision_text.get(tag)
+            if witness is not None and witness == edited.revision_text.get(tag):
                 continue
             lost = a - b
             out.append(Finding(
@@ -922,7 +1004,23 @@ def compare(source: str | Path, edited: str | Path, *,
                 "(count increase alone does not establish a defect)",
                 extra={"tag": tag, "before": a, "after": b},
             ))
+    return out
 
+
+def compare(source: str | Path, edited: str | Path, *,
+            limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
+    """What did `edited` lose relative to `source`?
+
+    Package reads are bounded by `limits`. Raises package/XML exceptions;
+    callers that may be handed invalid input should use the CLI, which converts
+    a failed requested comparison into an error-level `FID000` finding.
+    """
+    source_snapshot = _snapshot(source, limits)
+    edited_snapshot = _snapshot(edited, limits)
+    out = _construct_changes(source_snapshot.primary, edited_snapshot.primary)
+    out.extend(_fallback_warning(f)
+               for f in _construct_changes(source_snapshot.fallback, edited_snapshot.fallback)
+               if f.code == "FID001")
     out.extend(_revision_additions(source_snapshot, edited_snapshot))
     out.extend(_wide_replacements(source_snapshot, edited_snapshot))
     out.extend(_paragraph_changes(source_snapshot, edited_snapshot))
@@ -952,11 +1050,23 @@ def compare(source: str | Path, edited: str | Path, *,
                        "in_source": n},
             ))
 
-    out.extend(_story_losses(source_snapshot, edited_snapshot))
+        source_fallback = [item for item in source_snapshot.fallback_bodies[part] if item[0]]
+        fallback_counts = collections.Counter(body for body, _, _ in source_fallback)
+        missing = _unmatched(source_fallback, edited_snapshot.fallback_bodies[part])
+        for body, lost in missing.items():
+            out.append(_fallback_warning(Finding(
+                code, WARN, f"text of a source {label} is missing or changed in the edited file",
+                part=source_snapshot.body_locations.get(part, part),
+                extra={"body": body, "lost": lost, "in_source": fallback_counts[body]},
+            )))
+
+    out.extend(_story_losses(source_snapshot.stories.primary, edited_snapshot.stories.primary))
+    out.extend(_fallback_warning(f) for f in
+               _story_losses(source_snapshot.stories.fallback, edited_snapshot.stories.fallback))
     out.extend(assess_references(
         source_snapshot.references, edited_snapshot.references,
     ))
-    out.extend(assess_revision_text(
+    out.extend(assess_revision_text_views(
         source_snapshot.inline_revision_text, edited_snapshot.inline_revision_text,
         part=source_snapshot.main,
     ).findings)
@@ -970,20 +1080,27 @@ def compare(source: str | Path, edited: str | Path, *,
         source_snapshot.note_revisions, edited_snapshot.note_revisions,
     ).findings)
 
-    ta, tb = source_snapshot.text_length, edited_snapshot.text_length
+    out.extend(_text_loss(source_snapshot.primary, edited_snapshot.primary))
+    out.extend(_fallback_warning(f)
+               for f in _text_loss(source_snapshot.fallback, edited_snapshot.fallback))
+    return out
+
+
+def _text_loss(source: _BodyCounts, edited: _BodyCounts) -> list[Finding]:
+    ta, tb = source.text_length, edited.text_length
     # Text an edit moved into new tracked deletions is still in the document,
     # so a tracked replacement that shortens the text is not a loss. Only the
     # growth counts: deletions already pending in the source cannot hide an
     # untracked loss, and resolving them adds nothing to the edited side.
-    kept = max(0, edited_snapshot.deleted_length - source_snapshot.deleted_length)
+    kept = max(0, edited.deleted_length - source.deleted_length)
     if ta and tb + kept < ta * TEXT_LOSS_THRESHOLD:
         note = (f", after counting {kept} characters kept as new tracked deletions"
                 if kept else "")
-        out.append(Finding(
+        return [Finding(
             "FID003", ERROR,
             f"text volume fell from {ta} to {tb} characters "
             f"({round(100 * (1 - (tb + kept) / ta))}% of content lost{note})",
             extra={"before": ta, "after": tb,
                    **({"tracked_deleted": kept} if kept else {})},
-        ))
-    return out
+        )]
+    return []

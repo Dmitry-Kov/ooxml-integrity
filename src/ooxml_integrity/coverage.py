@@ -26,14 +26,16 @@ from .comments import (
     story_parts,
 )
 from .content_types import related as related_content_types
-from .revision_text import inventory as revision_inventory, assess as assess_revision_text
 from .revision_growth import inventory as pending_inventory, assess as assess_insertion_growth
 from .literal_entities import surfaces as entity_surfaces
-from .fidelity import story_reference_count, note_revision_inventory, assess_note_revisions
+from .fidelity import (
+    assess_note_revisions, assess_revision_text_views, note_revision_inventory,
+    revision_text_views, story_reference_count,
+)
 from .fonts import resolve_face
 from .paths import DECK_SUFFIXES
 from .pptx_layout import Deck, layout_shape, read_deck
-from .xmlutil import alternative_branch, fromstring as parse_xml
+from .xmlutil import alternative_branch, fromstring as parse_xml, extract_fallback
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -420,8 +422,12 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             source_document = main_document(source_parts, main_part(source_parts))
             if document is None:
                 raise ValueError('edited main document could not be parsed')
-            text_result = assess_revision_text(
-                revision_inventory(source_document), revision_inventory(document),
+            # The inspector surfaces above have finished with the full edited tree.
+            edited_fallback = extract_fallback(document)
+            source_fallback = extract_fallback(source_document)
+            text_result = assess_revision_text_views(
+                revision_text_views(source_document, source_fallback),
+                revision_text_views(document, edited_fallback),
             )
             if not text_result.source_count:
                 text_status = CoverageStatus.NOT_PRESENT
@@ -449,6 +455,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             if document is None:
                 raise ValueError('edited main document could not be parsed')
             source_document = main_document(source_parts, main_part(source_parts))
+            extract_fallback(source_document)
             growth = assess_insertion_growth(
                 pending_inventory(source_document), pending_inventory(document),
             )

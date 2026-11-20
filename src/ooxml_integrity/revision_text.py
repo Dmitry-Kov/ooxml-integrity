@@ -33,7 +33,7 @@ class RevisionText:
 def inventory(document) -> RevisionText:
     counts, payloads, streams = {}, {}, {}
     for kind in KINDS:
-        nodes = list(document.iter(W + kind))
+        nodes = list(document.iter(W + kind)) if document is not None else []
         counts[kind] = len(nodes)
         texts = []
         supported = True
@@ -71,6 +71,7 @@ class TextComparison:
     source_count: int
     compared: int
     skipped: list[str]
+    scan_work: int = 0
 
 
 def assess(source: RevisionText, edited: RevisionText, *,
@@ -124,4 +125,5 @@ def assess(source: RevisionText, edited: RevisionText, *,
             ))
         if budget_skipped:
             result.skipped.append(f'{kind}: literal-text search budget exhausted')
+    result.scan_work = scan_limit - remaining
     return result
