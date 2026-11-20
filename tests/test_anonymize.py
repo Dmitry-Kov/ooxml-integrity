@@ -436,6 +436,62 @@ def test_field_instructions_keep_their_syntax_and_lose_their_arguments(tmp_path)
     assert "acme" not in document.lower()
 
 
+@pytest.mark.parametrize("number_format", ["ROMAN", "roman", "Arabic", None],
+                         ids=["upper-roman", "lower-roman", "arabic", "plain-page"])
+def test_page_field_keeps_its_number_format(tmp_path, number_format):
+    pieces = [" PAGE "] if number_format is None else [" PAGE \\* ", number_format + " "]
+    instruction = "".join(pieces)
+    cached = {"ROMAN": "I", "roman": "i"}.get(number_format, "1")
+    runs = "".join(f'<w:r><w:instrText xml:space="preserve">{piece}</w:instrText></w:r>'
+                   for piece in pieces)
+    body = (f'<w:p><w:fldSimple w:instr="{instruction}"><w:r><w:t>{cached}</w:t></w:r>'
+            '</w:fldSimple></w:p><w:p><w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+            f'{runs}<w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>{cached}</w:t></w:r>'
+            '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>')
+    if number_format:
+        # The same word is ordinary user data in the next field.
+        body += f'<w:p><w:fldSimple w:instr=" MERGEFIELD {number_format} "/></w:p>'
+    src = package(tmp_path / "pages.docx", body)
+    out = tmp_path / "out"
+    result = run_cli("anonymize", str(src), "-o", str(out))
+    assert result.returncode == 0, result.stdout + result.stderr
+    with zipfile.ZipFile(out / "document.docx") as archive:
+        root = fromstring(archive.read("word/document.xml"))
+    simple = [n.get(f"{{{W_NS}}}instr") for n in root.iter(f"{{{W_NS}}}fldSimple")]
+    complex_code = "".join(n.text for n in root.iter(f"{{{W_NS}}}instrText"))
+    assert (simple[0], complex_code) == (instruction, instruction)
+    if number_format:
+        field, argument = simple[1].split()
+        assert field == "MERGEFIELD" and argument != number_format
+
+
+def test_split_page_format_inside_a_tracked_insertion_keeps_both_switches(tmp_path):
+    body = ('<w:p><w:ins w:id="1" w:author="Ed" w:date="2026-10-01T00:00:00Z">'
+            '<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+            '<w:r><w:instrText xml:space="preserve"> PAGE \\* ro</w:instrText></w:r>'
+            '<w:r><w:instrText xml:space="preserve">man \\* MERGEFORMAT </w:instrText></w:r>'
+            '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:ins></w:p>')
+    report = run(tmp_path, package(tmp_path / "split.docx", body))
+    assert report.reproduced and not report.leaks
+    with zipfile.ZipFile(report.outputs[0]) as archive:
+        root = fromstring(archive.read("word/document.xml"))
+    inserted = root.find(f".//{{{W_NS}}}ins")
+    assert [n.text for n in inserted.iter(f"{{{W_NS}}}instrText")] == [
+        " PAGE \\* ro", "man \\* MERGEFORMAT "]
+
+
+def test_page_format_exception_only_keeps_recognised_switch_arguments(tmp_path):
+    body = ('<w:p><w:fldSimple w:instr=" MERGEFIELD Roman "/></w:p>'
+            '<w:p><w:fldSimple w:instr=" PAGE \\* ClientName "/></w:p>')
+    report = run(tmp_path, package(tmp_path / "args.docx", body))
+    assert report.reproduced and not report.leaks
+    with zipfile.ZipFile(report.outputs[0]) as archive:
+        root = fromstring(archive.read("word/document.xml"))
+    merge, page = [n.get(f"{{{W_NS}}}instr").split() for n in root.iter(f"{{{W_NS}}}fldSimple")]
+    assert merge[0] == "MERGEFIELD" and merge[1] != "Roman"
+    assert page[:2] == ["PAGE", "\\*"] and page[2] != "ClientName"
+
+
 def test_numbering_level_text_keeps_its_placeholders(tmp_path):
     numbering = (f'<w:numbering {NS}><w:abstractNum w:abstractNumId="0"><w:lvl w:ilvl="0">'
                  '<w:lvlText w:val="Acme Article %1."/></w:lvl></w:abstractNum></w:numbering>')

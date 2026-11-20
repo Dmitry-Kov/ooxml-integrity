@@ -56,6 +56,12 @@ condition).
 | embedded workbooks | an empty workbook |
 | other embedded objects, macros, printer settings | emptied |
 
+A `PAGE` instruction such as `PAGE \* ROMAN \* MERGEFORMAT` keeps its Roman
+or Arabic number format and case, including when Word splits the format
+across runs. The field's cached display text is anonymized until an editor
+recalculates the page number. A name such as `Roman` in a `MERGEFIELD` is
+still replaced.
+
 A word is read across runs, so a word split by a comment anchor or a change of
 formatting is still one word. Inside a paragraph with tracked changes, the
 words are read as the paragraph reads with the new changes rejected, which is

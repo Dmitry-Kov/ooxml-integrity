@@ -1029,6 +1029,7 @@ def _anonymize_tree(root, mapper: Mapper, part: str, known: set | None) -> set:
     order: list = []
     done: set = set()
     contexts: set = set()
+    page_runs = _page_number_runs(root)
 
     def block_of(node):
         for ancestor in node.iterancestors():
@@ -1047,7 +1048,10 @@ def _anonymize_tree(root, mapper: Mapper, part: str, known: set | None) -> set:
             key = block if block is not None else node
             if key not in streams:
                 order.append(key)
-            if node.tag in TEXT_TAGS:
+            if node in page_runs:
+                streams[key].append(None)
+                done.add(node)
+            elif node.tag in TEXT_TAGS:
                 streams[key].append((_setter(node), node.text or "", *_lane(node, known),
                                      node.tag in INSTRUCTION_TAGS))
                 done.add(node)
@@ -1162,6 +1166,34 @@ FIELD_CODE = re.compile(
     r"^\s*[A-Z][A-Z0-9]*\b|\\[*@#!]?[A-Za-z]*|\b(?:MERGEFORMAT|CHARFORMAT|MERGEFORMATINET)\b"
     r"|\b(?:https?|mailto|ftp|file):")
 INSTRUCTION_TAGS = frozenset((W + "instrText", W + "delInstrText"))
+# PAGE has no user argument. Keep a whole instruction only when every
+# switch is recognised, so the same words in ordinary field data stay private.
+PAGE_NUMBER = re.compile(
+    r"\s*PAGE(?:\s*\\\*\s*(?:roman|arabic|mergeformatinet|mergeformat|charformat))*\s*",
+    re.IGNORECASE | re.ASCII)
+
+
+def _page_number_attribute(node, attr: str, value: str) -> bool:
+    return (node.tag == W + "fldSimple" and attr == W + "instr"
+            and PAGE_NUMBER.fullmatch(value) is not None)
+
+
+def _page_number_runs(root) -> set:
+    """Instruction nodes of complete PAGE fields, including split format names."""
+    kept: set = set()
+    runs: list | None = None
+    for node in root.iter(W + "fldChar", *INSTRUCTION_TAGS):
+        if node.tag == W + "fldChar":
+            state = node.get(W + "fldCharType")
+            if state in ("separate", "end") and runs:
+                if PAGE_NUMBER.fullmatch("".join(n.text or "" for n in runs)):
+                    kept.update(runs)
+            runs = [] if state == "begin" else None
+        elif runs is not None:
+            runs.append(node)
+    return kept
+
+
 #: Level text keeps its level placeholders: "%1" names the first level.
 LEVEL_PLACEHOLDER = re.compile(r"%\d")
 
@@ -1216,6 +1248,8 @@ def _attributes(node, mapper: Mapper, unknown: bool, part: str) -> None:
             if custom_namespace(value):
                 node.set(name, mapper.namespace(value))
         elif text_attribute(node, name):
+            if _page_number_attribute(node, name, value):
+                continue
             node.set(name, mapper.text(value, keep=FIELD_CODE) if name == W + "instr"
                      else mapper.text(value))
         elif ((unknown or user_attribute(node.tag, name))
@@ -1942,6 +1976,8 @@ def _replaced(node, attr: str, value: str) -> str | None:
                 and node.get("TargetMode") == "External")):
         return URL_SCHEME.sub("", value, count=1)
     if text_attribute(node, attr):
+        if _page_number_attribute(node, attr, value):
+            return ""
         return FIELD_CODE.sub(" ", value) if attr == W + "instr" else value
     if user_attribute(tag, attr) or (tag, attr) in MARKUP_VALUES:
         return value
@@ -2057,6 +2093,7 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                 found = single(URL_SCHEME.sub("", uri, count=1)) if custom_namespace(uri) else 0
                 if found:
                     hits[(index, name, "(namespace URI)")] += found
+            page_runs = _page_number_runs(root)
             for node in root.iter():
                 if not isinstance(node.tag, str):
                     continue
@@ -2068,7 +2105,9 @@ def leak_scan(paths: Sequence[Path], vocabulary: set[str], phrases: set[tuple[st
                 if named:
                     hits[(index, name, f"{label} (custom name)")] += named
                 text = node.text
-                if node.tag in INSTRUCTION_TAGS and text:
+                if node in page_runs:
+                    text = None
+                elif node.tag in INSTRUCTION_TAGS and text:
                     # field types and switches are kept on purpose
                     text = FIELD_CODE.sub(" ", text)
                 found = single(text) + single(node.tail)

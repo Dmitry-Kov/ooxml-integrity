@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- `anonymize` preserves Roman and Arabic number formats in Word's `PAGE`
+  fields. On a Roman-numbered page the command still exits with `0`, and
+  LibreOffice now displays `I` after recalculation where the previous copy
+  displayed `1`. Verified on synthetic documents only.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published
