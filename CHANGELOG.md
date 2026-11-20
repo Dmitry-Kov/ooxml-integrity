@@ -73,6 +73,11 @@
   `fix` now writes the verified repair and exits `0`. Two direct definitions
   with the same reply ID still prevent that repair. Verified on synthetic
   variants of a captured DOCX.
+- **Report an unreferenced ordinary footnote with ID zero.** `check` now
+  reports `FTN002` ERROR and exits `1` at the default threshold when the
+  footnote has lost its last reference. Restore its reference in the text.
+  Typed separators still pass. The ordinary footnote with ID zero was
+  verified only on synthetic documents.
 
 ## 0.10.0 — 2026-11-10
 
