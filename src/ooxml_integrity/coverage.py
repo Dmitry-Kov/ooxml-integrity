@@ -17,12 +17,15 @@ from .archive import (
 from .finding import Finding
 from .comments import (
     DOCUMENT,
+    FOOTNOTES_TYPE,
     STRICT,
     STRICT_DOCUMENT,
     comment_part,
     comment_tree,
+    footnote_tree,
     main_document,
     main_part,
+    related_part,
     story_parts,
 )
 from .content_types import related as related_content_types
@@ -313,15 +316,24 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             f"comments could not be resolved or parsed: {e}",
         )
 
+    if document is None:
+        footnotes_surface = _item("docx.footnotes", CoverageStatus.SKIPPED, gap)
+    else:
+        try:
+            footnotes = related_part(parts, FOOTNOTES_TYPE, main=main)
+            footnotes_surface = _combined_surface(
+                [document], footnote_tree(trees, footnotes), "footnoteReference",
+                "footnote", "docx.footnotes", "footnote", gap=gap,
+            )
+        except (ValueError, etree.XMLSyntaxError) as e:
+            footnotes_surface = _item("docx.footnotes", CoverageStatus.SKIPPED,
+                                     f"footnotes could not be resolved or parsed: {e}")
+
     items.extend((
         _element_surface(document, "numPr", "docx.numbering",
                          "numbered-list property", "numbered-list properties",
                          gap=gap),
-        _combined_surface(
-            None if document is None else [document], trees.get("word/footnotes.xml"),
-            "footnoteReference", "footnote", "docx.footnotes", "footnote",
-            gap=gap,
-        ),
+        footnotes_surface,
         comments_surface,
     ))
 

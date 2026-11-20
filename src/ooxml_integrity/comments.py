@@ -1,4 +1,4 @@
-"""Resolve the main story and its comments part through typed relationships."""
+"""Resolve Word stories and their supporting parts through typed relationships."""
 from __future__ import annotations
 
 import posixpath
@@ -10,7 +10,9 @@ from .xmlutil import fromstring as parse_xml
 
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 REL = '{http://schemas.openxmlformats.org/package/2006/relationships}'
-COMMENTS_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
+_OFFICE_REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'
+COMMENTS_TYPE = _OFFICE_REL + 'comments'
+FOOTNOTES_TYPE = _OFFICE_REL + 'footnotes'
 ASCII_LOWER = str.maketrans('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')
 MAIN_DOCUMENT = 'word/document.xml'
 DOCUMENT = W + 'document'
@@ -126,8 +128,8 @@ def main_document(parts: dict[str, bytes], part: str):
     return root
 
 
-def comment_part(parts: dict[str, bytes], *, names: set[str] | None = None,
-                 main: str | None = None) -> str | None:
+def related_part(parts: dict[str, bytes], relationship_type: str, *,
+                 names: set[str] | None = None, main: str | None = None) -> str | None:
     """Return an internal target, None when absent, or fail on ambiguity/damage.
 
     Never substitute an unlinked conventional filename for the related part.
@@ -142,32 +144,51 @@ def comment_part(parts: dict[str, bytes], *, names: set[str] | None = None,
     if root.tag != REL + 'Relationships':
         raise ValueError('document relationships have an invalid root')
     relationships = [r for r in root if r.tag == REL + 'Relationship'
-                     and r.get('Type') == COMMENTS_TYPE]
+                     and r.get('Type') == relationship_type]
     if not relationships:
         return None
+    kind = relationship_type.rsplit('/', 1)[-1]
     if len(relationships) != 1:
-        raise ValueError('multiple main-document comments relationships')
+        raise ValueError(f'multiple main-document {kind} relationships')
     rel = relationships[0]
     rid = rel.get('Id')
     if not rid or sum(r.get('Id') == rid for r in root) != 1:
-        raise ValueError('comments relationship has a missing or duplicate Id')
+        raise ValueError(f'{kind} relationship has a missing or duplicate Id')
     if rel.get('TargetMode', 'Internal') != 'Internal':
-        raise ValueError('comments relationship must be internal')
+        raise ValueError(f'{kind} relationship must be internal')
     target = rel.get('Target', '')
     parsed = urlsplit(target)
     if parsed.scheme or parsed.netloc or not parsed.path or parsed.query or parsed.fragment:
-        raise ValueError(f'invalid comments relationship target: {target!r}')
+        raise ValueError(f'invalid {kind} relationship target: {target!r}')
     resolved = posixpath.normpath(
         parsed.path.lstrip('/') if parsed.path.startswith('/')
         else posixpath.join(posixpath.dirname(main), parsed.path))
     candidates = (resolved, unquote(resolved, errors='strict'))
     if any(p in ('', '.', '..') or p.startswith('../') for p in candidates):
-        raise ValueError(f'unsafe comments relationship target: {target!r}')
+        raise ValueError(f'unsafe {kind} relationship target: {target!r}')
     names = set(parts) if names is None else names
     matched = _existing(candidates, names)
     if matched is not None:
         return matched
-    raise ValueError(f'comments relationship target is missing: {target!r}')
+    raise ValueError(f'{kind} relationship target is missing: {target!r}')
+
+
+def comment_part(parts: dict[str, bytes], *, names: set[str] | None = None,
+                 main: str | None = None) -> str | None:
+    """The related comments part, None when absent, or an error for a broken relationship."""
+    return related_part(parts, COMMENTS_TYPE, names=names, main=main)
+
+
+def footnote_tree(trees: dict[str, etree._Element], part: str | None) -> etree._Element | None:
+    """Fetch a related footnotes part from the story trees parsed during package loading."""
+    if part is None:
+        return None
+    root = trees.get(part)
+    if root is None:
+        raise ValueError(f'{part} could not be safely parsed')
+    if root.tag != W + 'footnotes':
+        raise ValueError(f'{part} is related as footnotes but has root {root.tag!r}')
+    return root
 
 
 def comment_tree(parts: dict[str, bytes], part: str):

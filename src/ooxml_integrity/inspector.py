@@ -28,13 +28,16 @@ from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .comments import (
     ASCII_LOWER,
     DOCUMENT,
+    FOOTNOTES_TYPE,
     MAIN_DOCUMENT,
     STRICT,
     STRICT_DOCUMENT,
     comment_part,
     comment_tree,
+    footnote_tree,
     main_part,
     office_documents,
+    related_part,
     relationships_part,
     story_parts,
 )
@@ -796,13 +799,22 @@ class Inspector:
         doc = self._document()
         if doc is None:
             return
-        fn = self._tree("word/footnotes.xml")
+        part = None
+        try:
+            part = related_part(self.parts, FOOTNOTES_TYPE, main=self.main)
+            fn = footnote_tree(self.trees, part)
+        except (ValueError, etree.XMLSyntaxError) as e:
+            self._add("FTN003", ERROR, f"footnotes could not be resolved or parsed: {e}",
+                      part=part or relationships_part(self.main))
+            return
         notes = fn.findall(_w("footnote")) if fn is not None else []
         defined = {f.get(_w("id")) for f in notes}
         # Separator notes are identified by w:type, not by id: Word 2010+
         # writes -1/0, while Word 2007 and LibreOffice write 0/1.
         special = {f.get(_w("id")) for f in notes
                    if f.get(_w("type")) not in (None, "normal")}
+        label = "footnotes.xml" if part == "word/footnotes.xml" else part
+        missing = f"has no entry in {label}" if label else "has no related footnotes part"
         used = set()
         for ref in doc.iter(_w("footnoteReference")):
             if alternative_branch(ref):
@@ -810,15 +822,13 @@ class Inspector:
             i = ref.get(_w("id"))
             used.add(i)
             if i not in defined:
-                self._add("FTN001", ERROR,
-                          f"footnote reference id={i} has no entry in footnotes.xml",
-                          self._xpath(ref))
+                self._add("FTN001", ERROR, f"footnote reference id={i} {missing}", self._xpath(ref))
         for i in sorted(defined - used - special, key=lambda x: (x is None, x)):
             if i != "-1":
                 self._add("FTN002", ERROR,
                           f"footnote id={i} is defined but never referenced - "
                           "the footnote no longer appears",
-                          part="word/footnotes.xml")
+                          part=part or "")
 
     def check_comments(self) -> None:
         doc = self._document()

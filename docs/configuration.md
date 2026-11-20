@@ -250,7 +250,7 @@ Never set aside, whatever the source has:
 - lost or changed content (`FID`), which describes the edit itself;
 - a check that did not complete (`INT001`) and an expectation (`EXP001`);
 - any finding that says part of the file was not checked: `PKG000`–`PKG002`,
-  `PKG006`–`PKG009`, `XML001`, `CMT006` and `PPT000`.
+  `PKG006`–`PKG009`, `XML001`, `CMT006`, `FTN003` and `PPT000`.
 
 A source that cannot be read absorbs nothing, and its `FID000` still fails the
 run. A `.pptx` comparison is not implemented, so its `FID000` fails the run

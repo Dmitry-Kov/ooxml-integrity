@@ -26,7 +26,8 @@ the [support matrix](support-matrix.md) records the exact scope of each rule.
 | `STY001` | undefined paragraph/table styles: error; undefined character styles: warning |
 | `STY002` | undefined `basedOn` / `next` / `link` style references: warning; 0.4.5: `next` / `link` are info |
 | `NUM001-004` | `numId` → `w:num` → `abstractNumId` → `w:abstractNum`; `ilvl` defined |
-| `FTN001-002` | footnote references resolve; orphaned footnotes |
+| `FTN001-002` | `FTN001` reports each main-document footnote reference with no definition in the related footnotes part, including when the relationship is absent. `FTN002` reports an ordinary footnote defined there with no reference. |
+| `FTN003` | ERROR. Footnote coverage is skipped when the relationships cannot be read, the declared footnotes relationship is ambiguous or invalid, or its target cannot be read as a footnotes part. The finding stays active under `--introduced` even when the source has the same failure. |
 | `CMT001-006` | Comment ranges/references ↔ the related comments part; unresolved or unreadable comments parts |
 | `CMT007` | 0.10.0, ERROR: a second `commentRangeStart`, `commentRangeEnd` or `commentReference` for one comment id in a story, as the closed python-docx [PR #1605](https://github.com/python-openxml/python-docx/pull/1605) wrote when setting the text of the first paragraph of a comment over two; a text box's copy in `mc:Fallback` does not count |
 | `CMT008` | Unreleased, ERROR. Two or more direct `w:comment` children of the related `w:comments` root share an ID (`1` and `01` denote the same number). An editor may load only one of the comments. [WordprocessingML comment semantics](https://learn.microsoft.com/en-us/office/open-xml/word/how-to-retrieve-comments-from-a-word-processing-document) |

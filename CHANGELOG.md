@@ -104,6 +104,15 @@
   Affected documents now exit `1` at the default threshold on every run.
   Restore a unique ID and matching anchors for each intended comment, or
   remove an unintended duplicate. Verified on synthetic DOCX files.
+- **Follow the main document's footnotes relationship.** Losing this
+  relationship now gives `FTN001` for each active reference, even if
+  `word/footnotes.xml` still exists. A previously clean document now exits
+  `1` at the default threshold. Restore the relationship to the intended
+  part. A correctly linked, renamed part now passes if unresolved references
+  were its only errors. An ambiguous or unreadable relationship or target
+  gives `FTN003` ERROR and skipped footnote coverage. Repair the target or
+  relationship before rerunning, including with `--introduced`. Verified
+  on synthetic DOCX files.
 
 ## 0.10.0 — 2026-11-10
 

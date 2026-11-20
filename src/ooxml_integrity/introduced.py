@@ -23,7 +23,7 @@ Some findings are never set aside, whatever the source has:
 - fidelity findings (`FID`), which describe the edit itself;
 - a check that did not complete (`INT001`) and an expectation (`EXP001`);
 - every finding that says part of the file was not checked: an unreadable
-  package or part, malformed XML, a comments part that cannot be resolved,
+  package or part, malformed XML, comments or footnotes that cannot be resolved,
   Strict Open XML, text that could not be measured. Two files nobody could
   read are not "no new damage".
 
@@ -45,7 +45,7 @@ from .pptx_checks import check_pptx
 #: Findings that say part of a file was not checked.
 UNCHECKED = frozenset({
     "PKG000", "PKG001", "PKG002", "PKG006", "PKG007", "PKG008", "PKG009",
-    "XML001", "CMT006", "PPT000",
+    "XML001", "CMT006", "FTN003", "PPT000",
 })
 
 #: Never set aside, whatever the source has.
