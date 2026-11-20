@@ -51,7 +51,8 @@ python -m pip install ruff==0.16.10
 ruff check .
 ```
 
-and type-checks the package with mypy, since it ships `py.typed`:
+The default mypy run checks the typed package and the GitHub Action's
+report publisher.
 
 ```sh
 python -m pip install mypy==2.4.1 lxml-stubs==0.5.1

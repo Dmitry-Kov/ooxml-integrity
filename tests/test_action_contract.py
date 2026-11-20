@@ -17,6 +17,7 @@ from pathlib import Path
 import pytest
 from conftest import run_cli
 
+from ooxml_integrity.policy import _load_toml
 
 ACTION = Path(__file__).resolve().parent.parent / "action.yml"
 INPUT_EXPRESSION = re.compile(r"\$\{\{[^}]*\binputs(?:\.|\[)")
@@ -47,6 +48,11 @@ def test_default_install_uses_the_selected_action_ref():
     install = next(block for block in _run_blocks()
                    if "python -m pip install" in block)
     assert 'python -m pip install --quiet "$GITHUB_ACTION_PATH"' in install
+
+
+def test_default_typecheck_includes_the_action_report_script():
+    config = _load_toml(ACTION.with_name("pyproject.toml"))
+    assert ".github/publish_json_report.py" in config["tool"]["mypy"]["files"]
 
 
 def _check_step(workdir, inputs):

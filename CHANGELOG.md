@@ -93,6 +93,9 @@
   missing content in the affected branch. Review baseline entries that
   previously accepted losses counted across both copies. Verified only
   on synthetic documents and synthetic variants of captured documents.
+- **Type-check the GitHub Action's report publisher.** The default `mypy`
+  command used in CI now checks `.github/publish_json_report.py` alongside
+  the package.
 
 ## 0.10.0 — 2026-11-10
 

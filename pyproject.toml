@@ -82,7 +82,7 @@ select = ["E9", "F"]
 # The package ships py.typed, so its own annotations have to hold. mypy 2
 # checks Python 3.10 and newer; the 3.9 test legs cover that runtime.
 python_version = "3.10"
-files = ["src/ooxml_integrity"]
+files = ["src/ooxml_integrity", ".github/publish_json_report.py"]
 
 [[tool.mypy.overrides]]
 # fontTools ships no annotations; tomllib is 3.11+ and tomli its backport,
