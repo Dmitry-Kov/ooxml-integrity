@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
+from . import comment_anchors
 from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
@@ -818,6 +819,7 @@ class _Snapshot:
     paragraphs: dict[str, list[ParagraphText]]
     #: bookmarks, fields and internal links of every story
     references: References
+    anchors: dict[comment_anchors.Comment, comment_anchors.Anchor]
 
 
 def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
@@ -851,8 +853,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         story_parts.add(comments)
     if story_parts:
         parts.update(read_package(path, limits, members=story_parts))
-    if comments is not None:
-        comment_tree(parts, comments)
+    comments_root = comment_tree(parts, comments) if comments is not None else None
     bodies: dict[str, list[_Text]] = {}
     fallback_bodies: dict[str, list[_Text]] = {}
     authors: dict[tuple[str, str], str] = {}
@@ -901,6 +902,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         replacements,
         paragraphs,
         references,
+        comment_anchors.inventory(doc, comments_root, paragraphs["document"]),
     )
 
 
@@ -1067,6 +1069,8 @@ def compare(source: str | Path, edited: str | Path, *,
     out.extend(_revision_additions(source_snapshot, edited_snapshot))
     out.extend(_wide_replacements(source_snapshot, edited_snapshot))
     out.extend(_paragraph_changes(source_snapshot, edited_snapshot))
+    out.extend(comment_anchors.assess(source_snapshot.anchors, edited_snapshot.anchors,
+                                     edited_snapshot.main))
 
     for part, tag, code, label in BODY_PARTS:
         # A source item whose current text is empty has nothing to lose here.

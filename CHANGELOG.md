@@ -14,6 +14,12 @@
   a document can report `FID007` and exit with `1` at the default threshold.
   Restore the affected header or footer, or declare its intentional change
   with a scoped expectation. This case was verified on synthetic documents.
+- **Detect two review comments that exchanged their selections.** With
+  `--against`, an exchange in unchanged main-document paragraphs now gives
+  one `FID017` ERROR. If this is the only defect, the default check changes
+  from exit `0` to `1`. Restore the comments to their intended passages or
+  record the intentional exchange in a baseline. The swap was verified on
+  synthetic DOCX pairs, including a contract opened in LibreOffice.
 
 ## 0.11.0 — 2026-11-20
 

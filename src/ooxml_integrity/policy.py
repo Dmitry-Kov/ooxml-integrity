@@ -429,6 +429,12 @@ def fingerprint(file: str, f: Finding) -> str:
         digest = hashlib.sha256(json.dumps(identity, ensure_ascii=True,
                                           separators=(",", ":")).encode("utf-8")).hexdigest()
         stable = f"fields-sha256={digest}"
+    elif f.code == "FID017":
+        # The same two locations can acquire a different pair of review comments.
+        moves = f.extra.get("moves", [])
+        digest = hashlib.sha256(json.dumps(moves, ensure_ascii=True, sort_keys=True,
+                                          separators=(",", ":")).encode("utf-8")).hexdigest()
+        stable = f"swapped-comment-anchors-sha256={digest}"
 
     key = f"{str(file).replace(os.sep, '/')}::{f.code}::{where}"
     return f"{key}::{stable}" if stable else key
