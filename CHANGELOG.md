@@ -67,6 +67,11 @@
   separate path. To refresh a baseline, `--write-baseline` can still use
   the same path as `--baseline`. Verified with copies of synthetic corpus
   documents through the CLI and the Action's Bash step.
+- **Report an unreferenced ordinary footnote with ID zero.** `check` now
+  reports `FTN002` ERROR and exits `1` at the default threshold when the
+  footnote has lost its last reference. Restore its reference in the text.
+  Typed separators still pass. The ordinary footnote with ID zero was
+  verified only on synthetic documents.
 
 ## 0.10.0 — 2026-11-10
 
