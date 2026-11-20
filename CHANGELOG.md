@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **Refuse to anchor a reply when its parent's comment ID is ambiguous.**
+  If two comment definitions share the parent's ID, `fix` leaves the reply
+  unanchored. When this was the only repair, `fix` now exits with `1`.
+  Other repairs can still produce a verified copy (exit `0`). Restore the
+  intended parent and its anchor from a trusted copy before retrying.
+  The duplicate-parent case was verified on synthetic variants of captured
+  documents.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published

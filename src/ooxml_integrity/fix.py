@@ -694,6 +694,9 @@ def _anchor_replies(pkg: _Package, targets: list[tuple[str, Finding]]
                 raise _Refused(f"comment {cid} is not a reply: commentsExtended gives "
                                "it no parent; a top-level comment's anchor position "
                                "is lost and fix does not guess it")
+            if parent in defined_twice:
+                raise _Refused(f"reply {cid}'s parent comment id {parent} is defined more than "
+                               "once, so its range markers are ambiguous")
             try:
                 grandparent = parent_of(parent)
             except _Refused as e:

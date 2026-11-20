@@ -222,6 +222,54 @@ def test_anchor_replies_refuses_two_direct_definitions_of_the_reply(tmp_path):
     assert "15" in refused.reason and "defined more than once" in refused.reason
 
 
+def _duplicate_comment_id(capture, output, cid):
+    # The existing replies still point to the original author's paraId.
+    # The first definition for this id now belongs to a different author.
+    comments = read_part(capture, "word/comments.xml")
+    existing = f'<w:comment w:id="{cid}"'
+    assert comments.count(existing) == 1
+    extra = (f'{existing} w:author="Other Reviewer">'
+             '<w:p xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" w14:paraId="12345678">'
+             '<w:r><w:t>Separate review.</w:t></w:r></w:p></w:comment>')
+    return repack(capture, output, {"word/comments.xml": comments.replace(
+        existing, extra + existing).encode()})
+
+
+def test_anchor_replies_refuses_a_duplicate_parent_id(tmp_path):
+    source = _duplicate_comment_id(DOCX_MCP, tmp_path / "ambiguous.docx", "2")
+    before = source.read_bytes()
+    (orphan,) = [f for f in check(source) if f.code == "CMT005"]
+    assert orphan.severity.value == "error" and "id=15" in orphan.message
+    output = tmp_path / "fixed.docx"
+    report = fix(source, output)
+    assert report.exit_code == EXIT_NOTHING and not output.exists()
+    assert source.read_bytes() == before
+    (refused,) = [n for n in report.not_repaired if n.repair == "anchor-replies"]
+    assert refused.finding == orphan
+    assert "parent comment id 2" in refused.reason and "defined more than once" in refused.reason
+
+
+def test_duplicate_parent_id_allows_an_independent_content_type_repair(tmp_path):
+    source = _duplicate_comment_id(CODEX_S1, tmp_path / "ambiguous.docx", "2")
+    output = tmp_path / "fixed.docx"
+    report = fix(source, output)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    assert [r.finding.code for r in report.repaired] == ["PKG010"]
+    (refused,) = [n for n in report.not_repaired if n.repair == "anchor-replies"]
+    assert refused.finding.code == "CMT005" and refused.finding.severity.value == "error"
+    assert refused.finding in check(output)
+    assert _changed(source, output) == ["[Content_Types].xml"]
+
+
+def test_unique_parent_allows_repair_with_a_duplicate_id_outside_the_thread(tmp_path):
+    source = _duplicate_comment_id(DOCX_MCP, tmp_path / "other-comment.docx", "14")
+    output = tmp_path / "fixed.docx"
+    report = fix(source, output)
+    assert report.exit_code == EXIT_REPAIRED and report.verification.passed
+    assert [r.finding.code for r in report.repaired] == ["CMT005"]
+    assert "CMT005" not in _codes(output)
+
+
 def _box_parent(source, output, *, duplicate):
     import re
     document = read_part(source, "word/document.xml")

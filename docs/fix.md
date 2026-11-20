@@ -111,6 +111,7 @@ with `--against`, of the comparison with the source) is listed too, with why
 |---|---|
 | a top-level comment with no anchor | nothing links it to a parent, and its anchor position is lost; the text it was attached to is usually gone too |
 | a reply whose parent has no anchor, or more than one | the thread's range is lost |
+| a reply whose parent's comment ID is defined more than once | the reply names its parent by paragraph ID, but the range markers use the shared comment ID, so the parent's range is ambiguous |
 | a reply whose thread has a marker inside `mc:AlternateContent` | the text box has separate representations for different readers. Restoring this reply's anchor requires editing both copies. Other repairs proceed |
 | a reply to a reply | its range is not unique |
 | a reply whose thread does not share one range start, or whose reference is not in a run directly inside a paragraph (for example inside a tracked insertion) | where Word puts the reply there has not been observed |
