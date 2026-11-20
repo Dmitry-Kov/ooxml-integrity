@@ -60,6 +60,15 @@
   repairs. If another repair succeeds and the copy passes verification,
   `fix` writes it and exits `0`. Restore the skipped anchor in both copies
   of the text box. Verified on synthetic text boxes.
+- **Compare both representations of a Word text box separately.** With
+  `check --against`, moving a comment reference from the first branch of
+  `mc:AlternateContent` into `mc:Fallback` now produces `FID001` ERROR.
+  Main-document text loss uses the existing volume threshold in each
+  representation. Loss confined to the backup produces a warning, so it
+  passes the default gate and fails with `--fail-on warn`. Restore the
+  missing content in the affected branch. Review baseline entries that
+  previously accepted losses counted across both copies. Verified only
+  on synthetic documents and synthetic variants of captured documents.
 
 ## 0.10.0 — 2026-11-10
 

@@ -114,6 +114,35 @@ def test_requested_docx_comparison_is_reflected_per_surface(base_docx):
     assert items["docx.fidelity.headers-footers"]["status"] == "checked"
 
 
+def test_fidelity_coverage_counts_primary_revisions_and_section_slots(base_docx, tmp_path):
+    from test_repeated_comment_markers import DOC, MC
+
+    doc = read_part(base_docx, DOC)
+    section = re.search(r"<w:sectPr>.*?</w:sectPr>", doc, re.S).group()
+    revision = ('<w:p><w:ins w:id="1234" w:author="Reviewer" w:date="2020-01-01T00:00:00Z">'
+                '<w:r><w:t>Fallback text</w:t></w:r></w:ins></w:p>')
+    wrapper = (f'<mc:AlternateContent xmlns:mc="{MC}"><mc:Choice Requires="w">{section}</mc:Choice>'
+               f'<mc:Fallback>{revision}{section}</mc:Fallback></mc:AlternateContent>')
+    boxed = repack(base_docx, tmp_path / "sections.docx", {DOC: doc.replace(section, wrapper).encode()})
+
+    def items(path):
+        result = run_cli("check", str(path), "--against", str(path), "--no-config", "--coverage", "--json")
+        assert result.returncode == EXIT_OK, result.stdout + result.stderr
+        return _by_id(_coverage(result))
+
+    plain, alternate = items(base_docx), items(boxed)
+    # FID009 also compares the literal payload in the backup separately.
+    revision_text = "docx.fidelity.revision-text"
+    assert alternate[revision_text]["status"] == "checked"
+    assert alternate[revision_text]["count"] == plain[revision_text]["count"] + 1
+    for surface in ("insertion-attribution", "headers-footers"):
+        key = f"docx.fidelity.{surface}"
+        assert plain[key]["count"] > 0
+        assert alternate[key] == plain[key]
+    # The inspector still visits both copies when checking revision IDs.
+    assert alternate["docx.revisions"]["count"] == plain["docx.revisions"]["count"] + 1
+
+
 def test_orphan_note_definitions_still_count_as_a_checked_surface(
         tmp_docx, tmp_path):
     document_part = "word/document.xml"

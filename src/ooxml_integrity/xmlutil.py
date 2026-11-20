@@ -120,3 +120,22 @@ def alternative_branch(el) -> bool:
                 return True
         child, parent = parent, parent.getparent()
     return False
+
+
+def extract_fallback(root):
+    """Detach later representations into a separate tree, or return None.
+
+    Choose all branch roots before detaching any. A nested group inside a
+    discarded branch travels with it, so every element belongs to one view.
+    """
+    branches = [branch for group in root.iter(ALTERNATE_CONTENT) if not alternative_branch(group)
+                for branch in group if isinstance(branch.tag, str) and alternative_branch(branch)]
+    if len(branches) > 1:
+        # The backup of a group nested in Choice precedes the outer backup.
+        selected = set(branches)
+        branches = [node for node in root.iter() if node in selected]
+    if not branches:
+        return None
+    backup = root.makeelement(root.tag)
+    backup.extend(branches)
+    return backup
