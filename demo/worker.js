@@ -8,25 +8,31 @@ const families = ["Carlito", "Caladea", "LiberationSans", "LiberationSerif", "Li
 const styles = ["Regular", "Bold", "Italic", "BoldItalic"];
 const progress = (message) => postMessage({ type: "progress", message });
 
-async function getAsset(path, binary = false) {
-  const response = await fetch(new URL(path, import.meta.url));
+async function getAsset(path, binary = false, signal) {
+  const response = await fetch(new URL(path, import.meta.url), {signal});
   if (!response.ok) throw new Error(`Could not load ${path}: HTTP ${response.status}`);
   return binary ? new Uint8Array(await response.arrayBuffer()) : response.text();
+}
+
+async function downloadFonts() {
+  const controller = new AbortController();
+  try {
+    return await Promise.all(families.flatMap(family => styles.map(async style => {
+      const name = `${family}-${style}.ttf`;
+      return [name, await getAsset(`fonts/${name}`, true, controller.signal)];
+    })));
+  } catch (error) {
+    controller.abort();
+    throw new Error(`Could not load presentation fonts. Check your connection and retry.\n${error.message || error}`);
+  }
 }
 
 async function initialize() {
   const started = performance.now();
   progress(`Loading Pyodide ${PYODIDE_VERSION} (Python + WebAssembly)…`);
-  // Same-origin font downloads overlap the larger Python runtime download.
-  const assets = Promise.all([
-    getAsset("bridge.py"),
-    Promise.all(families.flatMap(family => styles.map(async style => {
-      const name = `${family}-${style}.ttf`;
-      return [name, await getAsset(`fonts/${name}`, true)];
-    }))),
-  ]);
+  const bridge = getAsset("bridge.py");
   // Attach a rejection handler immediately, even while the CDN is loading.
-  assets.catch(() => {});
+  bridge.catch(() => {});
   const { loadPyodide } = await import(`${CDN}pyodide.mjs`);
   const py = await loadPyodide({ indexURL: CDN });
   progress("Python ready. Loading built-in lxml, fonttools and micropip…");
@@ -38,18 +44,10 @@ async function initialize() {
   } finally { py.globals.delete("_demo_package_spec"); }
   const installed = py.runPython('from importlib.metadata import version\nversion("ooxml-integrity")');
   if (installed !== CHECKER_VERSION) throw new Error(`Expected ooxml-integrity ${CHECKER_VERSION}, installed ${installed}.`);
-  progress("Installing 20 OFL font faces into /usr/share/fonts/…");
-  const [bridge, fonts] = await assets;
-  py.FS.mkdirTree("/usr/share/fonts");
-  for (const [name, bytes] of fonts) py.FS.writeFile(`/usr/share/fonts/${name}`, bytes);
   py.FS.mkdirTree("/work/input");
   py.FS.mkdirTree("/work/source");
   py.FS.chdir("/work");
-  // Import only after seeding fonts, before any font-directory cache is built.
-  await py.runPythonAsync(bridge);
-  // Warm the font index and surface a broken runtime before enabling Check.
-  const doctor = JSON.parse(py.runPython('dispatch(\'{"action":"doctor"}\')'));
-  if (doctor.exit_code !== 0) throw new Error(doctor.human);
+  await py.runPythonAsync(await bridge);
   const version = py.runPython("__version__");
   if (version !== installed) throw new Error(`Package version ${installed} does not match module version ${version}.`);
   postMessage({ type: "ready", version, pyodide: PYODIDE_VERSION,
@@ -69,6 +67,7 @@ const ready = initialize();
 ready.catch(error => postMessage({ type: "fatal",
   error: `Could not start Python. Check your network connection and reload the page.\n\n${error.message || String(error)}` }));
 let busy = false;
+let fontsReady = false;
 self.onmessage = async ({ data }) => {
   const { id, action, file, source, coverage } = data;
   if (busy) { postMessage({ type: "error", id, error: "A check is already running." }); return; }
@@ -82,6 +81,23 @@ self.onmessage = async ({ data }) => {
       request.path = filePath(file, "input");
       if (source && !/\.docx$/i.test(file.name)) throw new Error("Fidelity comparison requires two .docx files.");
       if (source) request.source = filePath(source, "source", true);
+    }
+    let fonts;
+    if (!fontsReady && (action === "doctor" || /\.pptx$/i.test(request.path || ""))) {
+      postMessage({ type: "progress", id, message: "Loading presentation fonts…" });
+      fonts = await downloadFonts();
+    }
+    // The check deadline starts after its assets arrive, before running Python.
+    postMessage({ type: "checking", id });
+    if (fonts) {
+      py.FS.mkdirTree("/usr/share/fonts");
+      for (const [name, bytes] of fonts) py.FS.writeFile(`/usr/share/fonts/${name}`, bytes);
+      const doctor = JSON.parse(py.runPython('dispatch(\'{"action":"doctor"}\')'));
+      if (doctor.exit_code !== 0) throw new Error(doctor.human);
+      fontsReady = true;
+      if (action === "doctor") { postMessage({ type: "result", id, result: doctor }); return; }
+    }
+    if (action === "check") {
       py.FS.writeFile(request.path, new Uint8Array(file.bytes));
       paths.push(request.path);
       if (source) {
@@ -91,15 +107,14 @@ self.onmessage = async ({ data }) => {
     }
     // Names and document contents are data, never interpolated into Python code.
     py.globals.set("_demo_request", JSON.stringify(request));
-    const result = JSON.parse(py.runPython("dispatch(_demo_request)"));
-    postMessage({ type: "result", id, result });
+    try {
+      const result = JSON.parse(py.runPython("dispatch(_demo_request)"));
+      postMessage({ type: "result", id, result });
+    } finally { py.globals.delete("_demo_request"); }
   } catch (error) {
     postMessage({ type: "error", id, error: error.stack || String(error) });
   } finally {
-    if (py) {
-      for (const path of paths) py.FS.unlink(path);
-      py.globals.delete("_demo_request");
-    }
+    for (const path of paths) py.FS.unlink(path);
     busy = false;
   }
 };

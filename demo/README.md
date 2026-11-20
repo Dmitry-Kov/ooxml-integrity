@@ -31,9 +31,10 @@ its deployment job run. A newer Pages run cancels a superseded run.
   and module versions before enabling checks; the footer shows the installed
   version. A new PyPI release does not change this demo automatically. Updating
   the pin requires the browser suites to pass with that version.
-- Twenty bundled OFL font faces download in parallel with Python and are written
-  to `/usr/share/fonts/` in the worker's memory-only filesystem before any checks
-  or font-directory caching. Startup finishes with a Doctor capability check.
+- The first PPTX check or Doctor request downloads the bundled OFL font faces.
+  The worker installs the complete set in `/usr/share/fonts/` and runs Doctor
+  before checking a deck. Later requests reuse the installed fonts. A DOCX
+  check, including comparison and coverage, can run as soon as Python is ready.
 - `FileReader` reads selected files into memory. Transferable buffers go to the
   worker, which writes `input/<name>` and `source/<name>`, calls public `check`,
   `check_pptx` and `compare`, and unlinks both files after every run, including
@@ -54,9 +55,10 @@ storage. Startup requests go to **cdn.jsdelivr.net**, **pypi.org** and
 the same origin as the page; example buttons fetch their fixtures on demand.
 External documentation is loaded only when a link is followed.
 
-Checks themselves need no network. Loading the application does: the host and
-CDNs receive ordinary web requests, and the tab executes Python code downloaded
-from PyPI and the CDN.
+Once Python is ready, a selected DOCX can be checked offline. To check a deck
+offline, first run Doctor while connected so the fonts are installed in the
+current tab. If a font download fails, reconnect and retry. Resources come
+from the page host, PyPI and the CDN. The check runs locally.
 
 ## Voluntary feedback
 
@@ -103,7 +105,8 @@ comparison behind the hero illustration uses the separate table-edit pair,
 `t2_pres` / `t4_fast_table`, identified in [the run notes](../runs/README.md).
 
 Files are capped at 25 MiB each and checks at 60 seconds to keep the browser
-responsive. A timed-out worker is terminated; reload the page to restart it.
+responsive. The check timer starts after any required font downloads finish.
+A timed-out worker is terminated; reload the page to restart it.
 The package's default expanded-archive limits still apply. Use the CLI for large
 documents. Current Chrome, Firefox and Safari support the required module
 workers, WebAssembly, FileReader and transferable buffers; no cross-origin
@@ -126,8 +129,8 @@ python -m http.server 8765 --bind 127.0.0.1
 Click all three example buttons, verify CMT005 and FID001 in the fidelity report,
 inspect JSON with coverage both on and off, and run Doctor. Startup progress and
 elapsed time are visible. The startup target is about 20 seconds on broadband;
-the actual time depends on the connection and device. Fonts download while the
-runtime initializes, and browser caching speeds up repeat visits.
+the actual time depends on the connection and device. Browser caching can
+speed up repeat visits.
 
 From the repository's development environment:
 

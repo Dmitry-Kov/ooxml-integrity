@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- The browser demo can check a DOCX or compare two DOCX files as soon as
+  Python is ready. The first PPTX check or Doctor request downloads the
+  presentation fonts. A failed font download can be retried in the same
+  tab, and DOCX checks still work. Verified in Chromium on the bundled
+  examples with their usual findings and exit codes.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published

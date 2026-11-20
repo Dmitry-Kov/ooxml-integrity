@@ -38,13 +38,18 @@ the repository version.
 
 Seven scenarios run for both release and wheel:
 
-- Clean DOCX, detached-comment/source pair and defective PPTX through the UI;
-  human and JSON output, coverage off/on, Doctor, actual package/runtime
-  versions, metric font substitutes, navigation and widths 1280px/390px.
+- Clean DOCX and detached-comment/source pair through the UI with no font
+  requests. The first PPTX fetches the bundled faces. Repeated deck checks
+  and Doctor reuse them. The suite checks human and JSON output, coverage
+  off/on, actual package/runtime versions, metric font substitutes, navigation
+  and widths 1280px/390px.
 - Same source/output filenames, removing and reselecting both inputs, corrupt
   DOCX, rejected extension, rejected PPTX/source pairing and successful recovery.
 - Blocked runtime download, with a visible startup error and reload recovery.
-- Blocked required font, with disabled checks and reload recovery.
+- A pending font response stays outside the check deadline when the page
+  clock advances. An HTTP error on that font is shown for Doctor and PPTX.
+  The clean DOCX still passes, and both actions recover in the same tab
+  when the font becomes available.
 - A runtime download delayed by four seconds. This models added latency on one
   startup dependency, not a whole-connection bandwidth profile or a benchmark.
 - A busy interpreter terminated at the production 60-second deadline. A
@@ -57,7 +62,7 @@ Seven scenarios run for both release and wheel:
   document/report data, referrer or opener. The GitHub destination is intercepted
   locally; no issue is submitted and GitHub's form rendering is not simulated
   as a product guarantee. Feedback layout is captured at 1280px/390px, and the
-  link stays available during runtime/font startup failures.
+  link stays available during runtime startup and font-loading failures.
 
 Reports live in `tmp/browser-results/release/` or `tmp/browser-results/wheel/`.
 `browser-results.json` includes the Git commit, modified tracked files (for a

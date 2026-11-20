@@ -106,13 +106,13 @@ function request(payload, transfer = []) {
   return new Promise((resolve, reject) => {
     const id = ++sequence;
     // Terminate a stuck or hostile document check, rather than freezing the UI.
-    const timer = setTimeout(() => {
+    const startDeadline = () => setTimeout(() => {
       worker.terminate(); ready = false;
       active = null;
       reject(new Error("Check exceeded 60 seconds. Reload the page to restart Python; use the CLI for this file."));
       $("runtime-status").textContent = "Python stopped — reload to restart";
     }, 60000);
-    active = { id, resolve, reject, timer };
+    active = { id, resolve, reject, timer: null, startDeadline };
     worker.postMessage({ id, ...payload }, transfer);
   });
 }
@@ -185,6 +185,7 @@ try {
     if (data.type === "progress") {
       const line = document.createElement("li"); line.textContent = data.message;
       $("progress").append(line);
+      if (active && data.id === active.id) $("result-status").textContent = data.message;
     } else if (data.type === "ready") {
       ready = true;
       const message = `Ready in ${data.seconds.toFixed(1)} s · Python runs locally`;
@@ -196,6 +197,11 @@ try {
     } else if (data.type === "fatal") {
       fatal(data.error);
     } else if (active && data.id === active.id) {
+      if (data.type === "checking") {
+        active.timer = active.startDeadline();
+        $("result-status").textContent = "Checking locally…";
+        return;
+      }
       const pending = active; active = null; clearTimeout(pending.timer);
       if (data.type === "error") pending.reject(new Error(data.error));
       else pending.resolve(data.result);

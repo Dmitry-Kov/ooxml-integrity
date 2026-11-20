@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { checkerVersion, pyodideVersion, site, metadata, mode } from './site.mjs';
 
@@ -34,6 +34,10 @@ test.afterEach(async ({page, browser}, info) => {
 
 test('real package: examples, JSON, coverage, Doctor and narrow layout', async ({page, context}, info) => {
   const requests = [], errors = [];
+  const requestedFonts = () => requests.map(r => new URL(r.url).pathname)
+    .filter(path => path.startsWith('/fonts/') && path.endsWith('.ttf')).sort();
+  const bundledFonts = readdirSync(resolve(site, 'fonts'))
+    .filter(name => name.endsWith('.ttf')).map(name => `/fonts/${name}`).sort();
   context.on('request', request => requests.push({url:request.url(), method:request.method()}));
   page.on('pageerror', error => errors.push(String(error)));
   page.on('console', message => { if (['error','warning'].includes(message.type())) errors.push(message.text()); });
@@ -53,8 +57,10 @@ test('real package: examples, JSON, coverage, Doctor and narrow layout', async (
   await page.getByRole('tab', {name:'Report', exact:true}).click();
   await expect(page.locator('#human-output')).toContainText('CMT005');
   await expect(page.locator('#human-output')).toContainText('FID001');
+  expect(requestedFonts()).toEqual([]);
 
   report = await run(page, 'A deck with text that does not fit', 1);
+  expect(requestedFonts()).toEqual(bundledFonts);
   expect(report.files[0].summary).toEqual({error:6, warn:4, info:1});
   expect(codes(report)).toEqual(expect.arrayContaining(['PPT001','PPT003','PPT004','PPT005','PPT006','PPT007']));
   const findings = report.files[0].findings;
@@ -75,6 +81,7 @@ test('real package: examples, JSON, coverage, Doctor and narrow layout', async (
   expect(doctor.fonts.failures).toEqual([]);
   expect(doctor.fonts.probes.map(p => p.confidence)).toEqual(['metric','metric','metric']);
   expect(doctor.capabilities.every(c => c.status === 'available')).toBe(true);
+  expect(requestedFonts()).toEqual(bundledFonts);
   await info.attach('doctor', {contentType:'application/json', body:JSON.stringify(doctor, null, 2)});
   const wheels = requests.filter(r => /\/ooxml_integrity-[^/]+\.whl$/.test(new URL(r.url).pathname));
   expect(wheels.length).toBeGreaterThan(0);
@@ -140,25 +147,58 @@ test('uploads: same names, remove/reselect, corrupt input and recovery', async (
   expect((await run(page, 'Check', 1)).files[0].summary.error).toBe(6);
 });
 
-for (const dependency of ['runtime', 'font']) {
-  test(`unavailable ${dependency}: visible startup error, disabled checks, reload recovery`, async ({page, context}) => {
-    const pattern = dependency === 'runtime' ? '**/pyodide.mjs' : '**/fonts/Carlito-Regular.ttf';
-    let intercepted = 0;
-    await context.route(pattern, route => { intercepted++; return route.abort('failed'); });
-    await page.goto('/');
-    await expect(page.locator('#runtime-status')).toHaveText('Startup failed — reload to retry', {timeout:120_000});
-    expect(intercepted).toBeGreaterThan(0);
-    await expect(page.locator('#human-output')).toContainText('Check your network connection and reload');
-    await expect(page.getByRole('button', {name:'Doctor', exact:true})).toBeDisabled();
-    await expect(page.getByRole('button', {name:'A clean document', exact:true})).toBeDisabled();
-    await expect(page.getByRole('link', {name:'Share feedback on GitHub'})).toBeVisible();
-    expect((await json(page)).error).toContain('Could not start Python');
-    await context.unroute(pattern);
-    await page.reload();
-    await ready(page);
-    await run(page, 'A clean document', 0);
+test('unavailable runtime: visible startup error, disabled checks, reload recovery', async ({page, context}) => {
+  const pattern = '**/pyodide.mjs';
+  let intercepted = 0;
+  await context.route(pattern, route => { intercepted++; return route.abort('failed'); });
+  await page.goto('/');
+  await expect(page.locator('#runtime-status')).toHaveText('Startup failed — reload to retry', {timeout:120_000});
+  expect(intercepted).toBeGreaterThan(0);
+  await expect(page.locator('#human-output')).toContainText('Check your network connection and reload');
+  await expect(page.getByRole('button', {name:'Doctor', exact:true})).toBeDisabled();
+  await expect(page.getByRole('button', {name:'A clean document', exact:true})).toBeDisabled();
+  await expect(page.getByRole('link', {name:'Share feedback on GitHub'})).toBeVisible();
+  expect((await json(page)).error).toContain('Could not start Python');
+  await context.unroute(pattern);
+  await page.reload();
+  await ready(page);
+  await run(page, 'A clean document', 0);
+});
+
+test('unavailable font: DOCX works and font-dependent checks can retry', async ({page, context}) => {
+  const pattern = '**/fonts/Carlito-Regular.ttf';
+  let intercepted = 0;
+  const firstResponse = Promise.withResolvers();
+  await context.route(pattern, async route => {
+    intercepted++;
+    if (intercepted === 1) await firstResponse.promise;
+    return route.fulfill({status:503, body:'Unavailable'});
   });
-}
+  await open(page);
+  expect(intercepted).toBe(0);
+  await page.clock.install();
+  for (const action of ['Doctor', 'A deck with text that does not fit']) {
+    await page.getByRole('button', {name:action, exact:true}).click();
+    if (action === 'Doctor') {
+      try {
+        await expect.poll(() => intercepted).toBe(1);
+        // Waiting for a font must not spend the document check's deadline.
+        await page.clock.fastForward(61_000);
+        await expect(page.locator('#result-status')).toHaveText('Loading presentation fonts…');
+      } finally { firstResponse.resolve(); }
+    }
+    await expect(page.locator('#result-status')).toHaveText('Could not complete');
+    expect((await json(page)).error).toContain('Carlito-Regular.ttf');
+    await expect(page.getByRole('link', {name:'Share feedback on GitHub'})).toBeVisible();
+    expect((await run(page, 'A clean document', 0)).files[0].findings).toEqual([]);
+  }
+  expect(intercepted).toBe(2);
+  await context.unroute(pattern);
+  const doctor = await run(page, 'Doctor', 0);
+  expect(doctor.status).toBe('ready');
+  expect(doctor.fonts.failures).toEqual([]);
+  expect(codes(await run(page, 'A deck with text that does not fit', 1))).toContain('PPT001');
+});
 
 test('feedback is voluntary and sends no selected document or report data', async ({page, context}, info) => {
   const target = 'https://github.com/Dmitry-Kov/ooxml-integrity/issues/new?template=checker-feedback.yml';
