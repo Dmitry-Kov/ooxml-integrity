@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- **Match overlapping tracked edits to separate comment bodies.** When a
+  revised comment ends up with another comment's original text, comparison
+  can now account for both. If the resulting `FID004` was the only error,
+  the default check now exits with `0`. Remove any expectation that required
+  the former loss. Footnotes and endnotes use the same matching rule.
+  The overlapping comment edits were verified on synthetic documents.
+- **Keep tracked header and footer edits in their own slots.** A footer
+  could previously conceal the loss of a header with matching revision
+  history. Comparison now checks each kind and variant separately, so such
+  a document can report `FID007` and exit with `1` at the default threshold.
+  Restore the affected header or footer, or declare its intentional change
+  with a scoped expectation. This case was verified on synthetic documents.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published

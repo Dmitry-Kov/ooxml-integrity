@@ -8,11 +8,15 @@ match, because rejecting one of those revisions leaves the same rejected text.
 """
 from __future__ import annotations
 
+import json
+
 import pytest
 
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, read_part, repack, run_cli
 
 from ooxml_integrity import Severity, compare
+from ooxml_integrity.fidelity import W, _text_fact, _unmatched
+from ooxml_integrity.xmlutil import fromstring
 
 FOOTNOTES = "word/footnotes.xml"
 HEADER = "word/header1.xml"
@@ -44,6 +48,54 @@ def _edit(base, tmp_path, name: str, part: str, old: str, new: str):
 def _losses(source, edited):
     return sorted((f.code, f.severity.name) for f in compare(source, edited)
                   if f.code in STORY_CODES)
+
+
+def _comments(base, path, first, second):
+    part = "word/comments.xml"
+    xml = read_part(base, part)
+    for old, runs in [
+        ("Confirm this figure against the source table before circulation.", first),
+        ("Defined term must match the definitions schedule.", second),
+    ]:
+        run = f"<w:r><w:t>{old}</w:t></w:r>"
+        assert xml.count(run) == 1
+        xml = xml.replace(run, runs)
+    return repack(base, path, {part: xml.encode()})
+
+
+@pytest.mark.parametrize(("first", "second", "lost"), [
+    # The current text of the second comment is the original text of the first.
+    (_del(901, "Confirm tax") + _ins(902, "Check tax"),
+     _del(903, "Confirm fee") + _ins(904, "Confirm tax"), None),
+    # Both current texts survive. Reserving a match by rejected text first
+    # would give the second comment to the wrong source.
+    (_del(901, "Check tax") + _ins(902, "Confirm tax"),
+     _del(903, "Confirm tax") + _ins(904, "Confirm fee"), None),
+    # Only the first replacement is tracked. The second original text is lost.
+    (_del(901, "Confirm tax") + _ins(902, "Check tax"),
+     _run("Confirm tax"), "Confirm fee"),
+], ids=["tracked-overlap", "current-texts-preserved", "untracked-loss"])
+def test_overlapping_comment_texts_are_matched_once(base_docx, tmp_path, first, second, lost):
+    source = _comments(base_docx, tmp_path / "source.docx", _run("Confirm tax"), _run("Confirm fee"))
+    edited = _comments(base_docx, tmp_path / "edited.docx", first, second)
+    result = run_cli("check", str(edited), "--against", str(source), "--no-config", "--json")
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    losses = [(f["severity"], f["extra"]["body"], f["extra"]["lost"])
+              for f in findings if f["code"] == "FID004"]
+    assert losses == ([] if lost is None else [("error", lost, 1)])
+    assert result.returncode == (0 if lost is None else 1)
+
+
+def test_matching_a_third_comment_can_require_reassigning_two_others():
+    def body(runs):
+        xml = f'<w:comment xmlns:w="{W[1:-1]}"><w:p>{runs}</w:p></w:comment>'
+        return _text_fact(fromstring(xml.encode()))
+
+    source = [body(_run(text)) for text in ("Fee", "Tax", "Notice")]
+    edited = [body(_del(901, "Fee") + _ins(902, "Payment")),
+              body(_del(903, "Tax") + _ins(904, "Fee")),
+              body(_del(905, "Notice") + _ins(906, "Tax"))]
+    assert not _unmatched(source, edited)
 
 
 FOOTNOTE_RUN = f'<w:r><w:t xml:space="preserve">{FOOTNOTE}</w:t></w:r>'
@@ -95,6 +147,27 @@ def test_a_rejected_pending_header_deletion_is_still_reported(base_docx, tmp_pat
     source = _edit(base_docx, tmp_path, "pending", HEADER, HEADER_TEXT, pending)
     rejected = _edit(source, tmp_path, "rejected", HEADER, pending, HEADER_TEXT)
     assert ("FID007", "ERROR") in _losses(source, rejected)
+
+
+def test_a_footer_revision_cannot_account_for_a_lost_header(base_docx, tmp_path):
+    header = _ins(901, "Draft").replace("Benchmark Editor", "Header Reviewer")
+    footer = _ins(902, "Draft").replace("Benchmark Editor", "Footer Reviewer")
+    footer_part = "word/footer1.xml"
+    source = repack(base_docx, tmp_path / "source.docx", {
+        HEADER: read_part(base_docx, HEADER).replace(HEADER_TEXT, header).encode(),
+        footer_part: read_part(base_docx, footer_part).replace(
+            "<w:r><w:t>Confidential</w:t></w:r>", footer).encode(),
+    })
+    # The two reviewers' insertions traded places. The footer still matches
+    # its source by current text. Rejecting the new suffix in the header
+    # restores the footer reviewer's insertion, not the header reviewer's.
+    edited = repack(source, tmp_path / "edited.docx", {
+        HEADER: read_part(source, HEADER).replace(header, footer + _ins(903, " revised")).encode(),
+        footer_part: read_part(source, footer_part).replace(footer, header).encode(),
+    })
+    found = [f for f in compare(source, edited) if f.code == "FID007"]
+    assert [(f.where, f.severity, f.extra["body"]) for f in found] == [
+        ("header/default", Severity.ERROR, "Draft")]
 
 
 def test_each_edited_note_accounts_for_one_source_note(base_docx, tmp_path):

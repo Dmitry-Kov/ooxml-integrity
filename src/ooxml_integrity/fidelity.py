@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import collections
 import functools
+import itertools
 import posixpath
 import re
+from collections.abc import Iterator
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
@@ -420,37 +422,73 @@ def _unmatched(source: list[_Text], edited: list[_Text]) -> collections.Counter:
     """
     by_current: dict = collections.defaultdict(list)
     by_original: dict = collections.defaultdict(list)
-    for index, (current, original, _) in enumerate(edited):
+    revised = []
+    for index, (current, original, record) in enumerate(edited):
         by_current[current].append(index)
         by_original[original].append(index)
-    used: set[int] = set()
+        if record is not None:
+            revised.append(index)
 
-    def take(index: dict, key, prefer=None) -> bool:
-        candidates = [i for i in index.get(key, ()) if i not in used]
-        if not candidates:
-            return False
-        chosen = next((i for i in candidates if prefer is not None and prefer(i)), candidates[0])
-        used.add(chosen)
-        return True
+    owner: dict[int, int] = {}  # edited index -> source index
 
-    pending = [
-        (current, original, record) for current, original, record in source
-        if not take(by_current, current, lambda i, o=original: edited[i][1] == o)
-    ]
-    lost: collections.Counter = collections.Counter()
-    for current, original, record in pending:
-        if record is None:
-            if not take(by_original, current):
-                lost[current] += 1
-            continue
-        known = {w for _, state in record for w in state}
-        match = next((i for i, (_, _, other) in enumerate(edited) if i not in used
-                      and other is not None and _without_new_revisions(other, known) == record),
-                     None)
-        if match is None:
-            lost[current] += 1
+    def tracked_matches(i: int, *, free_only: bool = False) -> Iterator[int]:
+        current, _, record = source[i]
+        known = {w for _, state in record for w in state} if record is not None else set()
+        candidates = by_original.get(current, ()) if record is None else revised
+        for j in candidates:
+            if free_only and j in owner:
+                continue
+            if record is None or _without_new_revisions(edited[j][2], known) == record:
+                yield j
+
+    # Keep existing current-text assignments first, including their tie-break.
+    pending = []
+    for i, (current, original, _) in enumerate(source):
+        available = [j for j in by_current.get(current, ()) if j not in owner]
+        if available:
+            j = next((j for j in available if edited[j][1] == original), available[0])
+            owner[j] = i
         else:
-            used.add(match)
+            pending.append(i)
+
+    remaining = []
+    for i in pending:
+        match = next(tracked_matches(i, free_only=True), None)
+        if match is None:
+            remaining.append(i)
+        else:
+            owner[match] = i
+
+    exhausted: set[int] = set()
+
+    def reassign(start: int) -> bool:
+        # Follow occupied matches until we find a free edited item. Only then
+        # move the assignments back along that path, keeping every earlier match.
+        queue = collections.deque([start])
+        previous: dict[int, tuple[int, int]] = {}
+        while queue:
+            src = queue.popleft()
+            candidates = itertools.chain(by_current.get(source[src][0], ()), tracked_matches(src))
+            for dst in candidates:
+                holder = owner.get(dst)
+                if holder is None:
+                    owner[dst] = src
+                    while src != start:
+                        src, dst = previous[src]
+                        owner[dst] = src
+                    return True
+                if holder not in previous and holder not in exhausted:
+                    previous[holder] = (src, dst)
+                    queue.append(holder)
+        # No free edited item is reachable from any of these owners. A later
+        # successful path cannot go through them either.
+        exhausted.update(previous)
+        return False
+
+    lost: collections.Counter = collections.Counter()
+    for i in remaining:
+        if len(owner) == len(edited) or not reassign(i):
+            lost[source[i][0]] += 1
     return lost
 
 
@@ -915,7 +953,12 @@ def _paragraph_changes(source: _Snapshot, edited: _Snapshot) -> list[Finding]:
 
 def _story_losses(source: _StoryView, edited: _StoryView) -> list[Finding]:
     out: list[Finding] = []
-    unmatched = _unmatched(source.texts, edited.texts)
+    # A revision record contains characters and their revisions. Only a story
+    # of the same kind and variant can witness that those characters survived.
+    unmatched: collections.Counter = collections.Counter()
+    for slot in {identity[:2] for identity, _, _ in source.texts}:
+        unmatched.update(_unmatched([s for s in source.texts if s[0][:2] == slot],
+                                    [e for e in edited.texts if e[0][:2] == slot]))
     in_source = collections.Counter(
         identity for identity, _, _ in source.texts)
     for (kind, variant, body), n in in_source.items():

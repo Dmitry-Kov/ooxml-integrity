@@ -46,6 +46,8 @@ def _make(
     destination,
     sections: list[list[tuple[str, str, str]]],
     stories: dict[str, tuple[str, str, bytes]],
+    *,
+    title_page: bool = False,
 ):
     """Build section refs and matching relationships on the reference package."""
     document = etree.fromstring(read_part(base, DOC).encode())
@@ -66,6 +68,8 @@ def _make(
                 W + "type": variant,
                 R + "id": rid,
             })
+        if title_page:
+            etree.SubElement(section, W + "titlePg")
 
     relationships = etree.fromstring(read_part(base, DOC_RELS).encode())
     for rel in list(relationships.iter(REL + "Relationship")):
@@ -137,6 +141,37 @@ def test_relationship_and_part_renumbering_is_clean(base_docx, tmp_path):
     )
 
     assert compare(base_docx, edited) == []
+
+
+@pytest.mark.parametrize(("kind", "variant", "part"), [
+    ("footer", "default", "footer1.xml"),
+    ("header", "first", "header2.xml"),
+])
+@pytest.mark.parametrize("moved", [False, True], ids=["same-slot", "moved"])
+def test_pending_header_text_must_survive_in_its_own_slot(root, tmp_path, kind, variant, part, moved):
+    # This package already declares the content types for all three parts.
+    base = root / "evidence/docx-beta/sources/multi-section-05.docx"
+    default = ("header", "default", "rDefault")
+    source = _make(base, tmp_path / "source.docx", [[default]], {
+        "rDefault": ("header", "header1.xml", _story("header", "Draft", tracked=True)),
+    }, title_page=(variant == "first"))
+
+    def edited_story(story_kind, keeps_draft):
+        if not keeps_draft:
+            return _story(story_kind, "Other", tracked=True)
+        extra = b'<w:ins w:id="78" w:author="Editor"><w:r><w:t>ed</w:t></w:r></w:ins>'
+        return _story(story_kind, "Draft", tracked=True).replace(b"</w:p>", extra + b"</w:p>")
+
+    edited = _make(base, tmp_path / "edited.docx", [[default, (kind, variant, "rNew")]], {
+        "rDefault": ("header", "header1.xml", edited_story("header", not moved)),
+        "rNew": (kind, part, edited_story(kind, moved)),
+    }, title_page=(variant == "first"))
+    result = run_cli("check", str(edited), "--against", str(source), "--no-config", "--json")
+    findings = json.loads(result.stdout)["files"][0]["findings"]
+    errors = [(f["code"], f.get("where"), f.get("extra", {}).get("body"))
+              for f in findings if f["severity"] == "error"]
+    assert errors == ([("FID007", "header/default", "Draft")] if moved else [])
+    assert result.returncode == int(moved)
 
 
 def test_first_even_and_default_header_footer_slots_are_distinct(
