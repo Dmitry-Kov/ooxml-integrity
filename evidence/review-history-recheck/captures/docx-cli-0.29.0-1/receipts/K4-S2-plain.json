@@ -1,0 +1,9 @@
+{
+  "task": "K4-S2-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"track-changes\", \"off\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"replace\", \"/out/output.docx\", \"disputed amount\", \"disputed sum\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"track-changes\", \"on\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.594,
+  "finished_at": "2026-11-23T07:41:26+00:00",
+  "output": "K4-S2-plain.docx",
+  "output_sha256": "0d3e026557659521c046e61c036059220017cf533de4b74f8b08a1340bde5f50"
+}

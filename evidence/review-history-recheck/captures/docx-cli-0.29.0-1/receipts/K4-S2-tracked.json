@@ -1,0 +1,9 @@
+{
+  "task": "K4-S2-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"disputed amount\", \"disputed sum\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.318,
+  "finished_at": "2026-11-23T07:41:25+00:00",
+  "output": "K4-S2-tracked.docx",
+  "output_sha256": "5b1e4f3bf7baa4823eaebb159b190d87ded772a745bbc9fd6aeebf5a64591dd0"
+}

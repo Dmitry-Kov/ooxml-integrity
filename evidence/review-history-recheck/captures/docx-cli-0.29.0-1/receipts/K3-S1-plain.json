@@ -1,0 +1,9 @@
+{
+  "task": "K3-S1-plain",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"replace\", \"/out/output.docx\", \"Historic spend\", \"Annual spend\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.293,
+  "finished_at": "2026-11-23T07:41:23+00:00",
+  "output": "K3-S1-plain.docx",
+  "output_sha256": "602ff728b15e65719a4f1532f65a8c0916f3ae3bc5ea4549c3d546c83186ddf1"
+}

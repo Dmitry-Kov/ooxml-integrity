@@ -1,0 +1,9 @@
+{
+  "task": "K7n-S1-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"footnotes\", \"list\", \"/out/output.docx\"], \"code\": 0, \"stderr\": \"\"}, {\"args\": [\"footnotes\", \"edit\", \"/out/output.docx\", \"--at\", \"fn1\", \"--text\", \"ECMA-376 Part 1, 5th edition, section 17.3.2.\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.479,
+  "finished_at": "2026-11-23T07:41:42+00:00",
+  "output": "K7n-S1-tracked.docx",
+  "output_sha256": "70799608bf92d1973d7b6bffec14d79503af761a276818913cf8cbfca6181e39"
+}
