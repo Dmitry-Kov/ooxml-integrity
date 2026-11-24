@@ -1,6 +1,6 @@
 # ooxml-integrity
 
-[![CI](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml/badge.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/) [![Python](https://img.shields.io/pypi/pyversions/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.10.0/LICENSE)
+[![CI](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml/badge.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/) [![Python](https://img.shields.io/pypi/pyversions/ooxml-integrity)](https://pypi.org/project/ooxml-integrity/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dmitry-Kov/ooxml-integrity/blob/v0.11.0/LICENSE) [![Dmitry-Kov/ooxml-integrity MCP server](https://glama.ai/mcp/servers/Dmitry-Kov/ooxml-integrity/badges/score.svg)](https://glama.ai/mcp/servers/Dmitry-Kov/ooxml-integrity)
 
 An edited Word file can open normally and still have lost a reviewer's comment,
 another author's tracked change or a footnote. `ooxml-integrity` finds these
