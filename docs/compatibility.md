@@ -33,6 +33,21 @@ unused. This does not authorize accepting revisions or certify a clean document.
 
 ## Rule codes, severity and exit status
 
+The unreleased packaging change moves `fonttools` into the optional `[pptx]`
+extra (`pip install "ooxml-integrity[pptx]"`). This is an incompatible install
+change for `.pptx` users: a plain `pip install ooxml-integrity` now installs
+only `lxml` (plus `tomli` on Python 3.10 and older), so checking a `.pptx` deck
+without `[pptx]` emits `PPT000` ERROR and exits `1` under the default threshold
+(package and geometry checks still run). Install `ooxml-integrity[pptx]` where
+presentations are checked; `action.yml` and `.pre-commit-hooks.yaml` include it
+automatically. Without `fonttools`, `doctor` now reports overall status `ready`
+(exit `0`) and capability `pptx.font-metrics` with status `optional-missing`
+instead of `unavailable`, so DOCX-only environments remain ready. The PyPI
+`sdist` also omits the repository-only `evidence/` and `research/` trees:
+tests that require `research/` or `evidence/` are not collected when running
+from an unpacked `sdist`, and the full test suite runs only from a Git
+checkout.
+
 In 0.10.0 `CMT007` is a new ERROR finding of `check()`: one comment id with
 more than one `commentRangeStart`, `commentRangeEnd` or `commentReference` in a
 story part. A document that passed the default gate can now exit 1; none of

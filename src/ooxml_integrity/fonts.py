@@ -33,12 +33,23 @@ from __future__ import annotations
 
 import contextlib
 import functools
+import importlib.util
 import logging
 import re
 import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+
+_PPTX_EXTRA_HINT = (
+    "fonttools is not installed; install optional PPTX text-measurement "
+    "support with: pip install 'ooxml-integrity[pptx]'"
+)
+
+
+def fonttools_available() -> bool:
+    """Whether the optional fontTools dependency is importable."""
+    return importlib.util.find_spec("fontTools") is not None
 
 
 @contextlib.contextmanager
@@ -232,7 +243,12 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
     'Times New Roman' lives in Times.ttc on macOS. Scanning is deferred until
     fontconfig has already failed, and the result is cached for the process.
     """
-    from fontTools.ttLib import TTCollection, TTFont
+    if not fonttools_available():
+        return {}
+    try:
+        from fontTools.ttLib import TTCollection, TTFont
+    except ModuleNotFoundError:
+        return {}
 
     index: dict[str, tuple[str, int]] = {}
     ranks: dict[str, int] = {}
@@ -320,7 +336,12 @@ def _index_font_dirs() -> dict[str, tuple[str, int]]:
 def _has_latin_coverage(path: str, face_index: int = 0) -> bool:
     """Does this face actually carry basic Latin? A CJK or symbol font does not,
     and measuring English text with one produces nonsense."""
-    from fontTools.ttLib import TTFont
+    if not fonttools_available():
+        return False
+    try:
+        from fontTools.ttLib import TTFont
+    except ModuleNotFoundError:
+        return False
 
     try:
         with _quiet_fonttools():
@@ -372,6 +393,8 @@ def _style_suffix(bold: bool, italic: bool) -> str:
 @functools.lru_cache(maxsize=512)
 def resolve_face(family: str, bold: bool = False, italic: bool = False) -> ResolvedFace:
     """Find a font file for a declared family, and say how good the match is."""
+    if not fonttools_available():
+        raise FontUnavailable(_PPTX_EXTRA_HINT)
     requested = (family or "").strip() or "Calibri"
     key = requested.lower()
 
@@ -490,7 +513,12 @@ class Metrics:
 @functools.lru_cache(maxsize=128)
 def load_metrics(family: str, bold: bool = False, italic: bool = False) -> Metrics:
     """Read one face's tables. Cached: opening a TTF is the expensive part."""
-    from fontTools.ttLib import TTFont
+    if not fonttools_available():
+        raise FontUnavailable(_PPTX_EXTRA_HINT)
+    try:
+        from fontTools.ttLib import TTFont
+    except ModuleNotFoundError as e:
+        raise FontUnavailable(_PPTX_EXTRA_HINT) from e
 
     face = resolve_face(family, bold, italic)
     # The whole body stays inside the quiet block: TTFont is lazy, so tables are

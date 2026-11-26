@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+- **Incompatible change: `fonttools` is now in the optional `[pptx]` extra.**
+  `pip install ooxml-integrity` installs only `lxml` (plus `tomli` on Python
+  3.10 and older) for `.docx` checks. Checking a `.pptx` deck without `[pptx]`
+  now reports `PPT000` ERROR (text measurement unavailable; package and
+  geometry checks still run) and exits `1` at the default threshold. Install
+  `pip install "ooxml-integrity[pptx]"` wherever `.pptx` decks are checked.
+  The GitHub Action (`action.yml`) installs `[pptx]` automatically, the
+  pre-commit hook (`.pre-commit-hooks.yaml`) adds `fonttools>=4.40`, and the
+  browser demo already loads `fonttools` from Pyodide.
+- **`doctor` reports `ready` (exit `0`) when optional `fonttools` is absent.**
+  Without `[pptx]`, `doctor` records `runtime.fonttools` as `unavailable`,
+  `pptx.font-metrics` with status `optional-missing` and confidence
+  `unavailable`, overall status `ready`, and exits `0` so DOCX-only
+  environments are not flagged as broken. When `fonttools` is installed but no
+  usable system fonts are found, `doctor` still reports overall status
+  `degraded` with `pptx.font-metrics` status `unavailable` (exit `1`).
+- **Slimmer PyPI source distribution (`sdist`).** The `sdist` excludes the
+  repository-only `evidence/` and `research/` directories while keeping the
+  package, core tests, `corpus/`, `runs/`, `docs/` and integration metadata.
+  Tests that require `research/` or `evidence/` are not collected (or are
+  skipped) when running from an unpacked `sdist`; the full test suite runs
+  only from a Git checkout.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published

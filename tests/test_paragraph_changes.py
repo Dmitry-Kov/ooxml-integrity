@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 
 import pytest
-from conftest import ROOT, read_part, repack, run_cli
+from conftest import ROOT, needs_evidence, read_part, repack, run_cli
 
 from ooxml_integrity import Expectation, Severity, compare, expect
 from ooxml_integrity.paragraphs import ParagraphText, paragraph_views
@@ -21,6 +21,7 @@ def _changes(source, edited):
     return [f for f in compare(source, edited) if f.code == "FID014"]
 
 
+@needs_evidence
 def test_the_requested_edit_reads_as_the_task_asks():
     # The reference edit inside Reviewer A's pending insertion.
     [f] = _changes(S2, BENCH / "captures/reference-1/K4-S2-plain.docx")
@@ -34,6 +35,7 @@ def test_the_requested_edit_reads_as_the_task_asks():
         "Fees are payable within thirty days of receipt of a valid invoice.")
 
 
+@needs_evidence
 def test_an_edit_of_the_wrong_span_fails_the_expected_text():
     asked = Expectation("FID014", {"story": "document", "after": ASKED},
                         reason="the task asks for this paragraph")
@@ -148,6 +150,7 @@ def test_added_and_removed_paragraphs_are_numbered_as_they_stand(base_docx, tmp_
                                                                "A new opening line")
 
 
+@needs_evidence
 def test_the_baseline_identity_holds_no_text():
     [f] = _changes(S2, BENCH / "captures/reference-1/K4-S2-plain.docx")
     key = fingerprint("out.docx", f)

@@ -6,7 +6,7 @@ from pathlib import Path
 from lxml import etree as E
 import pytest
 
-from conftest import repack, run_cli
+from conftest import needs_evidence, repack, run_cli
 from ooxml_integrity import compare
 from ooxml_integrity.coverage import docx_coverage
 
@@ -31,6 +31,7 @@ def text_findings(source, edited):
     return [f for f in compare(source, edited) if f.code == 'FID009']
 
 
+@needs_evidence
 def test_recorded_count_neutral_loss_is_now_detected():
     source = BASE/'sources/basic.docx'
     output = BASE/'outputs/replace-unrelated-insertion.docx'
@@ -92,6 +93,7 @@ def test_coalescence_with_a_new_revision_and_equal_counts_is_not_loss(base_docx,
     assert text_findings(source, output) == []
 
 
+@needs_evidence
 @pytest.mark.parametrize('name', ['source-control', 'adeu-shared-id', 'unique-id-control'])
 def test_saved_word_coalescence_remains_clean(name):
     base = ROOT/'evidence/docx-word-id-followup'
@@ -124,10 +126,12 @@ def test_unsupported_revision_content_declares_a_skip(base_docx, tmp_path, defec
     assert 'unsupported' in coverage['docx.fidelity.revision-text'].reason
 
 
+@needs_evidence
 def test_note_revision_loss_is_still_outside_this_fix():
     assert not text_findings(BASE/'sources/notes.docx', BASE/'outputs/unwrap-note-insertion.docx')
 
 
+@needs_evidence
 def test_cli_json_sarif_and_baseline_keep_new_losses_visible(tmp_path):
     source = BASE/'sources/basic.docx'
     output = BASE/'outputs/replace-unrelated-insertion.docx'

@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from lxml import etree
 
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, needs_evidence, read_part, repack
 from ooxml_integrity import Severity, compare
 from ooxml_integrity.fidelity import _bodies, _story_text, note_revision_inventory
 
@@ -178,6 +178,7 @@ def test_story_text_reads_the_same_with_or_without_a_paragraph_holding_nothing()
     assert _story_text(root) == "A B"
 
 
+@needs_evidence
 def test_fix_quotes_a_reply_of_two_paragraphs_as_the_loss_rules_read_it(tmp_path):
     from ooxml_integrity.fix import fix
     source = ROOT / "evidence/review-history-benchmark/captures/docx-mcp-3/K5-S2-comment.docx"

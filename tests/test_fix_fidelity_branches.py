@@ -1,10 +1,12 @@
 """An anchor repair improves the primary count while a fallback loss stays put."""
-from conftest import read_part, repack
+from conftest import needs_evidence, read_part, repack
 from test_fix import DOCX_MCP
 from test_repeated_comment_markers import DOC, _before_section, _text_box
 
 from ooxml_integrity import compare
 from ooxml_integrity.fix import EXIT_REPAIRED, fix
+
+pytestmark = needs_evidence
 
 
 def test_repair_proves_the_primary_style_count_against_both_text_box_copies(tmp_path):

@@ -2,11 +2,13 @@
 from pathlib import Path
 
 import pytest
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, needs_evidence, read_part, repack
 from test_note_revisions import coverage as note_revision_coverage
 from test_repeated_comment_markers import _text_box
 
 from ooxml_integrity import Severity, compare
+
+pytestmark = needs_evidence
 
 
 WORD_REVIEW = ROOT / "evidence/review-history-benchmark/sources/word-review.docx"

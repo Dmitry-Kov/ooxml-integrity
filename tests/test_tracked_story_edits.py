@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, needs_evidence, read_part, repack
 
 from ooxml_integrity import Severity, compare
 
@@ -110,6 +110,7 @@ def test_each_edited_note_accounts_for_one_source_note(base_docx, tmp_path):
         (Severity.ERROR, 1, 2)]
 
 
+@needs_evidence
 @pytest.mark.parametrize(("source", "edited"), [
     ("review-base.docx", "review-a.docx"),
     ("review-base.docx", "word-review.docx"),
@@ -138,17 +139,20 @@ def _header(tmp_path, name, *edits):
     return path
 
 
+@needs_evidence
 def test_a_tracked_edit_beside_a_pending_header_revision_is_kept(tmp_path):
     output = _header(tmp_path, "tracked", (S2_HEADER_RUN, TRACKED_S2_HEADER))
     assert _losses(S2 / "word-review.docx", output) == []
 
 
+@needs_evidence
 def test_accepting_the_pending_header_revision_is_still_reported(tmp_path):
     output = _header(tmp_path, "accepted", (S2_HEADER_RUN, TRACKED_S2_HEADER),
                      (S2_PENDING_INS, '<w:r><w:t>4</w:t></w:r>'))
     assert ("FID007", "ERROR") in _losses(S2 / "word-review.docx", output)
 
 
+@needs_evidence
 def test_redating_the_pending_header_revision_is_still_reported(tmp_path):
     output = _header(tmp_path, "redated", (S2_HEADER_RUN, TRACKED_S2_HEADER),
                      (S2_PENDING_INS, S2_PENDING_INS.replace('w:date="2026-09-29T14:26:00Z"',
@@ -169,6 +173,7 @@ def test_a_tracked_edit_in_a_note_with_a_pending_insertion_is_kept(base_docx, tm
     assert _losses(source, rejected) == [("FID005", "ERROR")]
 
 
+@needs_evidence
 def test_a_tracked_edit_in_the_word_endnote_with_a_pending_revision_is_kept(tmp_path):
     source = S2 / "word-review.docx"
     endnotes = read_part(source, "word/endnotes.xml")

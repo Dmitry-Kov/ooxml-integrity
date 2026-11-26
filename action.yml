@@ -43,7 +43,10 @@ inputs:
     description: >-
       Explicit pip source override: a local path (".") or anything pip accepts,
       e.g. "git+https://github.com/Dmitry-Kov/ooxml-integrity@main". Takes
-      precedence over `version`; useful for trying an unreleased fix.
+      precedence over `version`; useful for trying an unreleased fix. When
+      checking `.pptx` decks, include `[pptx]` in the specification (for
+      example `".[pptx]"` or
+      `"ooxml-integrity[pptx] @ git+https://github.com/Dmitry-Kov/ooxml-integrity@main"`).
     required: false
     default: ""
   python-version:
@@ -113,9 +116,9 @@ runs:
         if [ -n "$OOXML_SOURCE" ]; then
           python -m pip install --quiet "$OOXML_SOURCE"
         elif [ -n "$OOXML_VERSION" ]; then
-          python -m pip install --quiet "ooxml-integrity==$OOXML_VERSION"
+          python -m pip install --quiet "ooxml-integrity[pptx]==$OOXML_VERSION"
         else
-          python -m pip install --quiet "$GITHUB_ACTION_PATH"
+          python -m pip install --quiet "${GITHUB_ACTION_PATH}[pptx]"
         fi
         python -m ooxml_integrity --version
 

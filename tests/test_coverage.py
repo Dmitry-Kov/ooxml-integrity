@@ -6,7 +6,7 @@ import re
 
 import pytest
 
-from conftest import read_part, repack, run_cli
+from conftest import needs_evidence, read_part, repack, run_cli
 
 from ooxml_integrity import coverage as coverage_module
 from ooxml_integrity.cli import EXIT_FINDINGS, EXIT_OK, main
@@ -165,6 +165,7 @@ def test_orphan_note_definitions_still_count_as_a_checked_surface(
     assert items["docx.comments"]["status"] == "checked"
 
 
+@needs_evidence
 @pytest.mark.parametrize("boxed", [False, True], ids=["plain", "text-box"])
 def test_coverage_counts_only_the_comment_reference_in_the_primary_branch(
         root, tmp_path, boxed):

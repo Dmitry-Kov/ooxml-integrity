@@ -31,13 +31,13 @@ classifiers = [
 ]
 dependencies = [
     "lxml>=4.9",
-    "fonttools>=4.40",
     # only for reading the config file; 3.11 has tomllib in the stdlib
     'tomli>=1.1; python_version < "3.11"',
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.4", "python-docx>=1.1", "python-pptx>=0.6.23",
+pptx = ["fonttools>=4.40"]
+dev = ["fonttools>=4.40", "pytest>=7.4", "python-docx>=1.1", "python-pptx>=0.6.23",
        "pdfplumber>=0.11"]
 
 [project.urls]
@@ -57,8 +57,10 @@ packages = ["src/ooxml_integrity"]
 [tool.hatch.build.targets.sdist]
 # Anchored at the root: an unanchored "README.md" also matches demo/README.md
 # and runs/README.md, and an empty demo/ made the tests that skip without the
-# demo run and fail. runs/ holds test fixtures; the demo itself is not shipped.
-include = ["/src/", "/tests/", "/research/", "/corpus/", "/evidence/", "/docs/", "/runs/",
+# demo run and fail. Repo-only research scripts and the multi-megabyte
+# evidence/ archive stay in Git; the sdist ships the package, tests, core
+# fixtures, docs and integration metadata.
+include = ["/src/", "/tests/", "/corpus/", "/docs/", "/runs/",
            "/action.yml", "/.github/", "/CHANGELOG.md", "/README.md", "/LICENSE",
            "/SECURITY.md", "/CONTRIBUTING.md", "/server.json",
            "/.pre-commit-hooks.yaml"]

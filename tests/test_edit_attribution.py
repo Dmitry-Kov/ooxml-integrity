@@ -6,7 +6,7 @@ import copy
 
 import pytest
 
-from conftest import ROOT, read_part, repack, run_cli
+from conftest import ROOT, needs_evidence, read_part, repack, run_cli
 from ooxml_integrity import Severity, compare
 from ooxml_integrity.revision_growth import assess, inventory
 from ooxml_integrity.xmlutil import fromstring
@@ -120,6 +120,7 @@ def test_new_revision_with_same_metadata_is_explicitly_ambiguous(base_docx, tmp_
     assert 'metadata does not establish edit intent' in found[0].message
 
 
+@needs_evidence
 @pytest.mark.parametrize('proper', [False, True])
 def test_real_s2_nested_pending_deletion_keeps_its_context(tmp_path, proper):
     """The exact S2 Fees source span from the declared Word #3 observation.

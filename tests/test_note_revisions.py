@@ -7,7 +7,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from lxml import etree as E
 import pytest
 
-from conftest import repack, run_cli
+from conftest import needs_evidence, repack, run_cli
 from ooxml_integrity import compare
 from ooxml_integrity.coverage import docx_coverage
 
@@ -50,6 +50,7 @@ def coverage(source, output):
                 if i.id == SURFACE)
 
 
+@needs_evidence
 def test_recorded_note_wrapper_loss_is_detected():
     source, output = BASE/'sources/notes.docx', BASE/'outputs/unwrap-note-insertion.docx'
     found = findings(source, output)
@@ -182,6 +183,7 @@ def test_nested_revision_presence_is_counted_once_per_kind(base_docx, tmp_path):
     assert coverage(source, output).count == 2
 
 
+@needs_evidence
 @pytest.mark.parametrize('blob', [b'<broken', b'<other/>'])
 def test_unreadable_note_part_cannot_pass_requested_comparison(tmp_path, blob):
     source = BASE/'sources/notes.docx'
@@ -194,6 +196,7 @@ def test_unreadable_note_part_cannot_pass_requested_comparison(tmp_path, blob):
     assert item['status'] == 'skipped'
 
 
+@needs_evidence
 def test_cli_sarif_and_baseline_round_trip(tmp_path):
     source, output = BASE/'sources/notes.docx', BASE/'outputs/unwrap-note-insertion.docx'
     sarif, baseline = tmp_path/'out.sarif', tmp_path/'baseline.json'
@@ -219,6 +222,7 @@ def test_baseline_distinguishes_kind_body_part_and_loss_multiplicity():
     assert 'body-sha256=' in identity()
 
 
+@needs_evidence
 def test_unavailable_source_coverage_does_not_claim_absent_note_revisions(tmp_path, monkeypatch):
     from ooxml_integrity import coverage as module
     source = BASE/'sources/notes.docx'

@@ -238,9 +238,13 @@ Per-file coverage resolves the faces requested by the deck itself, which may
 differ from these probes.
 
 `doctor` exits `0` when all essential capabilities are available, including a
-usable exact or metric-compatible font setup. It still exits `0` with status
-`degraded` when fonts are usable only as estimates, because file checks will
-surface that reduced confidence. It exits `1` when an essential capability is
-unavailable, such as having no usable font metrics at all. `doctor --json` uses
-`schema_version: 1`; environment-specific paths and version strings are data,
-while capability and unavailable-check identifiers are stable.
+usable exact or metric-compatible font setup. The unreleased packaging change
+makes `fonttools` optional (extra `[pptx]`): when `fonttools` is not installed,
+`doctor` reports `pptx.font-metrics` with status `optional-missing` and overall
+status `ready` (exit `0`), because DOCX checks do not need font metrics. It
+still exits `0` with status `degraded` when fonts are usable only as estimates,
+because file checks will surface that reduced confidence. It exits `1` when an
+essential capability is unavailable, or when `fonttools` is installed with no
+usable font metrics at all. `doctor --json` uses `schema_version: 1`;
+environment-specific paths and version strings are data, while capability and
+unavailable-check identifiers are stable.

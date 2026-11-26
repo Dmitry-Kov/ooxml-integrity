@@ -24,7 +24,9 @@ from ooxml_integrity.anonymize import Mapper, Refused, anonymize, leak_scan, pla
 from ooxml_integrity.xmlutil import fromstring
 
 BENCH = ROOT / "evidence/review-history-benchmark"
-TASKS = {t["id"]: t for t in json.loads((BENCH / "tasks.json").read_text())["tasks"]}
+_TASKS_FILE = BENCH / "tasks.json"
+TASKS = ({t["id"]: t for t in json.loads(_TASKS_FILE.read_text())["tasks"]}
+         if _TASKS_FILE.is_file() else {})
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 NS = (f'xmlns:w="{W_NS}" '
@@ -115,6 +117,8 @@ def test_a_word_split_across_runs_and_a_comment_anchor_is_one_word(tmp_path):
 # --- pairs: the checker's findings come back ---------------------------------------
 
 def pair(adapter, task):
+    if not _TASKS_FILE.is_file():
+        pytest.skip("evidence/ corpus is not shipped in the PyPI sdist")
     return ROOT / TASKS[task]["source_path"], BENCH / f"captures/{adapter}/{task}.docx"
 
 

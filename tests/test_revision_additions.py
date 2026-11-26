@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import pytest
 
-from conftest import ROOT, read_part, repack
+from conftest import ROOT, needs_evidence, read_part, repack
 from ooxml_integrity import INFO, Expectation, compare, expect
 from ooxml_integrity.policy import fingerprint
 
@@ -25,6 +25,7 @@ def added(source, edited):
             for f in compare(source, edited) if f.code == 'FID012']
 
 
+@needs_evidence
 def test_a_tracked_header_edit_is_reported_in_the_header():
     edited = BENCH / 'captures/reference-1/K7h-S2-tracked.docx'
     assert added(S2, edited) == [('header/default', 'ins', 'Benchmark Editor', 1),
@@ -32,6 +33,7 @@ def test_a_tracked_header_edit_is_reported_in_the_header():
     assert all(f.severity is INFO for f in compare(S2, edited) if f.code == 'FID012')
 
 
+@needs_evidence
 def test_the_same_edit_made_in_the_title_fails_a_header_expectation():
     wrong = BENCH / 'captures/docxengine-1/K7h-S2-tracked.docx'
     assert {story for story, *_ in added(S2, wrong)} == {'document'}
@@ -41,11 +43,13 @@ def test_the_same_edit_made_in_the_title_fails_a_header_expectation():
     assert len(matched) == 2 and 'EXP001' not in {f.code for f in kept}
 
 
+@needs_evidence
 def test_notes_are_a_story_of_their_own():
     edited = BENCH / 'captures/reference-1/K7n-S2-tracked.docx'
     assert {story for story, *_ in added(S2, edited)} == {'footnotes'}
 
 
+@needs_evidence
 def test_unchanged_and_resaved_files_add_nothing():
     assert added(S2, S2) == []
     assert added(S2, BENCH / 'captures/reference-1/K0-S2-save.docx') == []
@@ -54,6 +58,7 @@ def test_unchanged_and_resaved_files_add_nothing():
 DATE = 'w:date="2026-09-29T14:25:00Z"'
 
 
+@needs_evidence
 @pytest.mark.parametrize('replacement, expected', [
     # Splitting an existing revision into two keeps its author and date.
     ('split', []),

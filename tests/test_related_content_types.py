@@ -12,10 +12,12 @@ from pathlib import Path
 
 import pytest
 
-from conftest import ROOT
+from conftest import ROOT, needs_evidence
 from ooxml_integrity import Severity, check
 from ooxml_integrity.coverage import CoverageStatus, coverage_for
 from ooxml_integrity.policy import fingerprint
+
+pytestmark = needs_evidence
 
 BENCH = ROOT / "evidence" / "review-history-benchmark"
 CODEX = [BENCH / "captures" / f"codex-{n}" / "K5-S1-comment.docx" for n in range(1, 6)]

@@ -43,7 +43,10 @@ def _streamed(path):
 
 
 def test_unchanged_copy_is_byte_identical(tmp_path):
-    for source in (ADEU, _streamed(tmp_path / "streamed.zip")):
+    sources = [_streamed(tmp_path / "streamed.zip")]
+    if ADEU.is_file():
+        sources.insert(0, ADEU)
+    for source in sources:
         out = io.BytesIO()
         repack(source, out, {})
         assert out.getvalue() == source.read_bytes()
