@@ -33,11 +33,16 @@
   instead of re-reading the ZIP across check, fidelity, coverage and
   `--introduced`. Binary media members are stream-verified in 64 KiB chunks
   for ZIP budgets and CRC integrity without retaining their raw bytes in
-  memory unless `include_media=True` is requested (`tracemalloc` peak on
-  synthetic `corpus/base.docx` + stored media: `cli check --against --coverage
-  --introduced` fell from 40.14 MiB to 2.13 MiB on a 20 MiB pair, and from
-  20.17 MiB to 2.18 MiB across a 5×10 MiB batch against a 10 MiB source;
-  standalone `compare()` stayed at 0.15 MiB vs 0.14 MiB).
+  memory unless `include_media=True` is requested (calling
+  `LoadedPackage.open(pkg, include_media=True)` on an in-memory package that
+  skipped media raises `ValueError`). Measured Python heap peak via
+  `tracemalloc` — excluding native C `libxml2` tree allocations — on
+  synthetic `corpus/base.docx` copies with stored media
+  ([evidence](evidence/loaded-package-memory/README.md), `0.11.0` `58733a6` ->
+  `2bedf23`): `cli check --against --coverage --introduced` fell from
+  40.14 MiB to 2.13 MiB on a 20 MiB pair and from 20.17 MiB to 2.18 MiB across
+  a 5×10 MiB batch against a 10 MiB source (standalone `compare()`: 0.14 MiB
+  vs 0.15 MiB).
 
 ## 0.11.0 — 2026-11-20
 

@@ -431,6 +431,21 @@ def test_streaming_media_keeps_large_media_out_of_memory_and_checks_integrity(
     full_pkg = LoadedPackage.open(with_media, include_media=True)
     assert len(full_pkg.parts["word/media/big.bin"]) == media_size
 
+    # Reopening a Path-backed LoadedPackage with include_media=True reloads media.
+    reloaded_pkg = LoadedPackage.open(pkg, include_media=True)
+    assert len(reloaded_pkg.parts["word/media/big.bin"]) == media_size
+
+    # Reopening an in-memory LoadedPackage that skipped media must fail loudly
+    # rather than silently returning a package still missing binary media.
+    mem_bytes = with_media.read_bytes()
+    mem_pkg = LoadedPackage.open(mem_bytes)
+    assert mem_pkg.path is None and "word/media/big.bin" not in mem_pkg.parts
+    with pytest.raises(ValueError, match="include_media=True"):
+        LoadedPackage.open(mem_pkg, include_media=True)
+
+    mem_full = LoadedPackage.open(mem_bytes, include_media=True)
+    assert LoadedPackage.open(mem_full, include_media=True) is mem_full
+
     findings = check(pkg)
     assert findings == []
     cov = {item.id: item for item in coverage_for(pkg, findings).items}

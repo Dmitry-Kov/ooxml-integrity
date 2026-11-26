@@ -104,7 +104,11 @@ class LoadedPackage:
             if source.path is not None:
                 source = source.path
             else:
-                return source
+                raise ValueError(
+                    "cannot load binary media for an in-memory LoadedPackage "
+                    "opened with include_media=False; reopen the original "
+                    "bytes or stream with include_media=True"
+                )
         names, parts, digest = read_package_for_loaded(
             source, limits, include_media=include_media,
             extra_members=_extra_word_parts,
