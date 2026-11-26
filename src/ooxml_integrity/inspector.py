@@ -32,6 +32,7 @@ from .comments import (
     MAIN_DOCUMENT,
     STRICT,
     STRICT_DOCUMENT,
+    check_comment_root,
     comment_part,
     comment_tree,
     office_documents,
@@ -184,6 +185,7 @@ class Inspector:
             self.path = Path(name) if isinstance(name, (str, Path)) and str(name) else Path("<memory>")
         self.limits = limits
         self.findings: list[Finding] = []
+        self.names: tuple[str, ...] = ()
         self.parts: dict[str, bytes] = {}
         self.trees: dict[str, etree._Element] = {}
         self.main = MAIN_DOCUMENT
@@ -231,6 +233,7 @@ class Inspector:
             self.readable = False
             return False
 
+        self.names = pkg.names
         self.parts = pkg.parts
         self.main = pkg.main
         self.trees = pkg.trees
@@ -255,7 +258,7 @@ class Inspector:
         """
         if self._tree("_rels/.rels") is None:
             return None
-        names = {name.translate(ASCII_LOWER): name for name in self.parts}
+        names = {name.translate(ASCII_LOWER): name for name in self.names}
         reached = {"[Content_Types].xml"}
         todo = [""]
         while todo:
@@ -297,7 +300,7 @@ class Inspector:
             # Only relationship parts left without any content type break the
             # package; Override-only declarations are OPC-legal.
             uncovered = [
-                name for name in self.parts
+                name for name in self.names
                 if name.endswith(".rels")
                 and (name.startswith("_rels/") or "/_rels/" in name)
                 and covered("/" + name) not in overrides
@@ -317,7 +320,7 @@ class Inspector:
                     "declared by Override instead - OPC-legal",
                     part="[Content_Types].xml",
                 )
-        for name in self.parts:
+        for name in self.names:
             if name.endswith("/"):          # zip directory entry, not an OPC part
                 continue
             if name == "[Content_Types].xml":  # the stream itself, not an OPC part
@@ -397,7 +400,9 @@ class Inspector:
         without a content type (PKG005) is left to those rules.
         """
         reported: set[str] = set()
-        for pair in related_content_types(self.parts, self.trees, self.main).pairs:
+        for pair in related_content_types(
+            self.parts, self.trees, self.main, names=set(self.names),
+        ).pairs:
             if not pair.mismatch or pair.part in reported:
                 continue
             reported.add(pair.part)
@@ -499,7 +504,7 @@ class Inspector:
 
     def _check_main_part(self, tree, strict: bool) -> None:
         """PKG006 and PKG009: the main part is Transitional WordprocessingML."""
-        if tree is None and self.main in self.parts:
+        if tree is None and self.main in self.names:
             # XML001 names the reason; the part exists.
             self._add("PKG006", ERROR, f"{self.main} could not be parsed, so the "
                       "Word checks were not run")
@@ -556,7 +561,7 @@ class Inspector:
                     "internal target",
                     part="_rels/.rels",
                 )
-            elif len(targets := office_documents(self.parts)) > 1:
+            elif len(targets := office_documents(self.parts, names=set(self.names))) > 1:
                 self._add(
                     "REL001", ERROR,
                     f"_rels/.rels has officeDocument relationships to "
@@ -594,7 +599,7 @@ class Inspector:
         # deliberately narrower. It is only meaningful when the owning XML part
         # parsed and could be searched; root relationships and relationships of a
         # binary source are implicit and must not be called unused.
-        equivalent_names = {name.translate(ASCII_LOWER) for name in self.parts}
+        equivalent_names = {name.translate(ASCII_LOWER) for name in self.names}
         for relsname, tree in self.trees.items():
             if not relsname.endswith(".rels"):
                 continue
@@ -811,10 +816,15 @@ class Inspector:
             return
         cm = None
         cm_part = None
+        name_set = set(self.names)
         try:
-            cm_part = comment_part(self.parts, main=self.main)
+            cm_part = comment_part(self.parts, names=name_set, main=self.main)
             if cm_part is not None:
-                cm = comment_tree(self.parts, cm_part)
+                cached = self._tree(cm_part)
+                cm = (
+                    check_comment_root(cached, cm_part)
+                    if cached is not None else comment_tree(self.parts, cm_part)
+                )
         except (ValueError, etree.XMLSyntaxError) as e:
             self._add("CMT006", ERROR,
                       f"comments could not be resolved or parsed: {e}",
@@ -832,7 +842,7 @@ class Inspector:
         srt = lambda s: sorted(s, key=lambda x: (x is None, x))
         referenced: set = set()
         unread = False
-        for part in story_parts(self.parts, self.main):
+        for part in story_parts(self.parts, self.main, names=name_set):
             tree = doc if part == self.main else self._tree(part)
             if tree is None:
                 unread = True
@@ -1011,7 +1021,9 @@ class Inspector:
                           f"it will vanish: {txt[:40]!r}", where)
 
     def check_literal_entities(self) -> None:
-        for part, node, text in entity_surfaces(self.parts, self.trees, self.main):
+        for part, node, text in entity_surfaces(
+            self.parts, self.trees, self.main, names=set(self.names),
+        ):
             tokens = entity_spellings(text)
             if tokens:
                 examples = ', '.join(repr(token) for token in tokens[:4])

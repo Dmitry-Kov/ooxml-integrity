@@ -204,11 +204,13 @@ class _Package:
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
         if isinstance(path, LoadedPackage):
             self.path = path.path if path.path is not None else Path(path.label)
+            self.names: set[str] = set(path.names)
             self.parts = path.parts
             self._trees: dict[str, etree._Element | None] = dict(path.trees)
         else:
             self.path = Path(path) if isinstance(path, (str, Path)) else Path("<memory>")
             self.parts = read_package(path, limits)
+            self.names = set(self.parts)
             self._trees = {}
 
     def tree(self, name: str):
@@ -241,7 +243,7 @@ class _Package:
             if resolved == ".." or resolved.startswith("../"):
                 continue
             decoded = unquote(resolved)
-            out[rel.get("Id")] = resolved if resolved in self.parts else decoded
+            out[rel.get("Id")] = resolved if resolved in self.names else decoded
         return out
 
     def required_related(self, part: str, rel_suffix: str, root_tag: str) -> str:
@@ -628,7 +630,7 @@ class DeckReader:
             # the ZIP member spells literally. Archive preflight disallows
             # ambiguous encoded/decoded member aliases and traversal names.
             decoded = unquote(resolved, errors="strict")
-            part = next((p for p in (resolved, decoded) if p in self.pkg.parts), None)
+            part = next((p for p in (resolved, decoded) if p in self.pkg.names), None)
             if part is None:
                 invalid(f"slide {number} target {target!r} is missing", rel_part)
             if part in seen_parts:
@@ -644,7 +646,7 @@ class DeckReader:
         slide_parts = self._slide_parts()
         shapes: list[Shape] = []
         features = {
-            "entries": len(self.pkg.parts),
+            "entries": len(self.pkg.names),
             "slides": len(slide_parts),
             "presentation_order_entries": len(slide_parts),
             "plain_text_shapes": 0,

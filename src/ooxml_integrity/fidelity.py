@@ -25,9 +25,8 @@ from .archive import (
 )
 from .finding import ERROR, INFO, WARN, Finding, Severity
 from .comments import (
-    DOCUMENT,
-    STRICT,
-    STRICT_DOCUMENT,
+    check_comment_root,
+    check_main_document_root,
     comment_part,
     comment_tree,
     main_document,
@@ -762,12 +761,11 @@ def story_reference_count(parts: dict[str, bytes], *,
             document = main_document(parts, main)
             document, _ = split_fallback(document)
         else:
-            if raw.tag == STRICT_DOCUMENT:
-                raise ValueError(f"{main}: {STRICT}")
-            if raw.tag != DOCUMENT:
-                raise ValueError(f"{main} is the main document part but has root {raw.tag!r}")
+            check_main_document_root(raw, main)
             document, _ = pkg.split_tree(main)
-        return len(_effective_story_references(parts, document, main=main))
+        return len(_effective_story_references(
+            parts, document, main=main, names=set(pkg.names),
+        ))
     main = main_part(parts)
     document, _ = split_fallback(main_document(parts, main))
     return len(_effective_story_references(parts, document, main=main))
@@ -820,9 +818,12 @@ def _snapshot(path: PackageSource | LoadedPackage, limits: ArchiveLimits) -> _Sn
     """Read one bounded package, retain only the fidelity facts, then release it."""
     pkg: LoadedPackage | None = None
     if isinstance(path, LoadedPackage):
+        # LoadedPackage.open() already streams-verifies binary media without
+        # retaining its bytes in memory, so reusing it here keeps large media
+        # out of fidelity memory while avoiding redundant ZIP reads.
         pkg = path
         parts = pkg.parts
-        names = set(parts)
+        names = set(pkg.names)
         main = pkg.main
         if main not in names:
             raise ValueError(f"main document part {main} is missing")
@@ -832,10 +833,7 @@ def _snapshot(path: PackageSource | LoadedPackage, limits: ArchiveLimits) -> _Sn
         if raw_doc is None:
             doc, fallback = split_fallback(main_document(parts, main))
         else:
-            if raw_doc.tag == STRICT_DOCUMENT:
-                raise ValueError(f"{main}: {STRICT}")
-            if raw_doc.tag != DOCUMENT:
-                raise ValueError(f"{main} is the main document part but has root {raw_doc.tag!r}")
+            check_main_document_root(raw_doc, main)
             doc_opt, fallback = pkg.split_tree(main)
             if doc_opt is None:
                 doc, fallback = split_fallback(main_document(parts, main))
@@ -853,8 +851,8 @@ def _snapshot(path: PackageSource | LoadedPackage, limits: ArchiveLimits) -> _Sn
             cm_tree = pkg.trees.get(comments)
             if cm_tree is None:
                 comment_tree(parts, comments)
-            elif cm_tree.tag != W + "comments":
-                raise ValueError(f"{comments} is related as comments but has root {cm_tree.tag!r}")
+            else:
+                check_comment_root(cm_tree, comments)
     else:
         # The main part and header/footer part names are relationship targets and
         # cannot be known before the relationship parts are parsed. Inspect

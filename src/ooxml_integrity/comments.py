@@ -117,13 +117,17 @@ def main_part(parts: dict[str, bytes], *, names: set[str] | None = None) -> str:
     return found[0] if len(found) == 1 else MAIN_DOCUMENT
 
 
-def main_document(parts: dict[str, bytes], part: str):
-    root = parse_xml(parts[part])
+def check_main_document_root(root: etree._Element, part: str) -> etree._Element:
+    """Validate an already-parsed main-document XML root element."""
     if root.tag == STRICT_DOCUMENT:
         raise ValueError(f'{part}: {STRICT}')
     if root.tag != DOCUMENT:
         raise ValueError(f'{part} is the main document part but has root {root.tag!r}')
     return root
+
+
+def main_document(parts: dict[str, bytes], part: str):
+    return check_main_document_root(parse_xml(parts[part]), part)
 
 
 def comment_part(parts: dict[str, bytes], *, names: set[str] | None = None,
@@ -170,8 +174,12 @@ def comment_part(parts: dict[str, bytes], *, names: set[str] | None = None,
     raise ValueError(f'comments relationship target is missing: {target!r}')
 
 
-def comment_tree(parts: dict[str, bytes], part: str):
-    root = parse_xml(parts[part])
+def check_comment_root(root: etree._Element, part: str) -> etree._Element:
+    """Validate an already-parsed comments XML root element."""
     if root.tag != W + 'comments':
         raise ValueError(f'{part} is related as comments but has root {root.tag!r}')
     return root
+
+
+def comment_tree(parts: dict[str, bytes], part: str):
+    return check_comment_root(parse_xml(parts[part]), part)

@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import hashlib
 import io
+import tracemalloc
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -21,6 +23,7 @@ from ooxml_integrity import (
 )
 from ooxml_integrity import archive as archive_mod
 from ooxml_integrity import cli
+from ooxml_integrity.fidelity import story_reference_count
 from ooxml_integrity.mcp_server import Server
 from ooxml_integrity.xmlutil import split_fallback
 from tests.conftest import read_part, repack
@@ -302,3 +305,154 @@ def test_single_pass_and_in_memory_check_pptx(
     capsys.readouterr()
     assert rc in (cli.EXIT_OK, cli.EXIT_FINDINGS)
     assert len(opens) == 1
+
+
+def test_memoryview_with_multibyte_itemsize_enforces_nbytes_limit(
+    base_docx: Path, tmp_path: Path,
+) -> None:
+    # Build a valid DOCX whose total byte length is a multiple of 4 so we can
+    # cast memoryview to itemsize=2 ("H") and itemsize=4 ("I"). Storing
+    # word/document.xml uncompressed makes each extra trailing space grow the
+    # archive by exactly 1 byte.
+    doc_xml = read_part(base_docx, "word/document.xml").encode("utf-8")
+    raw = b""
+    with zipfile.ZipFile(base_docx) as zin:
+        other = [(n, zin.read(n)) for n in zin.namelist() if n != "word/document.xml"]
+    for pad in range(4):
+        candidate = tmp_path / f"aligned-{pad}.docx"
+        with zipfile.ZipFile(candidate, "w") as zout:
+            for name, data in other:
+                zout.writestr(name, data, compress_type=zipfile.ZIP_DEFLATED)
+            zout.writestr("word/document.xml", doc_xml + (b" " * pad), compress_type=zipfile.ZIP_STORED)
+        data = candidate.read_bytes()
+        if len(data) % 4 == 0:
+            raw = data
+            break
+    assert raw and len(raw) % 4 == 0
+
+    expected_sha = hashlib.sha256(raw).hexdigest()
+    under = ArchiveLimits(max_archive_bytes=len(raw) - 1)
+    exact = ArchiveLimits(max_archive_bytes=len(raw))
+
+    for fmt, itemsize in (("H", 2), ("I", 4)):
+        mv = memoryview(raw).cast(fmt)
+        assert mv.itemsize == itemsize
+        assert len(mv) == len(raw) // itemsize
+        assert mv.nbytes == len(raw)
+
+        # Must fail on byte size (nbytes), not element count (len(mv)).
+        with pytest.raises(PackageIssue) as exc_info:
+            LoadedPackage.open(mv, limits=under)
+        assert exc_info.value.code == "PKG007"
+        assert [f.code for f in check(mv, limits=under)] == ["PKG007"]
+
+        pkg = LoadedPackage.open(mv, limits=exact)
+        assert pkg.sha256 == expected_sha
+        assert check(mv, limits=exact) == []
+
+
+def test_root_validation_parity_between_loaded_package_and_path(
+    base_docx: Path, tmp_path: Path,
+) -> None:
+    strict_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<w:document xmlns:w="http://purl.oclc.org/ooxml/wordprocessingml/main">'
+        '<w:body/></w:document>'
+    ).encode("utf-8")
+    wrong_main_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<w:unexpected xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>'
+    ).encode("utf-8")
+    wrong_comments_xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<w:unexpected xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"/>'
+    ).encode("utf-8")
+
+    variants = [
+        ("strict-main", {"word/document.xml": strict_xml}),
+        ("wrong-main", {"word/document.xml": wrong_main_xml}),
+        ("wrong-comments", {"word/comments.xml": wrong_comments_xml}),
+    ]
+    base_pkg = LoadedPackage.open(base_docx)
+
+    for label, edits in variants:
+        broken = repack(base_docx, tmp_path / f"{label}.docx", edits)
+        broken_pkg = LoadedPackage.open(broken)
+
+        with pytest.raises(ValueError) as raw_exc:
+            compare(base_docx, broken)
+        with pytest.raises(ValueError) as pkg_exc:
+            compare(base_pkg, broken_pkg)
+        assert str(pkg_exc.value) == str(raw_exc.value)
+
+        if label != "wrong-comments":
+            with pytest.raises(ValueError) as raw_src_exc:
+                story_reference_count(broken_pkg.parts)
+            with pytest.raises(ValueError) as pkg_src_exc:
+                story_reference_count(broken_pkg.parts, pkg=broken_pkg)
+            assert str(pkg_src_exc.value) == str(raw_src_exc.value)
+
+        findings = check(broken)
+        assert (
+            coverage_for(broken_pkg, findings, source=base_pkg).as_dict()
+            == coverage_for(broken, findings, source=base_docx).as_dict()
+        )
+
+
+def test_streaming_media_keeps_large_media_out_of_memory_and_checks_integrity(
+    base_docx: Path, tmp_path: Path,
+) -> None:
+    media_size = 6 * 1024 * 1024
+    media_blob = b"\x89PNG\r\n\x1a\n" + (b"M" * (media_size - 8))
+    ct = read_part(base_docx, "[Content_Types].xml").replace(
+        "</Types>",
+        '<Default Extension="bin" ContentType="application/octet-stream"/></Types>',
+    ).encode("utf-8")
+
+    # 1. Valid DOCX with a 6 MiB stored media part (covered by Content_Types).
+    with_media = tmp_path / "with-media.docx"
+    with zipfile.ZipFile(base_docx) as zin, zipfile.ZipFile(with_media, "w") as zout:
+        for name in zin.namelist():
+            data = ct if name == "[Content_Types].xml" else zin.read(name)
+            zout.writestr(name, data, compress_type=zipfile.ZIP_DEFLATED)
+        zout.writestr("word/media/big.bin", media_blob, compress_type=zipfile.ZIP_STORED)
+
+    tracemalloc.start()
+    try:
+        pkg = LoadedPackage.open(with_media)
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+
+    assert "word/media/big.bin" in pkg.names
+    assert "word/media/big.bin" not in pkg.parts
+    assert peak < 4 * 1024 * 1024, f"expected streaming verification below 4 MiB, got {peak}"
+
+    full_pkg = LoadedPackage.open(with_media, include_media=True)
+    assert len(full_pkg.parts["word/media/big.bin"]) == media_size
+
+    findings = check(pkg)
+    assert findings == []
+    cov = {item.id: item for item in coverage_for(pkg, findings).items}
+    expected_media = sum(
+        1 for name in pkg.names if name.startswith(("word/media/", "word/embeddings/"))
+    )
+    assert cov["package.read"].count == len(pkg.names)
+    assert cov["docx.media-content"].count == expected_media >= 1
+    assert cov["docx.media-content"].status.value == "unsupported"
+
+    # 2. Uncovered media part still produces PKG005.
+    uncovered = tmp_path / "uncovered-media.docx"
+    with zipfile.ZipFile(base_docx) as zin, zipfile.ZipFile(uncovered, "w") as zout:
+        for name in zin.namelist():
+            zout.writestr(name, zin.read(name), compress_type=zipfile.ZIP_DEFLATED)
+        zout.writestr("word/media/uncovered.weird", b"binary-data", compress_type=zipfile.ZIP_STORED)
+    assert [f.code for f in check(uncovered)] == ["PKG005"]
+
+    # 3. Corrupted CRC in a binary media member still fails closed with PKG001.
+    corrupt = tmp_path / "corrupt-media.docx"
+    raw_zip = bytearray(with_media.read_bytes())
+    marker_pos = raw_zip.index(b"\x89PNG\r\n\x1a\n" + b"MMMMMMMM")
+    raw_zip[marker_pos + 10] ^= 0xFF
+    corrupt.write_bytes(bytes(raw_zip))
+    assert [f.code for f in check(corrupt)] == ["PKG001"]

@@ -7,12 +7,15 @@ and XML parsing across `check()`, `compare()`, `coverage_for()` and
 `LoadedPackage.open()` accepts filesystem paths, raw `bytes`/`bytearray`/
 `memoryview`, or seekable binary streams (`io.BytesIO`, uploaded file objects),
 applying the exact same `ArchiveLimits` preflight and safe XML parser to all of
-them.
+them. Binary media/embedded members are stream-verified for ZIP integrity and
+resource budgets without retaining their raw bytes in memory unless
+`include_media=True` is requested.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Iterable
 
 from lxml import etree
 
@@ -20,9 +23,9 @@ from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
     PackageSource,
-    read_package_with_digest,
+    read_package_for_loaded,
 )
-from .comments import main_part, story_parts
+from .comments import comment_part, main_part, story_parts
 from .paths import DECK_SUFFIXES
 from .xmlutil import (
     UnsafeXML,
@@ -46,10 +49,27 @@ def _default_label(source: PackageSource) -> str:
     return str(name) if isinstance(name, (str, Path)) and str(name) else "<stream>"
 
 
+def _extra_word_parts(names: set[str], parts: dict[str, bytes]) -> Iterable[str]:
+    """Story/comment targets that may not use a `.xml` filename extension."""
+    main = main_part(parts, names=names)
+    wanted: list[str] = [main]
+    wanted.extend(story_parts(parts, main, names=names))
+    try:
+        cm = comment_part(parts, names=names, main=main)
+    except (ValueError, etree.XMLSyntaxError):
+        cm = None
+    if cm is not None:
+        wanted.append(cm)
+    return wanted
+
+
 @dataclass
 class LoadedPackage:
     """One validated OOXML archive with its SHA-256 digest and cached XML trees.
 
+    `names` contains every member name in the archive (including binary media).
+    `parts` holds the retained member bytes (all XML, `.rels`, story and comment
+    parts by default; all members when opened with `include_media=True`).
     Cached trees in `trees` are read-only for callers; use `split_tree()` to
     obtain `(primary, fallback)` views without mutating the shared tree.
     """
@@ -57,6 +77,7 @@ class LoadedPackage:
     label: str
     sha256: str
     limits: ArchiveLimits
+    names: tuple[str, ...]
     parts: dict[str, bytes]
     main: str
     stories: tuple[str, ...]
@@ -74,14 +95,30 @@ class LoadedPackage:
         *,
         limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS,
         label: str | None = None,
+        include_media: bool = False,
     ) -> LoadedPackage:
         """Open and parse an OOXML package once under `limits`."""
         if isinstance(source, LoadedPackage):
-            return source
-        parts, digest = read_package_with_digest(source, limits)
-        main = main_part(parts)
-        stories = tuple(story_parts(parts, main))
+            if not include_media or len(source.parts) == len(source.names):
+                return source
+            if source.path is not None:
+                source = source.path
+            else:
+                return source
+        names, parts, digest = read_package_for_loaded(
+            source, limits, include_media=include_media,
+            extra_members=_extra_word_parts,
+        )
+        name_set = set(names)
+        main = main_part(parts, names=name_set)
+        stories = tuple(story_parts(parts, main, names=name_set))
         story_set = set(stories)
+        try:
+            cm = comment_part(parts, names=name_set, main=main)
+        except (ValueError, etree.XMLSyntaxError):
+            cm = None
+        if cm is not None:
+            story_set.add(cm)
         trees: dict[str, etree._Element] = {}
         xml_errors: dict[str, str] = {}
         for name, data in parts.items():
@@ -101,6 +138,7 @@ class LoadedPackage:
             label=label if label is not None else _default_label(source),
             sha256=digest,
             limits=limits,
+            names=names,
             parts=parts,
             main=main,
             stories=stories,

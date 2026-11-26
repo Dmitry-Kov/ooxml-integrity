@@ -24,6 +24,20 @@
   Tests that require `research/` or `evidence/` are not collected (or are
   skipped) when running from an unpacked `sdist`; the full test suite runs
   only from a Git checkout.
+- **Single-pass `LoadedPackage` and in-memory `PackageSource` inputs.**
+  `LoadedPackage.open()`, `check()`, `compare()`, `coverage_for()`,
+  `introduced()` and `check_pptx()` now accept `bytes`, `bytearray`,
+  `memoryview` (enforcing `ArchiveLimits` on `nbytes`, including multibyte
+  formats), seekable binary streams and pre-opened `LoadedPackage` objects.
+  CLI and MCP runs open each checked document and `--against` source once
+  instead of re-reading the ZIP across check, fidelity, coverage and
+  `--introduced`. Binary media members are stream-verified in 64 KiB chunks
+  for ZIP budgets and CRC integrity without retaining their raw bytes in
+  memory unless `include_media=True` is requested (`tracemalloc` peak on
+  synthetic `corpus/base.docx` + stored media: `cli check --against --coverage
+  --introduced` fell from 40.14 MiB to 2.13 MiB on a 20 MiB pair, and from
+  20.17 MiB to 2.18 MiB across a 5×10 MiB batch against a 10 MiB source;
+  standalone `compare()` stayed at 0.15 MiB vs 0.14 MiB).
 
 ## 0.11.0 — 2026-11-20
 

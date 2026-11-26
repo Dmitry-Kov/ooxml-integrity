@@ -17,7 +17,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from math import isfinite
 from pathlib import Path
-from typing import BinaryIO, Iterable, Iterator, Union
+from typing import BinaryIO, Callable, Iterable, Iterator, Union
 from urllib.parse import unquote
 
 PackageSource = Union[str, Path, bytes, bytearray, memoryview, BinaryIO]
@@ -244,14 +244,15 @@ def _open_stream(source: PackageSource, limits: ArchiveLimits) -> Iterator[tuple
             yield raw, os.fstat(raw.fileno()).st_size
         return
     if isinstance(source, (bytes, bytearray, memoryview)):
-        size = len(source)
+        size = source.nbytes if isinstance(source, memoryview) else len(source)
         if size > limits.max_archive_bytes:
             raise PackageIssue(
                 "PKG007",
                 "archive size exceeds max-archive-bytes: "
                 f"{_size(size)} > {_size(limits.max_archive_bytes)}",
             )
-        with io.BytesIO(source) as raw:
+        buf = source.cast("B") if isinstance(source, memoryview) else source
+        with io.BytesIO(buf) as raw:
             yield raw, size
         return
     if not (hasattr(source, "read") and hasattr(source, "seek")):
@@ -402,6 +403,42 @@ def validate_infos(
     return entries
 
 
+_VERIFY_CHUNK = 64 * 1024
+
+
+def _read_one_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo) -> bytes:
+    try:
+        return archive.read(info)
+    except zipfile.BadZipFile as e:
+        raise PackageIssue(
+            "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+    except (NotImplementedError, RuntimeError) as e:
+        raise PackageIssue(
+            "PKG002", f"could not read package part {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+
+
+def _verify_member_stream(archive: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
+    """Stream-decompress one member to check CRC/integrity without retaining it."""
+    try:
+        with archive.open(info) as member:
+            while member.read(_VERIFY_CHUNK):
+                pass
+    except zipfile.BadZipFile as e:
+        raise PackageIssue(
+            "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+    except (NotImplementedError, RuntimeError) as e:
+        raise PackageIssue(
+            "PKG002", f"could not read package part {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+
+
 def _read_members(archive: zipfile.ZipFile, infos: list[zipfile.ZipInfo],
                   members: Iterable[str] | None) -> dict[str, bytes]:
     wanted = set(members) if members is not None else None
@@ -409,19 +446,44 @@ def _read_members(archive: zipfile.ZipFile, infos: list[zipfile.ZipInfo],
     for info in infos:
         if wanted is not None and info.filename not in wanted:
             continue
-        try:
-            parts[info.filename] = archive.read(info)
-        except zipfile.BadZipFile as e:
-            raise PackageIssue(
-                "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
-                part=info.filename,
-            ) from e
-        except (NotImplementedError, RuntimeError) as e:
-            raise PackageIssue(
-                "PKG002", f"could not read package part {info.filename}: {e}",
-                part=info.filename,
-            ) from e
+        parts[info.filename] = _read_one_member(archive, info)
     return parts
+
+
+def read_package_for_loaded(
+    path: PackageSource,
+    limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS, *,
+    include_media: bool = False,
+    extra_members: Callable[[set[str], dict[str, bytes]], Iterable[str]] | None = None,
+) -> tuple[tuple[str, ...], dict[str, bytes], str]:
+    """Read XML/relationship/selected parts and stream-verify remaining members.
+
+    Returns ``(all_names, loaded_parts, sha256)`` from one open handle. Binary
+    members (such as images or embedded media) still have their ZIP budgets and
+    CRC32 verified, but their bytes are not retained in memory unless
+    ``include_media=True``.
+    """
+    with _open_archive_with_stream(path, limits) as (archive, raw):
+        infos = validate_infos(archive.infolist(), limits)
+        names = tuple(info.filename for info in infos)
+        if include_media:
+            parts = _read_members(archive, infos, None)
+        else:
+            parts = {}
+            info_by_name = {info.filename: info for info in infos}
+            for info in infos:
+                lowered = info.filename.translate(_ASCII_LOWER)
+                if lowered.endswith((".xml", ".rels")):
+                    parts[info.filename] = _read_one_member(archive, info)
+            if extra_members is not None:
+                for name in extra_members(set(names), parts):
+                    if name not in parts and name in info_by_name:
+                        parts[name] = _read_one_member(archive, info_by_name[name])
+            for info in infos:
+                if info.filename not in parts:
+                    _verify_member_stream(archive, info)
+        digest = _sha256_stream(raw)
+    return names, parts, digest
 
 
 def read_package_with_digest(

@@ -21,6 +21,8 @@ from .comments import (
     DOCUMENT,
     STRICT,
     STRICT_DOCUMENT,
+    check_comment_root,
+    check_main_document_root,
     comment_part,
     comment_tree,
     main_document,
@@ -185,6 +187,8 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
     pkg: LoadedPackage | None = None
     if isinstance(path, LoadedPackage):
         pkg = path
+        names = list(pkg.names)
+        name_set = set(names)
         parts = pkg.parts
         trees = pkg.trees
         failed_xml = list(pkg.xml_errors)
@@ -199,6 +203,8 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
         except Exception as e:
             return _unreadable(str(e))
 
+        names = list(parts)
+        name_set = set(names)
         trees = {}
         failed_xml = []
         main = main_part(parts)
@@ -214,8 +220,8 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
     items: list[CoverageItem] = [
         _item(
             "package.read", CoverageStatus.CHECKED,
-            f"archive budgets passed and {len(parts)} members were loaded",
-            len(parts),
+            f"archive budgets passed and {len(names)} members were loaded",
+            len(names),
         ),
         _item(
             "package.xml",
@@ -248,7 +254,7 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
         len(rel_names),
     ))
 
-    related = related_content_types(parts, trees, main)
+    related = related_content_types(parts, trees, main, names=name_set)
     items.append(_item(
         "package.related-content-types",
         CoverageStatus.SKIPPED if related.skipped else
@@ -306,8 +312,15 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
     items.append(styles)
 
     try:
-        comments = comment_part(parts, main=main)
-        comments_tree = comment_tree(parts, comments) if comments is not None else None
+        comments = comment_part(parts, names=name_set, main=main)
+        if comments is not None:
+            cm_cached = trees.get(comments)
+            comments_tree = (
+                check_comment_root(cm_cached, comments)
+                if cm_cached is not None else comment_tree(parts, comments)
+            )
+        else:
+            comments_tree = None
         unread = [part for part in stories[1:] if part not in trees]
         if document is not None and unread:
             comments_surface = _item(
@@ -362,9 +375,9 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
         _element_surface(document, "t", "docx.text-whitespace", "text run",
                          gap=gap),
     ))
-    entity_count = sum(1 for _ in entity_surfaces(parts, trees, main))
+    entity_count = sum(1 for _ in entity_surfaces(parts, trees, main, names=name_set))
     entity_parts = set(stories) | {'word/numbering.xml'}
-    entity_failed = sorted(entity_parts.intersection(parts).difference(trees))
+    entity_failed = sorted(entity_parts.intersection(name_set).difference(trees))
     items.append(_item(
         'docx.literal-entities',
         CoverageStatus.SKIPPED if document is None or entity_failed else (
@@ -392,7 +405,7 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
     ))
 
     media = [
-        name for name in parts
+        name for name in names
         if name.startswith(("word/media/", "word/embeddings/"))
     ]
     items.append(_item(
@@ -426,11 +439,13 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
         fidelity_reason = "source and edited main-story fidelity was compared"
         if isinstance(source, LoadedPackage):
             source_parts = source.parts
+            source_names: set[str] = set(source.names)
         else:
             try:
                 source_parts = read_package(source, limits)
             except Exception:
                 source_parts = {}
+            source_names = set(source_parts)
 
     items.append(_item(
         "docx.fidelity.main-story", fidelity_status, fidelity_reason,
@@ -457,11 +472,7 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
                     source_primary, source_fallback = split_fallback(
                         main_document(source_parts, smain))
                 else:
-                    if raw_src.tag == STRICT_DOCUMENT:
-                        raise ValueError(f'{smain}: {STRICT}')
-                    if raw_src.tag != DOCUMENT:
-                        raise ValueError(
-                            f'{smain} is the main document part but has root {raw_src.tag!r}')
+                    check_main_document_root(raw_src, smain)
                     source_primary, source_fallback = source_pkg.split_tree(smain)
             else:
                 source_primary, source_fallback = split_fallback(
@@ -564,10 +575,17 @@ def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], 
             BODY_PARTS.intersection(source_parts)
         )
         try:
-            for package in (parts, source_parts):
-                comments = comment_part(package)
+            for package, pkg_names, pkg_trees in (
+                (parts, name_set, trees),
+                (source_parts, source_names, source_pkg.trees if source_pkg is not None else None),
+            ):
+                comments = comment_part(package, names=pkg_names)
                 if comments is not None:
-                    comment_tree(package, comments)
+                    cm_cached = pkg_trees.get(comments) if pkg_trees is not None else None
+                    if cm_cached is not None:
+                        check_comment_root(cm_cached, comments)
+                    else:
+                        comment_tree(package, comments)
                     note_parts.add(comments)
             items.append(_item(
                 "docx.fidelity.note-bodies",
