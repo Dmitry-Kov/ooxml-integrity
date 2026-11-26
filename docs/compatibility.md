@@ -43,8 +43,10 @@ presentations are checked; `action.yml` and `.pre-commit-hooks.yaml` include it
 automatically. Without `fonttools`, `doctor` now reports overall status `ready`
 (exit `0`) and capability `pptx.font-metrics` with status `optional-missing`
 instead of `unavailable`, so DOCX-only environments remain ready. The PyPI
-`sdist` also omits the repository-only `evidence/` and `research/` trees while
-still shipping a passing test suite.
+`sdist` also omits the repository-only `evidence/` and `research/` trees:
+tests that require `research/` or `evidence/` are not collected when running
+from an unpacked `sdist`, and the full test suite runs only from a Git
+checkout.
 
 In 0.10.0 `CMT007` is a new ERROR finding of `check()`: one comment id with
 more than one `commentRangeStart`, `commentRangeEnd` or `commentReference` in a

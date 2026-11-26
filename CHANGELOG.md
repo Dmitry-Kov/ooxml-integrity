@@ -20,8 +20,10 @@
   `degraded` with `pptx.font-metrics` status `unavailable` (exit `1`).
 - **Slimmer PyPI source distribution (`sdist`).** The `sdist` excludes the
   repository-only `evidence/` and `research/` directories while keeping the
-  package, test suite, `corpus/`, `runs/`, `docs/` and integration metadata.
-  Repository-only tests skip cleanly when run from an unpacked `sdist`.
+  package, core tests, `corpus/`, `runs/`, `docs/` and integration metadata.
+  Tests that require `research/` or `evidence/` are not collected (or are
+  skipped) when running from an unpacked `sdist`; the full test suite runs
+  only from a Git checkout.
 
 ## 0.11.0 — 2026-11-20
 
