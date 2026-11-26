@@ -353,10 +353,12 @@ class ExpectedFinding:
 
 @dataclass(frozen=True)
 class VerificationReport:
-    """Stable single-document result returned by `verify()`.
+    """Single-document result returned by `verify()`.
 
-    `to_dict()` carries `"schema": "ooxml-integrity.verification-report.v1"`
-    and `"schema_version": 1` so consumers can distinguish it unambiguously
+    `verify()`, `VerificationReport` and its `to_dict()` JSON format are
+    provisional and may change before 1.0. `to_dict()` carries
+    `"schema": "ooxml-integrity.verification-report.v1"` and
+    `"schema_version": 1` so consumers can distinguish it unambiguously
     from the multi-file `check --json` envelope (`to_cli_report()`).
     """
 

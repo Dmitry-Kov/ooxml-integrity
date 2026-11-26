@@ -46,16 +46,19 @@
 - **Unified `runner.py`, public `verify()` API, and single-pass `--json-out`.**
   `verify()` returns a frozen `VerificationReport` with `to_dict()` /
   `to_json()` / `to_text()` / `to_sarif()` / `to_cli_report()` over paths,
-  `bytes`, seekable binary streams or `LoadedPackage`. `VerificationReport.to_dict()`
-  carries its own explicit schema identifier
-  (`schema: "ooxml-integrity.verification-report.v1"`, `schema_version: 1`) so
-  consumers can distinguish it unambiguously from the existing multi-file
-  `check --json` envelope (`version` + `files[]`, unchanged). `check --json-out
-  PATH` writes the JSON report to disk without replacing human stdout and
-  applies the same destination safety checks as `--sarif`; `action.yml` now
-  runs `ooxml-integrity check` in a single pass. `cli.py`, `mcp_server.py`,
-  `anonymize.py` and `demo/bridge.py` all delegate to `runner.py` with no
-  private `cli._*` imports.
+  `bytes`, seekable binary streams or `LoadedPackage`. `verify()`,
+  `VerificationReport` and its JSON shape are provisional and may change before
+  `1.0`; `VerificationReport.to_dict()` carries its own explicit schema
+  identifier (`schema: "ooxml-integrity.verification-report.v1"`,
+  `schema_version: 1`) so consumers can distinguish it unambiguously from the
+  existing multi-file `check --json` envelope (`version` + `files[]`,
+  unchanged). `check --json-out PATH` writes the JSON report to disk without
+  replacing human stdout and applies the same destination safety checks as
+  `--sarif`; `action.yml` probes `check --help` for `--json-out` to run in a
+  single pass on newer checkers and falls back to two passes when `version` or
+  `source` installs an older release (`0.11.0` or earlier). `cli.py`,
+  `mcp_server.py`, `anonymize.py` and `demo/bridge.py` all delegate to
+  `runner.py` with no private `cli._*` imports.
 
 ## 0.11.0 — 2026-11-20
 
