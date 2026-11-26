@@ -29,6 +29,7 @@ from .pptx_checks import check_pptx
 from .sarif import build as build_sarif
 
 SCHEMA_VERSION = 1
+VERIFICATION_REPORT_SCHEMA = "ooxml-integrity.verification-report.v1"
 
 EXIT_OK, EXIT_FINDINGS, EXIT_USAGE = 0, 1, 2
 
@@ -309,13 +310,17 @@ def json_payload(
     config: str | None = None,
     introduced: bool = False,
 ) -> dict[str, Any]:
-    """Top-level `--json` / MCP / browser report envelope (`schema_version: 1`)."""
+    """Top-level `--json` / `--json-out` / MCP / browser report envelope.
+
+    Preserves the existing multi-file `files[]` CLI contract (`version`,
+    `fail_on`, `config`, `baseline`, `files`, optional `introduced`) without
+    colliding with `VerificationReport.to_dict()`'s single-document schema.
+    """
     resolved_config = (
         config if config is not None
         else (policy.source or None if policy is not None else None)
     )
     payload: dict[str, Any] = {
-        "schema_version": SCHEMA_VERSION,
         "version": __version__,
         "fail_on": threshold.value,
         "config": resolved_config,
@@ -348,8 +353,14 @@ class ExpectedFinding:
 
 @dataclass(frozen=True)
 class VerificationReport:
-    """Stable v1.0 result of verifying one OOXML document."""
+    """Stable single-document result returned by `verify()`.
 
+    `to_dict()` carries `"schema": "ooxml-integrity.verification-report.v1"`
+    and `"schema_version": 1` so consumers can distinguish it unambiguously
+    from the multi-file `check --json` envelope (`to_cli_report()`).
+    """
+
+    schema: str
     schema_version: int
     checker_version: str
     passed: bool
@@ -371,8 +382,9 @@ class VerificationReport:
     expectations_configured: bool = False
 
     def to_dict(self) -> dict[str, Any]:
-        """Single-document structured report (`schema_version: 1`)."""
+        """Single-document structured report (`ooxml-integrity.verification-report.v1`)."""
         return {
+            "schema": self.schema,
             "schema_version": self.schema_version,
             "checker_version": self.checker_version,
             "passed": self.passed,
@@ -542,6 +554,7 @@ def verify(
         matched, hidden, active_policy.source, note,
     )
     return VerificationReport(
+        schema=VERIFICATION_REPORT_SCHEMA,
         schema_version=SCHEMA_VERSION,
         checker_version=__version__,
         passed=not failed,

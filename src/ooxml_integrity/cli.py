@@ -40,13 +40,10 @@ from .runner import (
     EXIT_FINDINGS,
     EXIT_OK,
     EXIT_USAGE,
-    GAP_STATUSES as GAP_STATUSES,
     apply_policy,
     fails,
     format_coverage,
-    format_head,
     format_human,
-    has_gaps,
     json_file,
     json_payload,
     run_checks,
@@ -54,11 +51,8 @@ from .runner import (
 )
 from .sarif import build as build_sarif
 
-# Backwards-compatible internal alias for tests importing cli._run_one.
+# Kept as a thin alias for the SHA-256-pinned research/revision_evidence.py oracle.
 _run_one = run_checks
-_head = format_head
-_has_gaps = has_gaps
-
 
 _GLOB_CHARS = "*?["
 
@@ -88,16 +82,6 @@ def _expand(patterns: list[str]) -> tuple[list[Path], list[str]]:
         else:
             found.append(p)
     return found, empty
-
-
-def _print_human(path: Path, findings: list[Finding], threshold: Severity,
-                 quiet: bool, out,
-                 coverage: CoverageReport | None = None) -> None:
-    out.write(format_human(path, findings, threshold, quiet=quiet, coverage=coverage))
-
-
-def _print_coverage(report: CoverageReport, *, details: bool, out) -> None:
-    out.write(format_coverage(report, details=details))
 
 
 def _run_doctor(*, json_output: bool) -> int:
@@ -441,7 +425,7 @@ def main(argv: list[str] | None = None) -> int:
     for path in paths:
         pkg = try_open(path, policy.archive)
         target: Path | LoadedPackage = pkg if pkg is not None else path
-        findings = _run_one(target, cov_source, policy.archive)
+        findings = run_checks(target, cov_source, policy.archive)
         raw[path] = findings
         if coverage_requested:
             coverage[path] = coverage_for(
@@ -543,14 +527,14 @@ def main(argv: list[str] | None = None) -> int:
         for i, (p, f) in enumerate(results.items()):
             if i:
                 print()
-            _print_human(
-                p, f, threshold, args.quiet, sys.stdout,
-                coverage[p] if coverage_requested else None,
-            )
+            sys.stdout.write(format_human(
+                p, f, threshold, quiet=args.quiet,
+                coverage=coverage[p] if coverage_requested else None,
+            ))
             if coverage_requested:
-                _print_coverage(
-                    coverage[p], details=args.coverage_details, out=sys.stdout,
-                )
+                sys.stdout.write(format_coverage(
+                    coverage[p], details=args.coverage_details,
+                ))
             for x, why in matched.get(p, []):
                 print(f"  [expected] {why}")
             if args.show_suppressed and hidden.get(p):

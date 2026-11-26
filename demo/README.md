@@ -35,18 +35,18 @@ its deployment job run. A newer Pages run cancels a superseded run.
   to `/usr/share/fonts/` in the worker's memory-only filesystem before any checks
   or font-directory caching. Startup finishes with a Doctor capability check.
 - `FileReader` reads selected files into memory. Transferable buffers go to the
-  worker, which writes `input/<name>` and `source/<name>`, calls public `check`,
-  `check_pptx` and `compare`, and unlinks both files after every run, including
-  errors. No files, filenames or findings are uploaded. Selected `File` objects
-  remain until removed; the visible report remains until the next run or the tab
-  is closed.
-- Human output calls the package's `_print_human` and `_print_coverage` helpers.
-  JSON follows `check --no-config --json [--coverage]`; the CLI has no reusable
-  JSON formatter. Report headings and JSON `files[].path` show only the filename,
-  not the internal `input/` directory. Tests compare both representations with
-  the CLI invoked using that filename; checking still uses separate input/source
-  paths, including when both files have the same name.
-  Doctor calls `cli.main(["doctor"])` and its JSON variant.
+  worker, which writes `input/<name>` and `source/<name>`, calls the public
+  `verify()` runner, and unlinks both files after every run, including errors.
+  No files, filenames or findings are uploaded. Selected `File` objects remain
+  until removed; the visible report remains until the next run or the tab is
+  closed.
+- Human and JSON output come directly from `verify()` (`to_text()` and
+  `to_cli_report()`), sharing the same runner and formatters as `check
+  --no-config --json [--coverage]`. Report headings and JSON `files[].path`
+  show only the filename, not the internal `input/` directory. Tests compare
+  both representations with the CLI invoked using that filename; checking still
+  uses separate input/source paths, including when both files have the same
+  name. Doctor calls `cli.main(["doctor"])` and its JSON variant.
 
 The page has no analytics, cookies, service worker or persistent document
 storage. Startup requests go to **cdn.jsdelivr.net**, **pypi.org** and

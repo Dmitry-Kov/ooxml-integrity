@@ -141,7 +141,7 @@ def test_action_runs_checker_in_a_single_pass(tmp_path, one_warning, monkeypatch
     assert (outputs["exit-code"], outputs["warnings"]) == ("1", "1")
     assert counter.read_text(encoding="utf-8").splitlines() == ["call"]
     report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
-    assert report["schema_version"] == 1
+    assert set(report) == {"version", "fail_on", "config", "baseline", "files"}
     assert [f["code"] for f in report["files"][0]["findings"]] == ["TXT002"]
     sarif = json.loads((tmp_path / "report.sarif").read_text(encoding="utf-8"))
     assert [f["ruleId"] for f in sarif["runs"][0]["results"]] == ["TXT002"]

@@ -388,10 +388,11 @@ are applied before the exit decision. `--quiet` affects human display only.
 A missing named input is a `PKG000` finding, whereas a missing `--against`
 source is a usage error. Process crashes or termination are not valid reports.
 
-If the destination of `--sarif` or `--write-baseline` points to an input
+If the destination of `--sarif`, `--json-out` (unreleased) or `--write-baseline` points to an input
 document or the `--against` source, including through a symbolic or hard
 link, `check` exits with usage code `2` before writing. It also refuses to
-overwrite any existing `.docx`, `.pptx`, `.potx` or `.ppsx` file. This matters
+overwrite any existing `.docx`, `.pptx`, `.potx` or `.ppsx` file, or to share
+the same destination between `--sarif` and `--json-out`. This matters
 when a shell expands a glob after the option and the first matching filename
 becomes its output path. Putting `--write-baseline` last writes the default
 `.ooxml-integrity-baseline.json`.
@@ -423,7 +424,8 @@ These versions identify different things:
 
 | Output | Version in 0.11.0 | Meaning |
 | --- | --- | --- |
-| `check --json` | Top-level `version: "0.11.0"` | Installed checker package version; there is no separate top-level JSON schema version. |
+| `check --json` / `--json-out` | Top-level `version: "0.11.0"` | Installed checker package version and multi-file `files[]` envelope; there is no separate top-level JSON schema version. |
+| `verify().to_dict()` (unreleased) | `schema: "ooxml-integrity.verification-report.v1"`, `schema_version: 1` | Single-document Python API report (`checker_version`, `passed`, `verdict`, `sha256`, `findings`, `suppressed`, `expected`, `coverage`), distinct from `check --json`. |
 | Per-file coverage | `schema_version: 1` | Coverage shape, statuses and identifier meanings. |
 | `doctor --json` | `schema_version: 1` and `version: "0.11.0"` | Capability schema and checker package, respectively. |
 | Baseline file | `version: 2` | Counted finding identity format, not the package version. |

@@ -36,6 +36,7 @@ from .policy import Policy
 from .pptx_checks import check_pptx
 from .runner import (
     SCHEMA_VERSION,
+    VERIFICATION_REPORT_SCHEMA,
     ExpectedFinding,
     SuppressedFinding,
     VerificationReport,
@@ -48,6 +49,7 @@ __all__ = [
     "SuppressedFinding",
     "ExpectedFinding",
     "SCHEMA_VERSION",
+    "VERIFICATION_REPORT_SCHEMA",
     "check",
     "check_many",
     "check_pptx",
