@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 from conftest import ROOT, run_cli
 
-from ooxml_integrity import __version__, cli
+from ooxml_integrity import __version__, cli, runner
 from ooxml_integrity.coverage import CoverageItem, CoverageReport, CoverageStatus
 from ooxml_integrity.mcp_server import PROTOCOL_VERSIONS, Server, serve, verdict
 from ooxml_integrity.finding import Severity
@@ -132,7 +132,7 @@ def test_text_a_check_prints_goes_to_stderr(monkeypatch, capsys):
         print("stray output from a check")
         return []
 
-    monkeypatch.setattr(cli, "_run_one", noisy)
+    monkeypatch.setattr(runner, "run_checks", noisy)
     out = io.BytesIO()
     lines = [init(), call("check", {"path": str(ROOT / BASE)})]
     serve(io.BytesIO(b"".join(json.dumps(m).encode() + b"\n" for m in lines)),

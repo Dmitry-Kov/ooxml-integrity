@@ -21,30 +21,43 @@ import argparse
 import glob
 import json
 import sys
-import zipfile
 from collections import Counter
 from pathlib import Path
-from typing import Any
 
 from . import __version__
-from .archive import ArchiveLimits, PackageIssue
-from .coverage import CoverageReport, CoverageStatus, coverage_for
+from .coverage import CoverageReport, coverage_for
 from .doctor import build_report as build_doctor_report
-from .expect import Expectation, expect
-from .fidelity import compare
-from .finding import Finding, Severity, summarize, worst
-from .inspector import check
-from .introduced import REASON as INHERITED, source_findings, split as split_inherited
+from .expect import Expectation
+from .finding import Finding, Severity
+from .introduced import REASON as INHERITED, source_findings
 from .package import LoadedPackage
-from .paths import DECK_SUFFIXES, check_report_destination, same_file
+from .paths import check_report_destination, same_file
 from .policy import (
-    BASELINE_EXCLUSION_REASONS, ConfigError, DEFAULT_BASELINE, Policy, apply_baseline,
+    BASELINE_EXCLUSION_REASONS, ConfigError, DEFAULT_BASELINE, Policy,
     make_baseline, read_baseline,
 )
-from .pptx_checks import check_pptx
+from .runner import (
+    EXIT_FINDINGS,
+    EXIT_OK,
+    EXIT_USAGE,
+    GAP_STATUSES as GAP_STATUSES,
+    apply_policy,
+    fails,
+    format_coverage,
+    format_head,
+    format_human,
+    has_gaps,
+    json_file,
+    json_payload,
+    run_checks,
+    try_open,
+)
 from .sarif import build as build_sarif
 
-EXIT_OK, EXIT_FINDINGS, EXIT_USAGE = 0, 1, 2
+# Backwards-compatible internal alias for tests importing cli._run_one.
+_run_one = run_checks
+_head = format_head
+_has_gaps = has_gaps
 
 
 _GLOB_CHARS = "*?["
@@ -77,172 +90,14 @@ def _expand(patterns: list[str]) -> tuple[list[Path], list[str]]:
     return found, empty
 
 
-def _try_open(path: Path, limits: ArchiveLimits) -> LoadedPackage | None:
-    """Open a readable package once; unreadable paths fall back to normal checks."""
-    try:
-        return LoadedPackage.open(path, limits=limits)
-    except (FileNotFoundError, PackageIssue, zipfile.BadZipFile, OSError):
-        return None
-
-
-def _run_one(path: Path | LoadedPackage, source: Path | LoadedPackage | None,
-             limits: ArchiveLimits) -> list[Finding]:
-    file_path = path.path if isinstance(path, LoadedPackage) else path
-    is_deck = (
-        file_path.suffix.lower() in DECK_SUFFIXES
-        if file_path is not None
-        else isinstance(path, LoadedPackage) and path.is_deck
-    )
-    if is_deck:
-        suffix = file_path.suffix.lower() if file_path is not None else ".pptx"
-        if source is not None:
-            return check_pptx(path, limits=limits) + [
-                Finding(
-                    "FID000", Severity.ERROR,
-                    "comparison was NOT performed: --against source comparison "
-                    f"is not implemented for {suffix} files; "
-                    "only layout checks were run",
-                )
-            ]
-        return check_pptx(path, limits=limits)
-    findings = check(path, limits=limits)
-    unreadable = any(
-        f.code in ("PKG000", "PKG001", "PKG002", "PKG007", "PKG008")
-        for f in findings
-    )
-    if source is not None and not unreadable:
-        source_label = source.label if isinstance(source, LoadedPackage) else source
-        try:
-            findings = findings + compare(source, path, limits=limits)
-        except Exception as e:
-            findings = findings + [
-                Finding(
-                    "FID000", Severity.ERROR,
-                    f"comparison was NOT performed against {source_label}: {e}",
-                )
-            ]
-    return findings
-
-
-def _apply_policy(path: Path, findings: list[Finding], policy: Policy,
-                  expectations: list[Expectation],
-                  allowance: dict[str, int] | None,
-                  inherited_from: list[Finding] | None = None,
-                  ) -> tuple[list[Finding], list[tuple[Finding, str]],
-                             list[tuple[Finding, str]]]:
-    """Config, then the source's own findings (`--introduced`), then
-    expectations, then the baseline. Returns (kept, hidden with why, expected
-    with why)."""
-    kept, dropped = policy.apply(str(path), findings)
-    if inherited_from is not None:
-        kept, inherited = split_inherited(kept, inherited_from)
-        dropped = dropped + inherited
-    matched: list[tuple[Finding, str]] = []
-    if expectations:
-        kept, matched = expect(kept, expectations, str(path))
-    if allowance is not None:
-        kept, base_dropped = apply_baseline(str(path), kept, allowance)
-        dropped = dropped + base_dropped
-    return kept, dropped, matched
-
-
-def _fails(findings: list[Finding], threshold: Severity) -> bool:
-    return any(f.severity >= threshold for f in findings)
-
-
-def _json_file(path: Path | str, findings: list[Finding],
-               hidden: list[tuple[Finding, str]],
-               matched: list[tuple[Finding, str]], *, expectations: bool,
-               coverage: CoverageReport | None) -> dict:
-    """One file's entry in the `--json` report."""
-    item: dict[str, Any] = {
-        "path": str(path),
-        "summary": summarize(findings),
-        "worst": (w.value if (w := worst(findings)) else None),
-        "findings": [x.as_dict() for x in findings],
-        "suppressed": [
-            {**x.as_dict(), "suppressed_because": why} for x, why in hidden
-        ],
-    }
-    if expectations:
-        item["expected"] = [
-            {**x.as_dict(), "expected_because": why} for x, why in matched
-        ]
-    if coverage is not None:
-        item["coverage"] = coverage.as_dict()
-    return item
-
-
-def _json_payload(files: list[dict], threshold: Severity, policy: Policy,
-                  baseline: str | None, *, introduced: bool = False) -> dict:
-    payload: dict[str, Any] = {
-        "version": __version__,
-        "fail_on": threshold.value,
-        "config": policy.source or None,
-        "baseline": baseline,
-    }
-    if introduced:
-        # Optional: present only when the source's own findings were set aside.
-        payload["introduced"] = True
-    payload["files"] = files
-    return payload
-
-
-#: Coverage statuses that mean part of the file was not fully assessed. A file
-#: with any of them and no findings is "no findings in checked surfaces", never
-#: "clean".
-GAP_STATUSES = (
-    CoverageStatus.ESTIMATED,
-    CoverageStatus.SKIPPED,
-    CoverageStatus.UNSUPPORTED,
-)
-
-
-def _head(path: Path | str, findings: list[Finding]) -> str:
-    counts = summarize(findings)
-    return (f"{path}: "
-            f"{counts['error']} error(s), {counts['warn']} warning(s), "
-            f"{counts['info']} info")
-
-
-def _has_gaps(coverage: CoverageReport | None) -> bool:
-    return coverage is not None and any(
-        item.status in GAP_STATUSES for item in coverage.items
-    )
-
-
 def _print_human(path: Path, findings: list[Finding], threshold: Severity,
                  quiet: bool, out,
                  coverage: CoverageReport | None = None) -> None:
-    shown = [f for f in findings if f.severity >= threshold] if quiet else findings
-    head = _head(path, findings)
-    if not shown and not findings:
-        qualified = _has_gaps(coverage)
-        suffix = ("no findings in checked surfaces" if qualified else "clean")
-        print(f"{head}  - {suffix}", file=out)
-        return
-    print(head, file=out)
-    for f in shown:
-        print("  " + str(f).replace("\n", "\n  "), file=out)
+    out.write(format_human(path, findings, threshold, quiet=quiet, coverage=coverage))
 
 
 def _print_coverage(report: CoverageReport, *, details: bool, out) -> None:
-    counts = report.summary()
-    summary = ", ".join(
-        f"{counts[status.value]} {status.value}"
-        for status in CoverageStatus if counts[status.value]
-    )
-    print(f"  coverage: {summary}", file=out)
-    visible = (
-        report.items if details else tuple(
-            item for item in report.items if item.status in GAP_STATUSES
-        )
-    )
-    for item in visible:
-        print(
-            f"    [{item.status.value}] {item.id}: {item.reason}",
-            file=out,
-        )
+    out.write(format_coverage(report, details=details))
 
 
 def _run_doctor(*, json_output: bool) -> int:
@@ -301,6 +156,9 @@ def build_parser() -> argparse.ArgumentParser:
                         "error (default), warn, info")
     c.add_argument("--json", action="store_true",
                    help="machine-readable output on stdout")
+    c.add_argument("--json-out", metavar="PATH", default=None,
+                   help="write the machine-readable JSON report to PATH "
+                        "without replacing stdout output")
     c.add_argument("--quiet", "-q", action="store_true",
                    help="print only findings at or above --fail-on")
     c.add_argument("--config", metavar="PATH", default=None,
@@ -573,7 +431,7 @@ def main(argv: list[str] | None = None) -> int:
                 or not same_file(refresh.parent, baseline.parent)):
             protected.append(baseline)
     source_pkg = (
-        _try_open(args.against, policy.archive)
+        try_open(args.against, policy.archive)
         if args.against is not None else None
     )
     coverage_requested = (args.coverage or args.coverage_details) and not args.write_baseline
@@ -581,7 +439,7 @@ def main(argv: list[str] | None = None) -> int:
     raw: dict[Path, list[Finding]] = {}
     coverage: dict[Path, CoverageReport] = {}
     for path in paths:
-        pkg = _try_open(path, policy.archive)
+        pkg = try_open(path, policy.archive)
         target: Path | LoadedPackage = pkg if pkg is not None else path
         findings = _run_one(target, cov_source, policy.archive)
         raw[path] = findings
@@ -631,9 +489,29 @@ def main(argv: list[str] | None = None) -> int:
     hidden: dict[Path, list[tuple[Finding, str]]] = {}
     matched: dict[Path, list[tuple[Finding, str]]] = {}
     for path, findings in raw.items():
-        results[path], hidden[path], matched[path] = _apply_policy(
+        results[path], hidden[path], matched[path] = apply_policy(
             path, findings, policy, expectations, allowance, inherited_from,
         )
+
+    # Validate all requested file outputs before writing any of them.
+    report_targets: list[tuple[str, Path]] = []
+    for option, dest_str in (("--sarif", args.sarif), ("--json-out", args.json_out)):
+        if not dest_str:
+            continue
+        dest = Path(dest_str)
+        try:
+            check_report_destination(dest, protected)
+        except ValueError as e:
+            print(f"ooxml-integrity: {option}: {e}", file=sys.stderr)
+            return EXIT_USAGE
+        if dest.is_dir():
+            print(f"ooxml-integrity: {option}: {dest} is a directory", file=sys.stderr)
+            return EXIT_USAGE
+        if any(same_file(dest, other) for _, other in report_targets):
+            print("ooxml-integrity: --json-out and --sarif must use separate paths",
+                  file=sys.stderr)
+            return EXIT_USAGE
+        report_targets.append((option, dest))
 
     if args.sarif:
         doc = build_sarif({str(p): f for p, f in results.items()},
@@ -641,17 +519,24 @@ def main(argv: list[str] | None = None) -> int:
         if not _write_json(doc, args.sarif, "--sarif", protected):
             return EXIT_USAGE
 
-    if args.json:
+    payload: dict | None = None
+    if args.json or args.json_out:
         files = [
-            _json_file(
+            json_file(
                 p, f, hidden.get(p, []), matched.get(p, []),
                 expectations=bool(expectations),
                 coverage=coverage[p] if coverage_requested else None,
             )
             for p, f in results.items()
         ]
-        payload = _json_payload(files, threshold, policy, args.baseline,
-                                introduced=args.introduced)
+        payload = json_payload(files, threshold, policy, args.baseline,
+                               introduced=args.introduced)
+
+    if args.json_out and payload is not None:
+        if not _write_json(payload, args.json_out, "--json-out", protected):
+            return EXIT_USAGE
+
+    if args.json and payload is not None:
         json.dump(payload, sys.stdout, indent=2, ensure_ascii=True)
         sys.stdout.write("\n")
     else:
@@ -691,7 +576,7 @@ def main(argv: list[str] | None = None) -> int:
                   + " Re-run with --show-suppressed to see them.")
 
     failed = any(
-        _fails(findings, threshold) for findings in results.values()
+        fails(findings, threshold) for findings in results.values()
     )
     return EXIT_FINDINGS if failed else EXIT_OK
 

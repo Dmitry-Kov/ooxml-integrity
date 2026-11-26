@@ -173,25 +173,18 @@ runs:
         human_report="$work/human.txt"
         machine_report="$work/report.json"
 
-        # Human-readable output into the log and the job summary.
-        set +e
-        python -m ooxml_integrity check "${args[@]}" | tee "$human_report"
-        code=${PIPESTATUS[0]}
-        set -e
-
-        # A second pass for machine-readable counts, and the SARIF report in the
-        # same pass. Cheap: no rendering, no model calls, no network.
+        # Single pass: human-readable output goes into the log and job summary,
+        # while the JSON report (and optional SARIF) are written in the same run.
         sarif_args=()
         sarif_report="$work/report.sarif"
         if [ -n "$OOXML_SARIF" ]; then
           sarif_args+=(--sarif "$sarif_report")
         fi
-        report_code=0
-        python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
-          > "$machine_report" || report_code=$?
-        if [ "$report_code" -gt "$code" ]; then
-          code=$report_code
-        fi
+        set +e
+        python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" \
+          --json-out "$machine_report" | tee "$human_report"
+        code=${PIPESTATUS[0]}
+        set -e
         if [ "$code" -le 1 ]; then
           if counts=$(python -c '
         import json, sys

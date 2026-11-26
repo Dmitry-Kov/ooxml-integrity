@@ -22,6 +22,8 @@ None of them needs a model, a renderer, or the network.
     >>> for f in compare("original.docx", "edited.docx"):
     ...     print(f)
 """
+__version__ = "0.11.0"
+
 from .archive import ArchiveLimits, PackageIssue, PackageSource
 from .coverage import CoverageItem, CoverageReport, CoverageStatus, coverage_for
 from .expect import Expectation, expect
@@ -32,10 +34,20 @@ from .introduced import introduced
 from .package import LoadedPackage
 from .policy import Policy
 from .pptx_checks import check_pptx
-
-__version__ = "0.11.0"
+from .runner import (
+    SCHEMA_VERSION,
+    ExpectedFinding,
+    SuppressedFinding,
+    VerificationReport,
+    verify,
+)
 
 __all__ = [
+    "verify",
+    "VerificationReport",
+    "SuppressedFinding",
+    "ExpectedFinding",
+    "SCHEMA_VERSION",
     "check",
     "check_many",
     "check_pptx",
