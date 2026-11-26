@@ -22,8 +22,9 @@ from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
     PackageIssue,
-    read_package,
+    PackageSource,
 )
+from .package import LoadedPackage
 from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .comments import (
     ASCII_LOWER,
@@ -33,14 +34,13 @@ from .comments import (
     STRICT_DOCUMENT,
     comment_part,
     comment_tree,
-    main_part,
     office_documents,
     relationships_part,
     story_parts,
 )
 from .content_types import covered, media_type, part_key, related as related_content_types
 from .xmlutil import (
-    UnsafeXML, alternative_branch, fromstring as parse_xml, parser_limit, text_contexts,
+    alternative_branch, text_contexts,
 )
 from .literal_entities import surfaces as entity_surfaces, spellings as entity_spellings
 
@@ -172,9 +172,16 @@ class Inspector:
     #: so REL002 is a WARN for them (`SAYS["optional"]`).
     OPTIONAL_TARGETS: tuple[str, ...] = ()
 
-    def __init__(self, path: str | Path,
+    def __init__(self, path: PackageSource | LoadedPackage,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
-        self.path = Path(path)
+        self._source: PackageSource | LoadedPackage = path
+        if isinstance(path, LoadedPackage):
+            self.path = path.path if path.path is not None else Path(path.label)
+        elif isinstance(path, (str, Path)):
+            self.path = Path(path)
+        else:
+            name = getattr(path, "name", None)
+            self.path = Path(name) if isinstance(name, (str, Path)) and str(name) else Path("<memory>")
         self.limits = limits
         self.findings: list[Finding] = []
         self.parts: dict[str, bytes] = {}
@@ -204,7 +211,7 @@ class Inspector:
     # ------------------------------------------------------------------ load
     def load(self) -> bool:
         try:
-            self.parts = read_package(self.path, self.limits)
+            pkg = LoadedPackage.open(self._source, limits=self.limits)
         except FileNotFoundError:
             self._add("PKG000", ERROR, f"file not found: {self.path}")
             self.readable = False
@@ -224,21 +231,10 @@ class Inspector:
             self.readable = False
             return False
 
-        # Relationships and content types, not extensions, make a part the
-        # main document or one of its stories.
-        self.main = main_part(self.parts)
-        stories = set(story_parts(self.parts, self.main))
-        failed: list[tuple[str, str]] = []
-        for name, data in self.parts.items():
-            if name.endswith((".xml", ".rels")) or name in stories:
-                try:
-                    self.trees[name] = parse_xml(data)
-                except UnsafeXML as e:
-                    failed.append((name, f"XML could not be safely parsed: {e}"))
-                except etree.XMLSyntaxError as e:
-                    limit = parser_limit(e)
-                    failed.append((name, f"XML could not be safely parsed: {limit}"
-                                   if limit else f"XML is not well-formed: {e}"))
+        self.parts = pkg.parts
+        self.main = pkg.main
+        self.trees = pkg.trees
+        failed = list(pkg.xml_errors.items())
         # Word 16.113 for Mac opened a package with an unreferenced text dump
         # named *.xml without a prompt. Such a part cannot break the document.
         reached = self._reachable() if failed else None
@@ -1074,14 +1070,17 @@ class PresentationInspector(Inspector):
     CHECKS = (Inspector.check_content_types, Inspector.check_relationships)
 
 
-def check(path: str | Path, *,
+def check(path: PackageSource | LoadedPackage, *,
           limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
     """Inspect one .docx for internal consistency. Returns every finding."""
     return Inspector(path, limits).run()
 
 
-def check_many(paths: Iterable[str | Path], *,
+def check_many(paths: Iterable[PackageSource | LoadedPackage], *,
                limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS
                ) -> dict[str, list[Finding]]:
     """Inspect several files. Keys are the paths as given."""
-    return {str(p): check(p, limits=limits) for p in paths}
+    return {
+        (p.label if isinstance(p, LoadedPackage) else str(p)): check(p, limits=limits)
+        for p in paths
+    }

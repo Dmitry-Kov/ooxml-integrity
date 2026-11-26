@@ -36,8 +36,15 @@ from urllib.parse import unquote, urlsplit
 
 from lxml import etree
 
-from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue, read_package
+from .archive import (
+    DEFAULT_ARCHIVE_LIMITS,
+    ArchiveLimits,
+    PackageIssue,
+    PackageSource,
+    read_package,
+)
 from .fonts import EMU_PER_POINT, Metrics, load_metrics
+from .package import LoadedPackage
 from .xmlutil import fromstring as parse_xml
 
 #: split on whitespace but keep it, so word boundaries survive
@@ -193,11 +200,16 @@ def _bool(el, attr, default=False):
 class _Package:
     """Zip plus relationship resolution, so parts can be followed by rId."""
 
-    def __init__(self, path: str | Path,
+    def __init__(self, path: PackageSource | LoadedPackage,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
-        self.path = Path(path)
-        self.parts = read_package(self.path, limits)
-        self._trees: dict[str, etree._Element | None] = {}
+        if isinstance(path, LoadedPackage):
+            self.path = path.path if path.path is not None else Path(path.label)
+            self.parts = path.parts
+            self._trees: dict[str, etree._Element | None] = dict(path.trees)
+        else:
+            self.path = Path(path) if isinstance(path, (str, Path)) else Path("<memory>")
+            self.parts = read_package(path, limits)
+            self._trees = {}
 
     def tree(self, name: str):
         if name not in self._trees:
@@ -286,10 +298,10 @@ class _Package:
 class DeckReader:
     """Reads a deck into Shape objects with every property resolved."""
 
-    def __init__(self, path: str | Path,
+    def __init__(self, path: PackageSource | LoadedPackage,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS):
         self.pkg = _Package(path, limits)
-        self.path = Path(path)
+        self.path = self.pkg.path
         pres = self.pkg.tree("ppt/presentation.xml")
         if pres is not None and pres.tag == STRICT_PRESENTATION:
             raise PackageIssue(
@@ -1052,6 +1064,6 @@ def layout_shape(shape: Shape) -> LayoutResult | None:
                         list(dict.fromkeys(unmeasured)) if measured else [])
 
 
-def read_deck(path: str | Path, *,
+def read_deck(path: PackageSource | LoadedPackage, *,
               limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> Deck:
     return DeckReader(path, limits).read()

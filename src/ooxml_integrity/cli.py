@@ -21,12 +21,13 @@ import argparse
 import glob
 import json
 import sys
+import zipfile
 from collections import Counter
 from pathlib import Path
 from typing import Any
 
 from . import __version__
-from .archive import ArchiveLimits
+from .archive import ArchiveLimits, PackageIssue
 from .coverage import CoverageReport, CoverageStatus, coverage_for
 from .doctor import build_report as build_doctor_report
 from .expect import Expectation, expect
@@ -34,6 +35,7 @@ from .fidelity import compare
 from .finding import Finding, Severity, summarize, worst
 from .inspector import check
 from .introduced import REASON as INHERITED, source_findings, split as split_inherited
+from .package import LoadedPackage
 from .paths import DECK_SUFFIXES, check_report_destination, same_file
 from .policy import (
     BASELINE_EXCLUSION_REASONS, ConfigError, DEFAULT_BASELINE, Policy, apply_baseline,
@@ -75,15 +77,30 @@ def _expand(patterns: list[str]) -> tuple[list[Path], list[str]]:
     return found, empty
 
 
-def _run_one(path: Path, source: Path | None,
+def _try_open(path: Path, limits: ArchiveLimits) -> LoadedPackage | None:
+    """Open a readable package once; unreadable paths fall back to normal checks."""
+    try:
+        return LoadedPackage.open(path, limits=limits)
+    except (FileNotFoundError, PackageIssue, zipfile.BadZipFile, OSError):
+        return None
+
+
+def _run_one(path: Path | LoadedPackage, source: Path | LoadedPackage | None,
              limits: ArchiveLimits) -> list[Finding]:
-    if path.suffix.lower() in DECK_SUFFIXES:
+    file_path = path.path if isinstance(path, LoadedPackage) else path
+    is_deck = (
+        file_path.suffix.lower() in DECK_SUFFIXES
+        if file_path is not None
+        else isinstance(path, LoadedPackage) and path.is_deck
+    )
+    if is_deck:
+        suffix = file_path.suffix.lower() if file_path is not None else ".pptx"
         if source is not None:
             return check_pptx(path, limits=limits) + [
                 Finding(
                     "FID000", Severity.ERROR,
                     "comparison was NOT performed: --against source comparison "
-                    f"is not implemented for {path.suffix.lower()} files; "
+                    f"is not implemented for {suffix} files; "
                     "only layout checks were run",
                 )
             ]
@@ -94,13 +111,14 @@ def _run_one(path: Path, source: Path | None,
         for f in findings
     )
     if source is not None and not unreadable:
+        source_label = source.label if isinstance(source, LoadedPackage) else source
         try:
             findings = findings + compare(source, path, limits=limits)
         except Exception as e:
             findings = findings + [
                 Finding(
                     "FID000", Severity.ERROR,
-                    f"comparison was NOT performed against {source}: {e}",
+                    f"comparison was NOT performed against {source_label}: {e}",
                 )
             ]
     return findings
@@ -554,9 +572,26 @@ def main(argv: list[str] | None = None) -> int:
         if (refresh is None or refresh.name != baseline.name
                 or not same_file(refresh.parent, baseline.parent)):
             protected.append(baseline)
+    source_pkg = (
+        _try_open(args.against, policy.archive)
+        if args.against is not None else None
+    )
+    coverage_requested = (args.coverage or args.coverage_details) and not args.write_baseline
+    cov_source = source_pkg if source_pkg is not None else args.against
     raw: dict[Path, list[Finding]] = {}
+    coverage: dict[Path, CoverageReport] = {}
     for path in paths:
-        raw[path] = _run_one(path, args.against, policy.archive)
+        pkg = _try_open(path, policy.archive)
+        target: Path | LoadedPackage = pkg if pkg is not None else path
+        findings = _run_one(target, cov_source, policy.archive)
+        raw[path] = findings
+        if coverage_requested:
+            coverage[path] = coverage_for(
+                target,
+                findings,
+                source=cov_source,
+                limits=policy.archive,
+            )
 
     # --write-baseline records what the checks actually saw, before any policy:
     # a baseline built from already-filtered findings would silently bake the
@@ -575,14 +610,6 @@ def main(argv: list[str] | None = None) -> int:
                   f"recorded: {BASELINE_EXCLUSION_REASONS[code]}", file=sys.stderr)
         return EXIT_OK
 
-    coverage_requested = args.coverage or args.coverage_details
-    coverage: dict[Path, CoverageReport] = {}
-    if coverage_requested:
-        for path, findings in raw.items():
-            coverage[path] = coverage_for(
-                path, findings, source=args.against, limits=policy.archive,
-            )
-
     allowance: dict[str, int] | None = None
     if args.baseline:
         try:
@@ -592,8 +619,13 @@ def main(argv: list[str] | None = None) -> int:
             return EXIT_USAGE
 
     # One source for every file, so its own findings are computed once.
-    inherited_from = (source_findings(args.against, limits=policy.archive)
-                      if args.introduced else None)
+    inherited_from = (
+        source_findings(
+            source_pkg if source_pkg is not None else args.against,
+            limits=policy.archive,
+        )
+        if args.introduced else None
+    )
 
     results: dict[Path, list[Finding]] = {}
     hidden: dict[Path, list[tuple[Finding, str]]] = {}

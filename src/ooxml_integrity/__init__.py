@@ -22,13 +22,14 @@ None of them needs a model, a renderer, or the network.
     >>> for f in compare("original.docx", "edited.docx"):
     ...     print(f)
 """
-from .archive import ArchiveLimits
+from .archive import ArchiveLimits, PackageIssue, PackageSource
 from .coverage import CoverageItem, CoverageReport, CoverageStatus, coverage_for
 from .expect import Expectation, expect
 from .fidelity import TRACKED, compare
 from .finding import ERROR, INFO, WARN, Finding, Severity, summarize, worst
 from .inspector import Inspector, check, check_many
 from .introduced import introduced
+from .package import LoadedPackage
 from .policy import Policy
 from .pptx_checks import check_pptx
 
@@ -40,6 +41,9 @@ __all__ = [
     "check_pptx",
     "compare",
     "Inspector",
+    "LoadedPackage",
+    "PackageIssue",
+    "PackageSource",
     "Finding",
     "Severity",
     "ERROR",
