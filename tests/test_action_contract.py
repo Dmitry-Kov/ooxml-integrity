@@ -46,7 +46,8 @@ def test_inputs_are_not_interpolated_into_shell_source():
 def test_default_install_uses_the_selected_action_ref():
     install = next(block for block in _run_blocks()
                    if "python -m pip install" in block)
-    assert 'python -m pip install --quiet "$GITHUB_ACTION_PATH"' in install
+    assert 'python -m pip install --quiet "${GITHUB_ACTION_PATH}[pptx]"' in install
+    assert 'python -m pip install --quiet "ooxml-integrity[pptx]==$OOXML_VERSION"' in install
 
 
 def _check_step(workdir, inputs):

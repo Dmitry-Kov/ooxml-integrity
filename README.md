@@ -100,9 +100,15 @@ a failed re-check. [What it repairs, refuses and guarantees](docs/fix.md).
 
 ## Decks: does the text fit the box?
 
+Text measurement for `.pptx` requires the optional `[pptx]` extra (`fonttools`):
+
 ```bash
+pip install "ooxml-integrity[pptx]"
 ooxml-integrity check deck.pptx
 ```
+
+Without `[pptx]`, `check` still runs package and geometry checks on `.pptx`
+files and reports `PPT000` (`ERROR`) because text widths could not be measured.
 
 ```
 deck.pptx: 6 error(s), 4 warning(s), 1 info
@@ -186,9 +192,10 @@ for f in compare("original.docx", "edited.docx"):
     print(f.code, f.message)
 ```
 
-Python 3.9+. Two dependencies: `lxml`, `fonttools` (plus `tomli` on 3.10 and
-older, only to read the config file). If the console script is not on your
-PATH, `python -m ooxml_integrity check report.docx` works anywhere.
+Python 3.9+. One core dependency: `lxml` (plus `tomli` on 3.10 and older,
+only to read the config file); install `ooxml-integrity[pptx]` for `fonttools`
+and `.pptx` text measurement. If the console script is not on your PATH,
+`python -m ooxml_integrity check report.docx` works anywhere.
 
 ## What it reports
 

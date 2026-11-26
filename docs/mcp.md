@@ -14,8 +14,13 @@ change between releases; the JSON report inside a result is the CLI's and
 keeps its own contract.
 
 ```bash
-pip install ooxml-integrity
+pip install ooxml-integrity              # .docx checks (lxml only)
+pip install "ooxml-integrity[pptx]"      # add fonttools for .pptx text measurement
 ```
+
+The unreleased packaging change moves `fonttools` to the `[pptx]` extra:
+checking `.pptx` decks without `[pptx]` returns `PPT000` (`ERROR`) for text
+measurement while package and geometry checks still run.
 
 You do not start the server yourself; the client starts it with
 `ooxml-integrity mcp`. If the console script is not on `PATH`, give the
@@ -117,7 +122,10 @@ names every finding it suppressed and the file that suppressed it.
 to MCP catalogs in the [MCP Registry](https://registry.modelcontextprotocol.io/)
 format. The name is `io.github.Dmitry-Kov/ooxml-integrity`; the entry tells a
 client to run the PyPI package of the same version with the argument `mcp`,
-and suggests `uvx` as the runner. By hand that is `uvx ooxml-integrity mcp`.
+and suggests `uvx` as the runner. By hand that is `uvx ooxml-integrity mcp`
+for `.docx`, or `uvx --from "ooxml-integrity[pptx]" ooxml-integrity mcp` when
+checking `.pptx` text measurement (`server.json` keeps the bare PyPI package
+name `ooxml-integrity` as required by the MCP Registry schema).
 
 The registry accepts a version only if the README published on PyPI for it
 carries the line `mcp-name: io.github.Dmitry-Kov/ooxml-integrity`. The first

@@ -6,4 +6,5 @@
   description: Check .docx files for broken internal references and .pptx files for text that does not fit its box.
   entry: ooxml-integrity check
   language: python
+  additional_dependencies: ['fonttools>=4.40']
   files: '\.(docx|pptx)$'

@@ -48,6 +48,12 @@ def test_hook_selects_documents_and_decks_only():
         assert not files.search(name)
 
 
+def test_hook_installs_fonttools_for_pptx_files():
+    hook = _hook()
+    assert "pptx" in hook["files"]
+    assert "fonttools" in hook.get("additional_dependencies", "").lower()
+
+
 def test_entry_takes_the_staged_files_as_arguments(tmp_path):
     """pre-commit appends file names to the entry; several pass in one call."""
     subcommand = _hook()["entry"].split()[1]
