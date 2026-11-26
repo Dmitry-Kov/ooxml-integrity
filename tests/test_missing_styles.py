@@ -12,8 +12,8 @@ from conftest import read_part, repack, run_cli
 
 from ooxml_integrity import check
 from ooxml_integrity.archive import DEFAULT_ARCHIVE_LIMITS
-from ooxml_integrity.cli import EXIT_FINDINGS, EXIT_OK, _run_one
 from ooxml_integrity.coverage import docx_coverage
+from ooxml_integrity.runner import EXIT_FINDINGS, EXIT_OK, run_checks
 
 
 DOC = "word/document.xml"
@@ -65,7 +65,7 @@ def _style_coverage(report):
 def test_original_missing_styles_reproduction(base_docx, missing_styles, against):
     assert read_part(missing_styles, DOC) == read_part(base_docx, DOC)
     source = base_docx if against else None
-    findings = _run_one(missing_styles, source, DEFAULT_ARCHIVE_LIMITS)
+    findings = run_checks(missing_styles, source, DEFAULT_ARCHIVE_LIMITS)
 
     assert len(findings) == 17
     assert {f.code for f in findings} == {"STY001"}

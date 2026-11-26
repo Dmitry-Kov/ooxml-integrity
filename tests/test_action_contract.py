@@ -120,22 +120,73 @@ def test_clean_action_summary_uses_the_config_threshold(tmp_path, tmp_docx):
     assert "`warn`" in (tmp_path / "step-summary.md").read_text(encoding="utf-8")
 
 
-def test_findings_from_the_report_pass_also_fail_the_step(tmp_path, tmp_docx, one_warning, monkeypatch):
-    # Make the input change between the human and JSON calls. Both invoke the
-    # real checker, so the report is valid even though the second call exits 1.
-    setup = tmp_path / "before-report.bash"
+def test_action_runs_checker_in_a_single_pass(tmp_path, one_warning, monkeypatch):
+    # Count how many times the Action invokes `check` on documents (ignoring the
+    # `--help` capability probe). With `--json-out`, human output, JSON counts,
+    # and optional SARIF come from one single pass.
+    counter = tmp_path / "check-calls.log"
+    setup = tmp_path / "count-calls.bash"
     setup.write_text(
         'python() {\n'
-        f'  if [[ "${{!#}}" == "--json" ]]; then cp "{one_warning.name}" "{tmp_docx.name}"; fi\n'
+        '  if [[ "$1" == "-m" && "$2" == "ooxml_integrity" && "$3" == "check" && "$4" != "--help" ]]; then\n'
+        f'    echo call >> "{counter.name}"\n'
+        '  fi\n'
         '  command python "$@"\n'
         '}\n', encoding="utf-8")
     monkeypatch.setenv("BASH_ENV", setup.name)
-    result, outputs = _check_step(tmp_path, {"files": tmp_docx.name, "fail-on": "warn",
-                                             "json-report": "report.json"})
+    result, outputs = _check_step(tmp_path, {
+        "files": one_warning.name, "fail-on": "warn",
+        "json-report": "report.json", "sarif": "report.sarif",
+    })
     assert result.returncode == 1, result.stdout + result.stderr
     assert (outputs["exit-code"], outputs["warnings"]) == ("1", "1")
+    assert counter.read_text(encoding="utf-8").splitlines() == ["call"]
+    report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
+    assert set(report) == {"version", "fail_on", "config", "baseline", "files"}
+    assert [f["code"] for f in report["files"][0]["findings"]] == ["TXT002"]
+    sarif = json.loads((tmp_path / "report.sarif").read_text(encoding="utf-8"))
+    assert [f["ruleId"] for f in sarif["runs"][0]["results"]] == ["TXT002"]
+
+
+def test_action_falls_back_to_two_passes_for_older_checker(
+    tmp_path, tmp_docx, one_warning, monkeypatch,
+):
+    # Emulate an older checker release (0.11.0 or earlier) that does not accept
+    # `--json-out`: strip `--json-out` from `check --help`, reject any actual
+    # `--json-out` call with exit 2, and verify the two-pass fallback succeeds
+    # and still fails the step if findings appear on the second pass.
+    counter = tmp_path / "fallback-calls.log"
+    setup = tmp_path / "older-checker.bash"
+    setup.write_text(
+        'python() {\n'
+        '  if [[ "$1" == "-m" && "$2" == "ooxml_integrity" && "$3" == "check" ]]; then\n'
+        '    if [[ "$4" == "--help" ]]; then\n'
+        '      command python "$@" | grep -v -- "--json-out"\n'
+        '      return 0\n'
+        '    fi\n'
+        '    for arg in "$@"; do\n'
+        '      if [[ "$arg" == "--json-out" ]]; then\n'
+        '        echo "ooxml-integrity: error: unrecognized arguments: --json-out" >&2\n'
+        '        return 2\n'
+        '      fi\n'
+        '    done\n'
+        f'    echo call >> "{counter.name}"\n'
+        f'    if [[ "${{!#}}" == "--json" ]]; then cp "{one_warning.name}" "{tmp_docx.name}"; fi\n'
+        '  fi\n'
+        '  command python "$@"\n'
+        '}\n', encoding="utf-8")
+    monkeypatch.setenv("BASH_ENV", setup.name)
+    result, outputs = _check_step(tmp_path, {
+        "files": tmp_docx.name, "fail-on": "warn",
+        "json-report": "report.json", "sarif": "report.sarif",
+    })
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert (outputs["exit-code"], outputs["warnings"]) == ("1", "1")
+    assert counter.read_text(encoding="utf-8").splitlines() == ["call", "call"]
     report = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
     assert [f["code"] for f in report["files"][0]["findings"]] == ["TXT002"]
+    sarif = json.loads((tmp_path / "report.sarif").read_text(encoding="utf-8"))
+    assert [f["ruleId"] for f in sarif["runs"][0]["results"]] == ["TXT002"]
 
 
 @pytest.mark.parametrize("previous", [False, True], ids=["new-json", "existing-json"])

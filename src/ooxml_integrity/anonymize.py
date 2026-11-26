@@ -1715,11 +1715,11 @@ def _signature(findings) -> collections.Counter:
 def findings_of(paths: Sequence[Path],
                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> dict[str, collections.Counter]:
     """The CLI's findings: each file checked, the edited copy compared."""
-    from .cli import _run_one
+    from .runner import run_checks
     if len(paths) == 1:
-        return {"document": _signature(_run_one(paths[0], None, limits))}
-    return {"source": _signature(_run_one(paths[0], None, limits)),
-            "edited": _signature(_run_one(paths[1], paths[0], limits))}
+        return {"document": _signature(run_checks(paths[0], None, limits))}
+    return {"source": _signature(run_checks(paths[0], None, limits)),
+            "edited": _signature(run_checks(paths[1], paths[0], limits))}
 
 
 DS = "{http://schemas.openxmlformats.org/officeDocument/2006/customXml}"

@@ -173,24 +173,35 @@ runs:
         human_report="$work/human.txt"
         machine_report="$work/report.json"
 
-        # Human-readable output into the log and the job summary.
-        set +e
-        python -m ooxml_integrity check "${args[@]}" | tee "$human_report"
-        code=${PIPESTATUS[0]}
-        set -e
-
-        # A second pass for machine-readable counts, and the SARIF report in the
-        # same pass. Cheap: no rendering, no model calls, no network.
         sarif_args=()
         sarif_report="$work/report.sarif"
         if [ -n "$OOXML_SARIF" ]; then
           sarif_args+=(--sarif "$sarif_report")
         fi
-        report_code=0
-        python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
-          > "$machine_report" || report_code=$?
-        if [ "$report_code" -gt "$code" ]; then
-          code=$report_code
+        # Probe whether the installed checker (which `version` or `source` may
+        # pin to 0.11.0 or older) supports `--json-out`; if not, fall back to
+        # the previous two-pass invocation.
+        help_text=$(python -m ooxml_integrity check --help 2>&1 || true)
+        if [[ "$help_text" == *"--json-out"* ]]; then
+          # Single pass: human-readable output goes into the log and job summary,
+          # while the JSON report (and optional SARIF) are written in the same run.
+          set +e
+          python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" \
+            --json-out "$machine_report" | tee "$human_report"
+          code=${PIPESTATUS[0]}
+          set -e
+        else
+          # Fallback for checker releases without --json-out (0.11.0 and older).
+          set +e
+          python -m ooxml_integrity check "${args[@]}" | tee "$human_report"
+          code=${PIPESTATUS[0]}
+          set -e
+          report_code=0
+          python -m ooxml_integrity check "${args[@]}" "${sarif_args[@]}" --json \
+            > "$machine_report" || report_code=$?
+          if [ "$report_code" -gt "$code" ]; then
+            code=$report_code
+          fi
         fi
         if [ "$code" -le 1 ]; then
           if counts=$(python -c '

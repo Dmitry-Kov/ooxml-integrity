@@ -98,7 +98,7 @@ def test_corrupt_docx_is_reported(bridge, tmp_path):
 def test_python_exception_is_not_swallowed(bridge, monkeypatch):
     def broken(*args, **kwargs):
         raise RuntimeError("simulated parser failure")
-    monkeypatch.setitem(bridge["run_check"].__globals__, "check", broken)
+    monkeypatch.setitem(bridge["run_check"].__globals__, "verify", broken)
     with pytest.raises(RuntimeError, match="simulated parser failure"):
         bridge["run_check"]("file.docx")
 

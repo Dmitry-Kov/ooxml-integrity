@@ -14,11 +14,12 @@ Two tools, each one run of the CLI:
                                      ooxml-integrity check EDITED --against SOURCE
                                          --json --coverage
 
-The checks are the CLI's own (`cli._run_one`, then config, expectations and
-the JSON report through the same helpers), so the report is the one `--json`
-prints. A one-line verdict comes first. Like the CLI it says `clean` only when
-nothing was found and coverage has no estimated, skipped or unsupported
-surface; otherwise `no findings in checked surfaces`.
+The checks run through the shared runner (`runner.verify`, applying config,
+expectations, coverage and the JSON report through the same path as the CLI),
+so the report matches what `--json` prints. A one-line verdict comes first.
+Like the CLI it says `clean` only when nothing was found and coverage has no
+estimated, skipped or unsupported surface; otherwise `no findings in checked
+surfaces`.
 
 The project config is found the way the CLI finds it, from the server's working
 directory, or set with `--config` / `--no-config`, and it is read once, when the
@@ -35,14 +36,15 @@ import os
 import re
 import sys
 from pathlib import Path
-from typing import Any, BinaryIO, Sequence
+from typing import Any, BinaryIO
 
-from . import __version__, cli
-from .coverage import CoverageReport, coverage_for
+from . import __version__
 from .expect import Expectation
-from .finding import Finding, Severity
-from .introduced import REASON as INHERITED, source_findings
+from .finding import Severity
 from .policy import ConfigError, Policy
+from .runner import EXIT_OK, format_verdict, verify
+
+verdict = format_verdict
 
 #: Newest first. A client asking for another version gets the newest; tools
 #: have the same shape in all of them, except that `structuredContent` arrived
@@ -220,63 +222,6 @@ def _expectations(entries: Any) -> list[Expectation]:
         raise ToolError(str(e)) from None
 
 
-def _codes(findings: list[Finding]) -> str:
-    counts: dict[str, int] = {}
-    for f in findings:
-        counts[f.code] = counts.get(f.code, 0) + 1
-    return ", ".join(code if n == 1 else f"{code} ({n})"
-                     for code, n in counts.items())
-
-
-def _shown(path: str) -> str:
-    """A config path as short as it can be said: relative when it is below the
-    working directory."""
-    try:
-        relative = os.path.relpath(path)
-    except ValueError:  # another drive on Windows
-        return path
-    return path if relative.startswith("..") else relative
-
-
-def verdict(path: Path | str, findings: list[Finding], threshold: Severity,
-            coverage: CoverageReport | None,
-            expected: Sequence[tuple[Finding, str]] = (),
-            hidden: Sequence[tuple[Finding, str]] = (),
-            config: str = "", note: str = "") -> str:
-    """One line: the CLI's summary head, then what it means at `threshold`."""
-    line = cli._head(path, findings)
-    failing = [f for f in findings if f.severity >= threshold]
-    gaps = cli._has_gaps(coverage)
-    if failing:
-        line += f" - fails at fail-on {threshold.value}: {_codes(failing)}"
-    elif findings:
-        line += (f" - nothing at or above fail-on {threshold.value}; "
-                 f"below it: {_codes(findings)}")
-    else:
-        line += " - no findings in checked surfaces" if gaps else " - clean"
-    if expected:
-        line += (f"; {len(expected)} finding(s) accepted as expected: "
-                 f"{_codes([f for f, _ in expected])}")
-    inherited = [f for f, why in hidden if why == INHERITED]
-    by_config = [f for f, why in hidden if why != INHERITED]
-    if by_config:
-        line += (f"; {len(by_config)} finding(s) suppressed by config"
-                 + (f" {_shown(config)}" if config else "")
-                 + f": {_codes(by_config)}")
-    if inherited:
-        line += (f"; {len(inherited)} finding(s) already in the original, "
-                 f"not failing: {_codes(inherited)}")
-    if note:
-        line += f"; {note}"
-    if gaps and coverage is not None:
-        counts = coverage.summary()
-        line += "; not fully checked: " + ", ".join(
-            f"{counts[s.value]} {s.value}" for s in cli.GAP_STATUSES
-            if counts[s.value]
-        ) + " (see coverage)"
-    return line
-
-
 class Server:
     def __init__(self, *, config: str | None = None, no_config: bool = False,
                  fail_on: Severity | None = None) -> None:
@@ -306,7 +251,7 @@ class Server:
     def run(self, edited_arg: Any, source_arg: Any = None,
             expect_arg: Any = None, introduced_arg: Any = None, *,
             edited_name: str = "path") -> dict:
-        """One CLI run on one file; returns verdict, exit_code and report."""
+        """One verification run on one file; returns verdict, exit_code and report."""
         if introduced_arg is not None and not isinstance(introduced_arg, bool):
             raise ToolError("introduced must be true or false")
         edited = local_path(edited_arg, edited_name)
@@ -317,40 +262,20 @@ class Server:
             raise ToolError(f"config: {self.config_error} (read when the server "
                             "started; restart it after fixing the file)")
         threshold = self.fail_on or policy.fail_on
-        expectations = policy.expectations + _expectations(expect_arg)
-
-        edited_pkg = cli._try_open(edited, policy.archive)
-        source_pkg = (cli._try_open(source, policy.archive)
-                      if source is not None else None)
-        edited_target = edited_pkg if edited_pkg is not None else edited
-        source_target = source_pkg if source_pkg is not None else source
-        findings = cli._run_one(edited_target, source_target, policy.archive)
-        coverage = coverage_for(
-            edited_target,
-            findings,
-            source=source_target,
-            limits=policy.archive,
+        report = verify(
+            edited,
+            against=source,
+            fail_on=threshold,
+            policy=policy,
+            expect=_expectations(expect_arg),
+            introduced=bool(introduced_arg) and source is not None,
+            coverage=True,
+            note=self._config_note(),
         )
-        introduced = bool(introduced_arg) and source is not None
-        inherited_from = (
-            source_findings(source_target, limits=policy.archive)
-            if introduced and source_target is not None else None
-        )
-        kept, hidden, matched = cli._apply_policy(
-            edited, findings, policy, expectations, None, inherited_from)
-        report = cli._json_payload(
-            [cli._json_file(edited, kept, hidden, matched,
-                            expectations=bool(expectations),
-                            coverage=coverage)],
-            threshold, policy, None, introduced=introduced,
-        )
-        failed = cli._fails(kept, threshold)
         return {
-            "verdict": verdict(edited, kept, threshold, coverage,
-                               matched, hidden, policy.source,
-                               self._config_note()),
-            "exit_code": cli.EXIT_FINDINGS if failed else cli.EXIT_OK,
-            "report": report,
+            "verdict": report.verdict,
+            "exit_code": report.exit_code,
+            "report": report.to_cli_report(),
         }
 
     def _tool(self, name: str, args: dict) -> dict:
@@ -470,4 +395,4 @@ def serve(stdin: BinaryIO | None = None, stdout: BinaryIO | None = None,
                 out.flush()
     finally:
         sys.stdout = saved
-    return cli.EXIT_OK
+    return EXIT_OK

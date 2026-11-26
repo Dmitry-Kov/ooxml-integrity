@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from typing import Any
+from typing import Any, Iterable
 
 
 class Severity(str, Enum):
@@ -92,7 +92,7 @@ def check_failed(name: str, error: Exception) -> Finding:
     )
 
 
-def summarize(findings: list[Finding]) -> dict[str, int]:
+def summarize(findings: Iterable[Finding]) -> dict[str, int]:
     """Counts by severity, always with all three keys present."""
     out = {m.value: 0 for m in Severity}
     for f in findings:
@@ -100,6 +100,6 @@ def summarize(findings: list[Finding]) -> dict[str, int]:
     return out
 
 
-def worst(findings: list[Finding]) -> Severity | None:
-    """Highest severity present, or None for an empty list."""
+def worst(findings: Iterable[Finding]) -> Severity | None:
+    """Highest severity present, or None for an empty sequence."""
     return max((f.severity for f in findings), key=lambda s: s.rank, default=None)
