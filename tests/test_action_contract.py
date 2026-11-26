@@ -82,6 +82,8 @@ def _check_step(workdir, inputs):
 @pytest.fixture
 def one_warning(tmp_path, root):
     source = root / "evidence/review-history-benchmark/captures/docx-cli-1/K1-S1-plain.docx"
+    if not source.is_file():
+        pytest.skip("evidence/ corpus is not shipped in the PyPI sdist")
     return shutil.copy(source, tmp_path / "edited.docx")
 
 

@@ -6,7 +6,7 @@ import json
 from lxml import etree as E
 import pytest
 
-from conftest import repack, run_cli
+from conftest import needs_evidence, needs_research, repack, run_cli
 from ooxml_integrity import Severity, compare
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,11 +21,13 @@ def losses(source, edited, tag='del'):
     return [f for f in compare(source, edited) if f.code == 'FID001' and f.extra.get('tag') == tag]
 
 
+@needs_evidence
 @pytest.mark.parametrize('name', ['source-control', 'adeu-shared-id', 'unique-id-control'])
 def test_actual_word_saves_do_not_lose_revision_text(name):
     assert not losses(BASE/'inputs'/f'{name}.docx', BASE/'outputs'/f'{name}-word.docx')
 
 
+@needs_evidence
 def test_word_control_cli_has_no_error_without_policy_suppression():
     result = run_cli('check', str(BASE/'outputs/unique-id-control-word.docx'),
                      '--against', str(BASE/'inputs/unique-id-control.docx'), '--no-config', '--json')
@@ -175,12 +177,16 @@ def test_other_change_in_revision_paragraph_keeps_conservative_count_warning(bas
     assert losses(source, output)
 
 
+@needs_evidence
+@needs_research
 def test_current_checker_is_rejected_by_frozen_word_replayer():
     from research import inspect_word_revision_ids as archived
     with pytest.raises(ValueError, match='Checker drift'):
         archived.evaluate()
 
 
+@needs_evidence
+@needs_research
 def test_corrupt_archived_checker_is_never_executed(tmp_path, monkeypatch):
     from research import replay_frozen_docx as replay
     base = tmp_path/'archive'

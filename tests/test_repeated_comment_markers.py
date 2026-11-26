@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 
 import pytest
-from conftest import ROOT, read_part, repack, run_cli
+from conftest import ROOT, needs_evidence, read_part, repack, run_cli
 
 from ooxml_integrity import Severity, check, compare, introduced
 from ooxml_integrity.cli import EXIT_FINDINGS
@@ -159,6 +159,7 @@ def test_a_whole_second_anchor_lists_every_marker(tmp_docx, tmp_path):
         "2 commentRangeEnd, 2 commentReference - ")
 
 
+@needs_evidence
 def test_a_repeat_in_a_header_names_the_header(tmp_path):
     assert check(HEADER_SOURCE) == []
     header = read_part(HEADER_SOURCE, HEADER)

@@ -19,7 +19,9 @@ from ooxml_integrity.policy import fingerprint
 from ooxml_integrity.replacements import unchanged_words
 
 BENCH = ROOT / "evidence/review-history-benchmark"
-TASKS = {t["id"]: t for t in json.loads((BENCH / "tasks.json").read_text())["tasks"]}
+_TASKS_FILE = BENCH / "tasks.json"
+TASKS = ({t["id"]: t for t in json.loads(_TASKS_FILE.read_text())["tasks"]}
+         if _TASKS_FILE.is_file() else {})
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 MAIN = "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"
 
@@ -29,6 +31,8 @@ def wide(source, edited):
 
 
 def pair(capture, task):
+    if not _TASKS_FILE.is_file():
+        pytest.skip("evidence/ corpus is not shipped in the PyPI sdist")
     return ROOT / TASKS[task]["source_path"], BENCH / "captures" / capture / f"{task}.docx"
 
 

@@ -15,7 +15,7 @@ import zlib
 from pathlib import Path
 
 import pytest
-from conftest import ROOT, read_part, repack, run_cli
+from conftest import ROOT, needs_evidence, read_part, repack, run_cli
 from test_repeated_comment_markers import _text_box
 
 from ooxml_integrity import check, compare
@@ -25,6 +25,7 @@ from ooxml_integrity.fix import (
 from ooxml_integrity.repack import read_entries
 
 CAPTURES = ROOT / "evidence" / "review-history-benchmark" / "captures"
+pytestmark = needs_evidence
 SOURCES = ROOT / "evidence" / "review-history-benchmark" / "sources"
 CODEX_S1 = CAPTURES / "codex-1" / "K5-S1-comment.docx"
 CODEX_S1_ALL = [CAPTURES / f"codex-{n}" / "K5-S1-comment.docx" for n in range(1, 6)]

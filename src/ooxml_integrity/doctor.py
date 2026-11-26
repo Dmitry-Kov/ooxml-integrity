@@ -10,7 +10,7 @@ from lxml import etree
 
 from . import __version__
 from .archive import DEFAULT_ARCHIVE_LIMITS
-from .fonts import load_metrics
+from .fonts import fonttools_available, load_metrics
 
 
 UNAVAILABLE_CHECKS = (
@@ -110,47 +110,63 @@ def build_report() -> dict[str, Any]:
 
     font_probes: list[dict[str, Any]] = []
     font_failures: list[dict[str, str]] = []
-    for requested in FONT_PROBES:
-        try:
-            face = load_metrics(requested).face
-            font_probes.append({
-                "requested": requested,
-                "resolved_family": face.family,
-                "path": str(face.path),
-                "face_index": face.face_index,
-                "confidence": face.match,
-            })
-        except Exception as e:
-            font_failures.append({"requested": requested, "reason": str(e)})
-
-    if not font_probes:
-        font_status = "unavailable"
-        confidence = "unavailable"
-    else:
-        confidence = max(
-            (probe["confidence"] for probe in font_probes),
-            key=lambda value: _CONFIDENCE_RANK[value],
+    if not fonttools_available():
+        reason = (
+            "optional [pptx] extra (fonttools) is not installed; "
+            "DOCX checks do not require fonts"
         )
-        font_status = (
-            "available"
-            if not font_failures and confidence in ("exact", "metric")
-            else "estimated"
+        font_failures = [
+            {"requested": requested, "reason": reason}
+            for requested in FONT_PROBES
+        ]
+        font_status = "optional-missing"
+        confidence = "unavailable"
+        font_detail = (
+            f"{reason}. Install with: pip install 'ooxml-integrity[pptx]'"
+        )
+    else:
+        for requested in FONT_PROBES:
+            try:
+                face = load_metrics(requested).face
+                font_probes.append({
+                    "requested": requested,
+                    "resolved_family": face.family,
+                    "path": str(face.path),
+                    "face_index": face.face_index,
+                    "confidence": face.match,
+                })
+            except Exception as e:
+                font_failures.append({"requested": requested, "reason": str(e)})
+
+        if not font_probes:
+            font_status = "unavailable"
+            confidence = "unavailable"
+        else:
+            confidence = max(
+                (probe["confidence"] for probe in font_probes),
+                key=lambda value: _CONFIDENCE_RANK[value],
+            )
+            font_status = (
+                "available"
+                if not font_failures and confidence in ("exact", "metric")
+                else "estimated"
+            )
+        font_detail = (
+            f"{len(font_probes)}/{len(FONT_PROBES)} representative font "
+            f"families are usable; fontconfig "
+            f"{'available' if shutil.which('fc-match') else 'not installed'}"
         )
     capabilities.append({
         "id": "pptx.font-metrics",
         "status": font_status,
         "confidence": confidence,
-        "detail": (
-            f"{len(font_probes)}/{len(FONT_PROBES)} representative font "
-            f"families are usable; fontconfig "
-            f"{'available' if shutil.which('fc-match') else 'not installed'}"
-        ),
+        "detail": font_detail,
     })
 
     return {
         "schema_version": 1,
         "version": __version__,
-        "status": "ready" if font_status == "available" else "degraded",
+        "status": "ready" if font_status in ("available", "optional-missing") else "degraded",
         "runtime": runtime,
         "fonts": {
             "probes": font_probes,

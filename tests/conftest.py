@@ -5,6 +5,7 @@ what actually ships, not a parallel set of hand-made files.
 """
 from __future__ import annotations
 
+import ast
 import shutil
 import os
 import subprocess
@@ -16,6 +17,44 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+EVIDENCE_DIR = ROOT / "evidence"
+RESEARCH_DIR = ROOT / "research"
+
+needs_evidence = pytest.mark.skipif(
+    not EVIDENCE_DIR.is_dir(),
+    reason="evidence/ corpus is not shipped in the PyPI sdist",
+)
+needs_research = pytest.mark.skipif(
+    not RESEARCH_DIR.is_dir(),
+    reason="research/ scripts are not shipped in the PyPI sdist",
+)
+
+
+def _imports_research_at_module_level(path: Path) -> bool:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return False
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            if any(a.name == "research" or a.name.startswith("research.")
+                   for a in node.names):
+                return True
+        elif isinstance(node, ast.ImportFrom):
+            mod = node.module or ""
+            if mod == "research" or mod.startswith("research."):
+                return True
+    return False
+
+
+def pytest_ignore_collect(collection_path: Path, config) -> bool | None:
+    """In an unpacked PyPI sdist (without research/), skip repo-only research tests."""
+    if RESEARCH_DIR.is_dir():
+        return None
+    if collection_path.suffix == ".py" and collection_path.name.startswith("test_"):
+        if _imports_research_at_module_level(collection_path):
+            return True
+    return None
 
 #: The committed ZIP fixtures were deflated by zlib. Windows builds of CPython
 #: 3.14 use zlib-ng, which deflates the same data into other bytes, so a test

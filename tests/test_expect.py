@@ -11,7 +11,7 @@ import json
 
 import pytest
 
-from conftest import ROOT, run_cli
+from conftest import ROOT, needs_evidence, needs_research, run_cli
 from ooxml_integrity import ERROR, Expectation, Finding, compare, expect
 from ooxml_integrity.policy import ConfigError, Policy, make_baseline
 
@@ -94,6 +94,7 @@ def test_config_rejects(entry, message):
         Policy._from_dict({'expect': [entry]})
 
 
+@needs_evidence
 def test_requested_accept_and_reject_pass_only_when_declared():
     assert run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config').returncode == 1
     result = run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config',
@@ -106,6 +107,7 @@ def test_requested_accept_and_reject_pass_only_when_declared():
         'FID001 tag=del before=2 after=1: declared with --expect']
 
 
+@needs_evidence
 def test_a_wrong_count_fails_with_both_the_finding_and_exp001():
     result = run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config', '--json',
                      '--expect', 'FID001:tag=ins,before=2,after=0', '--expect', DEL)
@@ -114,11 +116,13 @@ def test_a_wrong_count_fails_with_both_the_finding_and_exp001():
     assert codes.count('FID001') == 1 and 'EXP001' in codes
 
 
+@needs_evidence
 def test_no_expectations_leave_the_report_unchanged():
     result = run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config', '--json')
     assert 'expected' not in json.loads(result.stdout)['files'][0]
 
 
+@needs_evidence
 def test_sarif_marks_expected_findings_suppressed(tmp_path):
     sarif = tmp_path / 'out.sarif'
     assert run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config',
@@ -129,6 +133,7 @@ def test_sarif_marks_expected_findings_suppressed(tmp_path):
                                     for r in fid001)
 
 
+@needs_evidence
 def test_a_baseline_never_absorbs_an_unmet_expectation(tmp_path):
     baseline = tmp_path / 'baseline.json'
     assert run_cli('check', str(RESOLVED), '--against', str(S2), '--no-config',
@@ -147,6 +152,7 @@ def test_usage_error_for_a_malformed_expectation():
     assert result.returncode == 2 and '--expect' in result.stderr
 
 
+@needs_evidence
 def test_the_api_works_on_compare_output():
     kept, matched = expect(compare(S2, RESOLVED), [Expectation.parse(INS), Expectation.parse(DEL)])
     assert [f for f in kept if f.severity is ERROR] == [] and len(matched) == 2
@@ -163,6 +169,8 @@ def test_an_optional_expectation_allows_without_requiring():
         Policy._from_dict({'expect': [{'code': 'FID009', 'reason': 'r', 'required': 'no'}]})
 
 
+@needs_evidence
+@needs_research
 def test_the_benchmark_expectation_analysis_reproduces(tmp_path):
     from research import review_history_expectations as analysis
     out = tmp_path / 'results.json'
@@ -178,6 +186,8 @@ def test_the_benchmark_expectation_analysis_reproduces(tmp_path):
         assert ('detected', 'missed') not in moves and ('clean', 'false alarm') not in moves
 
 
+@needs_evidence
+@needs_research
 def test_the_published_runs_read_the_same_attempts_and_expectations():
     from research import build_benchmark_page as page
     checkout = json.loads((BENCH / 'expectations/results.json').read_text())
