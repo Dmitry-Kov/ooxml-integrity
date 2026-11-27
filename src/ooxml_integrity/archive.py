@@ -7,6 +7,8 @@ module so one entry point cannot accidentally bypass the limits.
 """
 from __future__ import annotations
 
+import hashlib
+import io
 import os
 import re
 import struct
@@ -15,8 +17,10 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from math import isfinite
 from pathlib import Path
-from typing import BinaryIO, Iterable
+from typing import BinaryIO, Callable, Iterable, Iterator, Union
 from urllib.parse import unquote
+
+PackageSource = Union[str, Path, bytes, bytearray, memoryview, BinaryIO]
 
 
 MIB = 1024 * 1024
@@ -161,9 +165,25 @@ def _entry_budget(count: int, limits: ArchiveLimits) -> None:
         )
 
 
-def _preflight_file(raw: BinaryIO, limits: ArchiveLimits) -> int:
+def _stream_size(raw: BinaryIO) -> int:
+    try:
+        fd = raw.fileno()
+    except (AttributeError, OSError, io.UnsupportedOperation):
+        fd = None
+    if fd is not None:
+        return os.fstat(fd).st_size
+    pos = raw.tell()
+    raw.seek(0, os.SEEK_END)
+    size = raw.tell()
+    raw.seek(pos)
+    return size
+
+
+def _preflight_file(raw: BinaryIO, limits: ArchiveLimits, *,
+                    file_size: int | None = None) -> int:
     """Count actual records using fixed-size reads before allocating ZipInfos."""
-    file_size = os.fstat(raw.fileno()).st_size
+    if file_size is None:
+        file_size = _stream_size(raw)
     if file_size > limits.max_archive_bytes:
         raise PackageIssue(
             "PKG007",
@@ -207,12 +227,64 @@ def _preflight_file(raw: BinaryIO, limits: ArchiveLimits) -> int:
     return offset
 
 
+def _sha256_stream(raw: BinaryIO) -> str:
+    digest = hashlib.sha256()
+    raw.seek(0)
+    for block in iter(lambda: raw.read(1 << 20), b""):
+        digest.update(block)
+    raw.seek(0)
+    return digest.hexdigest()
+
+
 @contextmanager
-def _open_archive(path: Path, limits: ArchiveLimits):
+def _open_stream(source: PackageSource, limits: ArchiveLimits) -> Iterator[tuple[BinaryIO, int]]:
+    """Yield a seekable binary stream and its byte size for a path, bytes, or stream."""
+    if isinstance(source, (str, Path)):
+        with open(Path(source), "rb") as raw:
+            yield raw, os.fstat(raw.fileno()).st_size
+        return
+    if isinstance(source, (bytes, bytearray, memoryview)):
+        size = source.nbytes if isinstance(source, memoryview) else len(source)
+        if size > limits.max_archive_bytes:
+            raise PackageIssue(
+                "PKG007",
+                "archive size exceeds max-archive-bytes: "
+                f"{_size(size)} > {_size(limits.max_archive_bytes)}",
+            )
+        buf = source.cast("B") if isinstance(source, memoryview) else source
+        with io.BytesIO(buf) as raw:
+            yield raw, size
+        return
+    if not (hasattr(source, "read") and hasattr(source, "seek")):
+        raise PackageIssue(
+            "PKG002",
+            f"unsupported package input type: {type(source).__name__}",
+        )
+    seekable = getattr(source, "seekable", None)
+    if callable(seekable) and not seekable():
+        raise PackageIssue("PKG002", "package stream must be seekable")
+    try:
+        saved = source.tell()
+        size = _stream_size(source)
+        source.seek(0)
+    except (AttributeError, OSError, io.UnsupportedOperation) as error:
+        raise PackageIssue("PKG002", f"package stream must be seekable: {error}") from error
+    try:
+        yield source, size
+    finally:
+        try:
+            source.seek(saved)
+        except (OSError, io.UnsupportedOperation):
+            pass
+
+
+@contextmanager
+def _open_archive_with_stream(source: PackageSource, limits: ArchiveLimits
+                              ) -> Iterator[tuple[zipfile.ZipFile, BinaryIO]]:
     # Keep the same file handle through preflight and loading, so a replacement
     # of the path cannot substitute an unchecked package between the two.
-    with open(path, "rb") as raw:
-        directory_offset = _preflight_file(raw, limits)
+    with _open_stream(source, limits) as (raw, file_size):
+        directory_offset = _preflight_file(raw, limits, file_size=file_size)
         raw.seek(0)
         try:
             archive = zipfile.ZipFile(raw)
@@ -224,7 +296,13 @@ def _open_archive(path: Path, limits: ArchiveLimits):
             for info in archive.infolist():
                 if not 0 <= info.header_offset < directory_offset:
                     raise _invalid_directory("local header offset is outside member data")
-            yield archive
+            yield archive, raw
+
+
+@contextmanager
+def _open_archive(path: PackageSource, limits: ArchiveLimits) -> Iterator[zipfile.ZipFile]:
+    with _open_archive_with_stream(path, limits) as (archive, _raw):
+        yield archive
 
 
 def _normal_part_name(name: str, *, directory: bool) -> str:
@@ -325,36 +403,113 @@ def validate_infos(
     return entries
 
 
-def read_package(path: str | Path,
-                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS, *,
-                 members: Iterable[str] | None = None) -> dict[str, bytes]:
-    """Read a ZIP package only after every configured budget has passed."""
-    package = Path(path)
-    with _open_archive(package, limits) as archive:
-        infos = validate_infos(archive.infolist(), limits)
-        wanted = set(members) if members is not None else None
-        parts: dict[str, bytes] = {}
-        for info in infos:
-            if wanted is not None and info.filename not in wanted:
-                continue
-            try:
-                parts[info.filename] = archive.read(info)
-            except zipfile.BadZipFile as e:
-                raise PackageIssue(
-                    "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
-                    part=info.filename,
-                ) from e
-            except (NotImplementedError, RuntimeError) as e:
-                raise PackageIssue(
-                    "PKG002", f"could not read package part {info.filename}: {e}",
-                    part=info.filename,
-                ) from e
+_VERIFY_CHUNK = 64 * 1024
+
+
+def _read_one_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo) -> bytes:
+    try:
+        return archive.read(info)
+    except zipfile.BadZipFile as e:
+        raise PackageIssue(
+            "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+    except (NotImplementedError, RuntimeError) as e:
+        raise PackageIssue(
+            "PKG002", f"could not read package part {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+
+
+def _verify_member_stream(archive: zipfile.ZipFile, info: zipfile.ZipInfo) -> None:
+    """Stream-decompress one member to check CRC/integrity without retaining it."""
+    try:
+        with archive.open(info) as member:
+            while member.read(_VERIFY_CHUNK):
+                pass
+    except zipfile.BadZipFile as e:
+        raise PackageIssue(
+            "PKG001", f"corrupt entry in archive: {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+    except (NotImplementedError, RuntimeError) as e:
+        raise PackageIssue(
+            "PKG002", f"could not read package part {info.filename}: {e}",
+            part=info.filename,
+        ) from e
+
+
+def _read_members(archive: zipfile.ZipFile, infos: list[zipfile.ZipInfo],
+                  members: Iterable[str] | None) -> dict[str, bytes]:
+    wanted = set(members) if members is not None else None
+    parts: dict[str, bytes] = {}
+    for info in infos:
+        if wanted is not None and info.filename not in wanted:
+            continue
+        parts[info.filename] = _read_one_member(archive, info)
     return parts
 
 
-def package_names(path: str | Path,
+def read_package_for_loaded(
+    path: PackageSource,
+    limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS, *,
+    include_media: bool = False,
+    extra_members: Callable[[set[str], dict[str, bytes]], Iterable[str]] | None = None,
+) -> tuple[tuple[str, ...], dict[str, bytes], str]:
+    """Read XML/relationship/selected parts and stream-verify remaining members.
+
+    Returns ``(all_names, loaded_parts, sha256)`` from one open handle. Binary
+    members (such as images or embedded media) still have their ZIP budgets and
+    CRC32 verified, but their bytes are not retained in memory unless
+    ``include_media=True``.
+    """
+    with _open_archive_with_stream(path, limits) as (archive, raw):
+        infos = validate_infos(archive.infolist(), limits)
+        names = tuple(info.filename for info in infos)
+        if include_media:
+            parts = _read_members(archive, infos, None)
+        else:
+            parts = {}
+            info_by_name = {info.filename: info for info in infos}
+            for info in infos:
+                lowered = info.filename.translate(_ASCII_LOWER)
+                if lowered.endswith((".xml", ".rels")):
+                    parts[info.filename] = _read_one_member(archive, info)
+            if extra_members is not None:
+                for name in extra_members(set(names), parts):
+                    if name not in parts and name in info_by_name:
+                        parts[name] = _read_one_member(archive, info_by_name[name])
+            for info in infos:
+                if info.filename not in parts:
+                    _verify_member_stream(archive, info)
+        digest = _sha256_stream(raw)
+    return names, parts, digest
+
+
+def read_package_with_digest(
+    path: PackageSource,
+    limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS, *,
+    members: Iterable[str] | None = None,
+) -> tuple[dict[str, bytes], str]:
+    """Read a ZIP package and its SHA-256 digest from the same open handle."""
+    with _open_archive_with_stream(path, limits) as (archive, raw):
+        infos = validate_infos(archive.infolist(), limits)
+        parts = _read_members(archive, infos, members)
+        digest = _sha256_stream(raw)
+    return parts, digest
+
+
+def read_package(path: PackageSource,
+                 limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS, *,
+                 members: Iterable[str] | None = None) -> dict[str, bytes]:
+    """Read a ZIP package only after every configured budget has passed."""
+    with _open_archive(path, limits) as archive:
+        infos = validate_infos(archive.infolist(), limits)
+        return _read_members(archive, infos, members)
+
+
+def package_names(path: PackageSource,
                   limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[str]:
     """Validate a package and return its names without decompressing members."""
-    package = Path(path)
-    with _open_archive(package, limits) as archive:
+    with _open_archive(path, limits) as archive:
         return [info.filename for info in validate_infos(archive.infolist(), limits)]

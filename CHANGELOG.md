@@ -24,6 +24,25 @@
   Tests that require `research/` or `evidence/` are not collected (or are
   skipped) when running from an unpacked `sdist`; the full test suite runs
   only from a Git checkout.
+- **Single-pass `LoadedPackage` and in-memory `PackageSource` inputs.**
+  `LoadedPackage.open()`, `check()`, `compare()`, `coverage_for()`,
+  `introduced()` and `check_pptx()` now accept `bytes`, `bytearray`,
+  `memoryview` (enforcing `ArchiveLimits` on `nbytes`, including multibyte
+  formats), seekable binary streams and pre-opened `LoadedPackage` objects.
+  CLI and MCP runs open each checked document and `--against` source once
+  instead of re-reading the ZIP across check, fidelity, coverage and
+  `--introduced`. Binary media members are stream-verified in 64 KiB chunks
+  for ZIP budgets and CRC integrity without retaining their raw bytes in
+  memory unless `include_media=True` is requested (calling
+  `LoadedPackage.open(pkg, include_media=True)` on an in-memory package that
+  skipped media raises `ValueError`). Measured Python heap peak via
+  `tracemalloc` — excluding native C `libxml2` tree allocations — on
+  synthetic `corpus/base.docx` copies with stored media
+  ([evidence](evidence/loaded-package-memory/README.md), `0.11.0` `58733a6` ->
+  `2bedf23`): `cli check --against --coverage --introduced` fell from
+  40.14 MiB to 2.13 MiB on a 20 MiB pair and from 20.17 MiB to 2.18 MiB across
+  a 5×10 MiB batch against a 10 MiB source (standalone `compare()`: 0.14 MiB
+  vs 0.15 MiB).
 
 ## 0.11.0 — 2026-11-20
 

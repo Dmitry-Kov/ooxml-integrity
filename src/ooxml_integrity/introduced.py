@@ -35,10 +35,12 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 from typing import Iterable, Sequence
+import zipfile
 
-from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits
+from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue, PackageSource
 from .finding import Finding
 from .inspector import check
+from .package import LoadedPackage
 from .paths import DECK_SUFFIXES
 from .pptx_checks import check_pptx
 
@@ -61,16 +63,28 @@ def inheritable(f: Finding) -> bool:
     return not f.code.startswith("FID") and f.code not in NEVER_INHERITED
 
 
-def source_findings(source: str | Path, *,
+def source_findings(source: PackageSource | LoadedPackage, *,
                     limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS
                     ) -> list[Finding]:
     """What the self-check reports on the source, with the checker its type
     takes. A source that cannot be read returns only findings that absorb
     nothing."""
-    path = Path(source)
-    if path.suffix.lower() in DECK_SUFFIXES:
-        return check_pptx(path, limits=limits)
-    return check(path, limits=limits)
+    if isinstance(source, LoadedPackage):
+        if source.is_deck:
+            return check_pptx(source, limits=limits)
+        return check(source, limits=limits)
+    if isinstance(source, (str, Path)):
+        path = Path(source)
+        if path.suffix.lower() in DECK_SUFFIXES:
+            return check_pptx(path, limits=limits)
+        return check(path, limits=limits)
+    try:
+        pkg = LoadedPackage.open(source, limits=limits)
+    except (FileNotFoundError, PackageIssue, zipfile.BadZipFile, OSError):
+        return check(source, limits=limits)
+    if pkg.is_deck:
+        return check_pptx(pkg, limits=limits)
+    return check(pkg, limits=limits)
 
 
 def split(findings: Iterable[Finding], source: Sequence[Finding]
@@ -105,7 +119,7 @@ def split(findings: Iterable[Finding], source: Sequence[Finding]
     return kept, aside
 
 
-def introduced(findings: Iterable[Finding], source: str | Path, *,
+def introduced(findings: Iterable[Finding], source: PackageSource | LoadedPackage, *,
                limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS
                ) -> tuple[list[Finding], list[tuple[Finding, str]]]:
     """Separate the findings an edit introduced from those its source had.

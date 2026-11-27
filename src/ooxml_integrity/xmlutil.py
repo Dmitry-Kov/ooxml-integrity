@@ -9,6 +9,7 @@ parser defaults.
 from __future__ import annotations
 
 from collections import Counter
+import copy
 
 from lxml import etree
 
@@ -139,3 +140,16 @@ def extract_fallback(root):
     backup = root.makeelement(root.tag)
     backup.extend(branches)
     return backup
+
+
+def split_fallback(root) -> tuple[etree._Element, etree._Element | None]:
+    """Return ``(primary, fallback)`` views without mutating ``root``.
+
+    When ``root`` contains no ``mc:AlternateContent``, returns ``(root, None)``
+    with zero copying so cached package trees stay cheap and read-only.
+    """
+    if next(root.iter(ALTERNATE_CONTENT), None) is None:
+        return root, None
+    primary = copy.deepcopy(root)
+    backup = extract_fallback(primary)
+    return primary, backup

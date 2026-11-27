@@ -106,7 +106,8 @@ class Related:
     unsupported: str = ""
 
 
-def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
+def related(parts: dict[str, bytes], trees: dict, main: str, *,
+            names: set[str] | None = None) -> Related:
     """Relationships from the main document whose type has one content type.
 
     Only a plain document main part is read: a template or macro-enabled main
@@ -149,14 +150,14 @@ def related(parts: dict[str, bytes], trees: dict, main: str) -> Related:
     rels = trees.get(rels_name)
     if rels is None:
         return Related(skipped=f"{rels_name} could not be parsed")
-    names = set(parts)
+    all_names = set(parts) if names is None else names
     pairs = []
     for rel in rels.findall(REL + "Relationship"):
         kind = rel.get("Type") or ""
         if kind not in RELATED or rel.get("TargetMode") == "External":
             continue
         resolved = _resolve(rel.get("Target") or "", posixpath.dirname(main))
-        part = (_existing((resolved, unquote(resolved)), names)
+        part = (_existing((resolved, unquote(resolved)), all_names)
                 if resolved is not None else None)
         if part is not None:                 # REL002 reports a missing target
             pairs.append(Pair(rel.get("Id") or "", kind, part, declared(part),

@@ -12,13 +12,17 @@ from lxml import etree
 from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
+    PackageSource,
     read_package,
 )
 from .finding import Finding
+from .package import LoadedPackage
 from .comments import (
     DOCUMENT,
     STRICT,
     STRICT_DOCUMENT,
+    check_comment_root,
+    check_main_document_root,
     comment_part,
     comment_tree,
     main_document,
@@ -35,7 +39,7 @@ from .fidelity import (
 from .fonts import resolve_face
 from .paths import DECK_SUFFIXES
 from .pptx_layout import Deck, layout_shape, read_deck
-from .xmlutil import alternative_branch, fromstring as parse_xml, extract_fallback
+from .xmlutil import alternative_branch, fromstring as parse_xml, split_fallback
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -175,33 +179,49 @@ def _combined_surface(stories, supporting, tag: str, supporting_tag: str,
     )
 
 
-def docx_coverage(path: str | Path, findings: list[Finding], *,
-                  source: Path | None = None,
+def docx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], *,
+                  source: PackageSource | LoadedPackage | None = None,
                   limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS,
                   ) -> CoverageReport:
     """Inventory the DOCX surfaces reached by the current implementation."""
-    try:
-        parts = read_package(path, limits)
-    except Exception as e:
-        return _unreadable(str(e))
-
-    trees: dict[str, etree._Element] = {}
-    failed_xml: list[str] = []
-    main = main_part(parts)
-    stories = story_parts(parts, main)
-    xml_names = [name for name in parts
-                 if name.endswith((".xml", ".rels")) or name in stories]
-    for name in xml_names:
+    pkg: LoadedPackage | None = None
+    if isinstance(path, LoadedPackage):
+        pkg = path
+        names = list(pkg.names)
+        name_set = set(names)
+        parts = pkg.parts
+        trees = pkg.trees
+        failed_xml = list(pkg.xml_errors)
+        main = pkg.main
+        stories = list(pkg.stories)
+        story_set = set(stories)
+        xml_names = [name for name in parts
+                     if name.endswith((".xml", ".rels")) or name in story_set]
+    else:
         try:
-            trees[name] = parse_xml(parts[name])
-        except Exception:
-            failed_xml.append(name)
+            parts = read_package(path, limits)
+        except Exception as e:
+            return _unreadable(str(e))
+
+        names = list(parts)
+        name_set = set(names)
+        trees = {}
+        failed_xml = []
+        main = main_part(parts)
+        stories = story_parts(parts, main)
+        xml_names = [name for name in parts
+                     if name.endswith((".xml", ".rels")) or name in stories]
+        for name in xml_names:
+            try:
+                trees[name] = parse_xml(parts[name])
+            except Exception:
+                failed_xml.append(name)
 
     items: list[CoverageItem] = [
         _item(
             "package.read", CoverageStatus.CHECKED,
-            f"archive budgets passed and {len(parts)} members were loaded",
-            len(parts),
+            f"archive budgets passed and {len(names)} members were loaded",
+            len(names),
         ),
         _item(
             "package.xml",
@@ -234,7 +254,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         len(rel_names),
     ))
 
-    related = related_content_types(parts, trees, main)
+    related = related_content_types(parts, trees, main, names=name_set)
     items.append(_item(
         "package.related-content-types",
         CoverageStatus.SKIPPED if related.skipped else
@@ -292,8 +312,15 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     items.append(styles)
 
     try:
-        comments = comment_part(parts, main=main)
-        comments_tree = comment_tree(parts, comments) if comments is not None else None
+        comments = comment_part(parts, names=name_set, main=main)
+        if comments is not None:
+            cm_cached = trees.get(comments)
+            comments_tree = (
+                check_comment_root(cm_cached, comments)
+                if cm_cached is not None else comment_tree(parts, comments)
+            )
+        else:
+            comments_tree = None
         unread = [part for part in stories[1:] if part not in trees]
         if document is not None and unread:
             comments_surface = _item(
@@ -348,9 +375,9 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         _element_surface(document, "t", "docx.text-whitespace", "text run",
                          gap=gap),
     ))
-    entity_count = sum(1 for _ in entity_surfaces(parts, trees, main))
+    entity_count = sum(1 for _ in entity_surfaces(parts, trees, main, names=name_set))
     entity_parts = set(stories) | {'word/numbering.xml'}
-    entity_failed = sorted(entity_parts.intersection(parts).difference(trees))
+    entity_failed = sorted(entity_parts.intersection(name_set).difference(trees))
     items.append(_item(
         'docx.literal-entities',
         CoverageStatus.SKIPPED if document is None or entity_failed else (
@@ -378,7 +405,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     ))
 
     media = [
-        name for name in parts
+        name for name in names
         if name.startswith(("word/media/", "word/embeddings/"))
     ]
     items.append(_item(
@@ -397,6 +424,7 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
         1 if strict else 0,
     ))
 
+    source_pkg = source if isinstance(source, LoadedPackage) else None
     comparison_failure = next((f for f in findings if f.code == "FID000"), None)
     if source is None:
         fidelity_status = CoverageStatus.SKIPPED
@@ -409,25 +437,56 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     else:
         fidelity_status = CoverageStatus.CHECKED
         fidelity_reason = "source and edited main-story fidelity was compared"
-        try:
-            source_parts = read_package(source, limits)
-        except Exception:
-            source_parts = {}
+        if isinstance(source, LoadedPackage):
+            source_parts = source.parts
+            source_names: set[str] = set(source.names)
+        else:
+            try:
+                source_parts = read_package(source, limits)
+            except Exception:
+                source_parts = {}
+            source_names = set(source_parts)
 
     items.append(_item(
         "docx.fidelity.main-story", fidelity_status, fidelity_reason,
     ))
+    edited_primary: etree._Element | None = None
+    edited_fallback: etree._Element | None = None
+    source_primary: etree._Element | None = None
+    source_fallback: etree._Element | None = None
+    doc_split_error: Exception | None = None
     if fidelity_status is CoverageStatus.CHECKED:
         try:
-            source_document = main_document(source_parts, main_part(source_parts))
             if document is None:
                 raise ValueError('edited main document could not be parsed')
-            # The inspector surfaces above have finished with the full edited tree.
-            edited_fallback = extract_fallback(document)
-            source_fallback = extract_fallback(source_document)
+            if pkg is not None:
+                edited_primary, edited_fallback = pkg.split_tree(main)
+            else:
+                edited_primary, edited_fallback = split_fallback(document)
+            if source_pkg is not None:
+                smain = source_pkg.main
+                if smain in source_pkg.xml_errors:
+                    parse_xml(source_parts[smain])
+                raw_src = source_pkg.trees.get(smain)
+                if raw_src is None:
+                    source_primary, source_fallback = split_fallback(
+                        main_document(source_parts, smain))
+                else:
+                    check_main_document_root(raw_src, smain)
+                    source_primary, source_fallback = source_pkg.split_tree(smain)
+            else:
+                source_primary, source_fallback = split_fallback(
+                    main_document(source_parts, main_part(source_parts)))
+        except (KeyError, ValueError, etree.XMLSyntaxError) as e:
+            doc_split_error = e
+
+    if fidelity_status is CoverageStatus.CHECKED:
+        try:
+            if doc_split_error is not None:
+                raise doc_split_error
             text_result = assess_revision_text_views(
-                revision_text_views(source_document, source_fallback),
-                revision_text_views(document, edited_fallback),
+                revision_text_views(source_primary, source_fallback),
+                revision_text_views(edited_primary, edited_fallback),
             )
             if not text_result.source_count:
                 text_status = CoverageStatus.NOT_PRESENT
@@ -452,12 +511,10 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
     items.append(text_surface)
     if fidelity_status is CoverageStatus.CHECKED:
         try:
-            if document is None:
-                raise ValueError('edited main document could not be parsed')
-            source_document = main_document(source_parts, main_part(source_parts))
-            extract_fallback(source_document)
+            if doc_split_error is not None:
+                raise doc_split_error
             growth = assess_insertion_growth(
-                pending_inventory(source_document), pending_inventory(document),
+                pending_inventory(source_primary), pending_inventory(edited_primary),
             )
             if not growth.source_count:
                 growth_status = CoverageStatus.NOT_PRESENT
@@ -486,7 +543,11 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             if not source_parts:
                 raise ValueError('source package unavailable for note revision coverage')
             note_result = assess_note_revisions(
-                note_revision_inventory(source_parts), note_revision_inventory(parts),
+                note_revision_inventory(
+                    source_parts,
+                    trees=source_pkg.trees if source_pkg is not None else None,
+                ),
+                note_revision_inventory(parts, trees=trees),
             )
             if not note_result.source_count:
                 note_status = CoverageStatus.NOT_PRESENT
@@ -514,10 +575,17 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
             BODY_PARTS.intersection(source_parts)
         )
         try:
-            for package in (parts, source_parts):
-                comments = comment_part(package)
+            for package, pkg_names, pkg_trees in (
+                (parts, name_set, trees),
+                (source_parts, source_names, source_pkg.trees if source_pkg is not None else None),
+            ):
+                comments = comment_part(package, names=pkg_names)
                 if comments is not None:
-                    comment_tree(package, comments)
+                    cm_cached = pkg_trees.get(comments) if pkg_trees is not None else None
+                    if cm_cached is not None:
+                        check_comment_root(cm_cached, comments)
+                    else:
+                        comment_tree(package, comments)
                     note_parts.add(comments)
             items.append(_item(
                 "docx.fidelity.note-bodies",
@@ -531,8 +599,8 @@ def docx_coverage(path: str | Path, findings: list[Finding], *,
                                f"comments could not be resolved or parsed: {e}"))
         try:
             story_count = (
-                story_reference_count(parts)
-                + story_reference_count(source_parts)
+                story_reference_count(parts, pkg=pkg)
+                + story_reference_count(source_parts, pkg=source_pkg)
             )
         except Exception:
             story_count = 0
@@ -612,8 +680,8 @@ def _feature(deck: Deck, key: str, identifier: str, label: str) -> CoverageItem:
     )
 
 
-def pptx_coverage(path: str | Path, findings: list[Finding], *,
-                  source: Path | None = None,
+def pptx_coverage(path: PackageSource | LoadedPackage, findings: list[Finding], *,
+                  source: PackageSource | LoadedPackage | None = None,
                   limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS,
                   ) -> CoverageReport:
     """Inventory supported and recognised-unsupported PPTX surfaces."""
@@ -759,11 +827,23 @@ def pptx_coverage(path: str | Path, findings: list[Finding], *,
     return _report(items, findings)
 
 
-def coverage_for(path: str | Path, findings: list[Finding], *,
-                 source: Path | None = None,
+def coverage_for(path: PackageSource | LoadedPackage, findings: list[Finding], *,
+                 source: PackageSource | LoadedPackage | None = None,
                  limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS,
                  ) -> CoverageReport:
-    suffix = Path(path).suffix.lower()
-    if suffix in DECK_SUFFIXES:
-        return pptx_coverage(path, findings, source=source, limits=limits)
-    return docx_coverage(path, findings, source=source, limits=limits)
+    if isinstance(path, LoadedPackage):
+        if path.is_deck:
+            return pptx_coverage(path, findings, source=source, limits=limits)
+        return docx_coverage(path, findings, source=source, limits=limits)
+    if isinstance(path, (str, Path)):
+        suffix = Path(path).suffix.lower()
+        if suffix in DECK_SUFFIXES:
+            return pptx_coverage(path, findings, source=source, limits=limits)
+        return docx_coverage(path, findings, source=source, limits=limits)
+    try:
+        pkg = LoadedPackage.open(path, limits=limits)
+    except Exception as e:
+        return _unreadable(str(e))
+    if pkg.is_deck:
+        return pptx_coverage(pkg, findings, source=source, limits=limits)
+    return docx_coverage(pkg, findings, source=source, limits=limits)

@@ -36,14 +36,14 @@ def spellings(text: str) -> list[str]:
     return out
 
 
-def surfaces(parts, trees, main):
+def surfaces(parts, trees, main, *, names: set[str] | None = None):
     """Parsed Word story text nodes and conventional numbering level values.
 
     A spelling split across separate text nodes is outside this inventory.
     Field instructions, deleted instruction text, Strict OOXML and arbitrary
     custom XML are outside the heuristic.
     """
-    for part in dict.fromkeys(story_parts(parts, main)):
+    for part in dict.fromkeys(story_parts(parts, main, names=names)):
         root = trees.get(part)
         if root is not None:
             for node in root.iter(W + 't', W + 'delText'):

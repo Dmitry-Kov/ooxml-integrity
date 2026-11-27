@@ -319,12 +319,23 @@ class Server:
         threshold = self.fail_on or policy.fail_on
         expectations = policy.expectations + _expectations(expect_arg)
 
-        findings = cli._run_one(edited, source, policy.archive)
-        coverage = coverage_for(edited, findings, source=source,
-                                limits=policy.archive)
+        edited_pkg = cli._try_open(edited, policy.archive)
+        source_pkg = (cli._try_open(source, policy.archive)
+                      if source is not None else None)
+        edited_target = edited_pkg if edited_pkg is not None else edited
+        source_target = source_pkg if source_pkg is not None else source
+        findings = cli._run_one(edited_target, source_target, policy.archive)
+        coverage = coverage_for(
+            edited_target,
+            findings,
+            source=source_target,
+            limits=policy.archive,
+        )
         introduced = bool(introduced_arg) and source is not None
-        inherited_from = (source_findings(source, limits=policy.archive)
-                          if introduced and source is not None else None)
+        inherited_from = (
+            source_findings(source_target, limits=policy.archive)
+            if introduced and source_target is not None else None
+        )
         kept, hidden, matched = cli._apply_policy(
             edited, findings, policy, expectations, None, inherited_from)
         report = cli._json_payload(

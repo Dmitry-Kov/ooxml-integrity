@@ -13,24 +13,27 @@ import functools
 import posixpath
 import re
 from dataclasses import dataclass, field, replace
-from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
 from .archive import (
     DEFAULT_ARCHIVE_LIMITS,
     ArchiveLimits,
+    PackageSource,
     package_names,
     read_package,
 )
 from .finding import ERROR, INFO, WARN, Finding, Severity
 from .comments import (
+    check_comment_root,
+    check_main_document_root,
     comment_part,
     comment_tree,
     main_document,
     main_part,
     relationships_part,
 )
+from .package import LoadedPackage
 from .revision_text import (
     MAX_SCAN_WORK, RevisionText, TextComparison, assess as assess_revision_text,
     inventory as revision_inventory,
@@ -42,7 +45,7 @@ from .revision_growth import (
 )
 from .references import References, assess as assess_references
 from .runtext import TAGS as _TEXT_TAGS, is_character, shown
-from .xmlutil import alternative_branch, fromstring as parse_xml, extract_fallback
+from .xmlutil import alternative_branch, fromstring as parse_xml, split_fallback
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
@@ -371,7 +374,9 @@ def _text_fact(root) -> _Text:
     return _story_text(root), _story_text(root, original=True), _record(root)
 
 
-def _bodies(parts: dict[str, bytes], part: str, tag: str, *, fallback: list[_Text] | None = None
+def _bodies(parts: dict[str, bytes], part: str, tag: str, *,
+            fallback: list[_Text] | None = None,
+            root: Any = None,
             ) -> tuple[list[_Text], dict[str, str]]:
     """Normalised texts of every item in `part`, one entry per item.
 
@@ -380,10 +385,11 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str, *, fallback: list[_Tex
     a note whose whole text is now a tracked deletion still accounts for its
     source.
     """
-    blob = parts.get(part)
-    if blob is None:
-        return [], {}
-    root = parse_xml(blob)
+    if root is None:
+        blob = parts.get(part)
+        if blob is None:
+            return [], {}
+        root = parse_xml(blob)
     out: list[_Text] = []
     authors: dict[str, str] = {}
     for item in root.iter(W + tag):
@@ -393,10 +399,10 @@ def _bodies(parts: dict[str, bytes], part: str, tag: str, *, fallback: list[_Tex
             if fallback is not None:
                 fallback.append(_text_fact(item))
             continue
-        backup = extract_fallback(item)
+        primary_item, backup = split_fallback(item)
         if fallback is not None and backup is not None:
             fallback.append(_text_fact(backup))
-        body, original, record = _text_fact(item)
+        body, original, record = _text_fact(primary_item)
         if body or original:
             out.append((body, original, record))
         if body:
@@ -476,7 +482,8 @@ class NoteRevisions(_NoteRevisionView):
     fallback: _NoteRevisionView = field(default_factory=_NoteRevisionView)
 
 
-def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
+def note_revision_inventory(parts: dict[str, bytes], *,
+                            trees: dict[str, Any] | None = None) -> NoteRevisions:
     """Note/kind presence grouped by text, never by note or revision IDs.
 
     Include deleted words in the key so unwrapping a deletion can be compared
@@ -488,14 +495,16 @@ def note_revision_inventory(parts: dict[str, bytes]) -> NoteRevisions:
     for part, kind in (('word/footnotes.xml','footnote'), ('word/endnotes.xml','endnote')):
         if part not in parts:
             continue
-        root = parse_xml(parts[part])
+        root = trees.get(part) if trees is not None else None
+        if root is None:
+            root = parse_xml(parts[part])
         if root.tag != W + kind + 's':
             raise ValueError(f'{part} has unexpected note-part root {root.tag!r}')
         for note in root.findall(W + kind):
             if note.get(W + 'type') in _BOILERPLATE:
                 continue
-            backup = extract_fallback(note)
-            result.read(part, note)
+            primary_note, backup = split_fallback(note)
+            result.read(part, primary_note)
             if backup is not None:
                 result.fallback.read(part, backup)
     return result
@@ -681,6 +690,7 @@ def _revision_contexts(root) -> collections.Counter:
 
 def _story_facts(parts: dict[str, bytes], document, *,
                  references: list[tuple[str, str, str]],
+                 pkg: LoadedPackage | None = None,
                  ) -> _StoryFacts:
     primary = _StoryView([], collections.Counter(), {})
     fallback = _StoryView([], collections.Counter(), {})
@@ -692,12 +702,20 @@ def _story_facts(parts: dict[str, bytes], document, *,
     counted: set[tuple[str, str]] = set()
     for kind, variant, part in references:
         if part not in trees:
-            root = parse_xml(parts[part])
-            if root.tag != W + ("hdr" if kind == "header" else "ftr"):
-                raise ValueError(
-                    f"{part} is related as a {kind} but has root {root.tag!r}"
-                )
-            backup = extract_fallback(root)
+            if pkg is not None and part in pkg.trees:
+                raw_root = pkg.trees[part]
+                if raw_root.tag != W + ("hdr" if kind == "header" else "ftr"):
+                    raise ValueError(
+                        f"{part} is related as a {kind} but has root {raw_root.tag!r}"
+                    )
+                root, backup = pkg.split_tree(part)
+            else:
+                raw_root = parse_xml(parts[part])
+                if raw_root.tag != W + ("hdr" if kind == "header" else "ftr"):
+                    raise ValueError(
+                        f"{part} is related as a {kind} but has root {raw_root.tag!r}"
+                    )
+                root, backup = split_fallback(raw_root)
             representations = [(primary, root, _text_fact(root))]
             if backup is not None:
                 representations.append((fallback, backup, _text_fact(backup)))
@@ -731,11 +749,25 @@ def _shown_already(shown: list[list[ParagraphText]], slot: list[ParagraphText]) 
     return any(slot == earlier for earlier in shown)
 
 
-def story_reference_count(parts: dict[str, bytes]) -> int:
+def story_reference_count(parts: dict[str, bytes], *,
+                          pkg: LoadedPackage | None = None) -> int:
     """Number of effective first/even/default header/footer section slots."""
+    if pkg is not None:
+        main = pkg.main
+        if main in pkg.xml_errors:
+            parse_xml(parts[main])
+        raw = pkg.trees.get(main)
+        if raw is None:
+            document = main_document(parts, main)
+            document, _ = split_fallback(document)
+        else:
+            check_main_document_root(raw, main)
+            document, _ = pkg.split_tree(main)
+        return len(_effective_story_references(
+            parts, document, main=main, names=set(pkg.names),
+        ))
     main = main_part(parts)
-    document = main_document(parts, main)
-    extract_fallback(document)
+    document, _ = split_fallback(main_document(parts, main))
     return len(_effective_story_references(parts, document, main=main))
 
 
@@ -782,39 +814,78 @@ class _Snapshot:
     references: References
 
 
-def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
+def _snapshot(path: PackageSource | LoadedPackage, limits: ArchiveLimits) -> _Snapshot:
     """Read one bounded package, retain only the fidelity facts, then release it."""
-    # The main part and header/footer part names are relationship targets and
-    # cannot be known before the relationship parts are parsed. Inspect
-    # metadata first, then read only the main, note-body, relationship and
-    # referenced story parts. Large media inside an otherwise valid package
-    # never needs to enter fidelity memory.
-    names = set(package_names(path, limits))
-    parts = read_package(path, limits, members={"_rels/.rels"})
-    main = main_part(parts, names=names)
-    if main not in names:
-        raise ValueError(f"main document part {main} is missing")
-    wanted = {
-        main,
-        relationships_part(main),
-        *(part for part, _, _, _ in BODY_PARTS),
-    }
-    parts.update(read_package(path, limits, members=wanted))
-    doc = main_document(parts, main)
-    fallback = extract_fallback(doc)
-    comments = comment_part(parts, names=names, main=main)
-    if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
-        raise ValueError("document has comment references but no comments relationship")
-    story_references = _effective_story_references(
-        parts, doc, main=main, names=names,
-    )
-    story_parts = {part for _, _, part in story_references}
-    if comments is not None:
-        story_parts.add(comments)
-    if story_parts:
-        parts.update(read_package(path, limits, members=story_parts))
-    if comments is not None:
-        comment_tree(parts, comments)
+    pkg: LoadedPackage | None = None
+    if isinstance(path, LoadedPackage):
+        # LoadedPackage.open() already streams-verifies binary media without
+        # retaining its bytes in memory, so reusing it here keeps large media
+        # out of fidelity memory while avoiding redundant ZIP reads.
+        pkg = path
+        parts = pkg.parts
+        names = set(pkg.names)
+        main = pkg.main
+        if main not in names:
+            raise ValueError(f"main document part {main} is missing")
+        if main in pkg.xml_errors:
+            parse_xml(parts[main])
+        raw_doc = pkg.trees.get(main)
+        if raw_doc is None:
+            doc, fallback = split_fallback(main_document(parts, main))
+        else:
+            check_main_document_root(raw_doc, main)
+            doc_opt, fallback = pkg.split_tree(main)
+            if doc_opt is None:
+                doc, fallback = split_fallback(main_document(parts, main))
+            else:
+                doc = doc_opt
+        comments = comment_part(parts, names=names, main=main)
+        if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
+            raise ValueError("document has comment references but no comments relationship")
+        story_references = _effective_story_references(
+            parts, doc, main=main, names=names,
+        )
+        if comments is not None:
+            if comments in pkg.xml_errors:
+                parse_xml(parts[comments])
+            cm_tree = pkg.trees.get(comments)
+            if cm_tree is None:
+                comment_tree(parts, comments)
+            else:
+                check_comment_root(cm_tree, comments)
+    else:
+        # The main part and header/footer part names are relationship targets and
+        # cannot be known before the relationship parts are parsed. Inspect
+        # metadata first, then read only the main, note-body, relationship and
+        # referenced story parts. Large media inside an otherwise valid package
+        # never needs to enter fidelity memory.
+        names = set(package_names(path, limits))
+        parts = read_package(path, limits, members={"_rels/.rels"})
+        main = main_part(parts, names=names)
+        if main not in names:
+            raise ValueError(f"main document part {main} is missing")
+        wanted = {
+            main,
+            relationships_part(main),
+            *(part for part, _, _, _ in BODY_PARTS),
+        }
+        parts.update(read_package(path, limits, members=wanted))
+        doc, fallback = split_fallback(main_document(parts, main))
+        comments = comment_part(parts, names=names, main=main)
+        if comments is None and next(doc.iter(W + "commentReference"), None) is not None:
+            raise ValueError("document has comment references but no comments relationship")
+        story_references = _effective_story_references(
+            parts, doc, main=main, names=names,
+        )
+        story_parts = {part for _, _, part in story_references}
+        if comments is not None:
+            story_parts.add(comments)
+        if story_parts:
+            parts.update(read_package(path, limits, members=story_parts))
+        if comments is not None:
+            comment_tree(parts, comments)
+
+    cached_trees = pkg.trees if pkg is not None else None
     bodies: dict[str, list[_Text]] = {}
     fallback_bodies: dict[str, list[_Text]] = {}
     authors: dict[tuple[str, str], str] = {}
@@ -822,9 +893,14 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     for part, tag, _, _ in BODY_PARTS:
         fallback_bodies[part] = []
         actual = comments if tag == "comment" else part
+        cached = (
+            pkg.trees.get(actual)
+            if pkg is not None and actual is not None and actual not in pkg.xml_errors
+            else None
+        )
         body_counts, body_authors = (
-            _bodies(parts, actual, tag, fallback=fallback_bodies[part]) if actual is not None
-            else ([], {})
+            _bodies(parts, actual, tag, fallback=fallback_bodies[part], root=cached)
+            if actual is not None else ([], {})
         )
         bodies[part] = body_counts
         if actual is not None:
@@ -832,7 +908,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         authors.update(
             ((part, body), author) for body, author in body_authors.items()
         )
-    stories = _story_facts(parts, doc, references=story_references)
+    stories = _story_facts(parts, doc, references=story_references, pkg=pkg)
     revisions = {"document": _revision_contexts(doc), **stories.revisions}
     replacements = {"document": replacement_inventory(doc), **stories.replacements}
     paragraphs = {"document": paragraph_views(doc), **stories.paragraphs}
@@ -842,11 +918,18 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
     # sections showing one footer part and two showing two identical parts
     # hold the same fields.
     for kind, variant, part in story_references:
-        references.read(f"{kind}/{variant}", parse_xml(parts[part]))
+        story_tree = (
+            pkg.trees[part]
+            if pkg is not None and part in pkg.trees
+            else parse_xml(parts[part])
+        )
+        references.read(f"{kind}/{variant}", story_tree)
     for part, story in (("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
         if part in parts:
-            notes = parse_xml(parts[part])
-            extract_fallback(notes)
+            if pkg is not None and part in pkg.trees:
+                notes, _ = pkg.split_tree(part)
+            else:
+                notes, _ = split_fallback(parse_xml(parts[part]))
             revisions[story] = _revision_contexts(notes)
             replacements[story] = replacement_inventory(notes)
             paragraphs[story] = paragraph_views(notes)
@@ -857,7 +940,7 @@ def _snapshot(path: str | Path, limits: ArchiveLimits) -> _Snapshot:
         locations,
         revision_text_views(doc, fallback),
         pending_inventory(doc),
-        note_revision_inventory(parts),
+        note_revision_inventory(parts, trees=cached_trees),
         main,
         revisions,
         replacements,
@@ -1007,7 +1090,8 @@ def _construct_changes(source: _BodyCounts, edited: _BodyCounts) -> list[Finding
     return out
 
 
-def compare(source: str | Path, edited: str | Path, *,
+def compare(source: PackageSource | LoadedPackage,
+            edited: PackageSource | LoadedPackage, *,
             limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
     """What did `edited` lose relative to `source`?
 

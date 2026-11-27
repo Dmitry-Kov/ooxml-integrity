@@ -18,12 +18,13 @@ reported as borderline rather than as overflow, and the caller is told why.
 """
 from __future__ import annotations
 
-from pathlib import Path
+import zipfile
 
-from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue
+from .archive import DEFAULT_ARCHIVE_LIMITS, ArchiveLimits, PackageIssue, PackageSource
 from .finding import ERROR, INFO, WARN, Finding, check_failed
 from .fonts import EMU_PER_POINT, measurement_available
 from .inspector import PresentationInspector
+from .package import LoadedPackage
 from .pptx_layout import Deck, Shape, layout_shape, read_deck
 
 #: Within this fraction of the box, a verdict is not resolvable from advance
@@ -270,17 +271,24 @@ CHECKS = (check_measurable, check_text_overflow, check_offcanvas,
           check_overlap, check_font_availability)
 
 
-def check_pptx(path: str | Path, *,
+def check_pptx(path: PackageSource | LoadedPackage, *,
                limits: ArchiveLimits = DEFAULT_ARCHIVE_LIMITS) -> list[Finding]:
     """Inspect one .pptx: its package, then its layout. Returns every finding."""
-    package = PresentationInspector(path, limits)
+    source: PackageSource | LoadedPackage = path
+    if not isinstance(path, LoadedPackage):
+        try:
+            source = LoadedPackage.open(path, limits=limits)
+        except (FileNotFoundError, PackageIssue, zipfile.BadZipFile, OSError):
+            source = path
+    package = PresentationInspector(source, limits)
     out = package.run()
     if not package.readable:  # read_deck says why, as before
         out = []
     try:
-        deck = read_deck(path, limits=limits)
+        deck = read_deck(source, limits=limits)
     except FileNotFoundError:
-        return [Finding("PKG000", ERROR, f"file not found: {path}")]
+        label = "<bytes>" if isinstance(path, (bytes, bytearray, memoryview)) else str(path)
+        return [Finding("PKG000", ERROR, f"file not found: {label}")]
     except PackageIssue as e:
         return out + [Finding(e.code, ERROR, str(e), part=e.part)]
     except Exception as e:
