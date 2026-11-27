@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- **Evidence:** the [post-release recheck](evidence/review-history-recheck/README.md)
+  adds docx-cli 0.29.0. Every verdict is 0.28.0's: 10 of 56 outputs are
+  damaged, and the whole-note tracked edit (K7n) and the header edit that
+  `--track` applies directly (K7h) are unchanged. No output is byte for byte
+  0.28.0's: a new tracked change on S2 no longer takes the id of a header
+  revision, which no oracle fact and no checker rule records; new comments are
+  registered in the comment sidecars (docx-cli#33); S1's comments get random
+  paragraph ids; S2's comment parts are kept as the source has them. The
+  recheck records ids shared across parts as a new probe. Checker 0.11.0
+  scores the earlier captures as 0.8.4 did. The
+  [fix record](evidence/fix-repairs/README.md) scans the new captures; no
+  entry changes.
+
 ## 0.11.0 — 2026-11-20
 
 [Upgrade notes and verified publication](docs/releases/0.11.0.md). Published

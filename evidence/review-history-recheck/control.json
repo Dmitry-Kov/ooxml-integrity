@@ -879,6 +879,446 @@
      ]
     }
    ]
+  },
+  "0.28.0": {
+   "tool": "docx-cli",
+   "version": "0.28.0",
+   "image_id": "sha256:ac9c43080926745d7ab341a73fc2778493734d466e6a8e85ffcc21ad8680dc4d",
+   "ran_at": "2026-11-23T07:41:05+00:00",
+   "attempts": 30,
+   "same_status_and_facts": 30,
+   "byte_identical": 26,
+   "ok": 28,
+   "rows": [
+    {
+     "task": "K0-S1-save",
+     "status": "unsupported",
+     "recorded_status": [
+      "unsupported"
+     ]
+    },
+    {
+     "task": "K0-S2-save",
+     "status": "unsupported",
+     "recorded_status": [
+      "unsupported"
+     ]
+    },
+    {
+     "task": "K1-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K1-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K1-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K1-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K2-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K2-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K2-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K2-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K3-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K3-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K3-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K3-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K4-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K4-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K4-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K4-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K5-S1-comment",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K5-S2-comment",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K6-S1-resolve",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K6-S2-resolve",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7h-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7h-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7h-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7h-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7n-S1-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7n-S1-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7n-S2-tracked",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    },
+    {
+     "task": "K7n-S2-plain",
+     "status": "ok",
+     "recorded_status": [
+      "ok"
+     ],
+     "byte_identical_to": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ],
+     "facts_equal_ignoring_dates": [
+      "docx-cli-0.28.0-1",
+      "docx-cli-0.28.0-2"
+     ]
+    }
+   ]
   }
  },
  "adeu": {

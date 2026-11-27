@@ -282,6 +282,25 @@ def repeated_revision_ids(source: Path, output: Path) -> dict[str, list[str]]:
             if (new := [i for i in ids if i not in before.get(part, [])])}
 
 
+def _parts_by_revision_id(path: Path) -> dict[str, list[str]]:
+    """Revision id -> the parts whose tracked text changes carry it, when more than one."""
+    pkg = oracle.Package(path)
+    seen = collections.defaultdict(set)
+    for _, part, root in oracle.stories(pkg):
+        for e in root.iter(*(W + t for t in oracle.TEXT_REVISIONS)):
+            if e.get(W + "id") is not None:
+                seen[e.get(W + "id")].add(part)
+    return {i: sorted(parts) for i, parts in seen.items() if len(parts) > 1}
+
+
+def shared_revision_ids(source: Path, output: Path) -> dict[str, list[str]]:
+    """Revision ids the output uses in more than one part where the source did not:
+    a new tracked change numbered like one already in another part (a header's)."""
+    before = _parts_by_revision_id(source)
+    return {i: parts for i, parts in sorted(_parts_by_revision_id(output).items())
+            if before.get(i) != parts}
+
+
 def tool_messages(note: str) -> list[str]:
     """What the tool printed on stderr in steps that succeeded (docx-cli's warnings)."""
     try:
@@ -296,6 +315,7 @@ def probes(task: dict, attempt: dict, output: Path | None) -> dict:
     if output is not None and not bench.unparseable(output):
         found["literal_bullets"] = literal_bullets(output)
         found["repeated_revision_ids"] = repeated_revision_ids(ROOT / task["source_path"], output)
+        found["shared_revision_ids"] = shared_revision_ids(ROOT / task["source_path"], output)
     return found
 
 

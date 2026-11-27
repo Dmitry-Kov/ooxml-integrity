@@ -84,10 +84,10 @@ def _probes(capture, task):
 
 
 def test_the_recorded_damage_classes():
-    # docx-cli 0.26.0 wrote the S1 bullet as the text `&#8226;`; 0.27.0 and 0.28.0 do not.
+    # docx-cli 0.26.0 wrote the S1 bullet as the text `&#8226;`; later releases do not.
     s1 = [t for t in TASK if "-S1-" in t and not t.startswith("K0")]
     assert all(_probes("docx-cli-5", t)["literal_bullets"] == ["&#8226;"] for t in s1)
-    for capture in ("docx-cli-0.27.0-1", "docx-cli-0.28.0-1"):
+    for capture in ("docx-cli-0.27.0-1", "docx-cli-0.28.0-1", "docx-cli-0.29.0-1"):
         assert all(_probes(capture, t)["literal_bullets"] == [] for t in s1)
     # adeu keeps one w:id on both halves of the other author's split insertion.
     for capture in ("adeu-1", "adeu-3.0.7-1"):
@@ -99,7 +99,8 @@ def test_the_recorded_damage_classes():
 
 @pytest.mark.parametrize("version, plain", [
     ("0.27.0", "Fees are due. disputed sumwithhold disputed amount."),
-    ("0.28.0", "Fees are due. The Client may withhold disputed sum.")])
+    ("0.28.0", "Fees are due. The Client may withhold disputed sum."),
+    ("0.29.0", "Fees are due. The Client may withhold disputed sum.")])
 def test_an_untracked_replace_next_to_a_nested_deletion_hits_the_target_from_0_28_0(version, plain):
     from lxml import etree
     from research import review_history_oracle as oracle
@@ -117,15 +118,59 @@ def test_an_untracked_replace_next_to_a_nested_deletion_hits_the_target_from_0_2
 
 def test_the_requested_text_is_expected_on_k4_s2_plain_from_0_28_0():
     # The expectations' fourth reading: 0.27.0's edit of the wrong span fails
-    # them (the expected FID014 does not occur), 0.28.0's edit matches.
+    # them (the expected FID014 does not occur), 0.28.0's and 0.29.0's edits match.
     from research import review_history_expectations as analysis
     task = TASK["K4-S2-plain"]
     expectations = analysis.expectations_for(task) + analysis.text_expectations(task)
-    for version, codes, expected in (("0.27.0", ["EXP001"], []), ("0.28.0", [], ["FID014"])):
+    for version, codes, expected in (("0.27.0", ["EXP001"], []), ("0.28.0", [], ["FID014"]),
+                                     ("0.29.0", [], ["FID014"])):
         for repeat in (1, 2):
             output = recheck.CAPTURES / f"docx-cli-{version}-{repeat}" / "K4-S2-plain.docx"
             assert analysis.actionable(ROOT / task["source_path"], output, expectations) == {
                 "codes": codes, "expected": expected}
+
+
+#: S2's tracked edits of the body and the footnote. S2's header already
+#: carries Reviewer A's revisions 17 and 18; the body's run to 16.
+S2_TRACKED = ("K1-S2-tracked", "K2-S2-tracked", "K3-S2-tracked", "K4-S2-tracked",
+              "K7n-S2-tracked")
+
+
+def test_a_new_tracked_change_is_numbered_apart_from_the_header_revisions_from_0_29_0():
+    # Up to 0.28.0 the new tracked change reuses ids 17 and 18 (0.26.0's K4,
+    # which writes no insertion of its own, only 17); 0.29.0 numbers it after
+    # every part's revisions. No other output of either tool shares an id
+    # across parts that its source did not.
+    header = "word/header1.xml"
+    for r in RECORD["results"]:
+        if "shared_revision_ids" not in r["probes"]:
+            continue
+        found = r["probes"]["shared_revision_ids"]
+        if r["tool"] != "docx-cli" or r["version"] == "0.29.0" or r["task"] not in S2_TRACKED:
+            assert found == {}, (r["capture"], r["task"])
+            continue
+        part = "word/footnotes.xml" if r["task"].startswith("K7n") else "word/document.xml"
+        ids = ["17"] if (r["version"], r["task"]) == ("0.26.0", "K4-S2-tracked") else ["17", "18"]
+        assert found == {i: [part, header] for i in ids}, (r["capture"], r["task"])
+
+
+def test_a_new_comment_and_its_reply_are_registered_in_the_sidecars_from_0_29_0():
+    # Issue #33 (PR #35): 0.28.0 gave S2's new comment and reply no durable id
+    # in commentsIds.xml, and the new comment no commentsExtended entry;
+    # 0.29.0 registers both, as S2's own comments are. On S1, which has no
+    # sidecar, the commentsExtended part 0.29.0 mints covers every comment.
+    from research import review_history_oracle as oracle
+    new = ("Check the notice period with the client.", "Schedule 1 now defines it.")
+    for version, durable, done in (("0.28.0", 0, 1), ("0.29.0", 2, 2)):
+        for repeat in (1, 2):
+            facts = oracle.facts(recheck.CAPTURES / f"docx-cli-{version}-{repeat}" / "K5-S2-comment.docx")
+            assert sum(n for (key,), n in facts["comment_durable_id"].items() if key[2] in new) == durable
+            assert sum(n for (key, _), n in facts["comment_done"].items() if key[2] in new) == done
+    for version, done in (("0.28.0", 2), ("0.29.0", 4)):
+        for repeat in (1, 2):
+            facts = oracle.facts(recheck.CAPTURES / f"docx-cli-{version}-{repeat}" / "K5-S1-comment.docx")
+            assert sum(facts["comment"].values()) == 4
+            assert sum(facts["comment_done"].values()) == done
 
 
 def test_tool_messages_are_stderr_of_successful_steps():

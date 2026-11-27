@@ -1,0 +1,9 @@
+{
+  "task": "K7h-S2-tracked",
+  "status": "ok",
+  "note": "{\"note\": \"\", \"steps\": [{\"args\": [\"headers\", \"set\", \"/out/output.docx\", \"--text\", \"Consultancy Services Agreement - Draft 4\", \"--track\", \"--author\", \"Benchmark Editor\"], \"code\": 0, \"stderr\": \"\"}]}",
+  "seconds": 0.313,
+  "finished_at": "2026-11-23T07:41:41+00:00",
+  "output": "K7h-S2-tracked.docx",
+  "output_sha256": "c6193e1fc4bd5398b6e2bf4fb6483fbc0e83b8694b70fda1e1333c63c95aa4b4"
+}
